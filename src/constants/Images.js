@@ -11,7 +11,7 @@ export default {
     eye: require('../assets/icons/eye/eye.png'),
     eye2: require('../assets/icons/eye2/eye2.png'),
     galleryimage: require('../assets/icons/galleryimage/galleryimage.png'),
-    group: require('../assets/icons/group/group.png'),
+    iconCheck: require('../assets/icons/group/group.png'),
     group3: require('../assets/icons/group3/group3.png'),
     iconArrow: require('../assets/icons/iconArrow/iconArrow.png'),
     iconBack: require('../assets/icons/iconBack/iconBack.png'),

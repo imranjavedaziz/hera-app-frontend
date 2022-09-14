@@ -4,11 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
 // Screens
 import VideoUpload from '../screens/VideoUpload';
-import LogIn from '../screens/LogIn/LogIn';
-import Welcome from '../screens/Welcome/Welcome'
-import Verify from '../screens/verify/Verify';
 import Profile from '../screens/DetailsPTB/Profile';
-import BasicDetails from '../screens/DetailsPTB/BasicDetails';
 import SetPreference from '../screens/DetailsPTB/SetPreference';
 import Landing from '../screens/Landing';
 import Login from '../screens/auth/Login';
@@ -34,6 +30,16 @@ const Main = () => {
         <Stack.Screen
           name="MobileNumber"
           component={MobileNumber}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SetPreference"
+          component={SetPreference}
           options={{headerShown: false}}
         />
         <Stack.Screen

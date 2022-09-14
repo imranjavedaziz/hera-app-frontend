@@ -3,6 +3,8 @@ export const ValidationMessages = {
   PASSWORD_REQUIRED: 'Password is a required feild.',
   COMMON_REQUIRED: 'This is a required feild.',
   INVALID_MOBILE: 'Mobile number is not valid.',
+  TERMS_OF_USE: 'Please accept the Terms of Use',
+
 };
 export default {
   landing: {
@@ -27,4 +29,25 @@ export default {
     MobileNumber: 'Mobile Number',
     VERIFY: 'VERIFY',
   },
+  profile: {
+    makeAccountFor: 'Make Account For',
+    parentToBe: 'Parent To Be',
+    FirstName:'First Name',
+    MiddleName:'Middle Name (Optional)',
+    LastName:'Last Name',
+    EmailAddress: 'Email Address',
+    DateOfBirth: 'Date Of Birth',
+    setPassword:'Set Password',
+    confirmPassword: 'Confirm Password',
+    RegisterAs:'Register as Surrogate Motheror a Donor',
+    Register: 'REGISTER',
+  },
+  preference:{
+    setPreference:'Set Preference',
+    filter : 'Filter your search criteria',
+    surrogateMother:'Surrogate Mother',
+    EggDonor:'Egg Donor',
+    SpermDonor:'Sperm Donor',
+    Save:'SAVE'
+  }
 };

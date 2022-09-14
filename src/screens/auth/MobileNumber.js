@@ -83,7 +83,7 @@ const MobileNumber = () => {
             fixed={true}
           />
         </View>
-        <Button label={Strings.mobile.VERIFY} />
+        <Button label={Strings.mobile.VERIFY} onPress={()=>navigation.navigate('Profile')}/>
       </View>
     </Container>
   );
