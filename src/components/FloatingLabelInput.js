@@ -44,30 +44,69 @@ const styles = {
 };
 const FloatingLabelInput = props => {
   const [isFocused, setFocused] = useState(false);
-  const {label,containerStyle={},fixed=false, ...textInputProps} = props;
+  const {
+    label,
+    containerStyle = {},
+    fixed = false,
+    endComponent = null,
+    required = false,
+    error = '',
+    ...textInputProps
+  } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
   return (
-    <View style={[styles.container,containerStyle]}>
-      <Text
-        style={[
-          styles.label,
-          (isFocused || textInputProps.value || fixed) ? styles.floated : styles.unfloated,
-        ]}
-        accessible={true} accessibilityLabel={label}
-        >
-        {label}
-      </Text>
-      <TextInput
-        style={[
-          styles.input,
-          isFocused ? styles.focusBorder : styles.blurBorder,
-        ]}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        blurOnSubmit
-        {...textInputProps}
-      />
+    <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
+      <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
+        <Text
+          style={[
+            styles.label,
+            isFocused || textInputProps.value || fixed
+              ? styles.floated
+              : styles.unfloated,
+          ]}
+          accessible={true}
+          accessibilityLabel={label}>
+          {label}
+          {required && <Text style={[styles.label, {color: 'red'}]}>*</Text>}
+        </Text>
+        <TextInput
+          style={[
+            styles.input,
+            isFocused ? styles.focusBorder : styles.blurBorder,
+            error ? {borderBottomColor: 'red'} : null,
+          ]}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          blurOnSubmit
+          {...textInputProps}
+        />
+        {endComponent && (
+          <View
+            style={{
+              position: Alignment.ABSOLUTE,
+              right: 10,
+              bottom: 15,
+              borderRadius: 50,
+              zIndex: 2,
+            }}>
+            {endComponent()}
+          </View>
+        )}
+      </View>
+      {error && (
+        <Text
+          style={{
+            color: 'red',
+            textAlign: 'right',
+            marginTop: 5,
+            fontSize: 14,
+            lineHeight: 21,
+            textVerticleAlignment: 'center',
+          }}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 };

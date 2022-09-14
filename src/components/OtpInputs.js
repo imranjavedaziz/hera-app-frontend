@@ -1,8 +1,10 @@
 // OtpInputs
 import React, {useState, useEffect, useRef} from 'react';
-import {TextInput, View, Keyboard, StyleSheet, Text} from 'react-native';
+import {TextInput, View, Keyboard, StyleSheet, Text, Dimensions} from 'react-native';
 import Alignment from '../constants/Alignment';
 import {Value, Prencentage} from '../constants/FixedValues';
+import Colors from '../constants/Colors';
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -24,6 +26,14 @@ const styles = StyleSheet.create({
     textAlign: Alignment.CENTER,
     minWidth: Value.CONSTANT_VALUE_40,
     minHeight: Value.CONSTANT_VALUE_40,
+    width: width/8,
+    height: width/8,
+  },
+  validInput: {
+    borderColor: Colors.INPUT_BORDER,
+  },
+  invalidInput: {
+    borderColor: 'red',
   },
   input3or6: {
     borderTopRightRadius: Value.CONSTANT_VALUE_5,
@@ -39,11 +49,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     marginHorizontal: 0,
     borderBottomWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
     height: Prencentage.PRECENTAGE_100,
     textAlignVertical: Alignment.CENTER,
   },
 });
-const OtpInputs = () => {
+const OtpInputs = ({onChange,isValid=true}) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const refs = [
     useRef(null),
@@ -82,10 +94,19 @@ const OtpInputs = () => {
       setCode(newCode.split(''));
     }
   };
+  useEffect(()=>{
+    console.log('isValid-',isValid);
+  },[isValid])
+  useEffect(()=>{
+    const otp = code.join('');
+    console.log('otp-',otp);
+    onChange(otp);
+  },[code])
   return (
     <View style={styles.container}>
       {code.map((c, i) => (
-        <>
+        <View key={i} style={{flex: 0,width: i === 2?width/4:width/8,
+        height: width/8,borderWidth: 0,alignItems: 'center',justifyContent: 'center',flexDirection: 'row'}}>
           <TextInput
             value={c}
             onChangeText={v => updateCode(v, i)}
@@ -94,6 +115,7 @@ const OtpInputs = () => {
               styles.input,
               i === 0 || i === 3 ? styles.input1or4 : {},
               i === 2 || i === 5 ? styles.input3or6 : {},
+              isValid?styles.validInput:styles.invalidInput,
             ]}
             maxLength={1}
             ref={refs[i]}
@@ -107,7 +129,7 @@ const OtpInputs = () => {
             autoFocus={i === 0}
           />
           {i === 2 && <Text style={[styles.input, styles.hyphen]}>-</Text>}
-        </>
+        </View>
       ))}
     </View>
   );

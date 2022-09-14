@@ -7,6 +7,7 @@ import VideoUpload from '../screens/VideoUpload';
 import Landing from '../screens/Landing';
 import Login from '../screens/auth/Login';
 import MobileNumber from '../screens/auth/MobileNumber';
+import OTP from '../screens/auth/OTP';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -33,6 +34,11 @@ const Main = () => {
         <Stack.Screen
           name="VideoUpload"
           component={VideoUpload}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OTP"
+          component={OTP}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

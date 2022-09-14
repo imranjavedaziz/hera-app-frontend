@@ -19,8 +19,7 @@ import { loginSchema } from '../../constants/schemas';
 const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [mobile, setMobile] = useState('');
-  const [password, setPassword] = useState('');
+  const [show, setShow] = useState(false);
   const {
     handleSubmit,
     control,
@@ -31,10 +30,11 @@ const Login = () => {
   useEffect(() => {
     if (!isValid) {
       const e = errors;
+      console.log('errors-',errors);
       const messages = [];
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
       const msg = messages.join('\n').trim();
-      if(msg)dispatch(showAppToast(true,msg));
+      if(msg)dispatch(showAppToast(false,msg));
     }
   }, [errors, isValid]);
   const headerComp = () => (
@@ -64,6 +64,7 @@ const Login = () => {
                 onChangeText={(v) => onChange(v)}
                 keyboardType="number-pad"
                 maxLength={10}
+                error={errors && errors.phone?.message}
               />
             )}
             name="phone"
@@ -75,8 +76,14 @@ const Login = () => {
                 label={Strings.login.Password}
                 value={value}
                 onChangeText={(v) => onChange(v)}
-                secureTextEntry={true}
+                secureTextEntry={!show}
                 minLength={8}
+                error={errors && errors.password?.message}
+                endComponent={()=>(
+                  <TouchableOpacity onPress={()=>setShow(!show)}>
+                    <Image source={show?Images.eye:Images.eye2}/>
+                  </TouchableOpacity>
+                )}
               />
             )}
             name="password"

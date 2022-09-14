@@ -37,7 +37,7 @@ const styles = {
   },
   text: {
     color: Colors.WHITE,
-    marginLeft: 10,
+    marginLeft: Value.CONSTANT_VALUE_10,
   },
   bar: {
     width: Value.CONSTANT_VALUE_20,

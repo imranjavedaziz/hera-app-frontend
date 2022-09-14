@@ -1,8 +1,12 @@
 export const ValidationMessages = {
-  MOBILE_REQUIRED: 'Mobile number is a required feild.',
-  PASSWORD_REQUIRED: 'Password is a required feild.',
-  COMMON_REQUIRED: 'This is a required feild.',
-  INVALID_MOBILE: 'Mobile number is not valid.',
+  MOBILE_REQUIRED: 'Mobile number is a required feild!',
+  PASSWORD_REQUIRED: 'Password is a required feild!',
+  COMMON_REQUIRED: 'This is a required feild!',
+  INVALID_MOBILE: 'Mobile number is not valid!',
+  PASSWORD_MIN: 'Minimum 8 characters',
+  SPECIAL_CHAR: 'Atleast 1 special character',
+  ALPHA_NUM: 'Must be Alphanumeric',
+  INVALID_OTP: 'OTP is not valid',
 };
 export default {
   landing: {
@@ -27,4 +31,9 @@ export default {
     MobileNumber: 'Mobile Number',
     VERIFY: 'VERIFY',
   },
+  otp: {
+    title: 'Verify your mobile',
+    subtitle1: 'Enter the 6-digit verification',
+    subtitle2: 'code sent to your number',
+  }
 };
