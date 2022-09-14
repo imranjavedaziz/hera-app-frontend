@@ -32,3 +32,12 @@ export const HttpStatus = {
   UNAUTHORISED_400: 400,
   SUCCESS_CODE_205: 205,
 };
+
+export const Fonts = {
+  OoohBabyRegular: 'OoohBaby-Regular',
+  OpenSansBold: 'OpenSans-Bold',
+  OpenSansItalic: 'OpenSans-Italic',
+  OpenSansLight: 'OpenSans-Light',
+  OpenSansRegular: 'OpenSans-Regular',
+  OpenSansSemibold: 'OpenSans-Semibold',
+}

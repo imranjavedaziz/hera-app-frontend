@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import RNBootSplash from 'react-native-bootsplash';
 // Screens
 import VideoUpload from '../screens/VideoUpload';
 import LogIn from '../screens/LogIn/LogIn';
@@ -9,40 +10,35 @@ import Verify from '../screens/verify/Verify';
 import Profile from '../screens/DetailsPTB/Profile';
 import BasicDetails from '../screens/DetailsPTB/BasicDetails';
 import SetPreference from '../screens/DetailsPTB/SetPreference';
+import Landing from '../screens/Landing';
+import Login from '../screens/auth/Login';
+import MobileNumber from '../screens/auth/MobileNumber';
 
 const Stack = createStackNavigator();
 const Main = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      onReady={() => RNBootSplash.hide()}
+    >
       <Stack.Navigator>
         <Stack.Screen
-          name="Welcome"
-          component={Welcome}
+          name="Landing"
+          component={Landing}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="LogIn"
-          component={LogIn}
+          name="Login"
+          component={Login}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Verify"
-          component={Verify}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="Profile"
-          component={Profile}
+          name="MobileNumber"
+          component={MobileNumber}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="BasicDetails"
-          component={BasicDetails}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="SetPreference"
-          component={SetPreference}
+          name="VideoUpload"
+          component={VideoUpload}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
