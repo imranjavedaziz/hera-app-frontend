@@ -2,7 +2,8 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../components/Container';
 import Button from '../../components/Button';
 import Images from '../../constants/Images';
@@ -10,15 +11,21 @@ import {CircleBtn} from '../../components/Header';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
-import { showAppToast } from '../../redux/actions/loader';
+import {mobileSchema} from '../../constants/schemas';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  // React.useEffect(async()=>{
-  //   await dispatch(showAppToast(true,'This is error message'));
-  // },[])
-  const [mobile, setMobile] = useState('');
+  const {
+    handleSubmit,
+    control,
+    formState: {errors, isValid},
+  } = useForm({
+    resolver: yupResolver(mobileSchema),
+  });
+  const onSubmit = data => {
+    console.log(data);
+    navigation.navigate("OTP");
+  };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -72,18 +79,30 @@ const MobileNumber = () => {
               marginRight: 20,
             }}
           />
-          <FloatingLabelInput
-            label={Strings.mobile.MobileNumber}
-            value={mobile}
-            onChangeText={num => setMobile(num)}
-            keyboardType="number-pad"
-            containerStyle={{
-              flex: 1,
-            }}
-            fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.mobile.MobileNumber}
+                value={value}
+                onChangeText={v => onChange(v)}
+                keyboardType="number-pad"
+                maxLength={10}
+                error={errors && errors.phone?.message}
+                containerStyle={{
+                  flex: 1,
+                }}
+                fixed={true}
+              />
+            )}
+            name="phone"
           />
         </View>
         <Button label={Strings.mobile.VERIFY} onPress={()=>navigation.navigate('Profile')}/>
+        <Button
+          label={Strings.mobile.VERIFY}
+          onPress={handleSubmit(onSubmit)}
+        />
       </View>
     </Container>
   );

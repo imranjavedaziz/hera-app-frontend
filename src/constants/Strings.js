@@ -4,6 +4,25 @@ export const ValidationMessages = {
   COMMON_REQUIRED: 'This is a required feild.',
   INVALID_MOBILE: 'Mobile number is not valid.',
   TERMS_OF_USE: 'Please accept the Terms of Use',
+  FIRST_NAME:'Please enter your First Name',
+  LAST_NAME:'Please enter your Last Name',
+  EMPTY_EMAIL: 'Please enter your Email ID',
+  INVALID_EMAIL:'Please enter a valid Email ID',
+  PASSWORD:'Please Set the Password',
+  CONFIRM_PASSWORD:'Please enter Confirm Password',
+  ADD_PROFILE_PHOTO:'Please add Profile Photo',
+  DOB:'Please enter your Date of Birth',
+  UNMATCHED_PASS:'Password Does not matched',
+
+
+  MOBILE_REQUIRED: 'Mobile number is a required feild!',
+  PASSWORD_REQUIRED: 'Password is a required feild!',
+  COMMON_REQUIRED: 'This is a required feild!',
+  INVALID_MOBILE: 'Mobile number is not valid!',
+  PASSWORD_MIN: 'Minimum 8 characters',
+  SPECIAL_CHAR: 'Atleast 1 special character',
+  ALPHA_NUM: 'Must be Alphanumeric',
+  INVALID_OTP: 'OTP is not valid',
 
 };
 export default {
@@ -49,5 +68,10 @@ export default {
     EggDonor:'Egg Donor',
     SpermDonor:'Sperm Donor',
     Save:'SAVE'
+  },
+  otp: {
+    title: 'Verify your mobile',
+    subtitle1: 'Enter the 6-digit verification',
+    subtitle2: 'code sent to your number',
   }
 };

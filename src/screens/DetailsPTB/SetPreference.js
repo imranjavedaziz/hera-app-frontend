@@ -17,10 +17,6 @@ import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
 
-// import HeaderComp from '../../components/HeaderComp';
-// import {IMAGES} from '../../utils/Images';
-// import COLORS from '../../styles/colors';
-// import {act} from 'react-test-renderer';
 
 const initialState = {
   hair: [

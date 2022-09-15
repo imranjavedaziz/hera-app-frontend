@@ -6,10 +6,13 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
+import {useDispatch} from 'react-redux';
+import {showAppToast} from '../../redux/actions/loader';
 import DatePicker from 'react-native-date-picker';
-
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
@@ -18,22 +21,25 @@ import Strings from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
-
+import {parentRegisterSchema} from '../../constants/schemas';
 
 const Profile = ({navigation}) => {
-  const [firstName, setFirstName] = useState('');
-  const [midName, setMidName] = useState('');
-  const [lastName, setLastName] = useState('');
-  //   const [dob, setDob] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState();
 
   const [check, setCheck] = useState(true);
   const [upload, setUpload] = useState({});
   const [image, setImage] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const {
+    handleSubmit,
+    control,
+    formState: {errors, isValid},
+    getValues,
+  } = useForm({
+    resolver: yupResolver(parentRegisterSchema),
+  });
 
   const selectImage = () => {
     ImagePicker.openPicker({
@@ -42,11 +48,10 @@ const Profile = ({navigation}) => {
       cropping: true,
     })
       .then(image => {
+      console.log(image.path)
         setUpload(image);
         setImage(true);
       })
-      .then(console.log(upload));
-    console.log('Worked');
   };
 
   const getDate = () => {
@@ -54,15 +59,16 @@ const Profile = ({navigation}) => {
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
 
-  const validate = () => {
-    return true;
-  };
-
-  const handleSubmit=()=>{
-    if(validate()){
-        navigation.navigate('SetPreference');
+  useEffect(() => {
+    if (!isValid) {
+      const e = errors;
+      console.log('errors-', errors);
+      const messages = [];
+      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+      const msg = messages.join('\n').trim();
+      if (msg) dispatch(showAppToast(true, msg));
     }
-  }
+  }, [errors, isValid]);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -70,6 +76,19 @@ const Profile = ({navigation}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+  const onSubmit = (data) => {
+    console.log(data)
+    if(!image){
+      dispatch(showAppToast(true,"Please Upload Images"))
+      return 
+    }
+    if(check){
+      dispatch(showAppToast(true,"Please Accept Terms And Conditions"))
+      return 
+    }
+    navigation.navigate('SetPreference');
+  
+  };
 
   return (
     <Container
@@ -86,7 +105,7 @@ const Profile = ({navigation}) => {
           {Strings.profile.makeAccountFor}
         </Text>
         <View
-          style={{marginVertical: 20}}
+          style={{marginVertical: 20,}}
           accessible={true}
           accessibilityLabel={`${Strings.profile.parentToBe}`}>
           <Text
@@ -108,6 +127,7 @@ const Profile = ({navigation}) => {
             {image ? (
               <TouchableOpacity onPress={selectImage}>
                 <Image
+                
                   source={{uri: upload.path}}
                   resizeMode={'cover'}
                   style={styles.profileImg}
@@ -137,92 +157,159 @@ const Profile = ({navigation}) => {
             width: '100%',
             // flexDirection: 'row',
           }}>
-          <FloatingLabelInput
-            label={Strings.profile.FirstName}
-            value={firstName}
-            onChangeText={num => setFirstName(num)}
-            fontWeight={'bold'}
-            //  keyboardType="number-pad"
-            containerStyle={{
-              flex: 1,
-            }}
-            // fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.profile.FirstName}
+                value={value}
+                onChangeText={v => onChange(v)}
+                fontWeight={'bold'}
+                required={true}
+                error={errors && errors.first_name?.message}
+                //  keyboardType="number-pad"
+                containerStyle={{
+                  flex: 1,
+                }}
+                // fixed={true}
+              />
+            )}
+            name="first_name"
           />
-          <FloatingLabelInput
-            label={Strings.profile.MiddleName}
-            value={midName}
-            onChangeText={num => setMidName(num)}
-            fontWeight={'bold'}
-            //  keyboardType="number-pad"
-            containerStyle={{
-              flex: 1,
-            }}
-            // fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.profile.MiddleName}
+                value={value}
+                onChangeText={v => onChange(v)}
+                fontWeight={'bold'}
+                // error={'this is'}
+                //  keyboardType="number-pad"
+                containerStyle={{
+                  flex: 1,
+                }}
+                // fixed={true}
+              />
+            )}
+            name="middle_name"
           />
-          <FloatingLabelInput
-            label={Strings.profile.LastName}
-            value={lastName}
-            onChangeText={num => setLastName(num)}
-            fontWeight={'bold'}
-            //  keyboardType="number-pad"
-            containerStyle={{
-              flex: 1,
-            }}
-            // fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.profile.LastName}
+                value={value}
+                onChangeText={v => onChange(v)}
+                fontWeight={'bold'}
+                required={true}
+                //  keyboardType="number-pad"
+                containerStyle={{
+                  flex: 1,
+                }}
+                error={errors && errors.last_name?.message}
+                // fixed={true}
+              />
+            )}
+            name="last_name"
           />
-          <FloatingLabelInput
-            label={Strings.profile.DateOfBirth}
-            value={getDate()}
-            fontWeight={'bold'}
-            containerStyle={{
-              flex: 1,
-            }}
-            //   fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.profile.DateOfBirth}
+                value={value}
+                fontWeight={'bold'}
+                required={true}
+                containerStyle={{
+                  flex: 1,
+                }}
+                endComponent={() => (
+                  <TouchableOpacity onPress={() => setOpen(true)}>
+                    <Image source={Images.calendar} />
+                  </TouchableOpacity>
+                )}
+                error={errors && errors.date_of_birth?.message}
+                //   fixed={true}
+              />
+            )}
+            name="date_of_birth"
           />
-          <View>
-            <TouchableOpacity style={styles.icon} onPress={() => setOpen(true)}>
-              <Image source={Images.calendar} />
-            </TouchableOpacity>
-          </View>
-          <FloatingLabelInput
-            label={Strings.profile.EmailAddress}
-            value={email}
-            onChangeText={num => setEmail(num)}
-            fontWeight={'bold'}
-            //  keyboardType="number-pad"
-            containerStyle={{
-              flex: 1,
-            }}
-            // fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.profile.EmailAddress}
+                value={value}
+                onChangeText={v => onChange(v)}
+                fontWeight={'bold'}
+                required={true}
+                error={errors && errors.email?.message}
+                //  keyboardType="number-pad"
+                containerStyle={{
+                  flex: 1,
+                }}
+                // fixed={true}
+              />
+            )}
+            name="email"
           />
-          <FloatingLabelInput
-            label={Strings.profile.setPassword}
-            value={password}
-            onChangeText={num => setPassword(num)}
-            secureTextEntry={true}
-            //  keyboardType="number-pad"
-            containerStyle={{
-              flex: 1,
-            }}
-            // fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <View
+                style={{
+                  width: '100%',
+                  marginVertical: 20,
+                }}>
+                <FloatingLabelInput
+                  label={Strings.profile.setPassword}
+                  value={value}
+                  onChangeText={v => onChange(v)}
+                  required={true}
+                  secureTextEntry={true}
+                  //  keyboardType="number-pad"
+                  containerStyle={{
+                    marginVertical: 0,
+                  }}
+                  error={errors && errors.set_password?.message}
+                  // required={true}
+                  // fixed={true}
+                />
+                <Text>Must have minimum 8 characters</Text>
+                {/* {(errors.set_password )
+                  <Image source={Images.path} />
+                 } */}
+                <Text>Must be Alphanumeric</Text>
+                <Text>Must have atleast 1 special character</Text>
+              </View>
+            )}
+            name="set_password"
           />
-          <FloatingLabelInput
-            label={Strings.profile.confirmPassword}
-            value={confirmPassword}
-            onChangeText={num => setConfirmPassword(num)}
-            secureTextEntry={true}
-            containerStyle={{
-              flex: 1,
-            }}
-            // fixed={true}
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.profile.confirmPassword}
+                value={value}
+                onChangeText={v => onChange(v)}
+                required={true}
+                secureTextEntry={true}
+                error={errors && errors.confirm_password?.message}
+                containerStyle={{
+                  flex: 1,
+                }}
+                // fixed={true}
+              />
+            )}
+            name="confirm_password"
           />
-        </View>
-        {/* Terms Acceptance */}
-        <View
+          <View
           style={{
             flexDirection: 'row',
-            marginLeft: 20,
+            // marginLeft: 5,
             marginVertical: 21,
+            // marginRight:-20,
           }}>
           <View style={{alignSelf: 'center'}}>
             {check ? (
@@ -230,24 +317,35 @@ const Profile = ({navigation}) => {
                 onPress={() => {
                   setCheck(cur => !cur);
                 }}>
-                <Image source={Images.iconCheck} />
+                <Image source={Images.rectangleCopy} />
               </Pressable>
             ) : (
               <Pressable
                 onPress={() => {
                   setCheck(cur => !cur);
                 }}>
-                <Image source={Images.rectangleCopy} />
+                <Image source={Images.iconCheck} />
               </Pressable>
             )}
           </View>
-          <Text style={{marginHorizontal: 10}}>
-            By continuing, you agreeto HERA's Tems of use and Privacy Policy
+          <Text style={{marginHorizontal:10, fontSize:13}}>
+            By continuing, you agree to HERA's<Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>Terms of Use</Text>
+            and
+            <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
+            Privacy Policy
+            </Text>
           </Text>
         </View>
+        </View>
+        {/* Terms Acceptance */}
+        
         {/* Term Acceptance closure */}
 
-        <Button label={Strings.profile.Register} onPress={handleSubmit}/>
+        <Button
+          label={Strings.profile.Register}
+          onPress={handleSubmit(onSubmit)}
+        />
+        <Pressable onPress={()=>{}}>
         <Text
           style={{
             fontWeight: 'bold',
@@ -257,9 +355,9 @@ const Profile = ({navigation}) => {
             marginTop: 25,
           }}>
           Register as Surrogate Mother or a Donor
-        </Text>
+        </Text></Pressable>
       </View>
-      <DatePicker
+      {/* <DatePicker
         modal
         mode="date"
         open={open}
@@ -272,7 +370,7 @@ const Profile = ({navigation}) => {
         onCancel={() => {
           setOpen(false);
         }}
-      />
+      /> */}
     </Container>
   );
 };
