@@ -1,6 +1,8 @@
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
+import {normalizeFont} from '../utils/responsive';
+import { Fonts } from '../constants/Constants';
 
 export default {
   screenTitle: {
@@ -8,6 +10,7 @@ export default {
     letterSpacing: Value.CONSTANT_VALUE_2,
     fontWeight: '600',
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_22,
@@ -15,6 +18,7 @@ export default {
     fontWeight: '700',
     textAlign: 'center',
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   mainContainer: {
     flex: 1,
@@ -22,8 +26,8 @@ export default {
     justifyContent: Alignment.FLEX_START,
   },
   underlineText: {
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_18),
     textDecorationLine: 'underline',
-    fontWeight: '600',
+    fontWeight: '700',
   },
 };

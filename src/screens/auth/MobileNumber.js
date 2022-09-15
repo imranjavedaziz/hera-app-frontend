@@ -74,6 +74,7 @@ const MobileNumber = () => {
             label={Strings.mobile.Code}
             value="+1"
             disabled={true}
+            editable={false}
             containerStyle={{
               width: 60,
               marginRight: 20,

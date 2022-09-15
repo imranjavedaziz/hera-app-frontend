@@ -38,6 +38,21 @@ export const Fonts = {
   OpenSansBold: 'OpenSans-Bold',
   OpenSansItalic: 'OpenSans-Italic',
   OpenSansLight: 'OpenSans-Light',
-  OpenSansRegular: 'OpenSans-Regular',
+  OpenSansRegular: 'OpenSans',
   OpenSansSemibold: 'OpenSans-Semibold',
 }
+
+export const smRoles = [
+  {
+    id: 1,
+    name: 'Surrogate Mother'
+  },
+  {
+    id: 2,
+    name: 'Egg Donor'
+  },
+  {
+    id: 3,
+    name: 'Sperm Donor'
+  },
+]

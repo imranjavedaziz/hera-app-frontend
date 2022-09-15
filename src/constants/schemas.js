@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { ValidationMessages } from './Strings';
 import { Value } from './FixedValues';
 
-const Regx = {
+export const Regx = {
     MOBILE_REGEX: /^[0]?[1-9]\d{9,10}$/,
     SPECIAL_CHAR: /[|#\\/~^:,;?!&%$@*+]/,
     ALPHA: /[a-zA-Z]/,
@@ -54,7 +54,10 @@ export const loginSchema = yup.object().shape({
         message: ValidationMessages.ALPHA_NUM,
     })
 });
-export const parentRegisterSchema = yup.object().shape({
+export const smRegisterSchema = yup.object().shape({
+    role: yup
+    .string()
+    .required(ValidationMessages.COMMON_REQUIRED),
     first_name: yup
       .string()
       .required(ValidationMessages.COMMON_REQUIRED),
@@ -63,5 +66,31 @@ export const parentRegisterSchema = yup.object().shape({
     last_name: yup
         .string()
         .required(ValidationMessages.COMMON_REQUIRED),
+    dob: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    email: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    password: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED)
+        .min(Value.CONSTANT_VALUE_8,ValidationMessages.PASSWORD_MIN)
+        .matches(Regx.SPECIAL_CHAR, {
+            excludeEmptyString: true,
+            message: ValidationMessages.SPECIAL_CHAR,
+        })
+        .matches(Regx.ALPHA, {
+            excludeEmptyString: true,
+            message: ValidationMessages.ALPHA_NUM,
+        })
+        .matches(Regx.NUM, {
+            excludeEmptyString: true,
+            message: ValidationMessages.ALPHA_NUM,
+        }),
+    confirm_password: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED)
+        .oneOf([yup.ref('password'), null], 'Passwords must match'),
     
 });

@@ -1,6 +1,7 @@
 import Colors from '../../constants/Colors';
 import global from '../global';
 import {Value} from '../../constants/FixedValues';
+import { Fonts } from '../../constants/Constants';
 
 export default {
   logo: {
@@ -12,6 +13,7 @@ export default {
   underlineBtn: {
     ...global.underlineText,
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   loginBtn: {
     marginTop: Value.CONSTANT_VALUE_40,

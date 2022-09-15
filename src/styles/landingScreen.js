@@ -2,6 +2,7 @@ import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import Colors from '../constants/Colors';
 import global from './global';
+import { Fonts } from '../constants/Constants';
 
 export default {
   bgContainer: {
@@ -33,6 +34,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_10,
     flex: Value.CONSTANT_VALUE_0,
+    fontFamily: Fonts.OpenSansBold,
   },
   btnContainer: {
     flex: 1,
@@ -48,6 +50,7 @@ export default {
   },
   footerBtn: {
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
     ...global.underlineText
   },
 };

@@ -8,6 +8,7 @@ import Landing from '../screens/Landing';
 import Login from '../screens/auth/Login';
 import MobileNumber from '../screens/auth/MobileNumber';
 import OTP from '../screens/auth/OTP';
+import SmRegister from '../screens/auth/smdonor/SmRegister';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -39,6 +40,11 @@ const Main = () => {
         <Stack.Screen
           name="OTP"
           component={OTP}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SmRegister"
+          component={SmRegister}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
