@@ -4,6 +4,7 @@ import {TouchableOpacity, Text} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
+import { Fonts } from '../constants/Constants';
 
 const styles = {
   btn: {
@@ -24,6 +25,8 @@ const styles = {
     flex: Value.CONSTANT_VALUE_0,
     letterSpacing: 1.8,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontFamily: Fonts.OpenSansBold,
   },
 };
 const Button = props => {

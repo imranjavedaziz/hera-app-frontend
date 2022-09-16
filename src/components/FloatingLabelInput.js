@@ -4,6 +4,7 @@ import {Text, TextInput, View} from 'react-native';
 import Colors from '../constants/Colors';
 import {Prencentage, Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
+import {Fonts} from '../constants/Constants';
 
 const styles = {
   container: {
@@ -18,6 +19,7 @@ const styles = {
     zIndex: -1,
     color: Colors.LABEL_BLACK,
     
+    fontFamily: Fonts.OpenSansRegular,
   },
   floated: {
     top: Value.CONSTANT_VALUE_0,
@@ -30,19 +32,35 @@ const styles = {
   
   },
   input: {
-    height: Value.CONSTANT_VALUE_40,
+    minHeight: Value.CONSTANT_VALUE_40,
     fontSize: Value.CONSTANT_VALUE_18,
-    lineHeight: Value.CONSTANT_VALUE_26,
     color: Colors.BLACK,
     borderBottomWidth: Value.CONSTANT_VALUE_1,
     paddingBottom: Value.CONSTANT_VALUE_10,
     textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansBold,
   },
   focusBorder: {
     borderBottomColor: Colors.BLUE,
   },
   blurBorder: {
     borderBottomColor: Colors.INPUT_BORDER,
+  },
+  endComponent: {
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_10,
+    bottom: Value.CONSTANT_VALUE_15,
+    borderRadius: Value.CONSTANT_VALUE_50,
+    zIndex: Value.CONSTANT_VALUE_2,
+  },
+  errMessage: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
   },
 };
 const FloatingLabelInput = props => {
@@ -85,31 +103,10 @@ const FloatingLabelInput = props => {
           {...textInputProps}
         />
         {endComponent && (
-          <View
-            style={{
-              position: Alignment.ABSOLUTE,
-              right: 10,
-              bottom: 15,
-              borderRadius: 50,
-              zIndex: 2,
-            }}>
-            {endComponent()}
-          </View>
+          <View style={styles.endComponent}>{endComponent()}</View>
         )}
       </View>
-      {error && (
-        <Text
-          style={{
-            color: 'red',
-            textAlign: 'right',
-            marginTop: 5,
-            fontSize: 14,
-            lineHeight: 21,
-            textVerticleAlignment: 'center',
-          }}>
-          {error}
-        </Text>
-      )}
+      {error && <Text style={styles.errMessage}>{error}</Text>}
     </View>
   );
 };

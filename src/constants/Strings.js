@@ -3,6 +3,7 @@ export const ValidationMessages = {
   PASSWORD_REQUIRED: 'Password is a required feild.',
   COMMON_REQUIRED: 'This is a required feild.',
   INVALID_MOBILE: 'Mobile number is not valid.',
+  PICTURE_REQUIRE: 'Please upload picture',
   TERMS_OF_USE: 'Please accept the Terms of Use',
   FIRST_NAME:'Please enter your First Name',
   LAST_NAME:'Please enter your Last Name',
@@ -13,14 +14,14 @@ export const ValidationMessages = {
   ADD_PROFILE_PHOTO:'Please add Profile Photo',
   DOB:'Please enter your Date of Birth',
   UNMATCHED_PASS:'Password Does not matched',
-
+  
 
   MOBILE_REQUIRED: 'Mobile number is a required feild!',
   PASSWORD_REQUIRED: 'Password is a required feild!',
   COMMON_REQUIRED: 'This is a required feild!',
   INVALID_MOBILE: 'Mobile number is not valid!',
-  PASSWORD_MIN: 'Minimum 8 characters',
-  SPECIAL_CHAR: 'Atleast 1 special character',
+  PASSWORD_MIN: 'Must have minimum 8 characters',
+  SPECIAL_CHAR: 'Must have atleast 1 special character',
   ALPHA_NUM: 'Must be Alphanumeric',
   INVALID_OTP: 'OTP is not valid',
 
@@ -73,5 +74,16 @@ export default {
     title: 'Verify your mobile',
     subtitle1: 'Enter the 6-digit verification',
     subtitle2: 'code sent to your number',
+  },
+  sm_register: {
+    FirstName: 'First Name',
+    MiddleName: 'Middle Name (Optional)',
+    LastName: 'Last Name',
+    DOB: 'Date Of Birth',
+    email: 'Email Address',
+    Password: 'Set Password',
+    Confirm: 'Confirm Password',
+    Title: 'Make account for',
+    Btn: 'Register'
   }
 };

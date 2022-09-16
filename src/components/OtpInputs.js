@@ -4,6 +4,7 @@ import {TextInput, View, Keyboard, StyleSheet, Text, Dimensions} from 'react-nat
 import Alignment from '../constants/Alignment';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
+import { Fonts } from '../constants/Constants';
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -22,12 +23,12 @@ const styles = StyleSheet.create({
     borderLeftWidth: Value.CONSTANT_VALUE_FRAC50,
     borderRightWidth: Value.CONSTANT_VALUE_FRAC50,
     fontSize: Value.CONSTANT_VALUE_18,
-    lineHeight: Value.CONSTANT_VALUE_20,
     textAlign: Alignment.CENTER,
     minWidth: Value.CONSTANT_VALUE_40,
     minHeight: Value.CONSTANT_VALUE_40,
     width: width/8,
     height: width/8,
+    fontFamily: Fonts.OpenSansBold,
   },
   validInput: {
     borderColor: Colors.INPUT_BORDER,

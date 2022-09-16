@@ -8,10 +8,10 @@ const DEFAULT = {
   width: 375,
   roundOff: 2,
 };
-const ScaleHeight = SCREEN_HEIGHT / DEFAULT.height;
-const ScaleWidth = SCREEN_WIDTH / DEFAULT.width;
+const ScaleHeight = height / DEFAULT.height;
+const ScaleWidth = width / DEFAULT.width;
 const STANDARD_WIDTH = DEFAULT.width;
-const CURRENT_WIDTH = SCREEN_WIDTH;
+const CURRENT_WIDTH = width;
 const K = CURRENT_WIDTH / STANDARD_WIDTH;
 
 export const normalizeFont = size => {

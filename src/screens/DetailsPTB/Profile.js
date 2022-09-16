@@ -5,57 +5,83 @@ import {
   View,
   Image,
   Pressable,
+  ImageBackground,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
+import openCamera from '../../utils/openCamera';
 import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
-import DatePicker from 'react-native-date-picker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
-import Strings from '../../constants/Strings';
+import {Fonts} from '../../constants/Constants';
+import Strings, {ValidationMessages} from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
-import {parentRegisterSchema} from '../../constants/schemas';
+import {parentRegisterSchema, Regx} from '../../constants/schemas';
+
+const validationType = {
+  LEN: 'LEN',
+  ALPHA_NUM: 'ALPHA_NUM',
+  SPECIAL: 'SPECIAL',
+};
+const pwdErrMsg = [
+  {
+    type: validationType.LEN,
+    msg: ValidationMessages.PASSWORD_MIN,
+  },
+  {
+    type: validationType.ALPHA_NUM,
+    msg: ValidationMessages.ALPHA_NUM,
+  },
+  {
+    type: validationType.SPECIAL,
+    msg: ValidationMessages.SPECIAL_CHAR,
+  },
+];
+const validatePassword = (value, type) => {
+  if (value) {
+    switch (type) {
+      case validationType.LEN:
+        return value.length >= 8;
+      case validationType.ALPHA_NUM:
+        return Regx.ALPHA.test(value) && Regx.NUM.test(value);
+      case validationType.SPECIAL:
+        return Regx.SPECIAL_CHAR.test(value);
+      default:
+        break;
+    }
+  }
+  return null;
+};
 
 const Profile = ({navigation}) => {
+  const [show, setShow] = useState(false);
   const [date, setDate] = useState();
 
+  const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
-  const [upload, setUpload] = useState({});
-  const [image, setImage] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
   const {
     handleSubmit,
     control,
+    setValue,
     formState: {errors, isValid},
     getValues,
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
 
-  const selectImage = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    })
-      .then(image => {
-      console.log(image.path)
-        setUpload(image);
-        setImage(true);
-      })
-  };
-
-  const getDate = () => {
-    let tempDate = date.toString().split(' ');
+  const getDate = selectedDate => {
+    let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
 
@@ -76,18 +102,19 @@ const Profile = ({navigation}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  const onSubmit = (data) => {
-    console.log(data)
-    if(!image){
-      dispatch(showAppToast(true,"Please Upload Images"))
-      return 
+  const cb = image => {
+    setUserImage(image.sourceURL);
+  };
+  const onSubmit = data => {
+    if (!userImage) {
+      dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
+      return;
     }
-    if(check){
-      dispatch(showAppToast(true,"Please Accept Terms And Conditions"))
-      return 
+    if (check) {
+      dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
+      return;
     }
     navigation.navigate('SetPreference');
-  
   };
 
   return (
@@ -105,7 +132,7 @@ const Profile = ({navigation}) => {
           {Strings.profile.makeAccountFor}
         </Text>
         <View
-          style={{marginVertical: 20,}}
+          style={{marginVertical: 20}}
           accessible={true}
           accessibilityLabel={`${Strings.profile.parentToBe}`}>
           <Text
@@ -118,34 +145,47 @@ const Profile = ({navigation}) => {
           {/* IMage Upload */}
 
           <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 25,
-              // borderWidth:1
-            }}>
-            {image ? (
-              <TouchableOpacity onPress={selectImage}>
-                <Image
-                
-                  source={{uri: upload.path}}
-                  resizeMode={'cover'}
-                  style={styles.profileImg}
-                />
-                <Image source={Images.iconcam} style={styles.profileCamIcon} />
-              </TouchableOpacity>
-            ) : (
+            style={{alignItems: 'flex-start', width: '100%', marginTop: 20}}>
+            <ImageBackground
+              source={userImage ? {uri: userImage} : null}
+              style={{
+                width: 140,
+                height: 140,
+                borderRadius: 70,
+                backgroundColor: Colors.GREEN,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              imageStyle={{
+                borderRadius: 70,
+                overflow: 'hidden',
+                resizeMode: 'cover',
+              }}>
               <TouchableOpacity
-                style={styles.profileImg}
-                activeOpacity={0.7}
-                onPress={selectImage}>
-                <Image style={{}} source={Images.iconcam} />
+                style={[
+                  {
+                    width: 35,
+                    height: 35,
+                    borderRadius: 18,
+                    backgroundColor: Colors.GREEN,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  },
+                  userImage
+                    ? {
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 20,
+                      }
+                    : null,
+                ]}
+                onPress={() => openCamera(1, cb)}>
+                <Image
+                  source={Images.camera}
+                  style={{width: 20, height: 20, resizeMode: 'contain'}}
+                />
               </TouchableOpacity>
-            )}
-
-            <Text style={{marginTop: 11, fontSize: 16, lineHeight: 21}}>
-              Upload Display Picture<Text style={{color: 'red'}}>*</Text>
-            </Text>
+            </ImageBackground>
           </View>
         </View>
 
@@ -155,7 +195,6 @@ const Profile = ({navigation}) => {
           style={{
             flex: 0,
             width: '100%',
-            // flexDirection: 'row',
           }}>
           <Controller
             control={control}
@@ -167,11 +206,9 @@ const Profile = ({navigation}) => {
                 fontWeight={'bold'}
                 required={true}
                 error={errors && errors.first_name?.message}
-                //  keyboardType="number-pad"
                 containerStyle={{
                   flex: 1,
                 }}
-                // fixed={true}
               />
             )}
             name="first_name"
@@ -219,18 +256,16 @@ const Profile = ({navigation}) => {
               <FloatingLabelInput
                 label={Strings.profile.DateOfBirth}
                 value={value}
-                fontWeight={'bold'}
+                onChangeText={v => onChange(v)}
+                error={errors && errors.date_of_birth?.message}
                 required={true}
-                containerStyle={{
-                  flex: 1,
-                }}
                 endComponent={() => (
-                  <TouchableOpacity onPress={() => setOpen(true)}>
+                  <TouchableOpacity onPress={() => setShow(true)}>
                     <Image source={Images.calendar} />
                   </TouchableOpacity>
                 )}
-                error={errors && errors.date_of_birth?.message}
-                //   fixed={true}
+                editable={false}
+                onPressIn={() => setShow(true)}
               />
             )}
             name="date_of_birth"
@@ -276,12 +311,39 @@ const Profile = ({navigation}) => {
                   // required={true}
                   // fixed={true}
                 />
-                <Text>Must have minimum 8 characters</Text>
-                {/* {(errors.set_password )
-                  <Image source={Images.path} />
-                 } */}
-                <Text>Must be Alphanumeric</Text>
-                <Text>Must have atleast 1 special character</Text>
+                {pwdErrMsg.map(msg => (
+                  <View
+                    style={{flexDirection: 'row', alignItems: 'center'}}
+                    key={msg.type}>
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        fontFamily: Fonts.OpenSansBold,
+                        color:
+                          validatePassword(value, msg.type) ||
+                          validatePassword(value, msg.type) === null
+                            ? Colors.BLACK
+                            : 'red',
+                      }}>
+                      {msg.msg}
+                    </Text>
+                    {validatePassword(value, msg.type) !== null && (
+                      <Image
+                        style={{
+                          tintColor: validatePassword(value, msg.type)
+                            ? Colors.BLACK
+                            : 'red',
+                          marginLeft: 5,
+                        }}
+                        source={
+                          validatePassword(value, msg.type)
+                            ? Images.path
+                            : Images.information
+                        }
+                      />
+                    )}
+                  </View>
+                ))}
               </View>
             )}
             name="set_password"
@@ -305,95 +367,84 @@ const Profile = ({navigation}) => {
             name="confirm_password"
           />
           <View
-          style={{
-            flexDirection: 'row',
-            // marginLeft: 5,
-            marginVertical: 21,
-            // marginRight:-20,
-          }}>
-          <View style={{alignSelf: 'center'}}>
-            {check ? (
-              <Pressable
-                onPress={() => {
-                  setCheck(cur => !cur);
-                }}>
-                <Image source={Images.rectangleCopy} />
-              </Pressable>
-            ) : (
-              <Pressable
-                onPress={() => {
-                  setCheck(cur => !cur);
-                }}>
-                <Image source={Images.iconCheck} />
-              </Pressable>
-            )}
-          </View>
-          <Text style={{marginHorizontal:10, fontSize:13}}>
-            By continuing, you agree to HERA's<Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>Terms of Use</Text>
-            and
-            <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
-            Privacy Policy
-            </Text>
-          </Text>
-        </View>
-        </View>
-        {/* Terms Acceptance */}
-        
-        {/* Term Acceptance closure */}
+            style={{
+              flexDirection: 'row',
+            }}>
+            <View style={{alignSelf: 'center',}}>
+              {check ? (
+                <Pressable
+                  onPress={() => {
+                    setCheck(cur => !cur);
+                  }}>
+                  <Image source={Images.rectangleCopy} />
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={() => {
+                    setCheck(cur => !cur);
+                  }}>
+                  <Image source={Images.iconCheck} />
+                </Pressable>
+              )}
+            </View>
 
-        <Button
+            <Text style={{fontSize: 13, marginLeft: 10}}>
+              By continuing, you agree to HERA's{' '}
+              <Text
+                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
+                Terms of use{'\n'}
+              </Text>
+              and{' '}
+              <Text
+                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
+                Privacy Policy
+              </Text>
+            </Text>
+          </View>
+        </View>
+
+        {/* Terms Acceptance */}
+
+        {/* Term Acceptance closure */}
+<View style={{paddingTop:31,}}>
+<Button 
           label={Strings.profile.Register}
           onPress={handleSubmit(onSubmit)}
         />
-        <Pressable onPress={()=>{}}>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            alignSelf: 'center',
-            textDecorationLine: 'underline',
-            fontSize: 15,
-            marginTop: 25,
-          }}>
-          Register as Surrogate Mother or a Donor
-        </Text></Pressable>
+</View>
+        
+        <Pressable onPress={() => {}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              alignSelf: 'center',
+              textDecorationLine: 'underline',
+              fontSize: 15,
+              marginTop: 25,
+            }}>
+            Register as Surrogate Mother or a Donor
+          </Text>
+        </Pressable>
       </View>
-      {/* <DatePicker
-        modal
-        mode="date"
-        open={open}
-        date={date}
-        onConfirm={date => {
-          setOpen(false);
-          setDate(date);
-          console.log(date);
+      <DateTimePickerModal
+        value={date}
+        isVisible={show}
+        mode={'date'}
+        onConfirm={selectedDate => {
+          setShow(false);
+          setValue('date_of_birth', getDate(selectedDate));
+          setDate(getDate(selectedDate));
         }}
         onCancel={() => {
-          setOpen(false);
+          setShow(false);
         }}
-      /> */}
+        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+        positiveButtonLabel="DONE"
+      />
     </Container>
   );
 };
 
 export default Profile;
 
-const styles = StyleSheet.create({
-  profileImg: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 138,
-    width: 138,
-    borderRadius: 68,
-    backgroundColor: Colors.GREEN,
-  },
-  profileCamIcon: {
-    position: 'absolute',
-    left: 100,
-    bottom: 2,
-  },
-  icon: {
-    position: 'absolute',
-    right: 20,
-    bottom: 40,
-  },
-});
+const styles = StyleSheet.create({});
