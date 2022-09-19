@@ -56,3 +56,13 @@ export const smRoles = [
     name: 'Sperm Donor'
   },
 ]
+export const genders = ['Male', 'Female', 'Other']
+export const Static = {
+  countries: ["USA", "Canada", "Australia", "Ireland"],
+  sexualOrient: ['Heterosexual', 'Homosexual', 'Bisexual', 'Other'],
+  height: ["5 ft 6 in", "5 ft 7 in", "5 ft 8 in", "5 ft 9 in"],
+  race: ['Native American','American Indian','African American','Hispanic','Asian'],
+  weight: ['50 ponds','60 ponds','70 ponds','80 ponds','90 ponds','100 ponds','110 ponds',],
+  eyeColors: ["Black","Brown","Blue","Hazel","Green"],
+  ethnicity: ['Hispanic and Latino Americans','African Americans','White people','Mexicans','Asian Americans','Alaska Natives','Non-Hispanic whites','American Indian group','Hispanic','Black people','Asian people']
+}

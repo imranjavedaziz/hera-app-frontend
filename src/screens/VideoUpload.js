@@ -3,7 +3,7 @@ import React from "react"
 import { View, Text, TouchableOpacity, StyleSheet,SafeAreaView } from "react-native"
 import videoPicker from "../utils/videoPicker";
 import OtpInputs from "../components/OtpInputs";
-import FloatingLabelInput from "../components/FloatingLabelInput";
+import FloatingLabelInput from "../components/inputs/FloatingLabelInput";
 import Container from '../components/Container';
 import Button from "../components/Button";
 import { CircleBtn } from "../components/Header";

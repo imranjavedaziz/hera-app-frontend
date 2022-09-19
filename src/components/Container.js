@@ -12,21 +12,34 @@ import Colors from '../constants/Colors';
 import Header from './Header';
 
 const styles = {
-  container: {flex: 1, marginHorizontal: 20},
+  container: {flex: 1, marginHorizontal: 40,},
   safearea: {flex: 1, backgroundColor: Colors.BACKGROUND},
 };
-const Scroller = ({enabled, children}) => {
+const Scroller = ({enabled, style, children}) => {
   if (enabled) {
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={[{
+          paddingTop: 57
+        },style]}
+        style={[styles.container, style]}>
         {children}
       </ScrollView>
     );
   }
-  return <View style={styles.container}>{children}</View>;
+  return <View style={[styles.container, style]}>{children}</View>;
 };
-const Container = (props) => {
-  const {children, scroller = true,showHeader=false,headerEnd=false,headerComp=null} = props;
+const Container = props => {
+  const {
+    children,
+    scroller = true,
+    showHeader = false,
+    headerEnd = false,
+    headerComp = null,
+    style = {},
+  } = props;
   return (
     <>
       <StatusBar
@@ -36,15 +49,13 @@ const Container = (props) => {
         hidden={false}
       />
       <SafeAreaView style={styles.safearea}>
-        {
-          showHeader && <Header end={headerEnd}>
-            {headerComp()}
-          </Header>
-        }
         <KeyboardAvoidingView
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <Scroller enabled={scroller}>{children}</Scroller>
+          {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
+          <Scroller enabled={scroller} style={style}>
+            {children}
+          </Scroller>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>

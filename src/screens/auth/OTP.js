@@ -35,7 +35,7 @@ const OTP = () => {
     />
   );
   return (
-    <Container scroller={true} showHeader={true} headerComp={headerComp}>
+    <Container scroller={true} showHeader={true} headerComp={headerComp} style={{marginHorizontal: 20}}>
       <View style={globalStyle.mainContainer}>
         <Text style={globalStyle.screenTitle}>{Strings.otp.title}</Text>
         <View

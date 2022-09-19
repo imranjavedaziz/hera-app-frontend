@@ -11,6 +11,7 @@ export default {
     fontWeight: '600',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
+    textAlign: 'center'
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_22,

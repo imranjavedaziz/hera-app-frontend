@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import Container from '../../components/Container';
 import Images from '../../constants/Images';
 import {CircleBtn} from '../../components/Header';
-import FloatingLabelInput from '../../components/FloatingLabelInput';
+import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
 import globalStyle from '../../styles/global';

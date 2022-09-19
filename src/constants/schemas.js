@@ -94,3 +94,47 @@ export const smRegisterSchema = yup.object().shape({
         .oneOf([yup.ref('password'), null], 'Passwords must match'),
     
 });
+export const smBasicSchema = yup.object().shape({
+    gender: yup
+      .string()
+      .required(ValidationMessages.COMMON_REQUIRED),
+    country: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    state: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    zip: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    occupation: yup
+        .string(),
+    sexual: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    bio: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+});
+export const smSetAttributesSchema = yup.object().shape({
+    height: yup
+      .string()
+      .required(ValidationMessages.COMMON_REQUIRED),
+    race: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    motherEthnicity: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    fatheEthnicity: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    weight: yup
+        .string(),
+    eye: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+    hair: yup
+        .string()
+        .required(ValidationMessages.COMMON_REQUIRED),
+});

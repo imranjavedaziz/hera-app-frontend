@@ -9,6 +9,9 @@ import Login from '../screens/auth/Login';
 import MobileNumber from '../screens/auth/MobileNumber';
 import OTP from '../screens/auth/OTP';
 import SmRegister from '../screens/auth/smdonor/SmRegister';
+import SmBasicDetails from '../screens/auth/smdonor/SmBasicDetails';
+import SetAttributes from '../screens/auth/smdonor/SetAttributes';
+import CreateGallery from '../screens/auth/smdonor/CreateGallery';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -33,11 +36,6 @@ const Main = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="VideoUpload"
-          component={VideoUpload}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="OTP"
           component={OTP}
           options={{headerShown: false}}
@@ -45,6 +43,21 @@ const Main = () => {
         <Stack.Screen
           name="SmRegister"
           component={SmRegister}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SmBasicDetails"
+          component={SmBasicDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SetAttributes"
+          component={SetAttributes}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateGallery"
+          component={CreateGallery}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
