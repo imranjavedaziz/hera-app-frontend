@@ -18,6 +18,7 @@ import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
 import { Fonts, smRoles } from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import { askCameraPermission } from '../../../utils/permissionManager';
+import BottomSheetComp from '../../../components/BottomSheet';
 
 const validationType = {
     LEN: 'LEN',
@@ -56,6 +57,7 @@ const validatePassword = (value,type)=>{
 const SmRegister = () => {
   const navigation = useNavigation();
   const [show, setShow] = useState(false);
+  const [isOpen, setOpen] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
   const [userImage,setUserImage] = useState('');
   const {
@@ -138,7 +140,10 @@ const SmRegister = () => {
                         position: 'absolute',
                         bottom: 0,
                         right: 20,
-                    }:null]} onPress={()=>openCamera(1,cb)}>
+                    }:null]}
+                    // onPress={()=>openCamera(1,cb)}
+                    onPress={()=>setOpen(true)}
+                    >
                         <Image source={Images.camera} style={{width: 20,height: 20,resizeMode: 'contain'}}/>
                     </TouchableOpacity>
                 </ImageBackground>
@@ -265,6 +270,16 @@ const SmRegister = () => {
         />
       </View>
     </Container>
+    <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
+        <View style={{width: '100%',paddingHorizontal: 20,paddingVertical: 10}}>
+            <TouchableOpacity onPress={()=>{openCamera(0,cb);setOpen(false);}} style={{paddingVertical: 20,borderBottomWidth: 1,borderBottomColor: Colors.BORDER_LINE}}>
+                <Text style={{fontSize: 16,fontFamily: Fonts.OpenSansBold,color: Colors.BLACK}}>Open Camera</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{openCamera(1,cb);setOpen(false);}} style={{paddingVertical: 20,}}>
+                <Text style={{fontSize: 16,fontFamily: Fonts.OpenSansBold,color: Colors.BLACK}}>Open Gallery</Text>
+            </TouchableOpacity>
+        </View>
+    </BottomSheetComp>
     <DateTimePickerModal
         value={date}
         isVisible={show}

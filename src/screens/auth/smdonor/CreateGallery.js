@@ -20,12 +20,14 @@ import {askCameraPermission} from '../../../utils/permissionManager';
 import Colors from '../../../constants/Colors';
 import { Fonts } from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
+import BottomSheetComp from '../../../components/BottomSheet';
 
 const CreateGallery = ({route}) => {
   const navigation = useNavigation();
   const [gallery, setGallery] = useState(['', '', '', '', '', '']);
   const [gIndex, setGIndex] = useState(0);
   const [video,setVideo] = useState('');
+  const [isOpen, setOpen] = useState(false);
   const cb = image => {
     const gImages = gallery;
     gImages[gImages] = image.path;
@@ -57,6 +59,7 @@ const CreateGallery = ({route}) => {
     </TouchableOpacity>
   );
   return (
+    <>
     <Container
       showHeader={true}
       headerEnd={true}
@@ -132,7 +135,7 @@ const CreateGallery = ({route}) => {
               }}
               source={img ? {uri: img} : null}>
               {gIndex === index && (
-                <TouchableOpacity onPress={() => openCamera(1, cb)}>
+                <TouchableOpacity onPress={()=>setOpen(true)}>
                   <Image
                     source={Images.camera}
                     style={{
@@ -176,6 +179,17 @@ const CreateGallery = ({route}) => {
         <Button label={Strings.sm_create_gallery.Btn} />
       </View>
     </Container>
+    <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
+        <View style={{width: '100%',paddingHorizontal: 20,paddingVertical: 10}}>
+            <TouchableOpacity onPress={()=>{openCamera(0,cb);setOpen(false);}} style={{paddingVertical: 20,borderBottomWidth: 1,borderBottomColor: Colors.BORDER_LINE}}>
+                <Text style={{fontSize: 16,fontFamily: Fonts.OpenSansBold,color: Colors.BLACK}}>Open Camera</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{openCamera(1,cb);setOpen(false);}} style={{paddingVertical: 20,}}>
+                <Text style={{fontSize: 16,fontFamily: Fonts.OpenSansBold,color: Colors.BLACK}}>Open Gallery</Text>
+            </TouchableOpacity>
+        </View>
+    </BottomSheetComp>
+    </>
   );
 };
 export default CreateGallery;
