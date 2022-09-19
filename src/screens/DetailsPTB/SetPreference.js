@@ -27,8 +27,6 @@ import Strings, {ValidationMessages} from '../../constants/Strings';
 import Dropdown from '../../components/inputs/Dropdown';
 import {Static} from '../../constants/Constants';
 
-
-
 const initialState = {
   hair: [
     {title: 'Black', flag: false},
@@ -73,8 +71,7 @@ const SetPreference = ({navigation}) => {
   const [donor, setDonor] = useState(false);
   const [egg, setEgg] = useState(false);
   const [state, dis] = useReducer(reducer, initialState);
-  const [height, setHeight] = useState([48,84]);
-
+  const [height, setHeight] = useState([48, 84]);
 
   const {
     handleSubmit,
@@ -85,6 +82,37 @@ const SetPreference = ({navigation}) => {
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
+
+  const onSubmit = data => {
+
+    console.log(data);
+    if(surrogate == false && donor == false && egg== false ){
+          dispatch(showAppToast(true,ValidationMessages.SELECT_LOOKING ));
+          return;
+        }
+    let hc = 0;
+    state.hair.map(i => {
+      if (i.flag === false) {
+        hc++;
+        console.log(hc);
+      }
+      if (hc === 5) {
+        dispatch(showAppToast(true, ValidationMessages.SELECT_HAIR));
+        return;
+      }
+    });
+    let ec = 0;
+    state.eye.map(i => {
+      if (i.flag === false) {
+        ec++;
+        console.log(ec);
+      }
+      if (ec === 5) {
+        dispatch(showAppToast(true, ValidationMessages.SELECT_EYE));
+        return;
+      }
+    });
+  };
 
   const SelectHair = (item, index) => {
     // console.log(item.title + ' ' + index);
@@ -122,101 +150,21 @@ const SetPreference = ({navigation}) => {
     />
   );
 
-  const ethnicity = [
-    {
-      label: 'Ethnicity',
-    },
-    {
-      label: 'Alaska Native',
-    },
-    {
-      label: 'Ethnicity-1',
-    },
-    {
-      label: 'Ethnicity-2',
-    },
-    {
-      label: 'Ethnicity-2',
-    },
-  ];
+  React.useEffect(() => {
+    if (!isValid) {
+      const e = errors;
+      console.log('errors-', errors);
+      const messages = [];
+      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+      const msg = messages.join('\n').trim();
+      if (msg) dispatch(showAppToast(true, msg));
+    }
 
-  const race = [
-    {
-      label: 'White',
-    },
-    {
-      label: 'Black or African American',
-    },
-    {
-      label: 'American Indian or Alaska Native',
-    },
-    {
-      label: 'Asian',
-    },
-    {
-      label: 'Native Hawaiian or Other Pacific Islander',
-    },
-    {
-      label: 'Mixed Or Other Race',
-    },
-  ];
-
-  const location = [
-    {
-      label: 'India',
-    },
-    {
-      label: 'Alaska',
-    },
-    {
-      label: 'America',
-    },
-    {
-      label: 'Europe',
-    },
-  ];
-
-  // useEffect(() => {
-
-  // }, [errors, isValid]);
+  }, [errors, isValid]);
   const dispatch = useDispatch();
 
-  const mySubmit = data => {
-    const race =  getValues('race')
-    console.log(race);
-    if(surrogate == false && donor == false && egg== false ){
-      dispatch(showAppToast(true,ValidationMessages.SELECT_LOOKING ));
-      return;
-    }
-    if(race == undefined){
-      dispatch(showAppToast(true,ValidationMessages.RACE ));
-      return;
-    }
-    let hc = 0;
-    state.hair.map(i=>{
-      if(i.flag === false){
-        hc++;
-        console.log(hc)
-      }
-      if(hc === 5){
-        dispatch(showAppToast(true,ValidationMessages.SELECT_HAIR ));
-      return;
-      }
-    })
-    let ec = 0;
-    state.eye.map(i=>{
-      if(i.flag === false){
-        ec++;
-        console.log(ec)
-      }
-      if(ec === 5){
-        dispatch(showAppToast(true,ValidationMessages.SELECT_EYE ));
-      return;
-      }
-    })
 
   
-  };
   return (
     <Container
       scroller={true}
@@ -224,7 +172,7 @@ const SetPreference = ({navigation}) => {
       headerComp={headerComp}
       headerEnd={true}
       // style={{ borderWidth:1}}
-      >
+    >
       <View
         style={{
           flex: 1,
@@ -251,83 +199,71 @@ const SetPreference = ({navigation}) => {
             marginTop: 50,
           }}>
           <Text style={{marginBottom: 17}}>Who are you looking for?</Text>
-          <View >
-
-            <TouchableOpacity style={{flexDirection:'row',}}
+          <View>
+            <TouchableOpacity
+              style={{flexDirection: 'row'}}
               activeOpacity={1}
               onPress={() => setSurrogate(cur => !cur)}>
               {surrogate ? (
-                <Image source={Images.iconRadiosel}/>
+                <Image source={Images.iconRadiosel} />
               ) : (
-                <Image source={Images.iconRadiounsel}/>
-                 
+                <Image source={Images.iconRadiounsel} />
               )}
-               <Text
-              style={{
-                alignItems:'center',
-                marginLeft: 10,
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginBottom: 27,
-              }}>
-              Surrogate Mother
-            </Text>
+              <Text
+                style={{
+                  alignItems: 'center',
+                  marginLeft: 10,
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                  marginBottom: 27,
+                }}>
+                Surrogate Mother
+              </Text>
             </TouchableOpacity>
-           
           </View>
-          <View >
-            <TouchableOpacity style={{flexDirection: 'row', }}
+          <View>
+            <TouchableOpacity
+              style={{flexDirection: 'row'}}
               activeOpacity={1}
               onPress={() => setEgg(cur => !cur)}>
               {egg ? (
                 <Image source={Images.iconRadiosel} />
               ) : (
                 <Image source={Images.iconRadiounsel} />
-                
               )}
               <Text
-              style={{
-                marginLeft: 10,
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginBottom: 29,
-              }}>
-              Egg Donor
+                style={{
+                  marginLeft: 10,
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                  marginBottom: 29,
+                }}>
+                Egg Donor
               </Text>
             </TouchableOpacity>
-            
-           
           </View>
-          <View >
-            <TouchableOpacity style={{flexDirection: 'row', alignItems:'center'}}
+          <View>
+            <TouchableOpacity
+              style={{flexDirection: 'row', alignItems: 'center'}}
               activeOpacity={1}
               onPress={() => setDonor(cur => !cur)}>
               {donor ? (
                 <Image source={Images.iconRadiosel} />
               ) : (
                 <Image source={Images.iconRadiounsel} />
-                
               )}
-               <Text
-              style={{
-                marginLeft: 10,
-                fontWeight: 'bold',
-                fontSize: 16,
-              }}>
-              Sperm Donor
-            </Text>
+              <Text
+                style={{
+                  marginLeft: 10,
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                }}>
+                Sperm Donor
+              </Text>
             </TouchableOpacity>
           </View>
 
-          {/* <Example
-            options={location}
-            label={Strings.preference.Location}
-            control={control}
-            name={'location'}
-            setValue={setValue}
-          /> */}
-
-        <Controller
+          <Controller
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
@@ -338,17 +274,11 @@ const SetPreference = ({navigation}) => {
                   onChange(selectedItem);
                 }}
                 // required={true}
-                error={errors && errors.motherEthnicity?.message}
+                error={errors && errors.location?.message}
               />
             )}
             name="location"
           />
-
-
-
-
-
-
 
           <Text style={{marginVertical: 5, fontSize: 14, marginTop: 10}}>
             Age Range
@@ -398,37 +328,57 @@ const SetPreference = ({navigation}) => {
               }}>
               <Text>Height</Text>
               <Text style={{fontWeight: 'bold'}}>
-              <Text>
-                {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" - </Text>
-              <Text>
-                {parseInt(height[1] / 12)}'{parseInt(height[1] % 12)}"
+                <Text>
+                  {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
+                </Text>
+                <Text>
+                  {parseInt(height[1] / 12)}'{parseInt(height[1] % 12)}"
+                </Text>
               </Text>
-            </Text>
             </View>
 
-          
             <Range value={height} setValue={setHeight} />
           </View>
 
           {/* Drop Down */}
 
-          <Example
-            options={race}
-            label={Strings.preference.Race}
+          <Controller
             control={control}
-            name={'race'}
-            setValue={setValue}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.preference.Race}
+                data={Static.race}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                  onChange(selectedItem);
+                }}
+                // required={true}
+                error={errors && errors.race?.message}
+              />
+            )}
+            name="race"
           />
-          <Example
-            options={ethnicity}
-            label={Strings.preference.Ethnicity}
+
+          <Controller
             control={control}
-            name={'Ethnicity'}
-            setValue={setValue}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.preference.Ethnicity}
+                data={Static.ethnicity}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                  onChange(selectedItem);
+                }}
+                // required={true}
+                error={errors && errors.ethnicity?.message}
+              />
+            )}
+            name="ethnicity"
           />
 
           <Text style={{marginVertical: 15, fontSize: 14}}>Hair Color</Text>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical:5}}>
+          <View
+            style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 5}}>
             {state.hair.map((item, index) => {
               return (
                 <TouchableOpacity
@@ -463,8 +413,14 @@ const SetPreference = ({navigation}) => {
               );
             })}
           </View>
-          <Text style={{marginVertical:15, fontSize: 14}}>Eye Color</Text>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVerticle:5, marginBottom:20}}>
+          <Text style={{marginVertical: 15, fontSize: 14}}>Eye Color</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              marginVerticle: 5,
+              marginBottom: 20,
+            }}>
             {state.eye.map((item, index) => {
               return (
                 <TouchableOpacity
@@ -499,24 +455,15 @@ const SetPreference = ({navigation}) => {
               );
             })}
           </View>
-
-          {/* <Button
-            label={'get data'}
-            onPress={() => {
-              console.log(getValues());
-            }}
-          /> */}
         </View>
 
+        <Button label={Strings.preference.Save}  onPress={handleSubmit(onSubmit)} />
         <Button
           label={Strings.preference.Save}
-          onPress={mySubmit}
+          onPress={handleSubmit(onSubmit)}
         />
       </View>
-      {/* <Button
-          label={"get data"}
-          onPress={console.log(getValues())}
-        /> */}
+  
     </Container>
   );
 };

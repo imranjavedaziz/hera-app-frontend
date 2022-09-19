@@ -26,6 +26,11 @@ export const ValidationMessages = {
   SPECIAL_CHAR: 'Must have atleast 1 special character',
   ALPHA_NUM: 'Must be Alphanumeric',
   INVALID_OTP: 'OTP is not valid',
+  LOCATION:'Please select your Location preference',
+  RACE:'Please select your race preference',
+  
+
+
 
 };
 export default {

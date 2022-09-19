@@ -27,7 +27,7 @@ const Main = () => {
     >
       {/* initialRouteName="SetPreference" */}
 
-      <Stack.Navigator  >
+      <Stack.Navigator initialRouteName="SetPreference" >
       
         <Stack.Screen
           name="Landing"

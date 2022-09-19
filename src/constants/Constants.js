@@ -65,5 +65,8 @@ export const Static = {
   weight: ['50 ponds','60 ponds','70 ponds','80 ponds','90 ponds','100 ponds','110 ponds',],
   eyeColors: ["Black","Brown","Blue","Hazel","Green"],
   ethnicity: ['Hispanic and Latino Americans','African Americans','White people','Mexicans','Asian Americans','Alaska Natives','Non-Hispanic whites','American Indian group','Hispanic','Black people','Asian people'],
-  location:['India', "America","Alaska Native" ]
+  location:['India', "America","Alaska Native",'USA' ],
+  race:['White', 'Black or African American','American Indian or Alaska Native','Asian','Native Hawaiian or Other Pacific Islander','Mixed Or Other Race'],
+  ethnicity:['Ethnicity','Ethnicity','Ethnicity','Ethnicity']
+
 }

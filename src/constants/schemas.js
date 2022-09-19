@@ -127,54 +127,17 @@ export const smRegisterSchema = yup.object().shape({
 });
 
 export const setPreferenceSchema = yup.object().shape({
-  picker : yup 
-  .string()
-    .required(ValidationMessages.COMMON_REQUIRED),
-    first_name: yup
-      .string()
-      .required(ValidationMessages.COMMON_REQUIRED),
-    middle_name: yup
-        .string(),
-    last_name: yup
-        .string()
-        .required(ValidationMessages.COMMON_REQUIRED),
-    dob: yup
-        .string()
-        .required(ValidationMessages.COMMON_REQUIRED)
-        .test(
-            "DOB",
-            "Invalid!",
-            value => {
-              return moment().diff(moment(value),'years') >= 18;
-            }
-        ),
-    email: yup
-        .string()
-        .required(ValidationMessages.COMMON_REQUIRED)
-        .matches(Regx.EMAIL, {
-            excludeEmptyString: true,
-            message: 'Invalid!',
-        }),
-    password: yup
-        .string()
-        .required(ValidationMessages.COMMON_REQUIRED)
-        .min(Value.CONSTANT_VALUE_8,ValidationMessages.PASSWORD_MIN)
-        .matches(Regx.SPECIAL_CHAR, {
-            excludeEmptyString: true,
-            message: ValidationMessages.SPECIAL_CHAR,
-        })
-        .matches(Regx.ALPHA, {
-            excludeEmptyString: true,
-            message: ValidationMessages.ALPHA_NUM,
-        })
-        .matches(Regx.NUM, {
-            excludeEmptyString: true,
-            message: ValidationMessages.ALPHA_NUM,
-        }),
-    confirm_password: yup
-        .string()
-        .required(ValidationMessages.COMMON_REQUIRED)
-        .oneOf([yup.ref('password'), null], 'Passwords must match'),
+ location: yup
+ .string()
+ .required(ValidationMessages.LOCATION),
+
+ race: yup
+ .string()
+ .required(ValidationMessages.RACE),
+
+//  ethnicity: yup
+//  .string()
+//  .required(ValidationMessages.COMMON_REQUIRED),
     
 });
 export const smBasicSchema = yup.object().shape({
@@ -220,4 +183,5 @@ export const smSetAttributesSchema = yup.object().shape({
     hair: yup
         .string()
         .required(ValidationMessages.COMMON_REQUIRED),
+
 });
