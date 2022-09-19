@@ -60,6 +60,7 @@ const SmRegister = () => {
   const [isOpen, setOpen] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
   const [userImage,setUserImage] = useState('');
+  
   const {
     handleSubmit,
     control,
@@ -75,6 +76,11 @@ const SmRegister = () => {
   useEffect(askCameraPermission,[]);
   const onSubmit = data => {
     console.log(data);
+    // if(!userImage){
+        // TOAST
+        // return;
+    // }
+
     navigation.navigate('SmBasicDetails',{...data,userImage});
   };
   const headerComp = () => (

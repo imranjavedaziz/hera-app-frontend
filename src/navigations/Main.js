@@ -4,11 +4,16 @@ import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
 // Screens
 import VideoUpload from '../screens/VideoUpload';
+import Profile from '../screens/DetailsPTB/Profile';
+import SetPreference from '../screens/DetailsPTB/SetPreference';
 import Landing from '../screens/Landing';
 import Login from '../screens/auth/Login';
 import MobileNumber from '../screens/auth/MobileNumber';
 import OTP from '../screens/auth/OTP';
 import SmRegister from '../screens/auth/smdonor/SmRegister';
+import CustomExample from '../screens/DetailsPTB/CustomExample'
+import Example from '../screens/DetailsPTB/Example';
+import Range from '../screens/DetailsPTB/Range';
 import SmBasicDetails from '../screens/auth/smdonor/SmBasicDetails';
 import SetAttributes from '../screens/auth/smdonor/SetAttributes';
 import CreateGallery from '../screens/auth/smdonor/CreateGallery';
@@ -18,8 +23,12 @@ const Main = () => {
   return (
     <NavigationContainer
       onReady={() => RNBootSplash.hide()}
+      
     >
-      <Stack.Navigator>
+      {/* initialRouteName="SetPreference" */}
+
+      <Stack.Navigator  >
+      
         <Stack.Screen
           name="Landing"
           component={Landing}
@@ -33,6 +42,16 @@ const Main = () => {
         <Stack.Screen
           name="MobileNumber"
           component={MobileNumber}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen 
+          name="SetPreference"
+          component={SetPreference}
           options={{headerShown: false}}
         />
         <Stack.Screen

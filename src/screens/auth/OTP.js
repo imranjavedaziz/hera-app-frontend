@@ -25,7 +25,7 @@ const OTP = () => {
   });
   const onSubmit = data => {
     console.log(data);
-    navigation.navigate('SmRegister');
+    navigation.navigate('Profile');
   };
   const headerComp = () => (
     <CircleBtn

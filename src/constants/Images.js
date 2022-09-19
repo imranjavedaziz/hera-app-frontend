@@ -11,7 +11,7 @@ export default {
     eye: require('../assets/icons/eye/eye.png'),
     eye2: require('../assets/icons/eye2/eye2.png'),
     galleryimage: require('../assets/icons/galleryimage/galleryimage.png'),
-    group: require('../assets/icons/group/group.png'),
+    iconCheck: require('../assets/icons/group/group.png'),
     group3: require('../assets/icons/group3/group3.png'),
     iconArrow: require('../assets/icons/iconArrow/iconArrow.png'),
     iconBack: require('../assets/icons/iconBack/iconBack.png'),
@@ -44,6 +44,6 @@ export default {
     warning: require('../assets/icons/warning/warning.png'),
     path: require('../assets/icons/path/path.png'),
     // IMAGES
-    LANDING_BG: require('../assets/images/landing-bg/landing-bg.png'),
-    LOGO: require('../assets/images/logo/logo.png'),
+    LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
+    LOGO: require('../assets/Images/logo/logo.png'),
 }

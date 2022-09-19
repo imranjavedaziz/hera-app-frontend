@@ -1,4 +1,23 @@
 export const ValidationMessages = {
+  MOBILE_REQUIRED: 'Mobile number is a required feild.',
+  PASSWORD_REQUIRED: 'Password is a required feild.',
+  COMMON_REQUIRED: 'This is a required feild.',
+  INVALID_MOBILE: 'Mobile number is not valid.',
+  PICTURE_REQUIRE: 'Please upload picture',
+  TERMS_OF_USE: 'Please accept the Terms of Use',
+  FIRST_NAME:'Please enter your First Name',
+  LAST_NAME:'Please enter your Last Name',
+  EMPTY_EMAIL: 'Please enter your Email ID',
+  INVALID_EMAIL:'Please enter a valid Email ID',
+  PASSWORD:'Please Set the Password',
+  CONFIRM_PASSWORD:'Please enter Confirm Password',
+  ADD_PROFILE_PHOTO:'Please add Profile Photo',
+  DOB:'Please enter your Date of Birth',
+  UNMATCHED_PASS:'Password Does not matched',
+  RACE:'Please select your race preference',
+  SELECT_LOOKING:'Please select whom you are looking for',
+  SELECT_HAIR:'Please select your hair color preference',
+  SELECT_EYE:'Please select your eye color preference',
   MOBILE_REQUIRED: 'Mobile number is a required feild!',
   PASSWORD_REQUIRED: 'Password is a required feild!',
   COMMON_REQUIRED: 'This is a required feild!',
@@ -7,6 +26,7 @@ export const ValidationMessages = {
   SPECIAL_CHAR: 'Must have atleast 1 special character',
   ALPHA_NUM: 'Must be Alphanumeric',
   INVALID_OTP: 'OTP is not valid',
+
 };
 export default {
   landing: {
@@ -30,6 +50,30 @@ export default {
     Code: 'Code',
     MobileNumber: 'Mobile Number',
     VERIFY: 'VERIFY',
+  },
+  profile: {
+    makeAccountFor: 'Make Account For',
+    parentToBe: 'Parent To Be',
+    FirstName:'First Name',
+    MiddleName:'Middle Name (Optional)',
+    LastName:'Last Name',
+    EmailAddress: 'Email Address',
+    DateOfBirth: 'Date Of Birth',
+    setPassword:'Set Password',
+    confirmPassword: 'Confirm Password',
+    RegisterAs:'Register as Surrogate Motheror a Donor',
+    Register: 'REGISTER',
+  },
+  preference:{
+    setPreference:'Set Preference',
+    filter : 'Filter your search criteria',
+    surrogateMother:'Surrogate Mother',
+    EggDonor:'Egg Donor',
+    SpermDonor:'Sperm Donor',
+    Save:'SAVE',
+    Ethnicity:"Ethnicity",
+    Race:'Race',
+    Location:'Location'
   },
   otp: {
     title: 'Verify your mobile',

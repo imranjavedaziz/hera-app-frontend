@@ -65,6 +65,7 @@ const Login = () => {
                 keyboardType="number-pad"
                 maxLength={10}
                 error={errors && errors.phone?.message}
+                // required={true}
               />
             )}
             name="phone"

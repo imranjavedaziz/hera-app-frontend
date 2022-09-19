@@ -84,7 +84,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.MotherEthnicity}
-                data={Static.ethnicity}
+                data={Static.location}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index);
                   onChange(selectedItem);
