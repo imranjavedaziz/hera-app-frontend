@@ -58,6 +58,7 @@ const SmRegister = () => {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
   const [userImage,setUserImage] = useState('');
+  
   const {
     handleSubmit,
     control,

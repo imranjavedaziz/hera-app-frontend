@@ -68,7 +68,10 @@ export default {
     surrogateMother:'Surrogate Mother',
     EggDonor:'Egg Donor',
     SpermDonor:'Sperm Donor',
-    Save:'SAVE'
+    Save:'SAVE',
+    Ethnicity:"Ethnicity",
+    Race:'Race',
+    Location:'Location'
   },
   otp: {
     title: 'Verify your mobile',

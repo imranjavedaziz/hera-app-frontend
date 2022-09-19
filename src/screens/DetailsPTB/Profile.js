@@ -221,12 +221,9 @@ const Profile = ({navigation}) => {
                 value={value}
                 onChangeText={v => onChange(v)}
                 fontWeight={'bold'}
-                // error={'this is'}
-                //  keyboardType="number-pad"
                 containerStyle={{
                   flex: 1,
                 }}
-                // fixed={true}
               />
             )}
             name="middle_name"
@@ -240,12 +237,10 @@ const Profile = ({navigation}) => {
                 onChangeText={v => onChange(v)}
                 fontWeight={'bold'}
                 required={true}
-                //  keyboardType="number-pad"
                 containerStyle={{
                   flex: 1,
                 }}
                 error={errors && errors.last_name?.message}
-                // fixed={true}
               />
             )}
             name="last_name"
@@ -280,11 +275,9 @@ const Profile = ({navigation}) => {
                 fontWeight={'bold'}
                 required={true}
                 error={errors && errors.email?.message}
-                //  keyboardType="number-pad"
                 containerStyle={{
                   flex: 1,
                 }}
-                // fixed={true}
               />
             )}
             name="email"
@@ -303,13 +296,10 @@ const Profile = ({navigation}) => {
                   onChangeText={v => onChange(v)}
                   required={true}
                   secureTextEntry={true}
-                  //  keyboardType="number-pad"
                   containerStyle={{
                     marginVertical: 0,
                   }}
                   error={errors && errors.set_password?.message}
-                  // required={true}
-                  // fixed={true}
                 />
                 {pwdErrMsg.map(msg => (
                   <View
@@ -361,7 +351,6 @@ const Profile = ({navigation}) => {
                 containerStyle={{
                   flex: 1,
                 }}
-                // fixed={true}
               />
             )}
             name="confirm_password"
@@ -402,10 +391,6 @@ const Profile = ({navigation}) => {
             </Text>
           </View>
         </View>
-
-        {/* Terms Acceptance */}
-
-        {/* Term Acceptance closure */}
 <View style={{paddingTop:31,}}>
 <Button 
           label={Strings.profile.Register}
@@ -413,7 +398,7 @@ const Profile = ({navigation}) => {
         />
 </View>
         
-        <Pressable onPress={() => {}}>
+        <Pressable onPress={() => {navigation.navigate('SmRegister')}}>
           <Text
             style={{
               fontWeight: 'bold',

@@ -109,3 +109,9 @@ export const smRegisterSchema = yup.object().shape({
     .required(ValidationMessages.COMMON_REQUIRED)
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 });
+
+export const setPreferenceSchema = yup.object().shape({
+  picker : yup 
+  .string()
+  .required(ValidationMessages.COMMON_REQUIRED),
+});

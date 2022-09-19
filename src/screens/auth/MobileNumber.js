@@ -99,7 +99,6 @@ const MobileNumber = () => {
             name="phone"
           />
         </View>
-        <Button label={Strings.mobile.VERIFY} onPress={()=>navigation.navigate('Profile')}/>
         <Button
           label={Strings.mobile.VERIFY}
           onPress={handleSubmit(onSubmit)}

@@ -5,6 +5,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useState, useReducer} from 'react';
 
@@ -17,6 +18,11 @@ import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
 
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {setPreferenceSchema} from '../../constants/schemas';
+import Example from './Example';
+import Range from '../DetailsPTB/Range';
 
 const initialState = {
   hair: [
@@ -61,8 +67,20 @@ const SetPreference = ({navigation}) => {
   const [surrogate, setSurrogate] = useState(false);
   const [sperm, setsperm] = useState(false);
   const [egg, setEgg] = useState(false);
-
+  // const [room, setRoom] = useState('India');
+  // const [show, setShow] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
+  // const [selectedLanguage, setSelectedLanguage] = useState();
+  const [height,setHeight] = useState([5.2,6.2]);
+  const {
+    handleSubmit,
+    control,
+    formState: {errors, isValid},
+    setValue,
+    getValues,
+  } = useForm({
+    resolver: yupResolver(setPreferenceSchema),
+  });
 
   const SelectHair = (item, index) => {
     // console.log(item.title + ' ' + index);
@@ -100,6 +118,70 @@ const SetPreference = ({navigation}) => {
     />
   );
 
+  const ethnicity = [
+    {
+     label:'Ethnicity'
+    },
+    {
+     label:'Alaska Native'
+    },
+    {
+      label:'Ethnicity-1'
+    },
+    {
+      label:'Ethnicity-2'
+    },
+    {
+    
+      label:'Ethnicity-2'
+    },
+  ];
+
+  const race = [
+    {
+      label: 'White',
+    },
+    {
+      label:'Black or African American'
+    },
+    {
+      label:'American Indian or Alaska Native'
+    },
+    {
+      label:'Asian'
+    },
+    {
+      label:'Native Hawaiian or Other Pacific Islander'
+    },
+    {
+      label:'Mixed Or Other Race'
+    }
+  ];
+
+  const location = [
+    {
+      label: 'India',
+    },
+    {
+      label: 'Alaska',
+    },
+    {
+      label: 'America',
+    },
+    {
+      label: 'Europe',
+    },
+  ];
+
+  // useEffect(() => {
+    
+  // }, [errors, isValid]);
+
+
+
+  const onSubmit = data => {
+    console.log(data);
+  };
   return (
     <Container
       scroller={true}
@@ -196,7 +278,16 @@ const SetPreference = ({navigation}) => {
               Sperm Donor
             </Text>
           </View>
-          <Text style={{marginVertical: 5, fontSize: 14, marginTop: 50}}>
+
+          <Example
+            options={location}
+            label={Strings.preference.Location}
+            control={control}
+            name={'location'}
+            setValue={setValue}
+          />
+
+          <Text style={{marginVertical: 5, fontSize: 14, marginTop: 10,}}>
             Age Range
           </Text>
           <View
@@ -236,6 +327,33 @@ const SetPreference = ({navigation}) => {
               );
             })}
           </View>
+          <View style={{marginTop:30}}>
+            <View style={{flexDirection:'row', justifyContent:'space-between', paddingBottom:10}}>
+              <Text>Height</Text>
+              <Text style={{fontWeight:'bold'}}><Text>{height[0].toFixed(1)}" - </Text> <Text>{height[1].toFixed(1)}"</Text></Text>
+            </View>
+            <Range value={height} setValue={setHeight}/>
+          </View>
+
+
+          {/* Drop Down */}
+
+
+          <Example
+            options={race}
+            label={Strings.preference.Race}
+            control={control}
+            name={'race'}
+            setValue={setValue}
+          />
+          <Example
+            options={ethnicity}
+            label={Strings.preference.Ethnicity}
+            control={control}
+            name={'Ethnicity'}
+            setValue={setValue}
+          />
+
           <Text style={{marginVertical: 5, fontSize: 14}}>Hair Color</Text>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             {state.hair.map((item, index) => {
@@ -284,7 +402,9 @@ const SetPreference = ({navigation}) => {
                       height: 41,
                       width: 91,
                       borderRadius: 21,
-                      backgroundColor: item.flag ? COLORS.blue : 'white',
+                      backgroundColor: item.flag
+                        ? Colors.COLOR_5ABCEC
+                        : 'white',
                       justifyContent: 'center',
                       marginRight: 9,
                       marginVertical: 10,
@@ -306,8 +426,19 @@ const SetPreference = ({navigation}) => {
               );
             })}
           </View>
+
+          <Button
+            label={'get data'}
+            onPress={() => {
+              console.log(getValues());
+            }}
+          />
         </View>
-        <Button label={Strings.preference.Save} onPress={() => {}} />
+
+        <Button
+          label={Strings.preference.Save}
+          onPress={handleSubmit(onSubmit)}
+        />
       </View>
     </Container>
   );

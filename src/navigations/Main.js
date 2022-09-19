@@ -11,14 +11,25 @@ import Login from '../screens/auth/Login';
 import MobileNumber from '../screens/auth/MobileNumber';
 import OTP from '../screens/auth/OTP';
 import SmRegister from '../screens/auth/smdonor/SmRegister';
-
+import CustomExample from '../screens/DetailsPTB/CustomExample'
+import Example from '../screens/DetailsPTB/Example';
+import Range from '../screens/DetailsPTB/Range';
 const Stack = createStackNavigator();
 const Main = () => {
   return (
     <NavigationContainer
       onReady={() => RNBootSplash.hide()}
+      
     >
-      <Stack.Navigator>
+      {/* initialRouteName="SetPreference" */}
+
+      <Stack.Navigator initialRouteName="SetPreference" >
+      
+      <Stack.Screen
+          name="Range"
+          component={Range}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Landing"
           component={Landing}
@@ -39,7 +50,7 @@ const Main = () => {
           component={Profile}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        <Stack.Screen 
           name="SetPreference"
           component={SetPreference}
           options={{headerShown: false}}
