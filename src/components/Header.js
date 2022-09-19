@@ -12,7 +12,11 @@ const styles = {
     paddingVertical: Value.CONSTANT_VALUE_10,
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     flexDirection: Alignment.ROW,
-    backgroundColor: Colors.BACKGROUND,
+    backgroundColor: Colors.CLEAR,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 999,
   },
   start: {
     justifyContent: Alignment.SPACE_BETWEEN,

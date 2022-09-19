@@ -13,16 +13,21 @@ import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
-import Strings from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
+import {showAppToast} from '../../redux/actions/loader';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
-
+import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {setPreferenceSchema} from '../../constants/schemas';
 import Example from './Example';
 import Range from '../DetailsPTB/Range';
+import Strings, {ValidationMessages} from '../../constants/Strings';
+import Dropdown from '../../components/inputs/Dropdown';
+import {Static} from '../../constants/Constants';
+
+
 
 const initialState = {
   hair: [
@@ -65,13 +70,12 @@ function reducer(state, action) {
 
 const SetPreference = ({navigation}) => {
   const [surrogate, setSurrogate] = useState(false);
-  const [sperm, setsperm] = useState(false);
+  const [donor, setDonor] = useState(false);
   const [egg, setEgg] = useState(false);
-  // const [room, setRoom] = useState('India');
-  // const [show, setShow] = useState(false);
-  const [state, dispatch] = useReducer(reducer, initialState);
-  // const [selectedLanguage, setSelectedLanguage] = useState();
-  const [height,setHeight] = useState([5.2,6.2]);
+  const [state, dis] = useReducer(reducer, initialState);
+  const [height, setHeight] = useState([48,84]);
+
+
   const {
     handleSubmit,
     control,
@@ -86,7 +90,7 @@ const SetPreference = ({navigation}) => {
     // console.log(item.title + ' ' + index);
     state.hair[index].flag = !state.hair[index].flag;
     console.log(state.hair);
-    dispatch({
+    dis({
       type: 'ON_SELECT_HAIR',
       payload: state.hair,
     });
@@ -95,7 +99,7 @@ const SetPreference = ({navigation}) => {
   const SelectEye = (item, index) => {
     state.eye[index].flag = !state.eye[index].flag;
     console.log(state.eye);
-    dispatch({
+    dis({
       type: 'ON_SELECT_EYE',
       payload: state.eye,
     });
@@ -104,7 +108,7 @@ const SetPreference = ({navigation}) => {
   const SelectAgeRange = (item, index) => {
     state.age_range[index].flag = !state.age_range[index].flag;
     console.log(state.age_range);
-    dispatch({
+    dis({
       type: 'ON_SELECT_AGE',
       payload: state.age_range,
     });
@@ -120,20 +124,19 @@ const SetPreference = ({navigation}) => {
 
   const ethnicity = [
     {
-     label:'Ethnicity'
+      label: 'Ethnicity',
     },
     {
-     label:'Alaska Native'
+      label: 'Alaska Native',
     },
     {
-      label:'Ethnicity-1'
+      label: 'Ethnicity-1',
     },
     {
-      label:'Ethnicity-2'
+      label: 'Ethnicity-2',
     },
     {
-    
-      label:'Ethnicity-2'
+      label: 'Ethnicity-2',
     },
   ];
 
@@ -142,20 +145,20 @@ const SetPreference = ({navigation}) => {
       label: 'White',
     },
     {
-      label:'Black or African American'
+      label: 'Black or African American',
     },
     {
-      label:'American Indian or Alaska Native'
+      label: 'American Indian or Alaska Native',
     },
     {
-      label:'Asian'
+      label: 'Asian',
     },
     {
-      label:'Native Hawaiian or Other Pacific Islander'
+      label: 'Native Hawaiian or Other Pacific Islander',
     },
     {
-      label:'Mixed Or Other Race'
-    }
+      label: 'Mixed Or Other Race',
+    },
   ];
 
   const location = [
@@ -174,20 +177,54 @@ const SetPreference = ({navigation}) => {
   ];
 
   // useEffect(() => {
-    
+
   // }, [errors, isValid]);
+  const dispatch = useDispatch();
 
+  const mySubmit = data => {
+    const race =  getValues('race')
+    console.log(race);
+    if(surrogate == false && donor == false && egg== false ){
+      dispatch(showAppToast(true,ValidationMessages.SELECT_LOOKING ));
+      return;
+    }
+    if(race == undefined){
+      dispatch(showAppToast(true,ValidationMessages.RACE ));
+      return;
+    }
+    let hc = 0;
+    state.hair.map(i=>{
+      if(i.flag === false){
+        hc++;
+        console.log(hc)
+      }
+      if(hc === 5){
+        dispatch(showAppToast(true,ValidationMessages.SELECT_HAIR ));
+      return;
+      }
+    })
+    let ec = 0;
+    state.eye.map(i=>{
+      if(i.flag === false){
+        ec++;
+        console.log(ec)
+      }
+      if(ec === 5){
+        dispatch(showAppToast(true,ValidationMessages.SELECT_EYE ));
+      return;
+      }
+    })
 
-
-  const onSubmit = data => {
-    console.log(data);
+  
   };
   return (
     <Container
       scroller={true}
       showHeader={true}
       headerComp={headerComp}
-      headerEnd={true}>
+      headerEnd={true}
+      // style={{ borderWidth:1}}
+      >
       <View
         style={{
           flex: 1,
@@ -210,25 +247,24 @@ const SetPreference = ({navigation}) => {
 
         <View
           style={{
-            flex: 0,
             width: '100%',
-            // flexDirection: 'row',
             marginTop: 50,
           }}>
           <Text style={{marginBottom: 17}}>Who are you looking for?</Text>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
+          <View >
+
+            <TouchableOpacity style={{flexDirection:'row',}}
               activeOpacity={1}
               onPress={() => setSurrogate(cur => !cur)}>
               {surrogate ? (
-                <Image source={Images.iconRadiounsel} />
+                <Image source={Images.iconRadiosel}/>
               ) : (
-                <Image source={Images.iconRadiosel} />
+                <Image source={Images.iconRadiounsel}/>
+                 
               )}
-            </TouchableOpacity>
-            <Text
+               <Text
               style={{
-                alignSelf: 'center',
+                alignItems:'center',
                 marginLeft: 10,
                 fontWeight: 'bold',
                 fontSize: 16,
@@ -236,62 +272,88 @@ const SetPreference = ({navigation}) => {
               }}>
               Surrogate Mother
             </Text>
+            </TouchableOpacity>
+           
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
+          <View >
+            <TouchableOpacity style={{flexDirection: 'row', }}
               activeOpacity={1}
               onPress={() => setEgg(cur => !cur)}>
               {egg ? (
-                <Image source={Images.iconRadiounsel} />
-              ) : (
                 <Image source={Images.iconRadiosel} />
+              ) : (
+                <Image source={Images.iconRadiounsel} />
+                
               )}
-            </TouchableOpacity>
-            <Text
+              <Text
               style={{
-                alignSelf: 'center',
                 marginLeft: 10,
                 fontWeight: 'bold',
                 fontSize: 16,
                 marginBottom: 29,
               }}>
               Egg Donor
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => setsperm(cur => !cur)}>
-              {sperm ? (
-                <Image source={Images.iconRadiounsel} />
-              ) : (
-                <Image source={Images.iconRadiosel} />
-              )}
+              </Text>
             </TouchableOpacity>
-            <Text
+            
+           
+          </View>
+          <View >
+            <TouchableOpacity style={{flexDirection: 'row', alignItems:'center'}}
+              activeOpacity={1}
+              onPress={() => setDonor(cur => !cur)}>
+              {donor ? (
+                <Image source={Images.iconRadiosel} />
+              ) : (
+                <Image source={Images.iconRadiounsel} />
+                
+              )}
+               <Text
               style={{
-                alignSelf: 'center',
                 marginLeft: 10,
                 fontWeight: 'bold',
                 fontSize: 16,
               }}>
               Sperm Donor
             </Text>
+            </TouchableOpacity>
           </View>
 
-          <Example
+          {/* <Example
             options={location}
             label={Strings.preference.Location}
             control={control}
             name={'location'}
             setValue={setValue}
+          /> */}
+
+        <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.preference.Location}
+                data={Static.location}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index);
+                  onChange(selectedItem);
+                }}
+                // required={true}
+                error={errors && errors.motherEthnicity?.message}
+              />
+            )}
+            name="location"
           />
 
-          <Text style={{marginVertical: 5, fontSize: 14, marginTop: 10,}}>
+
+
+
+
+
+
+          <Text style={{marginVertical: 5, fontSize: 14, marginTop: 10}}>
             Age Range
           </Text>
-          <View
-            style={{flexDirection: 'row', flexWrap: 'wrap', marginRight: -35}}>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             {state.age_range.map((item, index) => {
               return (
                 <TouchableOpacity
@@ -327,17 +389,28 @@ const SetPreference = ({navigation}) => {
               );
             })}
           </View>
-          <View style={{marginTop:30}}>
-            <View style={{flexDirection:'row', justifyContent:'space-between', paddingBottom:10}}>
+          <View style={{marginTop: 30}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 10,
+              }}>
               <Text>Height</Text>
-              <Text style={{fontWeight:'bold'}}><Text>{height[0].toFixed(1)}" - </Text> <Text>{height[1].toFixed(1)}"</Text></Text>
+              <Text style={{fontWeight: 'bold'}}>
+              <Text>
+                {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" - </Text>
+              <Text>
+                {parseInt(height[1] / 12)}'{parseInt(height[1] % 12)}"
+              </Text>
+            </Text>
             </View>
-            <Range value={height} setValue={setHeight}/>
+
+          
+            <Range value={height} setValue={setHeight} />
           </View>
 
-
           {/* Drop Down */}
-
 
           <Example
             options={race}
@@ -354,8 +427,8 @@ const SetPreference = ({navigation}) => {
             setValue={setValue}
           />
 
-          <Text style={{marginVertical: 5, fontSize: 14}}>Hair Color</Text>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          <Text style={{marginVertical: 15, fontSize: 14}}>Hair Color</Text>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical:5}}>
             {state.hair.map((item, index) => {
               return (
                 <TouchableOpacity
@@ -371,7 +444,7 @@ const SetPreference = ({navigation}) => {
                         : 'white',
                       justifyContent: 'center',
                       marginRight: 9,
-                      marginVertical: 10,
+                      marginVertical: 5,
                       padding: 0,
                       borderWidth: item.flag ? 0 : 1,
                     }}>
@@ -390,8 +463,8 @@ const SetPreference = ({navigation}) => {
               );
             })}
           </View>
-          <Text style={{marginVertical: 5, fontSize: 14}}>Eye Color</Text>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          <Text style={{marginVertical:15, fontSize: 14}}>Eye Color</Text>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVerticle:5, marginBottom:20}}>
             {state.eye.map((item, index) => {
               return (
                 <TouchableOpacity
@@ -407,7 +480,7 @@ const SetPreference = ({navigation}) => {
                         : 'white',
                       justifyContent: 'center',
                       marginRight: 9,
-                      marginVertical: 10,
+                      marginVertical: 5,
                       padding: 0,
                       borderWidth: item.flag ? 0 : 1,
                     }}>
@@ -427,19 +500,23 @@ const SetPreference = ({navigation}) => {
             })}
           </View>
 
-          <Button
+          {/* <Button
             label={'get data'}
             onPress={() => {
               console.log(getValues());
             }}
-          />
+          /> */}
         </View>
 
         <Button
           label={Strings.preference.Save}
-          onPress={handleSubmit(onSubmit)}
+          onPress={mySubmit}
         />
       </View>
+      {/* <Button
+          label={"get data"}
+          onPress={console.log(getValues())}
+        /> */}
     </Container>
   );
 };

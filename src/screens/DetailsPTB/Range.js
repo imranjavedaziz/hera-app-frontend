@@ -25,38 +25,32 @@ const Range = ({value, setValue}) => {
     console.log(value);
   }
   return (
-    // <View style={{flex: 1, flexDirection: 'row'}}>
-    //   <Text>My range</Text>
-  // </View>
-  <View style={styles.container}>
+
   <Slider
     //  animateTransitions
     containerStyle={{}}
      maximumTrackTintColor= {Colors.INPUT_BORDER}
-     maximumValue={7.0}
+     maximumValue={84}
      minimumTrackTintColor={Colors.SKY_BLUE}
-     minimumValue={4.9}
-     step={0.1}
+     minimumValue={48}
+     step={1}
      thumbTintColor={Colors.SKY_BLUE}
      thumbStyle={{height:35,width:35, borderRadius:40, borderColor:Colors.BACKGROUND , borderWidth:3}}
-    //  thumbTouchSize={{height:80,width:80}}
       value={value}
       onValueChange={value => setValue(value)}
       onSlidingComplete={slide}
   />
-  {/* <Text>Value: { (value[1])}</Text> */}
-</View>
   )
 }
 
 export default Range;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-},
+//   container: {
+//     flex: 1,
+//     marginLeft: 10,
+//     marginRight: 10,
+//     alignItems: 'stretch',
+//     justifyContent: 'center',
+// },
 })

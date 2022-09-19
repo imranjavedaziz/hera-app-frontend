@@ -8,10 +8,11 @@ import Container from '../../components/Container';
 import Button from '../../components/Button';
 import Images from '../../constants/Images';
 import {CircleBtn} from '../../components/Header';
-import FloatingLabelInput from '../../components/FloatingLabelInput';
+import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
+import Colors from '../../constants/Colors';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -76,8 +77,11 @@ const MobileNumber = () => {
             disabled={true}
             editable={false}
             containerStyle={{
-              width: 60,
+              width: 50,
               marginRight: 20,
+            }}
+            inputStyle={{
+              color: Colors.BORDER_LINE,
             }}
           />
           <Controller

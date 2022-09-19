@@ -14,6 +14,10 @@ import SmRegister from '../screens/auth/smdonor/SmRegister';
 import CustomExample from '../screens/DetailsPTB/CustomExample'
 import Example from '../screens/DetailsPTB/Example';
 import Range from '../screens/DetailsPTB/Range';
+import SmBasicDetails from '../screens/auth/smdonor/SmBasicDetails';
+import SetAttributes from '../screens/auth/smdonor/SetAttributes';
+import CreateGallery from '../screens/auth/smdonor/CreateGallery';
+
 const Stack = createStackNavigator();
 const Main = () => {
   return (
@@ -23,13 +27,8 @@ const Main = () => {
     >
       {/* initialRouteName="SetPreference" */}
 
-      <Stack.Navigator initialRouteName="SetPreference" >
+      <Stack.Navigator  >
       
-      <Stack.Screen
-          name="Range"
-          component={Range}
-          options={{headerShown: false}}
-        />
         <Stack.Screen
           name="Landing"
           component={Landing}
@@ -56,11 +55,6 @@ const Main = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="VideoUpload"
-          component={VideoUpload}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="OTP"
           component={OTP}
           options={{headerShown: false}}
@@ -68,6 +62,21 @@ const Main = () => {
         <Stack.Screen
           name="SmRegister"
           component={SmRegister}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SmBasicDetails"
+          component={SmBasicDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SetAttributes"
+          component={SetAttributes}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateGallery"
+          component={CreateGallery}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

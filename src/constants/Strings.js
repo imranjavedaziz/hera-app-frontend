@@ -14,8 +14,10 @@ export const ValidationMessages = {
   ADD_PROFILE_PHOTO:'Please add Profile Photo',
   DOB:'Please enter your Date of Birth',
   UNMATCHED_PASS:'Password Does not matched',
-  
-
+  RACE:'Please select your race preference',
+  SELECT_LOOKING:'Please select whom you are looking for',
+  SELECT_HAIR:'Please select your hair color preference',
+  SELECT_EYE:'Please select your eye color preference',
   MOBILE_REQUIRED: 'Mobile number is a required feild!',
   PASSWORD_REQUIRED: 'Password is a required feild!',
   COMMON_REQUIRED: 'This is a required feild!',
@@ -88,5 +90,37 @@ export default {
     Confirm: 'Confirm Password',
     Title: 'Make account for',
     Btn: 'Register'
+  },
+  sm_basic: {
+    Title: 'Basic Details',
+    Subtitle: 'Complete Your Profile',
+    Gender: 'Gender',
+    Male: 'Male',
+    Female: 'Female',
+    Other: 'Other',
+    Country: 'Country',
+    State: 'State',
+    Zip: 'Zip Code',
+    Occupation: 'Occupation (Optional)',
+    SexualOrientation: 'Sexual Orientation',
+    Bio: 'Add a Short Bio (Max 250 Char)',
+  },
+  sm_set_attributes: {
+    Title: 'SET ATTRIBUTES',
+    Subtitle: 'Tell us about you',
+    Height: 'Height',
+    Race: 'Race',
+    MotherEthnicity: 'Mother’s Ethnicity',
+    FatheEthnicity: 'Father’s Ethnicity',
+    Weight: 'Weight',
+    EyeColor: 'Eye Color',
+    HairColor: 'Hair Color',
+  },
+  sm_create_gallery: {
+    Title: 'Create your gallery',
+    Subtitle1: 'To match with a parent,',
+    Subtitle2: 'upload photos that speak',
+    Subtitle3: 'about you!',
+    Btn: 'Save'
   }
 };

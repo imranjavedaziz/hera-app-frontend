@@ -14,7 +14,7 @@ import globalStyle from '../../../styles/global';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smRegisterSchema,Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
-import FloatingLabelInput from '../../../components/FloatingLabelInput';
+import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
 import { Fonts, smRoles } from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import { askCameraPermission } from '../../../utils/permissionManager';
@@ -69,9 +69,9 @@ const SmRegister = () => {
   });
   const cb = (image)=>{
     console.log('image',image);
-    setUserImage(image.sourceURL);
+    setUserImage(image.path);
   }
-  useEffect(()=>askCameraPermission(),[])
+  useEffect(askCameraPermission,[]);
   const onSubmit = data => {
     console.log(data);
     // if(!userImage){
@@ -79,6 +79,7 @@ const SmRegister = () => {
         // return;
     // }
 
+    navigation.navigate('SmBasicDetails',{...data,userImage});
   };
   const headerComp = () => (
     <CircleBtn
@@ -276,7 +277,7 @@ const SmRegister = () => {
         mode={'date'}
         onConfirm={(selectedDate)=>{
             setShow(false);
-            setValue('dob',moment(selectedDate).calendar());
+            setValue('dob',moment(selectedDate).format('MMM DD, YYYY'));
             setDate(selectedDate);
         }}
         onCancel={()=>{
