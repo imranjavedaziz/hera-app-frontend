@@ -271,7 +271,7 @@ const SmRegister = () => {
         mode={'date'}
         onConfirm={(selectedDate)=>{
             setShow(false);
-            setValue('dob',moment(selectedDate).calendar());
+            setValue('dob',moment(selectedDate).format('MMM DD, YYYY'));
             setDate(selectedDate);
         }}
         onCancel={()=>{

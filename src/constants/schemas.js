@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import moment from 'moment';
 import { ValidationMessages } from './Strings';
 import { Value } from './FixedValues';
 
@@ -7,7 +8,9 @@ export const Regx = {
     SPECIAL_CHAR: /[|#\\/~^:,;?!&%$@*+]/,
     ALPHA: /[a-zA-Z]/,
     NUM: /[0-9]/,
-    OTP: /[0-9]{6,}$/
+    OTP: /[0-9]{6,}$/,
+    EMAIL:
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 }
 
 export const mobileSchema = yup.object().shape({
@@ -68,10 +71,21 @@ export const smRegisterSchema = yup.object().shape({
         .required(ValidationMessages.COMMON_REQUIRED),
     dob: yup
         .string()
-        .required(ValidationMessages.COMMON_REQUIRED),
+        .required(ValidationMessages.COMMON_REQUIRED)
+        .test(
+            "DOB",
+            "Invalid!",
+            value => {
+              return moment().diff(moment(value),'years') >= 18;
+            }
+        ),
     email: yup
         .string()
-        .required(ValidationMessages.COMMON_REQUIRED),
+        .required(ValidationMessages.COMMON_REQUIRED)
+        .matches(Regx.EMAIL, {
+            excludeEmptyString: true,
+            message: 'Invalid!',
+        }),
     password: yup
         .string()
         .required(ValidationMessages.COMMON_REQUIRED)
