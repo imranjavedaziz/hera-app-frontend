@@ -11,29 +11,27 @@ import {useNavigation} from '@react-navigation/native';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
-import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
-import {width} from '../../../utils/responsive';
 import openCamera from '../../../utils/openCamera';
-import {askCameraPermission} from '../../../utils/permissionManager';
-import Colors from '../../../constants/Colors';
-import { Fonts } from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
+import BottomSheetComp from '../../../components/BottomSheet';
+import styleSheet from '../../../styles/auth/smdonor/registerScreen';
+import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 
 const CreateGallery = ({route}) => {
   const navigation = useNavigation();
   const [gallery, setGallery] = useState(['', '', '', '', '', '']);
   const [gIndex, setGIndex] = useState(0);
-  const [video,setVideo] = useState('');
+  const [video, setVideo] = useState('');
+  const [isOpen, setOpen] = useState(false);
   const cb = image => {
     const gImages = gallery;
     gImages[gImages] = image.path;
-    console.log('image', image.path);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i === gIndex) {
-          console.log('image', image.path);
           return image.path;
         }
         return img;
@@ -41,142 +39,121 @@ const CreateGallery = ({route}) => {
     });
     setGIndex(gIndex + 1);
   };
-  const selectVideo = ()=>{
-    videoPicker()
-    .then(v=>{
-        console.log(v);
-        setVideo(v.path);
-    })
-  }
-  React.useEffect(() => {
-    console.log('route-', route.params);
-  }, [route]);
+  const selectVideo = () => {
+    videoPicker().then(v => {
+      setVideo(v.path);
+    });
+  };
   const headerComp = () => (
     <TouchableOpacity onPress={navigation.goBack}>
       <Text style={globalStyle.underlineText}>Later</Text>
     </TouchableOpacity>
   );
   return (
-    <Container
-      showHeader={true}
-      headerEnd={true}
-      headerComp={headerComp}
-      style={{marginHorizontal: 0}}>
-      <View style={globalStyle.mainContainer}>
-        <View style={{
-            borderWidth: 2,
-            borderColor: Colors.GREEN,
-            borderRadius: 40,
-            marginBottom: 15,
-        }}>
-          <Image
-            source={{uri: route.params.userImage}}
-            style={{width: 40, height: 40, borderRadius: 20, borderWidth: 2,borderColor: Colors.CLEAR}}
-          />
-        </View>
-        <Text style={globalStyle.screenTitle}>
-          {Strings.sm_create_gallery.Title}
-        </Text>
-        <View
-          style={[
-            globalStyle.screenSubTitle,
-            {marginBottom: 20, maxWidth: '90%'},
-          ]}
-          accessible={true}
-          accessibilityLabel={`${Strings.sm_create_gallery.Subtitle1} ${Strings.sm_create_gallery.Subtitle2} ${Strings.sm_create_gallery.Subtitle3}`}>
-          <Text
-            style={globalStyle.screenSubTitle}
-            numberOfLines={2}
-            accessible={false}>
-            {Strings.sm_create_gallery.Subtitle1}
+    <>
+      <Container
+        showHeader={true}
+        headerEnd={true}
+        headerComp={headerComp}
+        style={{marginHorizontal: 0}}>
+        <View style={globalStyle.mainContainer}>
+          <View style={styles.profileImgContainner}>
+            <Image
+              source={{uri: route.params.userImage}}
+              style={styles.profileImg}
+            />
+          </View>
+          <Text style={globalStyle.screenTitle}>
+            {Strings.sm_create_gallery.Title}
           </Text>
-          <Text
-            style={globalStyle.screenSubTitle}
-            accessible={false}
-            numberOfLines={1}>
-            {Strings.sm_create_gallery.Subtitle2}
-          </Text>
-          <Text
-            style={globalStyle.screenSubTitle}
-            accessible={false}
-            numberOfLines={1}>
-            {Strings.sm_create_gallery.Subtitle3}
-          </Text>
-          <Text style={{textAlign: 'center',marginTop: 5, color: Colors.BLACK,fontFamily: Fonts.OpenSansRegular}}>
-            You can upload maximum 6 photos
-          </Text>
-          <Text style={{textAlign: 'center', color: Colors.BLACK,fontFamily: Fonts.OpenSansRegular}}>
-            (png, jpeg format)
-          </Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexWrap: 'wrap',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          {gallery.map((img, index) => (
+          <View
+            style={[
+              globalStyle.screenSubTitle,
+              {marginBottom: 20, maxWidth: '90%'},
+            ]}
+            accessible={true}
+            accessibilityLabel={`${Strings.sm_create_gallery.Subtitle1} ${Strings.sm_create_gallery.Subtitle2} ${Strings.sm_create_gallery.Subtitle3}`}>
+            <Text
+              style={globalStyle.screenSubTitle}
+              numberOfLines={2}
+              accessible={false}>
+              {Strings.sm_create_gallery.Subtitle1}
+            </Text>
+            <Text
+              style={globalStyle.screenSubTitle}
+              accessible={false}
+              numberOfLines={1}>
+              {Strings.sm_create_gallery.Subtitle2}
+            </Text>
+            <Text
+              style={globalStyle.screenSubTitle}
+              accessible={false}
+              numberOfLines={1}>
+              {Strings.sm_create_gallery.Subtitle3}
+            </Text>
+            <Text style={styles.p1}>You can upload maximum 6 photos</Text>
+            <Text style={styles.p2}>(png, jpeg format)</Text>
+          </View>
+          <View style={styles.galleryImgContainer}>
+            {gallery.map((img, index) => (
+              <ImageBackground
+                key={index}
+                style={styles.galleryImgView}
+                imageStyle={{
+                  resizeMode: 'cover',
+                }}
+                source={img ? {uri: img} : null}>
+                {gIndex === index && (
+                  <TouchableOpacity onPress={() => setOpen(true)}>
+                    <Image source={Images.camera} style={styles.camIcon} />
+                  </TouchableOpacity>
+                )}
+              </ImageBackground>
+            ))}
+          </View>
+          <TouchableOpacity onPress={selectVideo}>
             <ImageBackground
-              key={index}
-              style={{
-                width: width / 3 - 2,
-                height: width / 3 - 2,
-                backgroundColor: Colors.BORDER_LINE,
-                marginTop: 3,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              style={styles.videoContainer}
+              source={video ? {uri: video} : null}
               imageStyle={{
-                resizeMode: 'cover',
-              }}
-              source={img ? {uri: img} : null}>
-              {gIndex === index && (
-                <TouchableOpacity onPress={() => openCamera(1, cb)}>
-                  <Image
-                    source={Images.camera}
-                    style={{
-                      tintColor: Colors.BLACK,
-                      maxWidth: 25,
-                      resizeMode: 'contain',
-                    }}
-                  />
-                </TouchableOpacity>
+                resizeMode: 'contain',
+              }}>
+              {!video ? (
+                <>
+                  <Text style={styles.videoTitle}>Upload Video</Text>
+                  <Text style={styles.videoPara}>Add a short 60 sec video</Text>
+                  <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
+                </>
+              ) : (
+                <Image source={Images.playButton} />
               )}
             </ImageBackground>
-          ))}
+          </TouchableOpacity>
+          <Button
+            label={Strings.sm_create_gallery.Btn}
+            onPress={() => navigation.navigate(Routes.Landing)}
+          />
         </View>
-        <TouchableOpacity onPress={selectVideo}>
-            <ImageBackground
-            style={{
-                width: width,
-                height: (width / 3 - 2) * 1.5,
-                backgroundColor: Colors.BORDER_LINE,
-                marginTop: 3,
-                alignItems: 'center',
-                justifyContent: 'center'
+      </Container>
+      <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
+        <View style={styleSheet.imgPickerContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              openCamera(0, cb);
             }}
-            source={video?{uri: video}:null}
-            imageStyle={{
-                resizeMode: 'contain'
+            style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
+            <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              openCamera(1, cb);
             }}
-            >
-                {
-                    !video ? (
-                        <>
-                            <Text style={{fontSize: 16,fontFamily: Fonts.OpenSansBold,color: Colors.BLACK}}>Upload Video</Text>
-                            <Text style={{fontSize: 13,fontFamily: Fonts.OpenSansRegular,color: Colors.BLACK}}>Add a short 60 sec video</Text>
-                            <Text style={{fontSize: 13,fontFamily: Fonts.OpenSansRegular,color: Colors.BLACK}}>(AVI, MOV, MP4 format)</Text>
-                        </>
-                    ):
-                    <Image source={Images.playButton}/>
-                }
-            </ImageBackground>
-        </TouchableOpacity>
-        <Button label={Strings.sm_create_gallery.Btn}
-         onPress={()=> navigation.navigate('Landing')} />
-      </View>
-    </Container>
+            style={styleSheet.pickerBtn}>
+            <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheetComp>
+    </>
   );
 };
 export default CreateGallery;

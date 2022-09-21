@@ -191,7 +191,7 @@ const Profile = ({navigation}) => {
           </View>
           
         </View>
-             <Text style={{fontSize:18}}>Upload Display Picture <Text style={[styles.label, {color: 'red'}]}>*</Text></Text>
+             <Text style={{fontSize:18,fontFamily: Fonts.OpenSansRegular,color: Colors.LABEL_BLACK,}}>Upload Display Picture <Text style={[styles.label, {color: 'red'}]}>*</Text></Text>
 
         {/* Image Upload End  */}
 
@@ -303,6 +303,7 @@ const Profile = ({navigation}) => {
                   secureTextEntry={!eyeshow}
                   containerStyle={{
                     marginVertical: 0,
+                    marginBottom: 5,
                   }}
                   error={errors && errors.set_password?.message}
                   endComponent={()=>(
@@ -334,11 +335,12 @@ const Profile = ({navigation}) => {
                             ? Colors.BLACK
                             : 'red',
                           marginLeft: 5,
+                          maxWidth: 13,resizeMode: 'contain'
                         }}
                         source={
                           validatePassword(value, msg.type)
                             ? Images.path
-                            : Images.information
+                            : Images.warning
                         }
                       />
                     )}

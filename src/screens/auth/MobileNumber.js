@@ -13,9 +13,9 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import Colors from '../../constants/Colors';
-import { sendSmsVerification } from "../../hooks/verifyOTP";
-import debounce from 'lodash.debounce';
-import login from '../../services/login';
+import {sendSmsVerification} from '../../hooks/verifyOTP';
+import styles from '../../styles/auth/mobileNumberScreen';
+import {Routes} from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -28,44 +28,15 @@ const MobileNumber = () => {
     resolver: yupResolver(mobileSchema),
   });
   const onSubmit = data => {
-    // console.log(data);
-    const ph = getValues('phone')
-  // const co = +91
-    sendSmsVerification(ph).then((sent) => {
-      navigation.navigate("OTP",{
-        phone_num: data
-
-      // }).catch((error)=>{
-
-      });
-    });
+    const ph = getValues('phone');
+    // sendSmsVerification(ph).then(sent => {
+    //   navigation.navigate('OTP', {
+    //     phone_num: data,
+    //   });
+    // });
+    navigation.navigate(Routes.OTP);
   };
   const text = getValues('phone');
-
-  // const signup = React.useCallback(
-    
-  //   debounce(async ()=>{
-  //     // console.log(text);
-  //     login(
-  //       route.params.type,
-  //       text,
-  //       selectedCountry,
-  //       setLoading,
-  //       setMobileValidation
-  //     ).then((data)=>{
-  //       navigation.navigate(OTP,{
-  //         phone_number:text,
-  //         country_code: selectedCountry.county_code,
-  //         type: route.params.type,
-  //         otp:data.otp
-  //       });
-  //     });
-  //   },500),[text]
-  // );
-
-
-
-
 
   const headerComp = () => (
     <CircleBtn
@@ -105,24 +76,14 @@ const MobileNumber = () => {
             {Strings.mobile.VerifyNumber}
           </Text>
         </View>
-        <View
-          style={{
-            flex: 0,
-            width: '100%',
-            flexDirection: 'row',
-          }}>
+        <View style={styles.inputRow}>
           <FloatingLabelInput
             label={Strings.mobile.Code}
             value="+1"
             disabled={true}
             editable={false}
-            containerStyle={{
-              width: 50,
-              marginRight: 20,
-            }}
-            inputStyle={{
-              color: Colors.BORDER_LINE,
-            }}
+            containerStyle={styles.contryCodeContainer}
+            inputStyle={styles.countryCodeInput}
           />
           <Controller
             control={control}

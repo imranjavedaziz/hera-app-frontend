@@ -1,7 +1,7 @@
 
 const BASE_URL = 'https://4a64-103-82-82-141.in.ngrok.io';
 
-const sendSmsVerification = async (phoneNumber) => {
+export const sendSmsVerification = async (phoneNumber) => {
   try {
     const data = JSON.stringify({
       country_code: "+91",
@@ -27,7 +27,7 @@ const sendSmsVerification = async (phoneNumber) => {
   }
  };
 
-const checkVerification = async (phoneNumber, code) => {
+ export const checkVerification = async (phoneNumber, code) => {
   try {
     const data = JSON.stringify({
       country_code: +91 ,
@@ -56,7 +56,4 @@ const checkVerification = async (phoneNumber, code) => {
   }
 };
 
-module.exports = {
-  sendSmsVerification,
-  checkVerification,
-};
+

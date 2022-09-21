@@ -1,6 +1,6 @@
 // OTP
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, TouchableOpacity, View, Keyboard} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -12,15 +12,16 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
-import Colors from '../../constants/Colors';
-import { checkVerification } from "../../hooks/verifyOTP";
+import {height} from '../../utils/responsive';
+import styles from '../../styles/auth/otpScreen';
+import { Routes } from '../../constants/Constants';
 import {useDispatch} from 'react-redux';
-import {showAppToast} from '../../redux/actions/loader';
 
 const OTP = ({route}) => {
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
   
-  const phoneNumber = route.params.phone_num.phone;
+  // const phoneNumber = route.params.phone_num.phone;
   const {
     handleSubmit,
     control,
@@ -34,21 +35,41 @@ const OTP = ({route}) => {
 
 
   const onSubmit = data => {
-    const code = getValues('otp')
-    console.log(phoneNumber);
-    console.log("my code ",code);
+    // const code = getValues('otp')
+    // console.log(phoneNumber);
+    // console.log("my code ",code);
 
-    checkVerification(phoneNumber, code).then((json) => {
-      console.log(json.message)
-      if(json.message === "OTP verified sucessfully."){
-        dispatch(showAppToast(false,"OTP verified sucessfully." ));
-        navigation.navigate('Profile');
-      }else{
-        dispatch(showAppToast(true,json.message ));
-      }
-    })
+    // checkVerification(phoneNumber, code).then((json) => {
+    //   console.log(json.message)
+    //   if(json.message === "OTP verified sucessfully."){
+    //     dispatch(showAppToast(false,"OTP verified sucessfully." ));
+    //     navigation.navigate('Profile');
+    //   }else{
+    //     dispatch(showAppToast(true,json.message ));
+    //   }
+    // })
     
+    navigation.navigate(Routes.Profile);
   };
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -57,8 +78,12 @@ const OTP = ({route}) => {
     />
   );
   return (
-    <Container scroller={true} showHeader={true} headerComp={headerComp} style={{marginHorizontal: 20}}>
-      <View style={globalStyle.mainContainer}>
+    <Container
+      scroller={true}
+      showHeader={true}
+      headerComp={headerComp}
+      style={{marginHorizontal: 10}}>
+      <View style={[globalStyle.mainContainer, {minHeight: height * 0.8}]}>
         <Text style={globalStyle.screenTitle}>{Strings.otp.title}</Text>
         <View
           style={{marginVertical: 20}}
@@ -77,12 +102,7 @@ const OTP = ({route}) => {
             {Strings.otp.subtitle2}
           </Text>
         </View>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            marginVertical: 20,
-          }}>
+        <View style={styles.errMsg}>
           {!isValid && errors.otp?.message && (
             <Text style={{color: 'red'}}>{errors.otp?.message}</Text>
           )}
@@ -97,40 +117,20 @@ const OTP = ({route}) => {
             )}
             name="otp"
           />
-        </View>
-        <Button
-          label={Strings.mobile.VERIFY}
-          onPress={handleSubmit(onSubmit)}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 20,
-          }}>
-          <Text
+          <View
             style={{
-              fontSize: 16,
-              lineHeight: 25,
-              textAlignVertical: 'center',
-              marginRight: 5,
-              color: Colors.BLACK,
+              position: isKeyboardVisible ? 'relative' : 'absolute',
+              bottom: 0,
+              marginTop: 20,
             }}>
-            Trouble recieving code?
-          </Text>
-          <TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 16,
-                lineHeight: 25,
-                fontWeight: 'bold',
-                textDecorationLine: 'underline',
-                textAlignVertical: 'center',
-                color: Colors.BLACK,
-              }}>
-              Send Again
-            </Text>
-          </TouchableOpacity>
+            <Button label={Strings.otp.Btn} onPress={handleSubmit(onSubmit)} />
+            <View style={styles.troubleRow}>
+              <Text style={styles.trouble}>{Strings.otp.Trouble}</Text>
+              <TouchableOpacity>
+                <Text style={styles.resend}>{Strings.otp.SendAgain}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     </Container>

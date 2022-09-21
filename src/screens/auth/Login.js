@@ -15,6 +15,7 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import { showAppToast } from '../../redux/actions/loader';
 import { loginSchema } from '../../constants/schemas';
+import { Routes } from '../../constants/Constants';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -31,7 +32,6 @@ const Login = () => {
   useEffect(() => {
     if (!isValid) {
       const e = errors;
-      console.log('errors-',errors);
       const messages = [];
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
       const msg = messages.join('\n').trim();
@@ -109,7 +109,7 @@ const Login = () => {
           <Text
             style={styles.underlineBtn}
             accessible={false}
-            onPress={() => navigation.navigate('MobileNumber')}>
+            onPress={() => navigation.navigate(Routes.MobileNumber)}>
             {Strings.login.NewUser}
           </Text>
         </TouchableOpacity>

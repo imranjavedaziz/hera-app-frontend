@@ -51,7 +51,7 @@ export default {
   },
   mobile: {
     AccountVerification: 'Account Verification',
-    BeforProceed: 'Befor we proceed,',
+    BeforProceed: 'Before we proceed,',
     VerifyNumber: 'please verify your number',
     Code: 'Code',
     MobileNumber: 'Mobile Number',
@@ -85,6 +85,9 @@ export default {
     title: 'Verify your mobile',
     subtitle1: 'Enter the 6-digit verification',
     subtitle2: 'code sent to your number',
+    Btn: 'Submit',
+    Trouble: 'Trouble recieving code?',
+    SendAgain: 'Send Again',
   },
   sm_register: {
     FirstName: 'First Name',
@@ -110,6 +113,7 @@ export default {
     Occupation: 'Occupation (Optional)',
     SexualOrientation: 'Sexual Orientation',
     Bio: 'Add a Short Bio (Max 250 Char)',
+    Btn: 'Save Profile'
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -121,6 +125,7 @@ export default {
     Weight: 'Weight',
     EyeColor: 'Eye Color',
     HairColor: 'Hair Color',
+    Btn: 'Save',
   },
   sm_create_gallery: {
     Title: 'Create your gallery',

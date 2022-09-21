@@ -11,7 +11,7 @@ import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
-import {Static} from '../../../constants/Constants';
+import {Static, Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 
 const SetAttributes = ({route}) => {
@@ -24,8 +24,7 @@ const SetAttributes = ({route}) => {
     resolver: yupResolver(smSetAttributesSchema),
   });
   const onSubmit = data => {
-    console.log(data);
-    navigation.navigate('CreateGallery',{...data,...route.params});
+    navigation.navigate(Routes.CreateGallery,{...data,...route.params});
   };
   const headerComp = () => (
     <CircleBtn
@@ -53,8 +52,7 @@ const SetAttributes = ({route}) => {
               <Dropdown
                 label={Strings.sm_set_attributes.Height}
                 data={Static.height}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                onSelect={(selectedItem) => {
                   onChange(selectedItem);
                 }}
                 required={true}
@@ -69,8 +67,7 @@ const SetAttributes = ({route}) => {
               <Dropdown
                 label={Strings.sm_set_attributes.Race}
                 data={Static.race}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                onSelect={(selectedItem) => {
                   onChange(selectedItem);
                 }}
                 required={true}
@@ -85,8 +82,7 @@ const SetAttributes = ({route}) => {
               <Dropdown
                 label={Strings.sm_set_attributes.MotherEthnicity}
                 data={Static.location}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                onSelect={(selectedItem) => {
                   onChange(selectedItem);
                 }}
                 required={true}
@@ -101,8 +97,7 @@ const SetAttributes = ({route}) => {
               <Dropdown
                 label={Strings.sm_set_attributes.FatheEthnicity}
                 data={Static.ethnicity}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                onSelect={(selectedItem) => {
                   onChange(selectedItem);
                 }}
                 required={true}
@@ -117,8 +112,7 @@ const SetAttributes = ({route}) => {
               <Dropdown
                 label={Strings.sm_set_attributes.Weight}
                 data={Static.weight}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                onSelect={(selectedItem) => {
                   onChange(selectedItem);
                 }}
                 required={true}
@@ -133,8 +127,7 @@ const SetAttributes = ({route}) => {
               <Dropdown
                 label={Strings.sm_set_attributes.EyeColor}
                 data={Static.eyeColors}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                onSelect={(selectedItem) => {
                   onChange(selectedItem);
                 }}
                 required={true}
@@ -149,8 +142,7 @@ const SetAttributes = ({route}) => {
               <Dropdown
                 label={Strings.sm_set_attributes.HairColor}
                 data={Static.eyeColors}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
+                onSelect={(selectedItem) => {
                   onChange(selectedItem);
                 }}
                 required={true}
@@ -160,7 +152,7 @@ const SetAttributes = ({route}) => {
             name="hair"
           />
           <Button
-            label={Strings.sm_register.Btn}
+            label={Strings.sm_set_attributes.Btn}
             onPress={handleSubmit(onSubmit)}
           />
         </View>

@@ -70,3 +70,15 @@ export const Static = {
   ethnicity:['Ethnicity','Ethnicity','Ethnicity','Ethnicity']
 
 }
+export const Routes = {
+  Landing: 'Landing',
+  Login: 'Login',
+  MobileNumber: 'MobileNumber',
+  OTP: 'OTP',
+  SmRegister: 'SmRegister',
+  SmBasicDetails: 'SmBasicDetails',
+  SetAttributes: 'SetAttributes',
+  CreateGallery: 'CreateGallery',
+  Profile: 'Profile',
+  SetPreference: 'SetPreference',
+}

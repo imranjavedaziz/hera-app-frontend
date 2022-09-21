@@ -22,7 +22,8 @@ import {setPreferenceSchema} from '../../constants/schemas';
 import Range from '../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import Dropdown from '../../components/inputs/Dropdown';
-import {Static} from '../../constants/Constants';
+import {genders, Static,Routes} from '../../constants/Constants';
+import style from './Stylepreference';
 
 const initialState = {
   hair: [
@@ -123,7 +124,7 @@ const SetPreference = ({navigation}) => {
         return;
       }
       if (hc !== 5 && ec !== 5) {
-        navigation.navigate('Landing');
+        navigation.navigate(Routes.Landing);
       }
     });
   };
@@ -201,6 +202,30 @@ const SetPreference = ({navigation}) => {
             marginTop: 50,
           }}>
           <Text style={{marginBottom: 17}}>Who are you looking for?<Text style={{color: 'red', fontSize:18}}>*</Text></Text>
+          {/* <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <View style={style.radioContainer}>
+                {genders.map(gender => (
+                  <TouchableOpacity
+                    style={style.radioBtn}
+                    key={gender}
+                    onPress={() => onChange(gender)}>
+                    <Image
+                      style={style.radioImg}
+                      source={
+                        value === gender
+                          ? Images.iconRadiosel
+                          : Images.iconRadiounsel
+                      }
+                    />
+                    <Text style={styles.radioLabel}>{gender}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+            name="gender"
+          /> */}
           <View>
             <TouchableOpacity
               style={{flexDirection: 'row'}}
