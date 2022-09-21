@@ -103,7 +103,7 @@ const Profile = ({navigation}) => {
     />
   );
   const cb = image => {
-    setUserImage(image.sourceURL);
+    setUserImage(image.path);
   };
   const onSubmit = data => {
     if (!userImage) {
@@ -298,6 +298,7 @@ const Profile = ({navigation}) => {
                   secureTextEntry={true}
                   containerStyle={{
                     marginVertical: 0,
+                    marginBottom: 5,
                   }}
                   error={errors && errors.set_password?.message}
                 />
@@ -324,11 +325,12 @@ const Profile = ({navigation}) => {
                             ? Colors.BLACK
                             : 'red',
                           marginLeft: 5,
+                          maxWidth: 13,resizeMode: 'contain'
                         }}
                         source={
                           validatePassword(value, msg.type)
                             ? Images.path
-                            : Images.information
+                            : Images.warning
                         }
                       />
                     )}

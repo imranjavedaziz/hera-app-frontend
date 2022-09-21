@@ -74,8 +74,6 @@ const SetPreference = ({navigation}) => {
   const [egg, setEgg] = useState(false);
   const [state, dis] = useReducer(reducer, initialState);
   const [height, setHeight] = useState([48,84]);
-
-
   const {
     handleSubmit,
     control,
@@ -214,7 +212,7 @@ const SetPreference = ({navigation}) => {
       return;
       }
     })
-
+    navigation.navigate('Landing');
   
   };
   return (
