@@ -67,3 +67,15 @@ export const Static = {
   ethnicity: ['Hispanic and Latino Americans','African Americans','White people','Mexicans','Asian Americans','Alaska Natives','Non-Hispanic whites','American Indian group','Hispanic','Black people','Asian people'],
   location:['India', "America","Alaska Native" ]
 }
+export const Routes = {
+  Landing: 'Landing',
+  Login: 'Login',
+  MobileNumber: 'MobileNumber',
+  OTP: 'OTP',
+  SmRegister: 'SmRegister',
+  SmBasicDetails: 'SmBasicDetails',
+  SetAttributes: 'SetAttributes',
+  CreateGallery: 'CreateGallery',
+  Profile: 'Profile',
+  SetPreference: 'SetPreference',
+}

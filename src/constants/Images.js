@@ -44,6 +44,6 @@ export default {
     warning: require('../assets/icons/warning/warning.png'),
     path: require('../assets/icons/path/path.png'),
     // IMAGES
-    LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
-    LOGO: require('../assets/Images/logo/logo.png'),
+    LANDING_BG: require('../assets/images/landing-bg/landing-bg.png'),
+    LOGO: require('../assets/images/logo/logo.png'),
 }

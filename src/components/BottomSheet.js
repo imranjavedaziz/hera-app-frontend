@@ -19,8 +19,20 @@ const BottomSheetComp = (props)=>{
             <BottomSheet isOpen={isOpen} ref={ref => panelRef.current = ref} sliderMinHeight={0} onClose={()=>{
                 setOpen(false);
             }}
+            outerContentStyle={{
+                borderRadius: 0,
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
+            }}
+            innerContentStyle={{
+                borderRadius: 0,
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
+            }}
             wrapperStyle={{
                 borderRadius: 0,
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
             }}>
                 {children}
             </BottomSheet>

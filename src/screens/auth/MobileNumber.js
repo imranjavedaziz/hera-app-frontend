@@ -12,7 +12,8 @@ import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
-import Colors from '../../constants/Colors';
+import styles from '../../styles/auth/mobileNumberScreen';
+import { Routes } from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -24,8 +25,7 @@ const MobileNumber = () => {
     resolver: yupResolver(mobileSchema),
   });
   const onSubmit = data => {
-    console.log(data);
-    navigation.navigate("OTP");
+    navigation.navigate(Routes.OTP);
   };
   const headerComp = () => (
     <CircleBtn
@@ -65,24 +65,14 @@ const MobileNumber = () => {
             {Strings.mobile.VerifyNumber}
           </Text>
         </View>
-        <View
-          style={{
-            flex: 0,
-            width: '100%',
-            flexDirection: 'row',
-          }}>
+        <View style={styles.inputRow}>
           <FloatingLabelInput
             label={Strings.mobile.Code}
             value="+1"
             disabled={true}
             editable={false}
-            containerStyle={{
-              width: 50,
-              marginRight: 20,
-            }}
-            inputStyle={{
-              color: Colors.BORDER_LINE,
-            }}
+            containerStyle={styles.contryCodeContainer}
+            inputStyle={styles.countryCodeInput}
           />
           <Controller
             control={control}

@@ -15,16 +15,12 @@ import Container from '../components/Container';
 import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
 import Strings from '../constants/Strings';
+import { Routes } from '../constants/Constants';
 
 const Landing = () => {
   const navigation = useNavigation();
   return (
     <View style={{flex: 1}}>
-      {/* <ImageBackground
-        source={Images.LANDING_BG}
-        style={styles.bgContainer}
-        imageStyle={styles.bgImg}
-      /> */}
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
@@ -35,11 +31,11 @@ const Landing = () => {
           <View style={styles.btnContainer}>
             <Button
               label={Strings.landing.LOG_IN}
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate(Routes.Login)}
             />
             <Button
               label={Strings.landing.REGISTER}
-              onPress={() => navigation.navigate('MobileNumber')}
+              onPress={() => navigation.navigate(Routes.MobileNumber)}
             />
           </View>
         </View>

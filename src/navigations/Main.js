@@ -2,8 +2,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
+import { Routes } from '../constants/Constants';
 // Screens
-import VideoUpload from '../screens/VideoUpload';
 import Profile from '../screens/DetailsPTB/Profile';
 import SetPreference from '../screens/DetailsPTB/SetPreference';
 import Landing from '../screens/Landing';
@@ -30,52 +30,52 @@ const Main = () => {
       <Stack.Navigator  >
       
         <Stack.Screen
-          name="Landing"
+          name={Routes.Landing}
           component={Landing}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Login"
+          name={Routes.Login}
           component={Login}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="MobileNumber"
+          name={Routes.MobileNumber}
           component={MobileNumber}
           options={{headerShown: false}}
         />
          <Stack.Screen
-          name="Profile"
+          name={Routes.Profile}
           component={Profile}
           options={{headerShown: false}}
         />
         <Stack.Screen 
-          name="SetPreference"
+          name={Routes.SetPreference}
           component={SetPreference}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="OTP"
+          name={Routes.OTP}
           component={OTP}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="SmRegister"
+          name={Routes.SmRegister}
           component={SmRegister}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="SmBasicDetails"
+          name={Routes.SmBasicDetails}
           component={SmBasicDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="SetAttributes"
+          name={Routes.SetAttributes}
           component={SetAttributes}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="CreateGallery"
+          name={Routes.CreateGallery}
           component={CreateGallery}
           options={{headerShown: false}}
         />

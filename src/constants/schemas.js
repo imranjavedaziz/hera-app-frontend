@@ -43,20 +43,7 @@ export const loginSchema = yup.object().shape({
     }),
   password: yup
     .string()
-    .required(ValidationMessages.PASSWORD_REQUIRED)
-    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
-    .matches(Regx.SPECIAL_CHAR, {
-      excludeEmptyString: true,
-      message: ValidationMessages.SPECIAL_CHAR,
-    })
-    .matches(Regx.ALPHA, {
-      excludeEmptyString: true,
-      message: ValidationMessages.ALPHA_NUM,
-    })
-    .matches(Regx.NUM, {
-      excludeEmptyString: true,
-      message: ValidationMessages.ALPHA_NUM,
-    }),
+    .required(ValidationMessages.PASSWORD_REQUIRED),
 });
 export const parentRegisterSchema = yup.object().shape({
   first_name: yup.string().required(ValidationMessages.FIRST_NAME),
@@ -107,18 +94,18 @@ export const smRegisterSchema = yup.object().shape({
   password: yup
     .string()
     .required(ValidationMessages.COMMON_REQUIRED)
-    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .min(Value.CONSTANT_VALUE_8, '')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: ValidationMessages.SPECIAL_CHAR,
+      message: '',
     })
     .matches(Regx.ALPHA, {
       excludeEmptyString: true,
-      message: ValidationMessages.ALPHA_NUM,
+      message: '',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: ValidationMessages.ALPHA_NUM,
+      message: '',
     }),
   confirm_password: yup
     .string()

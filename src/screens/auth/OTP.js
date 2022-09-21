@@ -1,6 +1,6 @@
 // OTP
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, TouchableOpacity, View, Keyboard} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -12,9 +12,12 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
-import Colors from '../../constants/Colors';
+import {height} from '../../utils/responsive';
+import styles from '../../styles/auth/otpScreen';
+import { Routes } from '../../constants/Constants';
 
 const OTP = () => {
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
   const {
     handleSubmit,
@@ -24,9 +27,27 @@ const OTP = () => {
     resolver: yupResolver(otpSchema),
   });
   const onSubmit = data => {
-    console.log(data);
-    navigation.navigate('Profile');
+    navigation.navigate(Routes.Profile);
   };
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -35,8 +56,12 @@ const OTP = () => {
     />
   );
   return (
-    <Container scroller={true} showHeader={true} headerComp={headerComp} style={{marginHorizontal: 20}}>
-      <View style={globalStyle.mainContainer}>
+    <Container
+      scroller={true}
+      showHeader={true}
+      headerComp={headerComp}
+      style={{marginHorizontal: 10}}>
+      <View style={[globalStyle.mainContainer, {minHeight: height * 0.8}]}>
         <Text style={globalStyle.screenTitle}>{Strings.otp.title}</Text>
         <View
           style={{marginVertical: 20}}
@@ -55,12 +80,7 @@ const OTP = () => {
             {Strings.otp.subtitle2}
           </Text>
         </View>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            marginVertical: 20,
-          }}>
+        <View style={styles.errMsg}>
           {!isValid && errors.otp?.message && (
             <Text style={{color: 'red'}}>{errors.otp?.message}</Text>
           )}
@@ -75,40 +95,20 @@ const OTP = () => {
             )}
             name="otp"
           />
-        </View>
-        <Button
-          label={Strings.mobile.VERIFY}
-          onPress={handleSubmit(onSubmit)}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 20,
-          }}>
-          <Text
+          <View
             style={{
-              fontSize: 16,
-              lineHeight: 25,
-              textAlignVertical: 'center',
-              marginRight: 5,
-              color: Colors.BLACK,
+              position: isKeyboardVisible ? 'relative' : 'absolute',
+              bottom: 0,
+              marginTop: 20,
             }}>
-            Trouble recieving code?
-          </Text>
-          <TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 16,
-                lineHeight: 25,
-                fontWeight: 'bold',
-                textDecorationLine: 'underline',
-                textAlignVertical: 'center',
-                color: Colors.BLACK,
-              }}>
-              Send Again
-            </Text>
-          </TouchableOpacity>
+            <Button label={Strings.otp.Btn} onPress={handleSubmit(onSubmit)} />
+            <View style={styles.troubleRow}>
+              <Text style={styles.trouble}>{Strings.otp.Trouble}</Text>
+              <TouchableOpacity>
+                <Text style={styles.resend}>{Strings.otp.SendAgain}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
     </Container>

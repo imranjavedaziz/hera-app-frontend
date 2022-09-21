@@ -100,7 +100,6 @@ const OtpInputs = ({onChange,isValid=true}) => {
   },[isValid])
   useEffect(()=>{
     const otp = code.join('');
-    console.log('otp-',otp);
     onChange(otp);
   },[code])
   return (
