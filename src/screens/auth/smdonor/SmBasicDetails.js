@@ -28,7 +28,7 @@ const SmBasicDetails = ({route}) => {
   });
   const onSubmit = (data)=>{
     console.log(data);
-    navigation.navigate('SetAttributes',{...data,...route.params});
+    navigation.navigate('SetPreference',{...data,...route.params});
   }
   const headerComp = () => (
     <CircleBtn

@@ -13,7 +13,7 @@ import OTP from '../screens/auth/OTP';
 import SmRegister from '../screens/auth/smdonor/SmRegister';
 import CustomExample from '../screens/DetailsPTB/CustomExample'
 import Example from '../screens/DetailsPTB/Example';
-import Range from '../screens/DetailsPTB/Range';
+import Range from '../components/RangeSlider';
 import SmBasicDetails from '../screens/auth/smdonor/SmBasicDetails';
 import SetAttributes from '../screens/auth/smdonor/SetAttributes';
 import CreateGallery from '../screens/auth/smdonor/CreateGallery';
@@ -25,9 +25,9 @@ const Main = () => {
       onReady={() => RNBootSplash.hide()}
       
     >
-      {/* initialRouteName="SetPreference" */}
+      {/* initialRouteName="Profile" */}
 
-      <Stack.Navigator initialRouteName="SetPreference" >
+      <Stack.Navigator initialRouteName="Landing"  >
       
         <Stack.Screen
           name="Landing"

@@ -13,19 +13,41 @@ import Strings from '../../constants/Strings';
 import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
 import Colors from '../../constants/Colors';
+import { checkVerification } from "../../hooks/verifyOTP";
+import {useDispatch} from 'react-redux';
+import {showAppToast} from '../../redux/actions/loader';
 
-const OTP = () => {
+const OTP = ({route}) => {
   const navigation = useNavigation();
+  
+  const phoneNumber = route.params.phone_num.phone;
   const {
     handleSubmit,
     control,
+    getValues,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(otpSchema),
   });
+
+  const dispatch = useDispatch();
+
+
   const onSubmit = data => {
-    console.log(data);
-    navigation.navigate('Profile');
+    const code = getValues('otp')
+    console.log(phoneNumber);
+    console.log("my code ",code);
+
+    checkVerification(phoneNumber, code).then((json) => {
+      console.log(json.message)
+      if(json.message === "OTP verified sucessfully."){
+        dispatch(showAppToast(false,"OTP verified sucessfully." ));
+        navigation.navigate('Profile');
+      }else{
+        dispatch(showAppToast(true,json.message ));
+      }
+    })
+    
   };
   const headerComp = () => (
     <CircleBtn

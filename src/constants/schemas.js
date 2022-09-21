@@ -59,9 +59,11 @@ export const loginSchema = yup.object().shape({
     }),
 });
 export const parentRegisterSchema = yup.object().shape({
-  first_name: yup.string().required(ValidationMessages.FIRST_NAME),
-  middle_name: yup.string(),
-  last_name: yup.string().required(ValidationMessages.LAST_NAME),
+  first_name: yup.string()
+  .required(ValidationMessages.FIRST_NAME)
+  .max(30,ValidationMessages.MAX_FIRST_NAME),
+  middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
+  last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
   date_of_birth: yup.string().required(ValidationMessages.DOB)
   .test(
     "DOB",
@@ -134,6 +136,12 @@ export const setPreferenceSchema = yup.object().shape({
  race: yup
  .string()
  .required(ValidationMessages.RACE),
+
+ eye: yup.string().required("Employee Number required."),
+
+//  state: yup
+//  .string()
+//  .required("Plz fill state")
 
 //  ethnicity: yup
 //  .string()

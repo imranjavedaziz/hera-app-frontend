@@ -173,7 +173,8 @@ const CreateGallery = ({route}) => {
                 }
             </ImageBackground>
         </TouchableOpacity>
-        <Button label={Strings.sm_create_gallery.Btn} />
+        <Button label={Strings.sm_create_gallery.Btn}
+         onPress={()=> navigation.navigate('Landing')} />
       </View>
     </Container>
   );

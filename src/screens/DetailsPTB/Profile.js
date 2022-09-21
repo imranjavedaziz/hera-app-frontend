@@ -64,6 +64,7 @@ const validatePassword = (value, type) => {
 
 const Profile = ({navigation}) => {
   const [show, setShow] = useState(false);
+  const [eyeshow, setEyeShow] = useState(false);
   const [date, setDate] = useState();
 
   const [userImage, setUserImage] = useState('');
@@ -103,7 +104,8 @@ const Profile = ({navigation}) => {
     />
   );
   const cb = image => {
-    setUserImage(image.sourceURL);
+    console.log('image',image);
+    setUserImage(image.path);
   };
   const onSubmit = data => {
     if (!userImage) {
@@ -114,7 +116,7 @@ const Profile = ({navigation}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    navigation.navigate('SetPreference');
+    navigation.navigate('SmBasicDetails');
   };
 
   return (
@@ -132,7 +134,7 @@ const Profile = ({navigation}) => {
           {Strings.profile.makeAccountFor}
         </Text>
         <View
-          style={{marginVertical: 20}}
+          style={{marginVertical: 15}}
           accessible={true}
           accessibilityLabel={`${Strings.profile.parentToBe}`}>
           <Text
@@ -187,7 +189,9 @@ const Profile = ({navigation}) => {
               </TouchableOpacity>
             </ImageBackground>
           </View>
+          
         </View>
+             <Text style={{fontSize:18}}>Upload Display Picture <Text style={[styles.label, {color: 'red'}]}>*</Text></Text>
 
         {/* Image Upload End  */}
 
@@ -224,6 +228,7 @@ const Profile = ({navigation}) => {
                 containerStyle={{
                   flex: 1,
                 }}
+                error={errors && errors.middle_name?.message}
               />
             )}
             name="middle_name"
@@ -244,6 +249,23 @@ const Profile = ({navigation}) => {
               />
             )}
             name="last_name"
+          />
+           <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.profile.EmailAddress}
+                value={value}
+                onChangeText={v => onChange(v)}
+                fontWeight={'bold'}
+                required={true}
+                error={errors && errors.email?.message}
+                containerStyle={{
+                  flex: 1,
+                }}
+              />
+            )}
+            name="email"
           />
           <Controller
             control={control}
@@ -268,23 +290,6 @@ const Profile = ({navigation}) => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.profile.EmailAddress}
-                value={value}
-                onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
-                required={true}
-                error={errors && errors.email?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
-              />
-            )}
-            name="email"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
               <View
                 style={{
                   width: '100%',
@@ -295,11 +300,16 @@ const Profile = ({navigation}) => {
                   value={value}
                   onChangeText={v => onChange(v)}
                   required={true}
-                  secureTextEntry={true}
+                  secureTextEntry={!eyeshow}
                   containerStyle={{
                     marginVertical: 0,
                   }}
                   error={errors && errors.set_password?.message}
+                  endComponent={()=>(
+                    <TouchableOpacity onPress={()=>setEyeShow(!eyeshow)}>
+                      <Image source={eyeshow?Images.eye:Images.eye2}/>
+                    </TouchableOpacity>
+                  )}
                 />
                 {pwdErrMsg.map(msg => (
                   <View

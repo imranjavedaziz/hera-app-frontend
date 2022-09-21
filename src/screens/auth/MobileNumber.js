@@ -13,20 +13,60 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import Colors from '../../constants/Colors';
+import { sendSmsVerification } from "../../hooks/verifyOTP";
+import debounce from 'lodash.debounce';
+import login from '../../services/login';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
   const {
     handleSubmit,
+    getValues,
     control,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(mobileSchema),
   });
   const onSubmit = data => {
-    console.log(data);
-    navigation.navigate("OTP");
+    // console.log(data);
+    const ph = getValues('phone')
+  // const co = +91
+    sendSmsVerification(ph).then((sent) => {
+      navigation.navigate("OTP",{
+        phone_num: data
+
+      // }).catch((error)=>{
+
+      });
+    });
   };
+  const text = getValues('phone');
+
+  // const signup = React.useCallback(
+    
+  //   debounce(async ()=>{
+  //     // console.log(text);
+  //     login(
+  //       route.params.type,
+  //       text,
+  //       selectedCountry,
+  //       setLoading,
+  //       setMobileValidation
+  //     ).then((data)=>{
+  //       navigation.navigate(OTP,{
+  //         phone_number:text,
+  //         country_code: selectedCountry.county_code,
+  //         type: route.params.type,
+  //         otp:data.otp
+  //       });
+  //     });
+  //   },500),[text]
+  // );
+
+
+
+
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}

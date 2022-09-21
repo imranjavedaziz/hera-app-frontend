@@ -28,8 +28,9 @@ export const ValidationMessages = {
   INVALID_OTP: 'OTP is not valid',
   LOCATION:'Please select your Location preference',
   RACE:'Please select your race preference',
-  
-
+  MAX_FIRST_NAME: 'First name must be at most 30 characters',
+  MAX_MIDDLE_NAME:'Middle name must be at most 30 characters',
+  MAX_LAST_NAME:'Last name must be at most 30 characters',
 
 
 };

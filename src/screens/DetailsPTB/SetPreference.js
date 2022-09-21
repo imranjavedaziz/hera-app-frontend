@@ -5,7 +5,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import React, {useState, useReducer} from 'react';
 
@@ -13,7 +12,6 @@ import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
-import FloatingLabelInput from '../../components/FloatingLabelInput';
 import {showAppToast} from '../../redux/actions/loader';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
@@ -21,8 +19,7 @@ import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {setPreferenceSchema} from '../../constants/schemas';
-import Example from './Example';
-import Range from '../DetailsPTB/Range';
+import Range from '../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import Dropdown from '../../components/inputs/Dropdown';
 import {Static} from '../../constants/Constants';
@@ -40,7 +37,6 @@ const initialState = {
     {title: 'Blue', flag: false},
     {title: 'Green', flag: false},
     {title: 'Hazel', flag: false},
-    ,
     {title: 'Brown', flag: false},
   ],
   age_range: [
@@ -71,7 +67,7 @@ const SetPreference = ({navigation}) => {
   const [donor, setDonor] = useState(false);
   const [egg, setEgg] = useState(false);
   const [state, dis] = useReducer(reducer, initialState);
-  const [height, setHeight] = useState([48, 84]);
+  const [height, setHeight] = useState([58, 84]);
 
   const {
     handleSubmit,
@@ -83,13 +79,29 @@ const SetPreference = ({navigation}) => {
     resolver: yupResolver(setPreferenceSchema),
   });
 
-  const onSubmit = data => {
+  // React.useEffect(() => {
+  //   // if (!isValid) {
+  //   //   const e = errors;
+  //   //   console.log('errors-',errors);
+  //   //   const messages = [];
+  //   //   Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+  //   //   const msg = messages.join('\n').trim();
+  //   //   if(msg){
+  //   //     console.log("----->",messages.length)
+  //   //   dispatch(showAppToast(false,"Please provide all the mandatory details."));
+  //   //   }
+      
+  //   // }
+  // }, [errors, isValid]);
 
+ 
+
+  const onSubmit = data => {
     console.log(data);
-    if(surrogate == false && donor == false && egg== false ){
-          dispatch(showAppToast(true,ValidationMessages.SELECT_LOOKING ));
-          return;
-        }
+    if (surrogate == false && donor == false && egg == false) {
+      dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
+      return;
+    }
     let hc = 0;
     state.hair.map(i => {
       if (i.flag === false) {
@@ -105,11 +117,13 @@ const SetPreference = ({navigation}) => {
     state.eye.map(i => {
       if (i.flag === false) {
         ec++;
-        console.log(ec);
       }
       if (ec === 5) {
         dispatch(showAppToast(true, ValidationMessages.SELECT_EYE));
         return;
+      }
+      if (hc !== 5 && ec !== 5) {
+        navigation.navigate('Landing');
       }
     });
   };
@@ -150,21 +164,9 @@ const SetPreference = ({navigation}) => {
     />
   );
 
-  React.useEffect(() => {
-    if (!isValid) {
-      const e = errors;
-      console.log('errors-', errors);
-      const messages = [];
-      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-      const msg = messages.join('\n').trim();
-      if (msg) dispatch(showAppToast(true, msg));
-    }
 
-  }, [errors, isValid]);
   const dispatch = useDispatch();
 
-
-  
   return (
     <Container
       scroller={true}
@@ -198,7 +200,7 @@ const SetPreference = ({navigation}) => {
             width: '100%',
             marginTop: 50,
           }}>
-          <Text style={{marginBottom: 17}}>Who are you looking for?</Text>
+          <Text style={{marginBottom: 17}}>Who are you looking for?<Text style={{color: 'red', fontSize:18}}>*</Text></Text>
           <View>
             <TouchableOpacity
               style={{flexDirection: 'row'}}
@@ -273,8 +275,8 @@ const SetPreference = ({navigation}) => {
                   console.log(selectedItem, index);
                   onChange(selectedItem);
                 }}
-                // required={true}
-                error={errors && errors.location?.message}
+                required={true}
+                // error={errors && errors.location?.message}
               />
             )}
             name="location"
@@ -326,7 +328,7 @@ const SetPreference = ({navigation}) => {
                 justifyContent: 'space-between',
                 paddingBottom: 10,
               }}>
-              <Text>Height</Text>
+              <Text>Height<Text style={{color: 'red', fontSize:18}}>*</Text></Text>
               <Text style={{fontWeight: 'bold'}}>
                 <Text>
                   {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
@@ -336,7 +338,6 @@ const SetPreference = ({navigation}) => {
                 </Text>
               </Text>
             </View>
-
             <Range value={height} setValue={setHeight} />
           </View>
 
@@ -352,8 +353,8 @@ const SetPreference = ({navigation}) => {
                   console.log(selectedItem, index);
                   onChange(selectedItem);
                 }}
-                // required={true}
-                error={errors && errors.race?.message}
+                required={true}
+                // error={errors && errors.race?.message}
               />
             )}
             name="race"
@@ -369,14 +370,14 @@ const SetPreference = ({navigation}) => {
                   console.log(selectedItem, index);
                   onChange(selectedItem);
                 }}
-                // required={true}
+                required={true}
                 error={errors && errors.ethnicity?.message}
               />
             )}
             name="ethnicity"
           />
 
-          <Text style={{marginVertical: 15, fontSize: 14}}>Hair Color</Text>
+          <Text style={{marginVertical: 15, fontSize: 14}}>Hair Color<Text style={{color: 'red', fontSize:18}}>*</Text></Text>
           <View
             style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 5}}>
             {state.hair.map((item, index) => {
@@ -413,7 +414,7 @@ const SetPreference = ({navigation}) => {
               );
             })}
           </View>
-          <Text style={{marginVertical: 15, fontSize: 14}}>Eye Color</Text>
+          <Text style={{marginVertical: 15, fontSize: 14}}>Eye Color<Text style={{color: 'red', fontSize:18}}>*</Text></Text>
           <View
             style={{
               flexDirection: 'row',
@@ -457,17 +458,22 @@ const SetPreference = ({navigation}) => {
           </View>
         </View>
 
-        <Button label={Strings.preference.Save}  onPress={handleSubmit(onSubmit)} />
         <Button
           label={Strings.preference.Save}
           onPress={handleSubmit(onSubmit)}
         />
       </View>
-  
     </Container>
   );
 };
 
 export default SetPreference;
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  label:{
+    position: 'absolute' ,
+    left: 0,
+    zIndex: -1,
+    color: Colors.LABEL_BLACK,
+  }
+});
