@@ -14,6 +14,7 @@ import SmRegister from '../screens/auth/smdonor/SmRegister';
 import SmBasicDetails from '../screens/auth/smdonor/SmBasicDetails';
 import SetAttributes from '../screens/auth/smdonor/SetAttributes';
 import CreateGallery from '../screens/auth/smdonor/CreateGallery';
+import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -24,7 +25,7 @@ const Main = () => {
     >
       {/* initialRouteName="Profile" */}
 
-      <Stack.Navigator  >
+      <Stack.Navigator initialRouteName="SetPreference" >
       
         <Stack.Screen
           name={Routes.Landing}
@@ -44,6 +45,11 @@ const Main = () => {
          <Stack.Screen
           name={Routes.Profile}
           component={Profile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen 
+          name={Routes.PtbBasicDetails}
+          component={PtbBasicDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen 

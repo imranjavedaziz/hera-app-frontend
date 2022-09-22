@@ -39,6 +39,7 @@ const Container = props => {
     headerEnd = false,
     headerComp = null,
     style = {},
+    safeAreViewStyle={},
   } = props;
   return (
     <>
@@ -48,8 +49,9 @@ const Container = props => {
         animated={true}
         hidden={false}
       />
-      <SafeAreaView style={styles.safearea}>
+       <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
         <KeyboardAvoidingView
+        
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}

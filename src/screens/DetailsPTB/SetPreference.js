@@ -24,6 +24,7 @@ import Strings, {ValidationMessages} from '../../constants/Strings';
 import Dropdown from '../../components/inputs/Dropdown';
 import {genders, Static,Routes} from '../../constants/Constants';
 import style from './Stylepreference';
+import BottomSheetComp from '../../components/BottomSheet';
 
 const initialState = {
   hair: [
@@ -69,7 +70,8 @@ const SetPreference = ({navigation}) => {
   const [egg, setEgg] = useState(false);
   const [state, dis] = useReducer(reducer, initialState);
   const [height, setHeight] = useState([58, 84]);
-
+  const [isOpen, setOpen] = useState(false);
+  
   const {
     handleSubmit,
     control,
@@ -160,7 +162,7 @@ const SetPreference = ({navigation}) => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
-      onPress={() => alert('Navigate settings')}
+      onPress={() => setOpen(true)}
       accessibilityLabel="Cross Button, Go back"
     />
   );
@@ -169,12 +171,16 @@ const SetPreference = ({navigation}) => {
   const dispatch = useDispatch();
 
   return (
+    <>
     <Container
       scroller={true}
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}
       // style={{ borderWidth:1}}
+      safeAreViewStyle={
+        isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
+      }
     >
       <View
         style={{
@@ -489,6 +495,36 @@ const SetPreference = ({navigation}) => {
         />
       </View>
     </Container>
+     <BottomSheetComp
+     wrapperStyle={globalStyle.wrapperStyle}
+     lineStyle={{width:20, backgroundColor:'#494947'}}
+     isOpen={isOpen}
+     setOpen={setOpen}>
+     <View
+       style={globalStyle.basicSheetContainer}>
+       <TouchableOpacity
+         style={globalStyle.formBtn}>
+         <Text
+           style={globalStyle.formText}>
+           Inquiry Form
+         </Text>
+       </TouchableOpacity>
+       <TouchableOpacity
+         style={globalStyle.heraBtn}>
+         <Text
+           style={globalStyle.heraText}>
+           About HERA
+         </Text>
+       </TouchableOpacity>
+       <TouchableOpacity style={globalStyle.logoutBtn}>
+         <Text
+           style={globalStyle.logoutText}>
+           Log Out
+         </Text>
+       </TouchableOpacity>
+     </View>
+   </BottomSheetComp>
+   </>
   );
 };
 

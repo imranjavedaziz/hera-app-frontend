@@ -124,7 +124,7 @@ export const setPreferenceSchema = yup.object().shape({
  .string()
  .required(ValidationMessages.RACE),
 
- eye: yup.string().required("Employee Number required."),
+//  eye: yup.string().required("Employee Number required."),
 
 //  state: yup
 //  .string()

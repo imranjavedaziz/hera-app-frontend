@@ -81,4 +81,5 @@ export const Routes = {
   CreateGallery: 'CreateGallery',
   Profile: 'Profile',
   SetPreference: 'SetPreference',
+  PtbBasicDetails:'PtbBasicDetails'
 }

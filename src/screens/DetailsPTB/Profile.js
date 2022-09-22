@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   ImageBackground,
+  Modal,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -20,7 +21,7 @@ import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
-import {Fonts} from '../../constants/Constants';
+import {Fonts, Routes} from '../../constants/Constants';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
@@ -69,6 +70,7 @@ const Profile = ({navigation}) => {
 
   const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
   const {
@@ -99,12 +101,12 @@ const Profile = ({navigation}) => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={navigation.goBack}
+      onPress={() => setShowModal(true)}
       accessibilityLabel="Cross Button, Go back"
     />
   );
   const cb = image => {
-    console.log('image',image);
+    console.log('image', image);
     setUserImage(image.path);
   };
   const onSubmit = data => {
@@ -116,7 +118,7 @@ const Profile = ({navigation}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    navigation.navigate('SmBasicDetails');
+    navigation.navigate(Routes.PtbBasicDetails);
   };
 
   return (
@@ -124,7 +126,9 @@ const Profile = ({navigation}) => {
       scroller={true}
       showHeader={true}
       headerComp={headerComp}
-      headerEnd={true}>
+      headerEnd={true}
+      // style={{backgroundColor: showModal ? Colors.LIGHT_BLACK_96 : null,}}
+    >
       <View
         style={{
           flex: 1,
@@ -189,11 +193,19 @@ const Profile = ({navigation}) => {
               </TouchableOpacity>
             </ImageBackground>
           </View>
-          
         </View>
-             <Text style={{fontSize:18,fontFamily: Fonts.OpenSansRegular,color: Colors.LABEL_BLACK,}}>Upload Display Picture <Text style={[styles.label, {color: 'red'}]}>*</Text></Text>
+        <Text
+          style={{
+            fontSize: 18,
+            fontFamily: Fonts.OpenSansRegular,
+            color: Colors.LABEL_BLACK,
+          }}>
+          Upload Display Picture{' '}
+          <Text style={[styles.label, {color: 'red'}]}>*</Text>
+        </Text>
 
         {/* Image Upload End  */}
+        
 
         <View
           style={{
@@ -250,7 +262,7 @@ const Profile = ({navigation}) => {
             )}
             name="last_name"
           />
-           <Controller
+          <Controller
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
@@ -306,9 +318,9 @@ const Profile = ({navigation}) => {
                     marginBottom: 5,
                   }}
                   error={errors && errors.set_password?.message}
-                  endComponent={()=>(
-                    <TouchableOpacity onPress={()=>setEyeShow(!eyeshow)}>
-                      <Image source={eyeshow?Images.eye:Images.eye2}/>
+                  endComponent={() => (
+                    <TouchableOpacity onPress={() => setEyeShow(!eyeshow)}>
+                      <Image source={eyeshow ? Images.eye : Images.eye2} />
                     </TouchableOpacity>
                   )}
                 />
@@ -335,7 +347,8 @@ const Profile = ({navigation}) => {
                             ? Colors.BLACK
                             : 'red',
                           marginLeft: 5,
-                          maxWidth: 13,resizeMode: 'contain'
+                          maxWidth: 13,
+                          resizeMode: 'contain',
                         }}
                         source={
                           validatePassword(value, msg.type)
@@ -371,7 +384,7 @@ const Profile = ({navigation}) => {
             style={{
               flexDirection: 'row',
             }}>
-            <View style={{alignSelf: 'center',}}>
+            <View style={{alignSelf: 'center'}}>
               {check ? (
                 <Pressable
                   onPress={() => {
@@ -403,14 +416,17 @@ const Profile = ({navigation}) => {
             </Text>
           </View>
         </View>
-<View style={{paddingTop:31,}}>
-<Button 
-          label={Strings.profile.Register}
-          onPress={handleSubmit(onSubmit)}
-        />
-</View>
-        
-        <Pressable onPress={() => {navigation.navigate('SmRegister')}}>
+        <View style={{paddingTop: 31}}>
+          <Button
+            label={Strings.profile.Register}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
+
+        <Pressable
+          onPress={() => {
+            navigation.navigate('SmRegister');
+          }}>
           <Text
             style={{
               fontWeight: 'bold',
@@ -438,10 +454,87 @@ const Profile = ({navigation}) => {
         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
         positiveButtonLabel="DONE"
       />
+
+      <Modal
+        //  animationType="slide"
+        transparent={true}
+        // style={{backgroundColor:'rgba(0,0,0,0.3)'}}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View
+          style={[styles.centeredView, {backgroundColor: 'rgba(0,0,0,0.3)'}]}>
+          <View style={styles.modalView}>
+            <Text style={{lineHeight: 21, fontWeight: 'bold',fontFamily: Fonts.OpenSansRegular,paddingBottom:5}}>
+              Cancel Registration?
+            </Text>
+            <Text style={{textAlign: 'center', lineHeight: 18, marginTop: 1,fontFamily: Fonts.OpenSansRegular,}}>
+              If you cancel now, your progress will be lost.
+            </Text>
+
+            <View style={{justifyContent: 'space-between', alignItems: ''}}>
+              <View>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowModal(false);
+                    navigation.navigate(Routes.Landing);
+                  }}>
+                  <Text
+                    style={{
+                      color: 'red',
+                      fontSize: 16,
+                      paddingBottom: 10,
+                      marginVertical: 27,
+                      // fontWeight: 'bold',
+                      letterSpacing: 1,
+                      fontFamily: Fonts.OpenSansBold,
+                    }}>
+                    Yes, Discard
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowModal(false);
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                      letterSpacing: 1,
+                      fontFamily: Fonts.OpenSansBold,
+                    }}>
+                    Stay on Page
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
 
 export default Profile;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 52,
+    // backgroundColor:Colors.LIGHT_BLACK_96,
+  },
+  modalView: {
+    //  backgroundColor:'pink',
+    height: 230,
+    width: 283,
+    backgroundColor: 'white',
+    paddingHorizontal: 23,
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+});
