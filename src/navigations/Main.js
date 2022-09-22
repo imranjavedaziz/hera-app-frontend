@@ -5,7 +5,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import { Routes } from '../constants/Constants';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
-import SetPreference from '../screens/DetailsPTB/SetPreference';
+import SetPreference from '../screens/DetailsPTB/PTB_setPreference/SetPreference';
 import Landing from '../screens/Landing';
 import Login from '../screens/auth/Login';
 import MobileNumber from '../screens/auth/MobileNumber';

@@ -9,12 +9,10 @@ import {
   Modal,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import ImagePicker from 'react-native-image-crop-picker';
 import openCamera from '../../utils/openCamera';
 import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import moment from 'moment';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../components/Container';
@@ -25,8 +23,11 @@ import {Fonts, Routes} from '../../constants/Constants';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
+import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
 import {parentRegisterSchema, Regx} from '../../constants/schemas';
+// import {askCameraPermission} from '../../utils/permissionManager';
+import styles from './StylesProfile';
 
 const validationType = {
   LEN: 'LEN',
@@ -78,7 +79,6 @@ const Profile = ({navigation}) => {
     control,
     setValue,
     formState: {errors, isValid},
-    getValues,
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
@@ -87,6 +87,8 @@ const Profile = ({navigation}) => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
+
+  // useEffect(askCameraPermission, []);
 
   useEffect(() => {
     if (!isValid) {
@@ -126,9 +128,7 @@ const Profile = ({navigation}) => {
       scroller={true}
       showHeader={true}
       headerComp={headerComp}
-      headerEnd={true}
-      // style={{backgroundColor: showModal ? Colors.LIGHT_BLACK_96 : null,}}
-    >
+      headerEnd={true}>
       <View
         style={{
           flex: 1,
@@ -154,14 +154,7 @@ const Profile = ({navigation}) => {
             style={{alignItems: 'flex-start', width: '100%', marginTop: 20}}>
             <ImageBackground
               source={userImage ? {uri: userImage} : null}
-              style={{
-                width: 140,
-                height: 140,
-                borderRadius: 70,
-                backgroundColor: Colors.GREEN,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              style={styles.background}
               imageStyle={{
                 borderRadius: 70,
                 overflow: 'hidden',
@@ -169,14 +162,7 @@ const Profile = ({navigation}) => {
               }}>
               <TouchableOpacity
                 style={[
-                  {
-                    width: 35,
-                    height: 35,
-                    borderRadius: 18,
-                    backgroundColor: Colors.GREEN,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  },
+                  styles.uploadBackground,
                   userImage
                     ? {
                         position: 'absolute',
@@ -194,18 +180,12 @@ const Profile = ({navigation}) => {
             </ImageBackground>
           </View>
         </View>
-        <Text
-          style={{
-            fontSize: 18,
-            fontFamily: Fonts.OpenSansRegular,
-            color: Colors.LABEL_BLACK,
-          }}>
+        <Text style={styles.ImageText}>
           Upload Display Picture{' '}
           <Text style={[styles.label, {color: 'red'}]}>*</Text>
         </Text>
 
         {/* Image Upload End  */}
-        
 
         <View
           style={{
@@ -416,7 +396,7 @@ const Profile = ({navigation}) => {
             </Text>
           </View>
         </View>
-        <View style={{paddingTop: 31}}>
+        <View style={{paddingTop: Value.CONSTANT_VALUE_31}}>
           <Button
             label={Strings.profile.Register}
             onPress={handleSubmit(onSubmit)}
@@ -425,16 +405,9 @@ const Profile = ({navigation}) => {
 
         <Pressable
           onPress={() => {
-            navigation.navigate('SmRegister');
+            navigation.navigate(Routes.SmRegister);
           }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              textDecorationLine: 'underline',
-              fontSize: 15,
-              marginTop: 25,
-            }}>
+          <Text style={styles.smRegister}>
             Register as Surrogate Mother or a Donor
           </Text>
         </Pressable>
@@ -456,9 +429,7 @@ const Profile = ({navigation}) => {
       />
 
       <Modal
-        //  animationType="slide"
         transparent={true}
-        // style={{backgroundColor:'rgba(0,0,0,0.3)'}}
         visible={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
@@ -466,51 +437,29 @@ const Profile = ({navigation}) => {
         <View
           style={[styles.centeredView, {backgroundColor: 'rgba(0,0,0,0.3)'}]}>
           <View style={styles.modalView}>
-            <Text style={{lineHeight: 21, fontWeight: 'bold',fontFamily: Fonts.OpenSansRegular,paddingBottom:5}}>
-              Cancel Registration?
+            <Text style={styles.modalHeader}>
+              {Strings.profile.ModalHeader}
             </Text>
-            <Text style={{textAlign: 'center', lineHeight: 18, marginTop: 1,fontFamily: Fonts.OpenSansRegular,}}>
-              If you cancel now, your progress will be lost.
+            <Text style={styles.modalSubHeader}>
+              {Strings.profile.ModalSubheader}
             </Text>
-
-            <View style={{justifyContent: 'space-between', alignItems: ''}}>
-              <View>
-                <TouchableOpacity
-                  onPress={() => {
-                    setShowModal(false);
-                    navigation.navigate(Routes.Landing);
-                  }}>
-                  <Text
-                    style={{
-                      color: 'red',
-                      fontSize: 16,
-                      paddingBottom: 10,
-                      marginVertical: 27,
-                      // fontWeight: 'bold',
-                      letterSpacing: 1,
-                      fontFamily: Fonts.OpenSansBold,
-                    }}>
-                    Yes, Discard
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <TouchableOpacity
-                  onPress={() => {
-                    setShowModal(false);
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                      letterSpacing: 1,
-                      fontFamily: Fonts.OpenSansBold,
-                    }}>
-                    Stay on Page
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                navigation.navigate(Routes.Landing);
+              }}>
+              <Text style={styles.modalOption1}>
+                {Strings.profile.ModalOption1}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={styles.modalOption2}>
+                {Strings.profile.ModalOption2}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -519,22 +468,3 @@ const Profile = ({navigation}) => {
 };
 
 export default Profile;
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 52,
-    // backgroundColor:Colors.LIGHT_BLACK_96,
-  },
-  modalView: {
-    //  backgroundColor:'pink',
-    height: 230,
-    width: 283,
-    backgroundColor: 'white',
-    paddingHorizontal: 23,
-    paddingVertical: 20,
-    alignItems: 'center',
-  },
-});

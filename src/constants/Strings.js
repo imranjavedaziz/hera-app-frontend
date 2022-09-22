@@ -71,6 +71,10 @@ export default {
     confirmPassword: 'Confirm Password',
     RegisterAs:'Register as Surrogate Motheror a Donor',
     Register: 'REGISTER',
+    ModalHeader:'Cancel Registration?',
+    ModalSubheader:'If you cancel now, your progress will be lost.',
+    ModalOption1:'Yes, Discard',
+    ModalOption2:'Stay on Page'
   },
   preference:{
     setPreference:'Set Preference',
