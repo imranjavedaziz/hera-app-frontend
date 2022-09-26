@@ -24,6 +24,9 @@ import Strings, {ValidationMessages} from '../../constants/Strings';
 import Dropdown from '../../components/inputs/Dropdown';
 import {genders, Static,Routes} from '../../constants/Constants';
 import style from './Stylepreference';
+import {Static, smRoles} from '../../constants/Constants';
+
+
 
 const initialState = {
   hair: [
@@ -295,7 +298,7 @@ const SetPreference = ({navigation}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.preference.Location}
-                data={Static.location}
+                data={Static.Countries}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index);
                   onChange(selectedItem);
@@ -368,6 +371,7 @@ const SetPreference = ({navigation}) => {
 
           {/* Drop Down */}
 
+<<<<<<< HEAD
           <Controller
             control={control}
             render={({field: {onChange}}) => (
@@ -383,6 +387,21 @@ const SetPreference = ({navigation}) => {
               />
             )}
             name="race"
+=======
+          <Example
+            options={Static.race}
+            label={Strings.preference.Race}
+            control={control}
+            name={'race'}
+            setValue={setValue}
+          />
+          <Example
+            options={Static.ethnicity}
+            label={Strings.preference.Ethnicity}
+            control={control}
+            name={'Ethnicity'}
+            setValue={setValue}
+>>>>>>> 2ca023d733c19cd6f93499b58f627579549ca856
           />
 
           <Controller

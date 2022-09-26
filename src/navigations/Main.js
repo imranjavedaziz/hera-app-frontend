@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
+import { useSelector } from 'react-redux';
 import { Routes } from '../constants/Constants';
+import getRoute from '../utils/getRoute';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
 import SetPreference from '../screens/DetailsPTB/SetPreference';
@@ -19,6 +21,12 @@ import PtbDashboard from '../screens/dashboard/dashboard/PtbDashboard';
 
 const Stack = createStackNavigator();
 const Main = () => {
+  const auth = useSelector(state=>state.auth.user);
+  useEffect(()=>{
+    if(auth){
+      RNBootSplash.hide();
+    }
+  },[auth]);
   return (
     <NavigationContainer
       onReady={() => RNBootSplash.hide()}
@@ -26,7 +34,7 @@ const Main = () => {
     >
       {/* initialRouteName="Profile" */}
 
-      <Stack.Navigator  >
+      <Stack.Navigator initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}>
       
         <Stack.Screen
           name={Routes.Landing}

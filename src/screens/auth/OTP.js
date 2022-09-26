@@ -15,9 +15,10 @@ import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
 import { Routes } from '../../constants/Constants';
-import {useDispatch} from 'react-redux';
+import Auth from '../../services/Auth';
 
 const OTP = ({route}) => {
+  const authService = Auth();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
   
@@ -35,6 +36,7 @@ const OTP = ({route}) => {
 
 
   const onSubmit = data => {
+<<<<<<< HEAD
     // const code = getValues('otp')
     // console.log(phoneNumber);
     // console.log("my code ",code);
@@ -50,6 +52,9 @@ const OTP = ({route}) => {
     // })
     
     navigation.navigate(Routes.Profile);
+=======
+    authService.verifyOtp({otp: data.otp,...route.params});
+>>>>>>> 2ca023d733c19cd6f93499b58f627579549ca856
   };
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

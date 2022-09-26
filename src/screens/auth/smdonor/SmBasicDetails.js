@@ -1,7 +1,6 @@
 // SmBasicDetails
 import React, { useState } from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
@@ -16,10 +15,16 @@ import {genders, Static,Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
+import User from '../../../services/User';
+import Auth from '../../../services/Auth';
+import { useNavigation } from '@react-navigation/native';
 
 const SmBasicDetails = ({route}) => {
+  const userService = User();
+  const authService = Auth();
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
+
   const {
     handleSubmit,
     control,
@@ -57,6 +62,13 @@ const SmBasicDetails = ({route}) => {
           <Text style={[globalStyle.screenSubTitle, {marginVertical: 20}]}>
             {Strings.sm_basic.Subtitle}
           </Text>
+          <Text
+          style={styles.label}
+          accessible={true}
+          accessibilityLabel={'Gender'}>
+            Gender
+            <Text style={[{color: 'red'}]}>*</Text>
+          </Text>
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -64,50 +76,37 @@ const SmBasicDetails = ({route}) => {
                 {genders.map(gender => (
                   <TouchableOpacity
                     style={styles.radioBtn}
-                    key={gender}
-                    onPress={() => onChange(gender)}>
+                    key={gender.id}
+                    onPress={() => onChange(gender.id)}>
                     <Image
                       style={styles.radioImg}
                       source={
-                        value === gender
+                        value === gender.id
                           ? Images.iconRadiosel
                           : Images.iconRadiounsel
                       }
                     />
-                    <Text style={styles.radioLabel}>{gender}</Text>
+                    <Text style={styles.radioLabel}>{gender.name}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
             )}
-            name="gender"
+            name="gender_id"
           />
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
               <Dropdown
-                label={Strings.sm_basic.Country}
-                data={Static.countries}
+                label={Strings.sm_basic.State}
+                data={Static.Countries}
                 onSelect={selectedItem => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.country?.message}
+                error={errors && errors.state_id?.message}
               />
             )}
-            name="country"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.sm_basic.State}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.state?.message}
-                required={true}
-              />
-            )}
-            name="state"
+            name="state_id"
           />
           <Controller
             control={control}
@@ -116,11 +115,13 @@ const SmBasicDetails = ({route}) => {
                 label={Strings.sm_basic.Zip}
                 value={value}
                 onChangeText={v => onChange(v)}
-                error={errors && errors.zip?.message}
+                error={errors && errors.zipcode?.message}
                 required={true}
+                keyboardType="number-pad"
+                maxLength={6}
               />
             )}
-            name="zip"
+            name="zipcode"
           />
           <Controller
             control={control}
@@ -141,13 +142,28 @@ const SmBasicDetails = ({route}) => {
                 label={Strings.sm_basic.SexualOrientation}
                 data={Static.sexualOrient}
                 onSelect={selectedItem => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.sexual?.message}
+                error={errors && errors.sexual_orientations_id?.message}
               />
             )}
-            name="sexual"
+            name="sexual_orientations_id"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.sm_basic.RelationshipStatus}
+                data={Static.relationship_status}
+                onSelect={selectedItem => {
+                  onChange(selectedItem.id);
+                }}
+                required={true}
+                error={errors && errors.relationship_status_id?.message}
+              />
+            )}
+            name="relationship_status_id"
           />
           <Controller
             control={control}

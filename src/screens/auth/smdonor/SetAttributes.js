@@ -13,8 +13,12 @@ import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
 import {Static, Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
+import User from '../../../services/User';
+import Auth from '../../../services/Auth';
 
 const SetAttributes = ({route}) => {
+  const userService = User();
+  const authService = Auth();
   const navigation = useNavigation();
   const {
     handleSubmit,
@@ -24,12 +28,12 @@ const SetAttributes = ({route}) => {
     resolver: yupResolver(smSetAttributesSchema),
   });
   const onSubmit = data => {
-    navigation.navigate(Routes.CreateGallery,{...data,...route.params});
+    userService.setAttributes(data);
   };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
-      onPress={navigation.goBack}
+      onPress={authService.logout}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
@@ -53,13 +57,19 @@ const SetAttributes = ({route}) => {
                 label={Strings.sm_set_attributes.Height}
                 data={Static.height}
                 onSelect={(selectedItem) => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.height?.message}
+                error={errors && errors.height_id?.message}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return `${parseInt(selectedItem.name/12)} ft ${selectedItem.name%12} in`;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return `${parseInt(item.name/12)} ft ${item.name%12} in`;
+                }}
               />
             )}
-            name="height"
+            name="height_id"
           />
           <Controller
             control={control}
@@ -68,28 +78,28 @@ const SetAttributes = ({route}) => {
                 label={Strings.sm_set_attributes.Race}
                 data={Static.race}
                 onSelect={(selectedItem) => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.race?.message}
+                error={errors && errors.race_id?.message}
               />
             )}
-            name="race"
+            name="race_id"
           />
           <Controller
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.MotherEthnicity}
-                data={Static.location}
+                data={Static.ethnicity}
                 onSelect={(selectedItem) => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.motherEthnicity?.message}
+                error={errors && errors.mother_ethnicity_id?.message}
               />
             )}
-            name="motherEthnicity"
+            name="mother_ethnicity_id"
           />
           <Controller
             control={control}
@@ -98,13 +108,13 @@ const SetAttributes = ({route}) => {
                 label={Strings.sm_set_attributes.FatheEthnicity}
                 data={Static.ethnicity}
                 onSelect={(selectedItem) => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.fatheEthnicity?.message}
+                error={errors && errors.father_ethnicity_id?.message}
               />
             )}
-            name="fatheEthnicity"
+            name="father_ethnicity_id"
           />
           <Controller
             control={control}
@@ -113,13 +123,19 @@ const SetAttributes = ({route}) => {
                 label={Strings.sm_set_attributes.Weight}
                 data={Static.weight}
                 onSelect={(selectedItem) => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.weight?.message}
+                error={errors && errors.weight_id?.message}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem.name + ' pounds';
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item.name + ' pounds';
+                }}
               />
             )}
-            name="weight"
+            name="weight_id"
           />
           <Controller
             control={control}
@@ -128,28 +144,43 @@ const SetAttributes = ({route}) => {
                 label={Strings.sm_set_attributes.EyeColor}
                 data={Static.eyeColors}
                 onSelect={(selectedItem) => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.eye?.message}
+                error={errors && errors.eye_colour_id?.message}
               />
             )}
-            name="eye"
+            name="eye_colour_id"
           />
           <Controller
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.HairColor}
-                data={Static.eyeColors}
+                data={Static.hairColors}
                 onSelect={(selectedItem) => {
-                  onChange(selectedItem);
+                  onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.hair?.message}
+                error={errors && errors.hair_colour_id?.message}
               />
             )}
-            name="hair"
+            name="hair_colour_id"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.sm_set_attributes.Education}
+                data={Static.education}
+                onSelect={(selectedItem) => {
+                  onChange(selectedItem.id);
+                }}
+                required={true}
+                error={errors && errors.education_id?.message}
+              />
+            )}
+            name="education_id"
           />
           <Button
             label={Strings.sm_set_attributes.Btn}

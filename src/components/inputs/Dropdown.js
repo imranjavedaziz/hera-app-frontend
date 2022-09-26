@@ -13,6 +13,7 @@ const Dropdown = ({
   containerStyle = {},
   required = false,
   error = '',
+  ...dropdownProps
 }) => {
   const [value, setValue] = useState(null);
   return (
@@ -27,20 +28,21 @@ const Dropdown = ({
         </Text>
         <SelectDropdown
           data={data}
-          defaultButtonText={null}
-          disableAutoScroll={false}
+          defaultButtonText={value}
+          // disableAutoScroll={false}
           onSelect={(selectedItem, index) => {
             setValue(selectedItem);
             onSelect(selectedItem, index);
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
+            return selectedItem.name;
           }}
           rowTextForSelection={(item, index) => {
-            return item;
+            return item.name;
           }}
           rowStyle={styles.rowStyle}
           rowTextStyle={styles.rowTextStyle}
+          selectedRowTextStyle={{fontWeight: 'bold'}}
           dropdownStyle={styles.dropdownStyle}
           buttonStyle={{
             ...styles.buttonStyle,
@@ -49,6 +51,7 @@ const Dropdown = ({
           buttonTextStyle={{...styles.buttonTextStyle,display: value ? 'flex' : 'none',}}
           dropdownIconPosition="right"
           renderDropdownIcon={() => <Image source={Images.arrowDown} />}
+          {...dropdownProps}
         />
       </View>
       {error && <Text style={styles.errMessage}>{error}</Text>}

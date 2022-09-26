@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Container from '../../../components/Container';
@@ -19,33 +20,68 @@ import videoPicker from '../../../utils/videoPicker';
 import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
+import User from '../../../services/User';
+import Auth from '../../../services/Auth';
 
 const CreateGallery = ({route}) => {
+  const userService = User();
+  const authService = Auth();
   const navigation = useNavigation();
-  const [gallery, setGallery] = useState(['', '', '', '', '', '']);
+  const [gallery, setGallery] = useState([
+    {uri: '', loading: false},
+    {uri: '', loading: false},
+    {uri: '', loading: false},
+    {uri: '', loading: false},
+    {uri: '', loading: false},
+    {uri: '', loading: false},
+  ]);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState('');
+  const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const cb = image => {
-    const gImages = gallery;
-    gImages[gImages] = image.path;
+    setOpen(false);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i === gIndex) {
-          return image.path;
+          return {uri: image.path, loading: true};
         }
         return img;
       });
     });
+    const setLoading = loading => {
+      setGallery(oldImg => {
+        return oldImg.map((img, i) => {
+          if (i === gIndex) {
+            return {uri: img.uri, loading};
+          }
+          return img;
+        });
+      });
+    };
     setGIndex(gIndex + 1);
+    const reqData = new FormData();
+    reqData.append('image', {
+      name: image.filename,
+      type: image.mime,
+      uri: image.path,
+    });
+    userService.createGallery(reqData, setLoading);
   };
   const selectVideo = () => {
+    setOpen(false);
     videoPicker().then(v => {
-      setVideo(v.path);
+      setVideo({uri: v.path,loading: true});
+      const reqData = new FormData();
+      reqData.append('image', {
+        name: v.filename,
+        type: v.mime,
+        uri: image.path,
+      });
+      userService.createGallery(reqData, (loading)=>setVideo(old=>({...old,loading})));
     });
   };
   const headerComp = () => (
-    <TouchableOpacity onPress={navigation.goBack}>
+    <TouchableOpacity onPress={authService.logout}>
       <Text style={globalStyle.underlineText}>Later</Text>
     </TouchableOpacity>
   );
@@ -59,7 +95,7 @@ const CreateGallery = ({route}) => {
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
             <Image
-              source={{uri: route.params.userImage}}
+              // source={{uri: route.params.userImage}}
               style={styles.profileImg}
             />
           </View>
@@ -102,30 +138,33 @@ const CreateGallery = ({route}) => {
                 imageStyle={{
                   resizeMode: 'cover',
                 }}
-                source={img ? {uri: img} : null}>
+                source={img.uri ? {uri: img.uri} : null}>
                 {gIndex === index && (
                   <TouchableOpacity onPress={() => setOpen(true)}>
                     <Image source={Images.camera} style={styles.camIcon} />
                   </TouchableOpacity>
                 )}
+                {
+                  img.loading && <ActivityIndicator/>
+                }
               </ImageBackground>
             ))}
           </View>
           <TouchableOpacity onPress={selectVideo}>
             <ImageBackground
               style={styles.videoContainer}
-              source={video ? {uri: video} : null}
+              source={video.uri ? {uri: video.uri} : null}
               imageStyle={{
                 resizeMode: 'contain',
               }}>
-              {!video ? (
+              {!video.uri ? (
                 <>
                   <Text style={styles.videoTitle}>Upload Video</Text>
                   <Text style={styles.videoPara}>Add a short 60 sec video</Text>
                   <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
                 </>
               ) : (
-                <Image source={Images.playButton} />
+                video.loading ? <ActivityIndicator/>:<Image source={Images.playButton} />
               )}
             </ImageBackground>
           </TouchableOpacity>

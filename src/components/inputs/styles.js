@@ -55,12 +55,14 @@ export default {
       lineHeight: Value.CONSTANT_VALUE_21,
       textVerticleAlignment: Alignment.CENTER,
       fontFamily: Fonts.OpenSansRegular,
+      position: 'absolute',
+      bottom: -25,
+      right: 0,
     },
     rowStyle: {width: Prencentage.PRECENTAGE_100},
     rowTextStyle: {textAlign: Alignment.LEFT, color: Colors.BLACK},
     dropdownStyle: {
         textAlign: Alignment.LEFT,
-        height: 'auto',
         minHeight: Value.CONSTANT_VALUE_40,
     },
     buttonStyle: {
