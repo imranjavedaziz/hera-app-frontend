@@ -15,10 +15,12 @@ import {mobileSchema} from '../../constants/schemas';
 import Colors from '../../constants/Colors';
 import {sendSmsVerification} from '../../hooks/verifyOTP';
 import styles from '../../styles/auth/mobileNumberScreen';
-import {Routes} from '../../constants/Constants';
+import { Routes } from '../../constants/Constants';
+import Auth from '../../services/Auth';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
+  const authService = Auth();
   const {
     handleSubmit,
     getValues,
@@ -28,13 +30,10 @@ const MobileNumber = () => {
     resolver: yupResolver(mobileSchema),
   });
   const onSubmit = data => {
-    const ph = getValues('phone');
-    // sendSmsVerification(ph).then(sent => {
-    //   navigation.navigate('OTP', {
-    //     phone_num: data,
-    //   });
-    // });
-    navigation.navigate(Routes.OTP);
+    authService.sendOtp({
+      country_code: "+91",
+      phone_no: data.phone
+    });
   };
   const text = getValues('phone');
 

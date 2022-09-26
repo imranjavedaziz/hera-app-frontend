@@ -122,6 +122,7 @@ export default {
     Zip: 'Zip Code',
     Occupation: 'Occupation (Optional)',
     SexualOrientation: 'Sexual Orientation',
+    RelationshipStatus: 'Relationship Status',
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
   },
@@ -135,6 +136,7 @@ export default {
     Weight: 'Weight',
     EyeColor: 'Eye Color',
     HairColor: 'Hair Color',
+    Education: 'Education',
     Btn: 'Save',
   },
   sm_create_gallery: {

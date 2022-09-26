@@ -30,6 +30,7 @@ import {askCameraPermission} from '../../../utils/permissionManager';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {showAppToast} from '../../../redux/actions/loader';
 import styles from '../../../styles/auth/smdonor/registerScreen';
+import Auth from '../../../services/Auth';
 
 const validationType = {
   LEN: 'LEN',
@@ -67,13 +68,15 @@ const validatePassword = (value, type) => {
   }
   return Colors.BORDER_LINE;
 };
-const SmRegister = () => {
+const SmRegister = ({route}) => {
+  const authService = Auth();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [show, setShow] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
   const [userImage, setUserImage] = useState('');
+  const [file,setFile] = useState(null);
   const [check, setCheck] = useState(true);
   const {
     handleSubmit,
@@ -86,6 +89,7 @@ const SmRegister = () => {
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
+    setFile(image);
   };
   useEffect(askCameraPermission, []);
   const onSubmit = data => {
@@ -97,7 +101,22 @@ const SmRegister = () => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    navigation.navigate(Routes.SmBasicDetails, {...data, userImage});
+    const reqData = new FormData;
+    reqData.append('role_id',data.role);
+    reqData.append('first_name',data.first_name);
+    reqData.append('middle_name',data.middle_name);
+    reqData.append('last_name',data.last_name);
+    reqData.append('dob',moment(date).format('DD-MM-YYYY'));
+    reqData.append('email',data.email);
+    reqData.append('password',data.password);
+    reqData.append('country_code',route.params.country_code);
+    reqData.append('phone_no',route.params.phone_no);
+    reqData.append('file',{
+      name: file.filename,
+      type: file.mime,
+      uri: file.path,
+    });
+    authService.registerUser(reqData);
   };
   const headerComp = () => (
     <CircleBtn
@@ -318,7 +337,7 @@ const SmRegister = () => {
           />
           <Pressable
             onPress={() => {
-              navigation.navigate(Routes.Profile);
+              navigation.navigate(Routes.Profile,route.params);
             }}>
             <Text style={styles.parentBtn}>Register as Parent To Be</Text>
           </Pressable>

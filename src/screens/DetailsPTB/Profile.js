@@ -28,6 +28,7 @@ import Button from '../../components/Button';
 import {parentRegisterSchema, Regx} from '../../constants/schemas';
 // import {askCameraPermission} from '../../utils/permissionManager';
 import styles from './StylesProfile';
+import Auth from '../../services/Auth';
 
 const validationType = {
   LEN: 'LEN',
@@ -64,11 +65,12 @@ const validatePassword = (value, type) => {
   return null;
 };
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation,route}) => {
+  const authService = Auth();
   const [show, setShow] = useState(false);
   const [eyeshow, setEyeShow] = useState(false);
   const [date, setDate] = useState();
-
+  const [file,setFile] = useState(null);
   const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -93,7 +95,6 @@ const Profile = ({navigation}) => {
   useEffect(() => {
     if (!isValid) {
       const e = errors;
-      console.log('errors-', errors);
       const messages = [];
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
       const msg = messages.join('\n').trim();
@@ -110,6 +111,7 @@ const Profile = ({navigation}) => {
   const cb = image => {
     console.log('image', image);
     setUserImage(image.path);
+    setFile(image);
   };
   const onSubmit = data => {
     if (!userImage) {
@@ -120,7 +122,23 @@ const Profile = ({navigation}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    navigation.navigate(Routes.PtbBasicDetails);
+    const reqData = new FormData;
+    reqData.append('role_id',2);
+    reqData.append('first_name',data.first_name);
+    reqData.append('middle_name',data.middle_name);
+    reqData.append('last_name',data.last_name);
+    reqData.append('dob',moment(date).format('DD-MM-YYYY'));
+    reqData.append('email',data.email);
+    reqData.append('password',data.password);
+    reqData.append('country_code',route.params.country_code);
+    reqData.append('phone_no',route.params.phone_no);
+    reqData.append('file',{
+      name: file.filename,
+      type: file.mime,
+      uri: file.path,
+    });
+    authService.registerUser(reqData);
+    // navigation.navigate('SetPreference');
   };
 
   return (
@@ -396,18 +414,22 @@ const Profile = ({navigation}) => {
             </Text>
           </View>
         </View>
-        <View style={{paddingTop: Value.CONSTANT_VALUE_31}}>
-          <Button
-            label={Strings.profile.Register}
-            onPress={handleSubmit(onSubmit)}
-          />
-        </View>
-
-        <Pressable
-          onPress={() => {
-            navigation.navigate(Routes.SmRegister);
-          }}>
-          <Text style={styles.smRegister}>
+<View style={{paddingTop:31,}}>
+<Button 
+          label={Strings.profile.Register}
+          onPress={handleSubmit(onSubmit)}
+        />
+</View>
+        
+        <Pressable onPress={() => {navigation.navigate('SmRegister',route.params)}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              alignSelf: 'center',
+              textDecorationLine: 'underline',
+              fontSize: 15,
+              marginTop: 25,
+            }}>
             Register as Surrogate Mother or a Donor
           </Text>
         </Pressable>
