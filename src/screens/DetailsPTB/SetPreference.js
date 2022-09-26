@@ -24,7 +24,6 @@ import Strings, {ValidationMessages} from '../../constants/Strings';
 import Dropdown from '../../components/inputs/Dropdown';
 import {genders, Static,Routes} from '../../constants/Constants';
 import style from './Stylepreference';
-import {Static, smRoles} from '../../constants/Constants';
 
 
 
@@ -371,23 +370,6 @@ const SetPreference = ({navigation}) => {
 
           {/* Drop Down */}
 
-<<<<<<< HEAD
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                label={Strings.preference.Race}
-                data={Static.race}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
-                  onChange(selectedItem);
-                }}
-                required={true}
-                // error={errors && errors.race?.message}
-              />
-            )}
-            name="race"
-=======
           <Example
             options={Static.race}
             label={Strings.preference.Race}
@@ -401,7 +383,6 @@ const SetPreference = ({navigation}) => {
             control={control}
             name={'Ethnicity'}
             setValue={setValue}
->>>>>>> 2ca023d733c19cd6f93499b58f627579549ca856
           />
 
           <Controller

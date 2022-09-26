@@ -36,25 +36,7 @@ const OTP = ({route}) => {
 
 
   const onSubmit = data => {
-<<<<<<< HEAD
-    // const code = getValues('otp')
-    // console.log(phoneNumber);
-    // console.log("my code ",code);
-
-    // checkVerification(phoneNumber, code).then((json) => {
-    //   console.log(json.message)
-    //   if(json.message === "OTP verified sucessfully."){
-    //     dispatch(showAppToast(false,"OTP verified sucessfully." ));
-    //     navigation.navigate('Profile');
-    //   }else{
-    //     dispatch(showAppToast(true,json.message ));
-    //   }
-    // })
-    
-    navigation.navigate(Routes.Profile);
-=======
     authService.verifyOtp({otp: data.otp,...route.params});
->>>>>>> 2ca023d733c19cd6f93499b58f627579549ca856
   };
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
