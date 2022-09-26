@@ -28,12 +28,12 @@ const Main = () => {
 
       <Stack.Navigator  >
       
-        {/* <Stack.Screen
+        <Stack.Screen
           name={Routes.Landing}
           component={Landing}
           options={{headerShown: false}}
-        /> */}
-        {/* <Stack.Screen
+        />
+        <Stack.Screen
           name={Routes.Login}
           component={Login}
           options={{headerShown: false}}
@@ -62,7 +62,7 @@ const Main = () => {
           name={Routes.SmRegister}
           component={SmRegister}
           options={{headerShown: false}}
-        /> */}
+        />
         <Stack.Screen
           name={Routes.SmBasicDetails}
           component={SmBasicDetails}
