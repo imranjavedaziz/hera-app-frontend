@@ -23,5 +23,9 @@ export default {
   ROW_REVERSE: 'row-reverse',
   UPPERCASE: 'uppercase',
   BOLD:'bold',
-  COVER:'Cover'
+  COVER:'cover',
+  UNDERLINE:'underline',
+  HIDDEN:'hidden',
+  CONTAIN:'contain'
+
 };

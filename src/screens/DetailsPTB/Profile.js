@@ -29,6 +29,7 @@ import {parentRegisterSchema, Regx} from '../../constants/schemas';
 // import {askCameraPermission} from '../../utils/permissionManager';
 import styles from './StylesProfile';
 import Auth from '../../services/Auth';
+import Alignment from '../../constants/Alignment';
 
 const validationType = {
   LEN: 'LEN',
@@ -65,12 +66,11 @@ const validatePassword = (value, type) => {
   return null;
 };
 
-const Profile = ({navigation,route}) => {
+const Profile = ({navigation, route}) => {
   const authService = Auth();
   const [show, setShow] = useState(false);
-  const [eyeshow, setEyeShow] = useState(false);
   const [date, setDate] = useState();
-  const [file,setFile] = useState(null);
+  const [file, setFile] = useState(null);
   const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -122,23 +122,23 @@ const Profile = ({navigation,route}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    const reqData = new FormData;
-    reqData.append('role_id',2);
-    reqData.append('first_name',data.first_name);
-    reqData.append('middle_name',data.middle_name);
-    reqData.append('last_name',data.last_name);
-    reqData.append('dob',moment(date).format('DD-MM-YYYY'));
-    reqData.append('email',data.email);
-    reqData.append('password',data.password);
-    reqData.append('country_code',route.params.country_code);
-    reqData.append('phone_no',route.params.phone_no);
-    reqData.append('file',{
+    const reqData = new FormData();
+    reqData.append('role_id', 2);
+    reqData.append('first_name', data.first_name);
+    reqData.append('middle_name', data.middle_name);
+    reqData.append('last_name', data.last_name);
+    reqData.append('dob', moment(date).format('DD-MM-YYYY'));
+    reqData.append('email', data.email);
+    reqData.append('password', data.password);
+    reqData.append('country_code', route.params.country_code);
+    reqData.append('phone_no', route.params.phone_no);
+    reqData.append('file', {
       name: file.filename,
       type: file.mime,
       uri: file.path,
     });
     authService.registerUser(reqData);
-    // navigation.navigate('SetPreference');
+    navigation.navigate(Routes.SetPreference);
   };
 
   return (
@@ -147,16 +147,12 @@ const Profile = ({navigation,route}) => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-        }}>
+      <View style={styles.imgContainer}>
         <Text style={globalStyle.screenTitle}>
           {Strings.profile.makeAccountFor}
         </Text>
         <View
-          style={{marginVertical: 15}}
+          style={styles.subTitle}
           accessible={true}
           accessibilityLabel={`${Strings.profile.parentToBe}`}>
           <Text
@@ -168,16 +164,11 @@ const Profile = ({navigation,route}) => {
 
           {/* IMage Upload */}
 
-          <View
-            style={{alignItems: 'flex-start', width: '100%', marginTop: 20}}>
+          <View style={styles.profileContainer}>
             <ImageBackground
               source={userImage ? {uri: userImage} : null}
               style={styles.background}
-              imageStyle={{
-                borderRadius: 70,
-                overflow: 'hidden',
-                resizeMode: 'cover',
-              }}>
+              imageStyle={styles.imgBack}>
               <TouchableOpacity
                 style={[
                   styles.uploadBackground,
@@ -190,24 +181,20 @@ const Profile = ({navigation,route}) => {
                     : null,
                 ]}
                 onPress={() => openCamera(1, cb)}>
-                <Image
-                  source={Images.camera}
-                  style={{width: 20, height: 20, resizeMode: 'contain'}}
-                />
+                <Image source={Images.camera} style={styles.profileImg} />
               </TouchableOpacity>
             </ImageBackground>
           </View>
         </View>
         <Text style={styles.ImageText}>
-          Upload Display Picture{' '}
-          <Text style={[styles.label, {color: 'red'}]}>*</Text>
+          {Strings.profile.uploadImage}
+          <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
         </Text>
 
         {/* Image Upload End  */}
 
         <View
           style={{
-            flex: 0,
             width: '100%',
           }}>
           <Controller
@@ -217,12 +204,9 @@ const Profile = ({navigation,route}) => {
                 label={Strings.profile.FirstName}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
+                fontWeight={Alignment.BOLD}
                 required={true}
                 error={errors && errors.first_name?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
               />
             )}
             name="first_name"
@@ -234,10 +218,7 @@ const Profile = ({navigation,route}) => {
                 label={Strings.profile.MiddleName}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
-                containerStyle={{
-                  flex: 1,
-                }}
+                fontWeight={Alignment.BOLD}
                 error={errors && errors.middle_name?.message}
               />
             )}
@@ -250,11 +231,8 @@ const Profile = ({navigation,route}) => {
                 label={Strings.profile.LastName}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
+                fontWeight={Alignment.BOLD}
                 required={true}
-                containerStyle={{
-                  flex: 1,
-                }}
                 error={errors && errors.last_name?.message}
               />
             )}
@@ -267,12 +245,9 @@ const Profile = ({navigation,route}) => {
                 label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
+                fontWeight={Alignment.BOLD}
                 required={true}
                 error={errors && errors.email?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
               />
             )}
             name="email"
@@ -302,33 +277,24 @@ const Profile = ({navigation,route}) => {
             render={({field: {onChange, value}}) => (
               <View
                 style={{
-                  width: '100%',
-                  marginVertical: 20,
+                  width: '100%'
                 }}>
                 <FloatingLabelInput
                   label={Strings.profile.setPassword}
                   value={value}
                   onChangeText={v => onChange(v)}
                   required={true}
-                  secureTextEntry={!eyeshow}
+                  secureTextEntry={true}
                   containerStyle={{
-                    marginVertical: 0,
-                    marginBottom: 5,
+                    marginBottom: Value.CONSTANT_VALUE_5,
                   }}
                   error={errors && errors.set_password?.message}
-                  endComponent={() => (
-                    <TouchableOpacity onPress={() => setEyeShow(!eyeshow)}>
-                      <Image source={eyeshow ? Images.eye : Images.eye2} />
-                    </TouchableOpacity>
-                  )}
                 />
                 {pwdErrMsg.map(msg => (
-                  <View
-                    style={{flexDirection: 'row', alignItems: 'center'}}
-                    key={msg.type}>
+                  <View style={styles.passwordCheck} key={msg.type}>
                     <Text
                       style={{
-                        fontSize: 13,
+                        fontSize: Value.CONSTANT_VALUE_13,
                         fontFamily: Fonts.OpenSansBold,
                         color:
                           validatePassword(value, msg.type) ||
@@ -340,14 +306,14 @@ const Profile = ({navigation,route}) => {
                     </Text>
                     {validatePassword(value, msg.type) !== null && (
                       <Image
-                        style={{
-                          tintColor: validatePassword(value, msg.type)
-                            ? Colors.BLACK
-                            : 'red',
-                          marginLeft: 5,
-                          maxWidth: 13,
-                          resizeMode: 'contain',
-                        }}
+                        style={[
+                          styles.ValidPwd,
+                          {
+                            tintColor: validatePassword(value, msg.type)
+                              ? Colors.BLACK
+                              : Colors.RED,
+                          },
+                        ]}
                         source={
                           validatePassword(value, msg.type)
                             ? Images.path
@@ -378,10 +344,7 @@ const Profile = ({navigation,route}) => {
             )}
             name="confirm_password"
           />
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
+          <View style={styles.tmc}>
             <View style={{alignSelf: 'center'}}>
               {check ? (
                 <Pressable
@@ -400,38 +363,27 @@ const Profile = ({navigation,route}) => {
               )}
             </View>
 
-            <Text style={{fontSize: 13, marginLeft: 10}}>
-              By continuing, you agree to HERA's{' '}
-              <Text
-                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
-                Terms of use{'\n'}
-              </Text>
-              and{' '}
-              <Text
-                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
-                Privacy Policy
-              </Text>
+            <Text style={styles.tmc1}>
+              {Strings.profile.tmc1}
+              <Text style={styles.tmcLink}>
+                {Strings.profile.tmc2}
+              </Text> and{' '}
+              <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
             </Text>
           </View>
         </View>
-<View style={{paddingTop:31,}}>
-<Button 
-          label={Strings.profile.Register}
-          onPress={handleSubmit(onSubmit)}
-        />
-</View>
-        
-        <Pressable onPress={() => {navigation.navigate('SmRegister',route.params)}}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              textDecorationLine: 'underline',
-              fontSize: 15,
-              marginTop: 25,
-            }}>
-            Register as Surrogate Mother or a Donor
-          </Text>
+        <View style={{paddingTop: Value.CONSTANT_VALUE_31}}>
+          <Button
+            label={Strings.profile.Register}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
+
+        <Pressable
+          onPress={() => {
+            navigation.navigate(Routes.SmRegister, route.params);
+          }}>
+          <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
       </View>
       <DateTimePickerModal

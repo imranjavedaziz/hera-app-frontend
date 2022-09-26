@@ -30,9 +30,7 @@ const PtbBasicDetails = ({route}) => {
     console.log(data);
     navigation.navigate(Routes.SetPreference,{...data,...route.params});
   }
-  // const onSubmit = data => {
-  //   navigation.navigate(Routes.SetAttributes, {...data, ...route.params});
-  // };
+  
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}

@@ -7,9 +7,7 @@ import {CircleBtn,} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
-import {Static} from '../../../../constants/Constants';
-import {Fonts, Routes} from '../../../../constants/Constants';
-import Colors from '../../../../constants/Colors';
+import {Static,Routes} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import styles from './Styles'
@@ -30,16 +28,6 @@ const SmDashboard = ({route}) => {
     }
 
     setSearching(true), setSearch(value);
-
-    // setTimeout(() => {
-    //   const searchedName = this.state.name.filter(
-    //     name => name.title.toLowerCase().indexOf(value.toLowerCase()) !== -1,
-    //   );
-    //   this.setState({
-    //     searching: false,
-    //     filteredResult: searchedResult,
-    //   });
-    // }, 400);
   };
 
   onClear = () => {
@@ -49,7 +37,7 @@ const SmDashboard = ({route}) => {
 
   const renderProfile = ({item, index}) => {
     return (
-      <TouchableOpacity onPress={()=>navigation.navigate('ProfileDeatils')}>
+      <TouchableOpacity onPress={()=>navigation.navigate(Routes.ProfileDetails)}>
         <View style={styles.conatiner}>
           <Image
             style={styles.profileImgView}
@@ -88,7 +76,6 @@ const SmDashboard = ({route}) => {
    
   <CircleBtn
       icon={Images.iconChat}
-      // onPress={navigation.goBack}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
    
@@ -100,7 +87,7 @@ const SmDashboard = ({route}) => {
       showHeader={ searching ? false  : true}
       headerEnd={true}
       headerComp={headerComp}
-      style={{marginTop:60}}
+      style={{marginTop:Value.CONSTANT_VALUE_60}}
     >
        
       

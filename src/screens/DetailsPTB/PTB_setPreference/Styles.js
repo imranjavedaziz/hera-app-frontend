@@ -2,43 +2,60 @@ import {StyleSheet} from 'react-native';
 import {Value} from '../../../constants/FixedValues';
 import {Fonts, Routes} from '../../constants/Constants';
 import Colors from '../../../constants/Colors';
+import Alignment from '../../../constants/Alignment';
 
 export default {
+  mainContainer: {
+    flex: Value.CONSTANT_VALUE_1,
+    alignItems: Alignment.CENTER,
+  },
+  lookingFor: {
+    width: '100%',
+    marginTop: Value.CONSTANT_VALUE_50,
+  },
+  required: {
+    color: Colors.RED,
+    fontSize: Value.CONSTANT_VALUE_18,
+  },
   label: {
-    position: 'absolute',
+    position: Alignment.ABSOLUTE,
     left: Value.CONSTANT_VALUE_0,
     zIndex: -1,
     color: Colors.LABEL_BLACK,
   },
+  ageContainer:{
+    flexDirection: Alignment.ROW, 
+    flexWrap: 'wrap'
+  },
   lookingsm: {
-    alignItems: 'center',
+    alignItems: Alignment.CENTER,
     marginLeft: Value.CONSTANT_VALUE_10,
-    fontWeight: 'bold',
+    fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
   },
   lookingDonor: {
     marginLeft: Value.CONSTANT_VALUE_10,
-    fontWeight: 'bold',
+    fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_29,
   },
   lookingsDonor: {
     marginLeft: Value.CONSTANT_VALUE_10,
-    fontWeight: 'bold',
+    fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_16,
   },
   SDonorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
   },
   heightContainer: {
-    flexDirection: 'row',
+    flexDirection: Alignment.ROW,
     justifyContent: 'space-between',
     paddingBottom: Value.CONSTANT_VALUE_10,
   },
   heightText: {
-    color: 'red',
+    color:Colors.RED,
     fontSize: Value.CONSTANT_VALUE_18,
   },
   chipText: {
@@ -46,11 +63,11 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
   },
   chipsRequiredText: {
-    color: 'red',
+    color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_18,
   },
   hairContainer: {
-    flexDirection: 'row',
+    flexDirection: Alignment.ROW,
     flexWrap: 'wrap',
     marginVertical: Value.CONSTANT_VALUE_5,
   },
@@ -58,13 +75,13 @@ export default {
     height: Value.CONSTANT_VALUE_40,
     width: Value.CONSTANT_VALUE_90,
     borderRadius: Value.CONSTANT_VALUE_21,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_9,
     marginVertical: Value.CONSTANT_VALUE_5,
     padding: Value.CONSTANT_VALUE_0,
   },
   eyeContainer: {
-    flexDirection: 'row',
+    flexDirection: Alignment.ROW,
     flexWrap: 'wrap',
     marginVerticle: Value.CONSTANT_VALUE_5,
     marginBottom: Value.CONSTANT_VALUE_20,
@@ -78,9 +95,12 @@ export default {
     height: Value.CONSTANT_VALUE_41,
     width: Value.CONSTANT_VALUE_104,
     borderRadius: Value.CONSTANT_VALUE_21,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_10,
     marginVertical: Value.CONSTANT_VALUE_10,
     padding: Value.CONSTANT_VALUE_0,
+  },
+  chipInsideText:{
+    alignSelf: Alignment.CENTER
   },
 };

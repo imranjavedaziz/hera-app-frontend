@@ -1,11 +1,4 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useState, useReducer} from 'react';
 
 import Container from '../../../components/Container';
@@ -23,10 +16,10 @@ import Range from '../../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {genders, Static, Routes} from '../../../constants/Constants';
-import style from '../Stylepreference';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
+import Alignment from '../../../constants/Alignment';
 
 const initialState = {
   hair: [
@@ -65,7 +58,23 @@ function reducer(state, action) {
       return state;
   }
 }
-
+const onValueSelect = (data = '', value) => {
+  const dataArr = data ? data.split(',') : [];
+  const v = value.toString();
+  if (dataArr.includes(v)) {
+    dataArr.splice(
+      dataArr.findIndex(d => d === v),
+      1,
+    );
+  } else {
+    dataArr.push(v);
+  }
+  console.log(dataArr);
+  return dataArr.join(',');
+};
+const isSelected = (data, value) => {
+  return data.split(',').includes(value.toString());
+};
 const SetPreference = ({navigation}) => {
   const [surrogate, setSurrogate] = useState(false);
   const [donor, setDonor] = useState(false);
@@ -178,16 +187,11 @@ const SetPreference = ({navigation}) => {
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-          }}>
+        <View style={styles.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.preference.setPreference}
           </Text>
           <View
-            style={{marginVertical: Value.CONSTANT_VALUE_20}}
             accessible={true}
             accessibilityLabel={`${Strings.preference.filter}`}>
             <Text
@@ -198,41 +202,12 @@ const SetPreference = ({navigation}) => {
             </Text>
           </View>
 
-          <View
-            style={{
-              width: '100%',
-              marginTop: Value.CONSTANT_VALUE_50,
-            }}>
+          <View style={styles.lookingFor}>
             <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
-              Who are you looking for?
-              <Text style={{color: 'red', fontSize: Value.CONSTANT_VALUE_18}}>
-                *
-              </Text>
+              {Strings.preference.lookingFor}
+              <Text style={styles.required}>*</Text>
             </Text>
-            {/* <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <View style={style.radioContainer}>
-                {genders.map(gender => (
-                  <TouchableOpacity
-                    style={style.radioBtn}
-                    key={gender}
-                    onPress={() => onChange(gender)}>
-                    <Image
-                      style={style.radioImg}
-                      source={
-                        value === gender
-                          ? Images.iconRadiosel
-                          : Images.iconRadiounsel
-                      }
-                    />
-                    <Text style={styles.radioLabel}>{gender}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-            name="gender"
-          /> */}
+
             <View>
               <TouchableOpacity
                 style={{flexDirection: 'row'}}
@@ -243,7 +218,9 @@ const SetPreference = ({navigation}) => {
                 ) : (
                   <Image source={Images.iconRadiounsel} />
                 )}
-                <Text style={styles.lookingsm}>Surrogate Mother</Text>
+                <Text style={styles.lookingsm}>
+                  {Strings.preference.surrogateMother}
+                </Text>
               </TouchableOpacity>
             </View>
             <View>
@@ -256,7 +233,9 @@ const SetPreference = ({navigation}) => {
                 ) : (
                   <Image source={Images.iconRadiounsel} />
                 )}
-                <Text style={styles.lookingDonor}>Egg Donor</Text>
+                <Text style={styles.lookingDonor}>
+                  {Strings.preference.EggDonor}
+                </Text>
               </TouchableOpacity>
             </View>
             <View>
@@ -269,7 +248,9 @@ const SetPreference = ({navigation}) => {
                 ) : (
                   <Image source={Images.iconRadiounsel} />
                 )}
-                <Text style={styles.lookingsDonor}>Sperm Donor</Text>
+                <Text style={styles.lookingsDonor}>
+                  {Strings.preference.SpermDonor}
+                </Text>
               </TouchableOpacity>
             </View>
 
@@ -284,52 +265,56 @@ const SetPreference = ({navigation}) => {
                     onChange(selectedItem);
                   }}
                   required={true}
-                  // error={errors && errors.location?.message}
                 />
               )}
               name="location"
             />
 
             <Text style={styles.ageText}>{Strings.preference.AgeRange}</Text>
-            <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-              {state.age_range.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => SelectAgeRange(item, index)}
-                    activeOpacity={0.8}
-                    key={index}>
-                    <View
-                      style={[
-                        styles.ageRangeChip,
-                        {
-                          backgroundColor: item.flag
-                            ? Colors.COLOR_5ABCEC
-                            : 'white',
-                          borderWidth: item.flag ? 0 : 1,
-                        },
-                      ]}>
-                      <Text
-                        style={[
-                          {
-                            alignSelf: 'center',
-                            fontWeight: item.flag ? 'bold' : null,
-                            color: item.flag ? 'white' : null,
-                          },
-                        ]}>
-                        {item.title} yrs
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+
+            <Controller
+              control={control}
+              render={({field: {onChange, value = ''}}) => (
+                <View style={styles.ageContainer}>
+                  {state.age_range.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          onChange(onValueSelect(value, item.title));
+                        }}
+                        activeOpacity={0.8}
+                        key={index}>
+                        <View
+                          style={[
+                            styles.ageRangeChip,
+                            {
+                              backgroundColor: isSelected(value, item.title)
+                                ? Colors.COLOR_5ABCEC
+                                : Colors.WHITE,
+                              borderWidth: isSelected(value, item.title)
+                                ? 0
+                                : 1,
+                            },
+                          ]}>
+                          <Text style={styles.chipInsideText}>
+                            {item.title} {Strings.preference.yrs}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
+              name="age_range"
+            />
+
             <View style={{marginTop: Value.CONSTANT_VALUE_30}}>
               <View style={styles.heightContainer}>
                 <Text>
                   {Strings.preference.Height}{' '}
                   <Text style={styles.heightText}>*</Text>
                 </Text>
-                <Text style={{fontWeight: 'bold'}}>
+                <Text style={{fontWeight: Alignment.BOLD}}>
                   <Text>
                     {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
                   </Text>
@@ -381,72 +366,102 @@ const SetPreference = ({navigation}) => {
               {Strings.preference.HairColor}
               <Text style={styles.chipsRequiredText}>*</Text>
             </Text>
-            <View style={styles.hairContainer}>
-              {state.hair.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => SelectHair(item, index)}
-                    key={index}>
-                    <View
-                      style={[
-                        styles.chips,
-                        {
-                          backgroundColor: item.flag
-                            ? Colors.COLOR_5ABCEC
-                            : 'white',
-                          borderWidth: item.flag ? 0 : 1,
-                        },
-                      ]}>
-                      <Text
+
+            <Controller
+              control={control}
+              render={({field: {onChange, value = ''}}) => (
+                <View style={styles.hairContainer}>
+                  {Static.hairColors.map((item, index) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        onChange(onValueSelect(value, item.id));
+                      }}
+                      key={index}>
+                      <View
                         style={[
+                          styles.chips,
                           {
-                            alignSelf: 'center',
-                            fontWeight: item.flag ? 'bold' : null,
-                            color: item.flag ? 'white' : null,
+                            backgroundColor: isSelected(
+                              value,
+                              item.id.toString(),
+                            )
+                              ? Colors.COLOR_5ABCEC
+                              : Colors.WHITE,
+                            borderWidth: isSelected(value, item.id.toString())
+                              ? 0
+                              : 1,
                           },
                         ]}>
-                        {item.title}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+                        <Text
+                          style={[
+                            {
+                              alignSelf: Alignment.CENTER,
+                              fontWeight: isSelected(value, item.id.toString())
+                                ? Alignment.BOLD
+                                : null,
+                              color: isSelected(value, item.id.toString())
+                                ? Colors.WHITE
+                                : null,
+                            },
+                          ]}>
+                          {item.name}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+              name="hair"
+            />
+
             <Text style={styles.chipText}>
-              Eye Color<Text style={styles.chipsRequiredText}>*</Text>
+              {Strings.preference.EyeColor}
+              <Text style={styles.chipsRequiredText}>*</Text>
             </Text>
-            <View style={styles.eyeContainer}>
-              {state.eye.map((item, index) => {
-                return (
+          </View>
+          <Controller
+            control={control}
+            render={({field: {onChange, value = ''}}) => (
+              <View style={styles.eyeContainer}>
+                {Static.eyeColors.map((item, index) => (
                   <TouchableOpacity
-                    onPress={() => SelectEye(item, index)}
+                    onPress={() => {
+                      onChange(onValueSelect(value, item.id));
+                    }}
                     key={index}>
                     <View
                       style={[
                         styles.chips,
                         {
-                          backgroundColor: item.flag
+                          backgroundColor: isSelected(value, item.id.toString())
                             ? Colors.COLOR_5ABCEC
-                            : 'white',
-                          borderWidth: item.flag ? 0 : 1,
+                            : Colors.WHITE,
+                          borderWidth: isSelected(value, item.id.toString())
+                            ? 0
+                            : 1,
                         },
                       ]}>
                       <Text
                         style={[
                           {
-                            alignSelf: 'center',
-                            fontWeight: item.flag ? 'bold' : null,
-                            color: item.flag ? 'white' : null,
+                            alignSelf: Alignment.CENTER,
+                            fontWeight: isSelected(value, item.id.toString())
+                              ? Alignment.BOLD
+                              : null,
+                            color: isSelected(value, item.id.toString())
+                              ? Colors.WHITE
+                              : null,
                           },
                         ]}>
-                        {item.title}
+                        {item.name}
                       </Text>
                     </View>
                   </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
+                ))}
+              </View>
+            )}
+            name="eye"
+          />
 
           <Button
             label={Strings.preference.Save}

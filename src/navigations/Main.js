@@ -34,9 +34,10 @@ const Main = () => {
 
       
     <NavigationContainer>
-      {/* initialRouteName="SetPreference" */}
 
-      <Stack.Navigator initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}>
+      <Stack.Navigator 
+      initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
+      >
 
       <Stack.Screen
           name={Routes.SmDashboard}

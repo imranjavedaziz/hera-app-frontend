@@ -568,7 +568,23 @@ export const Static = {
       "name": "Other"
     }
   ],
-  location:['India', "America","Alaska Native" ],
+  location:[
+    {
+      "id":1,
+      "name":'India'
+    },
+    {
+      "id":2,
+      "name":'America'
+    },
+    {
+      "id":3,
+      "name":"Alaska Native"
+    },
+    {
+      "id":4,
+      "name":'India'
+    }],
   relationship_status: [
     {
       "id": 1,
@@ -668,5 +684,6 @@ export const Routes = {
   SetPreference: 'SetPreference',
   PtbBasicDetails: 'PtbBasicDetails',
   ProfileDetails:'ProfileDetails',
-  SmDashboard:'SmDashboard'
+  SmDashboard:'SmDashboard',
+  SetPreference:'SetPreference'
 };

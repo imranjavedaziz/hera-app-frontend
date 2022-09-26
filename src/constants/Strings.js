@@ -3,7 +3,7 @@ export const ValidationMessages = {
   PASSWORD_REQUIRED: 'Password is a required feild.',
   COMMON_REQUIRED: 'This is a required feild.',
   INVALID_MOBILE: 'Mobile number is not valid.',
-  PICTURE_REQUIRE: 'Please upload picture',
+  PICTURE_REQUIRE: 'Please add Profile Photo',
   TERMS_OF_USE: 'Please accept the Terms of Use',
   FIRST_NAME: 'Please enter your First Name',
   LAST_NAME: 'Please enter your Last Name',
@@ -60,6 +60,7 @@ export default {
   profile: {
     makeAccountFor: 'Make Account For',
     parentToBe: 'Parent To Be',
+    uploadImage:'  Upload Display Picture',
     FirstName: 'First Name',
     MiddleName: 'Middle Name (Optional)',
     LastName: 'Last Name',
@@ -73,6 +74,11 @@ export default {
     ModalSubheader: 'If you cancel now, your progress will be lost.',
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
+    tmc1:"By continuing, you agree to HERA's ",
+    tmc2:'Terms of use',
+    tmc3:'Privacy Policy',
+
+
   },
   preference: {
     setPreference: 'Set Preference',
@@ -80,6 +86,7 @@ export default {
     surrogateMother: 'Surrogate Mother',
     EggDonor: 'Egg Donor',
     SpermDonor: 'Sperm Donor',
+    lookingFor:'Who are you looking for?',
     Save: 'SAVE',
     Ethnicity: 'Ethnicity',
     Race: 'Race',
@@ -87,9 +94,12 @@ export default {
     AgeRange: 'Age Range',
     Height: 'Height',
     HairColor: 'Hair Color',
+    EyeColor:'Eye Color',
     InquiryForm: 'Inquiry Form',
     About: 'About HERA',
     Logout: 'Log Out',
+    yrs:'yrs',
+
   },
   otp: {
     title: 'Verify your mobile',
@@ -147,7 +157,7 @@ export default {
     Btn: 'Save',
   },
   sm_dashboard: {
-    Title: 'Like , Matches & Connect!',
+    Title: 'Like , Match & Connect!',
     Subtitle1: 'Your match might just',
     Subtitle2: 'be a click away!',
   },
@@ -165,7 +175,10 @@ export default {
     request_decline:'REQUEST DECLINED',
     send_msg:'SEND MESSAGE',
     video_text:'Parant has uploaded a sort clip'
-
     
   },
+  search_Bar:{
+    search:'Search',
+
+  }
 };

@@ -1,3 +1,4 @@
+// search Bar
 import {
   StyleSheet,
   Text,
@@ -8,98 +9,109 @@ import {
 } from 'react-native';
 import React from 'react';
 import Images from '../constants/Images';
+import Strings from '../constants/Strings';
+import Alignment from '../constants/Alignment';
+import {Value} from '../constants/FixedValues';
+import Colors from '../constants/Colors';
+
 const Searchbar = props => {
   return (
-    <View style={{flexDirection:'row',}}>
-    <View style={props.editing? styles.searchBarContainer : styles.searchEditBarContainer}>
-      <Image
-        style={{alignSelf: 'center', marginLeft: 15}}
-        source={Images.search}
-      />
-      <TextInput
-        style={styles.searchBar}
-        onChangeText={props.onChangeText}
-        value={props.value}
-        placeholder={'Search'}
-        placeholderTextColor="black"
-      />
-      {props.editing ? (
-        <TouchableOpacity style={{marginRight: 8, alignSelf: 'center'}}>
-          <Image source={Images.pin} />
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity onPress={props.onClear} style={{marginRight: 3}}>
-          <Image
-            style={{height: 24, width: 24, marginTop: 8, marginRight: 8}}
-            source={Images.iconcross}
-          />
-        </TouchableOpacity>
-       
-      )}
-   
-
-
-      {/* {props.loading ? (
-        <ActivityIndicator
-          style={{marginRight: '5%'}}
-          size={'small'}
-          animating={true}
-          color={'#0078b0'}
+    <View style={styles.mainContainer}>
+      <View
+        style={
+          props.editing
+            ? styles.searchBarContainer
+            : styles.searchEditBarContainer
+        }>
+        <Image style={styles.searchImage} source={Images.search} />
+        <TextInput
+          style={styles.searchBar}
+          onChangeText={props.onChangeText}
+          value={props.value}
+          placeholder={Strings.search_Bar.search}
         />
-      ) : null} */}
-      
-    </View>
-    {props.editing ? null : 
-    <TouchableOpacity  onPress={props.onClear} style={{justifyContent:'center', alignItems:'center',marginBottom:10, marginLeft:15,}}>
-    <Text style={{fontWeight:'bold', color:'red', textDecorationLine:'underline', alignSelf:'center', fontSize:16}}>Cancel</Text> 
-    </TouchableOpacity>
-     }
-    
+        {props.editing ? (
+          <TouchableOpacity style={styles.pinIcon}>
+            <Image source={Images.pin} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={props.onClear}
+            style={styles.crossIconContainer}>
+            <Image style={styles.crossIcon} source={Images.iconcross} />
+          </TouchableOpacity>
+        )}
+      </View>
+      {props.editing ? null : (
+        <TouchableOpacity onPress={props.onClear} style={styles.clearView}>
+          <Text style={styles.clearText}>Cancel</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 export default Searchbar;
 
-// Searchbar.propType = {
-//   onChangeText: PropTypes.func.isRequired,
-//   placeholder: PropTypes.string,
-//   value: PropTypes.string.isRequired,
-//   loading: PropTypes.bool.isRequired,
-//   editing: PropTypes.bool.isRequired,
-//   onClear: PropTypes.func.isRequired,
-// };
-
 const styles = StyleSheet.create({
+  mainContainer: {
+    flexDirection: Alignment.ROW,
+  },
   searchBar: {
-    flex: 1,
-    paddingVertical: 5,
-    paddingLeft: 10,
-    fontWeight: '300',
-    backgroundColor: '#fff',
-    fontSize: 15,
+    flex: Value.CONSTANT_VALUE_1,
+    paddingVertical: Value.CONSTANT_VALUE_5,
+    paddingLeft: Value.CONSTANT_VALUE_10,
+    fontSize: Value.CONSTANT_VALUE_15,
+    marginLeft: Value.CONSTANT_VALUE_5,
   },
   searchBarContainer: {
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    width:350,
-    height: 50,
-    alignSelf: 'center',
-    padding: 5,
-    borderRadius: 5,
-    marginBottom: 12,
-    // borderWidth:2
-    // backgroundColor:'black'
+    backgroundColor: Colors.WHITE,
+    flexDirection: Alignment.ROW,
+    width: Value.CONSTANT_VALUE_350,
+    height: Value.CONSTANT_VALUE_50,
+    alignSelf: Alignment.CENTER,
+    padding: Value.CONSTANT_VALUE_5,
+    borderRadius: Value.CONSTANT_VALUE_5,
+    marginBottom: Value.CONSTANT_VALUE_12,
   },
   searchEditBarContainer: {
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    width:284,
-    height: 50,
-    alignSelf: 'center',
-    padding: 5,
-    borderRadius: 5,
-    marginBottom: 12,
-    // backgroundColor:'black'
+    backgroundColor: Colors.WHITE,
+    flexDirection: Alignment.ROW,
+    width: Value.CONSTANT_VALUE_284,
+    height: Value.CONSTANT_VALUE_50,
+    alignSelf: Alignment.CENTER,
+    padding: Value.CONSTANT_VALUE_5,
+    borderRadius: Value.CONSTANT_VALUE_5,
+    marginBottom: Value.CONSTANT_VALUE_12,
+  },
+  searchImage: {
+    alignSelf: Alignment.CENTER,
+    marginLeft: Value.CONSTANT_VALUE_15,
+  },
+  pinIcon: {
+    marginRight: Value.CONSTANT_VALUE_8,
+    alignSelf: Alignment.CENTER,
+  },
+  crossIconContainer: {
+    marginRight: Value.CONSTANT_VALUE_3,
+  },
+  crossIcon: {
+    height: Value.CONSTANT_VALUE_24,
+    width: Value.CONSTANT_VALUE_24,
+    marginTop: Value.CONSTANT_VALUE_8,
+    marginRight: Value.CONSTANT_VALUE_8,
+  },
+  clearView: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    marginBottom: Value.CONSTANT_VALUE_10,
+    marginLeft: Value.CONSTANT_VALUE_15,
+  },
+  clearText: {
+    fontWeight: Alignment.BOLD,
+    color: Colors.RED,
+    textDecorationLine: Alignment.UNDERLINE,
+    alignSelf: Alignment.CENTER,
+    fontSize: Value.CONSTANT_VALUE_16,
   },
 });
