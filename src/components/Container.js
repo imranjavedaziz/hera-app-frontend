@@ -12,8 +12,8 @@ import Colors from '../constants/Colors';
 import Header from './Header';
 
 const styles = {
-  container: {flex: 1, marginHorizontal: 40,},
-  safearea: {flex: 1, backgroundColor: Colors.BACKGROUND},
+  container: {flex: 1, marginHorizontal: 30,},
+  safearea: {flex: 1, backgroundColor: Colors.COLOR_F7F5F0},
 };
 const Scroller = ({enabled, style, children}) => {
   if (enabled) {
@@ -39,6 +39,7 @@ const Container = props => {
     headerEnd = false,
     headerComp = null,
     style = {},
+    safeAreViewStyle={},
   } = props;
   return (
     <>
@@ -48,8 +49,9 @@ const Container = props => {
         animated={true}
         hidden={false}
       />
-      <SafeAreaView style={styles.safearea}>
+       <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
         <KeyboardAvoidingView
+        
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}

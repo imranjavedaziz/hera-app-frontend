@@ -12,6 +12,8 @@ import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
+import Colors from '../../constants/Colors';
+import {sendSmsVerification} from '../../hooks/verifyOTP';
 import styles from '../../styles/auth/mobileNumberScreen';
 import { Routes } from '../../constants/Constants';
 import Auth from '../../services/Auth';
@@ -21,6 +23,7 @@ const MobileNumber = () => {
   const authService = Auth();
   const {
     handleSubmit,
+    getValues,
     control,
     formState: {errors, isValid},
   } = useForm({
@@ -32,6 +35,8 @@ const MobileNumber = () => {
       phone_no: data.phone
     });
   };
+  const text = getValues('phone');
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}

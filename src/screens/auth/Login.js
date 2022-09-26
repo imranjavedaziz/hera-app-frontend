@@ -30,6 +30,7 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
+  
   useEffect(() => {
     if (!isValid) {
       const e = errors;
@@ -39,6 +40,7 @@ const Login = () => {
       if(msg)dispatch(showAppToast(false,msg));
     }
   }, [errors, isValid]);
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}

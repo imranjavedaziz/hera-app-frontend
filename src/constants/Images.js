@@ -3,6 +3,8 @@ export default {
     BACK_ICON: require('../assets/icons/back.png'),
     GEAR_ICON: require('../assets/icons/gear.png'),
     CROSS_ICON: require('../assets/icons/cross.png'),
+    RED_CROSS_ICON: require('../assets/icons/iconredcross/iconredcross.png'),
+    HEARTH_ICON: require('../assets/icons/iconheartinbox/iconheartinbox.png'),
     arrowDown: require('../assets/icons/arrowDown/arrowDown.png'),
     blockUser: require('../assets/icons/blockUser/blockUser.png'),
     calendar: require('../assets/icons/calendar/calendar.png'),
@@ -43,7 +45,9 @@ export default {
     writing: require('../assets/icons/writing/writing.png'),
     warning: require('../assets/icons/warning/warning.png'),
     path: require('../assets/icons/path/path.png'),
+
     // IMAGES
-    LANDING_BG: require('../assets/images/landing-bg/landing-bg.png'),
-    LOGO: require('../assets/images/logo/logo.png'),
+    LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
+    LOGO: require('../assets/Images/logo/logo.png'),
+    QUOTES: require('../assets/Images/background_quotes/invalidName.png')
 }

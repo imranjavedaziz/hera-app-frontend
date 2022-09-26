@@ -21,13 +21,20 @@ const OTP = ({route}) => {
   const authService = Auth();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
+  
+  // const phoneNumber = route.params.phone_num.phone;
   const {
     handleSubmit,
     control,
+    getValues,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(otpSchema),
   });
+
+  // const dispatch = useDispatch();
+
+
   const onSubmit = data => {
     authService.verifyOtp({otp: data.otp,...route.params});
   };

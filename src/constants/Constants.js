@@ -40,22 +40,23 @@ export const Fonts = {
   OpenSansLight: 'OpenSans-Light',
   OpenSansRegular: 'OpenSans',
   OpenSansSemibold: 'OpenSans-Semibold',
-}
+};
 
 export const smRoles = [
   {
+    id: 1,
+    name: 'Surrogate Mother',
+  },
+  {
+    id: 2,
+    name: 'Egg Donor',
+  },
+  {
     id: 3,
-    name: 'Surrogate Mother'
+    name: 'Sperm Donor',
   },
-  {
-    id: 4,
-    name: 'Egg Donor'
-  },
-  {
-    id: 5,
-    name: 'Sperm Donor'
-  },
-]
+];
+
 export const genders = [
   {
     "id": 1,
@@ -567,7 +568,23 @@ export const Static = {
       "name": "Other"
     }
   ],
-  location:['India', "America","Alaska Native" ],
+  location:[
+    {
+      "id":1,
+      "name":'India'
+    },
+    {
+      "id":2,
+      "name":'America'
+    },
+    {
+      "id":3,
+      "name":"Alaska Native"
+    },
+    {
+      "id":4,
+      "name":'India'
+    }],
   relationship_status: [
     {
       "id": 1,
@@ -615,7 +632,44 @@ export const Static = {
       "id": 6,
       "name": "Ph.D."
     }
-  ]
+  ],
+  Profile: [
+    {
+      name: 'Marley',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/kelsey-kane/profile-screen_2x.jpg',
+      location: 'USA',
+    },
+    {
+      name: 'Steve',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'Emilio',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/kelsey-kane/profile-screen_2x.jpg',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+  ],
 }
 export const Routes = {
   Landing: 'Landing',
@@ -628,4 +682,8 @@ export const Routes = {
   CreateGallery: 'CreateGallery',
   Profile: 'Profile',
   SetPreference: 'SetPreference',
-}
+  PtbBasicDetails: 'PtbBasicDetails',
+  ProfileDetails:'ProfileDetails',
+  SmDashboard:'SmDashboard',
+  SetPreference:'SetPreference'
+};
