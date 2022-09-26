@@ -290,7 +290,7 @@ const SetPreference = ({navigation}) => {
               name="location"
             />
 
-            <Text style={styles.ageText}>Age Range</Text>
+            <Text style={styles.ageText}>{Strings.preference.AgeRange}</Text>
             <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
               {state.age_range.map((item, index) => {
                 return (
@@ -326,7 +326,8 @@ const SetPreference = ({navigation}) => {
             <View style={{marginTop: Value.CONSTANT_VALUE_30}}>
               <View style={styles.heightContainer}>
                 <Text>
-                  Height<Text style={styles.heightText}>*</Text>
+                  {Strings.preference.Height}{' '}
+                  <Text style={styles.heightText}>*</Text>
                 </Text>
                 <Text style={{fontWeight: 'bold'}}>
                   <Text>
@@ -377,7 +378,8 @@ const SetPreference = ({navigation}) => {
             />
 
             <Text style={styles.chipText}>
-              Hair Color<Text style={styles.chipsRequiredText}>*</Text>
+              {Strings.preference.HairColor}
+              <Text style={styles.chipsRequiredText}>*</Text>
             </Text>
             <View style={styles.hairContainer}>
               {state.hair.map((item, index) => {
@@ -459,13 +461,17 @@ const SetPreference = ({navigation}) => {
         setOpen={setOpen}>
         <View style={globalStyle.basicSheetContainer}>
           <TouchableOpacity style={globalStyle.formBtn}>
-            <Text style={globalStyle.formText}>Inquiry Form</Text>
+            <Text style={globalStyle.formText}>
+              {Strings.preference.InquiryForm}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity style={globalStyle.heraBtn}>
-            <Text style={globalStyle.heraText}>About HERA</Text>
+            <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={globalStyle.logoutBtn}>
-            <Text style={globalStyle.logoutText}>Log Out</Text>
+            <Text style={globalStyle.logoutText}>
+              {Strings.preference.Logout}
+            </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>

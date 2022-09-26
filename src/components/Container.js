@@ -12,8 +12,8 @@ import Colors from '../constants/Colors';
 import Header from './Header';
 
 const styles = {
-  container: {flex: 1, marginHorizontal: 40,},
-  safearea: {flex: 1, backgroundColor: Colors.BACKGROUND},
+  container: {flex: 1, marginHorizontal: 30,},
+  safearea: {flex: 1, backgroundColor: Colors.COLOR_F7F5F0},
 };
 const Scroller = ({enabled, style, children}) => {
   if (enabled) {

@@ -61,7 +61,7 @@ export default {
     justifyContent: 'center',
     marginRight: Value.CONSTANT_VALUE_9,
     marginVertical: Value.CONSTANT_VALUE_5,
-    padding: CONSTANT_VALUE_0,
+    padding: Value.CONSTANT_VALUE_0,
   },
   eyeContainer: {
     flexDirection: 'row',
