@@ -1,7 +1,7 @@
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
-import {normalizeFont} from '../utils/responsive';
+import {normalizeFont, dynamicSize, scaleWidth,scaleHeight} from '../utils/responsive';
 import { Fonts } from '../constants/Constants';
 
 export default {
@@ -30,5 +30,52 @@ export default {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_18),
     textDecorationLine: 'underline',
     fontWeight: '700',
+  },
+  modalColor: {backgroundColor: Colors.LIGHT_BLACK47},
+  lineStyle: {width: scaleWidth(20), backgroundColor: Colors.LIGHT_BLACK47},
+  safeViewStyle: {flex: dynamicSize(Value.CONSTANT_VALUE_1), backgroundColor: Colors.BACKGROUND},
+  wrapperStyle: {
+    borderTopLeftRadius: dynamicSize(Value.CONSTANT_VALUE_0),
+    borderTopRightRadius: dynamicSize(Value.CONSTANT_VALUE_0),
+  },
+  basicSheetContainer: {
+    paddingHorizontal: scaleWidth(20),
+    height: scaleHeight(274),
+  },
+  formBtn: {
+    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
+    borderBottomWidth: dynamicSize(Value.CONSTANT_VALUE_2),
+    borderBottomColor: Colors.BORDER_LINE,
+    width: scaleWidth(300),
+  },
+  formText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
+  },
+  heraBtn: {
+    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
+    borderBottomWidth: dynamicSize(Value.CONSTANT_VALUE_2),
+    borderBottomColor: Colors.BORDER_LINE,
+    width: scaleWidth(300),
+  },
+  heraText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_5),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
+  },
+  logoutBtn: {
+    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
+    borderBottomColor: Colors.BORDER_LINE,
+  },
+  logoutText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.RED,
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_5),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
 };

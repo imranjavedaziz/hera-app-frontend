@@ -4,7 +4,7 @@ import { Modal, Text, TouchableOpacity } from "react-native";
 import BottomSheet from 'react-native-simple-bottom-sheet';
 
 const BottomSheetComp = (props)=>{
-    const {isOpen,setOpen,children} = props;
+    const {isOpen,setOpen,children,wrapperStyle, lineStyle} = props;
     const panelRef= useRef(null);
     return (
         <Modal
@@ -16,7 +16,7 @@ const BottomSheetComp = (props)=>{
             transparent
         >
             <TouchableOpacity activeOpacity={1} onPress={()=>setOpen(false)} style={{flex:1}}/>
-            <BottomSheet isOpen={isOpen} ref={ref => panelRef.current = ref} sliderMinHeight={0} onClose={()=>{
+            <BottomSheet  wrapperStyle={wrapperStyle? wrapperStyle : {borderRadius:0}} lineStyle={lineStyle} isOpen={isOpen} ref={ref => panelRef.current = ref} sliderMinHeight={0} onClose={()=>{
                 setOpen(false);
             }}
             outerContentStyle={{
@@ -29,11 +29,7 @@ const BottomSheetComp = (props)=>{
                 borderTopLeftRadius: 0,
                 borderTopRightRadius: 0,
             }}
-            wrapperStyle={{
-                borderRadius: 0,
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-            }}>
+           >
                 {children}
             </BottomSheet>
         </Modal>

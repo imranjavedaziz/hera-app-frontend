@@ -131,7 +131,7 @@ const CreateGallery = ({route}) => {
           </TouchableOpacity>
           <Button
             label={Strings.sm_create_gallery.Btn}
-            onPress={() => navigation.navigate(Routes.Landing)}
+            onPress={() => navigation.navigate('PtbDashboard')}
           />
         </View>
       </Container>

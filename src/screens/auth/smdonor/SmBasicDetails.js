@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React from 'react';
+import React, { useState } from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
@@ -15,9 +15,11 @@ import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
 import {genders, Static,Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
+import BottomSheetComp from '../../../components/BottomSheet';
 
 const SmBasicDetails = ({route}) => {
   const navigation = useNavigation();
+  const [isOpen, setOpen] = useState(false);
   const {
     handleSubmit,
     control,
@@ -36,9 +38,9 @@ const SmBasicDetails = ({route}) => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
-      onPress={navigation.goBack}
-      accessibilityLabel="Left arrow Button, Press to go back"
+      onPress={()=>{setOpen(true)}}
     />
+    
   );
   return (
     <>
@@ -46,7 +48,10 @@ const SmBasicDetails = ({route}) => {
         scroller={true}
         showHeader={true}
         headerEnd={true}
-        headerComp={headerComp}>
+        headerComp={headerComp}
+        safeAreViewStyle={
+          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
+        }>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>{Strings.sm_basic.Title}</Text>
           <Text style={[globalStyle.screenSubTitle, {marginVertical: 20}]}>
@@ -167,6 +172,35 @@ const SmBasicDetails = ({route}) => {
           />
         </View>
       </Container>
+      <BottomSheetComp
+        wrapperStyle={globalStyle.wrapperStyle}
+        lineStyle={globalStyle.lineStyle}
+        isOpen={isOpen}
+        setOpen={setOpen}>
+        <View
+          style={globalStyle.basicSheetContainer}>
+          <TouchableOpacity
+            style={globalStyle.formBtn}>
+            <Text
+              style={globalStyle.formText}>
+            {Strings.bottomSheet.Inquiry_Form}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}>
+            <Text
+              style={globalStyle.heraText}>
+              {Strings.bottomSheet.About_HERA}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={globalStyle.logoutBtn}>
+            <Text
+              style={globalStyle.logoutText}>
+              {Strings.bottomSheet.Log_Out}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheetComp>
     </>
   );
 };
