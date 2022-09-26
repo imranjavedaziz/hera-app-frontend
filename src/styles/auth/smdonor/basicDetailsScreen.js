@@ -2,6 +2,7 @@ import Colors from '../../../constants/Colors';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
 import {Fonts} from '../../../constants/Constants';
+import { scaleWidth, normalizeFont } from '../../../utils/responsive';
 
 export default {
   radioBtn: {
@@ -10,22 +11,23 @@ export default {
     alignItems: Alignment.CENTER,
     paddingVertical: Value.CONSTANT_VALUE_10,
     justifyContent: Alignment.FLEX_START,
-    marginRight: Value.CONSTANT_VALUE_15,
+    marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
   radioImg: {
-    width: Value.CONSTANT_VALUE_30,
+    width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
-    height: Value.CONSTANT_VALUE_30,
+    height: scaleWidth(Value.CONSTANT_VALUE_25),
   },
   radioLabel: {
-    marginLeft: Value.CONSTANT_VALUE_10,
-    fontSize: Value.CONSTANT_VALUE_18,
+    marginLeft: scaleWidth(Value.CONSTANT_VALUE_5),
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_18),
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
   },
   radioContainer: {
     flexDirection: Alignment.ROW,
     width: Prencentage.PRECENTAGE_100,
+    flexWrap: 'wrap'
   },
   textArea: {
     borderWidth: Value.CONSTANT_VALUE_1,
@@ -34,5 +36,12 @@ export default {
     padding: Value.CONSTANT_VALUE_10,
     minHeight: Value.CONSTANT_VALUE_80,
     textAlignVertical: 'top',
+  },
+  label: {
+    color: Colors.LABEL_BLACK,
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_14,
+    width: Prencentage.PRECENTAGE_100,
+    textAlign: Alignment.LEFT
   },
 };

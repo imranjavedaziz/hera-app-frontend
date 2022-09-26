@@ -25,7 +25,7 @@ import Example from './Example';
 import Range from '../DetailsPTB/Range';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import Dropdown from '../../components/inputs/Dropdown';
-import {Static} from '../../constants/Constants';
+import {Static, smRoles} from '../../constants/Constants';
 
 
 
@@ -330,7 +330,7 @@ const SetPreference = ({navigation}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.preference.Location}
-                data={Static.location}
+                data={Static.countries}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index);
                   onChange(selectedItem);
@@ -411,14 +411,14 @@ const SetPreference = ({navigation}) => {
           {/* Drop Down */}
 
           <Example
-            options={race}
+            options={Static.race}
             label={Strings.preference.Race}
             control={control}
             name={'race'}
             setValue={setValue}
           />
           <Example
-            options={ethnicity}
+            options={Static.ethnicity}
             label={Strings.preference.Ethnicity}
             control={control}
             name={'Ethnicity'}

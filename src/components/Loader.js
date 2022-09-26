@@ -12,8 +12,8 @@ const styles = {
         position: Alignment.ABSOLUTE,
         top: (height/Value.CONSTANT_VALUE_2)-Value.CONSTANT_VALUE_35,
         left: (width/Value.CONSTANT_VALUE_2)-Value.CONSTANT_VALUE_35,
-        width: Value.CONSTANT_VALUE_70,
-        height: Value.CONSTANT_VALUE_70,
+        width: Value.CONSTANT_VALUE_60,
+        height: Value.CONSTANT_VALUE_60,
         alignItems: Alignment.CENTER,
         justifyContent: Alignment.CENTER,
         borderRadius: Value.CONSTANT_VALUE_35,
@@ -23,13 +23,10 @@ const styles = {
 }
 const Loader = ()=>{
     const loaderState = useSelector(state=>state.loader);
-    React.useEffect(()=>{
-        console.log(loaderState);
-    },[loaderState])
     if(loaderState.loading){
         return (
             <View style={styles.container}>
-                <ActivityIndicator color={Colors.COLOR_A3C6C4} size='large'/>
+                <ActivityIndicator color={Colors.COLOR_A3C6C4}/>
             </View>
         );
     }

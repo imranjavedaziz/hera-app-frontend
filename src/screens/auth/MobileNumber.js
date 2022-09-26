@@ -14,9 +14,11 @@ import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
 import { Routes } from '../../constants/Constants';
+import Auth from '../../services/Auth';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
+  const authService = Auth();
   const {
     handleSubmit,
     control,
@@ -25,7 +27,10 @@ const MobileNumber = () => {
     resolver: yupResolver(mobileSchema),
   });
   const onSubmit = data => {
-    navigation.navigate(Routes.OTP);
+    authService.sendOtp({
+      country_code: "+91",
+      phone_no: data.phone
+    });
   };
   const headerComp = () => (
     <CircleBtn

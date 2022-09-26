@@ -15,8 +15,10 @@ import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
 import { Routes } from '../../constants/Constants';
+import Auth from '../../services/Auth';
 
-const OTP = () => {
+const OTP = ({route}) => {
+  const authService = Auth();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
   const {
@@ -27,7 +29,7 @@ const OTP = () => {
     resolver: yupResolver(otpSchema),
   });
   const onSubmit = data => {
-    navigation.navigate(Routes.Profile);
+    authService.verifyOtp({otp: data.otp,...route.params});
   };
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

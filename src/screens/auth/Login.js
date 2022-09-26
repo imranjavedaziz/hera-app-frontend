@@ -16,8 +16,10 @@ import Strings from '../../constants/Strings';
 import { showAppToast } from '../../redux/actions/loader';
 import { loginSchema } from '../../constants/schemas';
 import { Routes } from '../../constants/Constants';
+import Auth from '../../services/Auth';
 
 const Login = () => {
+  const authService = Auth();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -45,7 +47,11 @@ const Login = () => {
     />
   );
   const onSubmit = (data) => {
-    console.log(data);
+    authService.login({
+      country_code: "+91",
+      phone_no: data.phone,
+      password: data.password
+    })
   };
   return (
     <Container
