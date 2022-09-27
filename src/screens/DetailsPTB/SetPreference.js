@@ -67,7 +67,21 @@ function reducer(state, action) {
       return state;
   }
 }
-
+const onValueSelect = (data='',value)=>{
+  const dataArr = data?data.split(','):[];
+  const v = value.toString();
+  if(dataArr.includes(v)){
+    dataArr.splice(dataArr.findIndex(d=>d===v), 1);
+  }
+  else{
+    dataArr.push(v);
+  }
+  console.log(dataArr);
+  return dataArr.join(',');
+}
+const isSelected = (data,value)=>{
+  return data.split(',').includes(value.toString())
+}
 const SetPreference = ({navigation}) => {
   const [surrogate, setSurrogate] = useState(false);
   const [donor, setDonor] = useState(false);
@@ -84,34 +98,6 @@ const SetPreference = ({navigation}) => {
     resolver: yupResolver(setPreferenceSchema),
   });
 
-  const SelectHair = (item, index) => {
-    // console.log(item.title + ' ' + index);
-    state.hair[index].flag = !state.hair[index].flag;
-    console.log(state.hair);
-    dis({
-      type: 'ON_SELECT_HAIR',
-      payload: state.hair,
-    });
-  };
-
-  const SelectEye = (item, index) => {
-    state.eye[index].flag = !state.eye[index].flag;
-    console.log(state.eye);
-    dis({
-      type: 'ON_SELECT_EYE',
-      payload: state.eye,
-    });
-  };
-
-  const SelectAgeRange = (item, index) => {
-    state.age_range[index].flag = !state.age_range[index].flag;
-    console.log(state.age_range);
-    dis({
-      type: 'ON_SELECT_AGE',
-      payload: state.age_range,
-    });
-  };
-
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -119,101 +105,10 @@ const SetPreference = ({navigation}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-
-  const ethnicity = [
-    {
-      label: 'Ethnicity',
-    },
-    {
-      label: 'Alaska Native',
-    },
-    {
-      label: 'Ethnicity-1',
-    },
-    {
-      label: 'Ethnicity-2',
-    },
-    {
-      label: 'Ethnicity-2',
-    },
-  ];
-
-  const race = [
-    {
-      label: 'White',
-    },
-    {
-      label: 'Black or African American',
-    },
-    {
-      label: 'American Indian or Alaska Native',
-    },
-    {
-      label: 'Asian',
-    },
-    {
-      label: 'Native Hawaiian or Other Pacific Islander',
-    },
-    {
-      label: 'Mixed Or Other Race',
-    },
-  ];
-
-  const location = [
-    {
-      label: 'India',
-    },
-    {
-      label: 'Alaska',
-    },
-    {
-      label: 'America',
-    },
-    {
-      label: 'Europe',
-    },
-  ];
-
-  // useEffect(() => {
-
-  // }, [errors, isValid]);
   const dispatch = useDispatch();
 
   const mySubmit = data => {
-    const race =  getValues('race')
-    console.log(race);
-    if(surrogate == false && donor == false && egg== false ){
-      dispatch(showAppToast(true,ValidationMessages.SELECT_LOOKING ));
-      return;
-    }
-    if(race == undefined){
-      dispatch(showAppToast(true,ValidationMessages.RACE ));
-      return;
-    }
-    let hc = 0;
-    state.hair.map(i=>{
-      if(i.flag === false){
-        hc++;
-        console.log(hc)
-      }
-      if(hc === 5){
-        dispatch(showAppToast(true,ValidationMessages.SELECT_HAIR ));
-      return;
-      }
-    })
-    let ec = 0;
-    state.eye.map(i=>{
-      if(i.flag === false){
-        ec++;
-        console.log(ec)
-      }
-      if(ec === 5){
-        dispatch(showAppToast(true,ValidationMessages.SELECT_EYE ));
-      return;
-      }
-    })
     navigation.navigate('Landing');
-  
   };
   return (
     <Container
@@ -221,7 +116,6 @@ const SetPreference = ({navigation}) => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}
-      // style={{ borderWidth:1}}
       >
       <View
         style={{
@@ -249,81 +143,34 @@ const SetPreference = ({navigation}) => {
             marginTop: 50,
           }}>
           <Text style={{marginBottom: 17}}>Who are you looking for?</Text>
-          <View >
-
-            <TouchableOpacity style={{flexDirection:'row',}}
-              activeOpacity={1}
-              onPress={() => setSurrogate(cur => !cur)}>
-              {surrogate ? (
-                <Image source={Images.iconRadiosel}/>
-              ) : (
-                <Image source={Images.iconRadiounsel}/>
-                 
-              )}
-               <Text
-              style={{
-                alignItems:'center',
-                marginLeft: 10,
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginBottom: 27,
-              }}>
-              Surrogate Mother
-            </Text>
-            </TouchableOpacity>
-           
-          </View>
-          <View >
-            <TouchableOpacity style={{flexDirection: 'row', }}
-              activeOpacity={1}
-              onPress={() => setEgg(cur => !cur)}>
-              {egg ? (
-                <Image source={Images.iconRadiosel} />
-              ) : (
-                <Image source={Images.iconRadiounsel} />
-                
-              )}
-              <Text
-              style={{
-                marginLeft: 10,
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginBottom: 29,
-              }}>
-              Egg Donor
-              </Text>
-            </TouchableOpacity>
-            
-           
-          </View>
-          <View >
-            <TouchableOpacity style={{flexDirection: 'row', alignItems:'center'}}
-              activeOpacity={1}
-              onPress={() => setDonor(cur => !cur)}>
-              {donor ? (
-                <Image source={Images.iconRadiosel} />
-              ) : (
-                <Image source={Images.iconRadiounsel} />
-                
-              )}
-               <Text
-              style={{
-                marginLeft: 10,
-                fontWeight: 'bold',
-                fontSize: 16,
-              }}>
-              Sperm Donor
-            </Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* <Example
-            options={location}
-            label={Strings.preference.Location}
+          <Controller
             control={control}
-            name={'location'}
-            setValue={setValue}
-          /> */}
+            render={({field: {onChange, value}}) => (
+              <>
+                {smRoles.map(role => (
+                  <TouchableOpacity
+                    style={{flexDirection:'row',alignItems: 'center',marginBottom: 15}}
+                    key={role.id}
+                    onPress={() => onChange(role.id)}>
+                    <Image
+                      source={
+                        value === role.id
+                          ? Images.iconRadiosel
+                          : Images.iconRadiounsel
+                      }
+                    />
+                    <Text style={{
+                      alignItems:'center',
+                      marginLeft: 10,
+                      fontWeight: 'bold',
+                      fontSize: 16,
+                    }}>{role.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </>
+            )}
+            name="role"
+          />
 
         <Controller
             control={control}
@@ -335,58 +182,59 @@ const SetPreference = ({navigation}) => {
                   console.log(selectedItem, index);
                   onChange(selectedItem);
                 }}
-                // required={true}
                 error={errors && errors.motherEthnicity?.message}
               />
             )}
             name="location"
           />
 
-
-
-
-
-
-
           <Text style={{marginVertical: 5, fontSize: 14, marginTop: 10}}>
             Age Range
           </Text>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            {state.age_range.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => SelectAgeRange(item, index)}
-                  activeOpacity={0.8}
-                  key={index}>
-                  <View
-                    style={{
-                      height: 41,
-                      width: 104,
-                      borderRadius: 21,
-                      backgroundColor: item.flag
-                        ? Colors.COLOR_5ABCEC
-                        : 'white',
-                      justifyContent: 'center',
-                      marginRight: 10,
-                      marginVertical: 10,
-                      padding: 0,
-                      borderWidth: item.flag ? 0 : 1,
-                    }}>
-                    <Text
-                      style={[
-                        {
-                          alignSelf: 'center',
-                          fontWeight: item.flag ? 'bold' : null,
-                          color: item.flag ? 'white' : null,
-                        },
-                      ]}>
-                      {item.title} yrs
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          <Controller
+            control={control}
+            render={({field: {onChange, value=''}}) => (
+            <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+              {state.age_range.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      onChange(onValueSelect(value, item.title));
+                    }}
+                    activeOpacity={0.8}
+                    key={index}>
+                    <View
+                      style={{
+                        height: 41,
+                        width: 104,
+                        borderRadius: 21,
+                        backgroundColor: isSelected(value,item.title)
+                          ? Colors.COLOR_5ABCEC
+                          : 'white',
+                        justifyContent: 'center',
+                        marginRight: 10,
+                        marginVertical: 10,
+                        padding: 0,
+                        borderWidth: isSelected(value,item.title) ? 0 : 1,
+                      }}>
+                      <Text
+                        style={[
+                          {
+                            alignSelf: 'center',
+                            fontWeight: isSelected(value,item.title) ? 'bold' : null,
+                            color: isSelected(value,item.title) ? 'white' : null,
+                          },
+                        ]}>
+                        {item.title} yrs
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            )}
+            name="age_range"
+          />
           <View style={{marginTop: 30}}>
             <View
               style={{
@@ -409,94 +257,119 @@ const SetPreference = ({navigation}) => {
           </View>
 
           {/* Drop Down */}
-
-          <Example
-            options={Static.race}
-            label={Strings.preference.Race}
+          <Controller
             control={control}
-            name={'race'}
-            setValue={setValue}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.sm_set_attributes.Race}
+                data={Static.race}
+                onSelect={(selectedItem) => {
+                  onChange(selectedItem.id);
+                }}
+                error={errors && errors.race_id?.message}
+              />
+            )}
+            name="race_id"
           />
-          <Example
-            options={Static.ethnicity}
-            label={Strings.preference.Ethnicity}
+          <Controller
             control={control}
-            name={'Ethnicity'}
-            setValue={setValue}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.preference.Ethnicity}
+                data={Static.ethnicity}
+                onSelect={(selectedItem) => {
+                  onChange(selectedItem.id);
+                }}
+                error={errors && errors.mother_ethnicity_id?.message}
+              />
+            )}
+            name="ethnicity_id"
           />
 
           <Text style={{marginVertical: 15, fontSize: 14}}>Hair Color</Text>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical:5}}>
-            {state.hair.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => SelectHair(item, index)}
+          <Controller
+            control={control}
+            render={({field: {onChange, value=''}}) => (
+              <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical:5}}>
+                {Static.hairColors.map((item, index) => (
+                  <TouchableOpacity
+                  onPress={() => {
+                    onChange(onValueSelect(value, item.id));
+                  }}
                   key={index}>
                   <View
                     style={{
                       height: 41,
                       width: 91,
                       borderRadius: 21,
-                      backgroundColor: item.flag
+                      backgroundColor: isSelected(value,item.id.toString())
                         ? Colors.COLOR_5ABCEC
                         : 'white',
                       justifyContent: 'center',
                       marginRight: 9,
                       marginVertical: 5,
                       padding: 0,
-                      borderWidth: item.flag ? 0 : 1,
+                      borderWidth: isSelected(value,item.id.toString()) ? 0 : 1,
                     }}>
                     <Text
                       style={[
                         {
                           alignSelf: 'center',
-                          fontWeight: item.flag ? 'bold' : null,
-                          color: item.flag ? 'white' : null,
+                          fontWeight: isSelected(value,item.id.toString()) ? 'bold' : null,
+                          color: isSelected(value,item.id.toString()) ? 'white' : null,
                         },
                       ]}>
-                      {item.title}
+                      {item.name}
                     </Text>
                   </View>
                 </TouchableOpacity>
-              );
-            })}
-          </View>
+                ))}
+              </View>
+            )}
+            name="hair"
+          />
           <Text style={{marginVertical:15, fontSize: 14}}>Eye Color</Text>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVerticle:5, marginBottom:20}}>
-            {state.eye.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => SelectEye(item, index)}
+          <Controller
+            control={control}
+            render={({field: {onChange, value=''}}) => (
+              <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVerticle:5, marginBottom:20}}>
+                {Static.eyeColors.map((item, index) => (
+                  <TouchableOpacity
+                  onPress={() => {
+                    onChange(onValueSelect(value, item.id));
+                  }}
                   key={index}>
                   <View
                     style={{
                       height: 41,
                       width: 91,
                       borderRadius: 21,
-                      backgroundColor: item.flag
+                      backgroundColor: isSelected(value,item.id.toString())
                         ? Colors.COLOR_5ABCEC
                         : 'white',
                       justifyContent: 'center',
                       marginRight: 9,
                       marginVertical: 5,
                       padding: 0,
-                      borderWidth: item.flag ? 0 : 1,
+                      borderWidth: isSelected(value,item.id.toString()) ? 0 : 1,
                     }}>
                     <Text
                       style={[
                         {
                           alignSelf: 'center',
-                          fontWeight: item.flag ? 'bold' : null,
-                          color: item.flag ? 'white' : null,
+                          fontWeight: isSelected(value,item.id.toString()) ? 'bold' : null,
+                          color: isSelected(value,item.id.toString()) ? 'white' : null,
                         },
                       ]}>
-                      {item.title}
+                      {item.name}
                     </Text>
                   </View>
                 </TouchableOpacity>
-              );
-            })}
-          </View>
+                ))}
+              </View>
+            )}
+            name="eye"
+          />
 
           {/* <Button
             label={'get data'}
