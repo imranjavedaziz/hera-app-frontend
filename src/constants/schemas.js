@@ -7,6 +7,8 @@ export const Regx = {
   MOBILE_REGEX: /^[0]?[1-9]\d{9,10}$/,
   SPECIAL_CHAR: /[|#\\/~^:,;?!&%$@*+]/,
   ALPHA: /[a-zA-Z]/,
+  ALPHA_LOWER: /[a-z]/,
+  ALPHA_CAP: /[A-Z]/,
   NUM: /[0-9]/,
   OTP: /[0-9]{6,}$/,
   EMAIL:
@@ -65,7 +67,19 @@ export const parentRegisterSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: ValidationMessages.SPECIAL_CHAR,
+      message: null,
+    })
+    .matches(Regx.ALPHA_LOWER, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.ALPHA_CAP, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.NUM, {
+      excludeEmptyString: true,
+      message: '',
     }),
   confirm_password: yup
     .string()
@@ -92,7 +106,11 @@ export const smRegisterSchema = yup.object().shape({
       excludeEmptyString: true,
       message: '',
     })
-    .matches(Regx.ALPHA, {
+    .matches(Regx.ALPHA_LOWER, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
       message: '',
     })
