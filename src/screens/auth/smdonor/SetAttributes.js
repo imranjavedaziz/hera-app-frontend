@@ -1,7 +1,6 @@
 // SetAttributes
 import React from 'react';
 import {Text, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
@@ -11,7 +10,7 @@ import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
-import {Static, Routes} from '../../../constants/Constants';
+import {Static,} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
@@ -19,7 +18,6 @@ import Auth from '../../../services/Auth';
 const SetAttributes = ({route}) => {
   const userService = User();
   const authService = Auth();
-  const navigation = useNavigation();
   const {
     handleSubmit,
     control,

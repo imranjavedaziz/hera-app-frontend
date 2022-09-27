@@ -11,35 +11,28 @@ import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {genders, Static,Routes} from '../../../constants/Constants';
+import {genders, Static} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
-import { useNavigation } from '@react-navigation/native';
 
 const SmBasicDetails = ({route}) => {
   const userService = User();
   const authService = Auth();
-  const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
 
   const {
     handleSubmit,
     control,
     formState: {errors, isValid},
-    setValue,
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
   const onSubmit = (data)=>{
-    console.log(data);
-    navigation.navigate(Routes.SetAttributes,{...data,...route.params});
+    userService.saveBasicDetails(data);
   }
-  // const onSubmit = data => {
-  //   navigation.navigate(Routes.SetAttributes, {...data, ...route.params});
-  // };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -209,7 +202,7 @@ const SmBasicDetails = ({route}) => {
               {Strings.bottomSheet.About_HERA}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.logoutBtn}>
+          <TouchableOpacity style={globalStyle.logoutBtn} onPress={authService.logout}>
             <Text
               style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}

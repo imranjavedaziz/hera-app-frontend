@@ -26,7 +26,6 @@ import Colors from '../../constants/Colors';
 import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
 import {parentRegisterSchema, Regx} from '../../constants/schemas';
-// import {askCameraPermission} from '../../utils/permissionManager';
 import styles from './StylesProfile';
 import Auth from '../../services/Auth';
 import Alignment from '../../constants/Alignment';
@@ -74,7 +73,6 @@ const Profile = ({navigation, route}) => {
   const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
   const [showModal, setShowModal] = useState(false);
-
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -89,8 +87,6 @@ const Profile = ({navigation, route}) => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
-
-  // useEffect(askCameraPermission, []);
 
   useEffect(() => {
     if (!isValid) {
@@ -138,7 +134,6 @@ const Profile = ({navigation, route}) => {
       uri: file.path,
     });
     authService.registerUser(reqData);
-    // navigation.navigate('SetPreference');
   };
 
   return (
