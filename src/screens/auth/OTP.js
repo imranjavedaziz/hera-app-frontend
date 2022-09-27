@@ -32,7 +32,7 @@ const OTP = ({route}) => {
     resolver: yupResolver(otpSchema),
   });
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
 
   const onSubmit = data => {

@@ -12,7 +12,7 @@ import Colors from '../constants/Colors';
 import Header from './Header';
 
 const styles = {
-  container: {flex: 1, marginHorizontal: 40, },
+  container: {flex: 1, marginHorizontal: 30, },
   safearea: {flex: 1, backgroundColor: Colors.BACKGROUND},
   flexMain:{flex:1,},
 };
@@ -53,8 +53,9 @@ const Container = props => {
         animated={true}
         hidden={false}
       />
-      <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
+       <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
         <KeyboardAvoidingView
+        
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}

@@ -40,22 +40,23 @@ export const Fonts = {
   OpenSansLight: 'OpenSans-Light',
   OpenSansRegular: 'OpenSans',
   OpenSansSemibold: 'OpenSans-Semibold',
-}
+};
 
 export const smRoles = [
   {
+    id: 1,
+    name: 'Surrogate Mother',
+  },
+  {
+    id: 2,
+    name: 'Egg Donor',
+  },
+  {
     id: 3,
-    name: 'Surrogate Mother'
+    name: 'Sperm Donor',
   },
-  {
-    id: 4,
-    name: 'Egg Donor'
-  },
-  {
-    id: 5,
-    name: 'Sperm Donor'
-  },
-]
+];
+
 export const genders = [
   {
     "id": 1,
@@ -71,17 +72,6 @@ export const genders = [
   }
 ];
 export const Static = {
-  Countries: ["USA", "Canada", "Australia", "Ireland"],
-  sexualOrient: ['Heterosexual', 'Homosexual', 'Bisexual', 'Other'],
-  height: ["5 ft 6 in", "5 ft 7 in", "5 ft 8 in", "5 ft 9 in"],
-  race: ['Native American','American Indian','African American','Hispanic','Asian'],
-  weight: ['50 ponds','60 ponds','70 ponds','80 ponds','90 ponds','100 ponds','110 ponds',],
-  eyeColors: ["Black","Brown","Blue","Hazel","Green"],
-  ethnicity: ['Hispanic and Latino Americans','African Americans','White people','Mexicans','Asian Americans','Alaska Natives','Non-Hispanic whites','American Indian group','Hispanic','Black people','Asian people'],
-  location:['India', "America","Alaska Native",'USA' ],
-  race:['White', 'Black or African American','American Indian or Alaska Native','Asian','Native Hawaiian or Other Pacific Islander','Mixed Or Other Race'],
-  ethnicity:['Ethnicity','Ethnicity','Ethnicity','Ethnicity'],
-
   countries: [
     {
       "id": 1,
@@ -578,7 +568,23 @@ export const Static = {
       "name": "Other"
     }
   ],
-  location:['India', "America","Alaska Native" ],
+  location:[
+    {
+      "id":1,
+      "name":'India'
+    },
+    {
+      "id":2,
+      "name":'America'
+    },
+    {
+      "id":3,
+      "name":"Alaska Native"
+    },
+    {
+      "id":4,
+      "name":'India'
+    }],
   relationship_status: [
     {
       "id": 1,
@@ -627,6 +633,44 @@ export const Static = {
       "name": "Ph.D."
     }
   ]
+,
+  Profile: [
+    {
+      name: 'Marley',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/kelsey-kane/profile-screen_2x.jpg',
+      location: 'USA',
+    },
+    {
+      name: 'Steve',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'Emilio',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/kelsey-kane/profile-screen_2x.jpg',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+    {
+      name: 'AYUSH',
+      image: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+      location: 'USA',
+    },
+  ],
 }
 export const Routes = {
   Landing: 'Landing',
@@ -640,4 +684,8 @@ export const Routes = {
   Profile: 'Profile',
   SetPreference: 'SetPreference',
   PtbDashboard: 'PtbDashboard',
-}
+  PtbBasicDetails: 'PtbBasicDetails',
+  ProfileDetails:'ProfileDetails',
+  SmDashboard:'SmDashboard',
+  
+};

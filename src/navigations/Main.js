@@ -7,7 +7,7 @@ import { Routes } from '../constants/Constants';
 import getRoute from '../utils/getRoute';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
-import SetPreference from '../screens/DetailsPTB/SetPreference';
+import SetPreference from '../screens/DetailsPTB/PTB_setPreference/SetPreference';
 import Landing from '../screens/Landing';
 import Login from '../screens/auth/Login';
 import MobileNumber from '../screens/auth/MobileNumber';
@@ -18,6 +18,9 @@ import SetAttributes from '../screens/auth/smdonor/SetAttributes';
 import CreateGallery from '../screens/auth/smdonor/CreateGallery';
 import PtbDashboard from '../screens/dashboard/dashboard/PtbDashboard';
 
+import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
+import SmDashboard from '../screens/auth/smdonor/SmDashboard/SmDashboard';
+import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -30,11 +33,25 @@ const Main = () => {
   return (
     <NavigationContainer
       onReady={() => RNBootSplash.hide()}
-      
-    >
-      {/* initialRouteName="Profile" */}
+      >
 
-      <Stack.Navigator initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}>
+
+
+      <Stack.Navigator 
+      initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
+      >
+
+      <Stack.Screen
+          name={Routes.SmDashboard}
+          component={SmDashboard}
+          options={{headerShown: false}}
+        />
+
+         <Stack.Screen
+          name={Routes.ProfileDetails}
+          component={ProfileDetails}
+          options={{headerShown: false}}
+        />
       
         <Stack.Screen
           name={Routes.Landing}
@@ -54,6 +71,11 @@ const Main = () => {
          <Stack.Screen
           name={Routes.Profile}
           component={Profile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen 
+          name={Routes.PtbBasicDetails}
+          component={PtbBasicDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen 

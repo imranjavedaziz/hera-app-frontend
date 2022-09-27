@@ -6,27 +6,30 @@ import {
   Image,
   Pressable,
   ImageBackground,
+  Modal,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import ImagePicker from 'react-native-image-crop-picker';
 import openCamera from '../../utils/openCamera';
 import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import moment from 'moment';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
-import {Fonts} from '../../constants/Constants';
+import {Fonts, Routes} from '../../constants/Constants';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
+import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
 import {parentRegisterSchema, Regx} from '../../constants/schemas';
+// import {askCameraPermission} from '../../utils/permissionManager';
+import styles from './StylesProfile';
 import Auth from '../../services/Auth';
+import Alignment from '../../constants/Alignment';
 
 const validationType = {
   LEN: 'LEN',
@@ -63,14 +66,14 @@ const validatePassword = (value, type) => {
   return null;
 };
 
-const Profile = ({navigation,route}) => {
+const Profile = ({navigation, route}) => {
   const authService = Auth();
   const [show, setShow] = useState(false);
-  const [eyeshow, setEyeShow] = useState(false);
   const [date, setDate] = useState();
-  const [file,setFile] = useState(null);
+  const [file, setFile] = useState(null);
   const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
   const {
@@ -78,7 +81,6 @@ const Profile = ({navigation,route}) => {
     control,
     setValue,
     formState: {errors, isValid},
-    getValues,
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
@@ -87,6 +89,8 @@ const Profile = ({navigation,route}) => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
+
+  // useEffect(askCameraPermission, []);
 
   useEffect(() => {
     if (!isValid) {
@@ -100,12 +104,12 @@ const Profile = ({navigation,route}) => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={navigation.goBack}
+      onPress={() => setShowModal(true)}
       accessibilityLabel="Cross Button, Go back"
     />
   );
   const cb = image => {
-    console.log('image',image);
+    console.log('image', image);
     setUserImage(image.path);
     setFile(image);
   };
@@ -143,16 +147,12 @@ const Profile = ({navigation,route}) => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-        }}>
+      <View style={styles.imgContainer}>
         <Text style={globalStyle.screenTitle}>
           {Strings.profile.makeAccountFor}
         </Text>
         <View
-          style={{marginVertical: 15}}
+          style={styles.subTitle}
           accessible={true}
           accessibilityLabel={`${Strings.profile.parentToBe}`}>
           <Text
@@ -164,33 +164,14 @@ const Profile = ({navigation,route}) => {
 
           {/* IMage Upload */}
 
-          <View
-            style={{alignItems: 'flex-start', width: '100%', marginTop: 20}}>
+          <View style={styles.profileContainer}>
             <ImageBackground
               source={userImage ? {uri: userImage} : null}
-              style={{
-                width: 140,
-                height: 140,
-                borderRadius: 70,
-                backgroundColor: Colors.GREEN,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              imageStyle={{
-                borderRadius: 70,
-                overflow: 'hidden',
-                resizeMode: 'cover',
-              }}>
+              style={styles.background}
+              imageStyle={styles.imgBack}>
               <TouchableOpacity
                 style={[
-                  {
-                    width: 35,
-                    height: 35,
-                    borderRadius: 18,
-                    backgroundColor: Colors.GREEN,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  },
+                  styles.uploadBackground,
                   userImage
                     ? {
                         position: 'absolute',
@@ -200,22 +181,20 @@ const Profile = ({navigation,route}) => {
                     : null,
                 ]}
                 onPress={() => openCamera(1, cb)}>
-                <Image
-                  source={Images.camera}
-                  style={{width: 20, height: 20, resizeMode: 'contain'}}
-                />
+                <Image source={Images.camera} style={styles.profileImg} />
               </TouchableOpacity>
             </ImageBackground>
           </View>
-          
         </View>
-             <Text style={{fontSize:18,fontFamily: Fonts.OpenSansRegular,color: Colors.LABEL_BLACK,}}>Upload Display Picture <Text style={[styles.label, {color: 'red'}]}>*</Text></Text>
+        <Text style={styles.ImageText}>
+          {Strings.profile.uploadImage}
+          <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
+        </Text>
 
         {/* Image Upload End  */}
 
         <View
           style={{
-            flex: 0,
             width: '100%',
           }}>
           <Controller
@@ -225,12 +204,9 @@ const Profile = ({navigation,route}) => {
                 label={Strings.profile.FirstName}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
+                fontWeight={Alignment.BOLD}
                 required={true}
                 error={errors && errors.first_name?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
               />
             )}
             name="first_name"
@@ -242,10 +218,7 @@ const Profile = ({navigation,route}) => {
                 label={Strings.profile.MiddleName}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
-                containerStyle={{
-                  flex: 1,
-                }}
+                fontWeight={Alignment.BOLD}
                 error={errors && errors.middle_name?.message}
               />
             )}
@@ -258,29 +231,23 @@ const Profile = ({navigation,route}) => {
                 label={Strings.profile.LastName}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
+                fontWeight={Alignment.BOLD}
                 required={true}
-                containerStyle={{
-                  flex: 1,
-                }}
                 error={errors && errors.last_name?.message}
               />
             )}
             name="last_name"
           />
-           <Controller
+          <Controller
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
                 label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={'bold'}
+                fontWeight={Alignment.BOLD}
                 required={true}
                 error={errors && errors.email?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
               />
             )}
             name="email"
@@ -310,33 +277,24 @@ const Profile = ({navigation,route}) => {
             render={({field: {onChange, value}}) => (
               <View
                 style={{
-                  width: '100%',
-                  marginVertical: 20,
+                  width: '100%'
                 }}>
                 <FloatingLabelInput
                   label={Strings.profile.setPassword}
                   value={value}
                   onChangeText={v => onChange(v)}
                   required={true}
-                  secureTextEntry={!eyeshow}
+                  secureTextEntry={true}
                   containerStyle={{
-                    marginVertical: 0,
-                    marginBottom: 5,
+                    marginBottom: Value.CONSTANT_VALUE_5,
                   }}
                   error={errors && errors.set_password?.message}
-                  endComponent={()=>(
-                    <TouchableOpacity onPress={()=>setEyeShow(!eyeshow)}>
-                      <Image source={eyeshow?Images.eye:Images.eye2}/>
-                    </TouchableOpacity>
-                  )}
                 />
                 {pwdErrMsg.map(msg => (
-                  <View
-                    style={{flexDirection: 'row', alignItems: 'center'}}
-                    key={msg.type}>
+                  <View style={styles.passwordCheck} key={msg.type}>
                     <Text
                       style={{
-                        fontSize: 13,
+                        fontSize: Value.CONSTANT_VALUE_13,
                         fontFamily: Fonts.OpenSansBold,
                         color:
                           validatePassword(value, msg.type) ||
@@ -348,13 +306,14 @@ const Profile = ({navigation,route}) => {
                     </Text>
                     {validatePassword(value, msg.type) !== null && (
                       <Image
-                        style={{
-                          tintColor: validatePassword(value, msg.type)
-                            ? Colors.BLACK
-                            : 'red',
-                          marginLeft: 5,
-                          maxWidth: 13,resizeMode: 'contain'
-                        }}
+                        style={[
+                          styles.ValidPwd,
+                          {
+                            tintColor: validatePassword(value, msg.type)
+                              ? Colors.BLACK
+                              : Colors.RED,
+                          },
+                        ]}
                         source={
                           validatePassword(value, msg.type)
                             ? Images.path
@@ -385,11 +344,8 @@ const Profile = ({navigation,route}) => {
             )}
             name="confirm_password"
           />
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            <View style={{alignSelf: 'center',}}>
+          <View style={styles.tmc}>
+            <View style={{alignSelf: 'center'}}>
               {check ? (
                 <Pressable
                   onPress={() => {
@@ -407,38 +363,27 @@ const Profile = ({navigation,route}) => {
               )}
             </View>
 
-            <Text style={{fontSize: 13, marginLeft: 10}}>
-              By continuing, you agree to HERA's{' '}
-              <Text
-                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
-                Terms of use{'\n'}
-              </Text>
-              and{' '}
-              <Text
-                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
-                Privacy Policy
-              </Text>
+            <Text style={styles.tmc1}>
+              {Strings.profile.tmc1}
+              <Text style={styles.tmcLink}>
+                {Strings.profile.tmc2}
+              </Text> and{' '}
+              <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
             </Text>
           </View>
         </View>
-<View style={{paddingTop:31,}}>
-<Button 
-          label={Strings.profile.Register}
-          onPress={handleSubmit(onSubmit)}
-        />
-</View>
-        
-        <Pressable onPress={() => {navigation.navigate('SmRegister',route.params)}}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              textDecorationLine: 'underline',
-              fontSize: 15,
-              marginTop: 25,
-            }}>
-            Register as Surrogate Mother or a Donor
-          </Text>
+        <View style={{paddingTop: Value.CONSTANT_VALUE_31}}>
+          <Button
+            label={Strings.profile.Register}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
+
+        <Pressable
+          onPress={() => {
+            navigation.navigate(Routes.SmRegister, route.params);
+          }}>
+          <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
       </View>
       <DateTimePickerModal
@@ -456,10 +401,44 @@ const Profile = ({navigation,route}) => {
         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
         positiveButtonLabel="DONE"
       />
+
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View
+          style={[styles.centeredView, {backgroundColor: 'rgba(0,0,0,0.3)'}]}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalHeader}>
+              {Strings.profile.ModalHeader}
+            </Text>
+            <Text style={styles.modalSubHeader}>
+              {Strings.profile.ModalSubheader}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                navigation.navigate(Routes.Landing);
+              }}>
+              <Text style={styles.modalOption1}>
+                {Strings.profile.ModalOption1}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={styles.modalOption2}>
+                {Strings.profile.ModalOption2}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
 
 export default Profile;
-
-const styles = StyleSheet.create({});

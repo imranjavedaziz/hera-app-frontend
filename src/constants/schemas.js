@@ -43,19 +43,15 @@ export const loginSchema = yup.object().shape({
   password: yup.string().required(ValidationMessages.PASSWORD_REQUIRED),
 });
 export const parentRegisterSchema = yup.object().shape({
-  first_name: yup.string()
-  .required(ValidationMessages.FIRST_NAME)
-  .max(30,ValidationMessages.MAX_FIRST_NAME),
-  middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
-  last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
-  date_of_birth: yup.string().required(ValidationMessages.DOB)
-  .test(
-    "DOB",
-    "Invalid!",
-    value => {
-      return moment().diff(moment(value),'years') >= 18;
-    }
-),
+  first_name: yup.string().required(ValidationMessages.FIRST_NAME),
+  middle_name: yup.string(),
+  last_name: yup.string().required(ValidationMessages.LAST_NAME),
+  date_of_birth: yup
+    .string()
+    .required(ValidationMessages.DOB)
+    .test('DOB', 'Invalid!', value => {
+      return moment().diff(moment(value), 'years') >= 18;
+    }),
   email: yup
     .string()
     .required(ValidationMessages.EMPTY_EMAIL)

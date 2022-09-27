@@ -28,4 +28,5 @@ export default {
   COLOR_F18D93: '#F18D93',
   COLOR_F7F5F0: '#F7F5F0',
   COLOR_A3C6C4: '#A3C6C4',
+  HIGHLIGHT_PINK:'#e5acb1d9'
 };
