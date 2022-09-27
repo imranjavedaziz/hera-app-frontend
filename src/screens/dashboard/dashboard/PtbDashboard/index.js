@@ -3,10 +3,9 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-  Text,
+  Animated,
 } from 'react-native';
-import React, {useRef} from 'react';
-
+import React, { useRef, useState} from 'react';
 
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
@@ -16,18 +15,29 @@ import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
-import { IconHeader } from '../../../../components/Header';
-import Colors from '../../../../constants/Colors';
-
+import {IconHeader} from '../../../../components/Header';
 
 
 const PtbDashboard = () => {
+  const fadeAnim = useRef(new Animated.Value(0)).current; //
+  const [isVisibleLogo, setIsVisibleLogo] = useState(false);
+  const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
   const handleOnSwipedLeft = () => {
-    useSwiper.current.swipeLeft();
+    setIsVisibleLogo(true);
+    setIslikedLogo('disliked');
+    setTimeout(() => {
+      useSwiper.current.swipeLeft();
+      setIslikedLogo('');
+    }, 10000);
   };
   const handleOnSwipedRight = () => {
+    setIsVisibleLogo(true);
+    setIslikedLogo('liked');
     useSwiper.current.swipeRight();
+    setTimeout(() => {
+      setIslikedLogo('');
+    }, 10000);
   };
   const renderCardData = item => {
     return (
@@ -37,48 +47,17 @@ const PtbDashboard = () => {
         donerAge={item.donerAge}
         mapIcon={Images.mapgraypin}
         image={item.image}
+        fadeAnim={fadeAnim}
+        isVisibleLogo={isVisibleLogo}
+        has_happen={islikedLogo}
       />
     );
   };
 
-  const OverlayLabel = ({label}) => (
-    <View style={[styles.overlayLabel, ]}>
-      <Text>{label}</Text>
-    </View>
-  );
-
   const headerComp = () => (
     <IconHeader leftIcon={Images.person} rightIcon={Images.iconChat} />
   );
-  const overlayLabels = {
-    left: {
-      element: (
-        <OverlayLabel
-          label={<Image source={Images.iconbigcross} />}
-        />
-      ),
-      style: {
-        wrapper: {
-          alignItems: 'center',
-          marginTop: 50, paddingRight:50
-        },
-      },
-    },
-    right: {
-      element: (
-        <OverlayLabel
-          label={<Image source={Images.iconbigheart} />}
-        />
-      ),
-      style: {
-        wrapper: {
-          alignItems: 'center',
-          marginTop: 50,
-        },
-      },
-    },
-};
-
+  
   return (
     <>
       <Container
@@ -96,7 +75,7 @@ const PtbDashboard = () => {
             <ImageBackground
               source={Images.DASHBOARD_BG}
               style={{height: 467, width: 348}}>
-              <View style={{}}>
+              <View>
                 <Swiper
                   infinite={true}
                   ref={useSwiper}
@@ -104,7 +83,7 @@ const PtbDashboard = () => {
                   cardIndex={0}
                   cards={photoCards}
                   verticalSwipe={false}
-                  overlayLabels={overlayLabels}
+                  horizontalSwipe={false}
                 />
               </View>
             </ImageBackground>

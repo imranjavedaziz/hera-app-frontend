@@ -1,20 +1,50 @@
-import {View, Text, ImageBackground, Image} from 'react-native';
-import React from 'react';
+import {View, Text, ImageBackground, Image, Animated} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
 
-const ImageComp = ({locationText, code, donerAge, mapIcon, has_happen,image}) => {
+const FadeInView = props => {
+
+
+  const fadeAnim = useRef(new Animated.Value(0)).current; 
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+    }).start();
+  }, [fadeAnim]);
+
+  return (
+    <Animated.View
+      style={{
+        ...props.style,
+        opacity: fadeAnim,
+      }}>
+      {props.children}
+    </Animated.View>
+  );
+};
+const ImageComp = (
+  {locationText, code, donerAge, mapIcon, has_happen, image,isVisibleLogo},
+  props,
+  
+) => {
   return (
     <View style={styles.mainContainer}>
-      <ImageBackground source={image} style={styles.bgImage} resizeMode='contain'>
-        <View style={styles.iconContainer}>
-          <Image
-            style={styles.iconImage}
-            source={
-              (has_happen === 'liked' && Images.iconbigheart) ||
-              (has_happen === 'disliked' && Images.iconbigcross)
-            }
-          />
+      <ImageBackground
+        source={image}
+        style={styles.bgImage}
+        resizeMode="contain">
+        <View style={styles.iconContainer}>{isVisibleLogo===true?  <FadeInView
+           >
+            <Image
+              style={styles.iconImage}
+              source={ (has_happen === 'liked' && Images.iconbigheart) ||
+              (has_happen === 'disliked' && Images.iconbigcross)}  
+            />
+          </FadeInView>: null
+        }
           <View style={styles.textInnerContainer}>
             <View style={styles.innerContainer}>
               <Image source={mapIcon} />
