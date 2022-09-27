@@ -192,6 +192,9 @@ export default {
   },
   search_Bar:{
     search:'Search',
-
+  },
+  smSetting:{
+    profile: 'Profile',
+    ProfileName:'Erica Smith',
   }
 };
