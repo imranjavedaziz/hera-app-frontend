@@ -57,7 +57,7 @@ const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8 ? Colors.BLACK : 'red';
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA.test(value) && Regx.NUM.test(value)
+        return Regx.ALPHA_LOWER.test(value) && Regx.ALPHA_CAP.test(value) && Regx.NUM.test(value)
           ? Colors.BLACK
           : 'red';
       case validationType.SPECIAL:
@@ -258,7 +258,6 @@ const SmRegister = ({route}) => {
                   label={Strings.sm_register.Password}
                   value={value}
                   onChangeText={v => onChange(v)}
-                  error={errors && errors.password?.message}
                   required={true}
                   containerStyle={styles.pwdInputContainer}
                   secureTextEntry={true}
