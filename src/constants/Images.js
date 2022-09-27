@@ -49,5 +49,10 @@ export default {
     // IMAGES
     LANDING_BG: require('../assets/images/landing-bg/landing-bg.png'),
     LOGO: require('../assets/images/logo/logo.png'),
+
+    DASHBOARD_BG:require('../assets/images/dashboard/group6.png'),
+    DASHBOARD_IMG:require('../assets/images/dashboard/bitmap.png'),
+    LOGO: require('../assets/images/logo/logo.png'),
+
     QUOTES: require('../assets/images/background_quotes/invalidName.png')
 }

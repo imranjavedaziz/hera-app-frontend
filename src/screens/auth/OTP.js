@@ -14,26 +14,19 @@ import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
-import { Routes } from '../../constants/Constants';
 import Auth from '../../services/Auth';
 
 const OTP = ({route}) => {
   const authService = Auth();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
-  
-  // const phoneNumber = route.params.phone_num.phone;
   const {
     handleSubmit,
     control,
-    getValues,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(otpSchema),
   });
-
-  // const dispatch = useDispatch();
-
 
   const onSubmit = data => {
     authService.verifyOtp({otp: data.otp,...route.params});

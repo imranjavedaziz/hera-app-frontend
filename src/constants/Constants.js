@@ -632,7 +632,8 @@ export const Static = {
       "id": 6,
       "name": "Ph.D."
     }
-  ],
+  ]
+,
   Profile: [
     {
       name: 'Marley',
@@ -682,8 +683,9 @@ export const Routes = {
   CreateGallery: 'CreateGallery',
   Profile: 'Profile',
   SetPreference: 'SetPreference',
+  PtbDashboard: 'PtbDashboard',
   PtbBasicDetails: 'PtbBasicDetails',
   ProfileDetails:'ProfileDetails',
   SmDashboard:'SmDashboard',
-  SetPreference:'SetPreference'
+  
 };

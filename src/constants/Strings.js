@@ -154,6 +154,19 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
+    Btn: 'Save'
+  },
+  bottomSheet:{
+    Inquiry_Form:'Inquiry Form',
+    About_HERA:'About HERA',
+    Log_Out:'Log Out',
+  },
+  dashboard:{
+    Title:'Like, Match & Connect!',
+    Subtitle:'Your match might just\n be a click away!',
+    locationText:'U S A',
+    code:'#SD5882',
+    donerAge:'Sperm Doner, 27 yrs',
     Btn: 'Save',
   },
   sm_dashboard: {

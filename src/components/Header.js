@@ -54,6 +54,16 @@ export const CircleBtn = ({icon, onPress,...otherProps}) => (
     <Image accessible={false} source={icon} style={styles.img} />
   </TouchableOpacity>
 );
+export const IconHeader = ({rightIcon,leftIcon, leftPress, rightPress,...otherProps}) => (
+  <>
+  <TouchableOpacity style={styles.circle} onPress={leftPress} {...otherProps} accessible={true} accessibilityRole="button">
+    <Image accessible={false} source={leftIcon} style={styles.img} />
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.circle} onPress={rightPress} {...otherProps} accessible={true} accessibilityRole="button">
+    <Image accessible={false} source={rightIcon} style={styles.img} />
+  </TouchableOpacity>
+  </>
+);
 const Header = ({end = false, children}) => {
   return (
     <View style={[styles.container, end ? styles.end : styles.start]}>

@@ -26,7 +26,6 @@ import Colors from '../../constants/Colors';
 import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
 import {parentRegisterSchema, Regx} from '../../constants/schemas';
-// import {askCameraPermission} from '../../utils/permissionManager';
 import styles from './StylesProfile';
 import Auth from '../../services/Auth';
 import Alignment from '../../constants/Alignment';
@@ -74,7 +73,6 @@ const Profile = ({navigation, route}) => {
   const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
   const [showModal, setShowModal] = useState(false);
-
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -89,8 +87,6 @@ const Profile = ({navigation, route}) => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
-
-  // useEffect(askCameraPermission, []);
 
   useEffect(() => {
     if (!isValid) {
@@ -122,23 +118,22 @@ const Profile = ({navigation, route}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    const reqData = new FormData();
-    reqData.append('role_id', 2);
-    reqData.append('first_name', data.first_name);
-    reqData.append('middle_name', data.middle_name);
-    reqData.append('last_name', data.last_name);
-    reqData.append('dob', moment(date).format('DD-MM-YYYY'));
-    reqData.append('email', data.email);
-    reqData.append('password', data.password);
-    reqData.append('country_code', route.params.country_code);
-    reqData.append('phone_no', route.params.phone_no);
-    reqData.append('file', {
+    const reqData = new FormData;
+    reqData.append('role_id',2);
+    reqData.append('first_name',data.first_name);
+    reqData.append('middle_name',data.middle_name);
+    reqData.append('last_name',data.last_name);
+    reqData.append('dob',moment(date).format('DD-MM-YYYY'));
+    reqData.append('email',data.email);
+    reqData.append('password',data.password);
+    reqData.append('country_code',route.params.country_code);
+    reqData.append('phone_no',route.params.phone_no);
+    reqData.append('file',{
       name: file.filename,
       type: file.mime,
       uri: file.path,
     });
     authService.registerUser(reqData);
-    navigation.navigate(Routes.SetPreference);
   };
 
   return (

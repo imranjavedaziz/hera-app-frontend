@@ -140,33 +140,6 @@ const SetPreference = ({navigation}) => {
     });
   };
 
-  const SelectHair = (item, index) => {
-    state.hair[index].flag = !state.hair[index].flag;
-    console.log(state.hair);
-    dis({
-      type: 'ON_SELECT_HAIR',
-      payload: state.hair,
-    });
-  };
-
-  const SelectEye = (item, index) => {
-    state.eye[index].flag = !state.eye[index].flag;
-    console.log(state.eye);
-    dis({
-      type: 'ON_SELECT_EYE',
-      payload: state.eye,
-    });
-  };
-
-  const SelectAgeRange = (item, index) => {
-    state.age_range[index].flag = !state.age_range[index].flag;
-    console.log(state.age_range);
-    dis({
-      type: 'ON_SELECT_AGE',
-      payload: state.age_range,
-    });
-  };
-
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
