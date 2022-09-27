@@ -1,5 +1,5 @@
 export default {
-    bgImage: require('../../assets/Images/snapbg.jpeg'),
-    dropDown:require('../../assets/Icons/arrow_drop_down.png'),
-    dropUp:require('../../assets/Icons/arrow_drop_up.png')
+    bgImage: require('../../assets/images/snapbg.jpeg'),
+    dropDown:require('../../assets/icons/arrow_drop_down.png'),
+    dropUp:require('../../assets/icons/arrow_drop_up.png')
   };
