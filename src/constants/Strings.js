@@ -196,5 +196,10 @@ export default {
   smSetting:{
     profile: 'Profile',
     ProfileName:'Erica Smith',
+    EditAttribute:'Edit Attributes',
+    Gallery:' Create a Gallery',
+    EditProfile:'Edit Profile',
+    
+
   }
 };
