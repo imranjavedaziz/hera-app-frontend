@@ -9,7 +9,8 @@ import {showAppToast} from '../../../../redux/actions/loader';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
-import { Fonts } from '../../../../constants/Constants';
+import {Fonts} from '../../../../constants/Constants';
+import {Value} from '../../../../constants/FixedValues';
 
 const SmDonorSettings = () => {
   const headerComp = () => (
@@ -25,8 +26,10 @@ const SmDonorSettings = () => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={false}>
-      <View style={[globalStyle.mainContainer, {borderWidth: 0}]}>
-        <View style={[Styles.profileImgContainner,{marginBottom:14}]}>
+
+        
+      <View style={Styles.headerContainer}>
+        <View style={[Styles.profileImgContainner]}>
           <Image
             style={Styles.profileImg}
             source={{
@@ -34,52 +37,67 @@ const SmDonorSettings = () => {
             }}
           />
         </View>
-        <Text style={[globalStyle.screenTitle,{fontSize:11, margtinTop:8}]}>
-            {Strings.smSetting.profile}
-          </Text>
-          <Text style={[globalStyle.screenSubTitle,{marginBottom:10}]}>
-            {Strings.smSetting.ProfileName}
-          </Text>
-          {/* </View> */}
-          <View style={{marginLeft:-150}}>
-          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
-            <Image source={Images.preferences}/>
-            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.EditAttribute}</Text>
+        <View>
+          <View style={[Styles.camBtn, Styles.camSelectedBtn]}>
+            <Image source={Images.camera} style={Styles.camImg} />
           </View>
-          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
-          <Image source={Images.galleryimage}/>
-            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.Gallery}</Text>
-          </View>
-          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
-          <Image source={Images.person}/>
-            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.EditProfile}</Text>
-          </View>
-          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
-          <Image source={Images.setting2}/>
-            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.Settings}</Text>
-          </View>
-          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
-          <Image source={Images.writing}/>
-            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.Inquiry}</Text>
-          </View>
-          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
-          <Image source={Images.information}/>
-            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.AboutUs}</Text>
-          </View>
-          </View>
-          <Button
-        //   style={{height:59,width:144, marginTop:45}}
+        </View>
+      </View>
+      <Text style={[globalStyle.screenTitle, Styles.tittle]}>
+        {Strings.smSetting.profile}
+      </Text>
+      <Text
+        style={[
+          globalStyle.screenSubTitle,
+          {marginBottom: Value.CONSTANT_VALUE_10},
+        ]}>
+        {Strings.smSetting.ProfileName}
+      </Text>
+
+      <View style={Styles.highlightContainer}>
+        <View style={Styles.flexRow}>
+          <Image source={Images.preferences} />
+          <Text style={Styles.text}>{Strings.smSetting.EditAttribute}</Text>
+        </View>
+
+        <View style={Styles.dot}></View>
+      </View>
+
+      <View style={Styles.contain}>
+        <Image source={Images.galleryimage} />
+        <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
+      </View>
+
+      <View style={Styles.highlightContainer}>
+        <View style={Styles.flexRow}>
+          <Image source={Images.person} />
+          <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
+        </View>
+        <View style={Styles.dot}></View>
+      </View>
+      <View style={Styles.contain}>
+        <Image source={Images.setting2} />
+        <Text style={Styles.text}>{Strings.smSetting.Settings}</Text>
+      </View>
+      <View style={Styles.contain}>
+        <Image source={Images.writing} />
+        <Text style={Styles.text}>{Strings.smSetting.Inquiry}</Text>
+      </View>
+      <View style={Styles.contain}>
+        <Image source={Images.information} />
+        <Text style={Styles.text}>{Strings.smSetting.AboutUs}</Text>
+      </View>
+
+      <View style={Styles.BtnContainer}>
+        <Button
+          style={Styles.Btn}
           label={Strings.smSetting.Btn}
-          color={'pink'}
-      
-          
-          />
-          <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
-          </View>
+          color={Colors.COLOR_F18D93}
+        />
+        <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
+      </View>
     </Container>
   );
 };
 
 export default SmDonorSettings;
-
-const styles = StyleSheet.create({});
