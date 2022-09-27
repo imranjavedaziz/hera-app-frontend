@@ -47,7 +47,7 @@ export default {
     path: require('../assets/icons/path/path.png'),
 
     // IMAGES
-    LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
-    LOGO: require('../assets/Images/logo/logo.png'),
-    QUOTES: require('../assets/Images/background_quotes/invalidName.png')
+    LANDING_BG: require('../assets/images/landing-bg/landing-bg.png'),
+    LOGO: require('../assets/images/logo/logo.png'),
+    QUOTES: require('../assets/images/background_quotes/invalidName.png')
 }
