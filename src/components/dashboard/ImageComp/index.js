@@ -2,14 +2,13 @@ import {View, Text, ImageBackground, Image, Animated} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
-import { useState } from 'react';
 
 const FadeInView = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current; 
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration:0,
+      duration:1000,
       useNativeDriver:true
     }).start();
   }, [fadeAnim]);
@@ -29,11 +28,7 @@ const ImageComp = (
   {locationText, code, donerAge, mapIcon, has_happen, image,isVisibleLogo},
   props
 ) => {
- 
-  console.log('has_happen', has_happen)
-
   return (
-    
     <View style={styles.mainContainer}>
       <ImageBackground
         source={image}
