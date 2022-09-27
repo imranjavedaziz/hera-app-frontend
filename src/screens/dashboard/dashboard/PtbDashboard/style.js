@@ -1,27 +1,22 @@
-
 import Alignment from '../../../../constants/Alignment';
-import {
-  dynamicSize,
-} from '../../../../utils/responsive';
-import { Value } from '../../../../constants/FixedValues';
-import Colors from '../../../../constants/Colors';
+import {dynamicSize} from '../../../../utils/responsive';
+import {Value} from '../../../../constants/FixedValues';
 
 export default {
   mainContainer: {
-    flex:dynamicSize(Value.CONSTANT_VALUE_1),
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
   },
-  innerContainer:{
+  innerContainer: {
     flexDirection: Alignment.ROW,
-    justifyContent:'center'
+    justifyContent: Alignment.CENTER,
   },
   overlayLabel: {
-    justifyContent: 'center',
-    alignItems: 'center',
-   
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
   },
   iconContainer: {
-    flex: 0.88,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.CENTER,
   },
 };

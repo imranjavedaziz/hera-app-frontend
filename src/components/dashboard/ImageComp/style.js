@@ -11,43 +11,44 @@ import {
 
 export default {
   mainContainer: {
-    height: 390,
-    width:300,
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: scaleHeight(Value.CONSTANT_VALUE_375),
+    width: scaleWidth(Value.CONSTANT_VALUE_290),
+    justifyContent: Alignment.CENTER,
+    alignItems:Alignment.CENTER,
   },
   bgImage: {
-    width: 360,
-    height: 463,
+    width: scaleWidth(Value.CONSTANT_VALUE_360),
+    height: scaleHeight(Value.CONSTANT_VALUE_445),
   },
   iconContainer: {
     flex: 0.88,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent:  Alignment.FLEXEND,
+    alignItems:Alignment.CENTER,
   },
   iconImage:{
-    marginBottom: 38
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_8),
+    justifyContent:Alignment.CENTER,
   },
   innerContainer: {
-    flexDirection: 'row',
+    flexDirection:Alignment.ROW,
   },
   locationText: {
-    fontSize: 12,
-    paddingLeft: 10,
-    color: 'white',
+    fontSize:  normalizeFont(Value.CONSTANT_VALUE_12),
+    paddingLeft:  dynamicSize(Value.CONSTANT_VALUE_10),
+    color: Colors.WHITE,
     fontWeight: '800',
   },
   codeText: {
-    fontSize: 28,
-    color: 'white',
+    fontSize:  normalizeFont(Value.CONSTANT_VALUE_28),
+    color: Colors.WHITE,
   },
   donerAge: {
-    fontSize: 12,
-    color: 'white',
-    marginTop:12,
+    fontSize:  normalizeFont(Value.CONSTANT_VALUE_12),
+    color: Colors.WHITE,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_12),
   },
   textInnerContainer:{
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.CENTER,
   }
 };
