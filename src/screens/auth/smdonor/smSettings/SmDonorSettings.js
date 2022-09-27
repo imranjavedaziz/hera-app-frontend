@@ -25,7 +25,7 @@ const SmDonorSettings = () => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={false}>
-      <View style={[globalStyle.mainContainer, {borderWidth: 2}]}>
+      <View style={[globalStyle.mainContainer, {borderWidth: 0}]}>
         <View style={[Styles.profileImgContainner,{marginBottom:14}]}>
           <Image
             style={Styles.profileImg}
@@ -40,7 +40,8 @@ const SmDonorSettings = () => {
           <Text style={[globalStyle.screenSubTitle,{marginBottom:10}]}>
             {Strings.smSetting.ProfileName}
           </Text>
-          </View>
+          {/* </View> */}
+          <View style={{marginLeft:-150}}>
           <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
             <Image source={Images.preferences}/>
             <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.EditAttribute}</Text>
@@ -54,12 +55,27 @@ const SmDonorSettings = () => {
             <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.EditProfile}</Text>
           </View>
           <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
-          <Image source={Images.person}/>
-            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.EditProfile}</Text>
+          <Image source={Images.setting2}/>
+            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.Settings}</Text>
           </View>
-          
-          
+          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
+          <Image source={Images.writing}/>
+            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.Inquiry}</Text>
+          </View>
+          <View style={{flexDirection:'row', alignItems:'center', marginTop:35}}>
+          <Image source={Images.information}/>
+            <Text style={{marginLeft:18, fontSize:16,fontFamily:Fonts.OpenSansBold}}>{Strings.smSetting.AboutUs}</Text>
+          </View>
+          </View>
+          <Button
+        //   style={{height:59,width:144, marginTop:45}}
+          label={Strings.smSetting.Btn}
+          color={'pink'}
       
+          
+          />
+          <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
+          </View>
     </Container>
   );
 };

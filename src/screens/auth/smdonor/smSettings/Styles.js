@@ -19,4 +19,7 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_100,
     // marginBottom: Value.CONSTANT_VALUE_15,
   },
+  greyText:{
+    color:Colors.PARA
+  }
 };

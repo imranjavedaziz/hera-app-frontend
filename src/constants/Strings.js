@@ -197,9 +197,12 @@ export default {
     profile: 'Profile',
     ProfileName:'Erica Smith',
     EditAttribute:'Edit Attributes',
-    Gallery:' Create a Gallery',
+    Gallery:'Create a Gallery',
     EditProfile:'Edit Profile',
-    
-
+    Settings:'Settings',
+    Inquiry:'Inquiry Form',
+    AboutUs:'About Us',
+    Btn:'LOG OUT',
+    AppVersion:'App Version 0.5'
   }
 };
