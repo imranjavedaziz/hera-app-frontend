@@ -16,6 +16,8 @@ import SmRegister from '../screens/auth/smdonor/SmRegister';
 import SmBasicDetails from '../screens/auth/smdonor/SmBasicDetails';
 import SetAttributes from '../screens/auth/smdonor/SetAttributes';
 import CreateGallery from '../screens/auth/smdonor/CreateGallery';
+import PtbDashboard from '../screens/dashboard/dashboard/PtbDashboard';
+
 import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
 import SmDashboard from '../screens/auth/smdonor/SmDashboard/SmDashboard';
 import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
@@ -29,11 +31,11 @@ const Main = () => {
     }
   },[auth]);
   return (
-    
+    <NavigationContainer
+      onReady={() => RNBootSplash.hide()}
+      >
 
 
-      
-    <NavigationContainer>
 
       <Stack.Navigator 
       initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
@@ -104,6 +106,11 @@ const Main = () => {
         <Stack.Screen
           name={Routes.CreateGallery}
           component={CreateGallery}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.PtbDashboard}
+          component={PtbDashboard}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

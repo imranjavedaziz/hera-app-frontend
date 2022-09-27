@@ -122,23 +122,23 @@ const Profile = ({navigation, route}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    const reqData = new FormData();
-    reqData.append('role_id', 2);
-    reqData.append('first_name', data.first_name);
-    reqData.append('middle_name', data.middle_name);
-    reqData.append('last_name', data.last_name);
-    reqData.append('dob', moment(date).format('DD-MM-YYYY'));
-    reqData.append('email', data.email);
-    reqData.append('password', data.password);
-    reqData.append('country_code', route.params.country_code);
-    reqData.append('phone_no', route.params.phone_no);
-    reqData.append('file', {
+    const reqData = new FormData;
+    reqData.append('role_id',2);
+    reqData.append('first_name',data.first_name);
+    reqData.append('middle_name',data.middle_name);
+    reqData.append('last_name',data.last_name);
+    reqData.append('dob',moment(date).format('DD-MM-YYYY'));
+    reqData.append('email',data.email);
+    reqData.append('password',data.password);
+    reqData.append('country_code',route.params.country_code);
+    reqData.append('phone_no',route.params.phone_no);
+    reqData.append('file',{
       name: file.filename,
       type: file.mime,
       uri: file.path,
     });
     authService.registerUser(reqData);
-    navigation.navigate(Routes.SetPreference);
+    // navigation.navigate('SetPreference');
   };
 
   return (
