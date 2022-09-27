@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   Animated,
 } from 'react-native';
-import React, { useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
@@ -17,29 +17,41 @@ import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
 
-
 const PtbDashboard = () => {
-  const fadeAnim = useRef(new Animated.Value(0)).current; //
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
+
   const handleOnSwipedLeft = () => {
     setIsVisibleLogo(true);
     setIslikedLogo('disliked');
-    setTimeout(() => {
-      useSwiper.current.swipeLeft();
-      setIslikedLogo('');
-    }, 10000);
+    // setTimeout(() => {
+    //   useSwiper.current.swipeLeft();
+    // }, 1000)
+
+    // setTimeout(() => {
+    //   setIsVisibleLogo(false);
+    //   setIslikedLogo('');
+    // }, 10000);
   };
+
+  console.log('islikedLogo', islikedLogo);
+
   const handleOnSwipedRight = () => {
     setIsVisibleLogo(true);
     setIslikedLogo('liked');
-    useSwiper.current.swipeRight();
     setTimeout(() => {
-      setIslikedLogo('');
-    }, 10000);
+      useSwiper.current.swipeRight();
+    }, 1000);
+
+    // setTimeout(() => {
+    //   setIsVisibleLogo(false);
+    //   setIslikedLogo('');
+    // }, 10000);
   };
-  const renderCardData = item => {
+  function renderCardData(item) {
+    console.log('islikedLogo---',islikedLogo)
     return (
       <ImageComp
         locationText={item.locationText}
@@ -57,7 +69,7 @@ const PtbDashboard = () => {
   const headerComp = () => (
     <IconHeader leftIcon={Images.person} rightIcon={Images.iconChat} />
   );
-  
+
   return (
     <>
       <Container
@@ -89,7 +101,11 @@ const PtbDashboard = () => {
             </ImageBackground>
           </View>
           <View style={styles.innerContainer}>
-            <TouchableOpacity onPress={() => handleOnSwipedLeft()}>
+            <TouchableOpacity
+              onPress={() => {
+                setIsVisibleLogo(true);
+                setIslikedLogo('disliked');
+              }}>
               <Image source={Images.iconNotlike} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handleOnSwipedRight()}>
