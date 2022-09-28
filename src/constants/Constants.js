@@ -1,7 +1,7 @@
 const environment = {
   dev: {
     bucket: 'geldating-dev-frontend',
-    api_url: 'https://97ae-2409-4089-bd13-3094-fe6f-8454-149f-c66b.in.ngrok.io/api/v1/',
+    api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',
   },
   qa: {
     bucket: 'geldating-qa-frontend',
@@ -716,6 +716,10 @@ export const Routes = {
   PtbBasicDetails: 'PtbBasicDetails',
   ProfileDetails:'ProfileDetails',
   SmDashboard:'SmDashboard',
+<<<<<<< HEAD
   SmSetting:'SmDonorSettings'
   
+=======
+
+>>>>>>> 4f9e6f16d79cc0a792eb66d0633b9327b969d5cc
 };
