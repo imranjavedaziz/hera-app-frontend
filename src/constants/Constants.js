@@ -716,10 +716,7 @@ export const Routes = {
   PtbBasicDetails: 'PtbBasicDetails',
   ProfileDetails:'ProfileDetails',
   SmDashboard:'SmDashboard',
-<<<<<<< HEAD
   SmSetting:'SmDonorSettings'
   
-=======
 
->>>>>>> 4f9e6f16d79cc0a792eb66d0633b9327b969d5cc
 };
