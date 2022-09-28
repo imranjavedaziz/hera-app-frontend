@@ -71,6 +71,20 @@ export const genders = [
     "name": "Other"
   }
 ];
+export const lookingFor = [
+  {
+    "id":1,
+    "name": "Surrogate Mother"
+  },
+  {
+    "id":2,
+    "name": "Egg Donor"
+  },
+  {
+    "id":3,
+    "name": "Sperm Donor"
+  }
+];
 export const Static = {
   countries: [
     {
@@ -550,6 +564,21 @@ export const Static = {
       "name": "Red"
     }
   ],
+  ageRange:[
+    { 
+     "id": 1,
+     "name":"21-28" 
+    },
+    { 
+     "id": 2,
+     "name":"28-35" 
+    },
+    { 
+     "id": 3,
+     "name":"35-40" 
+    },
+ 
+ ],
   ethnicity: [
     {
       "id": 1,

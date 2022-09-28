@@ -75,8 +75,8 @@ export default {
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
     tmc1:"By continuing, you agree to HERA's ",
-    tmc2:'Terms of use',
-    tmc3:'Privacy Policy',
+    tmc2:'Terms of use ',
+    tmc3:' Privacy Policy',
 
 
   },
@@ -99,6 +99,7 @@ export default {
     About: 'About HERA',
     Logout: 'Log Out',
     yrs:'yrs',
+    Education:'Education'
 
   },
   otp: {
