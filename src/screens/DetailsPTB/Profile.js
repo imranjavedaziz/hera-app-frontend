@@ -9,6 +9,7 @@ import {
   Modal,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
+import moment from 'moment';
 import openCamera from '../../utils/openCamera';
 import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
@@ -55,7 +56,7 @@ const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8;
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA.test(value) && Regx.NUM.test(value);
+        return Regx.ALPHA_LOWER.test(value) && Regx.ALPHA_CAP.test(value) && Regx.NUM.test(value);
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value);
       default:
@@ -88,15 +89,6 @@ const Profile = ({navigation, route}) => {
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
 
-  useEffect(() => {
-    if (!isValid) {
-      const e = errors;
-      const messages = [];
-      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-      const msg = messages.join('\n').trim();
-      if (msg) dispatch(showAppToast(true, msg));
-    }
-  }, [errors, isValid]);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -283,7 +275,6 @@ const Profile = ({navigation, route}) => {
                   containerStyle={{
                     marginBottom: Value.CONSTANT_VALUE_5,
                   }}
-                  error={errors && errors.set_password?.message}
                 />
                 {pwdErrMsg.map(msg => (
                   <View style={styles.passwordCheck} key={msg.type}>
