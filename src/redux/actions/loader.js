@@ -9,9 +9,9 @@ export const hideAppLoader = () => ({
   type: HIDE_LOADER,
 })
 
-export const showAppToast = (text='') => ({
+export const showAppToast = (isErrToast,text='') => ({
   type: SHOW_TOAST,
-  payload: {text}
+  payload: {isErrToast,text}
 })
 
 export const hideAppToast = () => ({

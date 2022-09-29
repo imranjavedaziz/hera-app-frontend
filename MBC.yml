@@ -1,0 +1,19 @@
+project:
+  repository_url: 'https://github.com/KiwiTechLLC/MBC-Mobile.git'
+  branch_name: dev
+  cloned_directory_name: src
+  sonar_config:
+    sonar.projectKey: SonarQube-MBC-Mobile
+    sonar.projectName: MBC-Mobile
+    sonar.language: React Native
+    sonar.sources: 'src'
+    sonar.exclusions: 'node_modules'
+    sonar.ts.tslint.configPath: 'package.json'
+    sonar.plugin: 'maven'
+    sonar.swift.project: 'MBC.xcodeproj'
+    sonar.swift.workspace: 'MBC.xcworkspace'
+    sonar.projectBaseDir: 'src'
+    sonar.command: 'cd android && ./gradlew assembleRelease && cd ..'
+    sonar.javaVersion: ' '
+    sonar.gradleVersion: '7.22'
+    sonar.coverageReportPaths: ''
