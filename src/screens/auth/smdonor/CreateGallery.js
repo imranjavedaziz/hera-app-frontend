@@ -81,9 +81,11 @@ const CreateGallery = ({route}) => {
     });
   };
   const headerComp = () => (
-    <TouchableOpacity onPress={authService.logout}>
-      <Text style={globalStyle.underlineText}>Later</Text>
-    </TouchableOpacity>
+    <>
+    </>
+    // <TouchableOpacity onPress={authService.logout}>
+    //   <Text style={globalStyle.underlineText}>Later</Text>
+    // </TouchableOpacity>
   );
   return (
     <>
@@ -169,8 +171,9 @@ const CreateGallery = ({route}) => {
             </ImageBackground>
           </TouchableOpacity>
           <Button
+           style={styles.btn}
             label={Strings.sm_create_gallery.Btn}
-            onPress={() => navigation.navigate('PtbDashboard')}
+            onPress={() => navigation.navigate(Routes.SmDashboard)}
           />
         </View>
       </Container>

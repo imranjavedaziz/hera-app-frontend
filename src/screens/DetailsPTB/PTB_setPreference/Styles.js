@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Value} from '../../../constants/FixedValues';
-import {Fonts, Routes} from '../../constants/Constants';
+import {Fonts, Routes} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
 
@@ -25,12 +25,12 @@ export default {
   },
   ageContainer:{
     flexDirection: Alignment.ROW, 
-    flexWrap: 'wrap'
+    justifyContent: Alignment.SPACE_BETWEEN,
   },
   lookingsm: {
     alignItems: Alignment.CENTER,
-    marginLeft: Value.CONSTANT_VALUE_10,
-    fontWeight: Alignment.BOLD,
+    marginLeft: Value.CONSTANT_VALUE_15,
+    fontFamily:Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
   },
@@ -51,7 +51,7 @@ export default {
   },
   heightContainer: {
     flexDirection: Alignment.ROW,
-    justifyContent: 'space-between',
+    justifyContent: Alignment.SPACE_BETWEEN,
     paddingBottom: Value.CONSTANT_VALUE_10,
   },
   heightText: {
@@ -72,13 +72,12 @@ export default {
     marginVertical: Value.CONSTANT_VALUE_5,
   },
   chips: {
-    height: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_41,
     width: Value.CONSTANT_VALUE_90,
     borderRadius: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_9,
     marginVertical: Value.CONSTANT_VALUE_5,
-    padding: Value.CONSTANT_VALUE_0,
   },
   eyeContainer: {
     flexDirection: Alignment.ROW,
@@ -96,11 +95,26 @@ export default {
     width: Value.CONSTANT_VALUE_104,
     borderRadius: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
-    marginRight: Value.CONSTANT_VALUE_10,
+    // marginRight: Value.CONSTANT_VALUE_5,
     marginVertical: Value.CONSTANT_VALUE_10,
     padding: Value.CONSTANT_VALUE_0,
   },
   chipInsideText:{
     alignSelf: Alignment.CENTER
   },
+  flexRow:{
+    flexDirection:Alignment.ROW,
+  },
+  headerTxt:{
+    color:Colors.RED,
+    textDecorationLine:Alignment.UNDERLINE,
+    fontFamily:Fonts.OpenSansBold,
+    fontSize:Value.CONSTANT_VALUE_16
+    
+  },
+  Btn:{
+    height:Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_195,
+
+  }
 };

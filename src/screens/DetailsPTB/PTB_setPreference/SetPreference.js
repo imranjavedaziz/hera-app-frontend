@@ -1,4 +1,4 @@
-import {Text, View, Image, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity, Pressable} from 'react-native';
 import React, {useState, useReducer} from 'react';
 
 import Container from '../../../components/Container';
@@ -15,49 +15,17 @@ import { setPreferenceSchema, smBasicSchema } from "../../../constants/schemas";
 import Range from '../../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {genders, Static, Routes} from '../../../constants/Constants';
+import {
+  genders,
+  Static,
+  Routes,
+  lookingFor,
+} from '../../../constants/Constants';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
 
-const initialState = {
-  hair: [
-    {title: 'Black', flag: false},
-    {title: 'Brown', flag: false},
-    {title: 'Brunette', flag: false},
-    {title: 'Blonde', flag: false},
-    {title: 'Ginger', flag: false},
-  ],
-  eye: [
-    {title: 'Amber', flag: false},
-    {title: 'Blue', flag: false},
-    {title: 'Green', flag: false},
-    {title: 'Hazel', flag: false},
-    {title: 'Brown', flag: false},
-  ],
-  age_range: [
-    {title: '21-28', flag: false},
-    {title: '28-35', flag: false},
-    {title: '35-40', flag: false},
-  ],
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'ON_SELECT_HAIR':
-      return {...state, ...action.payload};
-
-    case 'ON_SELECT_EYE':
-      return {...state, ...action.payload};
-
-    case 'ON_SELECT_AGE':
-      return {...state, ...action.payload};
-
-    default:
-      return state;
-  }
-}
 const onValueSelect = (data = '', value) => {
   const dataArr = data ? data.split(',') : [];
   const v = value.toString();
@@ -76,85 +44,47 @@ const isSelected = (data, value) => {
   return data.split(',').includes(value.toString());
 };
 const SetPreference = ({navigation}) => {
-  const [surrogate, setSurrogate] = useState(false);
-  const [donor, setDonor] = useState(false);
-  const [egg, setEgg] = useState(false);
-  const [state, dis] = useReducer(reducer, initialState);
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
+  const ageRange = Static.ageRange;
+  const eyeColor = Static.eyeColors;
+  const hairColor = Static.hairColors;
+  const dispatch = useDispatch();
 
-  // const {
-  //   handleSubmit,
-  //   control,
-  //   formState: {errors, isValid},
-  //   setValue,
-  //   getValues,
-  // } = useForm({
-  //   resolver: yupResolver(setPreferenceSchema),
-  // });
   const {
     handleSubmit,
     control,
+    getValues,
+    setValue,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
 
-  // React.useEffect(() => {
-  //   // if (!isValid) {
-  //   //   const e = errors;
-  //   //   console.log('errors-',errors);
-  //   //   const messages = [];
-  //   //   Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-  //   //   const msg = messages.join('\n').trim();
-  //   //   if(msg){
-  //   //     console.log("----->",messages.length)
-  //   //   dispatch(showAppToast(false,"Please provide all the mandatory details."));
-  //   //   }
+  React.useEffect(() => {
+    if (!isValid) {
+      const e = errors;
+      const messages = [];
+      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+      const msg = messages.join('\n').trim();
+      if(msg)dispatch(showAppToast(true,msg));
+    }
+  }, [errors, isValid]);
 
-  //   // }
-  // }, [errors, isValid]);
 
   const onSubmit = data => {
-    if (surrogate == false && donor == false && egg == false) {
-      dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
-      return;
-    }
-    let hc = 0;
-    state.hair.map(i => {
-      if (i.flag === false) {
-        hc++;
-        console.log(hc);
-      }
-      if (hc === 5) {
-        dispatch(showAppToast(true, ValidationMessages.SELECT_HAIR));
-        return;
-      }
-    });
-    let ec = 0;
-    state.eye.map(i => {
-      if (i.flag === false) {
-        ec++;
-      }
-      if (ec === 5) {
-        dispatch(showAppToast(true, ValidationMessages.SELECT_EYE));
-        return;
-      }
-      if (hc !== 5 && ec !== 5) {
-        navigation.navigate(Routes.Landing);
-      }
-    });
+    setValue('height', height.toString())
+    console.log(data);
+    navigation.navigate(Routes.PtbDashboard)
+    
   };
 
   const headerComp = () => (
-    <CircleBtn
-      icon={Images.iconSettings}
-      onPress={() => setOpen(true)}
-      accessibilityLabel="Cross Button, Go back"
-    />
+    <Pressable onPress={() => setOpen(true)}>
+      <Text style={styles.headerTxt}> Cancel</Text>
+    </Pressable>
   );
 
-  const dispatch = useDispatch();
 
   return (
     <>
@@ -165,7 +95,8 @@ const SetPreference = ({navigation}) => {
         headerEnd={true}
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
-        }>
+        }
+        style={{paddingBottom:Value.CONSTANT_VALUE_50}}>
         <View style={styles.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.preference.setPreference}
@@ -180,58 +111,36 @@ const SetPreference = ({navigation}) => {
               {Strings.preference.filter}
             </Text>
           </View>
-
           <View style={styles.lookingFor}>
             <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
               {Strings.preference.lookingFor}
-              <Text style={styles.required}>*</Text>
             </Text>
 
-            <View>
-              <TouchableOpacity
-                style={{flexDirection: 'row'}}
-                activeOpacity={1}
-                onPress={() => setSurrogate(cur => !cur)}>
-                {surrogate ? (
-                  <Image source={Images.iconRadiosel} />
-                ) : (
-                  <Image source={Images.iconRadiounsel} />
-                )}
-                <Text style={styles.lookingsm}>
-                  {Strings.preference.surrogateMother}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                style={{flexDirection: 'row'}}
-                activeOpacity={1}
-                onPress={() => setEgg(cur => !cur)}>
-                {egg ? (
-                  <Image source={Images.iconRadiosel} />
-                ) : (
-                  <Image source={Images.iconRadiounsel} />
-                )}
-                <Text style={styles.lookingDonor}>
-                  {Strings.preference.EggDonor}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                style={styles.SDonorContainer}
-                activeOpacity={1}
-                onPress={() => setDonor(cur => !cur)}>
-                {donor ? (
-                  <Image source={Images.iconRadiosel} />
-                ) : (
-                  <Image source={Images.iconRadiounsel} />
-                )}
-                <Text style={styles.lookingsDonor}>
-                  {Strings.preference.SpermDonor}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <View style={{}}>
+                  {lookingFor.map(whom => (
+                    <TouchableOpacity
+                      style={styles.flexRow}
+                      key={whom.id}
+                      activeOpacity={1}
+                      onPress={() => onChange(whom.id)}>
+                      <Image
+                        style={{}}
+                        source={
+                          value === whom.id
+                            ? Images.iconRadiosel
+                            : Images.iconRadiounsel
+                        }
+                      />
+                      <Text style={styles.lookingsm}>{whom.name}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+              name="looking"
+            />
 
             <Controller
               control={control}
@@ -248,6 +157,21 @@ const SetPreference = ({navigation}) => {
               )}
               name="location"
             />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  label={Strings.preference.Education}
+                  data={Static.education}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                    onChange(selectedItem);
+                  }}
+                  required={true}
+                />
+              )}
+              name="education"
+            />
 
             <Text style={styles.ageText}>{Strings.preference.AgeRange}</Text>
 
@@ -255,28 +179,37 @@ const SetPreference = ({navigation}) => {
               control={control}
               render={({field: {onChange, value = ''}}) => (
                 <View style={styles.ageContainer}>
-                  {state.age_range.map((item, index) => {
+                  {ageRange.map((item, index) => {
                     return (
                       <TouchableOpacity
                         onPress={() => {
-                          onChange(onValueSelect(value, item.title));
+                          onChange(onValueSelect(value, item.name));
                         }}
                         activeOpacity={0.8}
-                        key={index}>
+                        key={item.id}>
                         <View
                           style={[
                             styles.ageRangeChip,
                             {
-                              backgroundColor: isSelected(value, item.title)
+                              backgroundColor: isSelected(value, item.name)
                                 ? Colors.COLOR_5ABCEC
                                 : Colors.WHITE,
-                              borderWidth: isSelected(value, item.title)
-                                ? 0
-                                : 1,
+                              borderWidth: isSelected(value, item.name) ? 0 : 1,
                             },
                           ]}>
-                          <Text style={styles.chipInsideText}>
-                            {item.title} {Strings.preference.yrs}
+                          <Text
+                            style={[
+                              styles.chipInsideText,
+                              {
+                                color: isSelected(value, item.name)
+                                  ? Colors.WHITE
+                                  : null,
+                                fontWeight: isSelected(value, item.name)
+                                  ? Alignment.BOLD
+                                  : null,
+                              },
+                            ]}>
+                            {item.name} {Strings.preference.yrs}
                           </Text>
                         </View>
                       </TouchableOpacity>
@@ -287,7 +220,7 @@ const SetPreference = ({navigation}) => {
               name="age_range"
             />
 
-            <View style={{marginTop: Value.CONSTANT_VALUE_30}}>
+            <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
               <View style={styles.heightContainer}>
                 <Text>
                   {Strings.preference.Height}{' '}
@@ -302,7 +235,17 @@ const SetPreference = ({navigation}) => {
                   </Text>
                 </Text>
               </View>
-              <Range value={height} setValue={setHeight} />
+              <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+              <Range value={height}   setValue={setHeight} 
+               
+               />
+               
+           
+              )}
+              name="height"
+            />
             </View>
 
             {/* Drop Down */}
@@ -334,7 +277,6 @@ const SetPreference = ({navigation}) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem);
                   }}
-                  required={true}
                   error={errors && errors.ethnicity?.message}
                 />
               )}
@@ -350,12 +292,12 @@ const SetPreference = ({navigation}) => {
               control={control}
               render={({field: {onChange, value = ''}}) => (
                 <View style={styles.hairContainer}>
-                  {Static.hairColors.map((item, index) => (
+                  {hairColor.map((item, index) => (
                     <TouchableOpacity
                       onPress={() => {
                         onChange(onValueSelect(value, item.id));
                       }}
-                      key={index}>
+                      key={item.id}>
                       <View
                         style={[
                           styles.chips,
@@ -402,12 +344,12 @@ const SetPreference = ({navigation}) => {
             control={control}
             render={({field: {onChange, value = ''}}) => (
               <View style={styles.eyeContainer}>
-                {Static.eyeColors.map((item, index) => (
+                {eyeColor.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => {
                       onChange(onValueSelect(value, item.id));
                     }}
-                    key={index}>
+                    key={item.id}>
                     <View
                       style={[
                         styles.chips,
@@ -444,6 +386,7 @@ const SetPreference = ({navigation}) => {
 
           <Button
             label={Strings.preference.Save}
+            style={styles.Btn}
             onPress={handleSubmit(onSubmit)}
           />
         </View>

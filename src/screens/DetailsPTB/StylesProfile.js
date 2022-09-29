@@ -37,16 +37,18 @@ export default {
   },
   tmc1: {
     fontSize: Value.CONSTANT_VALUE_13,
-    marginLeft: Value.CONSTANT_VALUE_10,
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_52,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    
   },
   tmc: {
     flexDirection: Alignment.ROW,
+   
   },
   tmcLink: {
     fontWeight: Alignment.BOLD,
@@ -121,4 +123,14 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
   },
+  Btn:{
+    height:Value.CONSTANT_VALUE_80,
+    width:Value.CONSTANT_VALUE_197,
+    paddingHorizontal: Value.CONSTANT_VALUE_0,
+    paddingVertical: Value.CONSTANT_VALUE_0,
+  },
+  BtnContainer:{
+    paddingTop: Value.CONSTANT_VALUE_31,
+    alignItems: Alignment.CENTER
+  }
 };

@@ -31,6 +31,7 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import {showAppToast} from '../../../redux/actions/loader';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import Auth from '../../../services/Auth';
+import { Value } from '../../../constants/FixedValues';
 
 const validationType = {
   LEN: 'LEN',
@@ -93,6 +94,7 @@ const SmRegister = ({route}) => {
   };
   useEffect(askCameraPermission, []);
   const onSubmit = data => {
+    console.log(data);
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
@@ -101,6 +103,7 @@ const SmRegister = ({route}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
+    
     const reqData = new FormData;
     reqData.append('role_id',data.role);
     reqData.append('first_name',data.first_name);
@@ -116,6 +119,7 @@ const SmRegister = ({route}) => {
       type: file.mime,
       uri: file.path,
     });
+    console.log("reqData---->",reqData);
     authService.registerUser(reqData);
   };
   const headerComp = () => (
@@ -161,6 +165,7 @@ const SmRegister = ({route}) => {
             name="role"
           />
           <View style={styles.imgContainer}>
+            <TouchableOpacity onPress={() => setOpen(true)}>
             <ImageBackground
               source={userImage ? {uri: userImage} : null}
               style={styles.imgView}
@@ -174,7 +179,17 @@ const SmRegister = ({route}) => {
                 <Image source={Images.camera} style={styles.camImg} />
               </TouchableOpacity>
             </ImageBackground>
+            </TouchableOpacity>
+            <View style={{marginVertical:Value.CONSTANT_VALUE_10}}>
+          <Text style={styles.ImageText}>
+          {Strings.sm_register.uploadImage}
+          <Text style={{color: Colors.RED}}>*</Text>
+        </Text>
+        </View>
           </View>
+
+    
+
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -333,6 +348,7 @@ const SmRegister = ({route}) => {
           <Button
             label={Strings.sm_register.Btn}
             onPress={handleSubmit(onSubmit)}
+            style={styles.Btn}
           />
           <Pressable
             onPress={() => {

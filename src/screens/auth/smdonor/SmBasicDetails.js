@@ -17,6 +17,7 @@ import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
+import { Value } from '../../../constants/FixedValues';
 
 const SmBasicDetails = ({route}) => {
   const userService = User();
@@ -52,7 +53,7 @@ const SmBasicDetails = ({route}) => {
         }>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>{Strings.sm_basic.Title}</Text>
-          <Text style={[globalStyle.screenSubTitle, {marginVertical: 20}]}>
+          <Text style={[globalStyle.screenSubTitle, {marginBottom:Value.CONSTANT_VALUE_45 }]}>
             {Strings.sm_basic.Subtitle}
           </Text>
           <Text
@@ -86,6 +87,21 @@ const SmBasicDetails = ({route}) => {
             )}
             name="gender_id"
           />
+           <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <Dropdown
+                label={Strings.sm_basic.Country}
+                data={Static.countries}
+                onSelect={selectedItem => {
+                  onChange(selectedItem.id);
+                }}
+                required={true}
+                error={errors && errors.state_id?.message}
+              />
+            )}
+            name="country_id"
+          />
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -116,18 +132,7 @@ const SmBasicDetails = ({route}) => {
             )}
             name="zipcode"
           />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.sm_basic.Occupation}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.occupation?.message}
-              />
-            )}
-            name="occupation"
-          />
+          
           <Controller
             control={control}
             render={({field: {onChange}}) => (
@@ -162,6 +167,18 @@ const SmBasicDetails = ({route}) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                label={Strings.sm_basic.Occupation}
+                value={value}
+                onChangeText={v => onChange(v)}
+                error={errors && errors.occupation?.message}
+              />
+            )}
+            name="occupation"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
                 label={Strings.sm_basic.Bio}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -176,6 +193,7 @@ const SmBasicDetails = ({route}) => {
             name="bio"
           />
           <Button
+            style={styles.Btn}
             label={Strings.sm_basic.Btn}
             onPress={handleSubmit(onSubmit)}
           />

@@ -33,6 +33,9 @@ export const ValidationMessages = {
   MAX_FIRST_NAME: 'First name must be at most 30 characters',
   MAX_MIDDLE_NAME: 'Middle name must be at most 30 characters',
   MAX_LAST_NAME: 'Last name must be at most 30 characters',
+  Education:'Please select your Education preference',
+
+
 };
 export default {
   landing: {
@@ -68,15 +71,15 @@ export default {
     DateOfBirth: 'Date Of Birth',
     setPassword: 'Set Password',
     confirmPassword: 'Confirm Password',
-    RegisterAs: 'Register as Surrogate Motheror a Donor',
+    RegisterAs: 'Register as Surrogate Mother or a Donor',
     Register: 'REGISTER',
     ModalHeader: 'Cancel Registration?',
     ModalSubheader: 'If you cancel now, your progress will be lost.',
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
     tmc1:"By continuing, you agree to HERA's ",
-    tmc2:'Terms of use',
-    tmc3:'Privacy Policy',
+    tmc2:'Terms of use ',
+    tmc3:' Privacy Policy',
 
 
   },
@@ -99,6 +102,7 @@ export default {
     About: 'About HERA',
     Logout: 'Log Out',
     yrs:'yrs',
+    Education:'Education'
 
   },
   otp: {
@@ -110,6 +114,7 @@ export default {
     SendAgain: 'Send Again',
   },
   sm_register: {
+    uploadImage:'Upload Display Picture',
     FirstName: 'First Name',
     MiddleName: 'Middle Name (Optional)',
     LastName: 'Last Name',
@@ -135,6 +140,7 @@ export default {
     RelationshipStatus: 'Relationship Status',
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
+
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -154,7 +160,7 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
-    Btn: 'Save'
+    Btn: 'Go to dashboard'
   },
   bottomSheet:{
     Inquiry_Form:'Inquiry Form',
@@ -192,6 +198,17 @@ export default {
   },
   search_Bar:{
     search:'Search',
-
+  },
+  smSetting:{
+    profile: 'Profile',
+    ProfileName:'Erica Smith',
+    EditAttribute:'Edit Attributes',
+    Gallery:'Create a Gallery',
+    EditProfile:'Edit Profile',
+    Settings:'Settings',
+    Inquiry:'Inquiry Form',
+    AboutUs:'About Us',
+    Btn:'LOG OUT',
+    AppVersion:'App Version 0.5'
   }
 };
