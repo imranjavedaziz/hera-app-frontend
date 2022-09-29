@@ -66,7 +66,7 @@ const OTP = ({route}) => {
       <View style={[globalStyle.mainContainer, {minHeight: height * 0.8}]}>
         <Text style={globalStyle.screenTitle}>{Strings.otp.title}</Text>
         <View
-          style={{marginVertical: 20}}
+          style={{}}
           accessible={true}
           accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
           <Text

@@ -12,6 +12,7 @@ export default {
     paddingVertical: Value.CONSTANT_VALUE_10,
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
+  
   },
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
@@ -27,8 +28,7 @@ export default {
   radioContainer: {
     flexDirection: Alignment.ROW,
     width: Prencentage.PRECENTAGE_100,
-    // marginTop:Value.CONSTANT_VALUE_40,
-    flexWrap: 'wrap'
+    justifyContent:Alignment.SPACE_BETWEEN
   },
   textArea: {
     borderWidth: Value.CONSTANT_VALUE_1,
@@ -46,4 +46,10 @@ export default {
     textAlign: Alignment.LEFT,
     marginBottom:10
   },
+  Btn:{
+    height:Value.CONSTANT_VALUE_80,
+    width:Value.CONSTANT_VALUE_197,
+    paddingVertical:Value.CONSTANT_VALUE_0,
+    paddingHorizontal:Value.CONSTANT_VALUE_0
+  }
 };

@@ -14,6 +14,7 @@ import {Static,} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
+import { Value } from '../../../constants/FixedValues';
 
 const SetAttributes = ({route}) => {
   const userService = User();
@@ -165,22 +166,8 @@ const SetAttributes = ({route}) => {
             )}
             name="hair_colour_id"
           />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                label={Strings.sm_set_attributes.Education}
-                data={Static.education}
-                onSelect={(selectedItem) => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.education_id?.message}
-              />
-            )}
-            name="education_id"
-          />
           <Button
+           style={{height:Value.CONSTANT_VALUE_80,width:Value.CONSTANT_VALUE_197,}}
             label={Strings.sm_set_attributes.Btn}
             onPress={handleSubmit(onSubmit)}
           />

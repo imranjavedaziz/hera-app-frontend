@@ -33,6 +33,9 @@ export const ValidationMessages = {
   MAX_FIRST_NAME: 'First name must be at most 30 characters',
   MAX_MIDDLE_NAME: 'Middle name must be at most 30 characters',
   MAX_LAST_NAME: 'Last name must be at most 30 characters',
+  Education:'Please select your Education preference',
+
+
 };
 export default {
   landing: {
@@ -137,6 +140,7 @@ export default {
     RelationshipStatus: 'Relationship Status',
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
+
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -156,7 +160,7 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
-    Btn: 'Save'
+    Btn: 'Go to dashboard'
   },
   bottomSheet:{
     Inquiry_Form:'Inquiry Form',

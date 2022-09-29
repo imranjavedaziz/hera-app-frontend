@@ -46,40 +46,36 @@ const isSelected = (data, value) => {
 const SetPreference = ({navigation}) => {
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
+  const ageRange = Static.ageRange;
+  const eyeColor = Static.eyeColors;
+  const hairColor = Static.hairColors;
+  const dispatch = useDispatch();
 
-  // const {
-  //   handleSubmit,
-  //   control,
-  //   formState: {errors, isValid},
-  //   setValue,
-  //   getValues,
-  // } = useForm({
-  //   resolver: yupResolver(setPreferenceSchema),
-  // });
   const {
     handleSubmit,
     control,
+    getValues,
+    setValue,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
 
-  //   // if (!isValid) {
-  //   //   const e = errors;
-  //   //   console.log('errors-',errors);
-  //   //   const messages = [];
-  //   //   Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-  //   //   const msg = messages.join('\n').trim();
-  //   //   if(msg){
-  //   //     console.log("----->",messages.length)
-  //   //   dispatch(showAppToast(false,"Please provide all the mandatory details."));
-  //   //   }
+  React.useEffect(() => {
+    if (!isValid) {
+      const e = errors;
+      const messages = [];
+      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+      const msg = messages.join('\n').trim();
+      if(msg)dispatch(showAppToast(true,msg));
+    }
+  }, [errors, isValid]);
 
-  //   // }
-  // }, [errors, isValid]);
 
   const onSubmit = data => {
+    setValue('height', height.toString())
     console.log(data);
+    navigation.navigate(Routes.PtbDashboard)
     
   };
 
@@ -89,7 +85,6 @@ const SetPreference = ({navigation}) => {
     </Pressable>
   );
 
-  const dispatch = useDispatch();
 
   return (
     <>
@@ -175,7 +170,7 @@ const SetPreference = ({navigation}) => {
                   required={true}
                 />
               )}
-              name="location"
+              name="education"
             />
 
             <Text style={styles.ageText}>{Strings.preference.AgeRange}</Text>
@@ -240,7 +235,17 @@ const SetPreference = ({navigation}) => {
                   </Text>
                 </Text>
               </View>
-              <Range value={height} setValue={setHeight} />
+              <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+              <Range value={height}   setValue={setHeight} 
+               
+               />
+               
+           
+              )}
+              name="height"
+            />
             </View>
 
             {/* Drop Down */}
@@ -272,7 +277,6 @@ const SetPreference = ({navigation}) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem);
                   }}
-                  required={true}
                   error={errors && errors.ethnicity?.message}
                 />
               )}
