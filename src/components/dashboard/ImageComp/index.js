@@ -4,16 +4,15 @@ import Images from '../../../constants/Images';
 import styles from './style';
 
 const FadeInView = props => {
-
-
   const fadeAnim = useRef(new Animated.Value(0)).current; 
-
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 1000,
+      duration:1000,
+      useNativeDriver:true
     }).start();
   }, [fadeAnim]);
+
 
   return (
     <Animated.View
@@ -27,8 +26,7 @@ const FadeInView = props => {
 };
 const ImageComp = (
   {locationText, code, donerAge, mapIcon, has_happen, image,isVisibleLogo},
-  props,
-  
+  props
 ) => {
   return (
     <View style={styles.mainContainer}>
@@ -40,9 +38,10 @@ const ImageComp = (
            >
             <Image
               style={styles.iconImage}
-              source={ (has_happen === 'liked' && Images.iconbigheart) ||
-              (has_happen === 'disliked' && Images.iconbigcross)}  
+              source={has_happen === 'liked' ?  Images.iconbigheart :
+              Images.iconbigcross}  
             />
+            
           </FadeInView>: null
         }
           <View style={styles.textInnerContainer}>

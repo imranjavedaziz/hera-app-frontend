@@ -11,7 +11,7 @@ import Button from '../../../components/Button';
 import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {setPreferenceSchema} from '../../../constants/schemas';
+import { setPreferenceSchema, smBasicSchema } from "../../../constants/schemas";
 import Range from '../../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
@@ -44,16 +44,18 @@ const isSelected = (data, value) => {
   return data.split(',').includes(value.toString());
 };
 const SetPreference = ({navigation}) => {
-  // const [surrogate, setSurrogate] = useState(false);
-  // const [donor, setDonor] = useState(false);
-  // const [egg, setEgg] = useState(false);
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
 
-  const ageRange = Static.ageRange;
-  const eyeColor = Static.eyeColors;
-  const hairColor = Static.hairColors;
-
+  // const {
+  //   handleSubmit,
+  //   control,
+  //   formState: {errors, isValid},
+  //   setValue,
+  //   getValues,
+  // } = useForm({
+  //   resolver: yupResolver(setPreferenceSchema),
+  // });
   const {
     handleSubmit,
     control,
