@@ -11,7 +11,7 @@ import Button from '../../../components/Button';
 import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {setPreferenceSchema} from '../../../constants/schemas';
+import { setPreferenceSchema} from "../../../constants/schemas";
 import Range from '../../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
@@ -83,6 +83,7 @@ const SetPreference = ({navigation}) => {
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
 
+
   const {
     handleSubmit,
     control,
@@ -109,7 +110,6 @@ const SetPreference = ({navigation}) => {
   // }, [errors, isValid]);
 
   const onSubmit = data => {
-    console.log(data);
     if (surrogate == false && donor == false && egg == false) {
       dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
       return;
