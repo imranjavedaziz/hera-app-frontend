@@ -19,4 +19,9 @@ export default {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
   },
+  iconImage:{
+    justifyContent:Alignment.CENTER,
+  },
+  mainImageContainer:{alignItems: Alignment.CENTER},
+  ImageSize:{height: dynamicSize(Value.CONSTANT_VALUE_463), width: 348}
 };
