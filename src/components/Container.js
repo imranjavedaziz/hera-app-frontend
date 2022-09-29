@@ -60,7 +60,7 @@ const Container = props => {
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
-          <Scroller enabled={scroller} style={style} mainStyle={mainStyle} >
+          <Scroller enabled={scroller} style={style} mainStyle={mainStyle} showsVerticalScrollIndicator={showsVerticalScrollIndicator} >
             {children}
           </Scroller>
         </KeyboardAvoidingView>
