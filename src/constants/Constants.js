@@ -716,6 +716,7 @@ export const Routes = {
   PtbBasicDetails: 'PtbBasicDetails',
   ProfileDetails:'ProfileDetails',
   SmDashboard:'SmDashboard',
+  DashboardDetailScreen:'DashboardDetailScreen',
   SmSetting:'SmDonorSettings'
   
 

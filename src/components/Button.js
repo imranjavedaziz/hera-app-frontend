@@ -16,6 +16,7 @@ const styles = {
     justifyContent: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_0,
     marginVertical: 15,
+    borderColor:'black'
   },
   text: {
     fontSize: Value.CONSTANT_VALUE_14,
@@ -30,7 +31,7 @@ const styles = {
   },
 };
 const Button = props => {
-  const {label = '', color = Colors.GREEN, style = {}, ...otherProps} = props;
+  const {label = '',color = Colors.GREEN, style = {}, ...otherProps} = props;
   return (
     <TouchableOpacity
       activeOpacity={Value.CONSTANT_VALUE_FRAC80}

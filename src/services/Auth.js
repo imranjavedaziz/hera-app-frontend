@@ -40,10 +40,7 @@ const Auth = () => {
       });
   };
   const registerUser = data => {
-    console.log(ApiPath.register, "ApiPath.register::::::::::::");
-    console.log(data, "data::::::::::::");
     dispatch(showAppLoader());
-
     axiosRequest
       .post(ApiPath.register, data, {
         headers: {

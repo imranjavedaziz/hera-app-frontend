@@ -11,20 +11,19 @@ import {
 
 export default {
   mainContainer: {
-    height: scaleHeight(Value.CONSTANT_VALUE_375),
-    width: scaleWidth(Value.CONSTANT_VALUE_290),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
   bgImage: {
-    width: scaleWidth(Value.CONSTANT_VALUE_360),
-    height: scaleHeight(Value.CONSTANT_VALUE_445),
+    height: 420,
+    width: 260,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
   },
   iconContainer: {
     flex: 0.88,
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
-    marginTop: 70,
   },
   iconImage: {
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_70),

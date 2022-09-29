@@ -11,7 +11,7 @@ import Button from '../../../components/Button';
 import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import { setPreferenceSchema, smBasicSchema } from "../../../constants/schemas";
+import { setPreferenceSchema} from "../../../constants/schemas";
 import Range from '../../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
@@ -50,6 +50,7 @@ const SetPreference = ({navigation}) => {
   const eyeColor = Static.eyeColors;
   const hairColor = Static.hairColors;
   const dispatch = useDispatch();
+
 
   const {
     handleSubmit,

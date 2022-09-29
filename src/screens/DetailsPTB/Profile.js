@@ -104,7 +104,6 @@ const Profile = ({navigation, route}) => {
     setFile(image);
   };
   const onSubmit = data => {
-    console.log(data, "data::::");
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
