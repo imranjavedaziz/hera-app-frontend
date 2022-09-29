@@ -116,36 +116,34 @@ const SetPreference = ({navigation}) => {
   // }, [errors, isValid]);
 
   const onSubmit = data => {
-    console.log('inside onsubmit::::::::::::::')
-    console.log(data,'data::::::::::::::::::::');
-    // if (surrogate == false && donor == false && egg == false) {
-    //   dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
-    //   return;
-    // }
-    // let hc = 0;
-    // state.hair.map(i => {
-    //   if (i.flag === false) {
-    //     hc++;
-    //     console.log(hc);
-    //   }
-    //   if (hc === 5) {
-    //     dispatch(showAppToast(true, ValidationMessages.SELECT_HAIR));
-    //     return;
-    //   }
-    // });
-    // let ec = 0;
-    // state.eye.map(i => {
-    //   if (i.flag === false) {
-    //     ec++;
-    //   }
-    //   if (ec === 5) {
-    //     dispatch(showAppToast(true, ValidationMessages.SELECT_EYE));
-    //     return;
-    //   }
-    //   if (hc !== 5 && ec !== 5) {
-    //     navigation.navigate(Routes.Landing);
-    //   }
-    // });
+    if (surrogate == false && donor == false && egg == false) {
+      dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
+      return;
+    }
+    let hc = 0;
+    state.hair.map(i => {
+      if (i.flag === false) {
+        hc++;
+        console.log(hc);
+      }
+      if (hc === 5) {
+        dispatch(showAppToast(true, ValidationMessages.SELECT_HAIR));
+        return;
+      }
+    });
+    let ec = 0;
+    state.eye.map(i => {
+      if (i.flag === false) {
+        ec++;
+      }
+      if (ec === 5) {
+        dispatch(showAppToast(true, ValidationMessages.SELECT_EYE));
+        return;
+      }
+      if (hc !== 5 && ec !== 5) {
+        navigation.navigate(Routes.Landing);
+      }
+    });
   };
 
   const headerComp = () => (
