@@ -68,7 +68,7 @@ export default {
     DateOfBirth: 'Date Of Birth',
     setPassword: 'Set Password',
     confirmPassword: 'Confirm Password',
-    RegisterAs: 'Register as Surrogate Motheror a Donor',
+    RegisterAs: 'Register as Surrogate Mother or a Donor',
     Register: 'REGISTER',
     ModalHeader: 'Cancel Registration?',
     ModalSubheader: 'If you cancel now, your progress will be lost.',
@@ -111,6 +111,7 @@ export default {
     SendAgain: 'Send Again',
   },
   sm_register: {
+    uploadImage:'Upload Display Picture',
     FirstName: 'First Name',
     MiddleName: 'Middle Name (Optional)',
     LastName: 'Last Name',

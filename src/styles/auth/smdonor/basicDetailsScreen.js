@@ -27,6 +27,7 @@ export default {
   radioContainer: {
     flexDirection: Alignment.ROW,
     width: Prencentage.PRECENTAGE_100,
+    // marginTop:Value.CONSTANT_VALUE_40,
     flexWrap: 'wrap'
   },
   textArea: {
@@ -42,6 +43,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_14,
     width: Prencentage.PRECENTAGE_100,
-    textAlign: Alignment.LEFT
+    textAlign: Alignment.LEFT,
+    marginBottom:10
   },
 };

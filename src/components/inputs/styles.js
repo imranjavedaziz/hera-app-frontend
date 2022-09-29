@@ -60,10 +60,11 @@ export default {
       right: 0,
     },
     rowStyle: {width: Prencentage.PRECENTAGE_100},
-    rowTextStyle: {textAlign: Alignment.LEFT, color: Colors.BLACK},
+    rowTextStyle: {textAlign: Alignment.CENTER, color: Colors.BLACK,},
     dropdownStyle: {
         textAlign: Alignment.LEFT,
         minHeight: Value.CONSTANT_VALUE_40,
+        
     },
     buttonStyle: {
         width: Prencentage.PRECENTAGE_100,

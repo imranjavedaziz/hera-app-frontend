@@ -125,6 +125,7 @@ export const smRegisterSchema = yup.object().shape({
 });
 
 export const setPreferenceSchema = yup.object().shape({
+  
   picker: yup.string().required(ValidationMessages.COMMON_REQUIRED),
   first_name: yup.string().required(ValidationMessages.COMMON_REQUIRED),
   middle_name: yup.string(),

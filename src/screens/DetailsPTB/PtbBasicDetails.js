@@ -47,8 +47,15 @@ const PtbBasicDetails = ({route}) => {
         headerComp={headerComp}>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>{Strings.sm_basic.Title}</Text>
-          <Text style={[globalStyle.screenSubTitle, {marginVertical: 20}]}>
+          <Text style={[globalStyle.screenSubTitle,{marginBottom:40}]}>
             {Strings.sm_basic.Subtitle}
+          </Text>
+          <Text
+          style={styles.label}
+          accessible={true}
+          accessibilityLabel={'Gender'}>
+            Gender
+            <Text style={[{color: 'red'}]}>*</Text>
           </Text>
           <Controller
             control={control}
@@ -57,23 +64,24 @@ const PtbBasicDetails = ({route}) => {
                 {genders.map(gender => (
                   <TouchableOpacity
                     style={styles.radioBtn}
-                    key={gender}
-                    onPress={() => onChange(gender)}>
+                    key={gender.id}
+                    onPress={() => onChange(gender.id)}>
                     <Image
                       style={styles.radioImg}
                       source={
-                        value === gender
+                        value === gender.id
                           ? Images.iconRadiosel
                           : Images.iconRadiounsel
                       }
                     />
-                    <Text style={styles.radioLabel}>{gender}</Text>
+                    <Text style={styles.radioLabel}>{gender.name}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
             )}
             name="gender"
           />
+          
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -115,18 +123,7 @@ const PtbBasicDetails = ({route}) => {
             )}
             name="zip"
           />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.sm_basic.Occupation}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.occupation?.message}
-              />
-            )}
-            name="occupation"
-          />
+          
           <Controller
             control={control}
             render={({field: {onChange}}) => (
@@ -141,6 +138,33 @@ const PtbBasicDetails = ({route}) => {
               />
             )}
             name="sexual"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.sm_basic.RelationshipStatus}
+                data={Static.relationship_status}
+                onSelect={selectedItem => {
+                  onChange(selectedItem);
+                }}
+                required={true}
+                error={errors && errors.sexual?.message}
+              />
+            )}
+            name="relationship"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.sm_basic.Occupation}
+                value={value}
+                onChangeText={v => onChange(v)}
+                error={errors && errors.occupation?.message}
+              />
+            )}
+            name="occupation"
           />
           <Controller
             control={control}

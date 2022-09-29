@@ -44,9 +44,9 @@ const isSelected = (data, value) => {
   return data.split(',').includes(value.toString());
 };
 const SetPreference = ({navigation}) => {
-  const [surrogate, setSurrogate] = useState(false);
-  const [donor, setDonor] = useState(false);
-  const [egg, setEgg] = useState(false);
+  // const [surrogate, setSurrogate] = useState(false);
+  // const [donor, setDonor] = useState(false);
+  // const [egg, setEgg] = useState(false);
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
 
@@ -78,10 +78,7 @@ const SetPreference = ({navigation}) => {
 
   const onSubmit = data => {
     console.log(data);
-    if (surrogate == false && donor == false && egg == false) {
-      dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
-      return;
-    }
+    
   };
 
   const headerComp = () => (

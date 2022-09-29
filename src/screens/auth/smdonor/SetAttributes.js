@@ -45,7 +45,7 @@ const SetAttributes = ({route}) => {
           <Text style={globalStyle.screenTitle}>
             {Strings.sm_set_attributes.Title}
           </Text>
-          <Text style={[globalStyle.screenSubTitle, {marginVertical: 20}]}>
+          <Text style={[globalStyle.screenSubTitle,]}>
             {Strings.sm_set_attributes.Subtitle}
           </Text>
           <Controller

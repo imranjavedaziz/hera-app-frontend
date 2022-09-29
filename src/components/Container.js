@@ -24,7 +24,8 @@ const Scroller = ({enabled, style, children,mainStyle}) => {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[{
-          paddingTop: 57
+          paddingTop: 57,
+          // borderWidth:2
         },style]}
         style={mainStyle ?[styles.flexMain, style]:[styles.container, style]} >
         {children}

@@ -113,8 +113,8 @@ export default {
     
   },
   Btn:{
-    height:80,
-    width:195,
+    height:Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_195,
 
   }
 };

@@ -43,7 +43,8 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_52,
-    backgroundColor: 'rgba(0,0,0,0.3)'
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    
   },
   tmc: {
     flexDirection: Alignment.ROW,
@@ -123,8 +124,8 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   Btn:{
-    height:80,
-    width:197,
+    height:Value.CONSTANT_VALUE_80,
+    width:Value.CONSTANT_VALUE_197,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
     paddingVertical: Value.CONSTANT_VALUE_0,
   },
