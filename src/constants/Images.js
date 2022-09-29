@@ -45,7 +45,8 @@ export default {
     writing: require('../assets/icons/writing/writing.png'),
     warning: require('../assets/icons/warning/warning.png'),
     path: require('../assets/icons/path/path.png'),
-
+    circleIconBack: require('../assets/icons/circleIconBack/circleIconBack.png'),
+    iconComma: require('../assets/icons/iconComma/iconComma.png'),
     // IMAGES
     LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
     LOGO: require('../assets/Images/logo/logo.png'),
@@ -53,6 +54,7 @@ export default {
     DASHBOARD_BG:require('../assets/Images/dashboard/group6.png'),
     DASHBOARD_IMG:require('../assets/Images/dashboard/bitmap.png'),
     LOGO: require('../assets/Images/logo/logo.png'),
-
+    Demo1: require('../assets/Images/Demo1.png'),
+    Demo2: require('../assets/Images/Demo2.png'),
     QUOTES: require('../assets/Images/background_quotes/invalidName.png')
 }

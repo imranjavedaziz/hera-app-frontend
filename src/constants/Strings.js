@@ -60,7 +60,7 @@ export default {
   profile: {
     makeAccountFor: 'Make Account For',
     parentToBe: 'Parent To Be',
-    uploadImage:'  Upload Display Picture',
+    uploadImage: '  Upload Display Picture',
     FirstName: 'First Name',
     MiddleName: 'Middle Name (Optional)',
     LastName: 'Last Name',
@@ -74,11 +74,9 @@ export default {
     ModalSubheader: 'If you cancel now, your progress will be lost.',
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
-    tmc1:"By continuing, you agree to HERA's ",
-    tmc2:'Terms of use',
-    tmc3:'Privacy Policy',
-
-
+    tmc1: "By continuing, you agree to HERA's ",
+    tmc2: 'Terms of use',
+    tmc3: 'Privacy Policy',
   },
   preference: {
     setPreference: 'Set Preference',
@@ -86,7 +84,7 @@ export default {
     surrogateMother: 'Surrogate Mother',
     EggDonor: 'Egg Donor',
     SpermDonor: 'Sperm Donor',
-    lookingFor:'Who are you looking for?',
+    lookingFor: 'Who are you looking for?',
     Save: 'SAVE',
     Ethnicity: 'Ethnicity',
     Race: 'Race',
@@ -94,12 +92,11 @@ export default {
     AgeRange: 'Age Range',
     Height: 'Height',
     HairColor: 'Hair Color',
-    EyeColor:'Eye Color',
+    EyeColor: 'Eye Color',
     InquiryForm: 'Inquiry Form',
     About: 'About HERA',
     Logout: 'Log Out',
-    yrs:'yrs',
-
+    yrs: 'yrs',
   },
   otp: {
     title: 'Verify your mobile',
@@ -154,20 +151,24 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
-    Btn: 'Save'
-  },
-  bottomSheet:{
-    Inquiry_Form:'Inquiry Form',
-    About_HERA:'About HERA',
-    Log_Out:'Log Out',
-  },
-  dashboard:{
-    Title:'Like, Match & Connect!',
-    Subtitle:'Your match might just\n be a click away!',
-    locationText:'U S A',
-    code:'#SD5882',
-    donerAge:'Sperm Doner, 27 yrs',
     Btn: 'Save',
+  },
+  bottomSheet: {
+    Inquiry_Form: 'Inquiry Form',
+    About_HERA: 'About HERA',
+    Log_Out: 'Log Out',
+  },
+  dashboard: {
+    Title: 'Like, Match & Connect!',
+    Subtitle: 'Your match might just\n be a click away!',
+    locationText: 'U S A',
+    code: '#SD5882',
+    donerAge: 'Sperm Doner, 27 yrs',
+    Btn: 'Save',
+    Sorry: 'Sorry!',
+    Para1:
+      'We tried to find the best matches for you but seems like no one is around.',
+    Para2: 'May be try again later or change your\n settings.',
   },
   sm_dashboard: {
     Title: 'Like , Match & Connect!',
@@ -180,18 +181,40 @@ export default {
     second_name: 'Anderson',
     type: 'Parent to be',
     age: '29',
-    yrs:'yrs',
+    yrs: 'yrs',
     bio: 'I give priority to health and play wide range of sports. I have a good exposure to different cultures of the world. I value the donations programmes & every parent who need support ',
-    profileHighlits:["Female","Hetrosexual", "Married"],
-    send_request:'SEND REQUEST',
-    request_sent:'REQUEST SENT',
-    request_decline:'REQUEST DECLINED',
-    send_msg:'SEND MESSAGE',
-    video_text:'Parant has uploaded a sort clip'
-    
+    profileHighlits: ['Female', 'Hetrosexual', 'Married'],
+    send_request: 'SEND REQUEST',
+    request_sent: 'REQUEST SENT',
+    request_decline: 'REQUEST DECLINED',
+    send_msg: 'SEND MESSAGE',
+    video_text: 'Parant has uploaded a sort clip',
   },
-  search_Bar:{
-    search:'Search',
-
-  }
+  donorPofile: {
+    Age: 'Age: ',
+    ageDetail: '29 yrs',
+    Height: 'Height: ',
+    heightDetail: '5 ft 9 in',
+    Weight: 'Weight: ',
+    weightDetail: '140 pounds',
+    Education: 'Education: ',
+    educationDetail: 'MFA',
+    Occupation: 'Occupation: ',
+    ocupationDetail: 'Data Analyst',
+    donerDescription: `I give priority to health and play a wide range of sports. I have a good exposure to different cultures of the world. I value the donation programmes & every parent who needs support.`,
+    nativePlace:'Native American',
+    fatherPlace:'Father is Native American',
+    motherPlace:'Mother is Native American',
+    hairColor:'Black Hair Color',
+    eyeColor:'Amber Eye Color',
+    shortClip:'Donor has uploaded a short clip',
+    place:'Kentucky',
+    code:'#SD5882',
+    donerType:'Sperm Donor',
+    like_this_profile:' LIKE THIS PROFILE',
+    Not_interested:'NOT INTERESTED'
+  },
+  search_Bar: {
+    search: 'Search',
+  },
 };

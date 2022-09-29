@@ -16,12 +16,12 @@ const styles = {
   safearea: {flex: 1, backgroundColor: Colors.BACKGROUND},
   flexMain:{flex:1,},
 };
-const Scroller = ({enabled, style, children,mainStyle}) => {
+const Scroller = ({enabled, style, children,mainStyle, showsVerticalScrollIndicator}) => {
   console.log(mainStyle)
   if (enabled) {
     return (
       <ScrollView
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={showsVerticalScrollIndicator}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={[{
           paddingTop: 57
@@ -42,7 +42,8 @@ const Container = props => {
     headerComp = null,
     style = {},
     safeAreViewStyle={},
-    mainStyle=false
+    mainStyle=false,
+    showsVerticalScrollIndicator=false
   } = props;
 
   return (

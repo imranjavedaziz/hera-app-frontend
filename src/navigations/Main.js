@@ -21,6 +21,7 @@ import PtbDashboard from '../screens/dashboard/dashboard/PtbDashboard';
 import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
 import SmDashboard from '../screens/auth/smdonor/SmDashboard/SmDashboard';
 import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
+import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -41,7 +42,7 @@ const Main = () => {
       initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
       >
 
-      <Stack.Screen
+      {/* <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}
           options={{headerShown: false}}
@@ -107,12 +108,18 @@ const Main = () => {
           name={Routes.CreateGallery}
           component={CreateGallery}
           options={{headerShown: false}}
-        />
+        /> */}
         <Stack.Screen
           name={Routes.PtbDashboard}
           component={PtbDashboard}
           options={{headerShown: false}}
         />
+         <Stack.Screen
+          name={Routes.DashboardDetailScreen}
+          component={DashboardDetailScreen}
+          options={{headerShown: false}}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

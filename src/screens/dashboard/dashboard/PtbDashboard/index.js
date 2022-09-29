@@ -4,6 +4,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Animated,
+  Text,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 
@@ -16,7 +17,7 @@ import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
-import style from './style';
+import {useNavigation} from '@react-navigation/native';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -24,15 +25,26 @@ const PtbDashboard = () => {
   const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
   const [cardIndex, setCardIndex] = useState(0);
-
+  const [empty, setEmpty] = useState(false);
+  const [count, setCount] = useState(0);
+  const navigation = useNavigation();
   const handleOnSwipedLeft = () => {
     setIsVisibleLogo(true);
+    {
+      setCount(count + 1);
+    }
     setIslikedLogo('disliked');
     setCardIndex(1);
-    setTimeout(() => {
-      useSwiper.current.swipeLeft();
-    }, 1000);
-
+    {
+      if (count >= 4) {
+        setEmpty(true);
+      } else {
+        setEmpty(false);
+        setTimeout(() => {
+          useSwiper.current.swipeLeft();
+        }, 1000);
+      }
+    }
     setTimeout(() => {
       setCardIndex(0);
       setIsVisibleLogo(false);
@@ -42,87 +54,124 @@ const PtbDashboard = () => {
 
   const handleOnSwipedRight = () => {
     setIsVisibleLogo(true);
+    {
+      setCount(count + 1);
+    }
     setIslikedLogo('liked');
     setCardIndex(1);
-    setTimeout(() => {
-      useSwiper.current.swipeRight();
-    }, 1000);
-
+    {
+      if (count >= 4) {
+        setEmpty(true);
+      } else {
+        setEmpty(false);
+        setTimeout(() => {
+          useSwiper.current.swipeRight();
+        }, 1000);
+      }
+    }
     setTimeout(() => {
       setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
-    }, 200);
+    }, 150);
   };
+  const onPressImage = () => {
+    navigation.navigate('DashboardDetailScreen');
+  };
+  console.log('count>>', count);
   function renderCardData(item) {
     return (
-      <ImageComp
-        locationText={item.locationText}
-        code={item.code}
-        donerAge={item.donerAge}
-        mapIcon={Images.mapgraypin}
-        image={item.image}
-        fadeAnim={fadeAnim}
-        isVisibleLogo={isVisibleLogo}
-        has_happen={islikedLogo}
-      />
+      <TouchableOpacity
+      activeOpacity={1}
+        onPress={() => {
+          onPressImage();
+     
+        }}>
+        <ImageComp
+          locationText={item.locationText}
+          code={item.code}
+          donerAge={item.donerAge}
+          mapIcon={Images.mapgraypin}
+          image={item.image}
+          fadeAnim={fadeAnim}
+          isVisibleLogo={isVisibleLogo}
+          has_happen={islikedLogo}
+        />
+      </TouchableOpacity>
     );
   }
 
   const headerComp = () => (
-    <IconHeader leftIcon={Images.person} rightIcon={Images.iconChat} />
+    <IconHeader
+      leftIcon={Images.person}
+      rightIcon={Images.iconChat}
+      style={styles.headerIcon}
+    />
   );
 
   return (
     <>
       <Container
         mainStyle={true}
-        scroller={true}
+        scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        <View style={styles.mainContainer}>
-          <TitleComp
-            Title={Strings.dashboard.Title}
-            Subtitle={Strings.dashboard.Subtitle}
-            Icon={Images.iconArrow}
-          />
-          <View style={style.mainImageContainer}>
-            <ImageBackground
-              source={Images.DASHBOARD_BG}
-              style={style.ImageSize}>
-              <View>
-                <Swiper
-                  infinite={true}
-                  ref={useSwiper}
-                  renderCard={renderCardData}
-                  cardIndex={cardIndex}
-                  cards={photoCards}
-                  verticalSwipe={false}
-                  horizontalSwipe={false}
-                  swipeAnimationDuration={700}
+        {empty === true ? (
+          <View style={styles.emptyCardContainer}>
+            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+            <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
+            <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
+          </View>
+        ) : (
+          <View style={styles.mainContainer}>
+            <TitleComp
+              Title={Strings.dashboard.Title}
+              Subtitle={Strings.dashboard.Subtitle}
+              Icon={Images.iconArrow}
+            />
+            <View style={styles.mainImageContainer}>
+              <ImageBackground
+                source={Images.DASHBOARD_BG}
+                style={styles.ImageSize}
+                resizeMode={'center'}>
+                <View>
+                  <Swiper
+                    ref={useSwiper}
+                    renderCard={renderCardData}
+                    cardIndex={cardIndex}
+                    cards={photoCards}
+                    verticalSwipe={false}
+                    horizontalSwipe={false}
+                    swipeAnimationDuration={500}
+                    showSecondCard={true}
+                    stackSize={1}
+                  />
+                </View>
+              </ImageBackground>
+            </View>
+            <View style={styles.innerContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsVisibleLogo(true);
+                  setIslikedLogo('disliked');
+                  handleOnSwipedLeft();
+                }}>
+                <Image
+                  style={styles.dislikeButton}
+                  source={Images.iconNotlike}
                 />
-              </View>
-            </ImageBackground>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsVisibleLogo(true);
+                  setIslikedLogo('liked');
+                  handleOnSwipedRight();
+                }}>
+                <Image style={styles.likeButton} source={Images.iconLike} />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.innerContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                setIsVisibleLogo(true);
-                setIslikedLogo('disliked');
-                handleOnSwipedLeft();
-              }}>
-              <Image source={Images.iconNotlike} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setIsVisibleLogo(true);
-                setIslikedLogo('liked');
-                handleOnSwipedRight();
-              }}>
-              <Image source={Images.iconLike} />
-            </TouchableOpacity>
-          </View>
-        </View>
+        )}
       </Container>
     </>
   );
