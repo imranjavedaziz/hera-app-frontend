@@ -14,6 +14,7 @@ import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
 import Auth from '../../services/Auth';
+import { Fonts } from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -54,7 +55,7 @@ const MobileNumber = () => {
           {Strings.mobile.AccountVerification}
         </Text>
         <View
-          style={{marginVertical: 20}}
+          style={{marginVertical: 8}}
           accessible={true}
           accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
           <Text
@@ -91,6 +92,7 @@ const MobileNumber = () => {
                 error={errors && errors.phone?.message}
                 containerStyle={{
                   flex: 1,
+                  
                 }}
                 fixed={true}
               />
@@ -99,6 +101,7 @@ const MobileNumber = () => {
           />
         </View>
         <Button
+          style={styles.Btn}
           label={Strings.mobile.VERIFY}
           onPress={handleSubmit(onSubmit)}
         />

@@ -30,6 +30,7 @@ import {parentRegisterSchema, Regx} from '../../constants/schemas';
 import styles from './StylesProfile';
 import Auth from '../../services/Auth';
 import Alignment from '../../constants/Alignment';
+import {askCameraPermission} from '../../utils/permissionManager';
 
 const validationType = {
   LEN: 'LEN',
@@ -65,6 +66,7 @@ const validatePassword = (value, type) => {
   }
   return null;
 };
+
 
 const Profile = ({navigation, route}) => {
   const authService = Auth();
@@ -128,13 +130,16 @@ const Profile = ({navigation, route}) => {
     console.log(reqData, "reqData:::::::::::");
     authService.registerUser(reqData);
   };
-
+  useEffect(askCameraPermission, []);
   return (
+    <>
     <Container
       scroller={true}
       showHeader={true}
       headerComp={headerComp}
-      headerEnd={true}>
+      headerEnd={true}
+      style={{paddingBottom:Value.CONSTANT_VALUE_70,}}
+      >
       <View style={styles.imgContainer}>
         <Text style={globalStyle.screenTitle}>
           {Strings.profile.makeAccountFor}
@@ -153,6 +158,7 @@ const Profile = ({navigation, route}) => {
           {/* IMage Upload */}
 
           <View style={styles.profileContainer}>
+          <TouchableOpacity onPress={() => openCamera(1, cb)}>
             <ImageBackground
               source={userImage ? {uri: userImage} : null}
               style={styles.background}
@@ -172,6 +178,7 @@ const Profile = ({navigation, route}) => {
                 <Image source={Images.camera} style={styles.profileImg} />
               </TouchableOpacity>
             </ImageBackground>
+            </TouchableOpacity>
           </View>
         </View>
         <Text style={styles.ImageText}>
@@ -180,7 +187,7 @@ const Profile = ({navigation, route}) => {
         </Text>
 
         {/* Image Upload End  */}
-
+        </View>
         <View
           style={{
             width: '100%',
@@ -349,30 +356,31 @@ const Profile = ({navigation, route}) => {
                 </Pressable>
               )}
             </View>
-
+           <View style={{marginLeft:Value.CONSTANT_VALUE_5}}>
             <Text style={styles.tmc1}>
               {Strings.profile.tmc1}
               <Text style={styles.tmcLink}>
                 {Strings.profile.tmc2}
-              </Text> and{' '}
+              </Text>{"\n"}and
               <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
-            </Text>
+            </Text> 
+            </View>
           </View>
         </View>
-        <View style={{paddingTop: Value.CONSTANT_VALUE_31}}>
+        <View style={styles.BtnContainer}>
           <Button
             label={Strings.profile.Register}
+            style={styles.Btn}
             onPress={handleSubmit(onSubmit)}
           />
         </View>
-
         <Pressable
           onPress={() => {
             navigation.navigate(Routes.SmRegister, route.params);
           }}>
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
-      </View>
+      
       <DateTimePickerModal
         value={date}
         isVisible={show}
@@ -396,7 +404,7 @@ const Profile = ({navigation, route}) => {
           setShowModal(!showModal);
         }}>
         <View
-          style={[styles.centeredView, {backgroundColor: 'rgba(0,0,0,0.3)'}]}>
+          style={[styles.centeredView,]}>
           <View style={styles.modalView}>
             <Text style={styles.modalHeader}>
               {Strings.profile.ModalHeader}
@@ -425,6 +433,7 @@ const Profile = ({navigation, route}) => {
         </View>
       </Modal>
     </Container>
+    </>
   );
 };
 

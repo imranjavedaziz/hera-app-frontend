@@ -16,6 +16,8 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   loginBtn: {
+    height:80,
+    width:195,
     marginTop: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_20,
   },

@@ -57,7 +57,7 @@ export default {
   camSelectedBtn: {
     position: Alignment.ABSOLUTE,
     bottom: Value.CONSTANT_VALUE_0,
-    right: Value.CONSTANT_VALUE_20,
+    right: Value.CONSTANT_VALUE_5,
   },
   camImg: {
     width: Value.CONSTANT_VALUE_20,
@@ -93,11 +93,12 @@ export default {
     textDecorationLine: 'underline',
   },
   parentBtn: {
-    fontWeight: 'bold',
+    fontWeight: Alignment.BOLD,
     alignSelf: Alignment.CENTER,
-    textDecorationLine: 'underline',
+    textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_15,
-    marginTop: Value.CONSTANT_VALUE_25,
+    marginTop: Value.CONSTANT_VALUE_20,
+    marginBottom:Value.CONSTANT_VALUE_60
   },
   imgPickerContainer: {
     width: Prencentage.PRECENTAGE_100,
@@ -116,4 +117,17 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
   },
+  ImageText: {
+    // alignItems: Alignment.FLEX_START,
+    fontSize: Value.CONSTANT_VALUE_18,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.LABEL_BLACK,
+  },
+  Btn:{
+    height:Value.CONSTANT_VALUE_80,
+    width:Value.CONSTANT_VALUE_197,
+    paddingHorizontal:Value.CONSTANT_VALUE_0,
+    paddingVertical:Value.CONSTANT_VALUE_0,
+    marginTop:Value.CONSTANT_VALUE_36
+  }
 };

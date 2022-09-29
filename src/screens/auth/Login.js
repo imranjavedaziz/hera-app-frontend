@@ -107,7 +107,7 @@ const Login = () => {
             {Strings.login.ForgotPassword}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.btnMargin}
           accessible={true}
           accessibilityRole="button"
@@ -118,7 +118,7 @@ const Login = () => {
             onPress={() => navigation.navigate(Routes.MobileNumber)}>
             {Strings.login.NewUser}
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </Container>
   );

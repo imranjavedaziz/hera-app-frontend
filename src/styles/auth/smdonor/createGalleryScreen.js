@@ -66,4 +66,9 @@ export default {
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
+  btn:{
+    height:Value.CONSTANT_VALUE_80,
+    width:Value.CONSTANT_VALUE_259,
+    paddingHorizontal:Value.CONSTANT_VALUE_0 ,
+  }
 };

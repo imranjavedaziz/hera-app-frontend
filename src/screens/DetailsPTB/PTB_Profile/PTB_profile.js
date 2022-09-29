@@ -19,7 +19,7 @@ import styles from './Styles';
 const PTB_profile = () => {
   const navigation = useNavigation();
   const [sendReq, setSendReq] = useState(false);
-  const [requestDecline, SetRequestDecline] = useState(false);
+  const [requestDecline, SetRequestDecline] = useState(true);
   const [liked, setLiked] = useState(false);
 
   const highlits = Strings.PTB_Profile.profileHighlits;

@@ -20,7 +20,7 @@ import { Routes } from '../constants/Constants';
 const Landing = () => {
   const navigation = useNavigation();
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1,}}>
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>

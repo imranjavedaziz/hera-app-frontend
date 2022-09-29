@@ -7,6 +7,7 @@ export default {
     flex: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
     flexDirection: Alignment.ROW,
+    marginTop: Value.CONSTANT_VALUE_45 ,
   },
   contryCodeContainer: {
     width: Value.CONSTANT_VALUE_50,
@@ -15,4 +16,9 @@ export default {
   countryCodeInput: {
     color: Colors.BORDER_LINE,
   },
+  Btn:{
+    height:Value.CONSTANT_VALUE_80,
+    width:Value.CONSTANT_VALUE_197,
+    marginTop:Value.CONSTANT_VALUE_30
+  }
 };

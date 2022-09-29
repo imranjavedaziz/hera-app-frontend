@@ -17,9 +17,9 @@ import SmBasicDetails from '../screens/auth/smdonor/SmBasicDetails';
 import SetAttributes from '../screens/auth/smdonor/SetAttributes';
 import CreateGallery from '../screens/auth/smdonor/CreateGallery';
 import PtbDashboard from '../screens/dashboard/dashboard/PtbDashboard';
-
-import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
 import SmDashboard from '../screens/auth/smdonor/SmDashboard/SmDashboard';
+import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
+import SmDonorSettings from '../screens/auth/smdonor/smSettings/SmDonorSettings';
 import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
 import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
 
@@ -40,6 +40,7 @@ const Main = () => {
 
       <Stack.Navigator 
       initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
+      // initialRouteName={"CreateGallery"}
       >
 
       <Stack.Screen
@@ -120,6 +121,11 @@ const Main = () => {
           options={{headerShown: false}}
         />
         
+        <Stack.Screen
+          name={Routes.SmSetting}
+          component={SmDonorSettings}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
