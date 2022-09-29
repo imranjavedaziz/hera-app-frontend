@@ -39,7 +39,7 @@ const Main = () => {
 
       <Stack.Navigator 
       initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
-
+      // initialRouteName={"CreateGallery"}
       >
 
       <Stack.Screen

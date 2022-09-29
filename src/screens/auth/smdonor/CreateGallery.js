@@ -173,7 +173,7 @@ const CreateGallery = ({route}) => {
           <Button
            style={styles.btn}
             label={Strings.sm_create_gallery.Btn}
-            onPress={() => navigation.navigate('PtbDashboard')}
+            onPress={() => navigation.navigate(Routes.SmDashboard)}
           />
         </View>
       </Container>

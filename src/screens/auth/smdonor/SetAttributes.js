@@ -27,6 +27,7 @@ const SetAttributes = ({route}) => {
     resolver: yupResolver(smSetAttributesSchema),
   });
   const onSubmit = data => {
+    console.log(data);
     userService.setAttributes(data);
   };
   const headerComp = () => (
