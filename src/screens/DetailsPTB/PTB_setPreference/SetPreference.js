@@ -11,7 +11,7 @@ import Button from '../../../components/Button';
 import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {setPreferenceSchema} from '../../../constants/schemas';
+import { setPreferenceSchema, smBasicSchema } from "../../../constants/schemas";
 import Range from '../../../components/RangeSlider';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
@@ -83,12 +83,19 @@ const SetPreference = ({navigation}) => {
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
 
+  // const {
+  //   handleSubmit,
+  //   control,
+  //   formState: {errors, isValid},
+  //   setValue,
+  //   getValues,
+  // } = useForm({
+  //   resolver: yupResolver(setPreferenceSchema),
+  // });
   const {
     handleSubmit,
     control,
     formState: {errors, isValid},
-    setValue,
-    getValues,
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
@@ -109,35 +116,36 @@ const SetPreference = ({navigation}) => {
   // }, [errors, isValid]);
 
   const onSubmit = data => {
-    console.log(data);
-    if (surrogate == false && donor == false && egg == false) {
-      dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
-      return;
-    }
-    let hc = 0;
-    state.hair.map(i => {
-      if (i.flag === false) {
-        hc++;
-        console.log(hc);
-      }
-      if (hc === 5) {
-        dispatch(showAppToast(true, ValidationMessages.SELECT_HAIR));
-        return;
-      }
-    });
-    let ec = 0;
-    state.eye.map(i => {
-      if (i.flag === false) {
-        ec++;
-      }
-      if (ec === 5) {
-        dispatch(showAppToast(true, ValidationMessages.SELECT_EYE));
-        return;
-      }
-      if (hc !== 5 && ec !== 5) {
-        navigation.navigate(Routes.Landing);
-      }
-    });
+    console.log('inside onsubmit::::::::::::::')
+    console.log(data,'data::::::::::::::::::::');
+    // if (surrogate == false && donor == false && egg == false) {
+    //   dispatch(showAppToast(true, ValidationMessages.SELECT_LOOKING));
+    //   return;
+    // }
+    // let hc = 0;
+    // state.hair.map(i => {
+    //   if (i.flag === false) {
+    //     hc++;
+    //     console.log(hc);
+    //   }
+    //   if (hc === 5) {
+    //     dispatch(showAppToast(true, ValidationMessages.SELECT_HAIR));
+    //     return;
+    //   }
+    // });
+    // let ec = 0;
+    // state.eye.map(i => {
+    //   if (i.flag === false) {
+    //     ec++;
+    //   }
+    //   if (ec === 5) {
+    //     dispatch(showAppToast(true, ValidationMessages.SELECT_EYE));
+    //     return;
+    //   }
+    //   if (hc !== 5 && ec !== 5) {
+    //     navigation.navigate(Routes.Landing);
+    //   }
+    // });
   };
 
   const headerComp = () => (

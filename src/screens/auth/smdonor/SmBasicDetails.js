@@ -38,7 +38,7 @@ const SmBasicDetails = ({route}) => {
       icon={Images.iconSettings}
       onPress={()=>{setOpen(true)}}
     />
-    
+
   );
   return (
     <>
@@ -91,7 +91,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange, value}}) => (
               <Dropdown
                 label={Strings.sm_basic.State}
-                data={Static.Countries}
+                data={Static.countries}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}

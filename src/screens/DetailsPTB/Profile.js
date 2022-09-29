@@ -102,6 +102,7 @@ const Profile = ({navigation, route}) => {
     setFile(image);
   };
   const onSubmit = data => {
+    console.log(data, "data::::");
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
@@ -117,7 +118,7 @@ const Profile = ({navigation, route}) => {
     reqData.append('last_name',data.last_name);
     reqData.append('dob',moment(date).format('DD-MM-YYYY'));
     reqData.append('email',data.email);
-    reqData.append('password',data.password);
+    reqData.append('password',data.confirm_password);
     reqData.append('country_code',route.params.country_code);
     reqData.append('phone_no',route.params.phone_no);
     reqData.append('file',{
@@ -125,6 +126,7 @@ const Profile = ({navigation, route}) => {
       type: file.mime,
       uri: file.path,
     });
+    console.log(reqData, "reqData:::::::::::");
     authService.registerUser(reqData);
   };
 
