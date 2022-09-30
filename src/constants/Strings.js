@@ -18,6 +18,9 @@ export const ValidationMessages = {
   SELECT_LOOKING: 'Please select whom you are looking for',
   SELECT_HAIR: 'Please select your hair color preference',
   SELECT_EYE: 'Please select your eye color preference',
+  SELECT_HEIGHT: 'Please select your height',
+  SELECT_AGE: 'Please select your age',
+  SELECT_ETHNICITY: 'Please select your ethnicity',
   MOBILE_REQUIRED: 'Mobile number is a required feild!',
   PASSWORD_REQUIRED: 'Password is a required feild!',
   COMMON_REQUIRED: 'This is a required feild!',
@@ -171,7 +174,7 @@ export default {
     locationText:'U S A',
     code:'#SD5882',
     donerAge:'Sperm Doner, 27 yrs',
- 
+
   },
   bottomSheet: {
     Inquiry_Form: 'Inquiry Form',
