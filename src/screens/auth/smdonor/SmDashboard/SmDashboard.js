@@ -87,7 +87,7 @@ const SmDashboard = ({route}) => {
       showHeader={ searching ? false  : true}
       headerEnd={true}
       headerComp={headerComp}
-      style={{marginTop:Value.CONSTANT_VALUE_60}}
+      style={{marginTop:Value.CONSTANT_VALUE_60, marginBottom:Value.CONSTANT_VALUE_200}}
     >
        
       
