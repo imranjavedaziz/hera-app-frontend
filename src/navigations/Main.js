@@ -23,6 +23,7 @@ import SmDonorSettings from '../screens/auth/smdonor/smSettings/SmDonorSettings'
 import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
 import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
 
+
 const Stack = createStackNavigator();
 const Main = () => {
   const auth = useSelector(state=>state.auth.user);
