@@ -11,13 +11,14 @@ import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    paddingTop: 40,
+    paddingTop:dynamicSize(Value.CONSTANT_VALUE_20),
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: 60,
+    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_50),
+    paddingVertical:20
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),

@@ -43,7 +43,7 @@ export default {
     height: scaleHeight(274),
   },
   formBtn: {
-    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
+    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_24),
     borderBottomWidth: dynamicSize(Value.CONSTANT_VALUE_2),
     borderBottomColor: Colors.BORDER_LINE,
     width: scaleWidth(300),
@@ -55,7 +55,7 @@ export default {
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
   },
   heraBtn: {
-    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
+    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_24),
     borderBottomWidth: dynamicSize(Value.CONSTANT_VALUE_2),
     borderBottomColor: Colors.BORDER_LINE,
     width: scaleWidth(300),
@@ -68,7 +68,7 @@ export default {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
   logoutBtn: {
-    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
+    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_24),
     borderBottomColor: Colors.BORDER_LINE,
   },
   logoutText: {
@@ -77,53 +77,53 @@ export default {
     color: Colors.RED,
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_5),
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),},
-  modalColor: {backgroundColor: '#494947'},
-  safeViewStyle: {flex: 1, backgroundColor: Colors.BACKGROUND},
-  wrapperStyle: {
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  basicSheetContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
-    height:274,
+  // modalColor: {backgroundColor: '#494947'},
+  // safeViewStyle: {flex: 1, backgroundColor: Colors.BACKGROUND},
+  // wrapperStyle: {
+  //   borderTopLeftRadius: 0,
+  //   borderTopRightRadius: 0,
+  // },
+  // basicSheetContainer: {
+  //   width: '100%',
+  //   paddingHorizontal: 20,
+  //   height:274,
 
-  },
-  formBtn: {
-    paddingVertical: 22,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.BORDER_LINE,
-    width:300, 
+  // },
+  // formBtn: {
+  //   paddingVertical: 25,
+  //   borderBottomWidth: 2,
+  //   borderBottomColor: Colors.BORDER_LINE,
+  //   width:300, 
     
-  },
-  formText: {
-    fontSize: 16,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
-    marginBottom:10
-  },
-  heraBtn: {
-    paddingVertical: 22,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.BORDER_LINE,
-    width:300, 
-  },
-  heraText: {
-    fontSize: 16,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
-    marginBottom:5,
-    paddingTop:5
-  },
-  logoutBtn: {
-    paddingVertical: 22,
-    borderBottomColor: Colors.BORDER_LINE,
-  },
-  logoutText: {
-    fontSize: 16,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
-    marginBottom:5,
-    paddingTop:5
-  },
+  // },
+  // formText: {
+  //   fontSize: 16,
+  //   fontFamily: Fonts.OpenSansBold,
+  //   color: Colors.BLACK,
+  //   marginBottom:10
+  // },
+  // heraBtn: {
+  //   paddingVertical: 22,
+  //   borderBottomWidth: 2,
+  //   borderBottomColor: Colors.BORDER_LINE,
+  //   width:300, 
+  // },
+  // heraText: {
+  //   fontSize: 16,
+  //   fontFamily: Fonts.OpenSansBold,
+  //   color: Colors.BLACK,
+  //   marginBottom:5,
+  //   paddingTop:5
+  // },
+  // logoutBtn: {
+  //   paddingVertical: 24,
+  //   borderBottomColor: Colors.BORDER_LINE,
+  // },
+  // logoutText: {
+  //   fontSize: 16,
+  //   fontFamily: Fonts.OpenSansBold,
+  //   color: Colors.RED,
+  //   marginBottom:5,
+  //   paddingTop:5
+  // },
 };
