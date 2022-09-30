@@ -74,7 +74,7 @@ const SetPreference = ({navigation}) => {
 
 
   const onSubmit = data => {
-    setValue('height', height.toString())
+    // setValue('height', height.toString())
     console.log(data);
     navigation.navigate(Routes.PtbDashboard)
     

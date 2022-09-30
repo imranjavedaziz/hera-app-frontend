@@ -16,6 +16,8 @@ const User = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const userData = useSelector(state=>state.auth);
+  console.log(userData,"=====")
+  
   const saveBasicDetails = data => {
     dispatch(showAppLoader());
     axiosRequest
@@ -24,7 +26,7 @@ const User = () => {
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(updateRegStep());
         await dispatch(setBasicDetails(response.data.data));
-        navigation.navigate(userData.user.role_id==='2'?Routes.SetPreference:Routes.SetAttributes, data);
+        navigation.navigate(userData.user.role_id === '2' ? Routes.SetPreference : Routes.SetAttributes, data);
       })
       .finally(() => {
         dispatch(hideAppLoader());

@@ -18,6 +18,7 @@ import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
 import {useNavigation} from '@react-navigation/native';
+import Auth from '../../../../services/Auth';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -28,6 +29,7 @@ const PtbDashboard = () => {
   const [empty, setEmpty] = useState(false);
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
+  const authService = Auth();
   const handleOnSwipedLeft = () => {
     setIsVisibleLogo(true);
     {
@@ -104,6 +106,7 @@ const PtbDashboard = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.person}
+      leftPress={authService.logout}
       rightIcon={Images.iconChat}
       style={styles.headerIcon}
     />

@@ -132,7 +132,7 @@ export const setPreferenceSchema = yup.object().shape({
   race: yup.object().required(ValidationMessages.RACE),
   hair:yup.string().required(ValidationMessages.SELECT_HAIR),
   eye:yup.string().required(ValidationMessages.SELECT_EYE),
-  height: yup.string().required("select Height"),
+  // height: yup.string().required("select Height"),
 });
 export const smBasicSchema = yup.object().shape({
   gender_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
