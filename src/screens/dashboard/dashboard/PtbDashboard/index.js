@@ -113,7 +113,7 @@ const PtbDashboard = () => {
     <>
       <Container
         mainStyle={true}
-        scroller={false}
+        scroller={true}
         showHeader={true}
         headerComp={headerComp}>
         {empty === true ? (
