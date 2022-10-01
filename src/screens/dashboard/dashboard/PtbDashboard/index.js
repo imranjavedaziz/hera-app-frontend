@@ -31,6 +31,7 @@ const PtbDashboard = () => {
   const navigation = useNavigation();
   const authService = Auth();
   const handleOnSwipedLeft = () => {
+
     setIsVisibleLogo(true);
     {
       setCount(count + 1);
@@ -87,7 +88,7 @@ const PtbDashboard = () => {
       activeOpacity={1}
         onPress={() => {
           onPressImage();
-     
+
         }}>
         <ImageComp
           locationText={item.locationText}

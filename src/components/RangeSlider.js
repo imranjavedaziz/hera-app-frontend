@@ -5,7 +5,7 @@ import { Value } from '../constants/FixedValues';
 
 import Colors from '../constants/Colors';
 
-const RangeSlider = ({value, setValue}) => {
+const RangeSlider = ({value, setValue, onValueChange}) => {
   const slide = ({}) => {
     console.log(value);
   };
@@ -19,7 +19,10 @@ const RangeSlider = ({value, setValue}) => {
       thumbTintColor={Colors.SKY_BLUE}
       thumbStyle={styles.thumb}
       value={value}
-      onValueChange={value => setValue(value)}
+      onValueChange={value => {
+        onValueChange(value);
+        setValue(value);
+      }}
       onSlidingComplete={slide}
     />
   );

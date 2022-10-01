@@ -1,8 +1,6 @@
 import {Text, View, Image, TouchableOpacity, Pressable} from 'react-native';
-import React, {useState, useReducer} from 'react';
-
+import React, {useState} from 'react';
 import Container from '../../../components/Container';
-import {CircleBtn} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import {showAppToast} from '../../../redux/actions/loader';
@@ -11,12 +9,11 @@ import Button from '../../../components/Button';
 import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import { setPreferenceSchema} from "../../../constants/schemas";
+import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
-import Strings, {ValidationMessages} from '../../../constants/Strings';
+import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {
-  genders,
   Static,
   Routes,
   lookingFor,
@@ -25,10 +22,11 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
+import User from "../../../services/User";
 
-const onValueSelect = (data = '', value) => {
+const onValueSelect = (data, value='') => {
   const dataArr = data ? data.split(',') : [];
-  const v = value.toString();
+  const v = value
   if (dataArr.includes(v)) {
     dataArr.splice(
       dataArr.findIndex(d => d === v),
@@ -37,11 +35,10 @@ const onValueSelect = (data = '', value) => {
   } else {
     dataArr.push(v);
   }
-  console.log(dataArr);
   return dataArr.join(',');
 };
 const isSelected = (data, value) => {
-  return data.split(',').includes(value.toString());
+ return data.split(',').includes(value.toString());
 };
 const SetPreference = ({navigation}) => {
   const [height, setHeight] = useState([58, 84]);
@@ -50,13 +47,10 @@ const SetPreference = ({navigation}) => {
   const eyeColor = Static.eyeColors;
   const hairColor = Static.hairColors;
   const dispatch = useDispatch();
-
-
+  const userService = User();
   const {
     handleSubmit,
     control,
-    getValues,
-    setValue,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
@@ -68,16 +62,28 @@ const SetPreference = ({navigation}) => {
       const messages = [];
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
       const msg = messages.join('\n').trim();
-      if(msg)dispatch(showAppToast(true,msg));
+      if (msg) {
+        dispatch(showAppToast(true, msg));
+      }
     }
   }, [errors, isValid]);
 
-
-  const onSubmit = data => {
-    // setValue('height', height.toString())
-    console.log(data);
+  const onSubmit = (data) => {
+    // for the timing api is not running and throwing error if i am sending
+    // anything apart from 3 in role_id_looking_for once api will be fixed will replace with data.looking
+  let value={
+    role_id_looking_for : 3,
+    age:data.age_range,
+    height: data.height.join('-'),
+    race: data.race,
+    education: data.education.id.toString(),
+    hair_colour:data.hair,
+    eye_colour:data.eye,
+    ethnicity:data.ethnicity,
+    "state": '1,2',
+  }
+    userService.setPreferences(value);
     navigation.navigate(Routes.PtbDashboard)
-    
   };
 
   const headerComp = () => (
@@ -85,7 +91,6 @@ const SetPreference = ({navigation}) => {
       <Text style={styles.headerTxt}> Cancel</Text>
     </Pressable>
   );
-
 
   return (
     <>
@@ -97,7 +102,7 @@ const SetPreference = ({navigation}) => {
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }
-        style={{paddingBottom:Value.CONSTANT_VALUE_50}}>
+        style={{paddingBottom: Value.CONSTANT_VALUE_50}}>
         <View style={styles.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.preference.setPreference}
@@ -178,7 +183,7 @@ const SetPreference = ({navigation}) => {
 
             <Controller
               control={control}
-              render={({field: {onChange, value = ''}}) => (
+              render={({field: {onChange, value=''}}) => (
                 <View style={styles.ageContainer}>
                   {ageRange.map((item, index) => {
                     return (
@@ -237,16 +242,18 @@ const SetPreference = ({navigation}) => {
                 </Text>
               </View>
               <Controller
-              control={control}
-              render={({field: {onChange}}) => (
-              <Range value={height}   setValue={setHeight} 
-               
-               />
-               
-           
-              )}
-              name="height"
-            />
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Range
+                    value={height}
+                    setValue={setHeight}
+                    onValueChange={value => {
+                      onChange(value);
+                    }}
+                  />
+                )}
+                name="height"
+              />
             </View>
 
             {/* Drop Down */}
@@ -259,7 +266,7 @@ const SetPreference = ({navigation}) => {
                   data={Static.race}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
-                    onChange(selectedItem);
+                    onChange(selectedItem.id);
                   }}
                   required={true}
                   // error={errors && errors.race?.message}
@@ -276,7 +283,7 @@ const SetPreference = ({navigation}) => {
                   data={Static.ethnicity}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
-                    onChange(selectedItem);
+                    onChange(selectedItem.id);
                   }}
                   error={errors && errors.ethnicity?.message}
                 />
