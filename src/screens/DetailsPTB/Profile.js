@@ -30,6 +30,7 @@ import {parentRegisterSchema, Regx} from '../../constants/schemas';
 import styles from './StylesProfile';
 import Auth from '../../services/Auth';
 import Alignment from '../../constants/Alignment';
+import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 
 const validationType = {
@@ -77,6 +78,8 @@ const Profile = ({navigation, route}) => {
   const [check, setCheck] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
+  const [isOpen, setOpen] = useState(false);
+
   const {
     handleSubmit,
     control,
@@ -99,9 +102,10 @@ const Profile = ({navigation, route}) => {
     />
   );
   const cb = image => {
-    console.log('image', image);
+    setOpen(false);
     setUserImage(image.path);
     setFile(image);
+    console.log('image', image);
   };
   const onSubmit = data => {
     if (!userImage) {
@@ -380,6 +384,24 @@ const Profile = ({navigation, route}) => {
           }}>
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
+        <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
+        <View style={styles.imgPickerContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              openCamera(0, cb);
+            }}
+            style={[styles.pickerBtn, styles.pickerBtnBorder]}>
+            <Text style={styles.pickerBtnLabel}>Open Camera</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              openCamera(1, cb);
+            }}
+            style={styles.pickerBtn}>
+            <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheetComp>
       
       <DateTimePickerModal
         value={date}

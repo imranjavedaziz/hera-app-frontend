@@ -13,6 +13,13 @@ export const ValidationMessages = {
   CONFIRM_PASSWORD: 'Please enter Confirm Password',
   ADD_PROFILE_PHOTO: 'Please add Profile Photo',
   DOB: 'Please enter your Date of Birth',
+  ENTER_DOB:'Please enter your DOB',
+  ENTER_GENDER:'Please select your Gender',
+  ENTER_SEXUAL_ORIENTATION:'Please select your Sexual Orientation',
+  ENTER_RELATIONSHIP:'Please select your Relationship Status',
+  ENTER_STATE:'Please select your State',
+  ENTER_ZIP:'Please enter your Zip Code',
+  ENTER_BIO:'Please enter your Bio',
   UNMATCHED_PASS: 'Password Does not matched',
   RACE: 'Please select your race preference',
   SELECT_LOOKING: 'Please select whom you are looking for',
@@ -34,6 +41,7 @@ export const ValidationMessages = {
   MAX_MIDDLE_NAME: 'Middle name must be at most 30 characters',
   MAX_LAST_NAME: 'Last name must be at most 30 characters',
   Education:'Please select your Education preference',
+  MAX_ZIP:'Zip code can be of 5 digits only'
 
 
 };

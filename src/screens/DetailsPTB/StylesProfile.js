@@ -132,5 +132,22 @@ export default {
   BtnContainer:{
     paddingTop: Value.CONSTANT_VALUE_31,
     alignItems: Alignment.CENTER
-  }
+  },
+  imgPickerContainer: {
+    width: "100%",
+    paddingHorizontal: Value.CONSTANT_VALUE_20,
+    paddingVertical: Value.CONSTANT_VALUE_10,
+  },
+  pickerBtn: {
+    paddingVertical: Value.CONSTANT_VALUE_20,
+  },
+  pickerBtnBorder: {
+    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomColor: Colors.BORDER_LINE,
+  },
+  pickerBtnLabel: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+  },
 };
