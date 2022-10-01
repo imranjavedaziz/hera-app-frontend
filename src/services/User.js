@@ -53,8 +53,9 @@ const User = () => {
         dispatch(hideAppLoader());
       });
   };
-  const createGallery = (data, setLoading) => {
-    setLoading(true);
+  const createGallery = (data) => {
+    // setLoading(true);
+    dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.setGallery, data, {
         headers: {
@@ -65,11 +66,12 @@ const User = () => {
         console.log('response', response.data.data);
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(hideAppLoader());
       });
   };
-  const setPreferences = (data, setLoading) => {
-    setLoading(true);
+  const setPreferences = (data) => {
+    // setLoading(true);
+    dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.setPreferences, data, {
         headers: {
@@ -80,7 +82,7 @@ const User = () => {
         console.log('response', response.data.data);
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(hideAppLoader());
       });
   };
   return {

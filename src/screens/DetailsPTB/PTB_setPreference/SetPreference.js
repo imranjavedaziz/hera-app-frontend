@@ -82,6 +82,7 @@ const SetPreference = ({navigation}) => {
     ethnicity:data.ethnicity,
     "state": '1,2',
   }
+  console.log(value,'Value');
     userService.setPreferences(value);
     navigation.navigate(Routes.PtbDashboard)
   };
@@ -159,6 +160,7 @@ const SetPreference = ({navigation}) => {
                     onChange(selectedItem);
                   }}
                   required={true}
+                  error={errors && errors.location?.message}
                 />
               )}
               name="location"
@@ -174,6 +176,7 @@ const SetPreference = ({navigation}) => {
                     onChange(selectedItem);
                   }}
                   required={true}
+                  error={errors && errors.education?.message}
                 />
               )}
               name="education"
@@ -269,7 +272,7 @@ const SetPreference = ({navigation}) => {
                     onChange(selectedItem.id);
                   }}
                   required={true}
-                  // error={errors && errors.race?.message}
+                  error={errors && errors.race?.message}
                 />
               )}
               name="race"

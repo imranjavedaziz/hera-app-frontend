@@ -9,7 +9,7 @@ const getRoute = (token,role_id,step)=>{
             if(step===2){
                 return Routes.SetPreference;
             }
-            return Routes.CreateGallery;
+            return Routes.PtbDashboard;
         }
         else{
             if(step===2){
@@ -18,7 +18,7 @@ const getRoute = (token,role_id,step)=>{
             else if(step===3){
                 return Routes.CreateGallery;
             }
-            return Routes.CreateGallery;
+            return Routes.SmDashboard;
         }
     }
     return Routes.Landing;

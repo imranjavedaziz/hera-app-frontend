@@ -149,12 +149,12 @@ export const smBasicSchema = yup.object().shape({
   bio: yup.string().required(ValidationMessages.ENTER_BIO),
 });
 export const smSetAttributesSchema = yup.object().shape({
-  // height_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  race_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  mother_ethnicity_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  father_ethnicity_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  weight_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  eye_colour_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  hair_colour_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  // education_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  height_id: yup.string().required(ValidationMessages.SELECT_HEIGHT),
+  race_id: yup.string().required(ValidationMessages.SELECT_RACE),
+  mother_ethnicity_id: yup.string().required(ValidationMessages.SELECT_MOT_ETHNICITY),
+  father_ethnicity_id: yup.string().required(ValidationMessages.SELECT_FAT_ETHNICITY),
+  weight_id: yup.string().required(ValidationMessages.SELECT_WEIGHT),
+  eye_colour_id: yup.string().required(ValidationMessages.SELECT_EYE),
+  hair_colour_id: yup.string().required(ValidationMessages.SELECT_HAIR),
+  education_id: yup.string().required(ValidationMessages.SELECT_EDUCATION),
 });
