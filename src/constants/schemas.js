@@ -125,14 +125,15 @@ export const smRegisterSchema = yup.object().shape({
 });
 
 export const setPreferenceSchema = yup.object().shape({
-
-  looking : yup.string().required(ValidationMessages.SELECT_LOOKING),
+  looking : yup.number().required(ValidationMessages.SELECT_LOOKING),
   location: yup.object().required(ValidationMessages.LOCATION),
   education: yup.object().required(ValidationMessages.Education),
-  race: yup.object().required(ValidationMessages.RACE),
+  race: yup.string().required(ValidationMessages.RACE),
   hair:yup.string().required(ValidationMessages.SELECT_HAIR),
   eye:yup.string().required(ValidationMessages.SELECT_EYE),
-  height: yup.string().required("select Height"),
+  height: yup.array().required(ValidationMessages.SELECT_HEIGHT),
+  age_range: yup.string().required(ValidationMessages.SELECT_AGE),
+  ethnicity:yup.string().required(ValidationMessages.SELECT_ETHNICITY)
 });
 export const smBasicSchema = yup.object().shape({
   gender_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),

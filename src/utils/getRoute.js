@@ -5,11 +5,11 @@ const getRoute = (token,role_id,step)=>{
         if(step===1){
             return Routes.SmBasicDetails;
         }
-        else if(role_id==='2'){
+        else if(role_id===2){
             if(step===2){
                 return Routes.SetPreference;
             }
-            return Routes.SetPreference;
+            return Routes.CreateGallery;
         }
         else{
             if(step===2){

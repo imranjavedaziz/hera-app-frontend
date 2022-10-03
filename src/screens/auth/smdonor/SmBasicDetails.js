@@ -32,6 +32,7 @@ const SmBasicDetails = ({route}) => {
     resolver: yupResolver(smBasicSchema),
   });
   const onSubmit = (data)=>{
+    console.log(data);
     userService.saveBasicDetails(data);
   }
   const headerComp = () => (

@@ -95,6 +95,7 @@ const SmRegister = ({route}) => {
   useEffect(askCameraPermission, []);
   const onSubmit = data => {
     console.log(data);
+    console.log('FILE', file)
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
