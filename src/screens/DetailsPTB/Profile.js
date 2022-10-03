@@ -30,12 +30,14 @@ import {parentRegisterSchema, Regx} from '../../constants/schemas';
 import styles from './StylesProfile';
 import Auth from '../../services/Auth';
 import Alignment from '../../constants/Alignment';
+import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 
 const validationType = {
   LEN: 'LEN',
   ALPHA_NUM: 'ALPHA_NUM',
   SPECIAL: 'SPECIAL',
+  CAPSLOCK:'CAPSLOCK'
 };
 const pwdErrMsg = [
   {
@@ -50,6 +52,9 @@ const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
+  { type: validationType.CAPSLOCK,
+   msg: ValidationMessages.CAPSLOCK
+  },
 ];
 const validatePassword = (value, type) => {
   if (value) {
@@ -57,9 +62,11 @@ const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8;
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) && Regx.ALPHA_CAP.test(value) && Regx.NUM.test(value);
+        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value);
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value);
+      case validationType.CAPSLOCK:
+        return Regx.ALPHA_CAP.test(value);
       default:
         break;
     }
@@ -77,6 +84,8 @@ const Profile = ({navigation, route}) => {
   const [check, setCheck] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
+  const [isOpen, setOpen] = useState(false);
+
   const {
     handleSubmit,
     control,
@@ -99,9 +108,10 @@ const Profile = ({navigation, route}) => {
     />
   );
   const cb = image => {
-    console.log('image', image);
+    setOpen(false);
     setUserImage(image.path);
     setFile(image);
+    console.log('image', image);
   };
   const onSubmit = data => {
     if (!userImage) {
@@ -123,7 +133,7 @@ const Profile = ({navigation, route}) => {
     reqData.append('country_code',route.params.country_code);
     reqData.append('phone_no',route.params.phone_no);
     reqData.append('file',{
-      name: file.filename,
+      name: 'name',
       type: file.mime,
       uri: file.path,
     });
@@ -158,7 +168,7 @@ const Profile = ({navigation, route}) => {
           {/* IMage Upload */}
 
           <View style={styles.profileContainer}>
-          <TouchableOpacity onPress={() => openCamera(1, cb)}>
+          <TouchableOpacity onPress={() => setOpen(true)}>
             <ImageBackground
               source={userImage ? {uri: userImage} : null}
               style={styles.background}
@@ -174,7 +184,7 @@ const Profile = ({navigation, route}) => {
                       }
                     : null,
                 ]}
-                onPress={() => openCamera(1, cb)}>
+                onPress={() => setOpen(true)}>
                 <Image source={Images.camera} style={styles.profileImg} />
               </TouchableOpacity>
             </ImageBackground>
@@ -380,6 +390,24 @@ const Profile = ({navigation, route}) => {
           }}>
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
+        <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
+        <View style={styles.imgPickerContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              openCamera(0, cb);
+            }}
+            style={[styles.pickerBtn, styles.pickerBtnBorder]}>
+            <Text style={styles.pickerBtnLabel}>Open Camera</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              openCamera(1, cb);
+            }}
+            style={styles.pickerBtn}>
+            <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheetComp>
       
       <DateTimePickerModal
         value={date}

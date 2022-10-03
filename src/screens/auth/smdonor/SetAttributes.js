@@ -177,7 +177,7 @@ const SetAttributes = ({route}) => {
                   onChange(selectedItem.id);
                 }}
                 required={true}
-                error={errors && errors.race_id?.message}
+                error={errors && errors.education_id?.message}
               />
             )}
             name="education_id"

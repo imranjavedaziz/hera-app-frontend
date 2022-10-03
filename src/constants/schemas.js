@@ -27,7 +27,7 @@ export const mobileSchema = yup.object().shape({
 export const otpSchema = yup.object().shape({
   otp: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.OTP_REQUIRED)
     .length(6, ValidationMessages.INVALID_OTP)
     .matches(Regx.OTP, {
       excludeEmptyString: true,
@@ -45,13 +45,13 @@ export const loginSchema = yup.object().shape({
   password: yup.string().required(ValidationMessages.PASSWORD_REQUIRED),
 });
 export const parentRegisterSchema = yup.object().shape({
-  first_name: yup.string().required(ValidationMessages.FIRST_NAME),
-  middle_name: yup.string(),
-  last_name: yup.string().required(ValidationMessages.LAST_NAME),
+  first_name: yup.string().required(ValidationMessages.FIRST_NAME).max(30,ValidationMessages.MAX_FIRST_NAME),
+  middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
+  last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
   date_of_birth: yup
     .string()
     .required(ValidationMessages.DOB)
-    .test('DOB', 'Invalid!', value => {
+    .test('DOB', 'Invalid Date', value => {
       return moment().diff(moment(value), 'years') >= 18;
     }),
   email: yup
@@ -88,19 +88,19 @@ export const parentRegisterSchema = yup.object().shape({
 });
 export const smRegisterSchema = yup.object().shape({
   role: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  first_name: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  middle_name: yup.string(),
-  last_name: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  first_name: yup.string().required(ValidationMessages.FIRST_NAME).max(30,ValidationMessages.MAX_FIRST_NAME),
+  middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
+  last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
   dob: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
-    .test('DOB', 'Invalid!', value => {
+    .required(ValidationMessages.DOB)
+    .test('DOB', 'Invalid Date', value => {
       return moment().diff(moment(value), 'years') >= 18;
     }),
-  email: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  email: yup.string().required(ValidationMessages.EMPTY_EMAIL),
   password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.PASSWORD)
     .min(Value.CONSTANT_VALUE_8, '')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
@@ -120,8 +120,8 @@ export const smRegisterSchema = yup.object().shape({
     }),
   confirm_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+    .required(ValidationMessages.CONFIRM_PASSWORD)
+    .oneOf([yup.ref('password'), null], 'Set Password and Confirm Password should be same.'),
 });
 
 export const setPreferenceSchema = yup.object().shape({
@@ -136,25 +136,25 @@ export const setPreferenceSchema = yup.object().shape({
   ethnicity:yup.string().required(ValidationMessages.SELECT_ETHNICITY)
 });
 export const smBasicSchema = yup.object().shape({
-  gender_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  state_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  zipcode: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  gender_id: yup.string().required(ValidationMessages.ENTER_GENDER),
+  state_id: yup.string().required(ValidationMessages.ENTER_STATE),
+  zipcode: yup.string().max(5,ValidationMessages.MAX_ZIP).required(ValidationMessages.ENTER_ZIP).min(5,ValidationMessages.MIN_ZIP),
   occupation: yup.string(),
   sexual_orientations_id: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED),
+    .required(ValidationMessages.ENTER_SEXUAL_ORIENTATION),
   relationship_status_id: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED),
-  bio: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+    .required(ValidationMessages.ENTER_RELATIONSHIP),
+  bio: yup.string().required(ValidationMessages.ENTER_BIO),
 });
 export const smSetAttributesSchema = yup.object().shape({
-  // height_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  race_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  mother_ethnicity_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  father_ethnicity_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  weight_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  eye_colour_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  hair_colour_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  // education_id: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  height_id: yup.string().required(ValidationMessages.SELECT_HEIGHT),
+  race_id: yup.string().required(ValidationMessages.SELECT_RACE),
+  mother_ethnicity_id: yup.string().required(ValidationMessages.SELECT_MOT_ETHNICITY),
+  father_ethnicity_id: yup.string().required(ValidationMessages.SELECT_FAT_ETHNICITY),
+  weight_id: yup.string().required(ValidationMessages.SELECT_WEIGHT),
+  eye_colour_id: yup.string().required(ValidationMessages.SELECT_EYE),
+  hair_colour_id: yup.string().required(ValidationMessages.SELECT_HAIR),
+  education_id: yup.string().required(ValidationMessages.SELECT_EDUCATION),
 });
