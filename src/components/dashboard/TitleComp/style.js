@@ -32,7 +32,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   Icon: {
-    left:dynamicSize(Value.CONSTANT_VALUE_263),
+    left:dynamicSize(287),
     bottom:dynamicSize(Value.CONSTANT_VALUE_25),
   },
 };

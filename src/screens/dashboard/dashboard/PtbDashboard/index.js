@@ -113,7 +113,7 @@ const PtbDashboard = () => {
     <>
       <Container
         mainStyle={true}
-        scroller={true}
+        scroller={false}
         showHeader={true}
         headerComp={headerComp}>
         {empty === true ? (
@@ -132,7 +132,7 @@ const PtbDashboard = () => {
             <View style={styles.mainImageContainer}>
               <ImageBackground
                 source={Images.DASHBOARD_BG}
-                style={styles.ImageSize}
+                imageStyle={styles.ImageSize}
                 resizeMode={'center'}>
                 <View>
                   <Swiper

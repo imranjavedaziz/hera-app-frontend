@@ -18,7 +18,8 @@ export default {
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_50),
-    paddingVertical:20
+    paddingVertical:20,
+
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -28,10 +29,11 @@ export default {
   iconImage: {
     justifyContent: Alignment.CENTER,
   },
-  mainImageContainer: {alignItems: Alignment.CENTER},
+  mainImageContainer: {alignItems: Alignment.CENTER, flex:1, right:180},
   ImageSize: {
     height: scaleHeight(467),
     width: scaleWidth(Value.CONSTANT_VALUE_348),
+
   },
   emptyCardContainer: {
     alignItems: Alignment.CENTER,
