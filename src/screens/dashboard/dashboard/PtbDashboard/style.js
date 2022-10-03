@@ -18,7 +18,7 @@ export default {
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_50),
-    paddingVertical:20,
+    
 
   },
   iconContainer: {

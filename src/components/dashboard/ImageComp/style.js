@@ -26,7 +26,7 @@ export default {
     alignItems: Alignment.CENTER,
   },
   iconImage: {
-    marginBottom: dynamicSize(Value.CONSTANT_VALUE_70),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_50),
     justifyContent: Alignment.CENTER,
   },
   innerContainer: {
