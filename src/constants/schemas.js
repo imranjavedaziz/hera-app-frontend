@@ -27,7 +27,7 @@ export const mobileSchema = yup.object().shape({
 export const otpSchema = yup.object().shape({
   otp: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.OTP_REQUIRED)
     .length(6, ValidationMessages.INVALID_OTP)
     .matches(Regx.OTP, {
       excludeEmptyString: true,
@@ -45,9 +45,9 @@ export const loginSchema = yup.object().shape({
   password: yup.string().required(ValidationMessages.PASSWORD_REQUIRED),
 });
 export const parentRegisterSchema = yup.object().shape({
-  first_name: yup.string().required(ValidationMessages.FIRST_NAME),
-  middle_name: yup.string(),
-  last_name: yup.string().required(ValidationMessages.LAST_NAME),
+  first_name: yup.string().required(ValidationMessages.FIRST_NAME).max(30,ValidationMessages.MAX_FIRST_NAME),
+  middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
+  last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
   date_of_birth: yup
     .string()
     .required(ValidationMessages.DOB)
@@ -88,9 +88,9 @@ export const parentRegisterSchema = yup.object().shape({
 });
 export const smRegisterSchema = yup.object().shape({
   role: yup.string().required(ValidationMessages.COMMON_REQUIRED),
-  first_name: yup.string().required(ValidationMessages.FIRST_NAME),
-  middle_name: yup.string(),
-  last_name: yup.string().required(ValidationMessages.LAST_NAME),
+  first_name: yup.string().required(ValidationMessages.FIRST_NAME).max(30,ValidationMessages.MAX_FIRST_NAME),
+  middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
+  last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
   dob: yup
     .string()
     .required(ValidationMessages.DOB)
@@ -121,7 +121,7 @@ export const smRegisterSchema = yup.object().shape({
   confirm_password: yup
     .string()
     .required(ValidationMessages.CONFIRM_PASSWORD)
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+    .oneOf([yup.ref('password'), null], 'Set Password and Confirm Password should be same.'),
 });
 
 export const setPreferenceSchema = yup.object().shape({
@@ -138,7 +138,7 @@ export const setPreferenceSchema = yup.object().shape({
 export const smBasicSchema = yup.object().shape({
   gender_id: yup.string().required(ValidationMessages.ENTER_GENDER),
   state_id: yup.string().required(ValidationMessages.ENTER_STATE),
-  zipcode: yup.string().max(5,ValidationMessages.MAX_ZIP).required(ValidationMessages.ENTER_ZIP),
+  zipcode: yup.string().max(5,ValidationMessages.MAX_ZIP).required(ValidationMessages.ENTER_ZIP).min(5,ValidationMessages.MIN_ZIP),
   occupation: yup.string(),
   sexual_orientations_id: yup
     .string()

@@ -16,7 +16,7 @@ const getRoute = (token,role_id,step)=>{
                 return Routes.SetAttributes;
             }
             else if(step===3){
-                return Routes.CreateGallery;
+                return Routes.SmDashboard;
             }
             return Routes.SmDashboard;
         }

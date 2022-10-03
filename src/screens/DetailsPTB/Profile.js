@@ -37,6 +37,7 @@ const validationType = {
   LEN: 'LEN',
   ALPHA_NUM: 'ALPHA_NUM',
   SPECIAL: 'SPECIAL',
+  CAPSLOCK:'CAPSLOCK'
 };
 const pwdErrMsg = [
   {
@@ -51,6 +52,9 @@ const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
+  { type: validationType.CAPSLOCK,
+   msg: ValidationMessages.CAPSLOCK
+  },
 ];
 const validatePassword = (value, type) => {
   if (value) {
@@ -58,9 +62,11 @@ const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8;
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) && Regx.ALPHA_CAP.test(value) && Regx.NUM.test(value);
+        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value);
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value);
+      case validationType.CAPSLOCK:
+        return Regx.ALPHA_CAP.test(value);
       default:
         break;
     }
@@ -127,7 +133,7 @@ const Profile = ({navigation, route}) => {
     reqData.append('country_code',route.params.country_code);
     reqData.append('phone_no',route.params.phone_no);
     reqData.append('file',{
-      name: file.filename,
+      name: 'name',
       type: file.mime,
       uri: file.path,
     });
@@ -162,7 +168,7 @@ const Profile = ({navigation, route}) => {
           {/* IMage Upload */}
 
           <View style={styles.profileContainer}>
-          <TouchableOpacity onPress={() => openCamera(1, cb)}>
+          <TouchableOpacity onPress={() => setOpen(true)}>
             <ImageBackground
               source={userImage ? {uri: userImage} : null}
               style={styles.background}
@@ -178,7 +184,7 @@ const Profile = ({navigation, route}) => {
                       }
                     : null,
                 ]}
-                onPress={() => openCamera(1, cb)}>
+                onPress={() => setOpen(true)}>
                 <Image source={Images.camera} style={styles.profileImg} />
               </TouchableOpacity>
             </ImageBackground>

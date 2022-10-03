@@ -90,7 +90,7 @@ const Login = () => {
                 error={errors && errors.password?.message}
                 endComponent={()=>(
                   <TouchableOpacity onPress={()=>setShow(!show)}>
-                    <Image source={show?Images.eye:Images.eye2}/>
+                    <Image source={show?Images.eye2:Images.eye}/>
                   </TouchableOpacity>
                 )}
               />

@@ -5,6 +5,7 @@ import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import {showAppToast} from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
+import {CircleBtn} from '../../../components/Header';
 import Button from '../../../components/Button';
 import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
@@ -23,6 +24,7 @@ import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
 import User from "../../../services/User";
+import Auth from '../../../services/Auth'
 
 const onValueSelect = (data, value='') => {
   const dataArr = data ? data.split(',') : [];
@@ -40,7 +42,8 @@ const onValueSelect = (data, value='') => {
 const isSelected = (data, value) => {
  return data.split(',').includes(value.toString());
 };
-const SetPreference = ({navigation}) => {
+const SetPreference = ({route,navigation}) => {
+  console.log('Props Data Preferences ==',route.params);
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
   const ageRange = Static.ageRange;
@@ -48,6 +51,7 @@ const SetPreference = ({navigation}) => {
   const hairColor = Static.hairColors;
   const dispatch = useDispatch();
   const userService = User();
+  const authService = Auth();
   const {
     handleSubmit,
     control,
@@ -88,9 +92,11 @@ const SetPreference = ({navigation}) => {
   };
 
   const headerComp = () => (
-    <Pressable onPress={() => setOpen(true)}>
-      <Text style={styles.headerTxt}> Cancel</Text>
-    </Pressable>
+    <CircleBtn
+    icon={Images.iconSettings}
+    onPress={()=>{setOpen(true)}}
+  />
+    
   );
 
   return (
@@ -306,32 +312,27 @@ const SetPreference = ({navigation}) => {
                   {hairColor.map((item, index) => (
                     <TouchableOpacity
                       onPress={() => {
-                        onChange(onValueSelect(value, item.id));
+                        onChange(onValueSelect(value, item.id.toString()));
                       }}
                       key={item.id}>
                       <View
                         style={[
                           styles.chips,
                           {
-                            backgroundColor: isSelected(
-                              value,
-                              item.id.toString(),
-                            )
+                            backgroundColor: isSelected(value,item.id.toString())
                               ? Colors.COLOR_5ABCEC
                               : Colors.WHITE,
-                            borderWidth: isSelected(value, item.id.toString())
-                              ? 0
-                              : 1,
+                            borderWidth: isSelected(value,item.id.toString()) ? 0 : 1,
                           },
                         ]}>
                         <Text
                           style={[
                             {
                               alignSelf: Alignment.CENTER,
-                              fontWeight: isSelected(value, item.id.toString())
+                              fontWeight: isSelected(value,item.id.toString())
                                 ? Alignment.BOLD
                                 : null,
-                              color: isSelected(value, item.id.toString())
+                              color: isSelected(value,item.id.toString(),)
                                 ? Colors.WHITE
                                 : null,
                             },
@@ -358,7 +359,7 @@ const SetPreference = ({navigation}) => {
                 {eyeColor.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      onChange(onValueSelect(value, item.id));
+                      onChange(onValueSelect(value,item.id.toString(),));
                     }}
                     key={item.id}>
                     <View
@@ -416,7 +417,7 @@ const SetPreference = ({navigation}) => {
           <TouchableOpacity style={globalStyle.heraBtn}>
             <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.logoutBtn}>
+          <TouchableOpacity style={globalStyle.logoutBtn} onPress={authService.logout}>
             <Text style={globalStyle.logoutText}>
               {Strings.preference.Logout}
             </Text>

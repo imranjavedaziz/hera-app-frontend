@@ -45,6 +45,7 @@ export const ValidationMessages = {
   MAX_LAST_NAME: 'Last name must be at most 30 characters',
   Education:'Please select your Education preference',
   MAX_ZIP:'Zip code can be of 5 digits only',
+  MIN_ZIP:'Zip code should be of 5 digits',
   SELECT_RACE:'Please enter Race',
   SELECT_MOT_ETHNICITY:"Please enter Mother's Ethnicity",
   SELECT_FAT_ETHNICITY: "Please provide Father's Ethnicity",
@@ -53,6 +54,9 @@ export const ValidationMessages = {
   SELECT_HAIR:'Please enter Hair color',
   SELECT_EYE:'Please enter Eye color',
   SELECT_WEIGHT:'Please enter Weight',
+  CAPSLOCK:'Atleast 1 upper case letter',
+  OTP_REQUIRED:'Required!'
+  
 
 
 

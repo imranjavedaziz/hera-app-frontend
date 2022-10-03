@@ -5,7 +5,7 @@ const environment = {
   },
   qa: {
     bucket: 'geldating-qa-frontend',
-    api_url: '',
+    api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
   },
   stage: {
     bucket: 'geldating-stage-frontend',
@@ -348,6 +348,40 @@ export const Static = {
       name: 'Wyoming',
     },
   ],
+  state: [
+    {
+      id:1,
+      name:'Alabama',
+    },
+    {
+      id:2,
+      name:'Alaska',
+    },
+    {
+      id:3,
+      name:'Florida',
+    },
+    {
+      id:4,
+      name:'Georgia',
+    },
+    {
+      id:5,
+      name:'Hawaii',
+    },
+    {
+      id:6,
+      name:'New Jersey',
+    },
+    {
+      id:7,
+      name:'New Mexico',
+    },
+    {
+      id:8,
+      name:'New York',
+    },
+  ],
   sexualOrient: [
     {
       id: 1,
@@ -638,27 +672,31 @@ export const Static = {
   ],
   education: [
     {
-      id: 1,
-      name: 'Highschool',
+      id:1,
+      name:'High School',
     },
     {
       id: 2,
-      name: 'Some College',
+      name: 'Trade School',
     },
     {
       id: 3,
-      name: 'Associate’s Degree',
+      name: 'Some College',
     },
     {
       id: 4,
-      name: 'Bachelor’s Degree',
+      name: 'Associate’s Degree',
     },
     {
       id: 5,
-      name: 'Master’s Degree',
+      name: 'Bachelor’s Degree',
     },
     {
       id: 6,
+      name: 'Master’s Degree',
+    },
+    {
+      id: 7,
       name: 'Ph.D.',
     },
   ],

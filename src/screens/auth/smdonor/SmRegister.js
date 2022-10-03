@@ -51,6 +51,9 @@ const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
+  { type: validationType.CAPSLOCK,
+    msg: ValidationMessages.CAPSLOCK
+   },
 ];
 const validatePassword = (value, type) => {
   if (value) {
@@ -63,6 +66,8 @@ const validatePassword = (value, type) => {
           : 'red';
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value) ? Colors.BLACK : 'red';
+      case validationType.CAPSLOCK:
+        return Regx.ALPHA_CAP.test(value)? Colors.BLACK : 'red';
       default:
         return Colors.BORDER_LINE;
     }
@@ -70,6 +75,9 @@ const validatePassword = (value, type) => {
   return Colors.BORDER_LINE;
 };
 const SmRegister = ({route}) => {
+
+  console.log('Props Data ==',route.params);
+
   const authService = Auth();
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -116,7 +124,7 @@ const SmRegister = ({route}) => {
     reqData.append('country_code',route.params.country_code);
     reqData.append('phone_no',route.params.phone_no);
     reqData.append('file',{
-      name: file.filename,
+      name: 'name',
       type: file.mime,
       uri: file.path,
     });
@@ -130,6 +138,7 @@ const SmRegister = ({route}) => {
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
+  
   return (
     <>
       <Container
