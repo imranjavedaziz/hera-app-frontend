@@ -208,7 +208,7 @@ export default {
     Subtitle: 'Your match might just\n be a click away!',
     locationText: 'U S A',
     code: '#SD5882',
-    donerAge: 'Sperm Doner, 27 yrs',
+    donerAge: 'Sperm Donor, 27 yrs',
     Btn: 'Save',
     Sorry: 'Sorry!',
     Para1:
