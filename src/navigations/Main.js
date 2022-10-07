@@ -43,7 +43,7 @@ const Main = () => {
         // initialRouteName={"CreateGallery"}
       >
 
-        {/* <Stack.Screen
+        <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}
           options={{headerShown: false}}
@@ -109,7 +109,7 @@ const Main = () => {
           name={Routes.CreateGallery}
           component={CreateGallery}
           options={{headerShown: false}}
-        /> */}
+        />
         <Stack.Screen
           name={Routes.PtbDashboard}
           component={PtbDashboard}
