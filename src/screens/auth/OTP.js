@@ -29,6 +29,7 @@ const OTP = ({route}) => {
   });
 
   const onSubmit = data => {
+    console.log('otppppp',data )
     authService.verifyOtp({otp: data.otp,...route.params});
   };
   useEffect(() => {

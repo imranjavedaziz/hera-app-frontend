@@ -30,7 +30,6 @@ const PtbDashboard = () => {
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
   const authService = Auth();
-  console.log('cardIndex', cardIndex);
   const handleOnSwipedLeft = () => {
       setCount(count + 1);
     setCardIndex(1);

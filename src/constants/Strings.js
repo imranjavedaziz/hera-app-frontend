@@ -64,7 +64,7 @@ export const ValidationMessages = {
 };
 export default {
   landing: {
-    LOG_IN: 'LOG IN',
+    LOG_IN: ' LOG IN ' ,
     REGISTER: 'REGISTER',
     Like_Match_Connect: 'Like, Match & Connect!',
     AboutUs: 'About Us',
