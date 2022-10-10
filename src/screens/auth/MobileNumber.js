@@ -1,6 +1,6 @@
 // MobileNumber
-import React, {useState, useEffect} from 'react';
-import {View, Text, Keyboard} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -14,7 +14,6 @@ import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
 import Auth from '../../services/Auth';
-import { Fonts } from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -93,8 +92,7 @@ const MobileNumber = () => {
                 maxLength={10}
                 error={errors && errors.phone?.message}
                 containerStyle={{
-                  flex: 1,
-                  
+                  flex: 1,    
                 }}
                 fixed={true}
               />

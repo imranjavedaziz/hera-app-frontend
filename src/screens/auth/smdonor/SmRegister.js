@@ -76,7 +76,6 @@ const validatePassword = (value, type) => {
 };
 const SmRegister = ({route}) => {
   console.log('Props Data  Donor ==', route.params);
-
   const authService = Auth();
   const dispatch = useDispatch();
   const navigation = useNavigation();

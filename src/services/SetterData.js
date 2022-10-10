@@ -1,17 +1,11 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 import {
   showAppLoader,
   hideAppLoader,
-  showAppToast,
 } from '../redux/actions/loader';
-import {Routes} from '../constants/Constants';
-import {setUser, signoutUser} from '../redux/actions/auth';
-import getRoute from '../utils/getRoute';
-import axios from 'axios';
 
 const SetterData =()=>{
     const[myState,setMyState] = React.useState([]);
@@ -23,10 +17,15 @@ const SetterData =()=>{
     const[role,setRole]=React.useState([]);
     const[eye,setEye]=React.useState([]);
     const[hair,setHair]=React.useState([]);
-
+    const[donorHeight,setDonorHeight]=React.useState([]);
+    const[donorRace,setDonorRace]=React.useState([]);
+    const[donorEthinicity,setDonorEthinicity]=React.useState([]);
+    const[donorWeight,setDonorWeight]=React.useState([]);;
+    const[donorhair,setDonorHair]=React.useState([]);
+    const[donoreye,setDonorEye]=React.useState([]);
+    const[donorEducation,setDonorEducation]=React.useState([]);
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const state = () => {
     dispatch(showAppLoader());
@@ -62,7 +61,24 @@ const SetterData =()=>{
     }).finally(() => {
         dispatch(hideAppLoader());
       });
-  }  
+  }
+  const attribute=()=>{
+    dispatch(showAppLoader());
+    axiosRequest
+    .get(ApiPath.get_attributes)
+    .then( async res => {
+      console.log('Attribute', res.data.data)
+      setDonorHeight();
+      setDonorRace();
+      setDonorEthinicity();
+      setDonorWeight();
+      setDonorHair();
+      setDonorEye();
+      setDonorEducation();
+    }).finally(() => {
+        dispatch(hideAppLoader());
+      });
+  }
   return {
     state,
     myState,
@@ -75,7 +91,15 @@ const SetterData =()=>{
     ethnicity,
     eye,
     hair,
-    role
+    role,
+    attribute,
+    donorHeight,
+    donorRace,
+    donorEthinicity,
+    donorWeight,
+    donorhair,
+    donoreye,
+    donorEducation,
   }
 };
 

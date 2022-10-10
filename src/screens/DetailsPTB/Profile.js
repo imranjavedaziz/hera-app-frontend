@@ -89,7 +89,6 @@ const Profile = ({route}) => {
     handleSubmit,
     control,
     setValue,
-    reset,
     formState: {errors,},
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
@@ -99,7 +98,6 @@ const Profile = ({route}) => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
-
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -142,14 +140,7 @@ const Profile = ({route}) => {
   };
   useEffect( ()=> {
     askCameraPermission
-    const unsubscribe = navigation.addListener("focus", ()=>{
-      console.log("FOCUS LISTNER")
-      // reset(data);
-
-    })
-    return unsubscribe
   }, [navigation]);
-
   return (
     <>
     <Container
@@ -416,8 +407,7 @@ const Profile = ({route}) => {
             <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
           </TouchableOpacity>
         </View>
-      </BottomSheetComp>
-      
+      </BottomSheetComp>     
       <DateTimePickerModal
         value={date}
         isVisible={show}
@@ -433,7 +423,6 @@ const Profile = ({route}) => {
         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
         positiveButtonLabel="DONE"
       />
-
       <Modal
         transparent={true}
         visible={showModal}

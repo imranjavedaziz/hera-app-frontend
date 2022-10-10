@@ -1,6 +1,7 @@
 import Colors from '../../../constants/Colors';
 import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
+import Alignment from '../../../constants/Alignment';
 import {
   // normalizeFont,
   // scaleHeight,

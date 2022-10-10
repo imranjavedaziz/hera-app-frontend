@@ -10,7 +10,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
-import {CircleBtn, ProfileIcon} from '../../../../components/Header';
+import {IconHeader} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
@@ -18,16 +18,13 @@ import {Static, Routes} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import styles from './Styles';
-import Auth from '../../../../services/Auth';
 import LinearGradient from 'react-native-linear-gradient';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
-  const authService = Auth();
   const profile = Static.Profile;
   console.log(profile);
   const [search, setSearch] = React.useState('');
   const [searching, setSearching] = React.useState(false);
-
   const onSearch = value => {
     if (value === '') {
      setSearch(''),
@@ -37,7 +34,6 @@ const SmDashboard = ({route}) => {
     setSearching(true) 
     setSearch(value);
   };
-
  const onClear = () => {
     setSearching(false);
     setSearch('');
@@ -73,24 +69,22 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
-
   const headerComp = () => (
     <>
-      {/* <ProfileIcon /> */}
-      
-      <CircleBtn
-        icon={Images.iconChat}
-        onPress={authService.logout}
-        accessibilityLabel="Cross Button, Go back"
-      />
+     <IconHeader
+      profileView={true}
+      rightIcon={Images.iconChat}
+      rightPress={console.log("Navigate to Chat")}
+    />
     </>
   );
   return (
     <Container
       scroller={false}
       showHeader={searching ? false : true}
-      headerEnd={true}
       headerComp={headerComp}
+      headerEnd={true}
+
       style={{
         paddingTop: Value.CONSTANT_VALUE_60,
         marginBottom: Value.CONSTANT_VALUE_200,

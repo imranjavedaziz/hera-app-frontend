@@ -22,7 +22,6 @@ import Alignment from '../../../constants/Alignment';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
 import SetterData from '../../../services/SetterData';
-
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
