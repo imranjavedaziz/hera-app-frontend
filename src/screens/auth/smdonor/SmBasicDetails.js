@@ -8,7 +8,7 @@ import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
-import Strings from '../../../constants/Strings';
+import Strings, { ValidationMessages } from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
 import {genders, Static} from '../../../constants/Constants';
@@ -18,11 +18,15 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
 import { Value } from '../../../constants/FixedValues';
+import {useDispatch} from 'react-redux';
+import {showAppToast} from '../../../redux/actions/loader';
 
 const SmBasicDetails = ({route}) => {
+  console.log('Props Data Basic ==',route.params);
   const userService = User();
   const authService = Auth();
   const [isOpen, setOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     handleSubmit,
@@ -42,6 +46,14 @@ const SmBasicDetails = ({route}) => {
     />
 
   );
+  React.useEffect(() => {
+    if (!isValid) {
+      const e = errors;
+      if (e.gender_id) {
+        dispatch(showAppToast(true, ValidationMessages.ENTER_GENDER));
+      }
+    }
+  }, [errors, isValid]);
   return (
     <>
       <Container
@@ -88,27 +100,12 @@ const SmBasicDetails = ({route}) => {
             )}
             name="gender_id"
           />
-           <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <Dropdown
-                label={Strings.sm_basic.Country}
-                data={Static.countries}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.state_id?.message}
-              />
-            )}
-            name="country_id"
-          />
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
               <Dropdown
                 label={Strings.sm_basic.State}
-                data={Static.countries}
+                data={Static.state}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}

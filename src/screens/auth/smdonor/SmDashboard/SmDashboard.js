@@ -11,10 +11,10 @@ import {Static,Routes} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import styles from './Styles'
-
+import Auth from '../../../../services/Auth';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
-
+  const authService = Auth();
   const profile = Static.Profile;
 
   console.log(profile);
@@ -76,6 +76,7 @@ const SmDashboard = ({route}) => {
    
   <CircleBtn
       icon={Images.iconChat}
+      onPress={authService.logout}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
    

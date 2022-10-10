@@ -9,6 +9,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
@@ -38,6 +39,9 @@ const CreateGallery = ({route}) => {
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
+  const profileImg = useSelector(state => state.auth.user.profile_pic);
+  console.log(profileImg)
+
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
@@ -68,14 +72,14 @@ const CreateGallery = ({route}) => {
     userService.createGallery(reqData, setLoading);
   };
   const selectVideo = () => {
-    setOpen(false);
+    setOpen(true);
     videoPicker().then(v => {
       setVideo({uri: v.path,loading: true});
       const reqData = new FormData();
       reqData.append('image', {
         name: v.filename,
         type: v.mime,
-        uri: image.path,
+        uri: v.path,
       });
       userService.createGallery(reqData, (loading)=>setVideo(old=>({...old,loading})));
     });
@@ -98,6 +102,7 @@ const CreateGallery = ({route}) => {
           <View style={styles.profileImgContainner}>
             <Image
               // source={{uri: route.params.userImage}}
+              source={{uri:{profileImg}}}
               style={styles.profileImg}
             />
           </View>
@@ -198,4 +203,5 @@ const CreateGallery = ({route}) => {
     </>
   );
 };
+
 export default CreateGallery;

@@ -27,7 +27,7 @@ const PTB_profile = () => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
-      onPress={() => navigation.goBack}
+      onPress={() => navigation.goBack()}
       accessibilityLabel="Cross Button, Go back"
     />
   );

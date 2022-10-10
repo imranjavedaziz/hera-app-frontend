@@ -47,13 +47,13 @@ const User = () => {
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(updateRegStep());
         await dispatch(setSMDAttributes(response.data.data));
-        navigation.navigate(Routes.CreateGallery);
+        navigation.navigate(Routes.CreateGallery,data);
       })
       .finally(() => {
         dispatch(hideAppLoader());
       });
   };
-  const createGallery = (data, setLoading) => {
+  const createGallery = (data,setLoading) => {
     setLoading(true);
     axiosRequest
       .post(ApiPath.setGallery, data, {
@@ -64,12 +64,11 @@ const User = () => {
       .then(async response => {
         console.log('response', response.data.data);
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      setLoading(false)
   };
-  const setPreferences = (data, setLoading) => {
-    setLoading(true);
+  const setPreferences = (data) => {
+    // setLoading(true);
+    dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.setPreferences, data, {
         headers: {
@@ -80,7 +79,7 @@ const User = () => {
         console.log('response', response.data.data);
       })
       .finally(() => {
-        setLoading(false);
+        dispatch(hideAppLoader());
       });
   };
   return {

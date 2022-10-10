@@ -49,6 +49,7 @@ const Login = () => {
     />
   );
   const onSubmit = (data) => {
+    console.log( 'Dataaaaa>>',data)
     authService.login({
       country_code: "+91",
       phone_no: data.phone,
@@ -90,7 +91,7 @@ const Login = () => {
                 error={errors && errors.password?.message}
                 endComponent={()=>(
                   <TouchableOpacity onPress={()=>setShow(!show)}>
-                    <Image source={show?Images.eye:Images.eye2}/>
+                    <Image source={show?Images.eye2:Images.eye}/>
                   </TouchableOpacity>
                 )}
               />
@@ -107,18 +108,6 @@ const Login = () => {
             {Strings.login.ForgotPassword}
           </Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          style={styles.btnMargin}
-          accessible={true}
-          accessibilityRole="button"
-          accessibilityLabel={Strings.login.NewUser}>
-          <Text
-            style={styles.underlineBtn}
-            accessible={false}
-            onPress={() => navigation.navigate(Routes.MobileNumber)}>
-            {Strings.login.NewUser}
-          </Text>
-        </TouchableOpacity> */}
       </View>
     </Container>
   );

@@ -1,7 +1,7 @@
 export const ValidationMessages = {
-  MOBILE_REQUIRED: 'Mobile number is a required feild.',
-  PASSWORD_REQUIRED: 'Password is a required feild.',
-  COMMON_REQUIRED: 'This is a required feild.',
+  MOBILE_REQUIRED: 'Mobile number is a required field.',
+  PASSWORD_REQUIRED: 'Password is a required field.',
+  COMMON_REQUIRED: 'This is a required field.',
   INVALID_MOBILE: 'Mobile number is not valid.',
   PICTURE_REQUIRE: 'Please add Profile Photo',
   TERMS_OF_USE: 'Please accept the Terms of Use',
@@ -13,6 +13,13 @@ export const ValidationMessages = {
   CONFIRM_PASSWORD: 'Please enter Confirm Password',
   ADD_PROFILE_PHOTO: 'Please add Profile Photo',
   DOB: 'Please enter your Date of Birth',
+  ENTER_DOB:'Please enter your DOB',
+  ENTER_GENDER:'Please select your Gender',
+  ENTER_SEXUAL_ORIENTATION:'Please select your Sexual Orientation',
+  ENTER_RELATIONSHIP:'Please select your Relationship Status',
+  ENTER_STATE:'Please select your State',
+  ENTER_ZIP:'Please enter your Zip Code',
+  ENTER_BIO:'Please enter your Bio',
   UNMATCHED_PASS: 'Password Does not matched',
   RACE: 'Please select your race preference',
   SELECT_LOOKING: 'Please select whom you are looking for',
@@ -20,10 +27,10 @@ export const ValidationMessages = {
   SELECT_EYE: 'Please select your eye color preference',
   SELECT_HEIGHT: 'Please select your height',
   SELECT_AGE: 'Please select your age',
-  SELECT_ETHNICITY: 'Please select your ethnicity',
-  MOBILE_REQUIRED: 'Mobile number is a required feild!',
-  PASSWORD_REQUIRED: 'Password is a required feild!',
-  COMMON_REQUIRED: 'This is a required feild!',
+  SELECT_ETHNICITY: 'Please select your ethnicity preference',
+  MOBILE_REQUIRED: 'Mobile number is a required field!',
+  PASSWORD_REQUIRED: 'Password is a required field!',
+  COMMON_REQUIRED: 'This is a required field!',
   INVALID_MOBILE: 'Mobile number is not valid!',
   // PASSWORD_MIN: 'Must have minimum 8 characters',
   PASSWORD_MIN: 'Minimum 8 characters',
@@ -37,12 +44,27 @@ export const ValidationMessages = {
   MAX_MIDDLE_NAME: 'Middle name must be at most 30 characters',
   MAX_LAST_NAME: 'Last name must be at most 30 characters',
   Education:'Please select your Education preference',
+  MAX_ZIP:'Zip code can be of 5 digits only',
+  MIN_ZIP:'Zip code should be of 5 digits',
+  SELECT_RACE:'Please enter Race',
+  SELECT_MOT_ETHNICITY:"Please enter Mother's Ethnicity",
+  SELECT_FAT_ETHNICITY: "Please provide Father's Ethnicity",
+  SELECT_HEIGHT:'Please enter Height',
+  SELECT_EDUCATION:"Please select your maximum Education Qualification",
+  SELECT_HAIR:'Please enter Hair color',
+  SELECT_EYE:'Please enter Eye color',
+  SELECT_WEIGHT:'Please enter Weight',
+  CAPSLOCK:'Atleast 1 upper case letter',
+  OTP_REQUIRED:'Required!'
+  
+
+
 
 
 };
 export default {
   landing: {
-    LOG_IN: 'LOG IN',
+    LOG_IN: ' LOG IN  ' ,
     REGISTER: 'REGISTER',
     Like_Match_Connect: 'Like, Match & Connect!',
     AboutUs: 'About Us',
@@ -186,7 +208,7 @@ export default {
     Subtitle: 'Your match might just\n be a click away!',
     locationText: 'U S A',
     code: '#SD5882',
-    donerAge: 'Sperm Doner, 27 yrs',
+    donerAge: 'Sperm Donor, 27 yrs',
     Btn: 'Save',
     Sorry: 'Sorry!',
     Para1:

@@ -5,6 +5,7 @@ import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import {showAppToast} from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
+import {CircleBtn} from '../../../components/Header';
 import Button from '../../../components/Button';
 import {useDispatch} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
@@ -13,20 +14,17 @@ import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {
-  Static,
-  Routes,
-  lookingFor,
-} from '../../../constants/Constants';
+import {Static, Routes, lookingFor} from '../../../constants/Constants';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import User from "../../../services/User";
+import User from '../../../services/User';
+import Auth from '../../../services/Auth';
 
-const onValueSelect = (data, value='') => {
+const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
-  const v = value
+  const v = value;
   if (dataArr.includes(v)) {
     dataArr.splice(
       dataArr.findIndex(d => d === v),
@@ -38,9 +36,10 @@ const onValueSelect = (data, value='') => {
   return dataArr.join(',');
 };
 const isSelected = (data, value) => {
- return data.split(',').includes(value.toString());
+  return data.split(',').includes(value.toString());
 };
-const SetPreference = ({navigation}) => {
+const SetPreference = ({route, navigation}) => {
+  console.log('Props Data Preferences ==', route.params);
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
   const ageRange = Static.ageRange;
@@ -48,6 +47,7 @@ const SetPreference = ({navigation}) => {
   const hairColor = Static.hairColors;
   const dispatch = useDispatch();
   const userService = User();
+  const authService = Auth();
   const {
     handleSubmit,
     control,
@@ -68,28 +68,32 @@ const SetPreference = ({navigation}) => {
     }
   }, [errors, isValid]);
 
-  const onSubmit = (data) => {
+  const onSubmit = data => {
     // for the timing api is not running and throwing error if i am sending
     // anything apart from 3 in role_id_looking_for once api will be fixed will replace with data.looking
-  let value={
-    role_id_looking_for : 3,
-    age:data.age_range,
-    height: data.height.join('-'),
-    race: data.race,
-    education: data.education.id.toString(),
-    hair_colour:data.hair,
-    eye_colour:data.eye,
-    ethnicity:data.ethnicity,
-    "state": '1,2',
-  }
+    let value = {
+      role_id_looking_for: 3,
+      age: data.age_range,
+      height: data.height.join('-'),
+      race: data.race,
+      education: data.education.id.toString(),
+      hair_colour: data.hair,
+      eye_colour: data.eye,
+      ethnicity: data.ethnicity,
+      state: '1,2',
+    };
+    console.log(value, 'Value');
     userService.setPreferences(value);
-    navigation.navigate(Routes.PtbDashboard)
+    navigation.navigate(Routes.PtbDashboard);
   };
 
   const headerComp = () => (
-    <Pressable onPress={() => setOpen(true)}>
-      <Text style={styles.headerTxt}> Cancel</Text>
-    </Pressable>
+    <CircleBtn
+      icon={Images.iconSettings}
+      onPress={() => {
+        setOpen(true);
+      }}
+    />
   );
 
   return (
@@ -120,6 +124,9 @@ const SetPreference = ({navigation}) => {
           <View style={styles.lookingFor}>
             <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
               {Strings.preference.lookingFor}
+              <Text style={[styles.label, {color: 'red'}, {fontSize: 20}]}>
+                *
+              </Text>
             </Text>
 
             <Controller
@@ -159,6 +166,7 @@ const SetPreference = ({navigation}) => {
                     onChange(selectedItem);
                   }}
                   required={true}
+                  error={errors && errors.location?.message}
                 />
               )}
               name="location"
@@ -174,16 +182,19 @@ const SetPreference = ({navigation}) => {
                     onChange(selectedItem);
                   }}
                   required={true}
+                  error={errors && errors.education?.message}
                 />
               )}
               name="education"
             />
-
-            <Text style={styles.ageText}>{Strings.preference.AgeRange}</Text>
-
+              <Text style={styles.ageText}>{Strings.preference.AgeRange}
+              <Text style={[styles.label, {color: 'red'}, {fontSize: 20}]}>
+                *
+              </Text>
+              </Text>
             <Controller
               control={control}
-              render={({field: {onChange, value=''}}) => (
+              render={({field: {onChange, value = ''}}) => (
                 <View style={styles.ageContainer}>
                   {ageRange.map((item, index) => {
                     return (
@@ -199,7 +210,7 @@ const SetPreference = ({navigation}) => {
                             {
                               backgroundColor: isSelected(value, item.name)
                                 ? Colors.COLOR_5ABCEC
-                                : Colors.WHITE,
+                                : Colors.BACKGROUND,
                               borderWidth: isSelected(value, item.name) ? 0 : 1,
                             },
                           ]}>
@@ -269,7 +280,7 @@ const SetPreference = ({navigation}) => {
                     onChange(selectedItem.id);
                   }}
                   required={true}
-                  // error={errors && errors.race?.message}
+                  error={errors && errors.race?.message}
                 />
               )}
               name="race"
@@ -281,6 +292,7 @@ const SetPreference = ({navigation}) => {
                 <Dropdown
                   label={Strings.preference.Ethnicity}
                   data={Static.ethnicity}
+                  required={true}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem.id);
@@ -303,7 +315,7 @@ const SetPreference = ({navigation}) => {
                   {hairColor.map((item, index) => (
                     <TouchableOpacity
                       onPress={() => {
-                        onChange(onValueSelect(value, item.id));
+                        onChange(onValueSelect(value, item.id.toString()));
                       }}
                       key={item.id}>
                       <View
@@ -315,7 +327,7 @@ const SetPreference = ({navigation}) => {
                               item.id.toString(),
                             )
                               ? Colors.COLOR_5ABCEC
-                              : Colors.WHITE,
+                              : Colors.BACKGROUND,
                             borderWidth: isSelected(value, item.id.toString())
                               ? 0
                               : 1,
@@ -355,7 +367,7 @@ const SetPreference = ({navigation}) => {
                 {eyeColor.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      onChange(onValueSelect(value, item.id));
+                      onChange(onValueSelect(value, item.id.toString()));
                     }}
                     key={item.id}>
                     <View
@@ -364,7 +376,7 @@ const SetPreference = ({navigation}) => {
                         {
                           backgroundColor: isSelected(value, item.id.toString())
                             ? Colors.COLOR_5ABCEC
-                            : Colors.WHITE,
+                            : Colors.BACKGROUND,
                           borderWidth: isSelected(value, item.id.toString())
                             ? 0
                             : 1,
@@ -413,7 +425,9 @@ const SetPreference = ({navigation}) => {
           <TouchableOpacity style={globalStyle.heraBtn}>
             <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.logoutBtn}>
+          <TouchableOpacity
+            style={globalStyle.logoutBtn}
+            onPress={authService.logout}>
             <Text style={globalStyle.logoutText}>
               {Strings.preference.Logout}
             </Text>
