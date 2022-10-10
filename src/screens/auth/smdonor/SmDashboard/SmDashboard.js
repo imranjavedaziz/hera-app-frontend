@@ -10,7 +10,7 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
-import {CircleBtn, ProfileIcon} from '../../../../components/Header';
+import {CircleBtn, ProfileIcon,IconHeader} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
@@ -76,21 +76,20 @@ const SmDashboard = ({route}) => {
 
   const headerComp = () => (
     <>
-      {/* <ProfileIcon /> */}
-      
-      <CircleBtn
-        icon={Images.iconChat}
-        onPress={authService.logout}
-        accessibilityLabel="Cross Button, Go back"
-      />
+     <IconHeader
+      profileView={true}
+      rightIcon={Images.iconChat}
+      rightPress={console.log("Navigate to Chat")}
+    />
     </>
   );
   return (
     <Container
       scroller={false}
       showHeader={searching ? false : true}
-      headerEnd={true}
       headerComp={headerComp}
+      headerEnd={true}
+
       style={{
         paddingTop: Value.CONSTANT_VALUE_60,
         marginBottom: Value.CONSTANT_VALUE_200,

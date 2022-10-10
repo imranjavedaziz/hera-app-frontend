@@ -11,12 +11,12 @@ import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
 import BottomSheetComp from '../../../components/BottomSheet';
-import {Static,} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
 import { Value } from '../../../constants/FixedValues';
 import { useSelector } from 'react-redux';
+import SetterData from '../../../services/SetterData';
 
 const SetAttributes = ({route}) => {
   const initialState = useSelector(state => state.auth)
@@ -24,6 +24,7 @@ const SetAttributes = ({route}) => {
   const [isOpen, setOpen] = useState(false);
   const userService = User();
   const authService = Auth();
+  const dropdownValue = SetterData();
   const {
     handleSubmit,
     control,
@@ -35,6 +36,11 @@ const SetAttributes = ({route}) => {
     console.log(data);
     userService.setAttributes(data);
   };
+  React.useEffect(() => {
+    dropdownValue.state()
+    dropdownValue.sexsualOrientation()
+    dropdownValue.attribute()
+  }, []);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -62,7 +68,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange, value}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Height}
-                data={Static.height}
+                data={dropdownValue.donorHeight}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -83,7 +89,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Race}
-                data={Static.race}
+                data={dropdownValue.donorRace}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -98,7 +104,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.MotherEthnicity}
-                data={Static.ethnicity}
+                data={dropdownValue.donorEthinicity}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -113,7 +119,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.FatheEthnicity}
-                data={Static.ethnicity}
+                data={dropdownValue.donorEthinicity}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -128,7 +134,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Weight}
-                data={Static.weight}
+                data={dropdownValue.donorWeight}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -149,7 +155,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.EyeColor}
-                data={Static.eyeColors}
+                data={dropdownValue.donoreye}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -164,7 +170,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.HairColor}
-                data={Static.hairColors}
+                data={dropdownValue.donorhair}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -179,7 +185,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Education}
-                data={Static.education}
+                data={dropdownValue.donorEducation}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}

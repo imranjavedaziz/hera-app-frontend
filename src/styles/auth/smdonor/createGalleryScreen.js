@@ -6,7 +6,7 @@ import {width} from '../../../utils/responsive';
 
 export default {
   profileImgContainner: {
-    borderWidth: Value.CONSTANT_VALUE_2,
+    borderWidth: Value.CONSTANT_VALUE_3,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_15,
@@ -16,7 +16,7 @@ export default {
     height: Value.CONSTANT_VALUE_40,
     borderRadius: Value.CONSTANT_VALUE_20,
     borderWidth: Value.CONSTANT_VALUE_2,
-    borderColor: Colors.CLEAR,
+    borderColor: Colors.WHITE,
   },
   galleryImgContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -37,7 +37,7 @@ export default {
   camIcon: {
     tintColor: Colors.BLACK,
     maxWidth: Value.CONSTANT_VALUE_25,
-    resizeMode: 'contain',
+    resizeMode: Alignment.CONTAIN,
     // alignItems: Alignment.CENTER,
     // justifyContent: Alignment.CENTER,
     // alignSlef:'center'
@@ -75,5 +75,34 @@ export default {
     height:Value.CONSTANT_VALUE_80,
     width:Value.CONSTANT_VALUE_259,
     paddingHorizontal:Value.CONSTANT_VALUE_0 ,
-  }
+  },
+  subTitle:{
+    marginBottom: Value.CONSTANT_VALUE_20,
+    maxWidth: '90%'
+},
+delContainer:{
+    height: Value.CONSTANT_VALUE_124,
+     width: Value.CONSTANT_VALUE_413,
+     alignItems:Alignment.CENTER,
+     justifyContent: Alignment.CENTER,
+     marginVertical:Value.CONSTANT_VALUE_22,
+},
+selectedText:{
+    fontFamily: Fonts.OpenSansItalic,
+     color: 'grey'
+},
+deleteBtnContainer:{
+    flexDirection:Alignment.ROW,
+     paddingVertical:Value.CONSTANT_VALUE_21
+},
+rmvText:{
+        fontFamily: Fonts.OpenSansBold,
+        textDecorationLine: Alignment.UNDERLINE,
+        letterSpacing:Value.CONSTANT_VALUE_FRAC36 ,
+        marginLeft: Value.CONSTANT_VALUE_15
+},
+selectIcon:{
+  marginLeft:Value.CONSTANT_VALUE_85,
+  marginBottom:Value.CONSTANT_VALUE_88
+}
 };

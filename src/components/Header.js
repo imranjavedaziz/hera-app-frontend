@@ -50,8 +50,21 @@ export const CircleBtn = ({icon, onPress,...otherProps}) => (
     <Image accessible={false} source={icon} style={styles.img} />
   </TouchableOpacity>
 );
-export const IconHeader = ({rightIcon,leftIcon, leftPress, rightPress,...otherProps}) => (
+export const IconHeader = ({rightIcon,leftIcon, leftPress, rightPress,profileView,...otherProps}) => (
   <>
+  {
+    profileView ?(
+    <View style={[styles.container,styles.start]}>
+       <View style={styles.profileImgContainner}>
+        <Image
+         source={{uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png'}}
+         style={styles.profileImg}
+       />
+     </View>
+     </View>)
+    :(
+    <></>)
+  }
   <TouchableOpacity style={styles.circle} onPress={leftPress} {...otherProps} accessible={true} accessibilityRole="button">
     <Image accessible={false} source={leftIcon} style={styles.img} />
   </TouchableOpacity>
@@ -67,7 +80,7 @@ const Header = ({end = false, children}) => {
     </View>
   );
 };
-export const ProfileIcon = ({end=true,}) => (
+export const ProfileIcon = ({}) => (
     <View style={[styles.container,styles.start]}>
        <View style={styles.profileImgContainner}>
         <Image
