@@ -154,8 +154,8 @@ const CreateGallery = ({route}) => {
     });
     setGIndex( gIndex-(index.length))   
     function sortImg(a,b){
-        if(a.uri == '') return 1
-        if(a.uri != '') return -1
+        if(a.uri === '') return 1
+         return -1
     }
      filterItem.sort(sortImg);
     setGallery(filterItem);

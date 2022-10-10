@@ -19,10 +19,10 @@ const PTB_profile = () => {
   const navigation = useNavigation();
   const [sendReq, setSendReq] = useState(false);
   const [requestDecline, SetRequestDecline] = useState(true);
+  SetRequestDecline(false);
   const [liked, setLiked] = useState(false);
-
+  setLiked(false)
   const highlits = Strings.PTB_Profile.profileHighlits;
-
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}

@@ -1,12 +1,10 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 import {
   showAppLoader,
   hideAppLoader,
-  showAppToast,
 } from '../redux/actions/loader';
 
 const SetterData =()=>{

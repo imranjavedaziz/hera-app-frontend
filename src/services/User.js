@@ -67,7 +67,6 @@ const User = () => {
       setLoading(false)
   };
   const setPreferences = (data) => {
-    // setLoading(true);
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.setPreferences, data, {

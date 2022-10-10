@@ -90,11 +90,6 @@ const OtpInputs = ({onChange,isValid=true}) => {
       refs[index - 1].current?.focus();
     }
   };
-  // const autofill = newCode => {
-  //   if (!isNaN(newCode) && newCode.length === 6) {
-  //     setCode(newCode.split(''));
-  //   }
-  // };
   useEffect(()=>{
     console.log('isValid-',isValid);
   },[isValid])
@@ -130,7 +125,6 @@ const OtpInputs = ({onChange,isValid=true}) => {
             autoFocus={i === 0}
           />
           {i === 2 && <Text style={[styles.input, styles.hyphen]}>-</Text>}
-          
         </View>
       ))}
     </View>
