@@ -1,15 +1,14 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import React from 'react';
 import Container from '../../../../components/Container';
 import {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
-import {showAppToast} from '../../../../redux/actions/loader';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
-import {Fonts} from '../../../../constants/Constants';
+// import {Fonts} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
 
 const SmDonorSettings = () => {
@@ -26,8 +25,6 @@ const SmDonorSettings = () => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={false}>
-
-        
       <View style={Styles.headerContainer}>
         <View style={[Styles.profileImgContainner]}>
           <Image

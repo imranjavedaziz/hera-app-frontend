@@ -9,5 +9,4 @@ const BioComponent = ({Name, Detail}) => {
     </View>
   )
 }
-
 export default BioComponent

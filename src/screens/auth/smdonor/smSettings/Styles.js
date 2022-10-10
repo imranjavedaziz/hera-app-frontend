@@ -2,7 +2,6 @@ import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import {Fonts} from '../../../../constants/Constants';
-import {width} from '../../../../utils/responsive';
 
 export default {
   headerContainer: {

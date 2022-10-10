@@ -38,3 +38,4 @@ export const photoCards = [
       code: Strings.dashboard.code,
     },
   ];
+  

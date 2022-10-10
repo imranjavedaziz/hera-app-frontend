@@ -57,11 +57,10 @@ const Container = props => {
       />
        <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
         <KeyboardAvoidingView
-        
           style={{flex: 1}}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
           <Scroller enabled={scroller} style={style} mainStyle={mainStyle} showsVerticalScrollIndicator={showsVerticalScrollIndicator} >
+          {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
             {children}
           </Scroller>
         </KeyboardAvoidingView>

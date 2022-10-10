@@ -7,7 +7,6 @@ import {
   StatusBar,
   TouchableOpacity,
   Platform,
-  ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Button from '../components/Button';

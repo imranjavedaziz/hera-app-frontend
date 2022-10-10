@@ -1,11 +1,8 @@
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {Fonts} from '../../../constants/Constants';
 import {
   normalizeFont,
-  scaleHeight,
-  scaleWidth,
   dynamicSize,
 } from '../../../utils/responsive';
 
@@ -15,8 +12,8 @@ export default {
     alignItems: Alignment.CENTER,
   },
   bgImage: {
-    height: 415,
-    width: 260,
+    height: Value.CONSTANT_VALUE_420,
+    width: Value.CONSTANT_VALUE_260,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },

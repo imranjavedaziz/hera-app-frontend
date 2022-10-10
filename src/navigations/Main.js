@@ -35,26 +35,20 @@ const Main = () => {
     <NavigationContainer
       onReady={() => RNBootSplash.hide()}
     >
-
-
-
       <Stack.Navigator
         initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
         // initialRouteName={"CreateGallery"}
       >
-
         <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={Routes.ProfileDetails}
           component={ProfileDetails}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={Routes.Landing}
           component={Landing}
@@ -120,7 +114,6 @@ const Main = () => {
           component={DashboardDetailScreen}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={Routes.SmSetting}
           component={SmDonorSettings}

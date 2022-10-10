@@ -19,10 +19,10 @@ export default {
     alignItems: Alignment.CENTER,
   },
   locationText: {
-    fontSize: 16,
-    marginLeft: 5,
+    fontSize: Value.CONSTANT_VALUE_16,
+    marginLeft:Value.CONSTANT_VALUE_5,
     fontFamily: Fonts.OpenSansRegular,
   },
-  codeText: {fontSize: 32, fontFamily: Fonts.OpenSansBold},
-  typeText: {fontSize: 20, fontFamily: Fonts.OpenSansRegular},
+  codeText: {fontSize: Value.CONSTANT_VALUE_32, fontFamily: Fonts.OpenSansBold},
+  typeText: {fontSize: Value.CONSTANT_VALUE_20, fontFamily: Fonts.OpenSansRegular},
 };

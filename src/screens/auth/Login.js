@@ -15,7 +15,6 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import { showAppToast } from '../../redux/actions/loader';
 import { loginSchema } from '../../constants/schemas';
-import { Routes } from '../../constants/Constants';
 import Auth from '../../services/Auth';
 
 const Login = () => {
@@ -30,7 +29,6 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
-  
   useEffect(() => {
     if (!isValid) {
       const e = errors;
@@ -40,7 +38,6 @@ const Login = () => {
       if(msg)dispatch(showAppToast(false,msg));
     }
   }, [errors, isValid]);
-
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}

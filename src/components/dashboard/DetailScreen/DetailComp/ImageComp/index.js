@@ -2,7 +2,6 @@ import {View, Text, Image} from 'react-native';
 import React from 'react';
 import styles from './style';
 import Images from '../../../../../constants/Images';
-import style from './style';
 
 const DetailComp = ({Place,Code, DonerType}) => {
   return (
