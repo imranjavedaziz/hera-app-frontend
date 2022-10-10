@@ -1,6 +1,6 @@
 // MobileNumber
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Keyboard} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -14,10 +14,12 @@ import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
 import Auth from '../../services/Auth';
+import { Fonts } from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
   const authService = Auth();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const {
     handleSubmit,
     control,
@@ -26,11 +28,13 @@ const MobileNumber = () => {
     resolver: yupResolver(mobileSchema),
   });
   const onSubmit = data => {
+    console.log('register', data);
     authService.sendOtp({
-      country_code: "+91",
-      phone_no: data.phone
+      country_code: '+91',
+      phone_no: data.phone,
     });
   };
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -53,7 +57,7 @@ const MobileNumber = () => {
           {Strings.mobile.AccountVerification}
         </Text>
         <View
-          style={{marginVertical: 8}}
+          style={{marginVertical: 8, flex: 1}}
           accessible={true}
           accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
           <Text
@@ -89,7 +93,8 @@ const MobileNumber = () => {
                 maxLength={10}
                 error={errors && errors.phone?.message}
                 containerStyle={{
-                  flex: 1,      
+                  flex: 1,
+                  
                 }}
                 fixed={true}
               />
@@ -97,11 +102,16 @@ const MobileNumber = () => {
             name="phone"
           />
         </View>
-        <Button
-          style={styles.Btn}
-          label={Strings.mobile.VERIFY}
-          onPress={handleSubmit(onSubmit)}
-        />
+        <View
+          style={
+            isKeyboardVisible === true ? {marginTop: 44} : {marginTop: 280}
+          }>
+          <Button
+            style={styles.Btn}
+            label={Strings.mobile.VERIFY}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
       </View>
     </Container>
   );

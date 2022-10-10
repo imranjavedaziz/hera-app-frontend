@@ -17,7 +17,7 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: 60,
+    paddingHorizontal: dynamicSize(50),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),

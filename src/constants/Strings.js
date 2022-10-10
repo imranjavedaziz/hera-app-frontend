@@ -1,5 +1,7 @@
 export const ValidationMessages = {
   MOBILE_REQUIRED: 'Mobile number is a required field.',
+  PASSWORD_REQUIRED: 'Password is a required field.',
+  COMMON_REQUIRED: 'This is a required field.',
   INVALID_MOBILE: 'Mobile number is not valid.',
   PICTURE_REQUIRE: 'Please add Profile Photo',
   TERMS_OF_USE: 'Please accept the Terms of Use',
@@ -26,8 +28,6 @@ export const ValidationMessages = {
   SELECT_HEIGHT: 'Please select your height',
   SELECT_AGE: 'Please select your age',
   SELECT_ETHNICITY: 'Please select your ethnicity preference',
-  PASSWORD_REQUIRED: 'Password is a required field!',
-  COMMON_REQUIRED: 'This is a required field!',
   // PASSWORD_MIN: 'Must have minimum 8 characters',
   PASSWORD_MIN: 'Minimum 8 characters',
   // SPECIAL_CHAR: 'Must have atleast 1 special character',
@@ -55,7 +55,7 @@ export const ValidationMessages = {
 };
 export default {
   landing: {
-    LOG_IN: 'LOG IN',
+    LOG_IN: ' LOG IN  ' ,
     REGISTER: 'REGISTER',
     Like_Match_Connect: 'Like, Match & Connect!',
     AboutUs: 'About Us',
@@ -184,7 +184,7 @@ export default {
     Subtitle: 'Your match might just\n be a click away!',
     locationText: 'U S A',
     code: '#SD5882',
-    donerAge: 'Sperm Doner, 27 yrs',
+    donerAge: 'Sperm Donor, 27 yrs',
     Btn: 'Save',
     Sorry: 'Sorry!',
     Para1:

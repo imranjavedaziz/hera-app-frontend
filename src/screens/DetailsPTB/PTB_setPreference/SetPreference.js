@@ -125,6 +125,9 @@ const SetPreference = ({route, navigation}) => {
           <View style={styles.lookingFor}>
             <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
               {Strings.preference.lookingFor}
+              <Text style={[styles.label, {color: 'red'}, {fontSize: 20}]}>
+                *
+              </Text>
             </Text>
 
             <Controller
@@ -206,7 +209,7 @@ const SetPreference = ({route, navigation}) => {
                             {
                               backgroundColor: isSelected(value, item.name)
                                 ? Colors.COLOR_5ABCEC
-                                : Colors.WHITE,
+                                : Colors.BACKGROUND,
                               borderWidth: isSelected(value, item.name) ? 0 : 1,
                             },
                           ]}>
@@ -363,7 +366,7 @@ const SetPreference = ({route, navigation}) => {
                         {
                           backgroundColor: isSelected(value, item.id.toString())
                             ? Colors.COLOR_5ABCEC
-                            : Colors.WHITE,
+                            : Colors.BACKGROUND,
                           borderWidth: isSelected(value, item.id.toString())
                             ? 0
                             : 1,

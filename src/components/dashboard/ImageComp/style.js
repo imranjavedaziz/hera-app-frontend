@@ -23,7 +23,7 @@ export default {
     alignItems: Alignment.CENTER,
   },
   iconImage: {
-    marginBottom: dynamicSize(Value.CONSTANT_VALUE_70),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_50),
     justifyContent: Alignment.CENTER,
   },
   innerContainer: {
@@ -32,6 +32,7 @@ export default {
   locationText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_12),
     paddingLeft: dynamicSize(Value.CONSTANT_VALUE_10),
+    paddingBottom: dynamicSize(Value.CONSTANT_VALUE_5),
     color: Colors.WHITE,
     fontWeight: '800',
   },
@@ -47,5 +48,12 @@ export default {
   textInnerContainer: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
+  },
+  linearGradient: {
+    flex:1,
+
+    width: 260,
+    borderRadius:20,
+    justifyContent: Alignment.CENTER,
   },
 };

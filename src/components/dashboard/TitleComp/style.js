@@ -16,14 +16,14 @@ export default {
   screenTitle: {
     textTransform: 'uppercase',
     letterSpacing: Value.CONSTANT_VALUE_2,
-    fontWeight: '600',
+    fontWeight: '700',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     fontSize:Value.CONSTANT_VALUE_11,
   },
   screenSubTitle: {
-    fontSize: Value.CONSTANT_VALUE_23,
+    fontSize: Value.CONSTANT_VALUE_21,
     lineHeight: Value.CONSTANT_VALUE_30,
     fontWeight: '700',
     textAlign: 'center',

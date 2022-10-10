@@ -46,6 +46,7 @@ const Login = () => {
     />
   );
   const onSubmit = (data) => {
+    console.log( 'Dataaaaa>>',data)
     authService.login({
       country_code: "+91",
       phone_no: data.phone,

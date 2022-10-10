@@ -31,12 +31,7 @@ const PtbDashboard = () => {
   const navigation = useNavigation();
   const authService = Auth();
   const handleOnSwipedLeft = () => {
-
-    setIsVisibleLogo(true);
-    {
       setCount(count + 1);
-    }
-    setIslikedLogo('disliked');
     setCardIndex(1);
     {
       if (count >= 4) {
@@ -54,13 +49,8 @@ const PtbDashboard = () => {
       setIslikedLogo('');
     }, 200);
   };
-
   const handleOnSwipedRight = () => {
-    setIsVisibleLogo(true);
-    {
       setCount(count + 1);
-    }
-    setIslikedLogo('liked');
     setCardIndex(1);
     {
       if (count >= 4) {
@@ -85,7 +75,7 @@ const PtbDashboard = () => {
   function renderCardData(item) {
     return (
       <TouchableOpacity
-      activeOpacity={1}
+        activeOpacity={1}
         onPress={() => {
           onPressImage();
         }}>
@@ -138,6 +128,7 @@ const PtbDashboard = () => {
                 resizeMode={'center'}>
                 <View>
                   <Swiper
+                  infinite={true}
                     ref={useSwiper}
                     renderCard={renderCardData}
                     cardIndex={cardIndex}
