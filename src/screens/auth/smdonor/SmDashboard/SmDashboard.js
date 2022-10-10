@@ -1,59 +1,72 @@
-import {Pressable, StyleSheet, Text, View, Image,FlatList, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
-import {CircleBtn,} from '../../../../components/Header';
+import {CircleBtn, ProfileIcon} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
-import {Static,Routes} from '../../../../constants/Constants';
+import {Static, Routes} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import styles from './Styles'
+import styles from './Styles';
 import Auth from '../../../../services/Auth';
+import LinearGradient from 'react-native-linear-gradient';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const authService = Auth();
   const profile = Static.Profile;
-
   console.log(profile);
-
   const [search, setSearch] = React.useState('');
   const [searching, setSearching] = React.useState(false);
 
   const onSearch = value => {
     if (value === '') {
-      return setSearch(''), setSearching(false);
+     setSearch(''),
+     setSearching(false)
+     return;
     }
-
-    setSearching(true), setSearch(value);
+    setSearching(true) 
+    setSearch(value);
   };
 
-  onClear = () => {
+ const onClear = () => {
     setSearching(false);
     setSearch('');
   };
 
   const renderProfile = ({item, index}) => {
     return (
-      <TouchableOpacity onPress={()=>navigation.navigate(Routes.ProfileDetails)}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(Routes.ProfileDetails)}>
         <View style={styles.conatiner}>
-          <Image
-            style={styles.profileImgView}
-            source={{uri: item.image}}
-          />
+          <ImageBackground
+            style={[styles.profileImgView]}
+            source={{uri: item.image}}>
+            <LinearGradient
+              start={{x: 0.8, y: 0.25}}
+              end={{x: 0.5, y: 1.0}}
+              colors={['#181717', 'transparent']}
+              style={{
+                width: '100%',
+                height: '100%',
+                opacity: 0.2,
+                borderRadius: Value.CONSTANT_VALUE_18,
+              }}></LinearGradient>
+          </ImageBackground>
           <View style={styles.locationContainer}>
-            <Text
-              style={styles.profileName}>
-              {item.name}
-            </Text>
+            <Text style={styles.profileName}>{item.name}</Text>
             <View style={{flexDirection: Alignment.ROW}}>
-              <Image source={Images.mapgraypin}/>
-              <Text
-                style={styles.locationText}>
-                {item.location}
-              </Text>
+              <Image source={Images.mapgraypin} />
+              <Text style={styles.locationText}>{item.location}</Text>
             </View>
           </View>
         </View>
@@ -61,39 +74,28 @@ const SmDashboard = ({route}) => {
     );
   };
 
-  // const IconStart = () => {
-  //   <View style={styles.profileImgContainner}>
-  //      <Image
-  //       source={{uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png'}}
-  //       style={styles.profileImg}
-  //     />
-  //   </View>
-
-  // }
-  
-
   const headerComp = () => (
-   
-  <CircleBtn
-      icon={Images.iconChat}
-      onPress={authService.logout}
-      accessibilityLabel="Left arrow Button, Press to go back"
-    />
-   
+    <>
+      {/* <ProfileIcon /> */}
+      
+      <CircleBtn
+        icon={Images.iconChat}
+        onPress={authService.logout}
+        accessibilityLabel="Cross Button, Go back"
+      />
+    </>
   );
   return (
-    <>
     <Container
       scroller={false}
-      showHeader={ searching ? false  : true}
+      showHeader={searching ? false : true}
       headerEnd={true}
       headerComp={headerComp}
-      style={{marginTop:Value.CONSTANT_VALUE_60, marginBottom:Value.CONSTANT_VALUE_200}}
-    >
-       
-      
+      style={{
+        paddingTop: Value.CONSTANT_VALUE_60,
+        marginBottom: Value.CONSTANT_VALUE_200,
+      }}>
       <View style={globalStyle.mainContainer}>
-      
         {search === '' ? (
           <>
             <Text style={globalStyle.screenTitle}>
@@ -103,7 +105,7 @@ const SmDashboard = ({route}) => {
             <View
               style={[
                 globalStyle.screenSubTitle,
-                {marginBottom: Value.CONSTANT_VALUE_32,},
+                {marginBottom: Value.CONSTANT_VALUE_32},
               ]}
               accessible={true}
               accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
@@ -123,20 +125,17 @@ const SmDashboard = ({route}) => {
           </>
         ) : null}
         <View>
-          
           <Searchbar
-          
             value={search}
             onChangeText={onSearch}
             editing={search === ''}
             onClear={onClear}
           />
-
           <View>
             {profile.length > 0 ? (
               <View>
                 <FlatList
-                 columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
+                  columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
                   data={profile}
                   // keyExtractor={item => item.index}
                   renderItem={renderProfile}
@@ -144,15 +143,11 @@ const SmDashboard = ({route}) => {
                   showsVerticalScrollIndicator={false}
                 />
               </View>
-            ) : (
-              null
-            )}
+            ) : null}
           </View>
         </View>
-       
       </View>
     </Container>
-    </>
   );
 };
 

@@ -1,6 +1,6 @@
 // SetAttributes
-import React from 'react';
-import {Text, View} from 'react-native';
+import React, {useState}from 'react';
+import {Text, View, TouchableOpacity} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
@@ -10,19 +10,24 @@ import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
+import BottomSheetComp from '../../../components/BottomSheet';
 import {Static,} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
 import { Value } from '../../../constants/FixedValues';
+import { useSelector } from 'react-redux';
 
 const SetAttributes = ({route}) => {
+  const initialState = useSelector(state => state.auth)
+  console.log(initialState)
+  const [isOpen, setOpen] = useState(false);
   const userService = User();
   const authService = Auth();
   const {
     handleSubmit,
     control,
-    formState: {errors, isValid},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(smSetAttributesSchema),
   });
@@ -33,8 +38,7 @@ const SetAttributes = ({route}) => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
-      onPress={authService.logout}
-      accessibilityLabel="Left arrow Button, Press to go back"
+      onPress={()=>{setOpen(true)}}
     />
   );
   return (
@@ -42,7 +46,10 @@ const SetAttributes = ({route}) => {
       <Container
         showHeader={true}
         headerEnd={true}
-        headerComp={headerComp}>
+        headerComp={headerComp}
+        safeAreViewStyle={
+          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
+        }>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.sm_set_attributes.Title}
@@ -189,6 +196,36 @@ const SetAttributes = ({route}) => {
           />
         </View>
       </Container>
+
+      <BottomSheetComp
+        wrapperStyle={globalStyle.wrapperStyle}
+        lineStyle={globalStyle.lineStyle}
+        isOpen={isOpen}
+        setOpen={setOpen}>
+        <View
+          style={globalStyle.basicSheetContainer}>
+          <TouchableOpacity
+            style={globalStyle.formBtn}>
+            <Text
+              style={globalStyle.formText}>
+            {Strings.bottomSheet.Inquiry_Form}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}>
+            <Text
+              style={globalStyle.heraText}>
+              {Strings.bottomSheet.About_HERA}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={globalStyle.logoutBtn} onPress={authService.logout}>
+            <Text
+              style={globalStyle.logoutText}>
+              {Strings.bottomSheet.Log_Out}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheetComp>
     </>
   );
 };

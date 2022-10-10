@@ -1,4 +1,4 @@
-import {Text, View, Image, TouchableOpacity, Pressable} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
@@ -14,21 +14,18 @@ import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {
-  Static,
-  Routes,
-  lookingFor,
-} from '../../../constants/Constants';
+import {Static, Routes} from '../../../constants/Constants';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import User from "../../../services/User";
-import Auth from '../../../services/Auth'
+import User from '../../../services/User';
+import Auth from '../../../services/Auth';
+import SetterData from '../../../services/SetterData';
 
-const onValueSelect = (data, value='') => {
+const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
-  const v = value
+  const v = value;
   if (dataArr.includes(v)) {
     dataArr.splice(
       dataArr.findIndex(d => d === v),
@@ -40,27 +37,29 @@ const onValueSelect = (data, value='') => {
   return dataArr.join(',');
 };
 const isSelected = (data, value) => {
- return data.split(',').includes(value.toString());
+  return data.split(',').includes(value.toString());
 };
-const SetPreference = ({route,navigation}) => {
-  console.log('Props Data Preferences ==',route.params);
+const SetPreference = ({route, navigation}) => {
+  const data = SetterData();
+  console.log('Props Data Preferences ==', route.params);
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
   const ageRange = Static.ageRange;
-  const eyeColor = Static.eyeColors;
-  const hairColor = Static.hairColors;
   const dispatch = useDispatch();
   const userService = User();
   const authService = Auth();
   const {
     handleSubmit,
+    getValues,
     control,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
-
+  console.log('Role', getValues('looking'));
   React.useEffect(() => {
+    data.preferenceData();
+
     if (!isValid) {
       const e = errors;
       const messages = [];
@@ -72,31 +71,30 @@ const SetPreference = ({route,navigation}) => {
     }
   }, [errors, isValid]);
 
-  const onSubmit = (data) => {
-    // for the timing api is not running and throwing error if i am sending
-    // anything apart from 3 in role_id_looking_for once api will be fixed will replace with data.looking
-  let value={
-    role_id_looking_for : 3,
-    age:data.age_range,
-    height: data.height.join('-'),
-    race: data.race,
-    education: data.education.id.toString(),
-    hair_colour:data.hair,
-    eye_colour:data.eye,
-    ethnicity:data.ethnicity,
-    "state": '1,2',
-  }
-  console.log(value,'Value');
+  const onSubmit = data => {
+    let value = {
+      role_id_looking_for: data.looking,
+      age: data.age_range,
+      height: data.height.join('-'),
+      race: data.race,
+      education: data.education.id.toString(),
+      hair_colour: data.hair,
+      eye_colour: data.eye,
+      ethnicity: data.ethnicity,
+      state: '1,2',
+    };
+    console.log(value, 'Value');
     userService.setPreferences(value);
-    navigation.navigate(Routes.PtbDashboard)
+    navigation.navigate(Routes.PtbDashboard);
   };
 
   const headerComp = () => (
     <CircleBtn
-    icon={Images.iconSettings}
-    onPress={()=>{setOpen(true)}}
-  />
-    
+      icon={Images.iconSettings}
+      onPress={() => {
+        setOpen(true);
+      }}
+    />
   );
 
   return (
@@ -133,7 +131,7 @@ const SetPreference = ({route,navigation}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <View style={{}}>
-                  {lookingFor.map(whom => (
+                  {data.role.map(whom => (
                     <TouchableOpacity
                       style={styles.flexRow}
                       key={whom.id}
@@ -154,7 +152,6 @@ const SetPreference = ({route,navigation}) => {
               )}
               name="looking"
             />
-
             <Controller
               control={control}
               render={({field: {onChange}}) => (
@@ -176,7 +173,7 @@ const SetPreference = ({route,navigation}) => {
               render={({field: {onChange}}) => (
                 <Dropdown
                   label={Strings.preference.Education}
-                  data={Static.education}
+                  data={data.education}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem);
@@ -187,12 +184,13 @@ const SetPreference = ({route,navigation}) => {
               )}
               name="education"
             />
-
-            <Text style={styles.ageText}>{Strings.preference.AgeRange}</Text>
-
+            <Text style={styles.ageText}>
+              {Strings.preference.AgeRange}
+              <Text style={styles.chipsRequiredText}>*</Text>
+            </Text>
             <Controller
               control={control}
-              render={({field: {onChange, value=''}}) => (
+              render={({field: {onChange, value = ''}}) => (
                 <View style={styles.ageContainer}>
                   {ageRange.map((item, index) => {
                     return (
@@ -234,7 +232,6 @@ const SetPreference = ({route,navigation}) => {
               )}
               name="age_range"
             />
-
             <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
               <View style={styles.heightContainer}>
                 <Text>
@@ -264,15 +261,12 @@ const SetPreference = ({route,navigation}) => {
                 name="height"
               />
             </View>
-
-            {/* Drop Down */}
-
             <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
                   label={Strings.preference.Race}
-                  data={Static.race}
+                  data={data.race}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem.id);
@@ -283,13 +277,12 @@ const SetPreference = ({route,navigation}) => {
               )}
               name="race"
             />
-
             <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
                   label={Strings.preference.Ethnicity}
-                  data={Static.ethnicity}
+                  data={data.ethnicity}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem.id);
@@ -299,17 +292,15 @@ const SetPreference = ({route,navigation}) => {
               )}
               name="ethnicity"
             />
-
             <Text style={styles.chipText}>
               {Strings.preference.HairColor}
               <Text style={styles.chipsRequiredText}>*</Text>
             </Text>
-
             <Controller
               control={control}
               render={({field: {onChange, value = ''}}) => (
                 <View style={styles.hairContainer}>
-                  {hairColor.map((item, index) => (
+                  {data.hair.map((item, index) => (
                     <TouchableOpacity
                       onPress={() => {
                         onChange(onValueSelect(value, item.id.toString()));
@@ -319,20 +310,25 @@ const SetPreference = ({route,navigation}) => {
                         style={[
                           styles.chips,
                           {
-                            backgroundColor: isSelected(value,item.id.toString())
+                            backgroundColor: isSelected(
+                              value,
+                              item.id.toString(),
+                            )
                               ? Colors.COLOR_5ABCEC
                               : Colors.WHITE,
-                            borderWidth: isSelected(value,item.id.toString()) ? 0 : 1,
+                            borderWidth: isSelected(value, item.id.toString())
+                              ? 0
+                              : 1,
                           },
                         ]}>
                         <Text
                           style={[
                             {
                               alignSelf: Alignment.CENTER,
-                              fontWeight: isSelected(value,item.id.toString())
+                              fontWeight: isSelected(value, item.id.toString())
                                 ? Alignment.BOLD
                                 : null,
-                              color: isSelected(value,item.id.toString(),)
+                              color: isSelected(value, item.id.toString())
                                 ? Colors.WHITE
                                 : null,
                             },
@@ -346,7 +342,6 @@ const SetPreference = ({route,navigation}) => {
               )}
               name="hair"
             />
-
             <Text style={styles.chipText}>
               {Strings.preference.EyeColor}
               <Text style={styles.chipsRequiredText}>*</Text>
@@ -356,10 +351,10 @@ const SetPreference = ({route,navigation}) => {
             control={control}
             render={({field: {onChange, value = ''}}) => (
               <View style={styles.eyeContainer}>
-                {eyeColor.map((item, index) => (
+                {data.eye.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => {
-                      onChange(onValueSelect(value,item.id.toString(),));
+                      onChange(onValueSelect(value, item.id.toString()));
                     }}
                     key={item.id}>
                     <View
@@ -395,7 +390,6 @@ const SetPreference = ({route,navigation}) => {
             )}
             name="eye"
           />
-
           <Button
             label={Strings.preference.Save}
             style={styles.Btn}
@@ -417,7 +411,9 @@ const SetPreference = ({route,navigation}) => {
           <TouchableOpacity style={globalStyle.heraBtn}>
             <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.logoutBtn} onPress={authService.logout}>
+          <TouchableOpacity
+            style={globalStyle.logoutBtn}
+            onPress={authService.logout}>
             <Text style={globalStyle.logoutText}>
               {Strings.preference.Logout}
             </Text>

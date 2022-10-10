@@ -2,7 +2,6 @@ import {View, Text, ImageBackground, Image, Animated} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const FadeInView = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;

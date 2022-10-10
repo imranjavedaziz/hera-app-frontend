@@ -8,7 +8,6 @@ import {
 import React, {useState} from 'react';
 import Container from '../../../components/Container';
 import {useNavigation} from '@react-navigation/native';
-import globalStyle from '../../../styles/global';
 import Images from '../../../constants/Images';
 import {CircleBtn} from '../../../components/Header';
 import Strings from '../../../constants/Strings';
@@ -54,7 +53,6 @@ const PTB_profile = () => {
             }}
           />
         </View>
-
         <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
         <View style={styles.ageContainer}>
           <Text>Age: </Text>
@@ -77,10 +75,8 @@ const PTB_profile = () => {
             );
           })}
         </View>
-
         <View>
           <Text style={styles.videoText}>{Strings.PTB_Profile.video_text}</Text>
-
           <Video
                controls={true}
               source={require('../../../assets/video/text-vid2.mp4')}
@@ -89,7 +85,6 @@ const PTB_profile = () => {
               paused={true}
             />
         </View>
-
         {sendReq ? (
           <Pressable
             style={styles.reqSentBtn}

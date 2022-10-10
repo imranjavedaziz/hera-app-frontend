@@ -1,5 +1,5 @@
 
-import {Fonts, Routes} from '../../../../constants/Constants';
+import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
@@ -8,14 +8,12 @@ export default {
     conatiner: {
         justifyContent:Alignment.SPACE_BETWEEN,
         marginTop: Value.CONSTANT_VALUE_20,
-       
       },
       profileImgContainner:
       {
         borderWidth: Value.CONSTANT_VALUE_2,
         borderColor: Colors.GREEN,
-        borderRadius: Value.CONSTANT_VALUE_40,
-        
+        borderRadius: Value.CONSTANT_VALUE_40,   
       },
       profileImg: {
         width: Value.CONSTANT_VALUE_40,
@@ -29,7 +27,7 @@ export default {
         width: Value.CONSTANT_VALUE_167,
         borderRadius: Value.CONSTANT_VALUE_18,
         alignSelf: Alignment.CENTER,
-        backgroundColor:'black'
+        // backgroundColor:'black'
       },
       locationContainer:{
         position: Alignment.ABSOLUTE,

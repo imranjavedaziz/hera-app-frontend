@@ -41,14 +41,16 @@ axiosRequest.interceptors.response.use(
     else if(error.response.status===404 && error.response.data.message){
       await store.dispatch(showAppToast(true,error.response.data.message));
     }
-    // else if(error.response.status===417 && error.response.data.message){
-    //   // Validation msg
-    //   let messages = [];
-    //   Object.keys(error.response.data.message).forEach(key=>{
-    //     messages = [...messages,...error.response.data.message[key]];
-    //   });
-    //   await store.dispatch(showAppToast(true,messages.join('\n')));
-    // }
+    else if(error.response.status===417 && error.response.data.message){
+      // Validation msg
+      // let messages = [];
+      // Object.keys(error.response.data.message).forEach(key=>{
+      //   messages = [...messages,...error.response.data.message[key]];
+      // });
+      // await store.dispatch(showAppToast(true,messages.join('\n')));
+      console.log("Axio MSG", error.response.data.message)
+      return Promise.reject(error.response.data.message);
+    }
     return Promise.reject(error);
   },
 );

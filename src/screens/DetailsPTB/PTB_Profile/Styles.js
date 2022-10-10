@@ -1,4 +1,4 @@
-import {Fonts, Routes} from '../../../constants/Constants';
+import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
@@ -75,7 +75,6 @@ export default {
         reqSentBtn: {
           flexDirection: Alignment.ROW,
           alignItems: Alignment.CENTER,
-          alignItems: Alignment.CENTER,
           justifyContent: Alignment.CENTER,
           marginHorizontal: Value.CONSTANT_VALUE_30,
           marginVertical: Value.CONSTANT_VALUE_50,
@@ -107,7 +106,6 @@ export default {
           borderWidth: Value.CONSTANT_VALUE_1,
           borderColor: Colors.COLOR_A3C6C4,
           borderRadius: Value.CONSTANT_VALUE_40,
-          alignItems: Alignment.CENTER,
           justifyContent: Alignment.CENTER,
           marginHorizontal: Value.CONSTANT_VALUE_30,
           marginVertical: Value.CONSTANT_VALUE_50,

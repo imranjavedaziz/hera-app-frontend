@@ -1,6 +1,5 @@
-import {StyleSheet} from 'react-native';
 import {Value} from '../../../constants/FixedValues';
-import {Fonts, Routes} from '../../../constants/Constants';
+import {Fonts,} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
 
@@ -110,11 +109,9 @@ export default {
     textDecorationLine:Alignment.UNDERLINE,
     fontFamily:Fonts.OpenSansBold,
     fontSize:Value.CONSTANT_VALUE_16
-    
   },
   Btn:{
     height:Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
-
   }
 };

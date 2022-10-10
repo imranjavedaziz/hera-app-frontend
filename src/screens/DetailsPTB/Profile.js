@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -11,6 +10,7 @@ import {
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
+import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -32,6 +32,7 @@ import Auth from '../../services/Auth';
 import Alignment from '../../constants/Alignment';
 import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
+// import { useIsFocused } from '@react-navigation/native';
 
 const validationType = {
   LEN: 'LEN',
@@ -73,9 +74,8 @@ const validatePassword = (value, type) => {
   }
   return null;
 };
-
-
-const Profile = ({navigation, route}) => {
+const Profile = ({route}) => {
+  const navigation = useNavigation();
   const authService = Auth();
   const [show, setShow] = useState(false);
   const [date, setDate] = useState();
@@ -85,16 +85,16 @@ const Profile = ({navigation, route}) => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
-
   const {
     handleSubmit,
     control,
     setValue,
-    formState: {errors, isValid},
+    reset,
+    formState: {errors,},
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
-
+  console.log('Props Data  Profile ==', route.params);
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
@@ -140,7 +140,16 @@ const Profile = ({navigation, route}) => {
     console.log(reqData, "reqData:::::::::::");
     authService.registerUser(reqData);
   };
-  useEffect(askCameraPermission, []);
+  useEffect( ()=> {
+    askCameraPermission
+    const unsubscribe = navigation.addListener("focus", ()=>{
+      console.log("FOCUS LISTNER")
+      // reset(data);
+
+    })
+    return unsubscribe
+  }, [navigation]);
+
   return (
     <>
     <Container
@@ -209,7 +218,6 @@ const Profile = ({navigation, route}) => {
                 label={Strings.profile.FirstName}
                 value={value}
                 onChangeText={v => onChange(v)}
-                fontWeight={Alignment.BOLD}
                 required={true}
                 error={errors && errors.first_name?.message}
               />
@@ -249,11 +257,12 @@ const Profile = ({navigation, route}) => {
               <FloatingLabelInput
                 label={Strings.profile.EmailAddress}
                 value={value}
-                onChangeText={v => onChange(v)}
+                onChangeText={v => onChange(v.toLowerCase())}
                 fontWeight={Alignment.BOLD}
                 required={true}
-                error={errors && errors.email?.message}
-              />
+                autoCapitalize='none'
+                spellCheck={false}
+                error={errors && errors.email?.message}              />
             )}
             name="email"
           />
@@ -371,7 +380,7 @@ const Profile = ({navigation, route}) => {
               {Strings.profile.tmc1}
               <Text style={styles.tmcLink}>
                 {Strings.profile.tmc2}
-              </Text>{"\n"}and
+              </Text>{"\n"}and{" "}
               <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
             </Text> 
             </View>

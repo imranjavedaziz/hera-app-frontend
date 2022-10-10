@@ -21,8 +21,7 @@ const PtbBasicDetails = ({route}) => {
   const {
     handleSubmit,
     control,
-    formState: {errors, isValid},
-    setValue,
+    formState: {errors,},
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
@@ -30,7 +29,6 @@ const PtbBasicDetails = ({route}) => {
     console.log(data);
     navigation.navigate(Routes.SetPreference,{...data,...route.params});
   }
-  
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -81,8 +79,7 @@ const PtbBasicDetails = ({route}) => {
               </View>
             )}
             name="gender"
-          />
-          
+          />        
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -123,8 +120,7 @@ const PtbBasicDetails = ({route}) => {
               />
             )}
             name="zip"
-          />
-          
+          />   
           <Controller
             control={control}
             render={({field: {onChange}}) => (

@@ -88,7 +88,6 @@ const PtbDashboard = () => {
       activeOpacity={1}
         onPress={() => {
           onPressImage();
-
         }}>
         <ImageComp
           locationText={item.locationText}
@@ -103,7 +102,6 @@ const PtbDashboard = () => {
       </TouchableOpacity>
     );
   }
-
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.person}
@@ -112,14 +110,14 @@ const PtbDashboard = () => {
       style={styles.headerIcon}
     />
   );
-
   return (
     <>
       <Container
         mainStyle={true}
         scroller={false}
         showHeader={true}
-        headerComp={headerComp}>
+        headerComp={headerComp}
+        >
         {empty === true ? (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
