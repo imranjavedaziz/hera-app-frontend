@@ -46,13 +46,11 @@ const Main = () => {
           component={SmDashboard}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={Routes.ProfileDetails}
           component={ProfileDetails}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={Routes.Landing}
           component={Landing}
@@ -118,7 +116,6 @@ const Main = () => {
           component={DashboardDetailScreen}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={Routes.SmSetting}
           component={SmDonorSettings}

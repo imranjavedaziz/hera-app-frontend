@@ -1,5 +1,5 @@
-import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React,{useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
@@ -13,6 +13,8 @@ import {setUser, signoutUser} from '../redux/actions/auth';
 import getRoute from '../utils/getRoute';
 
 const Auth = () => {
+  const [err,setErr] = useState(null);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const sendOtp = data => {
@@ -61,6 +63,11 @@ const Auth = () => {
           data,
         );
       })
+      .catch((e)=>{
+        setErr(e)
+        console.log("response Messeage",e.email)
+        dispatch(showAppToast(true, e.email?.join('\n')));
+      })
       .finally(() => {
         dispatch(hideAppLoader());
       });
@@ -73,6 +80,7 @@ const Auth = () => {
         const dataRes = response.data.data;
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(setUser(dataRes));
+
         navigation.navigate(
           getRoute(
             dataRes.access_token,
@@ -102,6 +110,7 @@ const Auth = () => {
     registerUser,
     login,
     logout,
+    err
   };
 };
 export default Auth;

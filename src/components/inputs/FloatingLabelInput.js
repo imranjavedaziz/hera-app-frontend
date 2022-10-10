@@ -1,10 +1,6 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
-import Colors from '../../constants/Colors';
-import {Prencentage, Value} from '../../constants/FixedValues';
-import Alignment from '../../constants/Alignment';
-import {Fonts} from '../../constants/Constants';
 import styles from './styles';
 
 const FloatingLabelInput = props => {

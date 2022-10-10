@@ -28,10 +28,6 @@ export const ValidationMessages = {
   SELECT_HEIGHT: 'Please select your height',
   SELECT_AGE: 'Please select your age',
   SELECT_ETHNICITY: 'Please select your ethnicity preference',
-  MOBILE_REQUIRED: 'Mobile number is a required field!',
-  PASSWORD_REQUIRED: 'Password is a required field!',
-  COMMON_REQUIRED: 'This is a required field!',
-  INVALID_MOBILE: 'Mobile number is not valid!',
   // PASSWORD_MIN: 'Must have minimum 8 characters',
   PASSWORD_MIN: 'Minimum 8 characters',
   // SPECIAL_CHAR: 'Must have atleast 1 special character',
@@ -39,7 +35,6 @@ export const ValidationMessages = {
   ALPHA_NUM: 'Must be Alphanumeric',
   INVALID_OTP: 'OTP is not valid',
   LOCATION: 'Please select your Location preference',
-  RACE: 'Please select your race preference',
   MAX_FIRST_NAME: 'First name must be at most 30 characters',
   MAX_MIDDLE_NAME: 'Middle name must be at most 30 characters',
   MAX_LAST_NAME: 'Last name must be at most 30 characters',
@@ -56,6 +51,7 @@ export const ValidationMessages = {
   SELECT_WEIGHT: 'Please enter Weight',
   CAPSLOCK: 'Atleast 1 upper case letter',
   OTP_REQUIRED: 'Required!',
+  USER_TYPE: 'Please select a user type',
 };
 export default {
   landing: {

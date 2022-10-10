@@ -14,8 +14,8 @@ export default {
     alignItems: Alignment.CENTER,
   },
   bgImage: {
-    height: 415,
-    width: 260,
+    height: Value.CONSTANT_VALUE_420,
+    width: Value.CONSTANT_VALUE_260,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },

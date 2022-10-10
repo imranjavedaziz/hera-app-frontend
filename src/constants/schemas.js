@@ -14,7 +14,6 @@ export const Regx = {
   EMAIL:
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 };
-
 export const mobileSchema = yup.object().shape({
   phone: yup
     .string()
@@ -45,6 +44,7 @@ export const loginSchema = yup.object().shape({
   password: yup.string().required(ValidationMessages.PASSWORD_REQUIRED),
 });
 export const parentRegisterSchema = yup.object().shape({
+  
   first_name: yup.string().required(ValidationMessages.FIRST_NAME).max(30,ValidationMessages.MAX_FIRST_NAME),
   middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
   last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
@@ -87,7 +87,7 @@ export const parentRegisterSchema = yup.object().shape({
     .oneOf([yup.ref('set_password')], 'Your passwords do not match.'),
 });
 export const smRegisterSchema = yup.object().shape({
-  role: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  role: yup.string().required(ValidationMessages.USER_TYPE),
   first_name: yup.string().required(ValidationMessages.FIRST_NAME).max(30,ValidationMessages.MAX_FIRST_NAME),
   middle_name: yup.string().max(30,ValidationMessages.MAX_MIDDLE_NAME),
   last_name: yup.string().required(ValidationMessages.LAST_NAME).max(30,ValidationMessages.MAX_LAST_NAME),
@@ -97,7 +97,10 @@ export const smRegisterSchema = yup.object().shape({
     .test('DOB', 'Invalid Date', value => {
       return moment().diff(moment(value), 'years') >= 18;
     }),
-  email: yup.string().required(ValidationMessages.EMPTY_EMAIL),
+  email: yup.string().required(ValidationMessages.EMPTY_EMAIL).matches(Regx.EMAIL, {
+    excludeEmptyString: true,
+    message: ValidationMessages.INVALID_EMAIL,
+  }),
   password: yup
     .string()
     .required(ValidationMessages.PASSWORD)

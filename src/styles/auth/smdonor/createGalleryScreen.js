@@ -23,6 +23,8 @@ export default {
     flexWrap: 'wrap',
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
+    // alignItems: Alignment.CENTER,
+    // justifyContent: Alignment.CENTER
   },
   galleryImgView: {
     width: width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2,
@@ -36,6 +38,9 @@ export default {
     tintColor: Colors.BLACK,
     maxWidth: Value.CONSTANT_VALUE_25,
     resizeMode: 'contain',
+    // alignItems: Alignment.CENTER,
+    // justifyContent: Alignment.CENTER,
+    // alignSlef:'center'
   },
   videoContainer: {
     width: width,

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
+import { useSelector } from "react-redux";
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
@@ -20,11 +21,15 @@ import Auth from '../../../services/Auth';
 import { Value } from '../../../constants/FixedValues';
 import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../../redux/actions/loader';
+import SetterData from '../../../services/SetterData';
 
 const SmBasicDetails = ({route}) => {
+  const state = useSelector(state=>state.auth);
+  console.log(state)
   console.log('Props Data Basic ==',route.params);
   const userService = User();
   const authService = Auth();
+  const data = SetterData();
   const [isOpen, setOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -44,9 +49,10 @@ const SmBasicDetails = ({route}) => {
       icon={Images.iconSettings}
       onPress={()=>{setOpen(true)}}
     />
-
   );
   React.useEffect(() => {
+    data.state()
+    data.sexsualOrientation()
     if (!isValid) {
       const e = errors;
       if (e.gender_id) {
@@ -105,7 +111,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange, value}}) => (
               <Dropdown
                 label={Strings.sm_basic.State}
-                data={Static.state}
+                data={data.myState}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -129,14 +135,13 @@ const SmBasicDetails = ({route}) => {
               />
             )}
             name="zipcode"
-          />
-          
+          />     
           <Controller
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.SexualOrientation}
-                data={Static.sexualOrient}
+                data={data.sexsualOrient}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -151,7 +156,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.RelationshipStatus}
-                data={Static.relationship_status}
+                data={data.relationship}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}

@@ -1,14 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import {StyleSheet,} from 'react-native';
+import React from 'react';
 import {Slider} from '@miblanchard/react-native-slider';
 import { Value } from '../constants/FixedValues';
-
 import Colors from '../constants/Colors';
 
 const RangeSlider = ({value, setValue, onValueChange}) => {
-  const slide = ({}) => {
-    console.log(value);
-  };
   return (
     <Slider
       maximumTrackTintColor={Colors.INPUT_BORDER}
@@ -23,7 +19,6 @@ const RangeSlider = ({value, setValue, onValueChange}) => {
         onValueChange(value);
         setValue(value);
       }}
-      onSlidingComplete={slide}
     />
   );
 };

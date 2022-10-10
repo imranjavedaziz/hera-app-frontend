@@ -1,10 +1,8 @@
-import {StyleSheet} from 'react-native';
 import {Value} from '../../constants/FixedValues';
-import {Fonts, Routes} from '../../constants/Constants';
+import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
 
-// export const styles = StyleSheet.create({
 export default {
   imgContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -44,11 +42,9 @@ export default {
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_52,
     backgroundColor: 'rgba(0,0,0,0.3)',
-    
   },
   tmc: {
     flexDirection: Alignment.ROW,
-   
   },
   tmcLink: {
     fontWeight: Alignment.BOLD,
@@ -68,13 +64,6 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_23,
     paddingVertical: Value.CONSTANT_VALUE_20,
     alignItems: Alignment.CENTER,
-  },
-  smRegister: {
-    fontWeight: Alignment.BOLD,
-    alignSelf: Alignment.CENTER,
-    textDecorationLine: Alignment.UNDERLINE,
-    fontSize: Value.CONSTANT_VALUE_15,
-    marginTop: Value.CONSTANT_VALUE_25,
   },
   modalHeader: {
     lineHeight: Value.CONSTANT_VALUE_21,

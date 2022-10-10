@@ -24,14 +24,14 @@ import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {smRoles,Routes} from '../../../constants/Constants';
+import {smRoles, Routes} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {showAppToast} from '../../../redux/actions/loader';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import Auth from '../../../services/Auth';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 
 const validationType = {
   LEN: 'LEN',
@@ -51,9 +51,7 @@ const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
-  { type: validationType.CAPSLOCK,
-    msg: ValidationMessages.CAPSLOCK
-   },
+  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 const validatePassword = (value, type) => {
   if (value) {
@@ -61,13 +59,15 @@ const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8 ? Colors.BLACK : 'red';
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) && Regx.ALPHA_CAP.test(value) && Regx.NUM.test(value)
+        return Regx.ALPHA_LOWER.test(value) &&
+          Regx.ALPHA_CAP.test(value) &&
+          Regx.NUM.test(value)
           ? Colors.BLACK
           : 'red';
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value) ? Colors.BLACK : 'red';
       case validationType.CAPSLOCK:
-        return Regx.ALPHA_CAP.test(value)? Colors.BLACK : 'red';
+        return Regx.ALPHA_CAP.test(value) ? Colors.BLACK : 'red';
       default:
         return Colors.BORDER_LINE;
     }
@@ -75,8 +75,7 @@ const validatePassword = (value, type) => {
   return Colors.BORDER_LINE;
 };
 const SmRegister = ({route}) => {
-
-  console.log('Props Data ==',route.params);
+  console.log('Props Data  Donor ==', route.params);
 
   const authService = Auth();
   const dispatch = useDispatch();
@@ -85,7 +84,7 @@ const SmRegister = ({route}) => {
   const [isOpen, setOpen] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
   const [userImage, setUserImage] = useState('');
-  const [file,setFile] = useState(null);
+  const [file, setFile] = useState(null);
   const [check, setCheck] = useState(true);
   const {
     handleSubmit,
@@ -100,10 +99,17 @@ const SmRegister = ({route}) => {
     setUserImage(image.path);
     setFile(image);
   };
-  useEffect(askCameraPermission, []);
+  useEffect(() => {
+    askCameraPermission;
+    if (!isValid) {
+      const e = errors.role;
+
+      if (e) dispatch(showAppToast(true, e.message));
+    }
+  }, [errors, isValid]);
   const onSubmit = data => {
     console.log(data);
-    console.log('FILE', file)
+    console.log('FILE', file);
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
@@ -112,33 +118,32 @@ const SmRegister = ({route}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    
-    const reqData = new FormData;
-    reqData.append('role_id',data.role);
-    reqData.append('first_name',data.first_name);
-    reqData.append('middle_name',data.middle_name);
-    reqData.append('last_name',data.last_name);
-    reqData.append('dob',moment(date).format('DD-MM-YYYY'));
-    reqData.append('email',data.email);
-    reqData.append('password',data.password);
-    reqData.append('country_code',route.params.country_code);
-    reqData.append('phone_no',route.params.phone_no);
-    reqData.append('file',{
+    const reqData = new FormData();
+    reqData.append('role_id', data.role);
+    reqData.append('first_name', data.first_name);
+    reqData.append('middle_name', data.middle_name);
+    reqData.append('last_name', data.last_name);
+    reqData.append('dob', moment(date).format('DD-MM-YYYY'));
+    reqData.append('email', data.email);
+    reqData.append('password', data.password);
+    reqData.append('country_code', route.params.country_code);
+    reqData.append('phone_no', route.params.phone_no);
+    reqData.append('file', {
       name: 'name',
       type: file.mime,
       uri: file.path,
     });
-    console.log("reqData---->",reqData);
+    console.log('reqData---->', reqData);
     authService.registerUser(reqData);
   };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={navigation.goBack}
+      onPress={() => navigation.navigate(Routes.Profile)}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
-  
+
   return (
     <>
       <Container
@@ -176,29 +181,27 @@ const SmRegister = ({route}) => {
           />
           <View style={styles.imgContainer}>
             <TouchableOpacity onPress={() => setOpen(true)}>
-            <ImageBackground
-              source={userImage ? {uri: userImage} : null}
-              style={styles.imgView}
-              imageStyle={styles.img}>
-              <TouchableOpacity
-                style={[
-                  styles.camBtn,
-                  userImage ? styles.camSelectedBtn : null,
-                ]}
-                onPress={() => setOpen(true)}>
-                <Image source={Images.camera} style={styles.camImg} />
-              </TouchableOpacity>
-            </ImageBackground>
+              <ImageBackground
+                source={userImage ? {uri: userImage} : null}
+                style={styles.imgView}
+                imageStyle={styles.img}>
+                <TouchableOpacity
+                  style={[
+                    styles.camBtn,
+                    userImage ? styles.camSelectedBtn : null,
+                  ]}
+                  onPress={() => setOpen(true)}>
+                  <Image source={Images.camera} style={styles.camImg} />
+                </TouchableOpacity>
+              </ImageBackground>
             </TouchableOpacity>
-            <View style={{marginVertical:Value.CONSTANT_VALUE_10}}>
-          <Text style={styles.ImageText}>
-          {Strings.sm_register.uploadImage}
-          <Text style={{color: Colors.RED}}>*</Text>
-        </Text>
-        </View>
+            <View style={{marginVertical: Value.CONSTANT_VALUE_10}}>
+              <Text style={styles.ImageText}>
+                {Strings.sm_register.uploadImage}
+                <Text style={{color: Colors.RED}}>*</Text>
+              </Text>
+            </View>
           </View>
-
-    
 
           <Controller
             control={control}
@@ -264,9 +267,10 @@ const SmRegister = ({route}) => {
               <FloatingLabelInput
                 label={Strings.sm_register.email}
                 value={value}
-                onChangeText={v => onChange(v)}
+                onChangeText={v => onChange(v.toLowerCase())}
                 error={errors && errors.email?.message}
                 required={true}
+                spellCheck={false}
               />
             )}
             name="email"
@@ -362,7 +366,7 @@ const SmRegister = ({route}) => {
           />
           <Pressable
             onPress={() => {
-              navigation.navigate(Routes.Profile,route.params);
+              navigation.navigate(Routes.Profile, route.params);
             }}>
             <Text style={styles.parentBtn}>Register as Parent To Be</Text>
           </Pressable>

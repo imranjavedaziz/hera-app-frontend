@@ -14,7 +14,7 @@ import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
 import Auth from '../../services/Auth';
-import {Fonts} from '../../constants/Constants';
+import { Fonts } from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -23,7 +23,7 @@ const MobileNumber = () => {
   const {
     handleSubmit,
     control,
-    formState: {errors, isValid},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(mobileSchema),
   });
@@ -35,25 +35,6 @@ const MobileNumber = () => {
     });
   };
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setKeyboardVisible(true);
-      },
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardVisible(false);
-      },
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -113,6 +94,7 @@ const MobileNumber = () => {
                 error={errors && errors.phone?.message}
                 containerStyle={{
                   flex: 1,
+                  
                 }}
                 fixed={true}
               />

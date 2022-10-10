@@ -1,53 +1,61 @@
 // CreateGallery
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   Text,
   View,
   ImageBackground,
   Image,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { useSelector } from 'react-redux';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import openCamera from '../../../utils/openCamera';
-import {Routes} from '../../../constants/Constants';
+import {Fonts, Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
 import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import User from '../../../services/User';
-import Auth from '../../../services/Auth';
 
 const CreateGallery = ({route}) => {
   const userService = User();
-  const authService = Auth();
   const navigation = useNavigation();
   const [gallery, setGallery] = useState([
-    {uri: '', loading: false},
-    {uri: '', loading: false},
-    {uri: '', loading: false},
-    {uri: '', loading: false},
-    {uri: '', loading: false},
-    {uri: '', loading: false},
+    {id:0, uri: '', loading: false},
+    {id:1, uri: '', loading: false},
+    {id:2, uri: '', loading: false},
+    {id:3, uri: '', loading: false},
+    {id:4, uri: '', loading: false},
+    {id:5, uri: '', loading: false},
   ]);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
-  const profileImg = useSelector(state => state.auth.user.profile_pic);
-  console.log(profileImg)
+  const [isDel, setDel] = useState(false);
+  // const [clearImage, setClearImage] = useState(false);
+
+  const [remove, setRemove] = useState([
+    {id:0,isSelected: false},
+    {id:1,isSelected: false},
+    {id:2,isSelected: false},
+    {id:3,isSelected: false},
+    {id:4,isSelected: false},
+    {id:5,isSelected: false},
+  ]);
+  let DelCount;
+  console.log('MAIN GALLERY', gallery);
 
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i === gIndex) {
-          return {uri: image.path, loading: true};
+          return {id:i,uri: image.path, loading: true};
         }
         return img;
       });
@@ -72,25 +80,107 @@ const CreateGallery = ({route}) => {
     userService.createGallery(reqData, setLoading);
   };
   const selectVideo = () => {
-    setOpen(true);
     videoPicker().then(v => {
-      setVideo({uri: v.path,loading: true});
+      setVideo({uri: v.path, loading: true});
       const reqData = new FormData();
       reqData.append('image', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData, (loading)=>setVideo(old=>({...old,loading})));
+      userService.createGallery(reqData, loading =>
+        setVideo(old => ({...old, loading})),
+      );
     });
   };
-  const headerComp = () => (
-    <>
-    </>
-    // <TouchableOpacity onPress={authService.logout}>
-    //   <Text style={globalStyle.underlineText}>Later</Text>
-    // </TouchableOpacity>
-  );
+  const ImageClick = index => {
+    if (gIndex === index) {
+      return setOpen(true);
+    }
+    return;
+  };
+
+  const handelDel = index => {
+    setDel(true);
+    const temp = [];
+    DelCount = 0;
+    remove.map((item, idx) => {
+      if (index === idx) {
+        if (item.isSelected === true) {
+          temp.push({id:idx ,isSelected: false});
+        } else {
+          temp.push({id:idx,isSelected: true});
+          DelCount++;
+        }
+      } else {
+        if (item.isSelected === true) {
+          temp.push({id:idx,isSelected: true});
+          DelCount++;
+        } else {
+          temp.push({id:idx,isSelected: false});
+        }
+      }
+    });
+    setRemove(temp);
+    console.log("TEMP",temp);
+  
+    // const check=id?.findIndex(item => item===index)
+    // if(check!==-1){
+    //   // id.pop(index);
+    //   id.splice(index,1);
+    //   setid([...id])
+    // }
+    // else{
+    //   id.push(index);
+    // }
+  };
+  const deleteImg = () => {
+    let index = [];
+     remove.map((item, ind) => {
+      if (item.isSelected === true) {
+        index.push(ind);
+      }
+    });
+    let pointer = 0;
+   const filterItem =  gallery.map((oldImg,i) => {
+    console.log("OLD IMG",oldImg)
+
+    if (i === index[pointer]) {
+            pointer++
+            return {id:i,uri:'',loading:false}
+          }
+          else{
+            return {id:i,uri:oldImg.uri,loading:false}
+          }
+    });
+
+    setGIndex( gIndex-(index.length))
+    
+    function sortImg(a,b){
+        if(a.uri == '') return 1
+        if(a.uri != '') return -1
+    }
+     filterItem.sort(sortImg);
+  
+    console.log("FILTER", filterItem)
+    setGallery(filterItem);
+    setRemove(item =>
+      {
+      return item.map((i)=>{
+        return {isSelected:false}
+      })
+    })
+    console.log("is selected", remove);
+    setDel(false);
+    // setClearImage(!clearImage);
+    
+  };
+  useEffect(()=>{
+   console.log("USE EFFECT")
+  },[gallery])
+  const headerComp =()=>{
+    <></>
+  }
   return (
     <>
       <Container
@@ -101,8 +191,6 @@ const CreateGallery = ({route}) => {
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
             <Image
-              // source={{uri: route.params.userImage}}
-              source={{uri:{profileImg}}}
               style={styles.profileImg}
             />
           </View>
@@ -139,22 +227,38 @@ const CreateGallery = ({route}) => {
           </View>
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
-              <ImageBackground
-                key={index}
-                style={styles.galleryImgView}
-                imageStyle={{
-                  resizeMode: 'cover',
-                }}
-                source={img.uri ? {uri: img.uri} : null}>
-                {gIndex === index && (
-                  <TouchableOpacity onPress={() => setOpen(true)}>
-                    <Image source={Images.camera} style={styles.camIcon} />
-                  </TouchableOpacity>
-                )}
-                {
-                  img.loading && <ActivityIndicator/>
-                }
-              </ImageBackground>
+              <TouchableOpacity
+                onPress={() => ImageClick(index)}
+                activeOpacity={gIndex === index ? 0.1 : 1}>
+                <ImageBackground
+                  key={img.id}
+                  style={styles.galleryImgView}
+                  imageStyle={{
+                    resizeMode: 'cover',
+                  }}
+                  source= {img.uri ? {uri: img.uri} : null}>
+                  {gallery[index].uri ? (
+                    <TouchableOpacity
+                      onPress={() => handelDel(index)}
+                      style={{}}>
+                      <Image
+                        source={
+                          remove[index].isSelected
+                            ? Images.iconRadiosel
+                            : Images.iconRadiounsel
+                        }
+                        style={{}}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
+                  {gIndex === index && (
+                    <TouchableOpacity onPress={() => setOpen(true)} style={{}}>
+                      <Image source={Images.camera} style={styles.camIcon} />
+                    </TouchableOpacity>
+                  )}
+                  {img.loading && <ActivityIndicator />}
+                </ImageBackground>
+              </TouchableOpacity>
             ))}
           </View>
           <TouchableOpacity onPress={selectVideo}>
@@ -170,18 +274,50 @@ const CreateGallery = ({route}) => {
                   <Text style={styles.videoPara}>Add a short 60 sec video</Text>
                   <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
                 </>
+              ) : video.loading ? (
+                <ActivityIndicator />
               ) : (
-                video.loading ? <ActivityIndicator/>:<Image source={Images.playButton} />
+                <Image source={Images.playButton} />
               )}
             </ImageBackground>
           </TouchableOpacity>
-          <Button
-           style={styles.btn}
-            label={Strings.sm_create_gallery.Btn}
-            onPress={() => navigation.navigate(Routes.SmDashboard)}
-          />
+          {isDel ? (
+            <View style={{height: 124, width: 413}}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginVertical: 22,
+                }}>
+                <Text style={{fontFamily: Fonts.OpenSansItalic, color: 'grey'}}>
+                  {DelCount} Photo Selected
+                </Text>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', paddingVertical: 21}}
+                  onPress={() => deleteImg()}>
+                  <Image source={Images.trashRed} style={{}} />
+                  <Text
+                    style={{
+                      fontFamily: Fonts.OpenSansBold,
+                      textDecorationLine: 'underline',
+                      letterSpacing: 3.6,
+                      marginLeft: 15,
+                    }}>
+                    Remove From Gallery
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <Button
+              style={styles.btn}
+              label={Strings.sm_create_gallery.Btn}
+              onPress={() => navigation.navigate(Routes.SmDashboard)}
+            />
+          )}
         </View>
       </Container>
+
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity

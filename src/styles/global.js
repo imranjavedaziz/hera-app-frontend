@@ -1,8 +1,13 @@
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
-import {normalizeFont, dynamicSize, scaleWidth,scaleHeight} from '../utils/responsive';
-import { Fonts } from '../constants/Constants';
+import {
+  normalizeFont,
+  dynamicSize,
+  scaleWidth,
+  scaleHeight,
+} from '../utils/responsive';
+import {Fonts} from '../constants/Constants';
 
 export default {
   screenTitle: {
@@ -11,7 +16,7 @@ export default {
     fontWeight: '600',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_22,
@@ -33,7 +38,10 @@ export default {
   },
   modalColor: {backgroundColor: Colors.LIGHT_BLACK47},
   lineStyle: {width: scaleWidth(20), backgroundColor: Colors.LIGHT_BLACK47},
-  safeViewStyle: {flex: dynamicSize(Value.CONSTANT_VALUE_1), backgroundColor: Colors.BACKGROUND},
+  safeViewStyle: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    backgroundColor: Colors.BACKGROUND,
+  },
   wrapperStyle: {
     borderTopLeftRadius: dynamicSize(Value.CONSTANT_VALUE_0),
     borderTopRightRadius: dynamicSize(Value.CONSTANT_VALUE_0),
@@ -76,54 +84,6 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.RED,
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_5),
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),},
-  modalColor: {backgroundColor: '#494947'},
-  safeViewStyle: {flex: 1, backgroundColor: Colors.BACKGROUND},
-  wrapperStyle: {
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-  basicSheetContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
-    height:274,
-
-  },
-  formBtn: {
-    paddingVertical: 22,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.BORDER_LINE,
-    width:300, 
-    
-  },
-  formText: {
-    fontSize: 16,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
-    marginBottom:10
-  },
-  heraBtn: {
-    paddingVertical: 22,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.BORDER_LINE,
-    width:300, 
-  },
-  heraText: {
-    fontSize: 16,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
-    marginBottom:5,
-    paddingTop:5
-  },
-  logoutBtn: {
-    paddingVertical: 22,
-    borderBottomColor: Colors.BORDER_LINE,
-  },
-  logoutText: {
-    fontSize: 16,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
-    marginBottom:5,
-    paddingTop:5
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
 };

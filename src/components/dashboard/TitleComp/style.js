@@ -3,7 +3,6 @@ import Colors from '../../../constants/Colors';
 import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
 import {normalizeFont, dynamicSize} from '../../../utils/responsive';
-
 export default {
   mainContainer: {
     height: 118,
