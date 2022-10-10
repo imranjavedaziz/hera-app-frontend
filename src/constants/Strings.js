@@ -13,13 +13,13 @@ export const ValidationMessages = {
   CONFIRM_PASSWORD: 'Please enter Confirm Password',
   ADD_PROFILE_PHOTO: 'Please add Profile Photo',
   DOB: 'Please enter your Date of Birth',
-  ENTER_DOB:'Please enter your DOB',
-  ENTER_GENDER:'Please select your Gender',
-  ENTER_SEXUAL_ORIENTATION:'Please select your Sexual Orientation',
-  ENTER_RELATIONSHIP:'Please select your Relationship Status',
-  ENTER_STATE:'Please select your State',
-  ENTER_ZIP:'Please enter your Zip Code',
-  ENTER_BIO:'Please enter your Bio',
+  ENTER_DOB: 'Please enter your DOB',
+  ENTER_GENDER: 'Please select your Gender',
+  ENTER_SEXUAL_ORIENTATION: 'Please select your Sexual Orientation',
+  ENTER_RELATIONSHIP: 'Please select your Relationship Status',
+  ENTER_STATE: 'Please select your State',
+  ENTER_ZIP: 'Please enter your Zip Code',
+  ENTER_BIO: 'Please enter your Bio',
   UNMATCHED_PASS: 'Password Does not matched',
   RACE: 'Please select your race preference',
   SELECT_LOOKING: 'Please select whom you are looking for',
@@ -43,28 +43,23 @@ export const ValidationMessages = {
   MAX_FIRST_NAME: 'First name must be at most 30 characters',
   MAX_MIDDLE_NAME: 'Middle name must be at most 30 characters',
   MAX_LAST_NAME: 'Last name must be at most 30 characters',
-  Education:'Please select your Education preference',
-  MAX_ZIP:'Zip code can be of 5 digits only',
-  MIN_ZIP:'Zip code should be of 5 digits',
-  SELECT_RACE:'Please enter Race',
-  SELECT_MOT_ETHNICITY:"Please enter Mother's Ethnicity",
+  Education: 'Please select your Education preference',
+  MAX_ZIP: 'Zip code can be of 5 digits only',
+  MIN_ZIP: 'Zip code should be of 5 digits',
+  SELECT_RACE: 'Please enter Race',
+  SELECT_MOT_ETHNICITY: "Please enter Mother's Ethnicity",
   SELECT_FAT_ETHNICITY: "Please provide Father's Ethnicity",
-  SELECT_HEIGHT:'Please enter Height',
-  SELECT_EDUCATION:"Please select your maximum Education Qualification",
-  SELECT_HAIR:'Please enter Hair color',
-  SELECT_EYE:'Please enter Eye color',
-  SELECT_WEIGHT:'Please enter Weight',
-  CAPSLOCK:'Atleast 1 upper case letter',
-  OTP_REQUIRED:'Required!'
-  
-
-
-
-
+  SELECT_HEIGHT: 'Please enter Height',
+  SELECT_EDUCATION: 'Please select your maximum Education Qualification',
+  SELECT_HAIR: 'Please enter Hair color',
+  SELECT_EYE: 'Please enter Eye color',
+  SELECT_WEIGHT: 'Please enter Weight',
+  CAPSLOCK: 'Atleast 1 upper case letter',
+  OTP_REQUIRED: 'Required!',
 };
 export default {
   landing: {
-    LOG_IN: ' LOG IN  ' ,
+    LOG_IN: ' LOG IN  ',
     REGISTER: 'REGISTER',
     Like_Match_Connect: 'Like, Match & Connect!',
     AboutUs: 'About Us',
@@ -125,8 +120,7 @@ export default {
     About: 'About HERA',
     Logout: 'Log Out',
     yrs: 'yrs',
-    Education:'Education'
-
+    Education: 'Education',
   },
   otp: {
     title: 'Verify your mobile',
@@ -137,7 +131,7 @@ export default {
     SendAgain: 'Send Again',
   },
   sm_register: {
-    uploadImage:'Upload Display Picture',
+    uploadImage: 'Upload Display Picture',
     FirstName: 'First Name',
     MiddleName: 'Middle Name (Optional)',
     LastName: 'Last Name',
@@ -163,7 +157,6 @@ export default {
     RelationshipStatus: 'Relationship Status',
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
-
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -183,20 +176,7 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
-    Btn: 'Go to dashboard'
-  },
-  bottomSheet:{
-    Inquiry_Form:'Inquiry Form',
-    About_HERA:'About HERA',
-    Log_Out:'Log Out',
-  },
-  dashboard:{
-    Title:'Like, Match & Connect!',
-    Subtitle:'Your match might just\n be a click away!',
-    locationText:'U S A',
-    code:'#SD5882',
-    donerAge:'Sperm Doner, 27 yrs',
-
+    Btn: 'Go to dashboard',
   },
   bottomSheet: {
     Inquiry_Form: 'Inquiry Form',
@@ -247,31 +227,31 @@ export default {
     Occupation: 'Occupation: ',
     ocupationDetail: 'Data Analyst',
     donerDescription: `I give priority to health and play a wide range of sports. I have a good exposure to different cultures of the world. I value the donation programmes & every parent who needs support.`,
-    nativePlace:'Native American',
-    fatherPlace:'Father is Native American',
-    motherPlace:'Mother is Native American',
-    hairColor:'Black Hair Color',
-    eyeColor:'Amber Eye Color',
-    shortClip:'Donor has uploaded a short clip',
-    place:'Kentucky',
-    code:'#SD5882',
-    donerType:'Sperm Donor',
-    like_this_profile:' LIKE THIS PROFILE',
-    Not_interested:'NOT INTERESTED'
+    nativePlace: 'Native American',
+    fatherPlace: 'Father is Native American',
+    motherPlace: 'Mother is Native American',
+    hairColor: 'Black Hair Color',
+    eyeColor: 'Amber Eye Color',
+    shortClip: 'Donor has uploaded a short clip',
+    place: 'Kentucky',
+    code: '#SD5882',
+    donerType: 'Sperm Donor',
+    like_this_profile: ' LIKE THIS PROFILE',
+    Not_interested: 'NOT INTERESTED',
   },
   search_Bar: {
     search: 'Search',
   },
-  smSetting:{
+  smSetting: {
     profile: 'Profile',
-    ProfileName:'Erica Smith',
-    EditAttribute:'Edit Attributes',
-    Gallery:'Create a Gallery',
-    EditProfile:'Edit Profile',
-    Settings:'Settings',
-    Inquiry:'Inquiry Form',
-    AboutUs:'About Us',
-    Btn:'LOG OUT',
-    AppVersion:'App Version 0.5'
-  }
+    ProfileName: 'Erica Smith',
+    EditAttribute: 'Edit Attributes',
+    Gallery: 'Create a Gallery',
+    EditProfile: 'Edit Profile',
+    Settings: 'Settings',
+    Inquiry: 'Inquiry Form',
+    AboutUs: 'About Us',
+    Btn: 'LOG OUT',
+    AppVersion: 'App Version 0.5',
+  },
 };

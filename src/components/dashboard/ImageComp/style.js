@@ -1,15 +1,14 @@
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {Fonts} from '../../../constants/Constants';
-import {
-  normalizeFont,
-  scaleHeight,
-  scaleWidth,
-  dynamicSize,
-} from '../../../utils/responsive';
+import {normalizeFont, dynamicSize} from '../../../utils/responsive';
 
 export default {
+  upperContainer: {
+    alignItems: Alignment.CENTER,
+    bottom: 20,
+    right: 15,
+  },
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -28,6 +27,9 @@ export default {
   iconImage: {
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_50),
     justifyContent: Alignment.CENTER,
+  },
+  imageStyle: {
+    borderRadius: 20,
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -53,10 +55,9 @@ export default {
     alignItems: Alignment.CENTER,
   },
   linearGradient: {
-    flex:1,
-
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
     width: 260,
-    borderRadius:20,
+    borderRadius: 20,
     justifyContent: Alignment.CENTER,
   },
 };

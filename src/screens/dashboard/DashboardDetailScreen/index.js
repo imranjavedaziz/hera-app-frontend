@@ -97,42 +97,24 @@ const DashboardDetailScreen = () => {
           </View>
           <View style={styles.imageMainContainer}>
             <TouchableOpacity>
-              <Image
-                source={Images.DASHBOARD_IMG}
-                style={styles.imageBox}
-              />
+              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Image
-                source={Images.DASHBOARD_IMG}
-                style={styles.imageBox}
-              />
+              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Image
-                source={Images.DASHBOARD_IMG}
-                style={styles.imageBox}
-              />
+              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
             </TouchableOpacity>
           </View>
           <View style={styles.imageInnerContainer}>
             <TouchableOpacity>
-              <Image
-                source={Images.DASHBOARD_IMG}
-                style={styles.imageBox}
-              />
+              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Image
-                source={Images.DASHBOARD_IMG}
-                style={styles.imageBox}
-              />
+              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Image
-                source={Images.DASHBOARD_IMG}
-                style={styles.imageBox}
-              />
+              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
             </TouchableOpacity>
           </View>
           <Text style={styles.middleText}>{Strings.donorPofile.shortClip}</Text>
@@ -141,10 +123,9 @@ const DashboardDetailScreen = () => {
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               style={styles.btn}
-              accessibilityRole={"button"}
+              accessibilityRole={'button'}
               accessible={true}>
-              <View
-                style={styles.heartIcon}>
+              <View style={styles.heartIcon}>
                 <Image source={Images.HEARTH_ICON} />
                 <Text
                   style={styles.textbtn1}
@@ -159,10 +140,9 @@ const DashboardDetailScreen = () => {
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               style={styles.btn2}
-              accessibilityRole={"button"}
+              accessibilityRole={'button'}
               accessible={true}>
-              <View
-                style={styles.crossIcon}>
+              <View style={styles.crossIcon}>
                 <Image source={Images.RED_CROSS_ICON} />
                 <Text
                   style={styles.textbtn1}

@@ -2,12 +2,7 @@ import Alignment from '../../../constants/Alignment';
 import Colors from '../../../constants/Colors';
 import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
-import {
-  normalizeFont,
-  scaleHeight,
-  scaleWidth,
-  dynamicSize,
-} from '../../../utils/responsive';
+import {normalizeFont, dynamicSize} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -21,18 +16,19 @@ export default {
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
-    fontSize:Value.CONSTANT_VALUE_11,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_11),
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_21,
     lineHeight: Value.CONSTANT_VALUE_30,
     fontWeight: '700',
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
+    marginVertical: Value.CONSTANT_VALUE_10,
   },
   Icon: {
-    left:dynamicSize(Value.CONSTANT_VALUE_263),
-    bottom:dynamicSize(Value.CONSTANT_VALUE_25),
+    left: dynamicSize(Value.CONSTANT_VALUE_263),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_25),
   },
 };

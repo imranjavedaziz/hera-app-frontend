@@ -37,17 +37,18 @@ const ImageComp = (
   props,
 ) => {
   return (
-    <View style={{alignItems: 'center', bottom: 20, right: 15}}>
+    <View style={styles.upperContainer}>
       <View style={styles.mainContainer}>
         <ImageBackground
           source={image}
           style={styles.bgImage}
-          imageStyle={{borderRadius: 20}}
+          imageStyle={styles.imageStyle}
           resizeMode="cover">
           <LinearGradient
             colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
             style={styles.linearGradient}
-            start={{x: 0.0, y: 0.28}} end={{x: 0.011, y: 1.15}}>
+            start={{x: 0.0, y: 0.28}}
+            end={{x: 0.011, y: 1.15}}>
             <View style={styles.iconContainer}>
               {isVisibleLogo === true ? (
                 <FadeInView>

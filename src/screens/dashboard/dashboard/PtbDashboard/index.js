@@ -7,7 +7,6 @@ import {
   Text,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
-
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import {photoCards} from './cardList';
@@ -31,18 +30,17 @@ const PtbDashboard = () => {
   const navigation = useNavigation();
   const authService = Auth();
   const handleOnSwipedLeft = () => {
-      setCount(count + 1);
+    setCount(count + 1);
     setCardIndex(1);
-    {
-      if (count >= 4) {
-        setEmpty(true);
-      } else {
-        setEmpty(false);
-        setTimeout(() => {
-          useSwiper.current.swipeLeft();
-        }, 1000);
-      }
+    if (count >= 4) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+      setTimeout(() => {
+        useSwiper.current.swipeLeft();
+      }, 1000);
     }
+
     setTimeout(() => {
       setCardIndex(0);
       setIsVisibleLogo(false);
@@ -50,17 +48,15 @@ const PtbDashboard = () => {
     }, 200);
   };
   const handleOnSwipedRight = () => {
-      setCount(count + 1);
+    setCount(count + 1);
     setCardIndex(1);
-    {
-      if (count >= 4) {
-        setEmpty(true);
-      } else {
-        setEmpty(false);
-        setTimeout(() => {
-          useSwiper.current.swipeRight();
-        }, 1000);
-      }
+    if (count >= 4) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+      setTimeout(() => {
+        useSwiper.current.swipeRight();
+      }, 1000);
     }
     setTimeout(() => {
       setCardIndex(0);
@@ -129,7 +125,7 @@ const PtbDashboard = () => {
                 resizeMode={'center'}>
                 <View>
                   <Swiper
-                  infinite={true}
+                    infinite={true}
                     ref={useSwiper}
                     renderCard={renderCardData}
                     cardIndex={cardIndex}

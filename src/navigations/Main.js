@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
-import { useSelector } from 'react-redux';
-import { Routes } from '../constants/Constants';
+import {useSelector} from 'react-redux';
+import {Routes} from '../constants/Constants';
 import getRoute from '../utils/getRoute';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
@@ -25,24 +25,22 @@ import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
 
 const Stack = createStackNavigator();
 const Main = () => {
-  const auth = useSelector(state=>state.auth.user);
-  useEffect(()=>{
-    if(auth){
+  const auth = useSelector(state => state.auth.user);
+  useEffect(() => {
+    if (auth) {
       RNBootSplash.hide();
     }
-  },[auth]);
+  }, [auth]);
   return (
-    <NavigationContainer
-      onReady={() => RNBootSplash.hide()}
-    >
-
-
-
+    <NavigationContainer onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
-        initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
+        initialRouteName={getRoute(
+          auth.access_token,
+          auth.role_id,
+          auth.registration_step,
+        )}
         // initialRouteName={"CreateGallery"}
       >
-
         <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}

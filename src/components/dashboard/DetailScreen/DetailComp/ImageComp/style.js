@@ -1,6 +1,5 @@
 import Alignment from '../../../../../constants/Alignment';
-import {Value} from '../../../../../constants/FixedValues';
-import {dynamicSize} from '../../../../../utils/responsive';
+import {dynamicSize, normalizeFont} from '../../../../../utils/responsive';
 import {Fonts} from '../../../../../constants/Constants';
 
 export default {
@@ -19,10 +18,10 @@ export default {
     alignItems: Alignment.CENTER,
   },
   locationText: {
-    fontSize: 16,
+    fontSize: normalizeFont(16),
     marginLeft: 5,
     fontFamily: Fonts.OpenSansRegular,
   },
-  codeText: {fontSize: 32, fontFamily: Fonts.OpenSansBold},
-  typeText: {fontSize: 20, fontFamily: Fonts.OpenSansRegular},
+  codeText: {fontSize: normalizeFont(32), fontFamily: Fonts.OpenSansBold},
+  typeText: {fontSize: normalizeFont(20), fontFamily: Fonts.OpenSansRegular},
 };
