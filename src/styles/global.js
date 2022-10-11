@@ -86,4 +86,8 @@ export default {
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_5),
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
+  headerIcon: {
+    paddingTop: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_30,
+  },
 };

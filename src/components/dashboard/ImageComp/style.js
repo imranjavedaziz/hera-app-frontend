@@ -14,8 +14,8 @@ export default {
     alignItems: Alignment.CENTER,
   },
   bgImage: {
-    height: Value.CONSTANT_VALUE_420,
-    width: Value.CONSTANT_VALUE_260,
+    height: Value.CONSTANT_VALUE_415,
+    width: Value.CONSTANT_VALUE_255,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
@@ -56,7 +56,7 @@ export default {
   },
   linearGradient: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    width: 260,
+    width: 257,
     borderRadius: 20,
     justifyContent: Alignment.CENTER,
   },

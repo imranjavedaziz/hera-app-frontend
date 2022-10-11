@@ -22,6 +22,8 @@ import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
 import SmDonorSettings from '../screens/auth/smdonor/smSettings/SmDonorSettings';
 import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
 import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
+import PtbProfile from '../screens/dashboard/PtbProfile';
+import MyVideo from '../screens/dashboard/PtbProfile/MyVideo';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -114,6 +116,16 @@ const Main = () => {
         <Stack.Screen
           name={Routes.DashboardDetailScreen}
           component={DashboardDetailScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.PtbProfile}
+          component={PtbProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.MyVideo}
+          component={MyVideo}
           options={{headerShown: false}}
         />
         <Stack.Screen

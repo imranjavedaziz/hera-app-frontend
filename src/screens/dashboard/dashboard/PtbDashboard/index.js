@@ -90,8 +90,10 @@ const PtbDashboard = () => {
   }
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.person}
-      leftPress={authService.logout}
+      leftIcon={Images.iconRadiounsel}
+      leftPress={() => {
+        navigation.navigate('PtbProfile');
+      }}
       rightIcon={Images.iconChat}
       style={styles.headerIcon}
     />
@@ -102,8 +104,7 @@ const PtbDashboard = () => {
         mainStyle={true}
         scroller={false}
         showHeader={true}
-        headerComp={headerComp}
-        >
+        headerComp={headerComp}>
         {empty === true ? (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>

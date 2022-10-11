@@ -240,8 +240,15 @@ export default {
   },
   smSetting: {
     profile: 'Profile',
+    ptbProfile: 'PROFILE',
     ProfileName: 'Erica Smith',
     EditAttribute: 'Edit Attributes',
+    EditPreferences: 'Edit Preference',
+    AddVideo: 'Add a Short Video',
+    MyVideo: 'MY VIDEO',
+    UploadVideo: 'Upload Video',
+    ShortVideo: 'Add a short 60 sec video\n(AVI, MOV, MP4 format)',
+    VideoContent: 'A short video might just \nhelp you find a better match',
     Gallery: 'Create a Gallery',
     EditProfile: 'Edit Profile',
     Settings: 'Settings',
@@ -249,5 +256,10 @@ export default {
     AboutUs: 'About Us',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
+  },
+  subscribe: {
+    Subscribe_Now: 'Subscribe Now',
+    Plans:
+      'You can select any one of our plans \n& explore 5 profiles per day!',
   },
 };

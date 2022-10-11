@@ -1,6 +1,6 @@
 // Header
 import React from 'react';
-import {View, TouchableOpacity, Image,StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
@@ -14,7 +14,7 @@ const styles = {
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 999,  
+    zIndex: 999,
   },
   start: {
     justifyContent: Alignment.SPACE_BETWEEN,
@@ -23,7 +23,7 @@ const styles = {
     justifyContent: Alignment.FLEXEND,
   },
   circle: {
-    flex: Value.CONSTANT_VALUE_0,  
+    flex: Value.CONSTANT_VALUE_0,
   },
   img: {
     maxWidth: Value.CONSTANT_VALUE_50,
@@ -31,33 +31,55 @@ const styles = {
     maxHeight: Value.CONSTANT_VALUE_50,
     flex: Value.CONSTANT_VALUE_0,
   },
-  profileImgContainner:
-{
-  borderWidth: Value.CONSTANT_VALUE_2,
-  borderColor: Colors.GREEN,
-  borderRadius: Value.CONSTANT_VALUE_40,
-},
-profileImg: {
-  width: Value.CONSTANT_VALUE_40,
-  height: Value.CONSTANT_VALUE_40,
-  borderRadius: Value.CONSTANT_VALUE_20,
-  borderWidth: Value.CONSTANT_VALUE_2,
-  borderColor: Colors.CLEAR,
-},
+  profileImgContainner: {
+    borderWidth: Value.CONSTANT_VALUE_2,
+    borderColor: Colors.GREEN,
+    borderRadius: Value.CONSTANT_VALUE_40,
+  },
+  profileImg: {
+    width: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_40,
+    borderRadius: Value.CONSTANT_VALUE_20,
+    borderWidth: Value.CONSTANT_VALUE_2,
+    borderColor: Colors.CLEAR,
+  },
 };
-export const CircleBtn = ({icon, onPress,...otherProps}) => (
-  <TouchableOpacity style={styles.circle} onPress={onPress} {...otherProps} accessible={true} accessibilityRole="button">
+export const CircleBtn = ({icon, onPress, ...otherProps}) => (
+  <TouchableOpacity
+    style={styles.circle}
+    onPress={onPress}
+    {...otherProps}
+    accessible={true}
+    accessibilityRole="button">
     <Image accessible={false} source={icon} style={styles.img} />
   </TouchableOpacity>
 );
-export const IconHeader = ({rightIcon,leftIcon, leftPress, rightPress,...otherProps}) => (
+export const IconHeader = ({
+  rightIcon,
+  leftIcon,
+  leftPress,
+  rightPress,
+  ...otherProps
+}) => (
   <>
-  <TouchableOpacity style={styles.circle} onPress={leftPress} {...otherProps} accessible={true} accessibilityRole="button">
-    <Image accessible={false} source={leftIcon} style={styles.img} />
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.circle} onPress={rightPress} {...otherProps} accessible={true} accessibilityRole="button">
-    <Image accessible={false} source={rightIcon} style={styles.img} />
-  </TouchableOpacity>
+    <TouchableOpacity
+      style={styles.circle}
+      onPress={() => {
+        leftPress();
+      }}
+      {...otherProps}
+      accessible={true}
+      accessibilityRole="button">
+      <Image accessible={false} source={leftIcon} style={styles.img} />
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={styles.circle}
+      onPress={rightPress}
+      {...otherProps}
+      accessible={true}
+      accessibilityRole="button">
+      <Image accessible={false} source={rightIcon} style={styles.img} />
+    </TouchableOpacity>
   </>
 );
 const Header = ({end = false, children}) => {
@@ -67,15 +89,16 @@ const Header = ({end = false, children}) => {
     </View>
   );
 };
-export const ProfileIcon = ({end=true,}) => (
-    <View style={[styles.container,styles.start]}>
-       <View style={styles.profileImgContainner}>
-        <Image
-         source={{uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png'}}
-         style={styles.profileImg}
-       />
-     </View>
-     </View>
-)
+export const ProfileIcon = ({end = true}) => (
+  <View style={[styles.container, styles.start]}>
+    <View style={styles.profileImgContainner}>
+      <Image
+        source={{
+          uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+        }}
+        style={styles.profileImg}
+      />
+    </View>
+  </View>
+);
 export default Header;
-

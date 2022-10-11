@@ -24,8 +24,8 @@ export default {
   createSubscription: 'create-subscription',
   subscriptionPlan: 'subscription-plan',
   register: 'register',
-  states:'states',
-  profile_setter_data:'profile-setter-data',
-  preference_setter_data:'preferences-setter-data',
-  
+  states: 'states',
+  profile_setter_data: 'profile-setter-data',
+  preference_setter_data: 'preferences-setter-data',
+  parents_matched_doner: 'parents-matched-doner',
 };

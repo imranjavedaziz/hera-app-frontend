@@ -20,6 +20,7 @@ export default {
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_25,
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
