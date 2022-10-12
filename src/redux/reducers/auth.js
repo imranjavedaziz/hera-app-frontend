@@ -5,6 +5,7 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
+  GET_GALLERY,
 } from '../constants';
 
 const initState = {
@@ -50,6 +51,10 @@ const initState = {
     user_id: '',
     weight_id: '',
   },
+  gallery:{
+    doner_photo_gallery:[],
+    doner_video_gallery:[],
+  },
 };
 
 export default (state = initState, {type = '', payload = null} = {}) => {
@@ -89,7 +94,13 @@ export default (state = initState, {type = '', payload = null} = {}) => {
       return {
         ...state,
         user: initState.user,
+        gallery:initState.gallery
       };
+    case GET_GALLERY:
+      return {
+        ...state,
+        gallery: payload,
+      }
     default:
       return state;
   }

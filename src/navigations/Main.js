@@ -22,6 +22,7 @@ import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
 import SmDonorSettings from '../screens/auth/smdonor/smSettings/SmDonorSettings';
 import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
 import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
+import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery'
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -36,8 +37,8 @@ const Main = () => {
       onReady={() => RNBootSplash.hide()}
     >
       <Stack.Navigator
-        // initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
-        initialRouteName={"SmDashboard"}
+        initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
+        // initialRouteName={"Profile"}
       >
         <Stack.Screen
           name={Routes.SmDashboard}
@@ -117,6 +118,11 @@ const Main = () => {
         <Stack.Screen
           name={Routes.SmSetting}
           component={SmDonorSettings}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.donorGallery}
+          component={DonorGallery}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

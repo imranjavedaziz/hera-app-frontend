@@ -1,20 +1,27 @@
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, Touchable, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Container from '../../../../components/Container';
 import {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
+import { useSelector } from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
 import {Value} from '../../../../constants/FixedValues';
-
+import { Routes } from '../../../../constants/Constants';
+import Auth from '../../../../services/Auth';
 const SmDonorSettings = () => {
+  const navigation =useNavigation();
+  const authService = Auth();
+  const profileImg = useSelector((state)=> state.auth.user.profile_pic)
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
-      onPress={() => setOpen(true)}
+      onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
     />
   );
@@ -29,7 +36,7 @@ const SmDonorSettings = () => {
           <Image
             style={Styles.profileImg}
             source={{
-              uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/kelsey-kane/profile-screen_2x.jpg',
+              uri:profileImg,
             }}
           />
         </View>
@@ -59,10 +66,10 @@ const SmDonorSettings = () => {
         <View style={Styles.dot}></View>
       </View>
 
-      <View style={Styles.contain}>
+      <TouchableOpacity style={Styles.contain} onPress={()=> navigation.navigate(Routes.donorGallery)}>
         <Image source={Images.galleryimage} />
         <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={Styles.highlightContainer}>
         <View style={Styles.flexRow}>
@@ -89,6 +96,7 @@ const SmDonorSettings = () => {
           style={Styles.Btn}
           label={Strings.smSetting.Btn}
           color={Colors.COLOR_F18D93}
+          onPress={authService.logout}
         />
         <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
       </View>

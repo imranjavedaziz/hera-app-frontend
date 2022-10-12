@@ -8,3 +8,4 @@ export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const UPDATE_REG_STEP = 'UPDATE_REG_STEP';
 export const SET_BASIC_DETAILS = 'SET_BASIC_DETAILS';
 export const SET_ATTRIBUTES = 'SET_ATTRIBUTES';
+export const GET_GALLERY = 'GET_GALLERY';
