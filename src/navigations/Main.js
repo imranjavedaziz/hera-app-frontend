@@ -36,13 +36,8 @@ const Main = () => {
   return (
     <NavigationContainer onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
-        initialRouteName={getRoute(
-          auth.access_token,
-          auth.role_id,
-          auth.registration_step,
-        )}
-        // initialRouteName={"CreateGallery"}
-      >
+        // initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
+        initialRouteName={'SmDashboard'}>
         <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}

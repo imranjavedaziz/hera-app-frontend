@@ -5,9 +5,17 @@ import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 
 export default {
+  mainContainer:{
+    // height: Value.CONSTANT_VALUE_210,
+    // width: Value.CONSTANT_VALUE_167,
+    // backgroundColor:'red',
+    borderRadius: Value.CONSTANT_VALUE_20,
+    // marginVertical:Value.CONSTANT_VALUE_20
+  },
     conatiner: {
-        justifyContent:Alignment.SPACE_BETWEEN,
+        // justifyContent:Alignment.SPACE_BETWEEN,
         marginTop: Value.CONSTANT_VALUE_20,
+        borderRadius: Value.CONSTANT_VALUE_180
       },
       profileImgContainner:
       {
@@ -27,6 +35,7 @@ export default {
         width: Value.CONSTANT_VALUE_167,
         borderRadius: Value.CONSTANT_VALUE_18,
         alignSelf: Alignment.CENTER,
+        resizeMode : 'contain'
         // backgroundColor:'black'
       },
       locationContainer:{

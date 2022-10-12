@@ -1,4 +1,4 @@
-import { duration } from 'moment';
+
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -8,7 +8,6 @@ const videoPicker = () => {
       mediaType: 'video',
       durationLimit: 60,
       allowsEditing:true
-      
     })
       .then(video => {
         console.log("V",video)

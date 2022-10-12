@@ -95,6 +95,7 @@ const PtbDashboard = () => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
+      rightPress={authService.logout}
       style={styles.headerIcon}
     />
   );

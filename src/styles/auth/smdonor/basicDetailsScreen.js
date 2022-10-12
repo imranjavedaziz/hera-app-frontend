@@ -12,7 +12,6 @@ export default {
     paddingVertical: Value.CONSTANT_VALUE_10,
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
-  
   },
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),

@@ -90,4 +90,17 @@ export default {
     paddingTop: Value.CONSTANT_VALUE_5,
     paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
+  profileImgContainner: {
+    borderWidth: Value.CONSTANT_VALUE_3,
+    borderColor: Colors.GREEN,
+    borderRadius: Value.CONSTANT_VALUE_40,
+    marginBottom: Value.CONSTANT_VALUE_15,
+  },
+  profileImg: {
+    width: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_40,
+    borderRadius: Value.CONSTANT_VALUE_20,
+    borderWidth: Value.CONSTANT_VALUE_2,
+    borderColor: Colors.WHITE,
+  },
 };

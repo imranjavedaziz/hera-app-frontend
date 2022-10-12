@@ -58,8 +58,7 @@ export default {
       ios: {
         bottom: 40,
       }
-    })
-    
+    }) 
   },
   footerBtn: {
     color: Colors.BLACK,

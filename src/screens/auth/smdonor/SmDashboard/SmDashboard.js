@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React from 'react';
+import React,{useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
-import {CircleBtn, ProfileIcon} from '../../../../components/Header';
+import {CircleBtn, IconHeader} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
@@ -18,16 +19,17 @@ import {Static, Routes} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import styles from './Styles';
-import Auth from '../../../../services/Auth';
 import LinearGradient from 'react-native-linear-gradient';
+import Auth from '../../../../services/Auth';
+import SetterData from '../../../../services/SetterData';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const authService = Auth();
-  const profile = Static.Profile;
-  console.log(profile);
+   const data = SetterData();
+  const stateData = useSelector((state) => state.auth.user)
+  console.log("PROFILE", stateData);
   const [search, setSearch] = React.useState('');
   const [searching, setSearching] = React.useState(false);
-
   const onSearch = value => {
     if (value === '') {
      setSearch(''),
@@ -37,24 +39,30 @@ const SmDashboard = ({route}) => {
     setSearching(true) 
     setSearch(value);
   };
-
  const onClear = () => {
     setSearching(false);
     setSearch('');
   };
+  useEffect(()=>{
+    let endPoint = `?state_ids%5B%5D=1&page=1&limit=${10}`
+    data.smDororDashBoard(endPoint);
 
+  },[]);
   const renderProfile = ({item, index}) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate(Routes.ProfileDetails)}>
+        onPress={() => navigation.navigate(Routes.ProfileDetails,{userid:item.id})}
+        // onPress={()=>console.log(item.id)}
+        style={styles.mainContainer}
+        >
         <View style={styles.conatiner}>
           <ImageBackground
             style={[styles.profileImgView]}
-            source={{uri: item.image}}>
+            source={{uri: item.profile_pic}}>
             <LinearGradient
-              start={{x: 0.8, y: 0.25}}
-              end={{x: 0.5, y: 1.0}}
-              colors={['#181717', 'transparent']}
+               start={{x: 0.0, y: 0.28}}
+               end={{x: 0.011, y: 1.15}}
+               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={{
                 width: '100%',
                 height: '100%',
@@ -63,34 +71,37 @@ const SmDashboard = ({route}) => {
               }}></LinearGradient>
           </ImageBackground>
           <View style={styles.locationContainer}>
-            <Text style={styles.profileName}>{item.name}</Text>
+            <Text style={styles.profileName}>{item.first_name}</Text>
             <View style={{flexDirection: Alignment.ROW}}>
               <Image source={Images.mapgraypin} />
-              <Text style={styles.locationText}>{item.location}</Text>
+              <Text style={styles.locationText}>{"USA"}</Text>
             </View>
           </View>
         </View>
       </TouchableOpacity>
     );
   };
-
   const headerComp = () => (
     <>
-      {/* <ProfileIcon /> */}
-      
-      <CircleBtn
-        icon={Images.iconChat}
-        onPress={authService.logout}
-        accessibilityLabel="Cross Button, Go back"
-      />
+     {/* <IconHeader
+      profileView={true}
+      rightIcon={Images.iconChat}
+      rightPress={console.log("Navigate to Chat")}
+    /> */}
+    <CircleBtn 
+    icon={Images.iconChat}
+    onPress={authService.logout}
+    accessibilityLabel="Cross Button, Go back"
+    />
     </>
   );
   return (
     <Container
       scroller={false}
       showHeader={searching ? false : true}
-      headerEnd={true}
       headerComp={headerComp}
+      headerEnd={true}
+
       style={{
         paddingTop: Value.CONSTANT_VALUE_60,
         marginBottom: Value.CONSTANT_VALUE_200,
@@ -132,18 +143,18 @@ const SmDashboard = ({route}) => {
             onClear={onClear}
           />
           <View>
-            {profile.length > 0 ? (
+            {data.donorDashboard.length > 0 ? (
               <View>
                 <FlatList
                   columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
-                  data={profile}
-                  // keyExtractor={item => item.index}
+                  data={data.donorDashboard}
+                  keyExtractor={(item, index) => index.toString()}
                   renderItem={renderProfile}
                   numColumns={2}
                   showsVerticalScrollIndicator={false}
                 />
               </View>
-            ) : null}
+             ) : null} 
           </View>
         </View>
       </View>

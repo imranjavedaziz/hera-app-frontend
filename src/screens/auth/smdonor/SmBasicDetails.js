@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
@@ -12,14 +12,13 @@ import globalStyle from '../../../styles/global';
 import Strings, { ValidationMessages } from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {genders, Static} from '../../../constants/Constants';
+import {genders} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
 import { Value } from '../../../constants/FixedValues';
-import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../../redux/actions/loader';
 import SetterData from '../../../services/SetterData';
 

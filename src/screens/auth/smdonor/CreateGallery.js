@@ -1,5 +1,5 @@
 // CreateGallery
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -15,12 +15,13 @@ import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import openCamera from '../../../utils/openCamera';
-import {Fonts, Routes} from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
 import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import User from '../../../services/User';
+import { useSelector } from 'react-redux';
 
 const CreateGallery = ({route}) => {
   const userService = User();
@@ -33,12 +34,13 @@ const CreateGallery = ({route}) => {
     {id:4, uri: '', loading: false},
     {id:5, uri: '', loading: false},
   ]);
+  const profileImg = useSelector((state) => state.auth.user.profile_pic)
+  console.log("PROFILE", profileImg);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
-  // const [clearImage, setClearImage] = useState(false);
-
+  const [rmvImgCount,setRmvImgCount] = useState(0);
   const [remove, setRemove] = useState([
     {id:0,isSelected: false},
     {id:1,isSelected: false},
@@ -47,9 +49,6 @@ const CreateGallery = ({route}) => {
     {id:4,isSelected: false},
     {id:5,isSelected: false},
   ]);
-  let DelCount;
-  console.log('MAIN GALLERY', gallery);
-
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
@@ -103,27 +102,29 @@ const CreateGallery = ({route}) => {
   const handelDel = index => {
     setDel(true);
     const temp = [];
-    DelCount = 0;
+    
     remove.map((item, idx) => {
       if (index === idx) {
         if (item.isSelected === true) {
           temp.push({id:idx ,isSelected: false});
+          setRmvImgCount(rmvImgCount-1);
+          return;
         } else {
           temp.push({id:idx,isSelected: true});
-          DelCount++;
+          setRmvImgCount(rmvImgCount+1);
+          return;
         }
       } else {
         if (item.isSelected === true) {
           temp.push({id:idx,isSelected: true});
-          DelCount++;
+          return;
         } else {
           temp.push({id:idx,isSelected: false});
+          return;
         }
       }
     });
-    setRemove(temp);
-    console.log("TEMP",temp);
-  
+    setRemove(temp);  
     // const check=id?.findIndex(item => item===index)
     // if(check!==-1){
     //   // id.pop(index);
@@ -143,8 +144,6 @@ const CreateGallery = ({route}) => {
     });
     let pointer = 0;
    const filterItem =  gallery.map((oldImg,i) => {
-    console.log("OLD IMG",oldImg)
-
     if (i === index[pointer]) {
             pointer++
             return {id:i,uri:'',loading:false}
@@ -153,16 +152,12 @@ const CreateGallery = ({route}) => {
             return {id:i,uri:oldImg.uri,loading:false}
           }
     });
-
-    setGIndex( gIndex-(index.length))
-    
+    setGIndex( gIndex-(index.length))   
     function sortImg(a,b){
-        if(a.uri == '') return 1
-        if(a.uri != '') return -1
+        if(a.uri === '') return 1
+         return -1
     }
      filterItem.sort(sortImg);
-  
-    console.log("FILTER", filterItem)
     setGallery(filterItem);
     setRemove(item =>
       {
@@ -170,10 +165,8 @@ const CreateGallery = ({route}) => {
         return {isSelected:false}
       })
     })
-    console.log("is selected", remove);
     setDel(false);
-    // setClearImage(!clearImage);
-    
+    setRmvImgCount(0);
   };
   useEffect(()=>{
    console.log("USE EFFECT")
@@ -191,6 +184,7 @@ const CreateGallery = ({route}) => {
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
             <Image
+              source={{uri:profileImg}}
               style={styles.profileImg}
             />
           </View>
@@ -200,8 +194,7 @@ const CreateGallery = ({route}) => {
           <View
             style={[
               globalStyle.screenSubTitle,
-              {marginBottom: 20, maxWidth: '90%'},
-            ]}
+              styles.subTitle]}
             accessible={true}
             accessibilityLabel={`${Strings.sm_create_gallery.Subtitle1} ${Strings.sm_create_gallery.Subtitle2} ${Strings.sm_create_gallery.Subtitle3}`}>
             <Text
@@ -247,7 +240,7 @@ const CreateGallery = ({route}) => {
                             ? Images.iconRadiosel
                             : Images.iconRadiounsel
                         }
-                        style={{}}
+                        style={styles.selectIcon}
                       />
                     </TouchableOpacity>
                   ) : null}
@@ -281,32 +274,20 @@ const CreateGallery = ({route}) => {
               )}
             </ImageBackground>
           </TouchableOpacity>
-          {isDel ? (
-            <View style={{height: 124, width: 413}}>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginVertical: 22,
-                }}>
-                <Text style={{fontFamily: Fonts.OpenSansItalic, color: 'grey'}}>
-                  {DelCount} Photo Selected
+          {isDel && rmvImgCount != 0 ? (
+            <View style={styles.delContainer}>
+                <Text style={styles.selectedText}>
+                  {rmvImgCount} Photo Selected
                 </Text>
                 <TouchableOpacity
-                  style={{flexDirection: 'row', paddingVertical: 21}}
+                  style={styles.deleteBtnContainer}
                   onPress={() => deleteImg()}>
                   <Image source={Images.trashRed} style={{}} />
                   <Text
-                    style={{
-                      fontFamily: Fonts.OpenSansBold,
-                      textDecorationLine: 'underline',
-                      letterSpacing: 3.6,
-                      marginLeft: 15,
-                    }}>
+                    style={styles.rmvText}>
                     Remove From Gallery
                   </Text>
                 </TouchableOpacity>
-              </View>
             </View>
           ) : (
             <Button

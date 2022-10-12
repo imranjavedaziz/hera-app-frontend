@@ -22,7 +22,6 @@ import Alignment from '../../../constants/Alignment';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
 import SetterData from '../../../services/SetterData';
-
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -125,11 +124,7 @@ const SetPreference = ({route, navigation}) => {
           <View style={styles.lookingFor}>
             <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
               {Strings.preference.lookingFor}
-              <Text style={[styles.label, {color: 'red'}, {fontSize: 20}]}>
-                *
-              </Text>
             </Text>
-
             <Controller
               control={control}
               render={({field: {onChange, value}}) => (

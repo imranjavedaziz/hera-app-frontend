@@ -8,7 +8,6 @@ import Strings from '../../../../constants/Strings';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
-// import {Fonts} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
 
 const SmDonorSettings = () => {

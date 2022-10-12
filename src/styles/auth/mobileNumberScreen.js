@@ -8,7 +8,6 @@ export default {
     width: Prencentage.PRECENTAGE_100,
     flexDirection: Alignment.ROW,
     marginTop: Value.CONSTANT_VALUE_45 ,
-  
   },
   contryCodeContainer: {
     width: Value.CONSTANT_VALUE_50,
@@ -20,6 +19,5 @@ export default {
   Btn:{
     height:Value.CONSTANT_VALUE_80,
     width:Value.CONSTANT_VALUE_197,
-    // marginTop:Value.CONSTANT_VALUE_30,
   }
 };
