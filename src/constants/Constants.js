@@ -12,7 +12,7 @@ const environment = {
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
   },
 };
-export const {bucket, api_url} = environment.qa;
+export const {bucket, api_url} = environment.dev;
 
 export const awsOptions = {
   keyPrefix: 'user/',

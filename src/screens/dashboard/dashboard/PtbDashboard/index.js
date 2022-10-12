@@ -96,6 +96,7 @@ const PtbDashboard = () => {
     <IconHeader
       leftIcon={Images.person}
       rightIcon={Images.iconChat}
+      rightPress={authService.logout}
       style={styles.headerIcon}
     />
   );

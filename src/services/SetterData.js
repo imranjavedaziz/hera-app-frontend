@@ -6,6 +6,7 @@ import {
   showAppLoader,
   hideAppLoader,
 } from '../redux/actions/loader';
+import axios from 'axios';
 
 const SetterData =()=>{
     const[myState,setMyState] = React.useState([]);
@@ -24,7 +25,9 @@ const SetterData =()=>{
     const[donorhair,setDonorHair]=React.useState([]);
     const[donoreye,setDonorEye]=React.useState([]);
     const[donorEducation,setDonorEducation]=React.useState([]);
-
+    const[donorDashboard,setDonorDashboard]=React.useState([{}]);
+    const [ptbProfileDetails,setPtbProfileDetails] = React.useState([]);
+    const [highlits,setHighlits]= React.useState({data:[]});
   const dispatch = useDispatch();
 
   const state = () => {
@@ -67,17 +70,46 @@ const SetterData =()=>{
     axiosRequest
     .get(ApiPath.get_attributes)
     .then( async res => {
-      console.log('Attribute', res.data.data)
-      setDonorHeight();
-      setDonorRace();
-      setDonorEthinicity();
-      setDonorWeight();
-      setDonorHair();
-      setDonorEye();
-      setDonorEducation();
+      console.log('Attribute --->', res.data.data.race)
+      setDonorHeight(res.data.data.height);
+      setDonorRace(res.data.data.race);
+      setDonorEthinicity(res.data.data.ethnicity);
+      setDonorWeight(res.data.data.weight);
+      setDonorHair(res.data.data.hair_colour);
+      setDonorEye(res.data.data.eye_colour);
+      setDonorEducation(res.data.data.education);
     }).finally(() => {
         dispatch(hideAppLoader());
       });
+  }
+
+  const smDororDashBoard=(endPoint)=>{
+    dispatch(showAppLoader());
+    const api = `https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-card${endPoint}`
+   console.log('my dashboard', api);
+    axiosRequest
+    .get(api)
+    .then(async res => {
+      console.log("sm donor data ==>",res.data.data.data)
+      setDonorDashboard(res.data.data.data);
+
+    }).finally(() => {
+      dispatch(hideAppLoader());
+    });
+  }
+
+  const ptbProfileDetail =(userid)=>{
+    dispatch(showAppLoader());
+    console.log("api path",`https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-details?user_id=${userid}`)
+    axiosRequest
+    .get(`https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-details?user_id=${userid}`)
+    .then(async res => {
+      console.log("PTB profile details ==>",res.data.data)
+      setPtbProfileDetails(res.data.data)
+      setHighlits(res.data.data.user_profile);
+    }).finally(() => {
+      dispatch(hideAppLoader());
+    });
   }
   return {
     state,
@@ -100,6 +132,12 @@ const SetterData =()=>{
     donorhair,
     donoreye,
     donorEducation,
+    smDororDashBoard,
+    donorDashboard,
+    ptbProfileDetail,
+    ptbProfileDetails,
+    highlits
+
   }
 };
 

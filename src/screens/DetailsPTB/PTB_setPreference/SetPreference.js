@@ -124,11 +124,7 @@ const SetPreference = ({route, navigation}) => {
           <View style={styles.lookingFor}>
             <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
               {Strings.preference.lookingFor}
-              <Text style={[styles.label, {color: 'red'}, {fontSize: 20}]}>
-                *
-              </Text>
             </Text>
-
             <Controller
               control={control}
               render={({field: {onChange, value}}) => (
