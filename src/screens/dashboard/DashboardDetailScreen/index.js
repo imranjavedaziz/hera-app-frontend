@@ -18,7 +18,7 @@ const DashboardDetailScreen = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      leftPress={() => navigation.goBack()}
+      onPress={navigation.goBack}
       style={styles.headerIcon}
     />
   );

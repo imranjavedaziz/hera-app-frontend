@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {useDispatch} from 'react-redux';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
@@ -8,23 +8,24 @@ import {
 } from '../redux/actions/loader';
 
 const SetterData =()=>{
-    const[myState,setMyState] = React.useState([]);
-    const[sexsualOrient,setSexualOrient] = React.useState([]);
-    const[relationship,setRelationship] = React.useState([]);
-    const[education,setEducation]= React.useState([]);
-    const[race,setRace]= React.useState([]);
-    const[ethnicity,setEthnicity]= React.useState([]);
-    const[role,setRole]=React.useState([]);
-    const[eye,setEye]=React.useState([]);
-    const[hair,setHair]=React.useState([]);
-    const[donorHeight,setDonorHeight]=React.useState([]);
-    const[donorRace,setDonorRace]=React.useState([]);
-    const[donorEthinicity,setDonorEthinicity]=React.useState([]);
-    const[donorWeight,setDonorWeight]=React.useState([]);;
-    const[donorhair,setDonorHair]=React.useState([]);
-    const[donoreye,setDonorEye]=React.useState([]);
-    const[donorEducation,setDonorEducation]=React.useState([]);
-
+    const[myState,setMyState] =useState([]);
+    const[sexsualOrient,setSexualOrient] = useState([]);
+    const[relationship,setRelationship] = useState([]);
+    const[education,setEducation]= useState([]);
+    const[race,setRace]= useState([]);
+    const[ethnicity,setEthnicity]= useState([]);
+    const[role,setRole]=useState([]);
+    const[eye,setEye]=useState([]);
+    const[hair,setHair]=useState([]);
+    const[donorHeight,setDonorHeight]=useState([]);
+    const[donorRace,setDonorRace]=useState([]);
+    const[donorEthinicity,setDonorEthinicity]=useState([]);
+    const[donorWeight,setDonorWeight]=useState([]);;
+    const[donorhair,setDonorHair]=useState([]);
+    const[donoreye,setDonorEye]=useState([]);
+    const[donorEducation,setDonorEducation]=useState([]);
+    const[donorDashboard,setDonorDashboard]=useState([{}]);
+    const [ptbProfileDetails,setPtbProfileDetails] = useState([]);
   const dispatch = useDispatch();
 
   const state = () => {
@@ -67,18 +68,46 @@ const SetterData =()=>{
     axiosRequest
     .get(ApiPath.get_attributes)
     .then( async res => {
-      console.log('Attribute', res.data.data)
-      setDonorHeight();
-      setDonorRace();
-      setDonorEthinicity();
-      setDonorWeight();
-      setDonorHair();
-      setDonorEye();
-      setDonorEducation();
+      console.log('Attribute --->', res.data.data.race)
+      setDonorHeight(res.data.data.height);
+      setDonorRace(res.data.data.race);
+      setDonorEthinicity(res.data.data.ethnicity);
+      setDonorWeight(res.data.data.weight);
+      setDonorHair(res.data.data.hair_colour);
+      setDonorEye(res.data.data.eye_colour);
+      setDonorEducation(res.data.data.education);
     }).finally(() => {
         dispatch(hideAppLoader());
       });
   }
+
+  const smDororDashBoard=(endPoint)=>{
+    dispatch(showAppLoader());
+    const api = `${ApiPath.ptbProfileCard}${endPoint}`
+   console.log('my dashboard', api);
+    axiosRequest
+    .get(api)
+    .then(async res => {
+      setDonorDashboard(res.data.data.data);
+    }).finally(() => {
+      dispatch(hideAppLoader());
+    });
+  }
+
+  const ptbProfileDetail =(userid)=>{
+    dispatch(showAppLoader());
+    axiosRequest
+    .get(`${ApiPath.ptbProfileDetails}?user_id=${userid}`)
+    .then(async res => {
+      console.log("PTB profile details ==>",res.data.data)
+      setPtbProfileDetails(res.data.data)
+      setHighlits(res.data.data.user_profile);
+    }).finally(() => {
+      dispatch(hideAppLoader());
+    });
+  }
+
+
   return {
     state,
     myState,
@@ -100,6 +129,12 @@ const SetterData =()=>{
     donorhair,
     donoreye,
     donorEducation,
+    smDororDashBoard,
+    donorDashboard,
+    ptbProfileDetail,
+    ptbProfileDetails,
+
+
   }
 };
 

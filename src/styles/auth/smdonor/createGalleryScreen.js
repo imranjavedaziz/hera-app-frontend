@@ -23,8 +23,7 @@ export default {
     flexWrap: 'wrap',
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
-    // alignItems: Alignment.CENTER,
-    // justifyContent: Alignment.CENTER
+    marginTop: Value.CONSTANT_VALUE_20
   },
   galleryImgView: {
     width: width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2,
@@ -102,7 +101,8 @@ rmvText:{
         marginLeft: Value.CONSTANT_VALUE_15
 },
 selectIcon:{
-  marginLeft:Value.CONSTANT_VALUE_85,
-  marginBottom:Value.CONSTANT_VALUE_88
+  position:'absolute',
+  left:Value.CONSTANT_VALUE_30,
+  bottom:Value.CONSTANT_VALUE_30
 }
 };

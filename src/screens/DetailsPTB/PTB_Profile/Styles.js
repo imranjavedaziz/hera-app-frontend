@@ -76,7 +76,7 @@ export default {
           flexDirection: Alignment.ROW,
           alignItems: Alignment.CENTER,
           justifyContent: Alignment.CENTER,
-          marginHorizontal: Value.CONSTANT_VALUE_30,
+          marginHorizontal: Value.CONSTANT_VALUE_80,
           marginVertical: Value.CONSTANT_VALUE_50,
           height: Value.CONSTANT_VALUE_80,
         },
@@ -84,6 +84,7 @@ export default {
           letterSpacing: Value.CONSTANT_VALUE_FRAC36,
           fontFamily: Fonts.OpenSansBold,
           color: Colors.BLACK,
+          marginHorizontal: Value.CONSTANT_VALUE_10
         },
         declineReq: {
           flexDirection: Alignment.ROW,
@@ -110,11 +111,13 @@ export default {
           marginHorizontal: Value.CONSTANT_VALUE_30,
           marginVertical: Value.CONSTANT_VALUE_50,
           height: Value.CONSTANT_VALUE_80,
+          width:Value.CONSTANT_VALUE_296,
         },
         sendMsgText: {
           letterSpacing: Value.CONSTANT_VALUE_FRAC36,
           fontFamily: Fonts.OpenSansBold,
           color: Colors.BLACK,
+          marginHorizontal: Value.CONSTANT_VALUE_10
         },
         highlitsText: {
           fontFamily: Fonts.OpenSansRegular,

@@ -298,4 +298,6 @@ export const Routes = {
   SmDashboard: 'SmDashboard',
   DashboardDetailScreen: 'DashboardDetailScreen',
   SmSetting: 'SmDonorSettings',
+  donorGallery:'DonorGallery',
+  
 };

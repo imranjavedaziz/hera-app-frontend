@@ -5,8 +5,15 @@ import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 
 export default {
+  mainContainer:{
+    // height: Value.CONSTANT_VALUE_210,
+    // width: Value.CONSTANT_VALUE_167,
+    // backgroundColor:'red',
+    // // borderRadius: Value.CONSTANT_VALUE_40,
+    // marginBottom:Value.CONSTANT_VALUE_20,
+    // marginTop:20
+  },
     conatiner: {
-        justifyContent:Alignment.SPACE_BETWEEN,
         marginTop: Value.CONSTANT_VALUE_20,
       },
       profileImgContainner:
@@ -25,9 +32,6 @@ export default {
       profileImgView:{
         height: Value.CONSTANT_VALUE_210,
         width: Value.CONSTANT_VALUE_167,
-        borderRadius: Value.CONSTANT_VALUE_18,
-        alignSelf: Alignment.CENTER,
-        // backgroundColor:'black'
       },
       locationContainer:{
         position: Alignment.ABSOLUTE,
@@ -39,6 +43,7 @@ export default {
           fontSize: Value.CONSTANT_VALUE_20,
           fontFamily: Fonts.OpenSansBold,
           color: Colors.BACKGROUND,
+          marginBottom:5
         },
         locationText:{
           fontWeight: Alignment.BOLD,
