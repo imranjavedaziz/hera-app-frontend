@@ -99,14 +99,9 @@ const SetterData = () => {
 
   const ptbCardDashboard = () => {
     dispatch(showAppLoader());
-    // const api =
-    //   'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/parents-matched-doner';
-    // // console.log('PTBdashboard', api);
-    // // console.log('PTBdashboard', api);
     axiosRequest
       .get(ApiPath.parents_matched_doner)
       .then(async res => {
-        // console.log('PTBCardDashboard>>>', res.data.data.data);
         setPtbDashboard(res.data.data.data);
       })
       .finally(() => {
