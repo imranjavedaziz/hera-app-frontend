@@ -37,11 +37,11 @@ const styles = {
     borderRadius: Value.CONSTANT_VALUE_40,
   },
   profileImg: {
-    width: Value.CONSTANT_VALUE_40,
-    height: Value.CONSTANT_VALUE_40,
+    width: Value.CONSTANT_VALUE_35,
+    height: Value.CONSTANT_VALUE_35,
     borderRadius: Value.CONSTANT_VALUE_20,
     borderWidth: Value.CONSTANT_VALUE_2,
-    borderColor: Colors.CLEAR,
+    borderColor: Colors.WHITE,
   },
 };
 export const CircleBtn = ({icon, onPress, ...otherProps}) => (
@@ -54,27 +54,42 @@ export const CircleBtn = ({icon, onPress, ...otherProps}) => (
     <Image accessible={false} source={icon} style={styles.img} />
   </TouchableOpacity>
 );
-export const IconHeader = ({rightIcon,leftIcon, leftPress, rightPress,profileView,...otherProps}) => (
+export const IconHeader = ({
+  rightIcon,
+  leftIcon,
+  leftPress,
+  rightPress,
+  profileView,
+  profileImg,
+  ...otherProps
+}) => (
   <>
-  {
-    profileView ?(
-    <View style={[styles.container,styles.start]}>
-       <View style={styles.profileImgContainner}>
-        <Image
-         source={{uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png'}}
-         style={styles.profileImg}
-       />
-     </View>
-     </View>)
-    :(
-    <></>)
-  }
-  <TouchableOpacity style={styles.circle} onPress={leftPress} {...otherProps} accessible={true} accessibilityRole="button">
-    <Image accessible={false} source={leftIcon} style={styles.img} />
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.circle} onPress={rightPress} {...otherProps} accessible={true} accessibilityRole="button">
-    <Image accessible={false} source={rightIcon} style={styles.img} />
-  </TouchableOpacity>
+    {profileView ? (
+      <TouchableOpacity style={{marginRight: 270}} onPress={leftPress}>
+        <View
+          style={[styles.circle, styles.start, styles.profileImgContainner]}>
+          <Image source={{uri: profileImg}} style={styles.profileImg} />
+        </View>
+      </TouchableOpacity>
+    ) : (
+      <TouchableOpacity
+        style={styles.circle}
+        onPress={leftPress}
+        {...otherProps}
+        accessible={true}
+        accessibilityRole="button">
+        <Image accessible={false} source={leftIcon} style={styles.img} />
+      </TouchableOpacity>
+    )}
+
+    <TouchableOpacity
+      style={styles.circle}
+      onPress={rightPress}
+      {...otherProps}
+      accessible={true}
+      accessibilityRole="button">
+      <Image accessible={false} source={rightIcon} style={styles.img} />
+    </TouchableOpacity>
   </>
 );
 const Header = ({end = false, children}) => {
@@ -85,13 +100,15 @@ const Header = ({end = false, children}) => {
   );
 };
 export const ProfileIcon = ({}) => (
-    <View style={[styles.container,styles.start]}>
-       <View style={styles.profileImgContainner}>
-        <Image
-         source={{uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png'}}
-         style={styles.profileImg}
-       />
-     </View>
-     </View>
-)
+  <View style={[styles.container, styles.start]}>
+    <View style={styles.profileImgContainner}>
+      <Image
+        source={{
+          uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+        }}
+        style={styles.profileImg}
+      />
+    </View>
+  </View>
+);
 export default Header;

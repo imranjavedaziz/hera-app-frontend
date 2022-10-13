@@ -29,4 +29,7 @@ export default {
   get_attributes: 'attributes-setter-data',
   ptb_profile_card: 'ptb-profile-card',
   ptb_profile_details: 'ptb-profile-details',
+  get_gallery: 'get-gallery',
+  parents_matched_doner: 'parents-matched-doner',
+  doner_profile_details: 'doner-profile-details',
 };

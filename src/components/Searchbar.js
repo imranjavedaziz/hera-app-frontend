@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     height: Value.CONSTANT_VALUE_50,
     alignSelf: Alignment.CENTER,
     padding: Value.CONSTANT_VALUE_5,
-    borderRadius: Value.CONSTANT_VALUE_5,
+    borderRadius: Value.CONSTANT_VALUE_8,
     marginBottom: Value.CONSTANT_VALUE_12,
   },
   searchEditBarContainer: {
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     height: Value.CONSTANT_VALUE_50,
     alignSelf: Alignment.CENTER,
     padding: Value.CONSTANT_VALUE_5,
-    borderRadius: Value.CONSTANT_VALUE_5,
     marginBottom: Value.CONSTANT_VALUE_12,
   },
   searchImage: {

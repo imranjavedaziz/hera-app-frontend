@@ -173,6 +173,11 @@ export default {
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
     Btn: 'Go to dashboard',
+    modalTitle:'Remove from gallery?',
+    modalsubTitle:"If you remove, it won't be visible on your profile.",
+    modalText:"Yes, Remove",
+    modalText_2:"Stay on Page",
+    myGallery:'My Gallery'
   },
   bottomSheet: {
     Inquiry_Form: 'Inquiry Form',
@@ -192,7 +197,7 @@ export default {
     Para2: 'May be try again later or change your\n settings.',
   },
   sm_dashboard: {
-    Title: 'Like , Match & Connect!',
+    Title: 'Like, Match & Connect!',
     Subtitle1: 'Your match might just',
     Subtitle2: 'be a click away!',
   },
@@ -205,7 +210,7 @@ export default {
     yrs: 'yrs',
     bio: 'I give priority to health and play wide range of sports. I have a good exposure to different cultures of the world. I value the donations programmes & every parent who need support ',
     profileHighlits: ['Female', 'Hetrosexual', 'Married'],
-    send_request: 'SEND REQUEST',
+    send_request: 'LIKE THIS PROFILE',
     request_sent: 'REQUEST SENT',
     request_decline: 'REQUEST DECLINED',
     send_msg: 'SEND MESSAGE',

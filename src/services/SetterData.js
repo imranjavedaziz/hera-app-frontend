@@ -99,12 +99,12 @@ const SetterData = () => {
 
   const ptbCardDashboard = () => {
     dispatch(showAppLoader());
-    const api =
-      'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/parents-matched-doner';
-    // console.log('PTBdashboard', api);
-    // console.log('PTBdashboard', api);
+    // const api =
+    //   'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/parents-matched-doner';
+    // // console.log('PTBdashboard', api);
+    // // console.log('PTBdashboard', api);
     axiosRequest
-      .get(api)
+      .get(ApiPath.parents_matched_doner)
       .then(async res => {
         // console.log('PTBCardDashboard>>>', res.data.data.data);
         setPtbDashboard(res.data.data.data);
@@ -115,15 +115,11 @@ const SetterData = () => {
   };
 
   const smDonorProfileDetail = userid => {
+    console.log(`${ApiPath.doner_profile_details}?user_id=${userid}`)
     dispatch(showAppLoader());
-    console.log(
-      'api path',
-      `https://mbc-dev-backend-new.kiwi-internal.com/api/v1/doner-profile-details?user_id=${userid}`,
-    );
     axiosRequest
-      .get(
-        `https://mbc-dev-backend-new.kiwi-internal.com/api/v1/doner-profile-details?user_id=${userid}`,
-      )
+
+      .get(`${ApiPath.doner_profile_details}?user_id=${userid}`)
       .then(async res => {
         console.log('smDonorDetailProfile==>', res.data.data);
         setSmDonorDetails(res.data.data);

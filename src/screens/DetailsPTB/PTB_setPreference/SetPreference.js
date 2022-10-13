@@ -361,7 +361,7 @@ const SetPreference = ({route, navigation}) => {
                         {
                           backgroundColor: isSelected(value, item.id.toString())
                             ? Colors.COLOR_5ABCEC
-                            : Colors.BACKGROUND,
+                            : Colors.WHITE,
                           borderWidth: isSelected(value, item.id.toString())
                             ? 0
                             : 1,

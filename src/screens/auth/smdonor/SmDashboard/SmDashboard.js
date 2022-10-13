@@ -28,6 +28,7 @@ const SmDashboard = ({route}) => {
    const data = SetterData();
   const stateData = useSelector((state) => state.auth.user)
   console.log("PROFILE", stateData);
+  const profileImg = useSelector((state) => state.auth.user.profile_pic)
   const [search, setSearch] = React.useState('');
   const [searching, setSearching] = React.useState(false);
   const onSearch = value => {
@@ -58,6 +59,7 @@ const SmDashboard = ({route}) => {
         <View style={styles.conatiner}>
           <ImageBackground
             style={[styles.profileImgView]}
+            imageStyle={{ borderRadius: 18}}
             source={{uri: item.profile_pic}}>
             <LinearGradient
                start={{x: 0.0, y: 0.28}}
@@ -72,9 +74,9 @@ const SmDashboard = ({route}) => {
           </ImageBackground>
           <View style={styles.locationContainer}>
             <Text style={styles.profileName}>{item.first_name}</Text>
-            <View style={{flexDirection: Alignment.ROW}}>
+            <View style={{flexDirection: Alignment.ROW, justifyContent:'center', alignSelf: 'center',}}>
               <Image source={Images.mapgraypin} />
-              <Text style={styles.locationText}>{"USA"}</Text>
+              <Text style={styles.locationText}>{item.location?.name}</Text>
             </View>
           </View>
         </View>
@@ -82,18 +84,15 @@ const SmDashboard = ({route}) => {
     );
   };
   const headerComp = () => (
-    <>
-     {/* <IconHeader
+    
+     <IconHeader
+      profileImg={profileImg}
       profileView={true}
       rightIcon={Images.iconChat}
-      rightPress={console.log("Navigate to Chat")}
-    /> */}
-    <CircleBtn 
-    icon={Images.iconChat}
-    onPress={authService.logout}
-    accessibilityLabel="Cross Button, Go back"
+      leftPress={()=> navigation.navigate(Routes.SmSetting)}
+      rightPress={authService.logout}
     />
-    </>
+    
   );
   return (
     <Container

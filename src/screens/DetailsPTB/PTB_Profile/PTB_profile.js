@@ -1,4 +1,4 @@
-import {Text, View, Image, ImageBackground, Pressable} from 'react-native';
+import {Text, View, Image, ImageBackground, Pressable, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Container from '../../../components/Container';
 import {useNavigation} from '@react-navigation/native';
@@ -16,22 +16,23 @@ const PTB_profile = ({route}) => {
   const [sendReq, setSendReq] = useState(false);
   const [requestDecline, SetRequestDecline] = useState(false);
   const [liked, setLiked] = useState(false);
-
+ const[hi,sethi] = useState([])
 
   const data = SetterData();
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
-      onPress={() => navigation.goBack()}
+      onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
     />
   );
   useEffect(() => {
     data.ptbProfileDetail(route.params.userid);
+     sethi(data.highlits);
     
   }, []);
   
-  // console.log("HIGHLITS==", highlits);
+  console.log("HIGHLITS==", hi);
   return (
     
     <Container
@@ -42,7 +43,7 @@ const PTB_profile = ({route}) => {
       <View>
         <View style={styles.location}>
           <Image source={Images.iconmapblue} />
-          <Text style={styles.locationText}>{Strings.PTB_Profile.State}</Text>
+          <Text style={styles.locationText}>{data.ptbProfileDetails?.location?.name}</Text>
         </View>
         <Text style={styles.profileName}>
           {data.ptbProfileDetails?.first_name}
@@ -75,13 +76,14 @@ const PTB_profile = ({route}) => {
         </View>
         <View style={{flexDirection: Alignment.ROW}}>
 
-          {/* {data.highlits?.map((item, i) => {
+          {/* {data.ptbProfileDetails?.user_profile?.map((item, i) => {
             return (
               <View key={i} style={styles.highlits}>
                 <Text style={styles.highlitsText}>{item}</Text>
               </View>
             );
           })} */}
+        </View>
         </View>
         {data.ptbProfileDetails?.doner_video_gallery != null ? (
           <View>
@@ -97,16 +99,15 @@ const PTB_profile = ({route}) => {
             />
           </View>
         ) : null}
-
         {sendReq ? (
-          <Pressable
+          <TouchableOpacity
             style={styles.reqSentBtn}
             onPress={() => console.log(sendReq)}>
-            <Image source={Images.HEARTH_ICON} />
+            <Image source={Images.HEARTH_ICON}/>
             <Text style={styles.reqsentText}>
               {Strings.PTB_Profile.request_sent}
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         ) : requestDecline ? (
           <Pressable style={styles.declineReq}>
             <Image source={Images.RED_CROSS_ICON} />
@@ -124,7 +125,7 @@ const PTB_profile = ({route}) => {
             </Text>
           </Pressable>
         )}
-      </View>
+      {/* </View> */}
     </Container>
   );
 };

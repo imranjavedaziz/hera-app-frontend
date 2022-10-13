@@ -83,14 +83,16 @@ const PtbDashboard = () => {
   console.log('count>>', count);
   console.log(cardIndex, 'index>>>');
   function renderCardData(item) {
-    // console.log(cardIndex, 'index>>>');
+    console.log(item?.user?.id, 'index>>>');
     return (
       <>
         <TouchableOpacity
           activeOpacity={1}
           key={cardIndex}
           onPress={() => {
-            navigation.navigate('DashboardDetailScreen',{userId:item?.user?.id})
+            navigation.navigate('DashboardDetailScreen', {
+              userId: item?.user?.id,
+            });
           }}>
           <ImageComp
             locationText={item?.user?.state_name}
