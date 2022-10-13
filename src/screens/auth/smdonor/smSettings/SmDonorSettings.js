@@ -17,6 +17,10 @@ const SmDonorSettings = () => {
   const navigation =useNavigation();
   const authService = Auth();
   const profileImg = useSelector((state)=> state.auth.user.profile_pic)
+  const first_name = useSelector((state)=> state.auth.user.first_name)
+  const last_name = useSelector((state)=> state.auth.user.last_name);
+  const userName = `${first_name} ${last_name}`;
+  console.log("++++",userName);
 
   const headerComp = () => (
     <CircleBtn
@@ -54,7 +58,7 @@ const SmDonorSettings = () => {
           globalStyle.screenSubTitle,
           {marginBottom: Value.CONSTANT_VALUE_10},
         ]}>
-        {Strings.smSetting.ProfileName}
+        {userName}
       </Text>
 
       <View style={Styles.highlightContainer}>
