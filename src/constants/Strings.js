@@ -55,7 +55,7 @@ export const ValidationMessages = {
 };
 export default {
   landing: {
-    LOG_IN: ' LOG IN  ' ,
+    LOG_IN: ' LOG IN  ',
     REGISTER: 'REGISTER',
     Like_Match_Connect: 'Like, Match & Connect!',
     AboutUs: 'About Us',
@@ -231,8 +231,8 @@ export default {
     nativePlace: 'Native American',
     fatherPlace: 'Father is Native American',
     motherPlace: 'Mother is Native American',
-    hairColor: 'Black Hair Color',
-    eyeColor: 'Amber Eye Color',
+    hairColor: 'Hair Color',
+    eyeColor: 'Eye Color',
     shortClip: 'Donor has uploaded a short clip',
     place: 'Kentucky',
     code: '#SD5882',
@@ -245,8 +245,15 @@ export default {
   },
   smSetting: {
     profile: 'Profile',
+    ptbProfile: 'PROFILE',
     ProfileName: 'Erica Smith',
     EditAttribute: 'Edit Attributes',
+    EditPreferences: 'Edit Preference',
+    AddVideo: 'Add a Short Video',
+    MyVideo: 'MY VIDEO',
+    UploadVideo: 'Upload Video',
+    ShortVideo: 'Add a short 60 sec video\n(AVI, MOV, MP4 format)',
+    VideoContent: 'A short video might just \nhelp you find a better match',
     Gallery: 'Create a Gallery',
     EditProfile: 'Edit Profile',
     Settings: 'Settings',
@@ -254,5 +261,10 @@ export default {
     AboutUs: 'About Us',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
+  },
+  subscribe: {
+    Subscribe_Now: 'Subscribe Now',
+    Plans:
+      'You can select any one of our plans \n& explore 5 profiles per day!',
   },
 };

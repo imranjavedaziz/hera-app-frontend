@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
-import { useSelector } from 'react-redux';
-import { Routes } from '../constants/Constants';
+import {useSelector} from 'react-redux';
+import {Routes} from '../constants/Constants';
 import getRoute from '../utils/getRoute';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
@@ -22,22 +22,26 @@ import PtbBasicDetails from '../screens/DetailsPTB/PtbBasicDetails';
 import SmDonorSettings from '../screens/auth/smdonor/smSettings/SmDonorSettings';
 import ProfileDetails from '../screens/DetailsPTB/PTB_Profile/PTB_profile';
 import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
-import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery'
+import PtbProfile from '../screens/dashboard/PtbProfile';
+import MyVideo from '../screens/dashboard/PtbProfile/MyVideo';
+import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery';
 
 const Stack = createStackNavigator();
 const Main = () => {
-  const auth = useSelector(state=>state.auth.user);
-  useEffect(()=>{
-    if(auth){
+  const auth = useSelector(state => state.auth.user);
+  useEffect(() => {
+    if (auth) {
       RNBootSplash.hide();
     }
-  },[auth]);
+  }, [auth]);
   return (
-    <NavigationContainer
-      onReady={() => RNBootSplash.hide()}
-    >
+    <NavigationContainer onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
-        initialRouteName={getRoute(auth.access_token,auth.role_id,auth.registration_step)}
+        initialRouteName={getRoute(
+          auth.access_token,
+          auth.role_id,
+          auth.registration_step,
+        )}
         // initialRouteName={"Profile"}
       >
         <Stack.Screen
@@ -113,6 +117,16 @@ const Main = () => {
         <Stack.Screen
           name={Routes.DashboardDetailScreen}
           component={DashboardDetailScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.PtbProfile}
+          component={PtbProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.MyVideo}
+          component={MyVideo}
           options={{headerShown: false}}
         />
         <Stack.Screen

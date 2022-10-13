@@ -86,6 +86,10 @@ export default {
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_5),
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
+  headerIcon: {
+    paddingTop: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_30,
+  },
   profileImgContainner: {
     borderWidth: Value.CONSTANT_VALUE_3,
     borderColor: Colors.GREEN,
@@ -98,5 +102,5 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_20,
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
-  }
+  },
 };

@@ -4,7 +4,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import Container from '../../components/Container';
 import Images from '../../constants/Images';
 import {CircleBtn} from '../../components/Header';
@@ -13,8 +13,8 @@ import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
-import { showAppToast } from '../../redux/actions/loader';
-import { loginSchema } from '../../constants/schemas';
+import {showAppToast} from '../../redux/actions/loader';
+import {loginSchema} from '../../constants/schemas';
 import Auth from '../../services/Auth';
 
 const Login = () => {
@@ -35,7 +35,7 @@ const Login = () => {
       const messages = [];
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
       const msg = messages.join('\n').trim();
-      if(msg)dispatch(showAppToast(false,msg));
+      if (msg) dispatch(showAppToast(false, msg));
     }
   }, [errors, isValid]);
   const headerComp = () => (
@@ -45,13 +45,13 @@ const Login = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  const onSubmit = (data) => {
-    console.log( 'Dataaaaa>>',data)
+  const onSubmit = data => {
+    console.log('Dataaaaa>>', data);
     authService.login({
-      country_code: "+91",
+      country_code: '+91',
       phone_no: data.phone,
-      password: data.password
-    })
+      password: data.password,
+    });
   };
   return (
     <Container
@@ -62,40 +62,44 @@ const Login = () => {
       <View style={globalStyle.mainContainer}>
         <Image source={Images.LOGO} style={styles.logo} />
         <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.login.MobileNumber}
-                value={value}
-                onChangeText={(v) => onChange(v)}
-                keyboardType="number-pad"
-                maxLength={10}
-                error={errors && errors.phone?.message}
-                // required={true}
-              />
-            )}
-            name="phone"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <FloatingLabelInput
+              label={Strings.login.MobileNumber}
+              value={value}
+              onChangeText={v => onChange(v)}
+              keyboardType="number-pad"
+              maxLength={10}
+              error={errors && errors.phone?.message}
+              // required={true}
+            />
+          )}
+          name="phone"
         />
         <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.login.Password}
-                value={value}
-                onChangeText={(v) => onChange(v)}
-                secureTextEntry={!show}
-                minLength={8}
-                error={errors && errors.password?.message}
-                endComponent={()=>(
-                  <TouchableOpacity onPress={()=>setShow(!show)}>
-                    <Image source={show?Images.eye2:Images.eye}/>
-                  </TouchableOpacity>
-                )}
-              />
-            )}
-            name="password"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <FloatingLabelInput
+              label={Strings.login.Password}
+              value={value}
+              onChangeText={v => onChange(v)}
+              secureTextEntry={!show}
+              minLength={8}
+              error={errors && errors.password?.message}
+              endComponent={() => (
+                <TouchableOpacity onPress={() => setShow(!show)}>
+                  <Image source={show ? Images.eye2 : Images.eye} />
+                </TouchableOpacity>
+              )}
+            />
+          )}
+          name="password"
         />
-        <Button label={Strings.login.LOG_IN} style={styles.loginBtn} onPress={handleSubmit(onSubmit)}/>
+        <Button
+          label={Strings.login.LOG_IN}
+          style={styles.loginBtn}
+          onPress={handleSubmit(onSubmit)}
+        />
         <TouchableOpacity
           style={styles.btnMargin}
           accessible={true}
