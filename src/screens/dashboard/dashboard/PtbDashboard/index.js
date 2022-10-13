@@ -75,15 +75,8 @@ const PtbDashboard = () => {
       data.ptbCardDashboard();
     }, [cardIndex]),
   );
-  console.log(data.ptbDashboard, 'data');
 
-  // const onPressImage = () => {
-  //   navigation.navigate('DashboardDetailScreen');
-  // };
-  console.log('count>>', count);
-  console.log(cardIndex, 'index>>>');
   function renderCardData(item) {
-    console.log(item?.user?.id, 'index>>>');
     return (
       <>
         <TouchableOpacity
