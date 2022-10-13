@@ -297,6 +297,8 @@ export const Routes = {
   ProfileDetails: 'ProfileDetails',
   SmDashboard: 'SmDashboard',
   DashboardDetailScreen: 'DashboardDetailScreen',
+  PtbProfile: 'PtbProfile',
+  MyVideo: 'MyVideo',
   SmSetting: 'SmDonorSettings',
   donorGallery:'DonorGallery',
   

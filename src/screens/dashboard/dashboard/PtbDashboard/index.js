@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   Animated,
   Text,
+  FlatList,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
-
+import React, {useRef, useState, useEffect, useCallback} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import {photoCards} from './cardList';
@@ -17,8 +17,10 @@ import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Auth from '../../../../services/Auth';
+import SetterData from '../../../../services/SetterData';
+import {getRoleType} from '../../../../utils/other';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -30,71 +32,82 @@ const PtbDashboard = () => {
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
   const authService = Auth();
+  const data = SetterData();
+
   const handleOnSwipedLeft = () => {
-      setCount(count + 1);
-    setCardIndex(1);
-    {
-      if (count >= 4) {
-        setEmpty(true);
-      } else {
-        setEmpty(false);
-        setTimeout(() => {
-          useSwiper.current.swipeLeft();
-        }, 1000);
-      }
+    setCount(count + 1);
+    setCardIndex(cardIndex + 1);
+    if (count >= 4) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+      setTimeout(() => {
+        useSwiper.current.swipeLeft();
+      }, 1000);
     }
+
     setTimeout(() => {
-      setCardIndex(0);
+      // setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 200);
   };
   const handleOnSwipedRight = () => {
-      setCount(count + 1);
-    setCardIndex(1);
-    {
-      if (count >= 4) {
-        setEmpty(true);
-      } else {
-        setEmpty(false);
-        setTimeout(() => {
-          useSwiper.current.swipeRight();
-        }, 1000);
-      }
+    setCount(count + 1);
+    setCardIndex(cardIndex + 1);
+    if (count >= 4) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+      setTimeout(() => {
+        useSwiper.current.swipeRight();
+      }, 1000);
     }
     setTimeout(() => {
-      setCardIndex(0);
+      // setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 150);
   };
-  const onPressImage = () => {
-    navigation.navigate('DashboardDetailScreen');
-  };
-  console.log('count>>', count);
+
+  useFocusEffect(
+    useCallback(() => {
+      data.ptbCardDashboard();
+    }, [cardIndex]),
+  );
+
   function renderCardData(item) {
     return (
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => {
-          onPressImage();
-        }}>
-        <ImageComp
-          locationText={item.locationText}
-          code={item.code}
-          donerAge={item.donerAge}
-          mapIcon={Images.mapgraypin}
-          image={item.image}
-          fadeAnim={fadeAnim}
-          isVisibleLogo={isVisibleLogo}
-          has_happen={islikedLogo}
-        />
-      </TouchableOpacity>
+      <>
+        <TouchableOpacity
+          activeOpacity={1}
+          key={cardIndex}
+          onPress={() => {
+            navigation.navigate('DashboardDetailScreen', {
+              userId: item?.user?.id,
+            });
+          }}>
+          <ImageComp
+            locationText={item?.user?.state_name}
+            code={item?.user?.username}
+            donerAge={item?.user?.age}
+            mapIcon={Images.mapgraypin}
+            image={{uri: item?.user?.profile_pic}}
+            fadeAnim={fadeAnim}
+            isVisibleLogo={isVisibleLogo}
+            has_happen={islikedLogo}
+            category={getRoleType(item?.user?.role_id)}
+          />
+        </TouchableOpacity>
+      </>
     );
   }
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.person}
+      leftIcon={Images.iconRadiounsel}
+      leftPress={() => {
+        navigation.navigate('PtbProfile');
+      }}
       rightIcon={Images.iconChat}
       rightPress={authService.logout}
       style={styles.headerIcon}
@@ -106,8 +119,7 @@ const PtbDashboard = () => {
         mainStyle={true}
         scroller={false}
         showHeader={true}
-        headerComp={headerComp}
-        >
+        headerComp={headerComp}>
         {empty === true ? (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
@@ -128,16 +140,17 @@ const PtbDashboard = () => {
                 resizeMode={'center'}>
                 <View>
                   <Swiper
-                  infinite={true}
+                    infinite={true}
                     ref={useSwiper}
                     renderCard={renderCardData}
                     cardIndex={cardIndex}
-                    cards={photoCards}
+                    cards={data.ptbDashboard}
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
                     showSecondCard={true}
                     stackSize={1}
+                    onIndexChanged={e => changeScreens(e)}
                   />
                 </View>
               </ImageBackground>

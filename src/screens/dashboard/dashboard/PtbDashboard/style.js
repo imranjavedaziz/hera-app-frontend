@@ -18,6 +18,7 @@ export default {
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(50),
+    paddingVertical: Value.CONSTANT_VALUE_12,
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -30,7 +31,7 @@ export default {
   mainImageContainer: {alignItems: Alignment.CENTER},
   ImageSize: {
     height: scaleHeight(467),
-    width: scaleWidth(Value.CONSTANT_VALUE_348),
+    width: scaleWidth(Value.CONSTANT_VALUE_350),
   },
   emptyCardContainer: {
     alignItems: Alignment.CENTER,
@@ -58,6 +59,7 @@ export default {
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_98),

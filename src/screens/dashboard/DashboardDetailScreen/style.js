@@ -20,6 +20,7 @@ export default {
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_25,
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
@@ -27,7 +28,7 @@ export default {
   nativePlace: {
     backgroundColor: Colors.PINK,
     width: scaleWidth(Value.CONSTANT_VALUE_120),
-    height:scaleHeight(Value.CONSTANT_VALUE_31),
+    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
@@ -36,8 +37,8 @@ export default {
   },
   fatherPlace: {
     backgroundColor: Colors.PINK,
-    width:scaleWidth(Value.CONSTANT_VALUE_180),
-    height:scaleHeight(Value.CONSTANT_VALUE_31),
+    width: scaleWidth(Value.CONSTANT_VALUE_180),
+    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
@@ -50,7 +51,7 @@ export default {
   },
   motherPlace: {
     backgroundColor: Colors.PINK,
-    width:scaleWidth(Value.CONSTANT_VALUE_185),
+    width: scaleWidth(Value.CONSTANT_VALUE_185),
     height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -60,8 +61,8 @@ export default {
   },
   hairColor: {
     backgroundColor: Colors.PINK,
-    width:scaleWidth(Value.CONSTANT_VALUE_117),
-    height:scaleHeight(Value.CONSTANT_VALUE_31),
+    width: scaleWidth(Value.CONSTANT_VALUE_117),
+    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
@@ -72,7 +73,7 @@ export default {
   eyeColorContainer: {
     backgroundColor: Colors.PINK,
     width: scaleWidth(Value.CONSTANT_VALUE_117),
-    height:scaleHeight(Value.CONSTANT_VALUE_31),
+    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
@@ -96,7 +97,7 @@ export default {
   backgroundImage: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_16),
     height: scaleHeight(Value.CONSTANT_VALUE_70),
-    width:scaleWidth(Value.CONSTANT_VALUE_70),
+    width: scaleWidth(Value.CONSTANT_VALUE_70),
   },
   middleText: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_38),
@@ -128,7 +129,7 @@ export default {
     backgroundColor: Colors.BACKGROUND,
   },
   textbtn1: {
-    fontSize:normalizeFont(Value.CONSTANT_VALUE_14),
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 3.62,
   },
@@ -143,13 +144,13 @@ export default {
     flexDirection: Alignment.ROW,
   },
   imageBox: {
-    height:scaleHeight(Value.CONSTANT_VALUE_117),
+    height: scaleHeight(Value.CONSTANT_VALUE_117),
     width: scaleWidth(Value.CONSTANT_VALUE_105),
   },
   heartIcon: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    width:scaleWidth(Value.CONSTANT_VALUE_211),
+    width: scaleWidth(Value.CONSTANT_VALUE_211),
     justifyContent: Alignment.SPACE_BETWEEN,
   },
   crossIconContainer: {
@@ -158,7 +159,7 @@ export default {
   crossIcon: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    width:scaleWidth(Value.CONSTANT_VALUE_211),
+    width: scaleWidth(Value.CONSTANT_VALUE_211),
     justifyContent: Alignment.SPACE_BETWEEN,
   },
 };

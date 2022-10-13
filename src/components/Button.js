@@ -4,7 +4,7 @@ import {TouchableOpacity, Text} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
-import { Fonts } from '../constants/Constants';
+import {Fonts} from '../constants/Constants';
 
 const styles = {
   btn: {
@@ -16,7 +16,7 @@ const styles = {
     justifyContent: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_0,
     marginVertical: 15,
-    borderColor:'black'
+    borderColor: 'black',
   },
   text: {
     fontSize: Value.CONSTANT_VALUE_14,
@@ -31,15 +31,21 @@ const styles = {
   },
 };
 const Button = props => {
-  const {label = '',color = Colors.GREEN, style = {}, ...otherProps} = props;
+  const {label = '', color = Colors.GREEN, style = {}, ...otherProps} = props;
   return (
     <TouchableOpacity
       activeOpacity={Value.CONSTANT_VALUE_FRAC80}
       style={[styles.btn, {backgroundColor: color}, style]}
       {...otherProps}
-      accessibilityRole="button" accessible={true} accessibilityLabel={label}
-      >
-      <Text style={styles.text} accessible={false} numberOfLines={Value.CONSTANT_VALUE_1}>{label}</Text>
+      accessibilityRole="button"
+      accessible={true}
+      accessibilityLabel={label}>
+      <Text
+        style={styles.text}
+        accessible={false}
+        numberOfLines={Value.CONSTANT_VALUE_1}>
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 };

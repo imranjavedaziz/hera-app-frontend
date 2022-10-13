@@ -24,11 +24,12 @@ export default {
   createSubscription: 'create-subscription',
   subscriptionPlan: 'subscription-plan',
   register: 'register',
-  profile_setter_data:'profile-setter-data',
-  preference_setter_data:'preferences-setter-data',
-  get_attributes:'attributes-setter-data',
-  ptb_profile_card:'ptb-profile-card',
-  ptb_profile_details:'ptb-profile-details',
-  get_gallery:'get-gallery'
-  
+  profile_setter_data: 'profile-setter-data',
+  preference_setter_data: 'preferences-setter-data',
+  get_attributes: 'attributes-setter-data',
+  ptb_profile_card: 'ptb-profile-card',
+  ptb_profile_details: 'ptb-profile-details',
+  get_gallery: 'get-gallery',
+  parents_matched_doner: 'parents-matched-doner',
+  doner_profile_details: 'doner-profile-details',
 };

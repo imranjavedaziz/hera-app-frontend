@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import axiosRequest from '../utils/axiosRequest';
@@ -13,7 +13,7 @@ import {setUser, signoutUser} from '../redux/actions/auth';
 import getRoute from '../utils/getRoute';
 
 const Auth = () => {
-  const [err,setErr] = useState(null);
+  const [err, setErr] = useState(null);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -42,7 +42,7 @@ const Auth = () => {
       });
   };
   const registerUser = data => {
-    console.log('MY DATA',data);
+    console.log('MY DATA', data);
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.register, data, {
@@ -63,9 +63,9 @@ const Auth = () => {
           data,
         );
       })
-      .catch((e)=>{
-        setErr(e)
-        console.log("response Messeage",e.email)
+      .catch(e => {
+        setErr(e);
+        console.log('response Messeage', e.email);
         dispatch(showAppToast(true, e.email?.join('\n')));
       })
       .finally(() => {
@@ -80,7 +80,7 @@ const Auth = () => {
         const dataRes = response.data.data;
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(setUser(dataRes));
-
+        console.log('MYTOKEN', dataRes.access_token);
         navigation.navigate(
           getRoute(
             dataRes.access_token,
@@ -95,14 +95,13 @@ const Auth = () => {
       });
   };
   const logout = () => {
-    axiosRequest.get(ApiPath.logout)
-    .finally(()=>{
+    axiosRequest.get(ApiPath.logout).finally(() => {
       dispatch(signoutUser());
       navigation.reset({
         index: 0,
-        routes: [{name: Routes.Landing}]
+        routes: [{name: Routes.Landing}],
       });
-    })
+    });
   };
   return {
     sendOtp,
@@ -110,7 +109,7 @@ const Auth = () => {
     registerUser,
     login,
     logout,
-    err
+    err,
   };
 };
 export default Auth;
