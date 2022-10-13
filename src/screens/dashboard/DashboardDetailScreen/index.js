@@ -1,4 +1,11 @@
-import {View, ImageBackground, Text, Image} from 'react-native';
+import {
+  View,
+  ImageBackground,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect} from 'react';
 
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -9,17 +16,22 @@ import DetailComp from '../../../components/dashboard/DetailScreen/DetailComp/Im
 import BioComponent from '../../../components/dashboard/DetailScreen/BioComponent/ImageComp';
 import styles from './style';
 import Strings from '../../../constants/Strings';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+
 import {Value} from '../../../constants/FixedValues';
 import SetterData from '../../../services/SetterData';
 import Video from 'react-native-video';
+import {useState} from 'react';
+
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const data = SetterData();
+
   const {
     params: {userId},
   } = useRoute();
-  console.log('userId', userId);
+  useEffect(() => {
+    data.smDonorProfileDetail(userId);
+  }, []);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -27,11 +39,20 @@ const DashboardDetailScreen = () => {
       style={styles.headerIcon}
     />
   );
-
-  useEffect(() => {
-    data.smDonorProfileDetail(userId);
-  }, []);
-  console.log(data.smDonorDetails, 'data>>>pop');
+  const renderItemData = item => {
+    console.log(item, 'itemflat');
+    return (
+      <>
+        <TouchableOpacity>
+          <Image
+            resizeMode="cover"
+            source={{uri: item?.item?.file_url}}
+            style={styles.imageBox}
+          />
+        </TouchableOpacity>
+      </>
+    );
+  };
   return (
     <>
       <Container
@@ -54,11 +75,13 @@ const DashboardDetailScreen = () => {
             />
             <BioComponent
               Name={Strings.donorPofile.Height}
-              Detail={data?.smDonorDetails?.doner_attribute?.height}
+              Detail={Math.floor(
+                data?.smDonorDetails?.doner_attribute?.height / 12,
+              )}
             />
             <BioComponent
               Name={Strings.donorPofile.Weight}
-              Detail={data?.smDonorDetails?.doner_attribute?.weight}
+              Detail={`${data?.smDonorDetails?.doner_attribute?.weight} pounds`}
             />
             <BioComponent
               Name={Strings.donorPofile.Education}
@@ -77,56 +100,54 @@ const DashboardDetailScreen = () => {
             </Text>
           </ImageBackground>
           <View style={styles.nativeMainContainer}>
-            <View style={styles.nativePlace}>
-              <Text style={styles.nativeText}>
-                {data?.smDonorDetails?.location?.name}
-              </Text>
-            </View>
-            <View style={styles.fatherPlace}>
-              <Text style={styles.fatherPlaceText}>
-                {Strings.donorPofile.fatherPlace}
-              </Text>
-            </View>
+            {data?.smDonorDetails?.location?.name ? (
+              <View style={styles.nativePlace}>
+                <Text style={styles.nativeText}>
+                  {data?.smDonorDetails?.location?.name}
+                </Text>
+              </View>
+            ) : null}
+            {data?.smDonorDetails?.doner_attribute?.race ? (
+              <View style={styles.fatherPlace}>
+                <Text style={styles.fatherPlaceText}>
+                  {`${Strings.donorPofile.fatherPlace} ${data?.smDonorDetails?.doner_attribute?.race}`}
+                </Text>
+              </View>
+            ) : null}
           </View>
           <View style={styles.hairContainer}>
-            <View style={styles.motherPlace}>
-              <Text style={styles.motherPlaceText}>
-                {Strings.donorPofile.motherPlace}
+            {data?.smDonorDetails?.doner_attribute?.race ? (
+              <View style={styles.motherPlace}>
+                <Text style={styles.motherPlaceText}>
+                  {`${Strings.donorPofile.motherPlace} ${data?.smDonorDetails?.doner_attribute?.race}`}
+                </Text>
+              </View>
+            ) : null}
+            {data?.smDonorDetails?.doner_attribute?.hair_colour ? (
+              <View style={styles.hairColor}>
+                <Text style={styles.hairColorText}>
+                  {`${data?.smDonorDetails?.doner_attribute?.hair_colour} ${Strings.donorPofile.hairColor}`}
+                </Text>
+              </View>
+            ) : null}
+          </View>
+          {data?.smDonorDetails?.doner_attribute?.eye_colour ? (
+            <View style={styles.eyeColorContainer}>
+              <Text style={styles.eyeColorText}>
+                {`${data?.smDonorDetails?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
               </Text>
             </View>
-            <View style={styles.hairColor}>
-              <Text style={styles.hairColorText}>
-                {`${data?.smDonorDetails?.doner_attribute?.hair_colour} ${Strings.donorPofile.hairColor}`}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.eyeColorContainer}>
-            <Text style={styles.eyeColorText}>
-              {`${data?.smDonorDetails?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
-            </Text>
-          </View>
+          ) : null}
           <View style={styles.imageMainContainer}>
-            <TouchableOpacity>
-              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
-            </TouchableOpacity>
+            <FlatList
+              data={data?.smDonorDetails?.doner_photo_gallery}
+              renderItem={renderItemData}
+              numColumns={3}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+            />
           </View>
-          <View style={styles.imageInnerContainer}>
-            <TouchableOpacity>
-              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image source={Images.DASHBOARD_IMG} style={styles.imageBox} />
-            </TouchableOpacity>
-          </View>
+
           {data?.smDonorDetails?.doner_video_gallery != null ? (
             <View>
               <Text style={styles.middleText}>
@@ -136,18 +157,11 @@ const DashboardDetailScreen = () => {
                 controls={true}
                 source={{uri: data?.smDonorDetails?.doner_video_gallery}}
                 onError={err => console.log(err)}
-                // style={styles.videoContainer}
+                style={styles.imageDemo2}
                 paused={true}
               />
             </View>
-          ) : (
-            <View>
-              <Text style={styles.middleText}>
-                {Strings.donorPofile.shortClip}
-              </Text>
-              <Image style={styles.imageDemo2} source={Images.Demo2} />
-            </View>
-          )}
+          ) : null}
 
           <View style={styles.heartIconContainer}>
             <TouchableOpacity

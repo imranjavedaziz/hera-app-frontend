@@ -7,10 +7,9 @@ import {
   Text,
   FlatList,
 } from 'react-native';
-import React, {useRef, useState, useEffect, useCallback} from 'react';
+import React, {useRef, useState, useCallback} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
-import {photoCards} from './cardList';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
