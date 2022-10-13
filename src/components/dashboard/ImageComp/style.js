@@ -2,6 +2,7 @@ import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
 import {normalizeFont, dynamicSize} from '../../../utils/responsive';
+import {Fonts} from '../../../constants/Constants';
 
 export default {
   upperContainer: {
@@ -35,19 +36,22 @@ export default {
     flexDirection: Alignment.ROW,
   },
   locationText: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_12),
+    fontSize: Value.CONSTANT_VALUE_11,
     paddingLeft: dynamicSize(Value.CONSTANT_VALUE_10),
     paddingBottom: dynamicSize(Value.CONSTANT_VALUE_5),
+    letterSpacing: 2.84,
+    fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
     fontWeight: '800',
   },
   codeText: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_28),
+    fontSize: Value.CONSTANT_VALUE_32,
     color: Colors.WHITE,
   },
   donerAge: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_12),
+    fontSize: Value.CONSTANT_VALUE_11,
     color: Colors.WHITE,
+    fontFamily: Fonts.OpenSansBold,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_12),
   },
   textInnerContainer: {

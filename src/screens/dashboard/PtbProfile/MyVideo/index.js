@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
-  ActivityIndicator,
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -18,13 +17,25 @@ import videoPicker from '../../../../utils/videoPicker';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
-
+import Video from 'react-native-video';
 const MyVideo = () => {
   const userService = User();
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const navigation = useNavigation();
-
+  const cb = v => {
+    setOpen(false);
+    videoPicker().then(v => {
+      setVideo({uri: v.path, loading: true});
+      const reqData = new FormData();
+      reqData.append('image', {
+        name: v.filename,
+        type: v.mime,
+        uri: v.path,
+      });
+      console.log(reqData, 'reqData');
+    });
+  };
   const selectVideo = () => {
     videoPicker().then(v => {
       setVideo({uri: v.path, loading: true});
@@ -34,12 +45,9 @@ const MyVideo = () => {
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData, loading =>
-        setVideo(old => ({...old, loading})),
-      );
+      console.log(reqData, 'reqData');
     });
   };
-
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -65,7 +73,10 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          <TouchableOpacity onPress={selectVideo}>
+          <TouchableOpacity
+            onPress={() => {
+              setOpen(true);
+            }}>
             <ImageBackground
               style={styles.VdoContainer}
               source={video.uri ? {uri: video.uri} : null}>
@@ -80,10 +91,15 @@ const MyVideo = () => {
                     </Text>
                   </View>
                 </>
-              ) : video.loading ? (
-                <ActivityIndicator />
               ) : (
-                <Image source={Images.playButton} />
+                <>
+                  <Video
+                    controls={true}
+                    onError={err => console.log(err)}
+                    paused={true}
+                  />
+                  <Image source={Images.playButton} />
+                </>
               )}
             </ImageBackground>
           </TouchableOpacity>
@@ -94,15 +110,12 @@ const MyVideo = () => {
           <TouchableOpacity
             onPress={() => {
               openCamera(0, cb);
+              setOpen(false);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              openCamera(1, cb);
-            }}
-            style={styleSheet.pickerBtn}>
+          <TouchableOpacity onPress={selectVideo} style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
           </TouchableOpacity>
         </View>

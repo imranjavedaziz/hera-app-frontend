@@ -33,6 +33,7 @@ const ImageComp = (
     has_happen,
     image,
     isVisibleLogo,
+    category,
   },
   props,
 ) => {
@@ -67,8 +68,10 @@ const ImageComp = (
                   <Image source={mapIcon} />
                   <Text style={styles.locationText}>{locationText}</Text>
                 </View>
-                <Text style={styles.codeText}>{code}</Text>
-                <Text style={styles.donerAge}>{donerAge}</Text>
+                <Text style={styles.codeText}>#{code}</Text>
+                <Text style={styles.donerAge}>
+                  {category} ,{donerAge}
+                </Text>
               </View>
             </View>
           </LinearGradient>
