@@ -25,6 +25,7 @@ const SetterData = () => {
   const [donorDashboard, setDonorDashboard] = React.useState([{}]);
   const [ptbDashboard, setPtbDashboard] = React.useState([{}]);
   const [smDonorDetails, setSmDonorDetails] = React.useState([]);
+
   const [ptbProfileDetails, setPtbProfileDetails] = React.useState([]);
   const [highlits, setHighlits] = React.useState({data: []});
   const dispatch = useDispatch();
@@ -116,7 +117,7 @@ const SetterData = () => {
 
       .get(`${ApiPath.doner_profile_details}?user_id=${userid}`)
       .then(async res => {
-        console.log('smDonorDetailProfile==>', res.data.data);
+
         setSmDonorDetails(res.data.data);
       })
       .finally(() => {
@@ -173,6 +174,7 @@ const SetterData = () => {
     ptbProfileDetail,
     ptbProfileDetails,
     highlits,
+
   };
 };
 
