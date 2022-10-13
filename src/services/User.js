@@ -62,6 +62,7 @@ const User = () => {
         },
       })
       .then(async response => {
+        await dispatch(showAppToast(false, response.data.message));
         console.log('response', response.data.data);
       })
       setLoading(false)

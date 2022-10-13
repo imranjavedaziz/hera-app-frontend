@@ -84,8 +84,7 @@ const SetterData = () => {
 
   const smDororDashBoard = endPoint => {
     dispatch(showAppLoader());
-    const api = `https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-card${endPoint}`;
-    console.log('my dashboard', api);
+    const api = `${ApiPath.ptbProfileCard}${endPoint}`
     axiosRequest
       .get(api)
       .then(async res => {
@@ -126,14 +125,8 @@ const SetterData = () => {
 
   const ptbProfileDetail = userid => {
     dispatch(showAppLoader());
-    console.log(
-      'api path',
-      `https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-details?user_id=${userid}`,
-    );
     axiosRequest
-      .get(
-        `https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-details?user_id=${userid}`,
-      )
+      .get(`${ApiPath.ptbProfileDetails}?user_id=${userid}`)
       .then(async res => {
         console.log('PTB profile details ==>', res.data.data);
         setPtbProfileDetails(res.data.data);
