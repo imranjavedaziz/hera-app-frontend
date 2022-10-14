@@ -6,27 +6,41 @@ import {
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
 import Strings from '../../../../constants/Strings';
-import User from '../../../../services/User';
 import videoPicker from '../../../../utils/videoPicker';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 import Video from 'react-native-video';
+import User from '../../../../services/User';
+import {useDispatch, useSelector} from 'react-redux';
+import {getUserGallery} from '../../../../redux/actions/auth';
+import {useCallback} from 'react';
 const MyVideo = () => {
-  const userService = User();
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const navigation = useNavigation();
+  const userService = User();
+  const videoGallery = useSelector(
+    state => state.auth.gallery.doner_video_gallery,
+  );
+  const dispatch = useDispatch();
+  useFocusEffect(
+    useCallback(() => {
+      console.log('USE EFFECT');
+
+      dispatch(getUserGallery());
+    }, [dispatch]),
+  );
+  console.log('photoGallery', videoGallery);
   const cb = v => {
     setOpen(false);
     videoPicker().then(v => {
-      setVideo({uri: v.path, loading: true});
       const reqData = new FormData();
       reqData.append('image', {
         name: v.filename,
@@ -34,18 +48,23 @@ const MyVideo = () => {
         uri: v.path,
       });
       console.log(reqData, 'reqData');
+      userService.createGallery(reqData);
+      dispatch(getUserGallery());
     });
   };
   const selectVideo = () => {
+    setOpen(false);
     videoPicker().then(v => {
-      setVideo({uri: v.path, loading: true});
+      // setVideo({uri: v.path, loading: true});
       const reqData = new FormData();
       reqData.append('image', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      console.log(reqData, 'reqData');
+      userService.createGallery(reqData, loading =>
+        setVideo(old => ({...old, loading})),
+      );
     });
   };
   const headerComp = () => (
@@ -73,14 +92,12 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              setOpen(true);
-            }}>
-            <ImageBackground
-              style={styles.VdoContainer}
-              source={video.uri ? {uri: video.uri} : null}>
-              {!video.uri ? (
+          {videoGallery === null ? (
+            <TouchableOpacity
+              onPress={() => {
+                setOpen(true);
+              }}>
+              <ImageBackground style={styles.VdoContainer}>
                 <>
                   <View style={styles.innerVdo}>
                     <Text style={styles.vdoHeading}>
@@ -91,18 +108,27 @@ const MyVideo = () => {
                     </Text>
                   </View>
                 </>
-              ) : (
-                <>
-                  <Video
-                    controls={true}
-                    onError={err => console.log(err)}
-                    paused={true}
-                  />
-                  <Image source={Images.playButton} />
-                </>
-              )}
-            </ImageBackground>
-          </TouchableOpacity>
+              </ImageBackground>
+            </TouchableOpacity>
+          ) : (
+            <>
+              <View style={styles.VdoContainer}>
+                <Video
+                  controls={true}
+                  source={{uri: videoGallery?.file_url}}
+                  onError={err => console.log(err)}
+                  paused={true}
+                />
+                <Image source={Images.playButton} />
+              </View>
+              {/* <TouchableOpacity
+                style={styles.deleteBtnContainer}
+                onPress={() => setShowModal(true)}>
+                <Image source={Images.trashRed} style={{}} />
+                <Text style={styles.rmvText}>Remove From Gallery</Text>
+              </TouchableOpacity> */}
+            </>
+          )}
         </View>
       </Container>
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>

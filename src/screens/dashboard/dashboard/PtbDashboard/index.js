@@ -5,9 +5,8 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  FlatList,
 } from 'react-native';
-import React, {useRef, useState, useCallback} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import Images from '../../../../constants/Images';
@@ -16,13 +15,15 @@ import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Auth from '../../../../services/Auth';
 import SetterData from '../../../../services/SetterData';
 import {getRoleType} from '../../../../utils/other';
+import {useSelector} from 'react-redux';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const updateRegister = useSelector(state => state.auth);
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
@@ -35,7 +36,8 @@ const PtbDashboard = () => {
 
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
-    setCardIndex(cardIndex + 1);
+    setCardIndex(1);
+    console.log('useSwiper.current::::::', useSwiper.current);
     if (count >= 4) {
       setEmpty(true);
     } else {
@@ -46,41 +48,41 @@ const PtbDashboard = () => {
     }
 
     setTimeout(() => {
-      // setCardIndex(0);
+      console.log('cardIndex', cardIndex);
+      setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 200);
   };
+
   const handleOnSwipedRight = () => {
+    setIsVisibleLogo(true);
+    setIslikedLogo('liked');
     setCount(count + 1);
-    setCardIndex(cardIndex + 1);
+    setCardIndex(0);
     if (count >= 4) {
       setEmpty(true);
     } else {
+      console.log('isCardCount', count);
       setEmpty(false);
       setTimeout(() => {
+        setIsVisibleLogo(false);
+        setIslikedLogo('');
+        // setCardIndex(cardIndex + 1);
         useSwiper.current.swipeRight();
       }, 1000);
     }
-    setTimeout(() => {
-      // setCardIndex(0);
-      setIsVisibleLogo(false);
-      setIslikedLogo('');
-    }, 150);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      data.ptbCardDashboard();
-    }, [cardIndex]),
-  );
+  useEffect(() => {
+    data.ptbCardDashboard();
+  }, []);
 
   function renderCardData(item) {
     return (
-      <>
+      <View key={item?.user?.id}>
         <TouchableOpacity
           activeOpacity={1}
-          key={cardIndex}
           onPress={() => {
             navigation.navigate('DashboardDetailScreen', {
               userId: item?.user?.id,
@@ -98,20 +100,25 @@ const PtbDashboard = () => {
             category={getRoleType(item?.user?.role_id)}
           />
         </TouchableOpacity>
-      </>
+      </View>
     );
   }
+  console.log('like>>>>', islikedLogo);
+  console.log('visible>>>>', isVisibleLogo);
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.iconRadiounsel}
+      leftIcon={{uri: updateRegister?.user?.profile_pic}}
       leftPress={() => {
         navigation.navigate('PtbProfile');
       }}
+      updateRegister={true}
       rightIcon={Images.iconChat}
       rightPress={authService.logout}
       style={styles.headerIcon}
     />
   );
+
+  console.log('cardIndex', cardIndex);
   return (
     <>
       <Container
@@ -142,14 +149,14 @@ const PtbDashboard = () => {
                     infinite={true}
                     ref={useSwiper}
                     renderCard={renderCardData}
-                    cardIndex={cardIndex}
+                    cardIndex={1}
                     cards={data.ptbDashboard}
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
                     showSecondCard={true}
                     stackSize={1}
-                    onIndexChanged={e => changeScreens(e)}
+                    keyExtractor={(item, index) => item?.user?.id}
                   />
                 </View>
               </ImageBackground>
@@ -168,8 +175,6 @@ const PtbDashboard = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  setIsVisibleLogo(true);
-                  setIslikedLogo('liked');
                   handleOnSwipedRight();
                 }}>
                 <Image style={styles.likeButton} source={Images.iconLike} />

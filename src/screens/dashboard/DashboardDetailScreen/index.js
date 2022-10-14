@@ -20,7 +20,6 @@ import Strings from '../../../constants/Strings';
 import {Value} from '../../../constants/FixedValues';
 import SetterData from '../../../services/SetterData';
 import Video from 'react-native-video';
-import {useState} from 'react';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();

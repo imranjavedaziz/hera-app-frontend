@@ -61,6 +61,7 @@ export const IconHeader = ({
   rightPress,
   profileView,
   profileImg,
+  updateRegister,
   ...otherProps
 }) => (
   <>
@@ -78,7 +79,14 @@ export const IconHeader = ({
         {...otherProps}
         accessible={true}
         accessibilityRole="button">
-        <Image accessible={false} source={leftIcon} style={styles.img} />
+        {updateRegister === true ? (
+          <View
+            style={[styles.circle, styles.start, styles.profileImgContainner]}>
+            <Image source={leftIcon} style={styles.profileImg} />
+          </View>
+        ) : (
+          <Image accessible={false} source={leftIcon} style={styles.img} />
+        )}
       </TouchableOpacity>
     )}
 

@@ -14,7 +14,7 @@ import getRoute from '../utils/getRoute';
 
 const Auth = () => {
   const [err, setErr] = useState(null);
-
+  const [updateRegister, setUpdateRegister] = React.useState([]);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const sendOtp = data => {
@@ -42,7 +42,7 @@ const Auth = () => {
       });
   };
   const registerUser = data => {
-    console.log('MY DATA', data);
+    console.log('MY DATA', ApiPath.register);
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.register, data, {
@@ -54,6 +54,7 @@ const Auth = () => {
         const dataRes = response.data.data;
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(setUser(dataRes));
+        setUpdateRegister(dataRes);
         navigation.navigate(
           getRoute(
             dataRes.access_token,
@@ -80,6 +81,7 @@ const Auth = () => {
         const dataRes = response.data.data;
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(setUser(dataRes));
+        setUpdateRegister(dataRes);
         console.log('MYTOKEN', dataRes.access_token);
         navigation.navigate(
           getRoute(
@@ -109,6 +111,7 @@ const Auth = () => {
     registerUser,
     login,
     logout,
+    updateRegister,
     err,
   };
 };

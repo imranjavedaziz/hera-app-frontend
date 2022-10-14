@@ -173,11 +173,11 @@ export default {
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
     Btn: 'Go to dashboard',
-    modalTitle:'Remove from gallery?',
-    modalsubTitle:"If you remove, it won't be visible on your profile.",
-    modalText:"Yes, Remove",
-    modalText_2:"Stay on Page",
-    myGallery:'My Gallery'
+    modalTitle: 'Remove from gallery?',
+    modalsubTitle: "If you remove, it won't be visible on your profile.",
+    modalText: 'Yes, Remove',
+    modalText_2: 'Stay on Page',
+    myGallery: 'My Gallery',
   },
   bottomSheet: {
     Inquiry_Form: 'Inquiry Form',
@@ -266,5 +266,16 @@ export default {
     Subscribe_Now: 'Subscribe Now',
     Plans:
       'You can select any one of our plans \n& explore 5 profiles per day!',
+  },
+  profileSetting: {
+    SETTINGS: 'SETTINGS',
+    Account_Settings: 'Account Settings',
+    Change_Password: 'Change Password',
+    Deactivate_Account: 'Deactivate Account',
+    Deactivate_Desc:
+      'Temporarily deactivate your account, you can log\n in using the same credentials to activate your account again.',
+    Delete_Account: 'Delete Account',
+    Delete_Desc:
+      'This will permanently delete your account, to use the application, you will need to sign up again.',
   },
 };

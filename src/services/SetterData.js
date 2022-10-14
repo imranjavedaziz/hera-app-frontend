@@ -111,13 +111,10 @@ const SetterData = () => {
   };
 
   const smDonorProfileDetail = userid => {
-    console.log(`${ApiPath.doner_profile_details}?user_id=${userid}`)
     dispatch(showAppLoader());
     axiosRequest
-
       .get(`${ApiPath.doner_profile_details}?user_id=${userid}`)
       .then(async res => {
-
         setSmDonorDetails(res.data.data);
       })
       .finally(() => {
