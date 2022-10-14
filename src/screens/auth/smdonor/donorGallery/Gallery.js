@@ -150,12 +150,12 @@ const Gallery = ({route}) => {
     // }
   };
   // const deleteImg = () => {
-  //   let index = [];
-  //    remove.map((item, ind) => {
-  //     if (item.isSelected === true) {
-  //       index.push(ind);
-  //     }
-  //   });
+    // let index = [];
+    //  remove.map((item, ind) => {
+    //   if (item.isSelected === true) {
+    //     index.push(ind);
+    //   }
+    // });
   //   let pointer = 0;
   //  const filterItem =  gallery.map((oldImg,i) => {
   //   if (i === index[pointer]) {
@@ -182,13 +182,28 @@ const Gallery = ({route}) => {
   //   setDel(false);
   //   setRmvImgCount(0);
   // };
-  
 
-  const deleteImg=()=>{
-    userService.deleteGallery(ids);
-
+  const deleteImg =()=>{
+    console.log("PHOTO",photoGallery);
+    const ids = {"ids":[]};
+     let index = [];
+     remove.map((item, ind) => {
+      if (item.isSelected === true) {
+        index.push(ind);
+      }
+    });
+    let p =0;
+    photoGallery.map((item,i)=>{
+      console.log("look", i, index[i])
+      if(i ==index[p]){
+      ids.ids?.push({id:item.id})
+      p++
+      }
+    })
+    console.log("IDS",ids);
+    console.log("Selected - IDS",index);
+    userService.deleteGallery(JSON.stringify(ids));
   }
-  
 
   const updateGallery = ()=>{
     const url = photoGallery.map((item,i)=>{
@@ -209,10 +224,10 @@ const Gallery = ({route}) => {
    setGIndex(url.length);
   }
 
-  useEffect(()=>{
+  useEffect(async()=>{
    console.log("USE EFFECT")
-   updateGallery();
-  dispatch(getUserGallery())
+    updateGallery()
+    dispatch(getUserGallery())
   },[])
   const headerComp = () => (
     <CircleBtn

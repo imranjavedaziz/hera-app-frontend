@@ -55,7 +55,7 @@ const User = () => {
       });
   };
   const createGallery = (data,setLoading) => {
-    dispatch(showAppLoader());
+    setLoading(true);
     axiosRequest
       .post(ApiPath.setGallery, data, {
         headers: {
@@ -63,29 +63,20 @@ const User = () => {
         },
       })
       .then(async response => {
-        await dispatch(showAppToast(false, response.data.message));
         console.log('response', response.data.data);
+        setLoading(false)
       }).finally(() => {
-        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, 'Gallery Updated Successfully!'));
       });
   };
   const deleteGallery =  async(data)=>{
-    console.log("DATA del", data)
-    const abc={
-      "ids":[
-        {
-        id:79
-        }
-      ]
-    };
-    console.log("ABC+++",abc)
+    // console.log("DATA del", data);
     axiosRequest
-    .delete(ApiPath.deleteGallery,abc,{
+    .delete(ApiPath.deleteGallery,data,{
     })
     .then(async response => {
-      
       dispatch(showAppToast(false, response.data.message));
-      console.log(' DELETE response', response);
+      // console.log(' DELETE response', response);
     }).finally(() => {
       dispatch(hideAppLoader());
     });

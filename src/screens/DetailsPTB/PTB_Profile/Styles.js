@@ -108,7 +108,7 @@ export default {
           borderColor: Colors.COLOR_A3C6C4,
           borderRadius: Value.CONSTANT_VALUE_40,
           justifyContent: Alignment.CENTER,
-          marginHorizontal: Value.CONSTANT_VALUE_30,
+          marginHorizontal: Value.CONSTANT_VALUE_20,
           marginVertical: Value.CONSTANT_VALUE_50,
           height: Value.CONSTANT_VALUE_80,
           width:Value.CONSTANT_VALUE_296,
