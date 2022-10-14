@@ -149,40 +149,61 @@ const Gallery = ({route}) => {
     //   id.push(index);
     // }
   };
-  const deleteImg = () => {
-    let index = [];
+  // const deleteImg = () => {
+    // let index = [];
+    //  remove.map((item, ind) => {
+    //   if (item.isSelected === true) {
+    //     index.push(ind);
+    //   }
+    // });
+  //   let pointer = 0;
+  //  const filterItem =  gallery.map((oldImg,i) => {
+  //   if (i === index[pointer]) {
+  //           pointer++
+  //           return {id:i,uri:'',loading:false}
+  //         }
+  //         else{
+  //           return {id:i,uri:oldImg.uri,loading:false}
+  //         }
+  //   });
+  //   setGIndex( gIndex-(index.length))   
+  //   function sortImg(a,b){
+  //       if(a.uri === '') return 1
+  //        return -1
+  //   }
+  //    filterItem.sort(sortImg);
+  //   setGallery(filterItem);
+  //   setRemove(item =>
+  //     {
+  //     return item.map((i)=>{
+  //       return {isSelected:false}
+  //     })
+  //   })
+  //   setDel(false);
+  //   setRmvImgCount(0);
+  // };
+
+  const deleteImg =()=>{
+    console.log("PHOTO",photoGallery);
+    const ids = {"ids":[]};
+     let index = [];
      remove.map((item, ind) => {
       if (item.isSelected === true) {
         index.push(ind);
       }
     });
-    let pointer = 0;
-   const filterItem =  gallery.map((oldImg,i) => {
-    if (i === index[pointer]) {
-            pointer++
-            return {id:i,uri:'',loading:false}
-          }
-          else{
-            return {id:i,uri:oldImg.uri,loading:false}
-          }
-    });
-    setGIndex( gIndex-(index.length))   
-    function sortImg(a,b){
-        if(a.uri === '') return 1
-         return -1
-    }
-     filterItem.sort(sortImg);
-    setGallery(filterItem);
-    setRemove(item =>
-      {
-      return item.map((i)=>{
-        return {isSelected:false}
-      })
+    let p =0;
+    photoGallery.map((item,i)=>{
+      console.log("look", i, index[i])
+      if(i ==index[p]){
+      ids.ids?.push({id:item.id})
+      p++
+      }
     })
-    setDel(false);
-    setRmvImgCount(0);
-  };
-
+    console.log("IDS",ids);
+    console.log("Selected - IDS",index);
+    userService.deleteGallery(JSON.stringify(ids));
+  }
 
   const updateGallery = ()=>{
     const url = photoGallery.map((item,i)=>{
@@ -203,10 +224,10 @@ const Gallery = ({route}) => {
    setGIndex(url.length);
   }
 
-  useEffect(()=>{
+  useEffect(async()=>{
    console.log("USE EFFECT")
-   updateGallery();
-  dispatch(getUserGallery())
+    updateGallery()
+    dispatch(getUserGallery())
   },[])
   const headerComp = () => (
     <CircleBtn
@@ -347,7 +368,7 @@ const Gallery = ({route}) => {
               onPress={() => {
                 setShowModal(false);
                 deleteImg()
-                navigation.navigate(Routes.SmSetting);
+                // navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

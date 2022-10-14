@@ -51,6 +51,7 @@ axiosRequest.interceptors.response.use(
       console.log("Axio MSG", error.response.data.message)
       return Promise.reject(error.response.data.message);
     }
+    console.log("ERROR", error.message)
     return Promise.reject(error);
   },
 );

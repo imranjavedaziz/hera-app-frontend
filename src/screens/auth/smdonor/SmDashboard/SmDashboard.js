@@ -90,7 +90,7 @@ const SmDashboard = ({route}) => {
       profileView={true}
       rightIcon={Images.iconChat}
       leftPress={()=> navigation.navigate(Routes.SmSetting)}
-      rightPress={authService.logout}
+      // rightPress={authService.logout}
     />
     
   );
