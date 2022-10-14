@@ -1,5 +1,5 @@
 // CreateGallery
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -23,11 +23,11 @@ import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../services/User';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {getUserGallery} from '../../../../redux/actions/auth';
-import ImageView from 'react-native-image-viewing';
-import {CircleBtn} from '../../../../components/Header';
-import Video from 'react-native-video';
+import ImageView from "react-native-image-viewing";
+import { CircleBtn } from '../../../../components/Header';
+
 
 const Gallery = ({route}) => {
   const userService = User();
@@ -36,51 +36,35 @@ const Gallery = ({route}) => {
   const [showModal, setShowModal] = useState(false);
   const [visible, setIsVisible] = useState(false);
   const [gallery, setGallery] = useState([
-    {id: 0, uri: '', loading: false},
-    {id: 1, uri: '', loading: false},
-    {id: 2, uri: '', loading: false},
-    {id: 3, uri: '', loading: false},
-    {id: 4, uri: '', loading: false},
-    {id: 5, uri: '', loading: false},
+    {id:0, uri: '', loading: false},
+    {id:1, uri: '', loading: false},
+    {id:2, uri: '', loading: false},
+    {id:3, uri: '', loading: false},
+    {id:4, uri: '', loading: false},
+    {id:5, uri: '', loading: false},
   ]);
-  const photoGallery = useSelector(
-    state => state.auth.gallery.doner_photo_gallery,
-  );
-  const videoGallery = useSelector(
-    state => state.auth.gallery.doner_video_gallery,
-  );
-  console.log(videoGallery, 'vedioGallery:::::');
+  const photoGallery = useSelector((state) => state.auth.gallery.doner_photo_gallery)
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
-  const [rmvImgCount, setRmvImgCount] = useState(0);
-  const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const [rmvImgCount,setRmvImgCount] = useState(0);
+  const [imgPreviewindex,setImgPreviewIndex] = useState(0);
+  const [images,setImages] = useState([]);
   const [remove, setRemove] = useState([
-    {id: 0, isSelected: false},
-    {id: 1, isSelected: false},
-    {id: 2, isSelected: false},
-    {id: 3, isSelected: false},
-    {id: 4, isSelected: false},
-    {id: 5, isSelected: false},
+    {id:0,isSelected: false},
+    {id:1,isSelected: false},
+    {id:2,isSelected: false},
+    {id:3,isSelected: false},
+    {id:4,isSelected: false},
+    {id:5,isSelected: false},
   ]);
-  const videoRef = useRef();
-  useEffect(() => {
-    console.log('USE EFFECT');
-    updateGallery();
-    dispatch(getUserGallery());
-    setVideo({
-      uri: videoGallery?.file_url ? videoGallery?.file_url : '',
-      loading: false,
-    });
-  }, []);
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i === gIndex) {
-          return {id: i, uri: image.path, loading: true};
+          return {id:i,uri: image.path, loading: true};
         }
         return img;
       });
@@ -108,12 +92,11 @@ const Gallery = ({route}) => {
     videoPicker().then(v => {
       setVideo({uri: v.path, loading: true});
       const reqData = new FormData();
-      reqData.append('video', {
+      reqData.append('image', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      console.log(reqData, 'reqData:::::::::');
       userService.createGallery(reqData, loading =>
         setVideo(old => ({...old, loading})),
       );
@@ -124,38 +107,38 @@ const Gallery = ({route}) => {
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
     }
-    if (index < gIndex && rmvImgCount === 0) {
-      setIsVisible(true);
+    if(index < gIndex && rmvImgCount === 0){
+      setIsVisible(true)
     }
-    return;
+    return ;
   };
 
   const handelDel = index => {
     setDel(true);
     const temp = [];
-
+    
     remove.map((item, idx) => {
       if (index === idx) {
         if (item.isSelected === true) {
-          temp.push({id: idx, isSelected: false});
-          setRmvImgCount(rmvImgCount - 1);
+          temp.push({id:idx ,isSelected: false});
+          setRmvImgCount(rmvImgCount-1);
           return;
         } else {
-          temp.push({id: idx, isSelected: true});
-          setRmvImgCount(rmvImgCount + 1);
+          temp.push({id:idx,isSelected: true});
+          setRmvImgCount(rmvImgCount+1);
           return;
         }
       } else {
         if (item.isSelected === true) {
-          temp.push({id: idx, isSelected: true});
+          temp.push({id:idx,isSelected: true});
           return;
         } else {
-          temp.push({id: idx, isSelected: false});
+          temp.push({id:idx,isSelected: false});
           return;
         }
       }
     });
-    setRemove(temp);
+    setRemove(temp);  
     // const check=id?.findIndex(item => item===index)
     // if(check!==-1){
     //   // id.pop(index);
@@ -166,72 +149,99 @@ const Gallery = ({route}) => {
     //   id.push(index);
     // }
   };
-  const deleteImg = () => {
-    let index = [];
-    remove.map((item, ind) => {
+  // const deleteImg = () => {
+    // let index = [];
+    //  remove.map((item, ind) => {
+    //   if (item.isSelected === true) {
+    //     index.push(ind);
+    //   }
+    // });
+  //   let pointer = 0;
+  //  const filterItem =  gallery.map((oldImg,i) => {
+  //   if (i === index[pointer]) {
+  //           pointer++
+  //           return {id:i,uri:'',loading:false}
+  //         }
+  //         else{
+  //           return {id:i,uri:oldImg.uri,loading:false}
+  //         }
+  //   });
+  //   setGIndex( gIndex-(index.length))   
+  //   function sortImg(a,b){
+  //       if(a.uri === '') return 1
+  //        return -1
+  //   }
+  //    filterItem.sort(sortImg);
+  //   setGallery(filterItem);
+  //   setRemove(item =>
+  //     {
+  //     return item.map((i)=>{
+  //       return {isSelected:false}
+  //     })
+  //   })
+  //   setDel(false);
+  //   setRmvImgCount(0);
+  // };
+
+  const deleteImg =()=>{
+    console.log("PHOTO",photoGallery);
+    const ids = {"ids":[]};
+     let index = [];
+     remove.map((item, ind) => {
       if (item.isSelected === true) {
         index.push(ind);
       }
     });
-    let pointer = 0;
-    const filterItem = gallery.map((oldImg, i) => {
-      if (i === index[pointer]) {
-        pointer++;
-        return {id: i, uri: '', loading: false};
-      } else {
-        return {id: i, uri: oldImg.uri, loading: false};
+    let p =0;
+    photoGallery.map((item,i)=>{
+      console.log("look", i, index[i])
+      if(i ==index[p]){
+      ids.ids?.push({id:item.id})
+      p++
       }
-    });
-    setGIndex(gIndex - index.length);
-    function sortImg(a, b) {
-      if (a.uri === '') {
-        return 1;
-      }
-      return -1;
-    }
-    filterItem.sort(sortImg);
-    setGallery(filterItem);
-    setRemove(item => {
-      return item.map(i => {
-        return {isSelected: false};
-      });
-    });
-    setDel(false);
-    setRmvImgCount(0);
-  };
+    })
+    console.log("IDS",ids);
+    console.log("Selected - IDS",index);
+    userService.deleteGallery(JSON.stringify(ids));
+  }
 
-  const updateGallery = () => {
-    const url = photoGallery.map((item, i) => {
-      return item.file_url;
-    });
-    console.log('Gallery_DATA', url);
+  const updateGallery = ()=>{
+    const url = photoGallery.map((item,i)=>{
+      return item.file_url
+    })
+    console.log("Gallery_DATA", url);    
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= photoGallery.length) {
-          return {id: i, uri: url[i], loading: false};
+          return { id:i,uri: url[i], loading:false};
         }
         return img;
       });
     });
-    for (var i = 0; i < url.length; ++i) {
-      images.push({uri: url[i]});
+    for(var i=0; i<url.length; ++i){
+    images.push({uri:url[i]})
     }
-    setGIndex(url.length);
-  };
+   setGIndex(url.length);
+  }
+
+  useEffect(async()=>{
+   console.log("USE EFFECT")
+    updateGallery()
+    dispatch(getUserGallery())
+  },[])
   const headerComp = () => (
     <CircleBtn
-      icon={Images.iconBack}
-      onPress={navigation.goBack}
-      accessibilityLabel="Cross Button, Go back"
-      style={{marginLeft: 30}}
+    icon={Images.iconBack}
+    onPress={navigation.goBack}
+    accessibilityLabel="Cross Button, Go back"
+    style={{marginLeft:30}}
     />
   );
-  console.log(videoGallery?.file_url, "videoGallery?.file_url");
   return (
     <>
       <Container
         showHeader={true}
-        headerEnd={false}
+        headerEnd={false} 
         headerComp={headerComp}
         style={{marginHorizontal: 0}}>
         <View style={globalStyle.mainContainer}>
@@ -249,7 +259,8 @@ const Gallery = ({route}) => {
                   imageStyle={{
                     resizeMode: 'cover',
                   }}
-                  source={img.uri ? {uri: img.uri} : null}>
+                  
+                  source= {img.uri ? {uri: img.uri} : null}>
                   {gallery[index].uri ? (
                     <TouchableOpacity
                       onPress={() => handelDel(index)}
@@ -281,44 +292,34 @@ const Gallery = ({route}) => {
               imageStyle={{
                 resizeMode: 'contain',
               }}>
-              {!video.uri  ? (
+              {!video.uri ? (
                 <>
                   <Text style={styles.videoTitle}>Upload Video</Text>
                   <Text style={styles.videoPara}>Add a short 60 sec video</Text>
                   <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
                 </>
-              ): video.loading ? (
+              ) : video.loading ? (
                 <ActivityIndicator />
               ) : (
-                <View style={styles.imageOverlayWrapper}>
-                  <Video
-                    ref={videoRef}
-                    onLoad={() => {
-                      videoRef?.current?.seek(3);
-                      videoRef?.current?.setNativeProps({
-                        paused: true,
-                      });
-                    }}
-                    source={{uri: `${videoGallery?.file_url}`}}
-                    resizeMode={'cover'}
-                    style={styles.video}
-                  />
-                  <Image source={Images.playButton} />
-                </View>
+                <Image source={Images.playButton} />
               )}
             </ImageBackground>
           </TouchableOpacity>
           {isDel && rmvImgCount != 0 ? (
             <View style={styles.delContainer}>
-              <Text style={styles.selectedText}>
-                {rmvImgCount} Photos Selected
-              </Text>
-              <TouchableOpacity
-                style={styles.deleteBtnContainer}
-                onPress={() => setShowModal(true)}>
-                <Image source={Images.trashRed} style={{}} />
-                <Text style={styles.rmvText}>Remove From Gallery</Text>
-              </TouchableOpacity>
+                <Text style={styles.selectedText}>
+                  {rmvImgCount} Photos Selected
+                </Text>
+                <TouchableOpacity
+                  style={styles.deleteBtnContainer}
+                     onPress={() => setShowModal(true)}
+                  >
+                  <Image source={Images.trashRed} style={{}} />
+                  <Text
+                    style={styles.rmvText}>
+                    Remove From Gallery
+                  </Text>
+                </TouchableOpacity>
             </View>
           ) : (
             <Button
@@ -354,7 +355,8 @@ const Gallery = ({route}) => {
         onRequestClose={() => {
           setShowModal(!showModal);
         }}>
-        <View style={[style.centeredView]}>
+        <View
+          style={[style.centeredView,]}>
           <View style={style.modalView}>
             <Text style={style.modalHeader}>
               {Strings.sm_create_gallery.modalTitle}
@@ -365,8 +367,8 @@ const Gallery = ({route}) => {
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
-                deleteImg();
-                navigation.navigate(Routes.SmSetting);
+                deleteImg()
+                // navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}
@@ -384,11 +386,11 @@ const Gallery = ({route}) => {
         </View>
       </Modal>
       <ImageView
-        images={images}
-        imageIndex={imgPreviewindex}
-        visible={visible}
-        onRequestClose={() => setIsVisible(false)}
-      />
+  images={images}
+  imageIndex={imgPreviewindex}
+  visible={visible}
+  onRequestClose={() => setIsVisible(false)}
+/>
     </>
   );
 };
