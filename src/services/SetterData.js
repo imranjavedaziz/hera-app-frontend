@@ -25,6 +25,7 @@ const SetterData = () => {
   const [donorDashboard, setDonorDashboard] = React.useState([{}]);
   const [ptbDashboard, setPtbDashboard] = React.useState([{}]);
   const [smDonorDetails, setSmDonorDetails] = React.useState([]);
+
   const [ptbProfileDetails, setPtbProfileDetails] = React.useState([]);
   const [highlits, setHighlits] = React.useState({data: []});
   const dispatch = useDispatch();
@@ -84,8 +85,7 @@ const SetterData = () => {
 
   const smDororDashBoard = endPoint => {
     dispatch(showAppLoader());
-    const api = `https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-card${endPoint}`;
-    console.log('my dashboard', api);
+    const api = `${ApiPath.ptbProfileCard}${endPoint}`
     axiosRequest
       .get(api)
       .then(async res => {
@@ -116,7 +116,7 @@ const SetterData = () => {
 
       .get(`${ApiPath.doner_profile_details}?user_id=${userid}`)
       .then(async res => {
-        console.log('smDonorDetailProfile==>', res.data.data);
+
         setSmDonorDetails(res.data.data);
       })
       .finally(() => {
@@ -126,14 +126,8 @@ const SetterData = () => {
 
   const ptbProfileDetail = userid => {
     dispatch(showAppLoader());
-    console.log(
-      'api path',
-      `https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-details?user_id=${userid}`,
-    );
     axiosRequest
-      .get(
-        `https://mbc-qa-backend-new.kiwi-internal.com/api/v1/ptb-profile-details?user_id=${userid}`,
-      )
+      .get(`${ApiPath.ptbProfileDetails}?user_id=${userid}`)
       .then(async res => {
         console.log('PTB profile details ==>', res.data.data);
         setPtbProfileDetails(res.data.data);
@@ -173,6 +167,7 @@ const SetterData = () => {
     ptbProfileDetail,
     ptbProfileDetails,
     highlits,
+
   };
 };
 
