@@ -64,6 +64,7 @@ const User = () => {
       .then(async response => {
         console.log('response', response.data.data);
       })
+      .catch(e => {console.log(e,'error::::::::')});
       setLoading(false)
   };
   const setPreferences = (data) => {

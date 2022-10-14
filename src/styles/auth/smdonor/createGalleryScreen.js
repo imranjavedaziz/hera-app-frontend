@@ -104,5 +104,17 @@ selectIcon:{
   position:'absolute',
   left:Value.CONSTANT_VALUE_30,
   bottom:Value.CONSTANT_VALUE_30
-}
+},
+  imageOverlayWrapper: {
+    position: "relative",
+    overflow: "hidden",
+  },
+  video: {
+    borderRadius: 15,
+    overflow: 'hidden',
+    width: width,
+    height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
+    resizeMode: 'cover',
+    borderWidth: 2,
+  },
 };

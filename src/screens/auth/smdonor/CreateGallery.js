@@ -82,14 +82,12 @@ const CreateGallery = ({route}) => {
     videoPicker().then(v => {
       setVideo({uri: v.path, loading: true});
       const reqData = new FormData();
-      reqData.append('image', {
+      reqData.append('vedio', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData, loading =>
-        setVideo(old => ({...old, loading})),
-      );
+      userService.createGallery(reqData);
     });
   };
   const ImageClick = index => {
@@ -102,7 +100,7 @@ const CreateGallery = ({route}) => {
   const handelDel = index => {
     setDel(true);
     const temp = [];
-    
+
     remove.map((item, idx) => {
       if (index === idx) {
         if (item.isSelected === true) {
@@ -124,7 +122,7 @@ const CreateGallery = ({route}) => {
         }
       }
     });
-    setRemove(temp);  
+    setRemove(temp);
     // const check=id?.findIndex(item => item===index)
     // if(check!==-1){
     //   // id.pop(index);
@@ -152,7 +150,7 @@ const CreateGallery = ({route}) => {
             return {id:i,uri:oldImg.uri,loading:false}
           }
     });
-    setGIndex( gIndex-(index.length))   
+    setGIndex( gIndex-(index.length))
     function sortImg(a,b){
         if(a.uri === '') return 1
          return -1
