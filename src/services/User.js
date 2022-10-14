@@ -15,6 +15,7 @@ import {
   setSMDAttributes,
   updateRegStep,
 } from '../redux/actions/auth';
+import axios from 'axios';
 
 const User = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const User = () => {
       });
   };
   const createGallery = (data,setLoading) => {
-    setLoading(true);
+    dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.setGallery, data, {
         headers: {
@@ -64,9 +65,32 @@ const User = () => {
       .then(async response => {
         await dispatch(showAppToast(false, response.data.message));
         console.log('response', response.data.data);
-      })
-      setLoading(false)
+      }).finally(() => {
+        dispatch(hideAppLoader());
+      });
   };
+  const deleteGallery =  async(data)=>{
+    console.log("DATA del", data)
+    const abc={
+      "ids":[
+        {
+        id:79
+        }
+      ]
+    };
+    console.log("ABC+++",abc)
+    axiosRequest
+    .delete(ApiPath.deleteGallery,abc,{
+    })
+    .then(async response => {
+      
+      dispatch(showAppToast(false, response.data.message));
+      console.log(' DELETE response', response);
+    }).finally(() => {
+      dispatch(hideAppLoader());
+    });
+
+  }
   const setPreferences = (data) => {
     dispatch(showAppLoader());
     axiosRequest
@@ -82,11 +106,13 @@ const User = () => {
         dispatch(hideAppLoader());
       });
   };
+
   return {
     userData,
     saveBasicDetails,
     setAttributes,
     createGallery,
+    deleteGallery,
     setPreferences,
   };
 };
