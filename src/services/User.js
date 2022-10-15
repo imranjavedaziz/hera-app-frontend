@@ -70,14 +70,15 @@ const User = () => {
       });
   };
   const deleteGallery =  async(data)=>{
-    // console.log("DATA del", data);
+     console.log("DATAdel", data);
     axiosRequest
-    .delete(ApiPath.deleteGallery,data,{
-    })
+    .delete(ApiPath.deleteGallery,data)
     .then(async response => {
-      dispatch(showAppToast(false, response.data.message));
-      // console.log(' DELETE response', response);
-    }).finally(() => {
+      dispatch(( response.message));
+      console.log(' DELETE response', response)
+    }).catch((e)=>{console.log("error12",e)})
+    .finally(() => {
+    
       dispatch(hideAppLoader());
     });
 
