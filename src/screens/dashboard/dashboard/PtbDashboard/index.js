@@ -36,7 +36,7 @@ const PtbDashboard = () => {
 
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
-    setCardIndex(1);
+    // setCardIndex(1);
     console.log('useSwiper.current::::::', useSwiper.current);
     if (count >= 4) {
       setEmpty(true);
@@ -49,17 +49,17 @@ const PtbDashboard = () => {
 
     setTimeout(() => {
       console.log('cardIndex', cardIndex);
-      setCardIndex(0);
+      // setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 200);
   };
 
   const handleOnSwipedRight = () => {
+    setCardIndex(cardIndex + 1);
     setIsVisibleLogo(true);
     setIslikedLogo('liked');
     setCount(count + 1);
-    setCardIndex(0);
     if (count >= 4) {
       setEmpty(true);
     } else {
@@ -73,6 +73,7 @@ const PtbDashboard = () => {
       }, 1000);
     }
   };
+  console.log('cardIndex>>>', cardIndex);
 
   useEffect(() => {
     data.ptbCardDashboard();
@@ -118,7 +119,8 @@ const PtbDashboard = () => {
     />
   );
 
-  console.log('cardIndex', cardIndex);
+  console.log('cardIndex??', cardIndex);
+  // console.log('ptbDashboard', data.ptbDashboard);
   return (
     <>
       <Container
@@ -149,7 +151,7 @@ const PtbDashboard = () => {
                     infinite={true}
                     ref={useSwiper}
                     renderCard={renderCardData}
-                    cardIndex={1}
+                    cardIndex={0}
                     cards={data.ptbDashboard}
                     verticalSwipe={false}
                     horizontalSwipe={false}
