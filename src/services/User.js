@@ -14,13 +14,13 @@ import {
   setBasicDetails,
   setSMDAttributes,
   updateRegStep,
-} from '../redux/actions/auth';
+} from '../redux/actions/Auth';
 import axios from 'axios';
 
 const User = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const userData = useSelector(state => state.auth);
+  const userData = useSelector(state => state.Auth);
   const saveBasicDetails = data => {
     dispatch(showAppLoader());
     axiosRequest

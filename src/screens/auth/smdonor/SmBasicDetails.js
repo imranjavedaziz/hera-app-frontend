@@ -23,7 +23,7 @@ import {showAppToast} from '../../../redux/actions/loader';
 import SetterData from '../../../services/SetterData';
 
 const SmBasicDetails = ({route}) => {
-  const state = useSelector(state=>state.auth);
+  const state = useSelector(state=>state.Auth);
   console.log(state)
   console.log('Props Data Basic ==',route.params);
   const userService = User();
@@ -134,7 +134,7 @@ const SmBasicDetails = ({route}) => {
               />
             )}
             name="zipcode"
-          />     
+          />
           <Controller
             control={control}
             render={({field: {onChange}}) => (

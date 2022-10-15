@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 

@@ -26,9 +26,9 @@ const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const authService = Auth();
    const data = SetterData();
-  const stateData = useSelector((state) => state.auth.user)
+  const stateData = useSelector((state) => state?.Auth?.user)
   console.log("PROFILE", stateData);
-  const profileImg = useSelector((state) => state.auth.user.profile_pic)
+  const profileImg = useSelector((state) => state?.Auth?.user?.profile_pic)
   const [search, setSearch] = React.useState('');
   const [searching, setSearching] = React.useState(false);
   const onSearch = value => {
@@ -37,7 +37,7 @@ const SmDashboard = ({route}) => {
      setSearching(false)
      return;
     }
-    setSearching(true) 
+    setSearching(true)
     setSearch(value);
   };
  const onClear = () => {
@@ -84,7 +84,7 @@ const SmDashboard = ({route}) => {
     );
   };
   const headerComp = () => (
-    
+
      <IconHeader
       profileImg={profileImg}
       profileView={true}
@@ -92,7 +92,7 @@ const SmDashboard = ({route}) => {
       leftPress={()=> navigation.navigate(Routes.SmSetting)}
       // rightPress={authService.logout}
     />
-    
+
   );
   return (
     <Container
@@ -153,7 +153,7 @@ const SmDashboard = ({route}) => {
                   showsVerticalScrollIndicator={false}
                 />
               </View>
-             ) : null} 
+             ) : null}
           </View>
         </View>
       </View>

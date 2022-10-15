@@ -28,7 +28,9 @@ import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery';
 
 const Stack = createStackNavigator();
 const Main = () => {
-  const auth = useSelector(state => state.auth.user);
+  const auth = useSelector(state => state.Auth.user);
+  console.log(auth, "auth::::");
+  // state.Auth.user
   useEffect(() => {
     if (auth) {
       RNBootSplash.hide();
@@ -38,9 +40,9 @@ const Main = () => {
     <NavigationContainer onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
         initialRouteName={getRoute(
-          auth.access_token,
-          auth.role_id,
-          auth.registration_step,
+          auth?.access_token,
+          auth?.role_id,
+          auth?.registration_step,
         )}
         // initialRouteName={"Profile"}
       >

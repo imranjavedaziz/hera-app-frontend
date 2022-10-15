@@ -110,11 +110,11 @@ selectIcon:{
     overflow: "hidden",
   },
   video: {
-    borderRadius: 15,
     overflow: 'hidden',
     width: width,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
     resizeMode: 'cover',
-    borderWidth: 2,
+    marginTop: Value.CONSTANT_VALUE_3,
   },
+  playIcon:{position:'absolute',left:width/2,top:80}
 };

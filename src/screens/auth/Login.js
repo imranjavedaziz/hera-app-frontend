@@ -1,10 +1,10 @@
 // Login
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Container from '../../components/Container';
 import Images from '../../constants/Images';
 import {CircleBtn} from '../../components/Header';
@@ -13,15 +13,20 @@ import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
-import {showAppToast} from '../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
-import Auth from '../../services/Auth';
-
+import {logIn, setUser} from '../../redux/actions/Auth';
+import getRoute from '../../utils/getRoute';
 const Login = () => {
-  const authService = Auth();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
+  const [payloadData, setPayloadData] = useState('');
   const {
     handleSubmit,
     control,
@@ -29,15 +34,41 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
+
+  const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
+    useSelector(state => state.Auth);
   useEffect(() => {
     if (!isValid) {
       const e = errors;
       const messages = [];
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
       const msg = messages.join('\n').trim();
-      if (msg) dispatch(showAppToast(false, msg));
+      if (msg) {
+        dispatch(showAppToast(false, msg));
+      }
     }
   }, [errors, isValid]);
+  useEffect(() => {
+    if (loadingRef.current && !log_in_loading) {
+      dispatch(showAppLoader());
+      if (log_in_success) {
+        dispatch(hideAppLoader());
+        dispatch(setUser(log_in_data.data.data));
+        navigation.navigate(
+          getRoute(
+            log_in_data.data.data.access_token,
+            log_in_data.data.data.role_id,
+            log_in_data.data.data.registration_step,
+          ),
+          payloadData,
+        );
+      }
+      if (log_in_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = log_in_loading;
+  }, [log_in_success, log_in_loading]);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -46,12 +77,13 @@ const Login = () => {
     />
   );
   const onSubmit = data => {
-    console.log('Dataaaaa>>', data);
-    authService.login({
+    const payload = {
       country_code: '+91',
       phone_no: data.phone,
       password: data.password,
-    });
+    };
+    setPayloadData(payload);
+    dispatch(logIn(payload));
   };
   return (
     <Container

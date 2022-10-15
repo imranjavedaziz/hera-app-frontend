@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux';
 import SetterData from '../../../services/SetterData';
 
 const SetAttributes = ({route}) => {
-  const initialState = useSelector(state => state.auth)
+  const initialState = useSelector(state => state.Auth)
   console.log(initialState)
   const [isOpen, setOpen] = useState(false);
   const userService = User();

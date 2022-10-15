@@ -9,6 +9,14 @@ import {
 } from '../constants';
 import axiosRequest from '../../utils/axiosRequest';
 import ApiPath from '../../constants/ApiPath';
+import {AUTH_LOG_IN} from '../Type';
+
+export const logIn = userInfo => {
+  return {
+    type: AUTH_LOG_IN,
+    data: userInfo,
+  };
+};
 
 export const setUser = payload => ({
   type: SET_USER,
@@ -38,11 +46,11 @@ export const updateRegStep = () => ({
   type: UPDATE_REG_STEP,
 });
 
-export const getUserGallery = () => async (dispatch)=>{
-  const result = await axiosRequest.get(ApiPath.getGallery)
-  //  console.log("RES",result.data.data)
-  dispatch({
-    type: GET_GALLERY,
-    payload: result.data.data
-  })
-}
+// export const getUserGallery = () => async dispatch => {
+//   const result = await axiosRequest.get(ApiPath.getGallery);
+//   //  console.log("RES",result.data.data)
+//   dispatch({
+//     type: GET_GALLERY,
+//     payload: result.data.data,
+//   });
+// };

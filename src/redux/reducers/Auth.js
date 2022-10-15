@@ -7,6 +7,8 @@ import {
   SET_ATTRIBUTES,
   GET_GALLERY,
 } from '../constants';
+import {AUTH_LOG_IN, AUTH_LOG_IN_FAIL, AUTH_LOG_IN_SUCCESS} from '../Type';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initState = {
   user: {
@@ -51,25 +53,76 @@ const initState = {
     user_id: '',
     weight_id: '',
   },
-  gallery:{
-    doner_photo_gallery:[],
-    doner_video_gallery:[],
+  gallery: {
+    doner_photo_gallery: [],
+    doner_video_gallery: [],
   },
+  log_in_success: false,
+  log_in_loading: false,
+  token: '',
+  user_id: '',
+  log_in_error_msg: '',
+  log_in_data: '',
 };
 
-export default (state = initState, {type = '', payload = null} = {}) => {
-  switch (type) {
+export default (state = initState, action) => {
+  console.log(action?.data?.data, "action.data.data");
+  switch (action.type) {
+    /**
+     * SignIn
+     */
+    case AUTH_LOG_IN: {
+      return {
+        ...state,
+        log_in_success: false,
+        log_in_loading: true,
+        token: '',
+        log_in_error_msg: '',
+        log_in_data: action.data,
+      };
+    }
+    case AUTH_LOG_IN_FAIL: {
+      return {
+        ...state,
+        log_in_success: false,
+        log_in_loading: false,
+        token: '',
+        log_in_error_msg: action.data.msg,
+        log_in_data: '',
+      };
+    }
+    case AUTH_LOG_IN_SUCCESS: {
+      const {access_token} = action.data.data.data;
+      // AsyncStorage.setItem('token', access_token);
+      return {
+        ...state,
+        user:action?.data?.data?.data,
+
+        log_in_success: true,
+        log_in_loading: false,
+        token: access_token,
+        log_in_data: action.data,
+        log_in_error_msg: '',
+      };
+    }
+    /**
+     * Set User
+     */
     case SET_USER:
       return {
         ...state,
-        user: payload,
+        user: action?.data?.data?.data,
       };
+    /**
+     * Update Token
+     */
     case UPDATE_TOKEN:
       return {
         ...state,
+        token: action,
         user: {
           ...state.user,
-          access_token: payload,
+          access_token: action,
         },
       };
     case UPDATE_REG_STEP:
@@ -83,24 +136,19 @@ export default (state = initState, {type = '', payload = null} = {}) => {
     case SET_BASIC_DETAILS:
       return {
         ...state,
-        basic: payload,
+        basic: action,
       };
     case SET_ATTRIBUTES:
       return {
         ...state,
-        attributes: payload,
+        attributes: action,
       };
     case SIGNOUT_USER:
       return {
         ...state,
         user: initState.user,
-        gallery:initState.gallery
+        gallery: initState.gallery,
       };
-    case GET_GALLERY:
-      return {
-        ...state,
-        gallery: payload,
-      }
     default:
       return state;
   }

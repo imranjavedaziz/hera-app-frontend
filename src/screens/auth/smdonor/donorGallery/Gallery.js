@@ -24,10 +24,11 @@ import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../services/User';
 import {useSelector, useDispatch} from 'react-redux';
-import {getUserGallery} from '../../../../redux/actions/auth';
+import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import Video from 'react-native-video';
+import { width } from "../../../../utils/responsive";
 
 const Gallery = ({route}) => {
   const userService = User();
@@ -44,14 +45,14 @@ const Gallery = ({route}) => {
     {id: 5, uri: '', loading: false},
   ]);
   const photoGallery = useSelector(
-    state => state.auth.gallery.doner_photo_gallery,
+    state => state?.CreateGallery.gallery.doner_photo_gallery,
   );
+  console.log(photoGallery, 'photoGallery:::::::');
   const videoGallery = useSelector(
-    state => state.auth.gallery.doner_video_gallery,
+    state => state?.CreateGallery?.gallery.doner_video_gallery,
   );
-  console.log(videoGallery, 'vedioGallery:::::');
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({uri: '', loading: false});
+  const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
@@ -65,15 +66,13 @@ const Gallery = ({route}) => {
     {id: 4, isSelected: false},
     {id: 5, isSelected: false},
   ]);
+  const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef();
   useEffect(() => {
-    console.log('USE EFFECT');
-    updateGallery();
     dispatch(getUserGallery());
-    setVideo({
-      uri: videoGallery?.file_url ? videoGallery?.file_url : '',
-      loading: false,
-    });
+    updateGallery();
+    setVideo({file_url:videoGallery?.file_url?videoGallery?.file_url: '', loading: false})
+
   }, []);
   const cb = image => {
     setOpen(false);
@@ -106,14 +105,14 @@ const Gallery = ({route}) => {
   };
   const selectVideo = () => {
     videoPicker().then(v => {
-      setVideo({uri: v.path, loading: true});
+      console.log(v, 'v::::::::::::::');
+      setVideo({file_url: v.path, loading: true});
       const reqData = new FormData();
       reqData.append('video', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      console.log(reqData, 'reqData:::::::::');
       userService.createGallery(reqData, loading =>
         setVideo(old => ({...old, loading})),
       );
@@ -201,22 +200,24 @@ const Gallery = ({route}) => {
   };
 
   const updateGallery = () => {
-    const url = photoGallery.map((item, i) => {
-      return item.file_url;
-    });
+    const url =
+      photoGallery &&
+      photoGallery.map((item, i) => {
+        return item.file_url;
+      });
     console.log('Gallery_DATA', url);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
-        if (i <= photoGallery.length) {
+        if (i <= photoGallery?.length) {
           return {id: i, uri: url[i], loading: false};
         }
         return img;
       });
     });
-    for (var i = 0; i < url.length; ++i) {
+    for (var i = 0; i < url?.length; ++i) {
       images.push({uri: url[i]});
     }
-    setGIndex(url.length);
+    setGIndex(url?.length);
   };
   const headerComp = () => (
     <CircleBtn
@@ -226,7 +227,7 @@ const Gallery = ({route}) => {
       style={{marginLeft: 30}}
     />
   );
-  console.log(videoGallery?.file_url, "videoGallery?.file_url");
+  console.log(videoGallery, 'videoGallery?.file_url');
   return (
     <>
       <Container
@@ -274,20 +275,19 @@ const Gallery = ({route}) => {
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity onPress={selectVideo}>
+          <TouchableOpacity disabled={!video?.file_url?true:false} onPress={()=>!video?.file_url?selectVideo:setIsPlaying(p => !p)}>
             <ImageBackground
               style={styles.videoContainer}
-              source={video.uri ? {uri: video.uri} : null}
               imageStyle={{
                 resizeMode: 'contain',
               }}>
-              {!video.uri  ? (
+              {!video?.file_url ? (
                 <>
                   <Text style={styles.videoTitle}>Upload Video</Text>
                   <Text style={styles.videoPara}>Add a short 60 sec video</Text>
                   <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
                 </>
-              ): video.loading ? (
+              ) : video.loading ? (
                 <ActivityIndicator />
               ) : (
                 <View style={styles.imageOverlayWrapper}>
@@ -299,11 +299,12 @@ const Gallery = ({route}) => {
                         paused: true,
                       });
                     }}
-                    source={{uri: `${videoGallery?.file_url}`}}
+                    paused={!isPlaying}
+                    source={{uri: `${video?.file_url}`}}
                     resizeMode={'cover'}
                     style={styles.video}
                   />
-                  <Image source={Images.playButton} />
+                  <Image source={Images.playButton} style={styles.playIcon}/>
                 </View>
               )}
             </ImageBackground>

@@ -168,7 +168,7 @@ export default {
     Btn: 'Save',
   },
   sm_create_gallery: {
-    Title: 'Create your gallery',
+    Title: 'CreateGallery.js your gallery',
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
@@ -254,7 +254,7 @@ export default {
     UploadVideo: 'Upload Video',
     ShortVideo: 'Add a short 60 sec video\n(AVI, MOV, MP4 format)',
     VideoContent: 'A short video might just \nhelp you find a better match',
-    Gallery: 'Create a Gallery',
+    Gallery: 'CreateGallery.js a Gallery',
     EditProfile: 'Edit Profile',
     Settings: 'Settings',
     Inquiry: 'Inquiry Form',
