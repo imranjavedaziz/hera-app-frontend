@@ -5,15 +5,15 @@ import {
   watchVerifyOtp,
   watchLogOutApi,
 } from './Auth';
-import {watchGetUserGallery} from './CreateGallery';
-import {watchGetPtbDashboard} from './PtbDashboard';
-
 import {
   watchPtbRegisterApi,
   watchSaveBasicDetail,
   watchGetStates,
   watchGetProfileSetter,
 } from './Register';
+import { watchsetPreference } from './SetPreference';
+import {watchGetUserGallery} from './CreateGallery';
+import {watchGetPtbDashboard} from './PtbDashboard';
 
 export default function* rootSaga() {
   yield all([
@@ -27,5 +27,6 @@ export default function* rootSaga() {
     fork(watchGetStates),
     fork(watchGetProfileSetter),
     fork(watchGetPtbDashboard),
+    fork(watchsetPreference),
   ]);
 }

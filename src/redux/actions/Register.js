@@ -22,12 +22,10 @@ export const saveBasicDetail = payload => {
 export const getStates = () => {
   return {
     type: GET_STATES_DETAIL,
-    data: {},
   };
 };
 export const getProfileSetterDetail = () => {
   return {
     type: GET_PROFILE_SETTER_DETAIL,
-    data: {},
   };
 };

@@ -12,23 +12,32 @@ import globalStyle from '../../../styles/global';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {genders} from '../../../constants/Constants';
+import {genders, Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
-import {hideAppLoader, showAppLoader, showAppToast} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import SetterData from '../../../services/SetterData';
 import {
   getStates,
   getProfileSetterDetail,
+  saveBasicDetail,
 } from '../../../redux/actions/Register';
+
 const SmBasicDetails = ({route}) => {
   const data = SetterData();
   const [isOpen, setOpen] = useState(false);
   const [stateRes, setStateRes] = useState();
+  const [profileRes, setProfileRes] = useState();
   const dispatch = useDispatch();
   const loadingRef = useRef();
+  const LoadingRef = useRef();
+  const SubmitLoadingRef = useRef();
   useEffect(() => {
     dispatch(getStates());
     // dispatch(getProfileSetterDetail());
@@ -36,11 +45,17 @@ const SmBasicDetails = ({route}) => {
   const {
     get_state_res,
     get_profile_setter_res,
+    get_profile_setter_success,
+    get_profile_setter_loading,
+    get_profile_setter_error_msg,
     get_state_success,
     get_state_loading,
     get_state_error_msg,
+    save_basic_detail_success,
+    save_basic_detail_loading,
+    save_basic_detail_error_msg,
   } = useSelector(state => state.Register);
-console.log(get_state_res, 'get_state')
+  console.log(get_state_res, 'get_state');
   const {
     handleSubmit,
     control,
@@ -48,15 +63,14 @@ console.log(get_state_res, 'get_state')
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
-  // GET STATE RES
-  console.log('get_state_success', get_state_success)
+
+  //GET STATE
   useEffect(() => {
     if (loadingRef.current && !get_state_loading) {
       dispatch(showAppLoader());
-     
       if (get_state_success) {
-        dispatch(hideAppLoader())
-        setStateRes(get_state_res)
+        dispatch(hideAppLoader());
+        setStateRes(get_state_res);
       }
       if (get_state_error_msg) {
         dispatch(hideAppLoader());
@@ -65,7 +79,40 @@ console.log(get_state_res, 'get_state')
     loadingRef.current = get_state_loading;
   }, [get_state_success, get_state_loading]);
 
-  const onSubmit = data => {};
+  //GET PROFILE SETTER
+  useEffect(() => {
+    if (LoadingRef.current && !get_profile_setter_loading) {
+      dispatch(showAppLoader());
+      if (get_profile_setter_success) {
+        dispatch(hideAppLoader());
+        setProfileRes(get_profile_setter_res);
+      }
+      if (get_profile_setter_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    LoadingRef.current = get_profile_setter_loading;
+  }, [get_profile_setter_success, get_profile_setter_loading]);
+
+  //SAVE BASIC DETAIL DATA
+  useEffect(() => {
+    if (SubmitLoadingRef.current && !save_basic_detail_loading) {
+      dispatch(showAppLoader());
+      if (save_basic_detail_error_msg) {
+        dispatch(hideAppLoader());
+        navigation.navigator(Routes.SetPreference);
+      }
+      if (save_basic_detail_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    SubmitLoadingRef.current = save_basic_detail_loading;
+  }, [save_basic_detail_success, save_basic_detail_loading]);
+
+  const onSubmit = data => {
+    dispatch(showAppLoader);
+    dispatch(saveBasicDetail(data));
+  };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -75,16 +122,6 @@ console.log(get_state_res, 'get_state')
     />
   );
 
-  // React.useEffect(() => {
-  //   data.state();
-  //   data.sexsualOrientation();
-  //   if (!isValid) {
-  //     const e = errors;
-  //     if (e.gender_id) {
-  //       dispatch(showAppToast(true, ValidationMessages.ENTER_GENDER));
-  //     }
-  //   }
-  // }, [errors, isValid]);
   return (
     <>
       <Container
@@ -170,7 +207,7 @@ console.log(get_state_res, 'get_state')
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.SexualOrientation}
-                data={data.sexsualOrient}
+                data={profileRes.sexsualOrient}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -185,7 +222,7 @@ console.log(get_state_res, 'get_state')
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.RelationshipStatus}
-                data={data.relationship}
+                data={profileRes.relationship}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}

@@ -83,7 +83,7 @@ function* getProfileSetterDetail() {
   try {
     const result = yield getProfileSetterApi();
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      yield put({type: GET_PROFILE_SETTER_SUCCESS, data: result});
+      yield put({type: GET_PROFILE_SETTER_SUCCESS, data: result?.data?.data});
     } else {
       yield put({
         type: GET_PROFILE_SETTER_FAIL,
