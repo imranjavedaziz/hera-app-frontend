@@ -1,7 +1,7 @@
 // OTP
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Text, TouchableOpacity, View, Keyboard} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../components/Container';
@@ -14,10 +14,18 @@ import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
-import Auth from '../../services/Auth';
+import {verifyOtp} from '../../redux/actions/Auth';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
+import {Routes} from '../../constants/Constants';
 
 const OTP = ({route}) => {
-  const authService = Auth();
+  const dispatch = useDispatch();
+  const loadingRef = useRef(false);
+  const {
+    params: {isRouteData},
+  } = useRoute();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
   const {
@@ -28,9 +36,30 @@ const OTP = ({route}) => {
     resolver: yupResolver(otpSchema),
   });
 
+  const {verify_otp_success, verify_otp_loading, verify_otp_error_msg} =
+    useSelector(state => state.Auth);
+  // send otp res
+  useEffect(() => {
+    if (loadingRef.current && !verify_otp_loading) {
+      dispatch(showAppLoader());
+      if (verify_otp_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Profile, {isRouteData});
+      }
+      if (verify_otp_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = verify_otp_loading;
+  }, [verify_otp_success, verify_otp_loading]);
   const onSubmit = data => {
-    console.log('otppppp',data )
-    authService.verifyOtp({otp: data.otp,...route.params});
+    const payload = {
+      country_code: isRouteData.country_code,
+      phone_no: isRouteData.phone_no,
+      otp: data.otp,
+    };
+    dispatch(showAppLoader());
+    dispatch(verifyOtp(payload));
   };
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

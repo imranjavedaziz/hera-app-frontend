@@ -1,0 +1,17 @@
+import axiosRequest from '../utils/axiosRequest';
+import ApiPath from '../constants/ApiPath';
+
+export const ptbRegisterApi = data => {
+  return axiosRequest.post(ApiPath.register, data);
+};
+
+export const saveBasicDetailApi = data => {
+  return axiosRequest.post(ApiPath.profileRegister, data);
+};
+
+export const getStateApi = () => {
+  return axiosRequest.get(ApiPath.states);
+};
+export const getProfileSetterApi = () => {
+  return axiosRequest.get(ApiPath.profile_setter_data);
+};

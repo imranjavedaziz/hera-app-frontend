@@ -7,7 +7,20 @@ import {
   SET_ATTRIBUTES,
   GET_GALLERY,
 } from '../constants';
-import {AUTH_LOG_IN, AUTH_LOG_IN_FAIL, AUTH_LOG_IN_SUCCESS} from '../Type';
+import {
+  AUTH_LOG_IN,
+  AUTH_LOG_IN_FAIL,
+  AUTH_LOG_IN_SUCCESS,
+  AUTH_MOBILE_NUMBER,
+  AUTH_MOBILE_NUMBER_SUCCESS,
+  AUTH_MOBILE_NUMBER_FAIL,
+  AUTH_VERIFY_OTP,
+  AUTH_VERIFY_OTP_FAIL,
+  AUTH_VERIFY_OTP_SUCCESS,
+  AUTH_LOG_OUT,
+  AUTH_LOG_OUT_SUCCESS,
+  AUTH_LOG_OUT_FAIL,
+} from '../Type';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initState = {
@@ -63,10 +76,18 @@ const initState = {
   user_id: '',
   log_in_error_msg: '',
   log_in_data: '',
+  mobile_number_success: false,
+  mobile_number_loading: false,
+  mobile_number_error_msg: '',
+  verify_otp_success: false,
+  verify_otp_loading: false,
+  verify_otp_error_msg: '',
+  log_out_success: false,
+  log_out_loading: false,
+  log_out_error_msg: '',
 };
 
 export default (state = initState, action) => {
-  console.log(action?.data?.data, "action.data.data");
   switch (action.type) {
     /**
      * SignIn
@@ -96,7 +117,7 @@ export default (state = initState, action) => {
       // AsyncStorage.setItem('token', access_token);
       return {
         ...state,
-        user:action?.data?.data?.data,
+        user: action?.data?.data?.data,
 
         log_in_success: true,
         log_in_loading: false,
@@ -149,6 +170,78 @@ export default (state = initState, action) => {
         user: initState.user,
         gallery: initState.gallery,
       };
+    case AUTH_MOBILE_NUMBER: {
+      return {
+        ...state,
+        mobile_number_success: false,
+        mobile_number_loading: true,
+        mobile_number_error_msg: '',
+      };
+    }
+    case AUTH_MOBILE_NUMBER_FAIL: {
+      return {
+        ...state,
+        mobile_number_success: false,
+        mobile_number_loading: false,
+        mobile_number_error_msg: action.data.msg,
+      };
+    }
+    case AUTH_MOBILE_NUMBER_SUCCESS: {
+      return {
+        ...state,
+        mobile_number_success: true,
+        mobile_number_loading: false,
+        mobile_number_error_msg: '',
+      };
+    }
+    case AUTH_VERIFY_OTP: {
+      return {
+        ...state,
+        verify_otp_success: false,
+        verify_otp_loading: true,
+        verify_otp_error_msg: '',
+      };
+    }
+    case AUTH_VERIFY_OTP_FAIL: {
+      return {
+        ...state,
+        verify_otp_success: false,
+        verify_otp_loading: false,
+        verify_otp_error_msg: action.data.msg,
+      };
+    }
+    case AUTH_VERIFY_OTP_SUCCESS: {
+      return {
+        ...state,
+        verify_otp_success: true,
+        verify_otp_loading: false,
+        verify_otp_error_msg: '',
+      };
+    }
+    case AUTH_LOG_OUT: {
+      return {
+        ...state,
+        log_out_success: false,
+        log_out_loading: true,
+        log_out_error_msg: '',
+      };
+    }
+    case AUTH_LOG_OUT_FAIL: {
+      return {
+        ...state,
+        log_out_success: false,
+        log_out_loading: false,
+        log_out_error_msg: action.data.msg,
+      };
+    }
+    case AUTH_LOG_OUT_SUCCESS: {
+      return {
+        ...state,
+        log_out_success: true,
+        log_out_loading: false,
+        log_out_error_msg: '',
+      };
+    }
     default:
       return state;
   }

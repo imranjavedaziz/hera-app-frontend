@@ -9,7 +9,13 @@ import {
 } from '../constants';
 import axiosRequest from '../../utils/axiosRequest';
 import ApiPath from '../../constants/ApiPath';
-import {AUTH_LOG_IN} from '../Type';
+import {
+  AUTH_LOG_IN,
+  AUTH_MOBILE_NUMBER,
+  AUTH_VERIFY_OTP,
+  AUTH_LOG_OUT,
+  AUTH_REGISTER,
+} from '../Type';
 
 export const logIn = userInfo => {
   return {
@@ -45,6 +51,33 @@ export const updateToken = token => ({
 export const updateRegStep = () => ({
   type: UPDATE_REG_STEP,
 });
+
+export const mobileNumber = payload => {
+  return {
+    type: AUTH_MOBILE_NUMBER,
+    data: payload,
+  };
+};
+
+export const verifyOtp = payload => {
+  return {
+    type: AUTH_VERIFY_OTP,
+    data: payload,
+  };
+};
+
+export const logOut = () => {
+  return {
+    type: AUTH_LOG_OUT,
+  };
+};
+
+export const ptbRegister = payload => {
+  return {
+    type: AUTH_REGISTER,
+    data: payload,
+  };
+};
 
 // export const getUserGallery = () => async dispatch => {
 //   const result = await axiosRequest.get(ApiPath.getGallery);

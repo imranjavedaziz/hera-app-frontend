@@ -1,5 +1,5 @@
 // MobileNumber
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
@@ -13,25 +13,54 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
-import Auth from '../../services/Auth';
+import {mobileNumber} from '../../redux/actions/Auth';
+import {useDispatch, useSelector} from 'react-redux';
+import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
+import {Routes} from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
-  const authService = Auth();
+  const dispatch = useDispatch();
+  const loadingRef = useRef(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [isRouteData, setIsRouteData] = useState();
   const {
     handleSubmit,
     control,
-    formState: {errors},
+    formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(mobileSchema),
   });
+  const {
+    mobile_number_success,
+    mobile_number_loading,
+    mobile_number_error_msg,
+  } = useSelector(state => state.Auth);
+
+  // send otp res
+  useEffect(() => {
+    if (loadingRef.current && !mobile_number_loading) {
+      dispatch(showAppLoader());
+      if (mobile_number_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.OTP, {isRouteData});
+      }
+      if (mobile_number_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = mobile_number_loading;
+  }, [mobile_number_success, mobile_number_loading]);
+
+  // send otp
   const onSubmit = data => {
-    console.log('register', data);
-    authService.sendOtp({
+    const payload = {
       country_code: '+91',
       phone_no: data.phone,
-    });
+    };
+    setIsRouteData(payload);
+    dispatch(showAppLoader());
+    dispatch(mobileNumber(payload));
   };
 
   const headerComp = () => (
@@ -92,7 +121,7 @@ const MobileNumber = () => {
                 maxLength={10}
                 error={errors && errors.phone?.message}
                 containerStyle={{
-                  flex: 1,    
+                  flex: 1,
                 }}
                 fixed={true}
               />

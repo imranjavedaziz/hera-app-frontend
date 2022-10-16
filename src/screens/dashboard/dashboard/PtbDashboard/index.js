@@ -7,7 +7,7 @@ import {
   Text,
   FlatList,
 } from 'react-native';
-import React, {useRef, useState, useCallback} from 'react';
+import React, {useRef, useState, useCallback, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import Images from '../../../../constants/Images';
@@ -20,6 +20,9 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Auth from '../../../../services/Auth';
 import SetterData from '../../../../services/SetterData';
 import {getRoleType} from '../../../../utils/other';
+import {useDispatch, useSelector} from 'react-redux';
+import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -30,8 +33,33 @@ const PtbDashboard = () => {
   const [empty, setEmpty] = useState(false);
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
-  const authService = Auth();
-  const data = SetterData();
+  const [stateRes, setStateRes] = useState();
+  const dispatch = useDispatch();
+  const loadingRef = useRef();
+  useEffect(() => {
+    dispatch(getPtbDashboard());
+  }, []);
+  const {
+    get_ptb_dashboard_success,
+    get_ptb_dashboard_loading,
+    get_ptb_dashboard_error_msg,
+    get_ptb_dashboard_res,
+  } = useSelector(state => state.PtbDashboard);
+
+  useEffect(() => {
+    if (loadingRef.current && !get_ptb_dashboard_loading) {
+      dispatch(showAppLoader());
+
+      if (get_ptb_dashboard_success) {
+        dispatch(hideAppLoader());
+        setStateRes(get_ptb_dashboard_res);
+      }
+      if (get_ptb_dashboard_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = get_ptb_dashboard_loading;
+  }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]);
 
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
@@ -68,12 +96,6 @@ const PtbDashboard = () => {
       setIslikedLogo('');
     }, 150);
   };
-
-  useFocusEffect(
-    useCallback(() => {
-      data.ptbCardDashboard();
-    }, [cardIndex]),
-  );
 
   function renderCardData(item) {
     return (
@@ -143,7 +165,7 @@ const PtbDashboard = () => {
                     ref={useSwiper}
                     renderCard={renderCardData}
                     cardIndex={cardIndex}
-                    cards={data.ptbDashboard}
+                    cards={stateRes.ptbDashboard}
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
