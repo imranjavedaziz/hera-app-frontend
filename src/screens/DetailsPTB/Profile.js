@@ -6,6 +6,7 @@ import {
   Pressable,
   ImageBackground,
   Modal,
+  Platform,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
@@ -72,7 +73,7 @@ const validatePassword = (value, type) => {
   }
   return null;
 };
-const Profile = ({route}) => {
+const Profile = () => {
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const {
@@ -156,7 +157,7 @@ const Profile = ({route}) => {
     });
     console.log(reqData, 'reqData:::::::::::');
     dispatch(showAppLoader());
-    dispatch(ptbRegister(reqData))
+    dispatch(ptbRegister(reqData));
   };
   useEffect(() => {
     askCameraPermission;
@@ -217,10 +218,7 @@ const Profile = ({route}) => {
 
           {/* Image Upload End  */}
         </View>
-        <View
-          style={{
-            width: '100%',
-          }}>
+        <View style={styles.fullWidth}>
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -300,10 +298,7 @@ const Profile = ({route}) => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <View
-                style={{
-                  width: '100%',
-                }}>
+              <View style={styles.fullWidth}>
                 <FloatingLabelInput
                   label={Strings.profile.setPassword}
                   value={value}
@@ -405,7 +400,7 @@ const Profile = ({route}) => {
         </View>
         <Pressable
           onPress={() => {
-            navigation.navigate(Routes.SmRegister, route.params);
+            navigation.navigate(Routes.SmRegister, {isRouteData});
           }}>
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
@@ -416,14 +411,18 @@ const Profile = ({route}) => {
                 openCamera(0, cb);
               }}
               style={[styles.pickerBtn, styles.pickerBtnBorder]}>
-              <Text style={styles.pickerBtnLabel}>Open Camera</Text>
+              <Text style={styles.pickerBtnLabel}>
+                {Strings.profile.bottomSheetCamera}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 openCamera(1, cb);
               }}
               style={styles.pickerBtn}>
-              <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
+              <Text style={styles.pickerBtnLabel}>
+                {Strings.profile.bottomSheetGallery}
+              </Text>
             </TouchableOpacity>
           </View>
         </BottomSheetComp>

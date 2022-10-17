@@ -128,9 +128,11 @@ const SmRegister = () => {
     askCameraPermission;
     if (!isValid) {
       const e = errors.role;
-      if (e) dispatch(showAppToast(true, e.message));
+      if (e) {
+        dispatch(showAppToast(true, e.message));
+      }
     }
-  }, [errors, isValid]);
+  }, [dispatch, errors, isValid]);
   const onSubmit = data => {
     console.log(data);
     console.log('FILE', file);
@@ -160,7 +162,6 @@ const SmRegister = () => {
     console.log('reqData---->', reqData);
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
-    // authService.registerUser(reqData);
   };
   const headerComp = () => (
     <CircleBtn
@@ -392,7 +393,7 @@ const SmRegister = () => {
           />
           <Pressable
             onPress={() => {
-              navigation.navigate(Routes.Profile, route.params);
+              navigation.navigate(Routes.Profile);
             }}>
             <Text style={styles.parentBtn}>Register as Parent To Be</Text>
           </Pressable>

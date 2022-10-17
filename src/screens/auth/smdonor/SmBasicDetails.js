@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,6 +28,7 @@ import {
   getProfileSetterDetail,
   saveBasicDetail,
 } from '../../../redux/actions/Register';
+import {useFocusEffect} from '@react-navigation/native';
 
 const SmBasicDetails = ({route}) => {
   const data = SetterData();
@@ -38,10 +39,12 @@ const SmBasicDetails = ({route}) => {
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef();
-  useEffect(() => {
-    dispatch(getStates());
-    dispatch(getProfileSetterDetail());
-  }, [dispatch]);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getStates());
+      dispatch(getProfileSetterDetail());
+    }, [dispatch]),
+  );
   const {
     get_state_res,
     get_profile_setter_res,

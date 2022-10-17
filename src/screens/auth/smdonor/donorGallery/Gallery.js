@@ -28,7 +28,7 @@ import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import Video from 'react-native-video';
-import { width } from "../../../../utils/responsive";
+import {width} from '../../../../utils/responsive';
 
 const Gallery = ({route}) => {
   const userService = User();
@@ -71,8 +71,10 @@ const Gallery = ({route}) => {
   useEffect(() => {
     dispatch(getUserGallery());
     updateGallery();
-    setVideo({file_url:videoGallery?.file_url?videoGallery?.file_url: '', loading: false})
-
+    setVideo({
+      file_url: videoGallery?.file_url ? videoGallery?.file_url : '',
+      loading: false,
+    });
   }, []);
   const cb = image => {
     setOpen(false);
@@ -234,7 +236,7 @@ const Gallery = ({route}) => {
         showHeader={true}
         headerEnd={false}
         headerComp={headerComp}
-        style={{marginHorizontal: 0}}>
+        style={{}}>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.sm_create_gallery.myGallery}
@@ -247,9 +249,7 @@ const Gallery = ({route}) => {
                 <ImageBackground
                   key={img.id}
                   style={styles.galleryImgView}
-                  imageStyle={{
-                    resizeMode: 'cover',
-                  }}
+                  imageStyle={styles.resizeContain}
                   source={img.uri ? {uri: img.uri} : null}>
                   {gallery[index].uri ? (
                     <TouchableOpacity
@@ -275,17 +275,27 @@ const Gallery = ({route}) => {
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity disabled={!video?.file_url?true:false} onPress={()=>!video?.file_url?selectVideo:setIsPlaying(p => !p)}>
+          <TouchableOpacity
+            disabled={!video?.file_url ? true : false}
+            onPress={() =>
+              !video?.file_url ? selectVideo : setIsPlaying(p => !p)
+            }>
             <ImageBackground
               style={styles.videoContainer}
-              imageStyle={{
-                resizeMode: 'contain',
-              }}>
+              imageStyle={styles.resizeContain}>
               {!video?.file_url ? (
                 <>
-                  <Text style={styles.videoTitle}>Upload Video</Text>
-                  <Text style={styles.videoPara}>Add a short 60 sec video</Text>
-                  <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
+                  <Text style={styles.videoTitle}>
+                    {' '}
+                    {Strings.sm_create_gallery.uploadVideo}
+                  </Text>
+                  <Text style={styles.videoPara}>
+                    {' '}
+                    {Strings.sm_create_gallery.videoDuration}
+                  </Text>
+                  <Text style={styles.videoPara}>
+                    {Strings.sm_create_gallery.videoFormat}
+                  </Text>
                 </>
               ) : video.loading ? (
                 <ActivityIndicator />
@@ -304,12 +314,12 @@ const Gallery = ({route}) => {
                     resizeMode={'cover'}
                     style={styles.video}
                   />
-                  <Image source={Images.playButton} style={styles.playIcon}/>
+                  <Image source={Images.playButton} style={styles.playIcon} />
                 </View>
               )}
             </ImageBackground>
           </TouchableOpacity>
-          {isDel && rmvImgCount != 0 ? (
+          {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
                 {rmvImgCount} Photos Selected
@@ -318,7 +328,9 @@ const Gallery = ({route}) => {
                 style={styles.deleteBtnContainer}
                 onPress={() => setShowModal(true)}>
                 <Image source={Images.trashRed} style={{}} />
-                <Text style={styles.rmvText}>Remove From Gallery</Text>
+                <Text style={styles.rmvText}>
+                  {Strings.sm_create_gallery.removeImg}
+                </Text>
               </TouchableOpacity>
             </View>
           ) : (
@@ -338,14 +350,18 @@ const Gallery = ({route}) => {
               openCamera(0, cb);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.sm_create_gallery.bottomSheetCamera}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               openCamera(1, cb);
             }}
             style={styleSheet.pickerBtn}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.sm_create_gallery.bottomSheetGallery}
+            </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
