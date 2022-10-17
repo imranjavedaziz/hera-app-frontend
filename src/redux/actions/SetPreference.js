@@ -1,9 +1,8 @@
-import { SET_PREFERENCE } from "../Type";
+import {SET_PREFERENCE} from '../Type';
 
-
-export const SetPreferenceRes = payload => {
-    return {
-      type: SET_PREFERENCE,
-      data: payload,
-    };
+export const SetPreferenceRes = () => {
+  return {
+    type: SET_PREFERENCE,
+    data: {},
   };
+};

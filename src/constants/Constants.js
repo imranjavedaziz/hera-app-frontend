@@ -64,7 +64,16 @@ export const FormKey ={
   name:'name',
   confirm_password:'confirm_password',
   set_password:'set_password',
-  date_of_birth:'date_of_birth'
+  date_of_birth:'date_of_birth',
+  looking:"looking",
+  location:"location",
+  education:"education",
+  age_range:"age_range",
+  height:"height",
+  race:"race",
+  ethnicity:"ethnicity",
+  hair:"hair",
+  eye:"eye",
 }
 
 export const smRoles = [

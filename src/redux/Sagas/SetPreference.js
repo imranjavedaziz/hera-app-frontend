@@ -9,6 +9,7 @@ import {takeLatest, put} from 'redux-saga/effects';
 function* SetPreferenceRes() {
   try {
     const result = yield setPreferenceApi();
+    console.log(result, "result::::::");
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SET_PREFERENCE_SUCCESS, data: result});
     } else {
