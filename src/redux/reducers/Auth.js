@@ -19,8 +19,8 @@ import {
   AUTH_VERIFY_OTP_SUCCESS,
   AUTH_LOG_OUT,
   AUTH_LOG_OUT_SUCCESS,
-  AUTH_LOG_OUT_FAIL,
-} from '../Type';
+  AUTH_LOG_OUT_FAIL, AUTH_REGISTER, AUTH_REGISTER_FAIL, AUTH_REGISTER_SUCCESS,
+} from "../Type";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initState = {
@@ -85,6 +85,9 @@ const initState = {
   log_out_success: false,
   log_out_loading: false,
   log_out_error_msg: '',
+  register_user_success: false,
+  register_user_loading: false,
+  register_user_error_msg: '',
 };
 
 export default (state = initState, action) => {
@@ -240,6 +243,41 @@ export default (state = initState, action) => {
         log_out_success: true,
         log_out_loading: false,
         log_out_error_msg: '',
+      };
+    }
+    /**
+     * REGISTER PTB USER
+     */
+    case AUTH_REGISTER: {
+      return {
+        ...state,
+        register_user_success: false,
+        register_user_loading: true,
+        register_user_error_msg: '',
+        user: {},
+        registerUser: action.data,
+      };
+    }
+    case AUTH_REGISTER_FAIL: {
+      return {
+        ...state,
+        register_user_success: false,
+        register_user_loading: false,
+        register_user_error_msg: action.data.msg,
+        registerUser: '',
+        user: {}
+      };
+    }
+    case AUTH_REGISTER_SUCCESS: {
+      const {access_token} = action.data.data.data;
+      return {
+        ...state,
+        register_user_success: true,
+        register_user_loading: false,
+        registerUser: action.data,
+        register_user_error_msg: '',
+        user: action?.data?.data?.data,
+        token:access_token
       };
     }
     default:

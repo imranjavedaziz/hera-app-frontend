@@ -76,7 +76,7 @@ const Profile = ({route}) => {
         dispatch(hideAppLoader());
         navigation.navigate(Routes.SmBasicDetails);
       }
-      if (register_user_error_msg) {
+      else {
         dispatch(showAppToast(true, register_user_error_msg));
         dispatch(hideAppLoader());
       }

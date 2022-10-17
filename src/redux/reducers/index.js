@@ -5,6 +5,7 @@ import CreateGallery from './CreateGallery';
 import Register from './Register';
 import PtbDashboard from './PtbDashboard';
 import SetPreference from './SetPreference';
+import SetAttribute from './SetAttribute';
 
 const allReducers = combineReducers({
   Auth,
@@ -13,6 +14,7 @@ const allReducers = combineReducers({
   Register,
   PtbDashboard,
   SetPreference,
+  SetAttribute
 });
 
 export default allReducers;

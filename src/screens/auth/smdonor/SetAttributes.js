@@ -1,5 +1,5 @@
 // SetAttributes
-import React, {useState}from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import {Text, View, TouchableOpacity} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -15,16 +15,22 @@ import Dropdown from '../../../components/inputs/Dropdown';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
 import { Value } from '../../../constants/FixedValues';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import SetterData from '../../../services/SetterData';
+import { getStates } from "../../../redux/actions/Register";
+import { hideAppLoader, showAppLoader } from "../../../redux/actions/loader";
+import { getAttribute } from "../../../redux/actions/SetAttribute";
+import SetAttribute from "../../../redux/reducers/SetAttribute";
 
 const SetAttributes = ({route}) => {
   const initialState = useSelector(state => state.Auth)
   console.log(initialState)
   const [isOpen, setOpen] = useState(false);
+  const [attributeData, setAttributeData] = useState([]);
   const userService = User();
   const authService = Auth();
   const dropdownValue = SetterData();
+  const dispatch = useDispatch();
   const {
     handleSubmit,
     control,
@@ -37,10 +43,33 @@ const SetAttributes = ({route}) => {
     userService.setAttributes(data);
   };
   React.useEffect(() => {
-    dropdownValue.state()
-    dropdownValue.sexsualOrientation()
-    dropdownValue.attribute()
+    // dropdownValue.sexsualOrientation()
+    dispatch(getAttribute())
+// dropdownValue.attribute()
   }, []);
+  const {
+    set_attribute_res,
+    set_attribute_success,
+    set_attribute_loading,
+    set_attribute_error_msg,
+
+
+  } = useSelector(state => state.SetAttribute);
+  const LoadingRef = useRef(false);
+  //GET PROFILE SETTER
+  useEffect(() => {
+    if (LoadingRef.current && !set_attribute_loading) {
+      dispatch(showAppLoader());
+      if (set_attribute_success) {
+        dispatch(hideAppLoader());
+        setAttributeData(set_attribute_res);
+      }
+      if (set_attribute_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    LoadingRef.current = set_attribute_loading;
+  }, [set_attribute_success, set_attribute_loading]);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -68,7 +97,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange, value}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Height}
-                data={dropdownValue.donorHeight}
+                data={attributeData.donorHeight}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -89,7 +118,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Race}
-                data={dropdownValue.donorRace}
+                data={attributeData.donorRace}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -104,7 +133,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.MotherEthnicity}
-                data={dropdownValue.donorEthinicity}
+                data={attributeData.donorEthinicity}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -119,7 +148,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.FatheEthnicity}
-                data={dropdownValue.donorEthinicity}
+                data={attributeData.donorEthinicity}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -134,7 +163,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Weight}
-                data={dropdownValue.donorWeight}
+                data={attributeData.donorWeight}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -155,7 +184,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.EyeColor}
-                data={dropdownValue.donoreye}
+                data={attributeData.donoreye}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -170,7 +199,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.HairColor}
-                data={dropdownValue.donorhair}
+                data={attributeData.donorhair}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
@@ -185,7 +214,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Education}
-                data={dropdownValue.donorEducation}
+                data={attributeData.donorEducation}
                 onSelect={(selectedItem) => {
                   onChange(selectedItem.id);
                 }}
