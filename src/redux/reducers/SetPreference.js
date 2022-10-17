@@ -51,7 +51,7 @@ export default (state = initState, action) => {
         set_preference_success: true,
         set_preference_loading: false,
         set_preference_error_msg: '',
-        set_preference_res: action.data,
+        set_preference_res: action?.data?.data?.data,
       };
     }
     default:

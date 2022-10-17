@@ -68,7 +68,7 @@ const Profile = ({route}) => {
     register_user_success,
     register_user_loading,
     register_user_error_msg,
-  } = useSelector(state => state.Register);
+  } = useSelector(state => state.Auth);
   useEffect(() => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
