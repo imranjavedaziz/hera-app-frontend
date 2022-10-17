@@ -1,9 +1,9 @@
-import {Text, View, Image, Touchable, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Container from '../../../../components/Container';
 import {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
@@ -11,16 +11,16 @@ import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
 import {Value} from '../../../../constants/FixedValues';
-import { Routes } from '../../../../constants/Constants';
+import {Routes} from '../../../../constants/Constants';
 import Auth from '../../../../services/Auth';
 const SmDonorSettings = () => {
-  const navigation =useNavigation();
+  const navigation = useNavigation();
   const authService = Auth();
-  const profileImg = useSelector((state)=> state.auth.user.profile_pic)
-  const first_name = useSelector((state)=> state.auth.user.first_name)
-  const last_name = useSelector((state)=> state.auth.user.last_name);
+  const profileImg = useSelector(state => state.auth.user.profile_pic);
+  const first_name = useSelector(state => state.auth.user.first_name);
+  const last_name = useSelector(state => state.auth.user.last_name);
   const userName = `${first_name} ${last_name}`;
-  console.log("++++",userName);
+  console.log('++++', userName);
 
   const headerComp = () => (
     <CircleBtn
@@ -40,7 +40,7 @@ const SmDonorSettings = () => {
           <Image
             style={Styles.profileImg}
             source={{
-              uri:profileImg,
+              uri: profileImg,
             }}
           />
         </View>
@@ -70,7 +70,9 @@ const SmDonorSettings = () => {
         <View style={Styles.dot}></View>
       </View>
 
-      <TouchableOpacity style={Styles.contain} onPress={()=> navigation.navigate(Routes.donorGallery)}>
+      <TouchableOpacity
+        style={Styles.contain}
+        onPress={() => navigation.navigate(Routes.donorGallery)}>
         <Image source={Images.galleryimage} />
         <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
       </TouchableOpacity>

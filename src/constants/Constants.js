@@ -300,6 +300,5 @@ export const Routes = {
   PtbProfile: 'PtbProfile',
   MyVideo: 'MyVideo',
   SmSetting: 'SmDonorSettings',
-  donorGallery:'DonorGallery',
-  
+  donorGallery: 'DonorGallery',
 };

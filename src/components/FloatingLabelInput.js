@@ -17,12 +17,12 @@ const styles = {
     position: Alignment.ABSOLUTE,
     left: Value.CONSTANT_VALUE_0,
     zIndex: -1,
-    color: Colors.LABEL_BLACK,  
+    color: Colors.LABEL_BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
   floated: {
     top: Value.CONSTANT_VALUE_0,
-    fontSize: Value.CONSTANT_VALUE_14,  
+    fontSize: Value.CONSTANT_VALUE_14,
   },
   unfloated: {
     top: Value.CONSTANT_VALUE_24,

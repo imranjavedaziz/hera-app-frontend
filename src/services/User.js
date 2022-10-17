@@ -15,7 +15,6 @@ import {
   setSMDAttributes,
   updateRegStep,
 } from '../redux/actions/auth';
-import axios from 'axios';
 
 const User = () => {
   const dispatch = useDispatch();
@@ -48,13 +47,13 @@ const User = () => {
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(updateRegStep());
         await dispatch(setSMDAttributes(response.data.data));
-        navigation.navigate(Routes.CreateGallery,data);
+        navigation.navigate(Routes.CreateGallery, data);
       })
       .finally(() => {
         dispatch(hideAppLoader());
       });
   };
-  const createGallery = (data,setLoading) => {
+  const createGallery = (data, setLoading) => {
     setLoading(true);
     axiosRequest
       .post(ApiPath.setGallery, data, {
@@ -64,25 +63,23 @@ const User = () => {
       })
       .then(async response => {
         console.log('response', response.data.data);
-        setLoading(false)
-      }).finally(() => {
+        setLoading(false);
+      })
+      .finally(() => {
         dispatch(showAppToast(false, 'Gallery Updated Successfully!'));
       });
   };
-  const deleteGallery =  async(data)=>{
-    // console.log("DATA del", data);
+  const deleteGallery = async data => {
     axiosRequest
-    .delete(ApiPath.deleteGallery,data,{
-    })
-    .then(async response => {
-      dispatch(showAppToast(false, response.data.message));
-      // console.log(' DELETE response', response);
-    }).finally(() => {
-      dispatch(hideAppLoader());
-    });
-
-  }
-  const setPreferences = (data) => {
+      .delete(ApiPath.deleteGallery, data, {})
+      .then(async response => {
+        dispatch(showAppToast(false, response.data.message));
+      })
+      .finally(() => {
+        dispatch(hideAppLoader());
+      });
+  };
+  const setPreferences = data => {
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.setPreferences, data, {

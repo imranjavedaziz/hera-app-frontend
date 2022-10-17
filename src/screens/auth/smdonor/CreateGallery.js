@@ -21,40 +21,40 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import User from '../../../services/User';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const CreateGallery = ({route}) => {
   const userService = User();
   const navigation = useNavigation();
   const [gallery, setGallery] = useState([
-    {id:0, uri: '', loading: false},
-    {id:1, uri: '', loading: false},
-    {id:2, uri: '', loading: false},
-    {id:3, uri: '', loading: false},
-    {id:4, uri: '', loading: false},
-    {id:5, uri: '', loading: false},
+    {id: 0, uri: '', loading: false},
+    {id: 1, uri: '', loading: false},
+    {id: 2, uri: '', loading: false},
+    {id: 3, uri: '', loading: false},
+    {id: 4, uri: '', loading: false},
+    {id: 5, uri: '', loading: false},
   ]);
-  const profileImg = useSelector((state) => state.auth.user.profile_pic)
-  console.log("PROFILE", profileImg);
+  const profileImg = useSelector(state => state.auth.user.profile_pic);
+  console.log('PROFILE', profileImg);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
-  const [rmvImgCount,setRmvImgCount] = useState(0);
+  const [rmvImgCount, setRmvImgCount] = useState(0);
   const [remove, setRemove] = useState([
-    {id:0,isSelected: false},
-    {id:1,isSelected: false},
-    {id:2,isSelected: false},
-    {id:3,isSelected: false},
-    {id:4,isSelected: false},
-    {id:5,isSelected: false},
+    {id: 0, isSelected: false},
+    {id: 1, isSelected: false},
+    {id: 2, isSelected: false},
+    {id: 3, isSelected: false},
+    {id: 4, isSelected: false},
+    {id: 5, isSelected: false},
   ]);
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i === gIndex) {
-          return {id:i,uri: image.path, loading: true};
+          return {id: i, uri: image.path, loading: true};
         }
         return img;
       });
@@ -95,85 +95,77 @@ const CreateGallery = ({route}) => {
   const ImageClick = index => {
     if (gIndex === index) {
       return setOpen(true);
+    } else {
+      return;
     }
-    return;
   };
 
   const handelDel = index => {
     setDel(true);
     const temp = [];
-    
     remove.map((item, idx) => {
       if (index === idx) {
         if (item.isSelected === true) {
-          temp.push({id:idx ,isSelected: false});
-          setRmvImgCount(rmvImgCount-1);
+          temp.push({id: idx, isSelected: false});
+          setRmvImgCount(rmvImgCount - 1);
           return;
         } else {
-          temp.push({id:idx,isSelected: true});
-          setRmvImgCount(rmvImgCount+1);
+          temp.push({id: idx, isSelected: true});
+          setRmvImgCount(rmvImgCount + 1);
           return;
         }
       } else {
         if (item.isSelected === true) {
-          temp.push({id:idx,isSelected: true});
+          temp.push({id: idx, isSelected: true});
           return;
         } else {
-          temp.push({id:idx,isSelected: false});
+          temp.push({id: idx, isSelected: false});
           return;
         }
       }
     });
-    setRemove(temp);  
-    // const check=id?.findIndex(item => item===index)
-    // if(check!==-1){
-    //   // id.pop(index);
-    //   id.splice(index,1);
-    //   setid([...id])
-    // }
-    // else{
-    //   id.push(index);
-    // }
+    setRemove(temp);
   };
   const deleteImg = () => {
     let index = [];
-     remove.map((item, ind) => {
+    remove.map((item, ind) => {
       if (item.isSelected === true) {
         index.push(ind);
       }
     });
     let pointer = 0;
-   const filterItem =  gallery.map((oldImg,i) => {
-    if (i === index[pointer]) {
-            pointer++
-            return {id:i,uri:'',loading:false}
-          }
-          else{
-            return {id:i,uri:oldImg.uri,loading:false}
-          }
+    const filterItem = gallery.map((oldImg, i) => {
+      if (i === index[pointer]) {
+        pointer++;
+        return {id: i, uri: '', loading: false};
+      } else {
+        return {id: i, uri: oldImg.uri, loading: false};
+      }
     });
-    setGIndex( gIndex-(index.length))   
-    function sortImg(a,b){
-        if(a.uri === '') return 1
-         return -1
+    setGIndex(gIndex - index.length);
+    function sortImg(a, b) {
+      if (a.uri === '') {
+        return 1;
+      } else {
+        return -1;
+      }
     }
-     filterItem.sort(sortImg);
+    filterItem.sort(sortImg);
     setGallery(filterItem);
-    setRemove(item =>
-      {
-      return item.map((i)=>{
-        return {isSelected:false}
-      })
-    })
+    setRemove(item => {
+      return item.map(i => {
+        return {isSelected: false};
+      });
+    });
     setDel(false);
     setRmvImgCount(0);
   };
-  useEffect(()=>{
-   console.log("USE EFFECT")
-  },[gallery])
-  const headerComp =()=>{
-    <></>
-  }
+  useEffect(() => {
+    console.log('USE EFFECT');
+  }, [gallery]);
+  const headerComp = () => {
+    <></>;
+  };
   return (
     <>
       <Container
@@ -183,18 +175,13 @@ const CreateGallery = ({route}) => {
         style={{marginHorizontal: 0}}>
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
-            <Image
-              source={{uri:profileImg}}
-              style={styles.profileImg}
-            />
+            <Image source={{uri: profileImg}} style={styles.profileImg} />
           </View>
           <Text style={globalStyle.screenTitle}>
             {Strings.sm_create_gallery.Title}
           </Text>
           <View
-            style={[
-              globalStyle.screenSubTitle,
-              styles.subTitle]}
+            style={[globalStyle.screenSubTitle, styles.subTitle]}
             accessible={true}
             accessibilityLabel={`${Strings.sm_create_gallery.Subtitle1} ${Strings.sm_create_gallery.Subtitle2} ${Strings.sm_create_gallery.Subtitle3}`}>
             <Text
@@ -229,7 +216,7 @@ const CreateGallery = ({route}) => {
                   imageStyle={{
                     resizeMode: 'cover',
                   }}
-                  source= {img.uri ? {uri: img.uri} : null}>
+                  source={img.uri ? {uri: img.uri} : null}>
                   {gallery[index].uri ? (
                     <TouchableOpacity
                       onPress={() => handelDel(index)}
@@ -276,18 +263,15 @@ const CreateGallery = ({route}) => {
           </TouchableOpacity>
           {isDel && rmvImgCount != 0 ? (
             <View style={styles.delContainer}>
-                <Text style={styles.selectedText}>
-                  {rmvImgCount} Photo Selected
-                </Text>
-                <TouchableOpacity
-                  style={styles.deleteBtnContainer}
-                  onPress={() => deleteImg()}>
-                  <Image source={Images.trashRed} style={{}} />
-                  <Text
-                    style={styles.rmvText}>
-                    Remove From Gallery
-                  </Text>
-                </TouchableOpacity>
+              <Text style={styles.selectedText}>
+                {rmvImgCount} Photo Selected
+              </Text>
+              <TouchableOpacity
+                style={styles.deleteBtnContainer}
+                onPress={() => deleteImg()}>
+                <Image source={Images.trashRed} style={{}} />
+                <Text style={styles.rmvText}>Remove From Gallery</Text>
+              </TouchableOpacity>
             </View>
           ) : (
             <Button

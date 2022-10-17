@@ -6,6 +6,7 @@ import {
   Pressable,
   ImageBackground,
   Modal,
+  Platform,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
@@ -27,18 +28,17 @@ import Colors from '../../constants/Colors';
 import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
 import {parentRegisterSchema, Regx} from '../../constants/schemas';
-import styles from './StylesProfile';
+import styles from '../auth/smdonor/donorGallery/styles';
 import Auth from '../../services/Auth';
 import Alignment from '../../constants/Alignment';
 import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
-// import { useIsFocused } from '@react-navigation/native';
 
 const validationType = {
   LEN: 'LEN',
   ALPHA_NUM: 'ALPHA_NUM',
   SPECIAL: 'SPECIAL',
-  CAPSLOCK:'CAPSLOCK'
+  CAPSLOCK: 'CAPSLOCK',
 };
 const pwdErrMsg = [
   {
@@ -53,9 +53,7 @@ const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
-  { type: validationType.CAPSLOCK,
-   msg: ValidationMessages.CAPSLOCK
-  },
+  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 const validatePassword = (value, type) => {
   if (value) {
@@ -89,7 +87,7 @@ const Profile = ({route}) => {
     handleSubmit,
     control,
     setValue,
-    formState: {errors,},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
@@ -120,83 +118,82 @@ const Profile = ({route}) => {
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
-    const reqData = new FormData;
-    reqData.append('role_id',2);
-    reqData.append('first_name',data.first_name);
-    reqData.append('middle_name',data.middle_name);
-    reqData.append('last_name',data.last_name);
-    reqData.append('dob',moment(date).format('DD-MM-YYYY'));
-    reqData.append('email',data.email);
-    reqData.append('password',data.confirm_password);
-    reqData.append('country_code',route.params.country_code);
-    reqData.append('phone_no',route.params.phone_no);
-    reqData.append('file',{
+    const reqData = new FormData();
+    reqData.append('role_id', 2);
+    reqData.append('first_name', data.first_name);
+    reqData.append('middle_name', data.middle_name);
+    reqData.append('last_name', data.last_name);
+    reqData.append('dob', moment(date).format('DD-MM-YYYY'));
+    reqData.append('email', data.email);
+    reqData.append('password', data.confirm_password);
+    reqData.append('country_code', route.params.country_code);
+    reqData.append('phone_no', route.params.phone_no);
+    reqData.append('file', {
       name: 'name',
       type: file.mime,
       uri: file.path,
     });
-    console.log(reqData, "reqData:::::::::::");
+    console.log(reqData, 'reqData:::::::::::');
     authService.registerUser(reqData);
   };
-  useEffect( ()=> {
-    askCameraPermission
+  useEffect(() => {
+    askCameraPermission();
   }, [navigation]);
   return (
     <>
-    <Container
-      scroller={true}
-      showHeader={true}
-      headerComp={headerComp}
-      headerEnd={true}
-      style={{paddingBottom:Value.CONSTANT_VALUE_70,}}
-      >
-      <View style={styles.imgContainer}>
-        <Text style={globalStyle.screenTitle}>
-          {Strings.profile.makeAccountFor}
-        </Text>
-        <View
-          style={styles.subTitle}
-          accessible={true}
-          accessibilityLabel={`${Strings.profile.parentToBe}`}>
-          <Text
-            style={globalStyle.screenSubTitle}
-            numberOfLines={2}
-            accessible={false}>
-            {Strings.profile.parentToBe}
+      <Container
+        scroller={true}
+        showHeader={true}
+        headerComp={headerComp}
+        headerEnd={true}
+        style={{paddingBottom: Value.CONSTANT_VALUE_70}}>
+        <View style={styles.imgContainer}>
+          <Text style={globalStyle.screenTitle}>
+            {Strings.profile.makeAccountFor}
+          </Text>
+          <View
+            style={styles.subTitle}
+            accessible={true}
+            accessibilityLabel={`${Strings.profile.parentToBe}`}>
+            <Text
+              style={globalStyle.screenSubTitle}
+              numberOfLines={2}
+              accessible={false}>
+              {Strings.profile.parentToBe}
+            </Text>
+
+            {/* IMage Upload */}
+
+            <View style={styles.profileContainer}>
+              <TouchableOpacity onPress={() => setOpen(true)}>
+                <ImageBackground
+                  source={userImage ? {uri: userImage} : null}
+                  style={styles.background}
+                  imageStyle={styles.imgBack}>
+                  <TouchableOpacity
+                    style={[
+                      styles.uploadBackground,
+                      userImage
+                        ? {
+                            position: 'absolute',
+                            bottom: 0,
+                            right: 20,
+                          }
+                        : null,
+                    ]}
+                    onPress={() => setOpen(true)}>
+                    <Image source={Images.camera} style={styles.profileImg} />
+                  </TouchableOpacity>
+                </ImageBackground>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Text style={styles.ImageText}>
+            {Strings.profile.uploadImage}
+            <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
           </Text>
 
-          {/* IMage Upload */}
-
-          <View style={styles.profileContainer}>
-          <TouchableOpacity onPress={() => setOpen(true)}>
-            <ImageBackground
-              source={userImage ? {uri: userImage} : null}
-              style={styles.background}
-              imageStyle={styles.imgBack}>
-              <TouchableOpacity
-                style={[
-                  styles.uploadBackground,
-                  userImage
-                    ? {
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 20,
-                      }
-                    : null,
-                ]}
-                onPress={() => setOpen(true)}>
-                <Image source={Images.camera} style={styles.profileImg} />
-              </TouchableOpacity>
-            </ImageBackground>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Text style={styles.ImageText}>
-          {Strings.profile.uploadImage}
-          <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
-        </Text>
-
-        {/* Image Upload End  */}
+          {/* Image Upload End  */}
         </View>
         <View
           style={{
@@ -251,9 +248,10 @@ const Profile = ({route}) => {
                 onChangeText={v => onChange(v.toLowerCase())}
                 fontWeight={Alignment.BOLD}
                 required={true}
-                autoCapitalize='none'
+                autoCapitalize="none"
                 spellCheck={false}
-                error={errors && errors.email?.message}              />
+                error={errors && errors.email?.message}
+              />
             )}
             name="email"
           />
@@ -282,7 +280,7 @@ const Profile = ({route}) => {
             render={({field: {onChange, value}}) => (
               <View
                 style={{
-                  width: '100%'
+                  width: '100%',
                 }}>
                 <FloatingLabelInput
                   label={Strings.profile.setPassword}
@@ -366,14 +364,13 @@ const Profile = ({route}) => {
                 </Pressable>
               )}
             </View>
-           <View style={{marginLeft:Value.CONSTANT_VALUE_5}}>
-            <Text style={styles.tmc1}>
-              {Strings.profile.tmc1}
-              <Text style={styles.tmcLink}>
-                {Strings.profile.tmc2}
-              </Text>{"\n"}and{" "}
-              <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
-            </Text> 
+            <View style={{marginLeft: Value.CONSTANT_VALUE_5}}>
+              <Text style={styles.tmc1}>
+                {Strings.profile.tmc1}
+                <Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text>
+                {'\n'}and{' '}
+                <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
+              </Text>
             </View>
           </View>
         </View>
@@ -391,74 +388,73 @@ const Profile = ({route}) => {
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
         <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
-        <View style={styles.imgPickerContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              openCamera(0, cb);
-            }}
-            style={[styles.pickerBtn, styles.pickerBtnBorder]}>
-            <Text style={styles.pickerBtnLabel}>Open Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              openCamera(1, cb);
-            }}
-            style={styles.pickerBtn}>
-            <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheetComp>     
-      <DateTimePickerModal
-        value={date}
-        isVisible={show}
-        mode={'date'}
-        onConfirm={selectedDate => {
-          setShow(false);
-          setValue('date_of_birth', getDate(selectedDate));
-          setDate(getDate(selectedDate));
-        }}
-        onCancel={() => {
-          setShow(false);
-        }}
-        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-        positiveButtonLabel="DONE"
-      />
-      <Modal
-        transparent={true}
-        visible={showModal}
-        onRequestClose={() => {
-          setShowModal(!showModal);
-        }}>
-        <View
-          style={[styles.centeredView,]}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>
-              {Strings.profile.ModalHeader}
-            </Text>
-            <Text style={styles.modalSubHeader}>
-              {Strings.profile.ModalSubheader}
-            </Text>
+          <View style={styles.imgPickerContainer}>
             <TouchableOpacity
               onPress={() => {
-                setShowModal(false);
-                navigation.navigate(Routes.Landing);
-              }}>
-              <Text style={styles.modalOption1}>
-                {Strings.profile.ModalOption1}
-              </Text>
+                openCamera(0, cb);
+              }}
+              style={[styles.pickerBtn, styles.pickerBtnBorder]}>
+              <Text style={styles.pickerBtnLabel}>Open Camera</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={styles.modalOption2}>
-                {Strings.profile.ModalOption2}
-              </Text>
+                openCamera(1, cb);
+              }}
+              style={styles.pickerBtn}>
+              <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      </Modal>
-    </Container>
+        </BottomSheetComp>
+        <DateTimePickerModal
+          value={date}
+          isVisible={show}
+          mode={'date'}
+          onConfirm={selectedDate => {
+            setShow(false);
+            setValue('date_of_birth', getDate(selectedDate));
+            setDate(getDate(selectedDate));
+          }}
+          onCancel={() => {
+            setShow(false);
+          }}
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          positiveButtonLabel="DONE"
+        />
+        <Modal
+          transparent={true}
+          visible={showModal}
+          onRequestClose={() => {
+            setShowModal(!showModal);
+          }}>
+          <View style={[styles.centeredView]}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalHeader}>
+                {Strings.profile.ModalHeader}
+              </Text>
+              <Text style={styles.modalSubHeader}>
+                {Strings.profile.ModalSubheader}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowModal(false);
+                  navigation.navigate(Routes.Landing);
+                }}>
+                <Text style={styles.modalOption1}>
+                  {Strings.profile.ModalOption1}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowModal(false);
+                }}>
+                <Text style={styles.modalOption2}>
+                  {Strings.profile.ModalOption2}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </Container>
     </>
   );
 };

@@ -18,7 +18,7 @@ import Auth from '../../services/Auth';
 const MobileNumber = () => {
   const navigation = useNavigation();
   const authService = Auth();
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const isKeyboardVisible = false;
   const {
     handleSubmit,
     control,
@@ -92,7 +92,7 @@ const MobileNumber = () => {
                 maxLength={10}
                 error={errors && errors.phone?.message}
                 containerStyle={{
-                  flex: 1,    
+                  flex: 1,
                 }}
                 fixed={true}
               />
