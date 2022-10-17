@@ -47,7 +47,9 @@ const initState = {
 export default (state = initState, action) => {
   console.log(action.data);
   switch (action.type) {
-    // register ptb user
+    /**
+     * REGISTER PTB USER
+     */
     case AUTH_REGISTER: {
       return {
         ...state,

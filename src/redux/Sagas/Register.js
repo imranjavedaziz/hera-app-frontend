@@ -25,16 +25,18 @@ import {HttpStatus} from '../../constants/Constants';
 function* ptbRegister(payload) {
   try {
     const result = yield ptbRegisterApi(payload.data);
+    console.log(result, "result.data:::::");
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: AUTH_REGISTER_SUCCESS, data: result});
     } else {
       yield put({
         type: AUTH_REGISTER_FAIL,
-        data: {msg: result.data.message},
+        data: {msg: result.email?.join('\n')},
       });
     }
   } catch (err) {
-    yield put({type: AUTH_REGISTER_FAIL, data: {msg: 'NET ERROR'}});
+    console.log(err, "err::::::");
+    yield put({type: AUTH_REGISTER_FAIL, data: {msg: err.email?.join('\n')}});
   }
 }
 export function* watchPtbRegisterApi() {

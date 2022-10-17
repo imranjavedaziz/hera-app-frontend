@@ -108,6 +108,7 @@ const Profile = ({route}) => {
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
+        dispatch(showAppToast(true, register_user_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -128,7 +129,6 @@ const Profile = ({route}) => {
     setOpen(false);
     setUserImage(image.path);
     setFile(image);
-    console.log('image', image);
   };
   const onSubmit = data => {
     if (!userImage) {
