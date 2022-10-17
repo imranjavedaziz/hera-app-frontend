@@ -16,7 +16,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, allReducers);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// CreateGallery.js the saga middleware
+//the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
 // Mount it on the Store

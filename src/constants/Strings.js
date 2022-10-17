@@ -225,6 +225,9 @@ export default {
     request_decline: 'REQUEST DECLINED',
     send_msg: 'SEND MESSAGE',
     video_text: 'Parant has uploaded a sort clip',
+    Open_Gallery: 'Open Gallery',
+    Open_Camera: 'Open Camera',
+    Cross_Button: "Cross Button, Go back",
   },
   donorPofile: {
     Age: 'Age: ',

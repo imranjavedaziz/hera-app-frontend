@@ -1,3 +1,6 @@
+import { ValidationMessages } from "./Strings";
+import { Regx } from "./schemas";
+
 const environment = {
   dev: {
     bucket: 'geldating-dev-frontend',
@@ -22,6 +25,12 @@ export const awsOptions = {
   secretKey: 'YL/b0bIqszkfWbwiquA208Qc5R3EZFBVLO4l6Wnf',
   successActionStatus: 201,
 };
+export const validationType = {
+  LEN: 'LEN',
+  ALPHA_NUM: 'ALPHA_NUM',
+  SPECIAL: 'SPECIAL',
+  CAPSLOCK: 'CAPSLOCK',
+};
 
 export const HttpStatus = {
   UNAUTHORISED: 401,
@@ -41,6 +50,22 @@ export const Fonts = {
   OpenSansRegular: 'OpenSans',
   OpenSansSemibold: 'OpenSans-Semibold',
 };
+export const FormKey ={
+  role_id:'role_id',
+  first_name:'first_name',
+  middle_name:'middle_name',
+  last_name:'last_name',
+  dob:'dob',
+  email:'email',
+  password:'password',
+  country_code:'country_code',
+  phone_no:'phone_no',
+  file:'file',
+  name:'name',
+  confirm_password:'confirm_password',
+  set_password:'set_password',
+  date_of_birth:'date_of_birth'
+}
 
 export const smRoles = [
   {
@@ -71,6 +96,40 @@ export const genders = [
     name: 'Other',
   },
 ];
+// password error message
+export const pwdErrMsg = [
+  {
+    type: validationType.LEN,
+    msg: ValidationMessages.PASSWORD_MIN,
+  },
+  {
+    type: validationType.ALPHA_NUM,
+    msg: ValidationMessages.ALPHA_NUM,
+  },
+  {
+    type: validationType.SPECIAL,
+    msg: ValidationMessages.SPECIAL_CHAR,
+  },
+  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
+];
+//validate password
+export const validatePassword = (value, type) => {
+  if (value) {
+    switch (type) {
+      case validationType.LEN:
+        return value.length >= 8;
+      case validationType.ALPHA_NUM:
+        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value);
+      case validationType.SPECIAL:
+        return Regx.SPECIAL_CHAR.test(value);
+      case validationType.CAPSLOCK:
+        return Regx.ALPHA_CAP.test(value);
+      default:
+        break;
+    }
+  }
+  return null;
+};
 export const Static = {
   height: [
     {

@@ -12,7 +12,7 @@ import globalStyle from '../../../styles/global';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {genders, Routes} from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
@@ -22,16 +22,16 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import SetterData from '../../../services/SetterData';
 import {
   getStates,
   getProfileSetterDetail,
   saveBasicDetail,
+  sexualOrientation,
 } from '../../../redux/actions/Register';
-import {useFocusEffect} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-const SmBasicDetails = ({route}) => {
-  const data = SetterData();
+const SmBasicDetails = () => {
+  const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [stateRes, setStateRes] = useState();
   const [profileRes, setProfileRes] = useState();
@@ -39,12 +39,10 @@ const SmBasicDetails = ({route}) => {
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef();
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(getStates());
-      dispatch(getProfileSetterDetail());
-    }, [dispatch]),
-  );
+  useEffect(() => {
+    dispatch(getStates());
+    dispatch(getProfileSetterDetail());
+  }, []);
   const {
     get_state_res,
     get_profile_setter_res,
@@ -58,7 +56,6 @@ const SmBasicDetails = ({route}) => {
     save_basic_detail_loading,
     save_basic_detail_error_msg,
   } = useSelector(state => state.Register);
-  console.log(get_state_res, 'get_state');
   const {
     handleSubmit,
     control,
@@ -101,9 +98,9 @@ const SmBasicDetails = ({route}) => {
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
       dispatch(showAppLoader());
-      if (save_basic_detail_error_msg) {
+      if (save_basic_detail_success) {
         dispatch(hideAppLoader());
-        navigation.navigator(Routes.SetPreference);
+        navigation.navigate(Routes.SetPreference);
       }
       if (save_basic_detail_error_msg) {
         dispatch(hideAppLoader());
@@ -113,7 +110,7 @@ const SmBasicDetails = ({route}) => {
   }, [save_basic_detail_success, save_basic_detail_loading]);
 
   const onSubmit = data => {
-    dispatch(showAppLoader);
+    console.log(data, 'data::::::');
     dispatch(saveBasicDetail(data));
   };
   const headerComp = () => (
@@ -155,7 +152,7 @@ const SmBasicDetails = ({route}) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <View style={styles.radioContainer}>
-                {genders.map(gender => (
+                {profileRes?.gender.map(gender => (
                   <TouchableOpacity
                     style={styles.radioBtn}
                     key={gender.id}
@@ -210,7 +207,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.SexualOrientation}
-                data={profileRes}
+                data={profileRes?.sexual_orientation}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -225,7 +222,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.RelationshipStatus}
-                data={profileRes}
+                data={profileRes?.relationship_status}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
