@@ -35,13 +35,13 @@ const SmBasicDetails = ({route}) => {
   const [stateRes, setStateRes] = useState();
   const [profileRes, setProfileRes] = useState();
   const dispatch = useDispatch();
-  const loadingRef = useRef();
-  const LoadingRef = useRef();
+  const loadingRef = useRef(false);
+  const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef();
   useEffect(() => {
     dispatch(getStates());
-    // dispatch(getProfileSetterDetail());
-  }, []);
+    dispatch(getProfileSetterDetail());
+  }, [dispatch]);
   const {
     get_state_res,
     get_profile_setter_res,
@@ -207,7 +207,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.SexualOrientation}
-                data={profileRes.sexsualOrient}
+                data={profileRes}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -222,7 +222,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.RelationshipStatus}
-                data={profileRes.relationship}
+                data={profileRes}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}

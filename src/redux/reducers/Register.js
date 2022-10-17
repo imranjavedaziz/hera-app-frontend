@@ -6,8 +6,8 @@ import {
   SAVE_BASIC_DETAIL_FAIL,
   SAVE_BASIC_DETAIL_SUCCESS,
   GET_STATES_DETAIL,
-  GET_STATES_DETAIL_SUCCESS,
-  GET_STATES_DETAIL_FAIL,
+  GET_STATES_SUCCESS,
+  GET_STATES_FAIL,
   GET_PROFILE_SETTER_DETAIL,
   GET_PROFILE_SETTER_SUCCESS,
   GET_PROFILE_SETTER_FAIL,
@@ -45,7 +45,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  console.log(action.data);
   switch (action.type) {
     // register ptb user
     case AUTH_REGISTER: {
@@ -113,7 +112,7 @@ export default (state = initState, action) => {
         get_state_loading: true,
         get_state_error_msg: '',
       };
-    case GET_STATES_DETAIL_SUCCESS:
+    case GET_STATES_SUCCESS:
       return {
         ...state,
         get_state_res: action?.data,
@@ -121,7 +120,7 @@ export default (state = initState, action) => {
         get_state_loading: false,
         get_state_error_msg: '',
       };
-    case GET_STATES_DETAIL_FAIL:
+    case GET_STATES_FAIL:
       return {
         ...state,
         get_state_res: {},
