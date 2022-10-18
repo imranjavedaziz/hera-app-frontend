@@ -35,6 +35,8 @@ const PtbDashboard = () => {
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef();
+  const {registerUser} = useSelector(state => state.Auth);
+  console.log('registerUser', registerUser);
   useEffect(() => {
     dispatch(getPtbDashboard());
   }, [dispatch]);
