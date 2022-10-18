@@ -53,7 +53,6 @@ const Login = () => {
       dispatch(showAppLoader());
       if (log_in_success) {
         dispatch(hideAppLoader());
-        dispatch(setUser(log_in_data.data.data));
         navigation.navigate(
           getRoute(
             log_in_data.data.data.access_token,

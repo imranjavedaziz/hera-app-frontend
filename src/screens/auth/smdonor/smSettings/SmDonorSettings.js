@@ -16,9 +16,9 @@ import Auth from '../../../../services/Auth';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const authService = Auth();
-  // const profileImg = useSelector(state => state?.Auth);
-  // console.log(profileImg,"profileImg");
-  const first_name = useSelector(state => state?.Auth?.use?.first_name);
+  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  console.log(profileImg,"mjuyt");
+  const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const userName = `${first_name} ${last_name}`;
   console.log('++++', userName);
@@ -40,9 +40,9 @@ const SmDonorSettings = () => {
         <View style={[Styles.profileImgContainner]}>
           <Image
             style={Styles.profileImg}
-            // source={{
-            //   uri: profileImg,
-            // }}
+            source={{
+              uri: profileImg,
+            }}
           />
         </View>
         <View>

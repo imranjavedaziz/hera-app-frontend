@@ -269,9 +269,7 @@ const CreateGallery = () => {
                 style={styles.deleteBtnContainer}
                 onPress={() => deleteImg()}>
                 <Image source={Images.trashRed} style={{}} />
-                <Text style={styles.rmvText}>
-                  {Strings.sm_create_gallery.removeImg}
-                </Text>
+                <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
             </View>
           ) : (
