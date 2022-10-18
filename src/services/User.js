@@ -16,6 +16,7 @@ import {
   updateRegStep,
 } from '../redux/actions/Auth';
 import axios from 'axios';
+import {deleteGallery} from '../redux/actions/CreateGallery';
 
 const User = () => {
   const dispatch = useDispatch();
@@ -48,13 +49,13 @@ const User = () => {
         await dispatch(showAppToast(false, response.data.message));
         await dispatch(updateRegStep());
         await dispatch(setSMDAttributes(response.data.data));
-        navigation.navigate(Routes.CreateGallery,data);
+        navigation.navigate(Routes.CreateGallery, data);
       })
       .finally(() => {
         dispatch(hideAppLoader());
       });
   };
-  const createGallery = (data,setLoading) => {
+  const createGallery = (data, setLoading) => {
     setLoading(true);
     axiosRequest
       .post(ApiPath.setGallery, data, {
@@ -64,8 +65,9 @@ const User = () => {
       })
       .then(async response => {
         console.log('response', response.data.data);
-        setLoading(false)
-      }).finally(() => {
+        setLoading(false);
+      })
+      .finally(() => {
         dispatch(showAppToast(false, 'Gallery Updated Successfully!'));
       });
   };
@@ -82,7 +84,7 @@ const User = () => {
   //   });
   //
   // }
-  const setPreferences = (data) => {
+  const setPreferences = data => {
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.setPreferences, data, {
