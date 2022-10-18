@@ -24,18 +24,21 @@ import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../services/User';
 import {useSelector, useDispatch} from 'react-redux';
-import {getUserGallery} from '../../../../redux/actions/CreateGallery';
+import {getUserGallery } from "../../../../redux/actions/CreateGallery";
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import Video from 'react-native-video';
-import { width } from "../../../../utils/responsive";
+import {width} from '../../../../utils/responsive';
+import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 
 const Gallery = ({route}) => {
   const userService = User();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const loadingGalleryRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
   const [visible, setIsVisible] = useState(false);
+  const [photoGallery, setPhotoGallery] = useState([]);
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
     {id: 1, uri: '', loading: false},
@@ -44,13 +47,13 @@ const Gallery = ({route}) => {
     {id: 4, uri: '', loading: false},
     {id: 5, uri: '', loading: false},
   ]);
-  const photoGallery = useSelector(
-    state => state?.CreateGallery.gallery.doner_photo_gallery,
-  );
-  console.log(photoGallery, 'photoGallery:::::::');
-  const videoGallery = useSelector(
-    state => state?.CreateGallery?.gallery.doner_video_gallery,
-  );
+  // const photoGallery = useSelector(
+  //   state => state?.CreateGallery.gallery.doner_photo_gallery,
+  // );
+  // console.log(photoGallery, 'photoGallery:::::::');
+  // const videoGallery = useSelector(
+  //   state => state?.CreateGallery?.gallery.doner_video_gallery,
+  // );
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
@@ -58,22 +61,34 @@ const Gallery = ({route}) => {
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [images, setImages] = useState([]);
-  const [remove, setRemove] = useState([
-    {id: 0, isSelected: false},
-    {id: 1, isSelected: false},
-    {id: 2, isSelected: false},
-    {id: 3, isSelected: false},
-    {id: 4, isSelected: false},
-    {id: 5, isSelected: false},
-  ]);
+  const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef();
+  const {gallery_success, gallery_loading, gallery_data} = useSelector(
+    state => state.CreateGallery,
+  );
   useEffect(() => {
     dispatch(getUserGallery());
-    updateGallery();
-    setVideo({file_url:videoGallery?.file_url?videoGallery?.file_url: '', loading: false})
-
   }, []);
+  useEffect(() => {
+    if (loadingGalleryRef.current && !gallery_loading) {
+      dispatch(showAppLoader());
+      if (gallery_success) {
+        setPhotoGallery(gallery_data?.doner_photo_gallery);
+        updateGallery();
+        setVideo({
+          file_url: gallery_data?.doner_video_gallery?.file_url
+            ? gallery_data?.doner_video_gallery?.file_url
+            : '',
+          loading: false,
+        });
+        dispatch(hideAppLoader());
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingGalleryRef.current = gallery_loading;
+  }, [gallery_success, gallery_loading]);
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
@@ -129,86 +144,39 @@ const Gallery = ({route}) => {
     return;
   };
 
-  const handelDel = index => {
+  function handelDel(index){
     setDel(true);
-    const temp = [];
-
-    remove.map((item, idx) => {
-      if (index === idx) {
-        if (item.isSelected === true) {
-          temp.push({id: idx, isSelected: false});
-          setRmvImgCount(rmvImgCount - 1);
-          return;
-        } else {
-          temp.push({id: idx, isSelected: true});
-          setRmvImgCount(rmvImgCount + 1);
-          return;
-        }
-      } else {
-        if (item.isSelected === true) {
-          temp.push({id: idx, isSelected: true});
-          return;
-        } else {
-          temp.push({id: idx, isSelected: false});
-          return;
-        }
-      }
-    });
-    setRemove(temp);
-    // const check=id?.findIndex(item => item===index)
-    // if(check!==-1){
-    //   // id.pop(index);
-    //   id.splice(index,1);
-    //   setid([...id])
-    // }
-    // else{
-    //   id.push(index);
-    // }
+    let pushArr = remove;
+    let isExist = pushArr.findIndex(val => val === index);
+    if (isExist === -1) {
+      pushArr.push(index);
+      setRmvImgCount(rmvImgCount+1);
+    } else {
+      pushArr.splice(isExist, 1);
+      setRmvImgCount(rmvImgCount-1);
+    }
+    setRemove(pushArr);
   };
   const deleteImg = () => {
-    let index = [];
-    remove.map((item, ind) => {
-      if (item.isSelected === true) {
-        index.push(ind);
-      }
-    });
-    let pointer = 0;
-    const filterItem = gallery.map((oldImg, i) => {
-      if (i === index[pointer]) {
-        pointer++;
-        return {id: i, uri: '', loading: false};
-      } else {
-        return {id: i, uri: oldImg.uri, loading: false};
-      }
-    });
-    setGIndex(gIndex - index.length);
-    function sortImg(a, b) {
-      if (a.uri === '') {
-        return 1;
-      }
-      return -1;
-    }
-    filterItem.sort(sortImg);
-    setGallery(filterItem);
-    setRemove(item => {
-      return item.map(i => {
-        return {isSelected: false};
-      });
-    });
+   // let payload={
+   //   ids:remove
+   // }
+   // dipatch(deleteGallery(payload))
+    dispatch(getUserGallery());
     setDel(false);
     setRmvImgCount(0);
   };
 
   const updateGallery = () => {
     const url =
-      photoGallery &&
-      photoGallery.map((item, i) => {
+      gallery_data?.doner_photo_gallery?.length > 0 &&
+      gallery_data?.doner_photo_gallery.map((item, i) => {
         return item.file_url;
       });
     console.log('Gallery_DATA', url);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
-        if (i <= photoGallery?.length) {
+        if (i <= gallery_data?.doner_photo_gallery?.length) {
           return {id: i, uri: url[i], loading: false};
         }
         return img;
@@ -227,7 +195,7 @@ const Gallery = ({route}) => {
       style={{marginLeft: 30}}
     />
   );
-  console.log(videoGallery, 'videoGallery?.file_url');
+  console.log(video, 'vedio:::::::::::::::');
   return (
     <>
       <Container
@@ -242,6 +210,7 @@ const Gallery = ({route}) => {
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
+                key={index}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
                 <ImageBackground
@@ -251,13 +220,16 @@ const Gallery = ({route}) => {
                     resizeMode: 'cover',
                   }}
                   source={img.uri ? {uri: img.uri} : null}>
-                  {gallery[index].uri ? (
+                  {img.uri ? (
                     <TouchableOpacity
-                      onPress={() => handelDel(index)}
+                      onPress={() => {
+                        handelDel(img.id);
+
+                      }}
                       style={{}}>
                       <Image
                         source={
-                          remove[index].isSelected
+                          remove.includes(img.id) === true
                             ? Images.iconRadiosel
                             : Images.iconRadiounsel
                         }
@@ -275,7 +247,11 @@ const Gallery = ({route}) => {
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity disabled={!video?.file_url?true:false} onPress={()=>!video?.file_url?selectVideo:setIsPlaying(p => !p)}>
+          <TouchableOpacity
+            disabled={video?.file_url==='' ? false : true}
+            onPress={() =>
+              video?.file_url==='' ? selectVideo() : setIsPlaying(p => !p)
+            }>
             <ImageBackground
               style={styles.videoContainer}
               imageStyle={{
@@ -304,12 +280,12 @@ const Gallery = ({route}) => {
                     resizeMode={'cover'}
                     style={styles.video}
                   />
-                  <Image source={Images.playButton} style={styles.playIcon}/>
+                  <Image source={Images.playButton} style={styles.playIcon} />
                 </View>
               )}
             </ImageBackground>
           </TouchableOpacity>
-          {isDel && rmvImgCount != 0 ? (
+          {isDel&&rmvImgCount!==0?(
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
                 {rmvImgCount} Photos Selected
