@@ -17,12 +17,11 @@ import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import Auth from '../../../../services/Auth';
-import SetterData from '../../../../services/SetterData';
 import {getRoleType} from '../../../../utils/other';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {logOut} from '../../../../redux/actions/Auth';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -33,33 +32,34 @@ const PtbDashboard = () => {
   const [empty, setEmpty] = useState(false);
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
-  const [stateRes, setStateRes] = useState();
+  const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef();
   useEffect(() => {
     dispatch(getPtbDashboard());
-  }, []);
+  }, [dispatch]);
   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
     get_ptb_dashboard_error_msg,
     get_ptb_dashboard_res,
   } = useSelector(state => state.PtbDashboard);
-
-  useEffect(() => {
-    if (loadingRef.current && !get_ptb_dashboard_loading) {
-      dispatch(showAppLoader());
-
-      if (get_ptb_dashboard_success) {
-        dispatch(hideAppLoader());
-        setStateRes(get_ptb_dashboard_res);
+  console.log('ressss', get_ptb_dashboard_res);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !get_ptb_dashboard_loading) {
+        dispatch(showAppLoader());
+        if (get_ptb_dashboard_success) {
+          dispatch(hideAppLoader());
+          setPtbDashboardRes(get_ptb_dashboard_res?.data);
+        }
+        if (get_ptb_dashboard_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (get_ptb_dashboard_error_msg) {
-        dispatch(hideAppLoader());
-      }
-    }
-    loadingRef.current = get_ptb_dashboard_loading;
-  }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]);
+      loadingRef.current = get_ptb_dashboard_loading;
+    }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
+  );
 
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
@@ -72,9 +72,7 @@ const PtbDashboard = () => {
         useSwiper.current.swipeLeft();
       }, 1000);
     }
-
     setTimeout(() => {
-      // setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 200);
@@ -91,13 +89,13 @@ const PtbDashboard = () => {
       }, 1000);
     }
     setTimeout(() => {
-      // setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 150);
   };
 
   function renderCardData(item) {
+    console.log('item?.user?.id', item?.user?.id)
     return (
       <>
         <TouchableOpacity
@@ -130,7 +128,7 @@ const PtbDashboard = () => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      rightPress={authService.logout}
+      rightPress={() => dispatch(logOut)}
       style={styles.headerIcon}
     />
   );
@@ -165,13 +163,12 @@ const PtbDashboard = () => {
                     ref={useSwiper}
                     renderCard={renderCardData}
                     cardIndex={cardIndex}
-                    cards={stateRes.ptbDashboard}
+                    cards={ptbDashboardRes}
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
                     showSecondCard={true}
                     stackSize={1}
-                    onIndexChanged={e => changeScreens(e)}
                   />
                 </View>
               </ImageBackground>
