@@ -116,21 +116,26 @@ const PTB_profile = ({route}) => {
             );
           })} */}
           <View style={{flexDirection: 'row'}}>
+          {stateRes?.user_profile?.gender? (
             <View style={styles.highlits}>
               <Text style={styles.highlitsText}>
                 {stateRes?.user_profile?.gender}
               </Text>
-            </View>
+            </View>   ) : null}
+            {stateRes?.user_profile?.sexual_orientation? (
             <View style={styles.highlits}>
               <Text style={styles.highlitsText}>
                 {stateRes?.user_profile?.sexual_orientation}
               </Text>
             </View>
+            ) : null}
+             {stateRes?.user_profile?.relationship_status? (
             <View style={styles.highlits}>
               <Text style={styles.highlitsText}>
                 {stateRes?.user_profile?.relationship_status}
               </Text>
             </View>
+              ) : null}
           </View>
         </View>
       </View>
