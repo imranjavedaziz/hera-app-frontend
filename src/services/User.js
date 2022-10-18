@@ -69,16 +69,20 @@ const User = () => {
         dispatch(showAppToast(false, 'Gallery Updated Successfully!'));
       });
   };
-  const deleteGallery = async data => {
-    axiosRequest
-      .delete(ApiPath.deleteGallery, data, {})
-      .then(async response => {
-        dispatch(showAppToast(false, response.data.message));
-      })
-      .finally(() => {
-        dispatch(hideAppLoader());
-      });
-  };
+  // const deleteGallery =  async(data)=>{
+  //   // console.log("DATA del", data);
+  //   axiosRequest
+  //   .delete(ApiPath.deleteGallery,data,{
+  //   })
+  //   .then(async response => {
+  //     dispatch(showAppToast(false, response.data.message));
+  //     // console.log(' DELETE response', response);
+  //   }).finally(() => {
+  //     dispatch(hideAppLoader());
+  //   });
+  //
+  // }
+
   const setPreferences = data => {
     dispatch(showAppLoader());
     axiosRequest
@@ -100,7 +104,6 @@ const User = () => {
     saveBasicDetails,
     setAttributes,
     createGallery,
-    deleteGallery,
     setPreferences,
   };
 };

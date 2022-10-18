@@ -267,7 +267,7 @@ export default {
     UploadVideo: 'Upload Video',
     ShortVideo: 'Add a short 60 sec video\n(AVI, MOV, MP4 format)',
     VideoContent: 'A short video might just \nhelp you find a better match',
-    Gallery: 'CreateGallery.js a Gallery',
+    Gallery: 'My Gallery',
     EditProfile: 'Edit Profile',
     Settings: 'Settings',
     Inquiry: 'Inquiry Form',
