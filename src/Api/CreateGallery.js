@@ -6,6 +6,6 @@ export const getUserGalleryApi = () => {
   return axiosRequest.get(ApiPath.getGallery);
 };
 
-export const deleteGallery = data => {
+const deleteGallery = data => {
   return axiosRequest.delete(ApiPath.deleteGallery, data);
 };

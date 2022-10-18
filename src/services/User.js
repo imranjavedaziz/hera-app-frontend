@@ -15,6 +15,8 @@ import {
   setSMDAttributes,
   updateRegStep,
 } from '../redux/actions/Auth';
+import axios from 'axios';
+import {deleteGallery} from '../redux/actions/CreateGallery';
 
 const User = () => {
   const dispatch = useDispatch();
@@ -82,7 +84,6 @@ const User = () => {
   //   });
   //
   // }
-
   const setPreferences = data => {
     dispatch(showAppLoader());
     axiosRequest
