@@ -35,6 +35,7 @@ const CreateGallery = () => {
     {id: 5, uri: '', loading: false},
   ]);
   const profileImg = useSelector(state => state?.Auth?.user);
+  console.log('PROFILE', profileImg);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
