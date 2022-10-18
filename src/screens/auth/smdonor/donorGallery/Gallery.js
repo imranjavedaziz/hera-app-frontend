@@ -195,7 +195,7 @@ const Gallery = ({route}) => {
       style={{marginLeft: 30}}
     />
   );
-  console.log(remove.includes(0), 'remove.includes(0)');
+  console.log(video, 'vedio:::::::::::::::');
   return (
     <>
       <Container
@@ -248,9 +248,9 @@ const Gallery = ({route}) => {
             ))}
           </View>
           <TouchableOpacity
-            disabled={!video?.file_url ? true : false}
+            disabled={video?.file_url==='' ? false : true}
             onPress={() =>
-              !video?.file_url ? selectVideo : setIsPlaying(p => !p)
+              video?.file_url==='' ? selectVideo() : setIsPlaying(p => !p)
             }>
             <ImageBackground
               style={styles.videoContainer}
