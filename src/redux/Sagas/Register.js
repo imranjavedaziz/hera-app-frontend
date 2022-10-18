@@ -10,8 +10,11 @@ import {
   GET_STATES_SUCCESS,
   GET_PROFILE_SETTER_DETAIL,
   GET_PROFILE_SETTER_FAIL,
-  GET_PROFILE_SETTER_SUCCESS, GET_SEXUAL_ORIENTATION, GET_SEXUAL_ORIENTATION_FAIL, GET_SEXUAL_ORIENTATION_SUCCESS,
-} from "../Type";
+  GET_PROFILE_SETTER_SUCCESS,
+  GET_SEXUAL_ORIENTATION,
+  GET_SEXUAL_ORIENTATION_FAIL,
+  GET_SEXUAL_ORIENTATION_SUCCESS,
+} from '../Type';
 
 import {takeLatest, put} from 'redux-saga/effects';
 import {
@@ -43,7 +46,7 @@ export function* watchPtbRegisterApi() {
 
 //SaveBasicDetail
 function* saveBasicDetail(payload) {
-  console.log(payload, "payload:::::::");
+  console.log(payload, 'payload:::::::');
   try {
     const result = yield saveBasicDetailApi(payload.data);
     console.log(result, 'resultRes::');

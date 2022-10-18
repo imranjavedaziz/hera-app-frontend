@@ -100,7 +100,7 @@ const SmBasicDetails = () => {
       dispatch(showAppLoader());
       if (save_basic_detail_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.SetPreference);
+        navigation.navigate(Routes.SetAttributes);
       }
       if (save_basic_detail_error_msg) {
         dispatch(hideAppLoader());

@@ -10,11 +10,12 @@ import {
   watchSaveBasicDetail,
   watchGetStates,
   watchGetProfileSetter,
-} from "./Register";
-import { watchsetPreference } from './SetPreference';
+} from './Register';
+import {watchsetPreference} from './SetPreference';
 import {watchGetUserGallery} from './CreateGallery';
 import {watchGetPtbDashboard} from './PtbDashboard';
-import { watchSetAttribute } from "./SetAttribute";
+import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
+import {watchGetDonorDashboard} from './DonorDashboard';
 
 export default function* rootSaga() {
   yield all([
@@ -30,5 +31,7 @@ export default function* rootSaga() {
     fork(watchGetPtbDashboard),
     fork(watchsetPreference),
     fork(watchSetAttribute),
+    fork(watchSaveAttributeRes),
+    fork(watchGetDonorDashboard),
   ]);
 }
