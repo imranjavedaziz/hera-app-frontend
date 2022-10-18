@@ -165,7 +165,7 @@ const PtbDashboard = () => {
                     ref={useSwiper}
                     renderCard={renderCardData}
                     cardIndex={cardIndex}
-                    cards={stateRes.ptbDashboard}
+                    cards={get_ptb_dashboard_res}
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
