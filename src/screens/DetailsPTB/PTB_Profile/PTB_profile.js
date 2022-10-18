@@ -5,10 +5,11 @@ import {
   ImageBackground,
   Pressable,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Container from '../../../components/Container';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import {CircleBtn} from '../../../components/Header';
 import Strings from '../../../constants/Strings';
@@ -16,13 +17,45 @@ import Alignment from '../../../constants/Alignment';
 import Video from 'react-native-video';
 import styles from './Styles';
 import SetterData from '../../../services/SetterData';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {getPtbProfileDetail} from '../../../redux/actions/PtbProfileDetail';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 const PTB_profile = ({route}) => {
+  const [stateRes, setStateRes] = useState();
+  const dispatch = useDispatch();
+  const loadingRef = useRef(false);
+  const {
+    get_ptb_profile_detail_success,
+    get_ptb_profile_detail_loading,
+    get_ptb_profile_detail_error_msg,
+    get_ptb_profile_detail_res,
+  } = useSelector(state => state.PtbProfileDetail);
+  useEffect(() => {
+    if (loadingRef.current && !get_ptb_profile_detail_loading) {
+      dispatch(showAppLoader());
+      if (get_ptb_profile_detail_success) {
+        dispatch(hideAppLoader());
+        setStateRes(get_ptb_profile_detail_res);
+      }
+      if (get_ptb_profile_detail_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = get_ptb_profile_detail_loading;
+  }, [get_ptb_profile_detail_success, get_ptb_profile_detail_loading]);
+  console.log('result', get_ptb_profile_detail_res);
+  const {
+    params: {userid},
+  } = useRoute();
+  useEffect(() => {
+    dispatch(getPtbProfileDetail(userid));
+  }, []);
   console.log('Parameter==', route.params.userid);
   const navigation = useNavigation();
   const [sendReq, setSendReq] = useState(false);
   const [requestDecline, SetRequestDecline] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [hi, sethi] = useState([]);
 
   const data = SetterData();
   const headerComp = () => (
@@ -32,10 +65,13 @@ const PTB_profile = ({route}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  useEffect(() => {
-    data.ptbProfileDetail(route.params.userid);
-    // sethi(data.highlits);
-  }, []);
+  // useEffect(() => {
+  //   data.ptbProfileDetail(route.params.userid);
+  //    sethi(data.highlits);
+
+  // }, []);
+
+  
   return (
     <Container
       showHeader={true}
@@ -45,21 +81,15 @@ const PTB_profile = ({route}) => {
       <View>
         <View style={styles.location}>
           <Image source={Images.iconmapblue} />
-          <Text style={styles.locationText}>
-            {data.ptbProfileDetails?.location?.name}
-          </Text>
+          <Text style={styles.locationText}>{stateRes?.location?.name}</Text>
         </View>
-        <Text style={styles.profileName}>
-          {data.ptbProfileDetails?.first_name}
-        </Text>
-        <Text style={styles.profileName}>
-          {data.ptbProfileDetails?.last_name}
-        </Text>
+        <Text style={styles.profileName}>{stateRes?.first_name}</Text>
+        <Text style={styles.profileName}>{stateRes?.last_name}</Text>
         <View style={styles.profileImg}>
           <Image
             style={styles.profileLogo}
             source={{
-              uri: data.ptbProfileDetails?.profile_pic,
+              uri: stateRes?.profile_pic,
             }}
           />
         </View>
@@ -67,17 +97,15 @@ const PTB_profile = ({route}) => {
         <View style={styles.ageContainer}>
           <Text>Age: </Text>
           <Text style={styles.ageYrs}>
-            {data.ptbProfileDetails?.age} {Strings.PTB_Profile.yrs}
+            {stateRes?.age}
+            {Strings.PTB_Profile.yrs}
           </Text>
         </View>
         <View>
           <ImageBackground
             source={Images.QUOTES}
-            style={styles.bioBackground}
-          />
-          <Text style={styles.bioText}>
-            {data.ptbProfileDetails?.user_profile?.bio}
-          </Text>
+            style={styles.bioBackground}></ImageBackground>
+          <Text style={styles.bioText}>{stateRes?.user_profile?.bio}</Text>
         </View>
         <View style={{flexDirection: Alignment.ROW}}>
           {/* {data.ptbProfileDetails?.user_profile?.map((item, i) => {
@@ -87,14 +115,31 @@ const PTB_profile = ({route}) => {
               </View>
             );
           })} */}
+          <View style={{flexDirection: 'row'}}>
+            <View style={styles.highlits}>
+              <Text style={styles.highlitsText}>
+                {stateRes?.user_profile?.gender}
+              </Text>
+            </View>
+            <View style={styles.highlits}>
+              <Text style={styles.highlitsText}>
+                {stateRes?.user_profile?.sexual_orientation}
+              </Text>
+            </View>
+            <View style={styles.highlits}>
+              <Text style={styles.highlitsText}>
+                {stateRes?.user_profile?.relationship_status}
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
-      {data.ptbProfileDetails?.doner_video_gallery != null ? (
+      {stateRes?.doner_video_gallery != null ? (
         <View>
           <Text style={styles.videoText}>{Strings.PTB_Profile.video_text}</Text>
           <Video
             controls={true}
-            source={{uri: data.ptbProfileDetails?.doner_video_gallery}}
+            source={{uri: stateRes?.doner_video_gallery}}
             onError={err => console.log(err)}
             style={styles.videoContainer}
             paused={true}

@@ -9,9 +9,12 @@ import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage'
 import Strings from '../../../constants/Strings';
 import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
+import {useSelector} from 'react-redux';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
+  const {registerUser} = useSelector(state => state.Auth);
+  console.log('registerUser', registerUser);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}

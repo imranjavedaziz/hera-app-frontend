@@ -7,6 +7,7 @@ import PtbDashboard from './PtbDashboard';
 import SetPreference from './SetPreference';
 import SetAttribute from './SetAttribute';
 import DonorDashBoard from './DonorDashboard';
+import PtbProfileDetail from './PtbProfileDetail';
 
 const allReducers = combineReducers({
   Auth,
@@ -17,6 +18,7 @@ const allReducers = combineReducers({
   SetPreference,
   SetAttribute,
   DonorDashBoard,
+  PtbProfileDetail,
 });
 
 export default allReducers;

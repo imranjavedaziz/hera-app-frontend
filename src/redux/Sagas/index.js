@@ -17,6 +17,7 @@ import {watchGetPtbDashboard} from './PtbDashboard';
 import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
 import {watchGetDonorDashboard} from './DonorDashboard';
 import {watchDeleteUserGallery} from './CreateGallery';
+import {watchGetPtbProfileDetail} from './PtbProfileDetail';
 
 export default function* rootSaga() {
   yield all([
@@ -35,5 +36,6 @@ export default function* rootSaga() {
     fork(watchSaveAttributeRes),
     fork(watchGetDonorDashboard),
     fork(watchDeleteUserGallery),
+    fork(watchGetPtbProfileDetail),
   ]);
 }

@@ -258,7 +258,7 @@ export default (state = initState, action) => {
         register_user_loading: true,
         register_user_error_msg: '',
         user: {},
-        registerUser: action.data,
+        registerUser: action?.data?.data?.data,
       };
     }
     case AUTH_REGISTER_FAIL: {
