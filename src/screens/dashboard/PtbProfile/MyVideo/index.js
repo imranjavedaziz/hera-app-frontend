@@ -5,24 +5,56 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
 import Strings from '../../../../constants/Strings';
-import User from '../../../../services/User';
 import videoPicker from '../../../../utils/videoPicker';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 import Video from 'react-native-video';
+import {useDispatch, useSelector} from 'react-redux';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {getUserGallery} from '../../../../redux/actions/CreateGallery';
+
 const MyVideo = () => {
-  const userService = User();
-  const [video, setVideo] = useState({uri: '', loading: false});
+  const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const dispatch = useDispatch();
+  const loadingGalleryRef = useRef(false);
   const navigation = useNavigation();
+  const videoRef = useRef();
+  const {gallery_success, gallery_loading, gallery_data} = useSelector(
+    state => state.CreateGallery,
+  );
+
+  useEffect(() => {
+    dispatch(getUserGallery());
+  }, []);
+
+  useEffect(() => {
+    if (loadingGalleryRef.current && !gallery_loading) {
+      dispatch(showAppLoader());
+      if (gallery_success) {
+        setVideo({
+          file_url: gallery_data?.doner_video_gallery?.file_url
+            ? gallery_data?.doner_video_gallery?.file_url
+            : '',
+          loading: false,
+        });
+        dispatch(hideAppLoader());
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingGalleryRef.current = gallery_loading;
+  }, [gallery_success, gallery_loading]);
+
   const cb = v => {
     setOpen(false);
     videoPicker().then(v => {
@@ -93,12 +125,27 @@ const MyVideo = () => {
                 </>
               ) : (
                 <>
-                  <Video
-                    controls={true}
-                    onError={err => console.log(err)}
-                    paused={true}
-                  />
-                  <Image source={Images.playButton} />
+                  <TouchableOpacity
+                    onPress={
+                      video?.file_url === ''
+                        ? selectVideo()
+                        : setIsPlaying(p => !p)
+                    }>
+                    <Video
+                      ref={videoRef}
+                      onLoad={() => {
+                        videoRef?.current?.seek(3);
+                        videoRef?.current?.setNativeProps({
+                          paused: true,
+                        });
+                      }}
+                      paused={!isPlaying}
+                      source={{uri: `${video?.file_url}`}}
+                      resizeMode={'cover'}
+                      style={styles.video}
+                    />
+                    <Image source={Images.playButton} />
+                  </TouchableOpacity>
                 </>
               )}
             </ImageBackground>
