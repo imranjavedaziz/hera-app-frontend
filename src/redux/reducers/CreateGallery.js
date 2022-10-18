@@ -1,4 +1,4 @@
-import { GET_GALLERY, GET_GALLERY_FAIL, GET_GALLERY_SUCCESS } from "../Type";
+import {GET_GALLERY, GET_GALLERY_FAIL, GET_GALLERY_SUCCESS} from '../Type';
 
 const initState = {
   gallery: {},
@@ -14,15 +14,15 @@ export default (state = initState, action) => {
         gallery: {},
       };
     case GET_GALLERY_SUCCESS:
-      return{
+      return {
         ...state,
         gallery: action.data.data.data,
       };
     case GET_GALLERY_FAIL:
-      return{
+      return {
         ...state,
         gallery: {},
-      }
+      };
     default:
       return state;
   }

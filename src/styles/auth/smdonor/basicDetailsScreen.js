@@ -2,7 +2,7 @@ import Colors from '../../../constants/Colors';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
 import {Fonts} from '../../../constants/Constants';
-import { scaleWidth, normalizeFont } from '../../../utils/responsive';
+import {scaleWidth, normalizeFont} from '../../../utils/responsive';
 
 export default {
   radioBtn: {
@@ -27,7 +27,7 @@ export default {
   radioContainer: {
     flexDirection: Alignment.ROW,
     width: Prencentage.PRECENTAGE_100,
-    justifyContent:Alignment.SPACE_BETWEEN
+    justifyContent: Alignment.SPACE_BETWEEN,
   },
   textArea: {
     borderWidth: Value.CONSTANT_VALUE_1,
@@ -43,12 +43,12 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     width: Prencentage.PRECENTAGE_100,
     textAlign: Alignment.LEFT,
-    marginBottom:10
+    marginBottom: 10,
   },
-  Btn:{
-    height:Value.CONSTANT_VALUE_80,
-    width:Value.CONSTANT_VALUE_197,
-    paddingVertical:Value.CONSTANT_VALUE_0,
-    paddingHorizontal:Value.CONSTANT_VALUE_0
-  }
+  Btn: {
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_197,
+    paddingVertical: Value.CONSTANT_VALUE_0,
+    paddingHorizontal: Value.CONSTANT_VALUE_0,
+  },
 };

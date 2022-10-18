@@ -84,7 +84,7 @@ const SetAttributes = ({route}) => {
       dispatch(showAppLoader());
       if (save_attribute_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.SmDashboard);
+        navigation.navigate(Routes.CreateGallery);
       }
       if (save_attribute_error_msg) {
         dispatch(hideAppLoader());

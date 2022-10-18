@@ -10,3 +10,4 @@ export const SET_BASIC_DETAILS = 'SET_BASIC_DETAILS';
 export const SET_ATTRIBUTES = 'SET_ATTRIBUTES';
 export const GET_GALLERY = 'GET_GALLERY';
 export const SAVE_ATTRIBUTE = 'SAVE_ATTRIBUTE';
+export const PTB_DETAIL = 'PTB_DETAIL';

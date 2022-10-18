@@ -84,10 +84,10 @@ const SmDashboard = ({route}) => {
   const renderProfile = ({item, index}) => {
     return (
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate(Routes.ProfileDetails, {userid: item.id})
-        }
-        // onPress={()=>console.log(item.id)}
+        // onPress={() =>
+        //   navigation.navigate(Routes.ProfileDetails, {userid: item.id})
+        // }
+        onPress={() => console.log(item.id)}
         style={styles.mainContainer}>
         <View style={styles.conatiner}>
           <ImageBackground
