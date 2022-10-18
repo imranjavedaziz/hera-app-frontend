@@ -124,7 +124,7 @@ const PtbDashboard = () => {
   }
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.iconRadiounsel}
+      leftIcon={registerUser?.log_in_data?.profile_pic}
       leftPress={() => {
         navigation.navigate('PtbProfile');
       }}
