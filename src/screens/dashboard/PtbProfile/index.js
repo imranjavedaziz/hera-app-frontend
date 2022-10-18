@@ -13,8 +13,8 @@ import {useSelector} from 'react-redux';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
-  const {registerUser} = useSelector(state => state.Auth);
-  console.log('registerUser', registerUser);
+  const registerUser = useSelector(state => state.Auth);
+  console.log('ggtt', registerUser?.log_in_data?.profile_pic);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -35,7 +35,7 @@ const PtbProfile = () => {
           <ProfileImage
             Heading={Strings.smSetting.ptbProfile}
             Name={Strings.smSetting.ProfileName}
-            source={Images.DASHBOARD_IMG}
+            source={registerUser?.log_in_data?.profile_pic}
           />
           <Subscribe
             Icon={Images.STAR}
