@@ -23,6 +23,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import SetterData from '../../../../services/SetterData';
+import { logOut } from '../../../../redux/actions/Auth';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -116,13 +117,17 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
   const headerComp = () => (
     <IconHeader
       profileImg={profileImg}
       profileView={true}
       rightIcon={Images.iconChat}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
-      // rightPress={authService.logout}
+      rightPress={() => logoutScreen()}
     />
   );
   return (

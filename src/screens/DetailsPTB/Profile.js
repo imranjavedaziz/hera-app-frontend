@@ -41,6 +41,7 @@ import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
+import {logOut} from '../../redux/actions/Auth';
 
 const Profile = ({route}) => {
   const navigation = useNavigation();
@@ -94,6 +95,11 @@ const Profile = ({route}) => {
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
   );
+
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
@@ -426,7 +432,7 @@ const Profile = ({route}) => {
               <TouchableOpacity
                 onPress={() => {
                   setShowModal(false);
-                  navigation.navigate(Routes.Landing);
+                  logoutScreen();
                 }}>
                 <Text style={styles.modalOption1}>
                   {Strings.profile.ModalOption1}

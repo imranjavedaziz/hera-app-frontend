@@ -15,12 +15,14 @@ import Dropdown from '../../../components/inputs/Dropdown';
 import Auth from '../../../services/Auth';
 import {Value} from '../../../constants/FixedValues';
 import {useDispatch, useSelector} from 'react-redux';
+import SetterData from '../../../services/SetterData';
+import {getStates} from '../../../redux/actions/Register';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
-import {getAttribute, saveAttribute} from '../../../redux/actions/SetAttribute';
-import {Routes} from '../../../constants/Constants';
+import {getAttribute} from '../../../redux/actions/SetAttribute';
 import SetAttribute from '../../../redux/reducers/SetAttribute';
+import {logOut} from '../../../redux/actions/Auth';
+import {Routes} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
-
 const SetAttributes = ({route}) => {
   const initialState = useSelector(state => state.Auth);
   console.log(initialState);
@@ -76,7 +78,7 @@ const SetAttributes = ({route}) => {
       dispatch(showAppLoader());
       if (save_attribute_success) {
         dispatch(hideAppLoader());
-         navigation.navigate(Routes.CreateGallery);
+        navigation.navigate(Routes.CreateGallery);
       }
       if (save_attribute_error_msg) {
         dispatch(hideAppLoader());
@@ -92,6 +94,12 @@ const SetAttributes = ({route}) => {
       }}
     />
   );
+
+  const logOutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
+
   return (
     <>
       <Container
@@ -271,7 +279,7 @@ const SetAttributes = ({route}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={authService.logout}>
+            onPress={() => logOutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>

@@ -64,6 +64,7 @@ export const IconHeader = ({
   rightPress,
   profileView,
   profileImg,
+  ApiImage = false,
   ...otherProps
 }) => (
   <>
@@ -81,7 +82,13 @@ export const IconHeader = ({
         {...otherProps}
         accessible={true}
         accessibilityRole="button">
-        <Image accessible={false} source={leftIcon} style={styles.img} />
+        {ApiImage ? (
+          <View style={[styles.profileImgContainner]}>
+            <Image source={leftIcon} style={styles.profileImg} />
+          </View>
+        ) : (
+          <Image accessible={false} source={leftIcon} style={styles.img} />
+        )}
       </TouchableOpacity>
     )}
 
@@ -102,5 +109,17 @@ const Header = ({end = false, children}) => {
     </View>
   );
 };
+export const ProfileIcon = ({}) => (
+  <View style={[styles.container, styles.start]}>
+    <View style={styles.profileImgContainner}>
+      <Image
+        source={{
+          uri: 'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
+        }}
+        style={styles.profileImg}
+      />
+    </View>
+  </View>
+);
 
 export default Header;

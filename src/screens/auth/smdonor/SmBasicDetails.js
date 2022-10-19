@@ -29,6 +29,7 @@ import {
   sexualOrientation,
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
+import {logOut} from '../../../redux/actions/Auth';
 import getRoute from '../../../utils/getRoute';
 
 const SmBasicDetails = () => {
@@ -109,9 +110,7 @@ const SmBasicDetails = () => {
       if (save_basic_detail_success) {
         dispatch(hideAppLoader());
         navigation.navigate(
-          user?.role_id === '2'
-            ? Routes.SetPreference
-            : Routes.SetAttributes,
+          user?.role_id === '2' ? Routes.SetPreference : Routes.SetAttributes,
           payloadData,
         );
       }
@@ -124,7 +123,7 @@ const SmBasicDetails = () => {
 
   const onSubmit = data => {
     console.log(data, 'data::::::');
-    setPayloadData(data)
+    setPayloadData(data);
     dispatch(saveBasicDetail(data));
   };
   const headerComp = () => (
@@ -135,6 +134,11 @@ const SmBasicDetails = () => {
       }}
     />
   );
+
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
 
   return (
     <>
@@ -300,8 +304,7 @@ const SmBasicDetails = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            // onPress={authService.logout}
-          >
+            onPress={() => logoutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>

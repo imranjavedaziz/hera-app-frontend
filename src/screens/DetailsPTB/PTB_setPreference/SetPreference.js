@@ -1,28 +1,33 @@
 import {Text, View, Image, TouchableOpacity} from 'react-native';
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
-import { hideAppLoader, showAppLoader, showAppToast } from "../../../redux/actions/loader";
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
 import {CircleBtn} from '../../../components/Header';
 import Button from '../../../components/Button';
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import { Static, Routes, FormKey } from "../../../constants/Constants";
+import {Static, Routes, FormKey} from '../../../constants/Constants';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
+import {logOut} from '../../../redux/actions/Auth';
 import SetterData from '../../../services/SetterData';
-import { SetPreferenceRes } from "../../../redux/actions/SetPreference";
+import {SetPreferenceRes} from '../../../redux/actions/SetPreference';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -108,6 +113,11 @@ const SetPreference = ({route, navigation}) => {
     navigation.navigate(Routes.PtbDashboard);
   };
 
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -118,39 +128,39 @@ const SetPreference = ({route, navigation}) => {
   );
   return (
     <>
-
-        <Container
-          scroller={true}
-          showHeader={true}
-          headerComp={headerComp}
-          headerEnd={true}
-          safeAreViewStyle={
-            isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
-          }
-          style={{ paddingBottom: Value.CONSTANT_VALUE_50 }}>
-          <View style={styles.mainContainer}>
-            <Text style={globalStyle.screenTitle}>
-              {Strings.preference.setPreference}
+      <Container
+        scroller={true}
+        showHeader={true}
+        headerComp={headerComp}
+        headerEnd={true}
+        safeAreViewStyle={
+          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
+        }
+        style={{paddingBottom: Value.CONSTANT_VALUE_50}}>
+        <View style={styles.mainContainer}>
+          <Text style={globalStyle.screenTitle}>
+            {Strings.preference.setPreference}
+          </Text>
+          <View
+            accessible={true}
+            accessibilityLabel={`${Strings.preference.filter}`}>
+            <Text
+              style={globalStyle.screenSubTitle}
+              numberOfLines={2}
+              accessible={false}>
+              {Strings.preference.filter}
             </Text>
-            <View
-              accessible={true}
-              accessibilityLabel={`${Strings.preference.filter}`}>
-              <Text
-                style={globalStyle.screenSubTitle}
-                numberOfLines={2}
-                accessible={false}>
-                {Strings.preference.filter}
-              </Text>
-            </View>
-            <View style={styles.lookingFor}>
-              <Text style={{ marginBottom: Value.CONSTANT_VALUE_17 }}>
-                {Strings.preference.lookingFor}
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <View style={{}}>
-                    {preferencesData?.role?.length > 0 && preferencesData?.role.map(whom => (
+          </View>
+          <View style={styles.lookingFor}>
+            <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
+              {Strings.preference.lookingFor}
+            </Text>
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <View style={{}}>
+                  {preferencesData?.role?.length > 0 &&
+                    preferencesData?.role.map(whom => (
                       <TouchableOpacity
                         style={styles.flexRow}
                         key={whom.id}
@@ -167,158 +177,159 @@ const SetPreference = ({route, navigation}) => {
                         <Text style={styles.lookingsm}>{whom.name}</Text>
                       </TouchableOpacity>
                     ))}
-                  </View>
-                )}
-                name={FormKey.looking}
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Dropdown
-                    label={Strings.preference.Location}
-                    data={Static.location}
-                    onSelect={(selectedItem, index) => {
-                      console.log(selectedItem, index);
-                      onChange(selectedItem);
-                    }}
-                    required={true}
-                    error={errors && errors.location?.message}
-                  />
-                )}
-                name={FormKey.location}
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Dropdown
-                    label={Strings.preference.Education}
-                    data={preferencesData?.education}
-                    onSelect={(selectedItem, index) => {
-                      console.log(selectedItem, index);
-                      onChange(selectedItem);
-                    }}
-                    required={true}
-                    error={errors && errors.education?.message}
-                  />
-                )}
-                name={FormKey.education}
-              />
-              <Text style={styles.ageText}>
-                {Strings.preference.AgeRange}
-                <Text style={styles.chipsRequiredText}>*</Text>
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, value = '' } }) => (
-                  <View style={styles.ageContainer}>
-                    {ageRange.map((item, index) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            onChange(onValueSelect(value, item.name));
-                          }}
-                          activeOpacity={0.8}
-                          key={item.id}>
-                          <View
+                </View>
+              )}
+              name={FormKey.looking}
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  label={Strings.preference.Location}
+                  data={Static.location}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                    onChange(selectedItem);
+                  }}
+                  required={true}
+                  error={errors && errors.location?.message}
+                />
+              )}
+              name={FormKey.location}
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  label={Strings.preference.Education}
+                  data={preferencesData?.education}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                    onChange(selectedItem);
+                  }}
+                  required={true}
+                  error={errors && errors.education?.message}
+                />
+              )}
+              name={FormKey.education}
+            />
+            <Text style={styles.ageText}>
+              {Strings.preference.AgeRange}
+              <Text style={styles.chipsRequiredText}>*</Text>
+            </Text>
+            <Controller
+              control={control}
+              render={({field: {onChange, value = ''}}) => (
+                <View style={styles.ageContainer}>
+                  {ageRange.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          onChange(onValueSelect(value, item.name));
+                        }}
+                        activeOpacity={0.8}
+                        key={item.id}>
+                        <View
+                          style={[
+                            styles.ageRangeChip,
+                            {
+                              backgroundColor: isSelected(value, item.name)
+                                ? Colors.COLOR_5ABCEC
+                                : Colors.BACKGROUND,
+                              borderWidth: isSelected(value, item.name) ? 0 : 1,
+                            },
+                          ]}>
+                          <Text
                             style={[
-                              styles.ageRangeChip,
+                              styles.chipInsideText,
                               {
-                                backgroundColor: isSelected(value, item.name)
-                                  ? Colors.COLOR_5ABCEC
-                                  : Colors.BACKGROUND,
-                                borderWidth: isSelected(value, item.name) ? 0 : 1,
+                                color: isSelected(value, item.name)
+                                  ? Colors.WHITE
+                                  : null,
+                                fontWeight: isSelected(value, item.name)
+                                  ? Alignment.BOLD
+                                  : null,
                               },
                             ]}>
-                            <Text
-                              style={[
-                                styles.chipInsideText,
-                                {
-                                  color: isSelected(value, item.name)
-                                    ? Colors.WHITE
-                                    : null,
-                                  fontWeight: isSelected(value, item.name)
-                                    ? Alignment.BOLD
-                                    : null,
-                                },
-                              ]}>
-                              {item.name} {Strings.preference.yrs}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                )}
-                name={FormKey.age_range}
-              />
-              <View style={{ marginTop: Value.CONSTANT_VALUE_25 }}>
-                <View style={styles.heightContainer}>
-                  <Text>
-                    {Strings.preference.Height}{' '}
-                    <Text style={styles.heightText}>*</Text>
-                  </Text>
-                  <Text style={{ fontWeight: Alignment.BOLD }}>
-                    <Text>
-                      {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
-                    </Text>
-                    <Text>
-                      {parseInt(height[1] / 12)}'{parseInt(height[1] % 12)}"
-                    </Text>
-                  </Text>
+                            {item.name} {Strings.preference.yrs}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
                 </View>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <Range
-                      value={height}
-                      setValue={setHeight}
-                      onValueChange={value => {
-                        onChange(value);
-                      }}
-                    />
-                  )}
-                  name={FormKey.height}
-                />
+              )}
+              name={FormKey.age_range}
+            />
+            <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
+              <View style={styles.heightContainer}>
+                <Text>
+                  {Strings.preference.Height}{' '}
+                  <Text style={styles.heightText}>*</Text>
+                </Text>
+                <Text style={{fontWeight: Alignment.BOLD}}>
+                  <Text>
+                    {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
+                  </Text>
+                  <Text>
+                    {parseInt(height[1] / 12)}'{parseInt(height[1] % 12)}"
+                  </Text>
+                </Text>
               </View>
               <Controller
                 control={control}
-                render={({ field: { onChange } }) => (
-                  <Dropdown
-                    label={Strings.preference.Race}
-                    data={preferencesData?.race}
-                    onSelect={(selectedItem, index) => {
-                      onChange(selectedItem.id);
+                render={({field: {onChange}}) => (
+                  <Range
+                    value={height}
+                    setValue={setHeight}
+                    onValueChange={value => {
+                      onChange(value);
                     }}
-                    required={true}
-                    error={errors && errors.race?.message}
                   />
                 )}
-                name={FormKey.race}
+                name={FormKey.height}
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Dropdown
-                    label={Strings.preference.Ethnicity}
-                    data={preferencesData?.ethnicity}
-                    onSelect={(selectedItem, index) => {
-                      console.log(selectedItem, index);
-                      onChange(selectedItem.id);
-                    }}
-                    error={errors && errors.ethnicity?.message}
-                  />
-                )}
-                name={FormKey.ethnicity}
-              />
-              <Text style={styles.chipText}>
-                {Strings.preference.HairColor}
-                <Text style={styles.chipsRequiredText}>*</Text>
-              </Text>
-              <Controller
-                control={control}
-                render={({ field: { onChange, value = '' } }) => (
-                  <View style={styles.hairContainer}>
-                    {preferencesData?.hair_colour?.length>0&&preferencesData?.hair_colour.map((item, index) => (
+            </View>
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  label={Strings.preference.Race}
+                  data={preferencesData?.race}
+                  onSelect={(selectedItem, index) => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.race?.message}
+                />
+              )}
+              name={FormKey.race}
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  label={Strings.preference.Ethnicity}
+                  data={preferencesData?.ethnicity}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                    onChange(selectedItem.id);
+                  }}
+                  error={errors && errors.ethnicity?.message}
+                />
+              )}
+              name={FormKey.ethnicity}
+            />
+            <Text style={styles.chipText}>
+              {Strings.preference.HairColor}
+              <Text style={styles.chipsRequiredText}>*</Text>
+            </Text>
+            <Controller
+              control={control}
+              render={({field: {onChange, value = ''}}) => (
+                <View style={styles.hairContainer}>
+                  {preferencesData?.hair_colour?.length > 0 &&
+                    preferencesData?.hair_colour.map((item, index) => (
                       <TouchableOpacity
                         onPress={() => {
                           onChange(onValueSelect(value, item.id.toString()));
@@ -343,7 +354,10 @@ const SetPreference = ({route, navigation}) => {
                             style={[
                               {
                                 alignSelf: Alignment.CENTER,
-                                fontWeight: isSelected(value, item.id.toString())
+                                fontWeight: isSelected(
+                                  value,
+                                  item.id.toString(),
+                                )
                                   ? Alignment.BOLD
                                   : null,
                                 color: isSelected(value, item.id.toString())
@@ -356,20 +370,21 @@ const SetPreference = ({route, navigation}) => {
                         </View>
                       </TouchableOpacity>
                     ))}
-                  </View>
-                )}
-                name={FormKey.hair}
-              />
-              <Text style={styles.chipText}>
-                {Strings.preference.EyeColor}
-                <Text style={styles.chipsRequiredText}>*</Text>
-              </Text>
-            </View>
-            <Controller
-              control={control}
-              render={({ field: { onChange, value = '' } }) => (
-                <View style={styles.eyeContainer}>
-                  {preferencesData?.eye_colour?.length>0&&preferencesData?.eye_colour.map((item, index) => (
+                </View>
+              )}
+              name={FormKey.hair}
+            />
+            <Text style={styles.chipText}>
+              {Strings.preference.EyeColor}
+              <Text style={styles.chipsRequiredText}>*</Text>
+            </Text>
+          </View>
+          <Controller
+            control={control}
+            render={({field: {onChange, value = ''}}) => (
+              <View style={styles.eyeContainer}>
+                {preferencesData?.eye_colour?.length > 0 &&
+                  preferencesData?.eye_colour.map((item, index) => (
                     <TouchableOpacity
                       onPress={() => {
                         onChange(onValueSelect(value, item.id.toString()));
@@ -379,7 +394,10 @@ const SetPreference = ({route, navigation}) => {
                         style={[
                           styles.chips,
                           {
-                            backgroundColor: isSelected(value, item.id.toString())
+                            backgroundColor: isSelected(
+                              value,
+                              item.id.toString(),
+                            )
                               ? Colors.COLOR_5ABCEC
                               : Colors.WHITE,
                             borderWidth: isSelected(value, item.id.toString())
@@ -404,17 +422,17 @@ const SetPreference = ({route, navigation}) => {
                       </View>
                     </TouchableOpacity>
                   ))}
-                </View>
-              )}
-              name={FormKey.eye}
-            />
-            <Button
-              label={Strings.preference.Save}
-              style={styles.Btn}
-              onPress={handleSubmit(onSubmit)}
-            />
-          </View>
-        </Container>
+              </View>
+            )}
+            name={FormKey.eye}
+          />
+          <Button
+            label={Strings.preference.Save}
+            style={styles.Btn}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
+      </Container>
 
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
@@ -432,14 +450,13 @@ const SetPreference = ({route, navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={authService.logout}>
+            onPress={() => logoutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.preference.Logout}
             </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-
     </>
   );
 };

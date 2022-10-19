@@ -69,6 +69,7 @@ export const verifyOtp = payload => {
 export const logOut = () => {
   return {
     type: AUTH_LOG_OUT,
+    data: {},
   };
 };
 
