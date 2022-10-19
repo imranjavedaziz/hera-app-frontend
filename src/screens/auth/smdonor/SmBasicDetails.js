@@ -29,12 +29,14 @@ import {
   sexualOrientation,
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
+import getRoute from '../../../utils/getRoute';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [stateRes, setStateRes] = useState();
   const [profileRes, setProfileRes] = useState();
+  const [payloadData, setPayloadData] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
@@ -56,6 +58,8 @@ const SmBasicDetails = () => {
     save_basic_detail_loading,
     save_basic_detail_error_msg,
   } = useSelector(state => state.Register);
+  const user = useSelector(state => state.Auth.user);
+  console.log(user, 'user:::::::::::');
   const {
     handleSubmit,
     control,
@@ -98,9 +102,18 @@ const SmBasicDetails = () => {
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
       dispatch(showAppLoader());
+      console.log(
+        save_basic_detail_success,
+        'save_basic_detail_success:::::::::::',
+      );
       if (save_basic_detail_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.SetAttributes);
+        navigation.navigate(
+          user?.role_id === '2'
+            ? Routes.SetPreference
+            : Routes.SetAttributes,
+          payloadData,
+        );
       }
       if (save_basic_detail_error_msg) {
         dispatch(hideAppLoader());
@@ -111,6 +124,7 @@ const SmBasicDetails = () => {
 
   const onSubmit = data => {
     console.log(data, 'data::::::');
+    setPayloadData(data)
     dispatch(saveBasicDetail(data));
   };
   const headerComp = () => (

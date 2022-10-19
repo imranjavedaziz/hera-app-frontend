@@ -12,9 +12,7 @@ const axiosRequest = axios.create({
 
 axiosRequest.interceptors.request.use(
   request => {
-    console.log(store.getState().Auth.token, "store.getState()");
     const token = store.getState().Auth.token;
-    console.log(token, "token::::::::");
     if (token) {
       request.headers = {
         Authorization: `Bearer ${token}`,
@@ -33,13 +31,8 @@ axiosRequest.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    console.log(originalRequest, "originalRequest::::::");
-    console.log(error.response.status, "error.response.status");
-    // console.log(originalRequest._retry, "originalRequest._retry");
     if (error.response.status === 401) {
-      console.log('inside token fail')
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
-      console.log(tokenRes, "tokenRes:::::::");
       store.dispatch(updateToken(tokenRes.data.token));
       // get access token from refresh token and retry
       originalRequest._retry = true;
@@ -53,10 +46,8 @@ axiosRequest.interceptors.response.use(
       //   messages = [...messages,...error.response.data.message[key]];
       // });
       // await store.dispatch(showAppToast(true,messages.join('\n')));
-      console.log('Axio MSG', error.response.data.message);
       return error.response.data.message;
     }
-    // console.log('ERROR', error.message);
     return Promise.reject(error);
   },
 );

@@ -12,7 +12,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  console.log('actiondata', action.data);
   switch (action.type) {
     /**
      * GET PROFILE SETTER

@@ -32,7 +32,6 @@ export function* watchSetAttribute() {
 function* SaveAttributeRes(payload) {
   try {
     const result = yield saveAttributes(payload.data);
-    console.log(result, 'SAVE ATTRIBUTE');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SAVE_ATTRIBUTE_SUCCESS, data: result});
     } else {
