@@ -22,13 +22,14 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import SetterData from '../../../services/SetterData';
 import {
   getStates,
   getProfileSetterDetail,
-  saveBasicDetail, sexualOrientation,
-} from "../../../redux/actions/Register";
-import { useNavigation } from "@react-navigation/native";
+  saveBasicDetail,
+  sexualOrientation,
+} from '../../../redux/actions/Register';
+import {useNavigation} from '@react-navigation/native';
+import {logOut} from '../../../redux/actions/Auth';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -56,7 +57,6 @@ const SmBasicDetails = () => {
     save_basic_detail_success,
     save_basic_detail_loading,
     save_basic_detail_error_msg,
-
   } = useSelector(state => state.Register);
   const {
     handleSubmit,
@@ -112,7 +112,7 @@ const SmBasicDetails = () => {
   }, [save_basic_detail_success, save_basic_detail_loading]);
 
   const onSubmit = data => {
-    console.log(data, "data::::::");
+    console.log(data, 'data::::::');
     dispatch(saveBasicDetail(data));
   };
   const headerComp = () => (
@@ -123,6 +123,11 @@ const SmBasicDetails = () => {
       }}
     />
   );
+
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
 
   return (
     <>
@@ -288,8 +293,7 @@ const SmBasicDetails = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            // onPress={authService.logout}
-          >
+            onPress={() => logoutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>

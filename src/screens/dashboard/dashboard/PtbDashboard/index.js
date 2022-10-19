@@ -22,6 +22,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
+import {Routes} from '../../../../constants/Constants';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -36,7 +37,7 @@ const PtbDashboard = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef();
   const {registerUser} = useSelector(state => state.Auth);
-  console.log('registerUser', registerUser);
+  console.log('registerUsejhkjr', registerUser);
   useEffect(() => {
     dispatch(getPtbDashboard());
   }, [dispatch]);
@@ -97,7 +98,7 @@ const PtbDashboard = () => {
   };
 
   function renderCardData(item) {
-    console.log('item?.user?.id', item?.user?.id)
+    console.log('item?.user?.id', item?.user?.id);
     return (
       <>
         <TouchableOpacity
@@ -123,15 +124,25 @@ const PtbDashboard = () => {
       </>
     );
   }
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
+
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.iconRadiounsel}
+      leftIcon={{
+        uri: registerUser?.data?.data?.profile_pic
+          ? registerUser?.data?.data?.profile_pic
+          : Images.iconRadiounsel,
+      }}
       leftPress={() => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      rightPress={() => dispatch(logOut)}
+      rightPress={() => logoutScreen()}
       style={styles.headerIcon}
+      ApiImage={true}
     />
   );
   return (

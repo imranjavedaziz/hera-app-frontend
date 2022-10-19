@@ -20,12 +20,14 @@ import Video from 'react-native-video';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
+import User from '../../../../services/User';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const dispatch = useDispatch();
+  const userService = User();
   const loadingGalleryRef = useRef(false);
   const navigation = useNavigation();
   const videoRef = useRef();
@@ -54,30 +56,25 @@ const MyVideo = () => {
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
-
+  console.log('gallery_data', gallery_data);
   const cb = v => {
     setOpen(false);
-    videoPicker().then(v => {
-      setVideo({uri: v.path, loading: true});
-      const reqData = new FormData();
-      reqData.append('image', {
-        name: v.filename,
-        type: v.mime,
-        uri: v.path,
-      });
-      console.log(reqData, 'reqData');
-    });
   };
   const selectVideo = () => {
     videoPicker().then(v => {
-      setVideo({uri: v.path, loading: true});
+      // ({uri: v.path, loading:setVideo true});
       const reqData = new FormData();
       reqData.append('image', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      console.log(reqData, 'reqData');
+      userService.createGallery(reqData, loading =>
+        setVideo(old => ({...old, loading})),
+      );
+      setOpen(false);
+      // dispatch(getUserGallery());
+      // console.log(reqData, 'reqData');
     });
   };
   const headerComp = () => (
@@ -109,10 +106,8 @@ const MyVideo = () => {
             onPress={() => {
               setOpen(true);
             }}>
-            <ImageBackground
-              style={styles.VdoContainer}
-              source={video.uri ? {uri: video.uri} : null}>
-              {!video.uri ? (
+            <ImageBackground style={styles.VdoContainer}>
+              {!gallery_data?.doner_video_gallery?.file_url ? (
                 <>
                   <View style={styles.innerVdo}>
                     <Text style={styles.vdoHeading}>
@@ -125,12 +120,7 @@ const MyVideo = () => {
                 </>
               ) : (
                 <>
-                  <TouchableOpacity
-                    onPress={
-                      video?.file_url === ''
-                        ? selectVideo()
-                        : setIsPlaying(p => !p)
-                    }>
+                  <TouchableOpacity onPress={setIsPlaying(p => !p)}>
                     <Video
                       ref={videoRef}
                       onLoad={() => {
@@ -140,7 +130,7 @@ const MyVideo = () => {
                         });
                       }}
                       paused={!isPlaying}
-                      source={{uri: `${video?.file_url}`}}
+                      source={{uri: gallery_data?.doner_video_gallery?.file_url}}
                       resizeMode={'cover'}
                       style={styles.video}
                     />

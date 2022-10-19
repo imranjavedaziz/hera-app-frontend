@@ -14,5 +14,5 @@ export const verifyOtpApi = data => {
 };
 
 export const logOutApi = () => {
-  return axiosRequest.get(ApiPath.logout);
+  return axiosRequest.post(ApiPath.logout);
 };

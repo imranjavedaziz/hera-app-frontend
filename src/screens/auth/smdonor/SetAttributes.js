@@ -21,6 +21,9 @@ import { getStates } from "../../../redux/actions/Register";
 import { hideAppLoader, showAppLoader } from "../../../redux/actions/loader";
 import { getAttribute } from "../../../redux/actions/SetAttribute";
 import SetAttribute from "../../../redux/reducers/SetAttribute";
+import { logOut } from "../../../redux/actions/Auth";
+import { Routes } from "../../../constants/Constants";
+
 
 const SetAttributes = ({route}) => {
   const initialState = useSelector(state => state.Auth)
@@ -76,6 +79,12 @@ const SetAttributes = ({route}) => {
       onPress={()=>{setOpen(true)}}
     />
   );
+
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
+
   return (
     <>
       <Container
@@ -253,7 +262,7 @@ const SetAttributes = ({route}) => {
               {Strings.bottomSheet.About_HERA}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.logoutBtn} onPress={authService.logout}>
+          <TouchableOpacity style={globalStyle.logoutBtn} onPress={()=> logOutScreen()}>
             <Text
               style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}

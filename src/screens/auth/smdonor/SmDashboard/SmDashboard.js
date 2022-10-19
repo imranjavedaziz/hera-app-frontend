@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import React,{useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
 import {CircleBtn, IconHeader} from '../../../../components/Header';
@@ -22,49 +22,49 @@ import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import Auth from '../../../../services/Auth';
 import SetterData from '../../../../services/SetterData';
+import { logOut } from '../../../../redux/actions/Auth';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const authService = Auth();
-   const data = SetterData();
-  const stateData = useSelector((state) => state?.Auth?.user)
-  console.log("PROFILE", stateData);
-  const profileImg = useSelector((state) => state?.Auth?.user?.profile_pic)
+  const data = SetterData();
+  const stateData = useSelector(state => state?.Auth?.user);
+  console.log('PROFILE', stateData);
+  const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const [search, setSearch] = React.useState('');
   const [searching, setSearching] = React.useState(false);
   const onSearch = value => {
     if (value === '') {
-     setSearch(''),
-     setSearching(false)
-     return;
+      setSearch(''), setSearching(false);
+      return;
     }
-    setSearching(true)
+    setSearching(true);
     setSearch(value);
   };
- const onClear = () => {
+  const onClear = () => {
     setSearching(false);
     setSearch('');
   };
-  useEffect(()=>{
-    let endPoint = `?state_ids%5B%5D=1&page=1&limit=${10}`
+  useEffect(() => {
+    let endPoint = `?state_ids%5B%5D=1&page=1&limit=${10}`;
     data.smDororDashBoard(endPoint);
-
-  },[]);
+  }, []);
   const renderProfile = ({item, index}) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate(Routes.ProfileDetails,{userid:item.id})}
+        onPress={() =>
+          navigation.navigate(Routes.ProfileDetails, {userid: item.id})
+        }
         // onPress={()=>console.log(item.id)}
-        style={styles.mainContainer}
-        >
+        style={styles.mainContainer}>
         <View style={styles.conatiner}>
           <ImageBackground
             style={[styles.profileImgView]}
-            imageStyle={{ borderRadius: 18}}
+            imageStyle={{borderRadius: 18}}
             source={{uri: item.profile_pic}}>
             <LinearGradient
-               start={{x: 0.0, y: 0.28}}
-               end={{x: 0.011, y: 1.15}}
-               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
+              start={{x: 0.0, y: 0.28}}
+              end={{x: 0.011, y: 1.15}}
+              colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={{
                 width: '100%',
                 height: '100%',
@@ -74,7 +74,12 @@ const SmDashboard = ({route}) => {
           </ImageBackground>
           <View style={styles.locationContainer}>
             <Text style={styles.profileName}>{item.first_name}</Text>
-            <View style={{flexDirection: Alignment.ROW, justifyContent:'center', alignSelf: 'center',}}>
+            <View
+              style={{
+                flexDirection: Alignment.ROW,
+                justifyContent: 'center',
+                alignSelf: 'center',
+              }}>
               <Image source={Images.mapgraypin} />
               <Text style={styles.locationText}>{item.location?.name}</Text>
             </View>
@@ -83,16 +88,18 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
   const headerComp = () => (
-
-     <IconHeader
+    <IconHeader
       profileImg={profileImg}
       profileView={true}
       rightIcon={Images.iconChat}
-      leftPress={()=> navigation.navigate(Routes.SmSetting)}
-      // rightPress={authService.logout}
+      leftPress={() => navigation.navigate(Routes.SmSetting)}
+      rightPress={() => logoutScreen()}
     />
-
   );
   return (
     <Container
@@ -100,7 +107,6 @@ const SmDashboard = ({route}) => {
       showHeader={searching ? false : true}
       headerComp={headerComp}
       headerEnd={true}
-
       style={{
         paddingTop: Value.CONSTANT_VALUE_60,
         marginBottom: Value.CONSTANT_VALUE_200,
@@ -153,7 +159,7 @@ const SmDashboard = ({route}) => {
                   showsVerticalScrollIndicator={false}
                 />
               </View>
-             ) : null}
+            ) : null}
           </View>
         </View>
       </View>
