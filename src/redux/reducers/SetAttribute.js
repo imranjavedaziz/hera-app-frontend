@@ -19,7 +19,7 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  console.log(action.data?.data, 'action.data', 'action.type', action.type);
+  // console.log(action.data?.data, 'action.data', 'action.type', action.type);
   switch (action.type) {
     case GET_ATTRIBUTE: {
       return {
@@ -72,7 +72,7 @@ export default (state = initState, action) => {
         ...state,
         save_attribute_success: true,
         save_attribute_loading: false,
-        save_attribute_error_msg:action.data?.data?.message,
+        save_attribute_error_msg: action.data?.data?.message,
       };
     }
     default:

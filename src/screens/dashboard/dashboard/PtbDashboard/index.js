@@ -53,8 +53,9 @@ const PtbDashboard = () => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
         dispatch(showAppLoader());
         if (get_ptb_dashboard_success) {
+          console.log(get_ptb_dashboard_res?.data, "get_ptb_dashboard_res?.data:::::::::");
           dispatch(hideAppLoader());
-          setPtbDashboardRes(get_ptb_dashboard_res?.data);
+          setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
         }
         if (get_ptb_dashboard_error_msg) {
           dispatch(hideAppLoader());
@@ -104,11 +105,12 @@ const PtbDashboard = () => {
         <TouchableOpacity
           activeOpacity={1}
           key={cardIndex}
-          onPress={() => {
-            navigation.navigate('DashboardDetailScreen', {
-              userId: item?.user?.id,
-            });
-          }}>
+          // onPress={() => {
+          //   navigation.navigate('DashboardDetailScreen', {
+          //     userId: item?.user?.id,
+          //   });
+          // }}
+        >
           <ImageComp
             locationText={item?.user?.state_name}
             code={item?.user?.username}
