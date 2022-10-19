@@ -18,11 +18,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import SetterData from '../../../services/SetterData';
 import {getStates} from '../../../redux/actions/Register';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
-import {getAttribute} from '../../../redux/actions/SetAttribute';
+import {getAttribute, saveAttribute} from '../../../redux/actions/SetAttribute';
 import SetAttribute from '../../../redux/reducers/SetAttribute';
 import {logOut} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
+
 const SetAttributes = ({route}) => {
   const initialState = useSelector(state => state.Auth);
   console.log(initialState);
