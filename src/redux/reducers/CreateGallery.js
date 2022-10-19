@@ -22,6 +22,7 @@ export default (state = initState, action) => {
      * Gallery
      */
     case GET_GALLERY:
+     
       return {
         ...state,
         gallery_data: {},

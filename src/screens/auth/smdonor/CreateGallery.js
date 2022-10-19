@@ -1,5 +1,5 @@
 // CreateGallery
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -21,11 +21,19 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import User from '../../../services/User';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {
+  getUserGallery,
+  deleteGallery,
+} from '../../../redux/actions/CreateGallery';
 
+import ImageView from 'react-native-image-viewing';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [visible, setIsVisible] = useState(false);
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
     {id: 1, uri: '', loading: false},
@@ -34,21 +42,21 @@ const CreateGallery = () => {
     {id: 4, uri: '', loading: false},
     {id: 5, uri: '', loading: false},
   ]);
-  const profileImg = useSelector(state => state?.Auth?.user);
+  const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   console.log('PROFILE', profileImg);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
-  const [remove, setRemove] = useState([
-    {id: 0, isSelected: false},
-    {id: 1, isSelected: false},
-    {id: 2, isSelected: false},
-    {id: 3, isSelected: false},
-    {id: 4, isSelected: false},
-    {id: 5, isSelected: false},
-  ]);
+  const [photoGallery, setPhotoGallery] = useState([]);
+  const [imgPreviewindex, setImgPreviewIndex] = useState(0);
+  const [images, setImages] = useState([]);
+  const [remove, setRemove] = useState([]);
+  const loadingGalleryRef = useRef(false);
+  const {gallery_success, gallery_loading, gallery_data} = useSelector(
+    state => state.CreateGallery,
+  );
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
@@ -91,75 +99,143 @@ const CreateGallery = () => {
     });
   };
   const ImageClick = index => {
-    if (gIndex === index) {
+    setImgPreviewIndex(index);
+    if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
+    }
+    if (index < gIndex && rmvImgCount === 0) {
+      setIsVisible(true);
     }
     return;
   };
 
-  const handelDel = index => {
+  // const handelDel = index => {
+  //   setDel(true);
+  //   const temp = [];
+  //   remove.map((item, idx) => {
+  //     if (index === idx) {
+  //       if (item.isSelected === true) {
+  //         temp.push({id: idx, isSelected: false});
+  //         setRmvImgCount(rmvImgCount - 1);
+  //         return;
+  //       } else {
+  //         temp.push({id: idx, isSelected: true});
+  //         setRmvImgCount(rmvImgCount + 1);
+  //         return;
+  //       }
+  //     } else {
+  //       if (item.isSelected === true) {
+  //         temp.push({id: idx, isSelected: true});
+  //         return;
+  //       } else {
+  //         temp.push({id: idx, isSelected: false});
+  //         return;
+  //       }
+  //     }
+  //   });
+  //   setRemove(temp);
+  // };
+  // const deleteImg = () => {
+  //   let index = [];
+  //   remove.map((item, ind) => {
+  //     if (item.isSelected === true) {
+  //       index.push(ind);
+  //     }
+  //   });
+  //   let pointer = 0;
+  //   const filterItem = gallery.map((oldImg, i) => {
+  //     if (i === index[pointer]) {
+  //       pointer++;
+  //       return {id: i, uri: '', loading: false};
+  //     } else {
+  //       return {id: i, uri: oldImg.uri, loading: false};
+  //     }
+  //   });
+  //   setGIndex(gIndex - index.length);
+  //   function sortImg(a, b) {
+  //     if (a.uri === '') {
+  //       return 1;
+  //     } else {
+  //       return -1;
+  //     }
+  //   }
+  //   filterItem.sort(sortImg);
+  //   setGallery(filterItem);
+  //   setRemove(item => {
+  //     return item.map(i => {
+  //       return {isSelected: false};
+  //     });
+  //   });
+  //   setDel(false);
+  //   setRmvImgCount(0);
+  // };
+  
+  function handelDel(index) {
     setDel(true);
-    const temp = [];
-    remove.map((item, idx) => {
-      if (index === idx) {
-        if (item.isSelected === true) {
-          temp.push({id: idx, isSelected: false});
-          setRmvImgCount(rmvImgCount - 1);
-          return;
-        } else {
-          temp.push({id: idx, isSelected: true});
-          setRmvImgCount(rmvImgCount + 1);
-          return;
-        }
-      } else {
-        if (item.isSelected === true) {
-          temp.push({id: idx, isSelected: true});
-          return;
-        } else {
-          temp.push({id: idx, isSelected: false});
-          return;
-        }
-      }
-    });
-    setRemove(temp);
-  };
-  const deleteImg = () => {
-    let index = [];
-    remove.map((item, ind) => {
-      if (item.isSelected === true) {
-        index.push(ind);
-      }
-    });
-    let pointer = 0;
-    const filterItem = gallery.map((oldImg, i) => {
-      if (i === index[pointer]) {
-        pointer++;
-        return {id: i, uri: '', loading: false};
-      } else {
-        return {id: i, uri: oldImg.uri, loading: false};
-      }
-    });
-    setGIndex(gIndex - index.length);
-    function sortImg(a, b) {
-      if (a.uri === '') {
-        return 1;
-      } else {
-        return -1;
-      }
+    let pushArr = remove;
+    let isExist = pushArr.findIndex(val => val === index);
+    if (isExist === -1) {
+      pushArr.push(index);
+      setRmvImgCount(rmvImgCount + 1);
+    } else {
+      pushArr.splice(isExist, 1);
+      setRmvImgCount(rmvImgCount - 1);
     }
-    filterItem.sort(sortImg);
-    setGallery(filterItem);
-    setRemove(item => {
-      return item.map(i => {
-        return {isSelected: false};
+    setRemove(pushArr);
+  }
+  
+  const updateGallery = () => {
+    const url =
+      gallery_data?.doner_photo_gallery?.length > 0 &&
+      gallery_data?.doner_photo_gallery.map((item, i) => {
+        return item.file_url;
+      });
+    console.log('Gallery_DATA', url);
+    setGallery(oldImg => {
+      return oldImg.map((img, i) => {
+        if (i <= gallery_data?.doner_photo_gallery?.length) {
+          return {id: i, uri: url[i], loading: false};
+        }
+        return img;
       });
     });
+    for (var i = 0; i < url?.length; ++i) {
+      images.push({uri: url[i]});
+    }
+    setGIndex(url?.length);
+  };
+  const deleteImg = () => {
+    let payload = {
+      ids: remove,
+    };
+    dispatch(deleteGallery(payload));
+    console.log(payload,"POAYLOAD RMV IMG")
+    dispatch(getUserGallery());
     setDel(false);
     setRmvImgCount(0);
   };
   useEffect(() => {
     console.log('USE EFFECT');
   }, [gallery]);
+  // useEffect(() => {
+  //   if (loadingGalleryRef.current && !gallery_loading) {
+  //     dispatch(showAppLoader());
+  //     if (gallery_success) {
+  //       setPhotoGallery(gallery_data?.doner_photo_gallery);
+  //       updateGallery();
+  //       setVideo({
+  //         file_url: gallery_data?.doner_video_gallery?.file_url
+  //           ? gallery_data?.doner_video_gallery?.file_url
+  //           : '',
+  //         loading: false,
+  //       });
+  //       dispatch(hideAppLoader());
+  //     } else {
+  //       dispatch(hideAppLoader());
+  //     }
+  //   }
+  //   loadingGalleryRef.current = gallery_loading;
+  // }, [gallery_success, gallery_loading]);
   const headerComp = () => {
     <></>;
   };
@@ -169,7 +245,7 @@ const CreateGallery = () => {
         showHeader={true}
         headerEnd={true}
         headerComp={headerComp}
-        style={{}}>
+        style={{marginHorizontal: 0}}>
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
             <Image source={{uri: profileImg}} style={styles.profileImg} />
@@ -205,25 +281,30 @@ const CreateGallery = () => {
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
+                key={index}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
                 <ImageBackground
                   key={img.id}
                   style={styles.galleryImgView}
-                  imageStyle={styles.resizeContain}
+                  imageStyle={{
+                    resizeMode: 'cover',
+                  }}
                   source={img.uri ? {uri: img.uri} : null}>
-                  {gallery[index].uri ? (
+                  {img.uri ? (
                     <TouchableOpacity
-                      onPress={() => handelDel(index)}
+                      onPress={() => {
+                        handelDel(img.id);
+                      }}
                       style={{}}>
-                      <Image
+                      {/* <Image
                         source={
-                          remove[index].isSelected
+                          remove.includes(img.id) === true
                             ? Images.iconRadiosel
                             : Images.iconRadiounsel
                         }
                         style={styles.selectIcon}
-                      />
+                      /> */}
                     </TouchableOpacity>
                   ) : null}
                   {gIndex === index && (
@@ -263,7 +344,7 @@ const CreateGallery = () => {
           {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
-                {rmvImgCount} Photo Selected
+                {rmvImgCount} Photos Selected
               </Text>
               <TouchableOpacity
                 style={styles.deleteBtnContainer}
@@ -304,6 +385,12 @@ const CreateGallery = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
+      <ImageView
+        images={images}
+        imageIndex={imgPreviewindex}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+      />
     </>
   );
 };

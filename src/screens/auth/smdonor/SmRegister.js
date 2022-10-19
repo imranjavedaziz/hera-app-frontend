@@ -166,7 +166,7 @@ const SmRegister = () => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => navigation.navigate(Routes.Profile)}
+      onPress={() => navigation.navigate(Routes.Profile,{isRouteData})}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
