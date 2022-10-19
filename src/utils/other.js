@@ -1,5 +1,4 @@
-import Strings from "../constants/Strings";
-
+import Strings from '../constants/Strings';
 
 export function getRoleType(id) {
   var _type =

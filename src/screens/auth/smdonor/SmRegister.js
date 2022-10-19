@@ -125,7 +125,7 @@ const SmRegister = () => {
   }, [register_user_success, register_user_loading]);
 
   useEffect(() => {
-    askCameraPermission;
+    askCameraPermission();
     if (!isValid) {
       const e = errors.role;
       if (e) {

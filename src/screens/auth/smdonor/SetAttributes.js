@@ -42,7 +42,7 @@ const SetAttributes = ({route}) => {
   };
   React.useEffect(() => {
     dispatch(getAttribute());
-  }, []);
+  }, [dispatch]);
   const {
     set_attribute_res,
     set_attribute_success,
@@ -53,8 +53,6 @@ const SetAttributes = ({route}) => {
     save_attribute_loading,
     save_attribute_error_msg,
   } = useSelector(state => state.SetAttribute);
-  console.log('education===>', set_attribute_res.education);
-  console.log('ATRIBUTES', attributeData);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef(false);
   //GET PROFILE SETTER
@@ -74,17 +72,11 @@ const SetAttributes = ({route}) => {
 
   //SAVE ATTRIBUTE DETAIL DATA
   useEffect(() => {
-    console.log(
-      'Save Attribute comp',
-      save_attribute_success,
-      SubmitLoadingRef.current,
-      save_attribute_loading,
-    );
     if (!SubmitLoadingRef.current && !save_attribute_loading) {
       dispatch(showAppLoader());
       if (save_attribute_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.CreateGallery);
+         navigation.navigate(Routes.CreateGallery);
       }
       if (save_attribute_error_msg) {
         dispatch(hideAppLoader());

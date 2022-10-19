@@ -1,11 +1,10 @@
 import {Routes} from '../constants/Constants';
 
 const getRoute = (token, role_id, step) => {
-  console.log(step, 'step::::::');
   if (token) {
     if (step === 1) {
       return Routes.SmBasicDetails;
-    } else if (role_id === 2) {
+    } else if (role_id === "2" ) {
       if (step === 2) {
         return Routes.SetPreference;
       }
