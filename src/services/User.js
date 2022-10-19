@@ -14,12 +14,14 @@ import {
   setBasicDetails,
   setSMDAttributes,
   updateRegStep,
-} from '../redux/actions/auth';
+} from '../redux/actions/Auth';
+import axios from 'axios';
+import {deleteGallery} from '../redux/actions/CreateGallery';
 
 const User = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const userData = useSelector(state => state.auth);
+  const userData = useSelector(state => state.Auth);
   const saveBasicDetails = data => {
     dispatch(showAppLoader());
     axiosRequest
@@ -69,16 +71,19 @@ const User = () => {
         dispatch(showAppToast(false, 'Gallery Updated Successfully!'));
       });
   };
-  const deleteGallery = async data => {
-    axiosRequest
-      .delete(ApiPath.deleteGallery, data, {})
-      .then(async response => {
-        dispatch(showAppToast(false, response.data.message));
-      })
-      .finally(() => {
-        dispatch(hideAppLoader());
-      });
-  };
+  // const deleteGallery =  async(data)=>{
+  //   // console.log("DATA del", data);
+  //   axiosRequest
+  //   .delete(ApiPath.deleteGallery,data,{
+  //   })
+  //   .then(async response => {
+  //     dispatch(showAppToast(false, response.data.message));
+  //     // console.log(' DELETE response', response);
+  //   }).finally(() => {
+  //     dispatch(hideAppLoader());
+  //   });
+  //
+  // }
   const setPreferences = data => {
     dispatch(showAppLoader());
     axiosRequest
@@ -100,7 +105,6 @@ const User = () => {
     saveBasicDetails,
     setAttributes,
     createGallery,
-    deleteGallery,
     setPreferences,
   };
 };

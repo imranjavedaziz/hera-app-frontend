@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,26 +12,54 @@ import globalStyle from '../../../styles/global';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {genders} from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
-import User from '../../../services/User';
-import Auth from '../../../services/Auth';
 import {Value} from '../../../constants/FixedValues';
-import {showAppToast} from '../../../redux/actions/loader';
-import SetterData from '../../../services/SetterData';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
+import {
+  getStates,
+  getProfileSetterDetail,
+  saveBasicDetail,
+  sexualOrientation,
+} from '../../../redux/actions/Register';
+import {useNavigation} from '@react-navigation/native';
+import getRoute from '../../../utils/getRoute';
 
-const SmBasicDetails = ({route}) => {
-  const state = useSelector(state => state.auth);
-  console.log(state);
-  console.log('Props Data Basic ==', route.params);
-  const userService = User();
-  const authService = Auth();
-  const data = SetterData();
+const SmBasicDetails = () => {
+  const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
+  const [stateRes, setStateRes] = useState();
+  const [profileRes, setProfileRes] = useState();
+  const [payloadData, setPayloadData] = useState([]);
   const dispatch = useDispatch();
-
+  const loadingRef = useRef(false);
+  const LoadingRef = useRef(false);
+  const SubmitLoadingRef = useRef();
+  useEffect(() => {
+    dispatch(getStates());
+    dispatch(getProfileSetterDetail());
+  }, []);
+  const {
+    get_state_res,
+    get_profile_setter_res,
+    get_profile_setter_success,
+    get_profile_setter_loading,
+    get_profile_setter_error_msg,
+    get_state_success,
+    get_state_loading,
+    get_state_error_msg,
+    save_basic_detail_success,
+    save_basic_detail_loading,
+    save_basic_detail_error_msg,
+  } = useSelector(state => state.Register);
+  const user = useSelector(state => state.Auth.user);
+  console.log(user, 'user:::::::::::');
   const {
     handleSubmit,
     control,
@@ -39,9 +67,65 @@ const SmBasicDetails = ({route}) => {
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
+
+  //GET STATE
+  useEffect(() => {
+    if (loadingRef.current && !get_state_loading) {
+      dispatch(showAppLoader());
+      if (get_state_success) {
+        dispatch(hideAppLoader());
+        setStateRes(get_state_res);
+      }
+      if (get_state_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = get_state_loading;
+  }, [get_state_success, get_state_loading]);
+
+  //GET PROFILE SETTER
+  useEffect(() => {
+    if (LoadingRef.current && !get_profile_setter_loading) {
+      dispatch(showAppLoader());
+      if (get_profile_setter_success) {
+        dispatch(hideAppLoader());
+        setProfileRes(get_profile_setter_res);
+      }
+      if (get_profile_setter_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    LoadingRef.current = get_profile_setter_loading;
+  }, [get_profile_setter_success, get_profile_setter_loading]);
+
+  //SAVE BASIC DETAIL DATA
+  useEffect(() => {
+    if (SubmitLoadingRef.current && !save_basic_detail_loading) {
+      dispatch(showAppLoader());
+      console.log(
+        save_basic_detail_success,
+        'save_basic_detail_success:::::::::::',
+      );
+      if (save_basic_detail_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(
+          user?.role_id === '2'
+            ? Routes.SetPreference
+            : Routes.SetAttributes,
+          payloadData,
+        );
+      }
+      if (save_basic_detail_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    SubmitLoadingRef.current = save_basic_detail_loading;
+  }, [save_basic_detail_success, save_basic_detail_loading]);
+
   const onSubmit = data => {
-    console.log(data);
-    userService.saveBasicDetails(data);
+    console.log(data, 'data::::::');
+    setPayloadData(data)
+    dispatch(saveBasicDetail(data));
   };
   const headerComp = () => (
     <CircleBtn
@@ -51,16 +135,7 @@ const SmBasicDetails = ({route}) => {
       }}
     />
   );
-  React.useEffect(() => {
-    data.state();
-    data.sexsualOrientation();
-    if (!isValid) {
-      const e = errors;
-      if (e.gender_id) {
-        dispatch(showAppToast(true, ValidationMessages.ENTER_GENDER));
-      }
-    }
-  }, [dispatch, data, errors, isValid]);
+
   return (
     <>
       <Container
@@ -91,7 +166,7 @@ const SmBasicDetails = ({route}) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <View style={styles.radioContainer}>
-                {genders.map(gender => (
+                {profileRes?.gender.map(gender => (
                   <TouchableOpacity
                     style={styles.radioBtn}
                     key={gender.id}
@@ -116,7 +191,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange, value}}) => (
               <Dropdown
                 label={Strings.sm_basic.State}
-                data={data.myState}
+                data={stateRes}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -146,7 +221,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.SexualOrientation}
-                data={data.sexsualOrient}
+                data={profileRes?.sexual_orientation}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -161,7 +236,7 @@ const SmBasicDetails = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.RelationshipStatus}
-                data={data.relationship}
+                data={profileRes?.relationship_status}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -225,7 +300,8 @@ const SmBasicDetails = ({route}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={authService.logout}>
+            // onPress={authService.logout}
+          >
             <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>

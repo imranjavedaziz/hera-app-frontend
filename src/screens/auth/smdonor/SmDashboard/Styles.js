@@ -4,14 +4,7 @@ import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 
 export default {
-  mainContainer: {
-    // height: Value.CONSTANT_VALUE_210,
-    // width: Value.CONSTANT_VALUE_167,
-    // backgroundColor:'red',
-    // // borderRadius: Value.CONSTANT_VALUE_40,
-    // marginBottom:Value.CONSTANT_VALUE_20,
-    // marginTop:20
-  },
+  mainContainer: {},
   conatiner: {
     marginTop: Value.CONSTANT_VALUE_20,
   },
@@ -41,7 +34,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BACKGROUND,
-    marginBottom: 5,
+    marginBottom: Value.CONSTANT_VALUE_5,
   },
   locationText: {
     fontWeight: Alignment.BOLD,
@@ -51,15 +44,9 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     marginLeft: Value.CONSTANT_VALUE_8,
   },
-  gradient: {
-    width: '100%',
-    height: '100%',
-    opacity: 0.2,
-    borderRadius: Value.CONSTANT_VALUE_18,
-  },
-  footer: {
+  profileFooter: {
     flexDirection: Alignment.ROW,
-    justifyContent: 'center',
-    alignSelf: 'center',
+    justifyContent: Alignment.CENTER,
+    alignSelf: Alignment.CENTER,
   },
 };

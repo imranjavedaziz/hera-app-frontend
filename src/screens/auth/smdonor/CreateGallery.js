@@ -23,7 +23,7 @@ import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import User from '../../../services/User';
 import {useSelector} from 'react-redux';
 
-const CreateGallery = ({route}) => {
+const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
   const [gallery, setGallery] = useState([
@@ -34,8 +34,7 @@ const CreateGallery = ({route}) => {
     {id: 4, uri: '', loading: false},
     {id: 5, uri: '', loading: false},
   ]);
-  const profileImg = useSelector(state => state.auth.user.profile_pic);
-  console.log('PROFILE', profileImg);
+  const profileImg = useSelector(state => state?.Auth?.user);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
@@ -82,22 +81,19 @@ const CreateGallery = ({route}) => {
     videoPicker().then(v => {
       setVideo({uri: v.path, loading: true});
       const reqData = new FormData();
-      reqData.append('image', {
+      reqData.append('vedio', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData, loading =>
-        setVideo(old => ({...old, loading})),
-      );
+      userService.createGallery(reqData);
     });
   };
   const ImageClick = index => {
     if (gIndex === index) {
       return setOpen(true);
-    } else {
-      return;
     }
+    return;
   };
 
   const handelDel = index => {
@@ -160,9 +156,6 @@ const CreateGallery = ({route}) => {
     setDel(false);
     setRmvImgCount(0);
   };
-  useEffect(() => {
-    console.log('USE EFFECT');
-  }, [gallery]);
   const headerComp = () => {
     <></>;
   };
@@ -172,7 +165,7 @@ const CreateGallery = ({route}) => {
         showHeader={true}
         headerEnd={true}
         headerComp={headerComp}
-        style={{marginHorizontal: 0}}>
+        style={{}}>
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
             <Image source={{uri: profileImg}} style={styles.profileImg} />
@@ -202,8 +195,8 @@ const CreateGallery = ({route}) => {
               numberOfLines={1}>
               {Strings.sm_create_gallery.Subtitle3}
             </Text>
-            <Text style={styles.p1}>You can upload maximum 6 photos</Text>
-            <Text style={styles.p2}>(png, jpeg format)</Text>
+            <Text style={styles.p1}>{Strings.sm_create_gallery.maxUpload}</Text>
+            <Text style={styles.p2}>{Strings.sm_create_gallery.imagetype}</Text>
           </View>
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
@@ -213,9 +206,7 @@ const CreateGallery = ({route}) => {
                 <ImageBackground
                   key={img.id}
                   style={styles.galleryImgView}
-                  imageStyle={{
-                    resizeMode: 'cover',
-                  }}
+                  imageStyle={styles.resizeContain}
                   source={img.uri ? {uri: img.uri} : null}>
                   {gallery[index].uri ? (
                     <TouchableOpacity
@@ -245,14 +236,18 @@ const CreateGallery = ({route}) => {
             <ImageBackground
               style={styles.videoContainer}
               source={video.uri ? {uri: video.uri} : null}
-              imageStyle={{
-                resizeMode: 'contain',
-              }}>
+              imageStyle={styles.resizeContain}>
               {!video.uri ? (
                 <>
-                  <Text style={styles.videoTitle}>Upload Video</Text>
-                  <Text style={styles.videoPara}>Add a short 60 sec video</Text>
-                  <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
+                  <Text style={styles.videoTitle}>
+                    {Strings.sm_create_gallery.uploadVideo}
+                  </Text>
+                  <Text style={styles.videoPara}>
+                    {Strings.sm_create_gallery.videoDuration}
+                  </Text>
+                  <Text style={styles.videoPara}>
+                    {Strings.sm_create_gallery.videoFormat}
+                  </Text>
                 </>
               ) : video.loading ? (
                 <ActivityIndicator />
@@ -261,7 +256,7 @@ const CreateGallery = ({route}) => {
               )}
             </ImageBackground>
           </TouchableOpacity>
-          {isDel && rmvImgCount != 0 ? (
+          {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
                 {rmvImgCount} Photo Selected
@@ -290,14 +285,18 @@ const CreateGallery = ({route}) => {
               openCamera(0, cb);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.sm_create_gallery.bottomSheetCamera}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               openCamera(1, cb);
             }}
             style={styleSheet.pickerBtn}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.sm_create_gallery.bottomSheetGallery}
+            </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>

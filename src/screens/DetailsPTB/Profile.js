@@ -1,3 +1,4 @@
+// Parent to Be Screen
 import {
   Text,
   TouchableOpacity,
@@ -8,11 +9,11 @@ import {
   Modal,
   Platform,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useForm, Controller} from 'react-hook-form';
@@ -21,60 +22,32 @@ import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
-import {Fonts, Routes} from '../../constants/Constants';
+import {
+  Fonts,
+  FormKey,
+  pwdErrMsg,
+  Routes,
+  validatePassword,
+} from '../../constants/Constants';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
 import {parentRegisterSchema, Regx} from '../../constants/schemas';
-import styles from '../auth/smdonor/donorGallery/styles';
-import Auth from '../../services/Auth';
+import styles from './StylesProfile';
 import Alignment from '../../constants/Alignment';
 import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
+import {ptbRegister} from '../../redux/actions/Register';
+import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 
-const validationType = {
-  LEN: 'LEN',
-  ALPHA_NUM: 'ALPHA_NUM',
-  SPECIAL: 'SPECIAL',
-  CAPSLOCK: 'CAPSLOCK',
-};
-const pwdErrMsg = [
-  {
-    type: validationType.LEN,
-    msg: ValidationMessages.PASSWORD_MIN,
-  },
-  {
-    type: validationType.ALPHA_NUM,
-    msg: ValidationMessages.ALPHA_NUM,
-  },
-  {
-    type: validationType.SPECIAL,
-    msg: ValidationMessages.SPECIAL_CHAR,
-  },
-  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
-];
-const validatePassword = (value, type) => {
-  if (value) {
-    switch (type) {
-      case validationType.LEN:
-        return value.length >= 8;
-      case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value);
-      case validationType.SPECIAL:
-        return Regx.SPECIAL_CHAR.test(value);
-      case validationType.CAPSLOCK:
-        return Regx.ALPHA_CAP.test(value);
-      default:
-        break;
-    }
-  }
-  return null;
-};
 const Profile = ({route}) => {
   const navigation = useNavigation();
-  const authService = Auth();
+  const loadingRef = useRef(false);
+  const {
+    params: {isRouteData},
+  } = useRoute();
   const [show, setShow] = useState(false);
   const [date, setDate] = useState();
   const [file, setFile] = useState(null);
@@ -91,24 +64,42 @@ const Profile = ({route}) => {
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
-  console.log('Props Data  Profile ==', route.params);
+  const {
+    register_user_success,
+    register_user_loading,
+    register_user_error_msg,
+  } = useSelector(state => state.Auth);
+  useEffect(() => {
+    if (loadingRef.current && !register_user_loading) {
+      dispatch(showAppLoader());
+      if (register_user_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.SmBasicDetails);
+      } else {
+        dispatch(showAppToast(true, register_user_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = register_user_loading;
+  }, [register_user_success, register_user_loading]);
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
+  // Header Component
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
       onPress={() => setShowModal(true)}
-      accessibilityLabel="Cross Button, Go back"
+      accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
   );
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
     setFile(image);
-    console.log('image', image);
   };
+  // Submit form
   const onSubmit = data => {
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
@@ -119,25 +110,25 @@ const Profile = ({route}) => {
       return;
     }
     const reqData = new FormData();
-    reqData.append('role_id', 2);
-    reqData.append('first_name', data.first_name);
-    reqData.append('middle_name', data.middle_name);
-    reqData.append('last_name', data.last_name);
-    reqData.append('dob', moment(date).format('DD-MM-YYYY'));
-    reqData.append('email', data.email);
-    reqData.append('password', data.confirm_password);
-    reqData.append('country_code', route.params.country_code);
-    reqData.append('phone_no', route.params.phone_no);
-    reqData.append('file', {
-      name: 'name',
+    reqData.append(FormKey.role_id, 2);
+    reqData.append(FormKey.first_name, data.first_name);
+    reqData.append(FormKey.middle_name, data.middle_name);
+    reqData.append(FormKey.last_name, data.last_name);
+    reqData.append(FormKey.dob, moment(date).format('DD-MM-YYYY'));
+    reqData.append(FormKey.email, data.email);
+    reqData.append(FormKey.password, data.confirm_password);
+    reqData.append(FormKey.country_code, isRouteData.country_code);
+    reqData.append(FormKey.phone_no, isRouteData.phone_no);
+    reqData.append(FormKey.file, {
+      name: FormKey.name,
       type: file.mime,
       uri: file.path,
     });
-    console.log(reqData, 'reqData:::::::::::');
-    authService.registerUser(reqData);
+    dispatch(showAppLoader());
+    dispatch(ptbRegister(reqData));
   };
   useEffect(() => {
-    askCameraPermission();
+    askCameraPermission;
   }, [navigation]);
   return (
     <>
@@ -175,7 +166,7 @@ const Profile = ({route}) => {
                       styles.uploadBackground,
                       userImage
                         ? {
-                            position: 'absolute',
+                            position: Alignment.ABSOLUTE,
                             bottom: 0,
                             right: 20,
                           }
@@ -195,10 +186,7 @@ const Profile = ({route}) => {
 
           {/* Image Upload End  */}
         </View>
-        <View
-          style={{
-            width: '100%',
-          }}>
+        <View style={styles.fullWidth}>
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -210,7 +198,7 @@ const Profile = ({route}) => {
                 error={errors && errors.first_name?.message}
               />
             )}
-            name="first_name"
+            name={FormKey.first_name}
           />
           <Controller
             control={control}
@@ -223,7 +211,7 @@ const Profile = ({route}) => {
                 error={errors && errors.middle_name?.message}
               />
             )}
-            name="middle_name"
+            name={FormKey.middle_name}
           />
           <Controller
             control={control}
@@ -237,7 +225,7 @@ const Profile = ({route}) => {
                 error={errors && errors.last_name?.message}
               />
             )}
-            name="last_name"
+            name={FormKey.last_name}
           />
           <Controller
             control={control}
@@ -253,7 +241,7 @@ const Profile = ({route}) => {
                 error={errors && errors.email?.message}
               />
             )}
-            name="email"
+            name={FormKey.email}
           />
           <Controller
             control={control}
@@ -273,15 +261,12 @@ const Profile = ({route}) => {
                 onPressIn={() => setShow(true)}
               />
             )}
-            name="date_of_birth"
+            name={FormKey.date_of_birth}
           />
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <View
-                style={{
-                  width: '100%',
-                }}>
+              <View style={styles.fullWidth}>
                 <FloatingLabelInput
                   label={Strings.profile.setPassword}
                   value={value}
@@ -302,7 +287,7 @@ const Profile = ({route}) => {
                           validatePassword(value, msg.type) ||
                           validatePassword(value, msg.type) === null
                             ? Colors.BLACK
-                            : 'red',
+                            : Colors.RED,
                       }}>
                       {msg.msg}
                     </Text>
@@ -327,7 +312,7 @@ const Profile = ({route}) => {
                 ))}
               </View>
             )}
-            name="set_password"
+            name={FormKey.set_password}
           />
           <Controller
             control={control}
@@ -344,10 +329,10 @@ const Profile = ({route}) => {
                 }}
               />
             )}
-            name="confirm_password"
+            name={FormKey.confirm_password}
           />
           <View style={styles.tmc}>
-            <View style={{alignSelf: 'center'}}>
+            <View style={{alignSelf: Alignment.CENTER}}>
               {check ? (
                 <Pressable
                   onPress={() => {
@@ -383,7 +368,7 @@ const Profile = ({route}) => {
         </View>
         <Pressable
           onPress={() => {
-            navigation.navigate(Routes.SmRegister, route.params);
+            navigation.navigate(Routes.SmRegister, {isRouteData});
           }}>
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
@@ -394,14 +379,18 @@ const Profile = ({route}) => {
                 openCamera(0, cb);
               }}
               style={[styles.pickerBtn, styles.pickerBtnBorder]}>
-              <Text style={styles.pickerBtnLabel}>Open Camera</Text>
+              <Text style={styles.pickerBtnLabel}>
+                {Strings.PTB_Profile.Open_Camera}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 openCamera(1, cb);
               }}
               style={styles.pickerBtn}>
-              <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
+              <Text style={styles.pickerBtnLabel}>
+                {Strings.PTB_Profile.Open_Gallery}
+              </Text>
             </TouchableOpacity>
           </View>
         </BottomSheetComp>
@@ -411,7 +400,7 @@ const Profile = ({route}) => {
           mode={'date'}
           onConfirm={selectedDate => {
             setShow(false);
-            setValue('date_of_birth', getDate(selectedDate));
+            setValue(FormKey.date_of_birth, getDate(selectedDate));
             setDate(getDate(selectedDate));
           }}
           onCancel={() => {

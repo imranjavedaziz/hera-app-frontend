@@ -64,8 +64,8 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_23,
     paddingVertical: Value.CONSTANT_VALUE_20,
     alignItems: Alignment.CENTER,
-    borderWidth: 2,
-    borderColor: 'red',
+    borderWidth: Value.CONSTANT_VALUE_2,
+    borderColor: Colors.RED,
   },
   modalHeader: {
     lineHeight: Value.CONSTANT_VALUE_21,

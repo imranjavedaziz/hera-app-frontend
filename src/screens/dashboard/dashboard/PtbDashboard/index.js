@@ -5,8 +5,9 @@ import {
   TouchableOpacity,
   Animated,
   Text,
+  FlatList,
 } from 'react-native';
-import React, {useRef, useState, useCallback} from 'react';
+import React, {useRef, useState, useCallback, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import Images from '../../../../constants/Images';
@@ -16,9 +17,11 @@ import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import Auth from '../../../../services/Auth';
-import SetterData from '../../../../services/SetterData';
 import {getRoleType} from '../../../../utils/other';
+import {useDispatch, useSelector} from 'react-redux';
+import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {logOut} from '../../../../redux/actions/Auth';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -29,8 +32,35 @@ const PtbDashboard = () => {
   const [empty, setEmpty] = useState(false);
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
-  const authService = Auth();
-  const data = SetterData();
+  const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
+  const dispatch = useDispatch();
+  const loadingRef = useRef();
+  const {registerUser} = useSelector(state => state.Auth);
+  useEffect(() => {
+    dispatch(getPtbDashboard());
+  }, [dispatch]);
+  const {
+    get_ptb_dashboard_success,
+    get_ptb_dashboard_loading,
+    get_ptb_dashboard_error_msg,
+    get_ptb_dashboard_res,
+  } = useSelector(state => state.PtbDashboard);
+  console.log('ressss', get_ptb_dashboard_res);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !get_ptb_dashboard_loading) {
+        dispatch(showAppLoader());
+        if (get_ptb_dashboard_success) {
+          dispatch(hideAppLoader());
+          setPtbDashboardRes(get_ptb_dashboard_res?.data);
+        }
+        if (get_ptb_dashboard_error_msg) {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingRef.current = get_ptb_dashboard_loading;
+    }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
+  );
 
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
@@ -43,7 +73,6 @@ const PtbDashboard = () => {
         useSwiper.current.swipeLeft();
       }, 1000);
     }
-
     setTimeout(() => {
       setIsVisibleLogo(false);
       setIslikedLogo('');
@@ -66,13 +95,8 @@ const PtbDashboard = () => {
     }, 150);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      data.ptbCardDashboard();
-    }, []),
-  );
-
   function renderCardData(item) {
+    console.log('item?.user?.id', item?.user?.id)
     return (
       <>
         <TouchableOpacity
@@ -100,12 +124,12 @@ const PtbDashboard = () => {
   }
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.iconRadiounsel}
+      leftIcon={registerUser?.log_in_data?.profile_pic}
       leftPress={() => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      rightPress={authService.logout}
+      rightPress={() => dispatch(logOut)}
       style={styles.headerIcon}
     />
   );
@@ -140,13 +164,12 @@ const PtbDashboard = () => {
                     ref={useSwiper}
                     renderCard={renderCardData}
                     cardIndex={cardIndex}
-                    cards={data.ptbDashboard}
+                    cards={ptbDashboardRes}
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
                     showSecondCard={true}
                     stackSize={1}
-                    onIndexChanged={e => changeScreens(e)}
                   />
                 </View>
               </ImageBackground>

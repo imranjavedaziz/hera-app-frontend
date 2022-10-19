@@ -1,5 +1,5 @@
 // SmRegister
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -9,11 +9,12 @@ import {
   ImageBackground,
   Pressable,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {useForm, Controller} from 'react-hook-form';
-import {useDispatch} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
@@ -32,6 +33,8 @@ import {showAppToast} from '../../../redux/actions/loader';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import Auth from '../../../services/Auth';
 import {Value} from '../../../constants/FixedValues';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {ptbRegister} from '../../../redux/actions/Register';
 
 const validationType = {
   LEN: 'LEN',
@@ -74,11 +77,11 @@ const validatePassword = (value, type) => {
   }
   return Colors.BORDER_LINE;
 };
-const SmRegister = ({route}) => {
-  console.log('Props Data  Donor ==', route.params);
+const SmRegister = () => {
   const authService = Auth();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
@@ -93,17 +96,41 @@ const SmRegister = ({route}) => {
   } = useForm({
     resolver: yupResolver(smRegisterSchema),
   });
+  const {
+    params: {isRouteData},
+  } = useRoute();
+  console.log('isRoute', isRouteData);
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
     setFile(image);
   };
+  const {
+    register_user_success,
+    register_user_loading,
+    register_user_error_msg,
+  } = useSelector(state => state.Register);
+  useEffect(() => {
+    if (loadingRef.current && !register_user_loading) {
+      dispatch(showAppLoader());
+      if (register_user_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.SmBasicDetails);
+      }
+      if (register_user_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = register_user_loading;
+  }, [register_user_success, register_user_loading]);
+
   useEffect(() => {
     askCameraPermission();
     if (!isValid) {
       const e = errors.role;
-
-      if (e) dispatch(showAppToast(true, e.message));
+      if (e) {
+        dispatch(showAppToast(true, e.message));
+      }
     }
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
@@ -125,15 +152,16 @@ const SmRegister = ({route}) => {
     reqData.append('dob', moment(date).format('DD-MM-YYYY'));
     reqData.append('email', data.email);
     reqData.append('password', data.password);
-    reqData.append('country_code', route.params.country_code);
-    reqData.append('phone_no', route.params.phone_no);
+    reqData.append('country_code', isRouteData.country_code);
+    reqData.append('phone_no', isRouteData.phone_no);
     reqData.append('file', {
       name: 'name',
       type: file.mime,
       uri: file.path,
     });
     console.log('reqData---->', reqData);
-    authService.registerUser(reqData);
+    dispatch(showAppLoader());
+    dispatch(ptbRegister(reqData));
   };
   const headerComp = () => (
     <CircleBtn
@@ -365,7 +393,7 @@ const SmRegister = ({route}) => {
           />
           <Pressable
             onPress={() => {
-              navigation.navigate(Routes.Profile, route.params);
+              navigation.navigate(Routes.Profile);
             }}>
             <Text style={styles.parentBtn}>Register as Parent To Be</Text>
           </Pressable>

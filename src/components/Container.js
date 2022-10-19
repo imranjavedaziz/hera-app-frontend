@@ -10,13 +10,17 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Header from './Header';
+import {Value} from '../constants/FixedValues';
 
 const styles = {
-  container: {flex: 1, marginHorizontal: 30},
-  safearea: {flex: 1, backgroundColor: Colors.BACKGROUND},
-  flexMain: {flex: 1},
-  padding: {
-    paddingTop: 57,
+  container: {
+    flex: Value.CONSTANT_VALUE_1,
+    marginHorizontal: Value.CONSTANT_VALUE_30,
+  },
+  safearea: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
+  flexMain: {flex: Value.CONSTANT_VALUE_1},
+  paddingTop: {
+    paddingTop: Value.CONSTANT_VALUE_57,
   },
 };
 const Scroller = ({
@@ -32,7 +36,7 @@ const Scroller = ({
       <ScrollView
         showsVerticalScrollIndicator={showsVerticalScrollIndicator}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={styles.padding}
+        contentContainerStyle={[styles.paddingTop]}
         style={
           mainStyle ? [styles.flexMain, style] : [styles.container, style]
         }>

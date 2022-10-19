@@ -1,19 +1,19 @@
-import { SHOW_LOADER, HIDE_LOADER, SHOW_TOAST, HIDE_TOAST } from "../constants";
+import {SHOW_LOADER, HIDE_LOADER, SHOW_TOAST, HIDE_TOAST} from '../constants';
 
-export const showAppLoader = (text='') => ({
+export const showAppLoader = (text = '') => ({
   type: SHOW_LOADER,
-  payload: {text: text}
-})
+  payload: {text: text},
+});
 
 export const hideAppLoader = () => ({
   type: HIDE_LOADER,
-})
+});
 
-export const showAppToast = (isErrToast,text='') => ({
+export const showAppToast = (isErrToast, text = '') => ({
   type: SHOW_TOAST,
-  payload: {isErrToast,text}
-})
+  payload: {isErrToast, text},
+});
 
 export const hideAppToast = () => ({
   type: HIDE_TOAST,
-})
+});

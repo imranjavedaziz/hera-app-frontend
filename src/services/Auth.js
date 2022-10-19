@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useRef, useState } from "react";
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import axiosRequest from '../utils/axiosRequest';
@@ -9,14 +9,14 @@ import {
   showAppToast,
 } from '../redux/actions/loader';
 import {Routes} from '../constants/Constants';
-import {setUser, signoutUser} from '../redux/actions/auth';
+import {setUser, signoutUser} from '../redux/actions/Auth';
 import getRoute from '../utils/getRoute';
 
 const Auth = () => {
   const [err, setErr] = useState(null);
-
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const loadingRef = useRef(false);
   const sendOtp = data => {
     dispatch(showAppLoader());
     axiosRequest
@@ -74,8 +74,7 @@ const Auth = () => {
   };
   const login = data => {
     dispatch(showAppLoader());
-    axiosRequest
-      .post(ApiPath.login, data)
+    axiosRequest.post(ApiPath.login, data)
       .then(async response => {
         const dataRes = response.data.data;
         await dispatch(showAppToast(false, response.data.message));

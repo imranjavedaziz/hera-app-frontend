@@ -9,9 +9,12 @@ import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage'
 import Strings from '../../../constants/Strings';
 import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
+import {useSelector} from 'react-redux';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
+  const registerUser = useSelector(state => state.Auth);
+  console.log('ggtt', registerUser?.log_in_data?.profile_pic);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -32,7 +35,7 @@ const PtbProfile = () => {
           <ProfileImage
             Heading={Strings.smSetting.ptbProfile}
             Name={Strings.smSetting.ProfileName}
-            source={Images.DASHBOARD_IMG}
+            source={registerUser?.log_in_data?.profile_pic}
           />
           <Subscribe
             Icon={Images.STAR}
