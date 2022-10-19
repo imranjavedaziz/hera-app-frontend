@@ -12,14 +12,12 @@ import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
 import Strings from '../../../../constants/Strings';
-import User from '../../../../services/User';
 import videoPicker from '../../../../utils/videoPicker';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 import Video from 'react-native-video';
 const MyVideo = () => {
-  const userService = User();
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const navigation = useNavigation();

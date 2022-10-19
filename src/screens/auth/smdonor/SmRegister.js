@@ -99,13 +99,13 @@ const SmRegister = ({route}) => {
     setFile(image);
   };
   useEffect(() => {
-    askCameraPermission;
+    askCameraPermission();
     if (!isValid) {
       const e = errors.role;
 
       if (e) dispatch(showAppToast(true, e.message));
     }
-  }, [errors, isValid]);
+  }, [dispatch, errors, isValid]);
   const onSubmit = data => {
     console.log(data);
     console.log('FILE', file);

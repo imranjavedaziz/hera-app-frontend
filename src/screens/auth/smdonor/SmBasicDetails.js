@@ -1,15 +1,15 @@
 // SmBasicDetails
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
-import {useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
-import Strings, { ValidationMessages } from '../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
 import {genders} from '../../../constants/Constants';
@@ -18,14 +18,14 @@ import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
 import User from '../../../services/User';
 import Auth from '../../../services/Auth';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import {showAppToast} from '../../../redux/actions/loader';
 import SetterData from '../../../services/SetterData';
 
 const SmBasicDetails = ({route}) => {
-  const state = useSelector(state=>state.auth);
-  console.log(state)
-  console.log('Props Data Basic ==',route.params);
+  const state = useSelector(state => state.auth);
+  console.log(state);
+  console.log('Props Data Basic ==', route.params);
   const userService = User();
   const authService = Auth();
   const data = SetterData();
@@ -39,26 +39,28 @@ const SmBasicDetails = ({route}) => {
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
-  const onSubmit = (data)=>{
+  const onSubmit = data => {
     console.log(data);
     userService.saveBasicDetails(data);
-  }
+  };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
-      onPress={()=>{setOpen(true)}}
+      onPress={() => {
+        setOpen(true);
+      }}
     />
   );
   React.useEffect(() => {
-    data.state()
-    data.sexsualOrientation()
+    data.state();
+    data.sexsualOrientation();
     if (!isValid) {
       const e = errors;
       if (e.gender_id) {
         dispatch(showAppToast(true, ValidationMessages.ENTER_GENDER));
       }
     }
-  }, [errors, isValid]);
+  }, [dispatch, data, errors, isValid]);
   return (
     <>
       <Container
@@ -71,13 +73,17 @@ const SmBasicDetails = ({route}) => {
         }>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>{Strings.sm_basic.Title}</Text>
-          <Text style={[globalStyle.screenSubTitle, {marginBottom:Value.CONSTANT_VALUE_45 }]}>
+          <Text
+            style={[
+              globalStyle.screenSubTitle,
+              {marginBottom: Value.CONSTANT_VALUE_45},
+            ]}>
             {Strings.sm_basic.Subtitle}
           </Text>
           <Text
-          style={styles.label}
-          accessible={true}
-          accessibilityLabel={'Gender'}>
+            style={styles.label}
+            accessible={true}
+            accessibilityLabel={'Gender'}>
             Gender
             <Text style={[{color: 'red'}]}>*</Text>
           </Text>
@@ -134,7 +140,7 @@ const SmBasicDetails = ({route}) => {
               />
             )}
             name="zipcode"
-          />     
+          />
           <Controller
             control={control}
             render={({field: {onChange}}) => (
@@ -206,25 +212,21 @@ const SmBasicDetails = ({route}) => {
         lineStyle={globalStyle.lineStyle}
         isOpen={isOpen}
         setOpen={setOpen}>
-        <View
-          style={globalStyle.basicSheetContainer}>
-          <TouchableOpacity
-            style={globalStyle.formBtn}>
-            <Text
-              style={globalStyle.formText}>
-            {Strings.bottomSheet.Inquiry_Form}
+        <View style={globalStyle.basicSheetContainer}>
+          <TouchableOpacity style={globalStyle.formBtn}>
+            <Text style={globalStyle.formText}>
+              {Strings.bottomSheet.Inquiry_Form}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.heraBtn}>
-            <Text
-              style={globalStyle.heraText}>
+          <TouchableOpacity style={globalStyle.heraBtn}>
+            <Text style={globalStyle.heraText}>
               {Strings.bottomSheet.About_HERA}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.logoutBtn} onPress={authService.logout}>
-            <Text
-              style={globalStyle.logoutText}>
+          <TouchableOpacity
+            style={globalStyle.logoutBtn}
+            onPress={authService.logout}>
+            <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>
           </TouchableOpacity>

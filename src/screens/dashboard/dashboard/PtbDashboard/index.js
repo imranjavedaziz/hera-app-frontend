@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  FlatList,
 } from 'react-native';
 import React, {useRef, useState, useCallback} from 'react';
 import Swiper from 'react-native-deck-swiper';
@@ -46,7 +45,6 @@ const PtbDashboard = () => {
     }
 
     setTimeout(() => {
-      // setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 200);
@@ -63,7 +61,6 @@ const PtbDashboard = () => {
       }, 1000);
     }
     setTimeout(() => {
-      // setCardIndex(0);
       setIsVisibleLogo(false);
       setIslikedLogo('');
     }, 150);
@@ -72,7 +69,7 @@ const PtbDashboard = () => {
   useFocusEffect(
     useCallback(() => {
       data.ptbCardDashboard();
-    }, [cardIndex]),
+    }, []),
   );
 
   function renderCardData(item) {
