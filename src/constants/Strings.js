@@ -170,7 +170,7 @@ export default {
     Btn: 'Save',
   },
   sm_create_gallery: {
-    Title: 'CreateGallery.js your gallery',
+    Title: 'Create your gallery',
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',

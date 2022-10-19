@@ -24,7 +24,10 @@ import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../services/User';
 import {useSelector, useDispatch} from 'react-redux';
-import {getUserGallery} from '../../../../redux/actions/CreateGallery';
+import {
+  getUserGallery,
+  deleteGallery,
+} from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import Video from 'react-native-video';
@@ -157,11 +160,13 @@ const Gallery = ({route}) => {
     }
     setRemove(pushArr);
   }
+  console.log(remove,"REMOVE")
   const deleteImg = () => {
-    // let payload={
-    //   ids:remove
-    // }
-    // dipatch(deleteGallery(payload))
+    let payload = {
+      ids: remove,
+    };
+    dispatch(deleteGallery(payload));
+    console.log(payload,"POAYLOAD RMV IMG")
     dispatch(getUserGallery());
     setDel(false);
     setRmvImgCount(0);

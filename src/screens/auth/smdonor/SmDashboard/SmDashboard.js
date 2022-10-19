@@ -110,7 +110,9 @@ const SmDashboard = ({route}) => {
             <Text style={styles.profileName}>{item.first_name}</Text>
             <View style={styles.profileFooter}>
               <Image source={Images.mapgraypin} />
-              <Text style={styles.locationText}>{item.location?.name}</Text>
+              <Text style={styles.locationText}>
+                {item.location?.name.toUpperCase()}
+              </Text>
             </View>
           </View>
         </View>
