@@ -105,7 +105,7 @@ export default (state = initState, action) => {
         log_in_loading: true,
         token: '',
         log_in_error_msg: '',
-        log_in_data: action.data,
+        log_in_data: {},
       };
     }
     case AUTH_LOG_IN_FAIL: {
@@ -128,7 +128,7 @@ export default (state = initState, action) => {
         log_in_success: true,
         log_in_loading: false,
         token: access_token,
-        log_in_data: action.data,
+        log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
       };
     }

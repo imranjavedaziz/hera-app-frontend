@@ -51,14 +51,14 @@ const Login = () => {
   useEffect(() => {
     if (loadingRef.current && !log_in_loading) {
       dispatch(showAppLoader());
+
       if (log_in_success) {
         dispatch(hideAppLoader());
-        dispatch(setUser(log_in_data.data.data));
         navigation.navigate(
           getRoute(
-            log_in_data.data.data.access_token,
-            log_in_data.data.data.role_id,
-            log_in_data.data.data.registration_step,
+            log_in_data.access_token,
+            log_in_data.role_id,
+            log_in_data.registration_step,
           ),
           payloadData,
         );

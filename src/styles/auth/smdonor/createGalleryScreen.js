@@ -23,7 +23,7 @@ export default {
     flexWrap: 'wrap',
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
-    marginTop: Value.CONSTANT_VALUE_20
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   galleryImgView: {
     width: width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2,
@@ -70,51 +70,58 @@ export default {
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
-  btn:{
-    height:Value.CONSTANT_VALUE_80,
-    width:Value.CONSTANT_VALUE_259,
-    paddingHorizontal:Value.CONSTANT_VALUE_0 ,
+  btn: {
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_259,
+    paddingHorizontal: Value.CONSTANT_VALUE_0,
   },
-  subTitle:{
+  subTitle: {
     marginBottom: Value.CONSTANT_VALUE_20,
-    maxWidth: '90%'
-},
-delContainer:{
+    maxWidth: '90%',
+  },
+  delContainer: {
     height: Value.CONSTANT_VALUE_124,
-     width: Value.CONSTANT_VALUE_413,
-     alignItems:Alignment.CENTER,
-     justifyContent: Alignment.CENTER,
-     marginVertical:Value.CONSTANT_VALUE_22,
-},
-selectedText:{
+    width: Value.CONSTANT_VALUE_413,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    marginVertical: Value.CONSTANT_VALUE_22,
+  },
+  selectedText: {
     fontFamily: Fonts.OpenSansItalic,
-     color: 'grey'
-},
-deleteBtnContainer:{
-    flexDirection:Alignment.ROW,
-     paddingVertical:Value.CONSTANT_VALUE_21
-},
-rmvText:{
-        fontFamily: Fonts.OpenSansBold,
-        textDecorationLine: Alignment.UNDERLINE,
-        letterSpacing:Value.CONSTANT_VALUE_FRAC36 ,
-        marginLeft: Value.CONSTANT_VALUE_15
-},
-selectIcon:{
-  position:'absolute',
-  left:Value.CONSTANT_VALUE_30,
-  bottom:Value.CONSTANT_VALUE_30
-},
+    color: 'grey',
+  },
+  deleteBtnContainer: {
+    flexDirection: Alignment.ROW,
+    paddingVertical: Value.CONSTANT_VALUE_21,
+  },
+  rmvText: {
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: Alignment.UNDERLINE,
+    letterSpacing: Value.CONSTANT_VALUE_FRAC36,
+    marginLeft: Value.CONSTANT_VALUE_15,
+  },
+  selectIcon: {
+    position: Alignment.ABSOLUTE,
+    left: Value.CONSTANT_VALUE_30,
+    bottom: Value.CONSTANT_VALUE_30,
+  },
   imageOverlayWrapper: {
-    position: "relative",
-    overflow: "hidden",
+    position: Alignment.RELATIVE,
+    overflow: Alignment.HIDDEN,
   },
   video: {
-    overflow: 'hidden',
+    overflow: Alignment.HIDDEN,
     width: width,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    resizeMode: 'cover',
+    resizeMode: Alignment.COVER,
     marginTop: Value.CONSTANT_VALUE_3,
   },
-  playIcon:{position:'absolute',left:width/2,top:80}
+  playIcon: {
+    position: Alignment.ABSOLUTE,
+    left: width / Value.CONSTANT_VALUE_2,
+    top: Value.CONSTANT_VALUE_80,
+  },
+  resizeContain: {
+    resizeMode: Alignment.COVER,
+  },
 };

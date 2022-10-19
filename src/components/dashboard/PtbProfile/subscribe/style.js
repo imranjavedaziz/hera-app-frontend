@@ -1,7 +1,6 @@
 import Alignment from '../../../../constants/Alignment';
 import Colors from '../../../../constants/Colors';
 import {Fonts} from '../../../../constants/Constants';
-import {height} from '../../../../utils/responsive';
 
 export default {
   container: {

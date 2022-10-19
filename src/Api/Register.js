@@ -18,5 +18,3 @@ export const getProfileSetterApi = () => {
 export const donorProfileDetailApi = userid => {
   return axiosRequest.get(`${ApiPath.doner_profile_details}?user_id=${userid}`);
 };
-
-

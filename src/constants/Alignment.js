@@ -20,10 +20,9 @@ export default {
   COLUMN_REVERSE: 'column-reverse',
   ROW_REVERSE: 'row-reverse',
   UPPERCASE: 'uppercase',
-  BOLD:'bold',
-  COVER:'cover',
-  UNDERLINE:'underline',
-  HIDDEN:'hidden',
-  CONTAIN:'contain'
-
+  BOLD: 'bold',
+  COVER: 'cover',
+  UNDERLINE: 'underline',
+  HIDDEN: 'hidden',
+  CONTAIN: 'contain',
 };

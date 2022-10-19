@@ -43,6 +43,9 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
+  profileIconConatiner: {
+    marginRight: Value.CONSTANT_VALUE_270,
+  },
 };
 export const CircleBtn = ({icon, onPress, ...otherProps}) => (
   <TouchableOpacity
@@ -66,7 +69,7 @@ export const IconHeader = ({
 }) => (
   <>
     {profileView ? (
-      <TouchableOpacity style={{marginRight: 270}} onPress={leftPress}>
+      <TouchableOpacity style={styles.profileIconConatiner} onPress={leftPress}>
         <View
           style={[styles.circle, styles.start, styles.profileImgContainner]}>
           <Image source={{uri: profileImg}} style={styles.profileImg} />
@@ -118,4 +121,5 @@ export const ProfileIcon = ({}) => (
     </View>
   </View>
 );
+
 export default Header;

@@ -16,7 +16,7 @@ export default {
   },
   imgBack: {
     borderRadius: Value.CONSTANT_VALUE_70,
-    overflow:  Alignment.HIDDEN,
+    overflow: Alignment.HIDDEN,
     resizeMode: Alignment.COVER,
   },
   profileImg: {
@@ -112,18 +112,18 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
   },
-  Btn:{
-    height:Value.CONSTANT_VALUE_80,
-    width:Value.CONSTANT_VALUE_197,
+  Btn: {
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_197,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
     paddingVertical: Value.CONSTANT_VALUE_0,
   },
-  BtnContainer:{
+  BtnContainer: {
     paddingTop: Value.CONSTANT_VALUE_31,
-    alignItems: Alignment.CENTER
+    alignItems: Alignment.CENTER,
   },
   imgPickerContainer: {
-    width: "100%",
+    width: '100%',
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     paddingVertical: Value.CONSTANT_VALUE_10,
   },
@@ -138,5 +138,8 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
+  },
+  fullWidth: {
+    width: '100%',
   },
 };

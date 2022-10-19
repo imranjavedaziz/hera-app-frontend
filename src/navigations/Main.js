@@ -29,7 +29,7 @@ import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery';
 const Stack = createStackNavigator();
 const Main = () => {
   const auth = useSelector(state => state.Auth.user);
-  console.log(auth, "auth::::");
+  console.log(auth, 'auth::::');
   // state.Auth.user
   useEffect(() => {
     if (auth) {
@@ -43,9 +43,7 @@ const Main = () => {
           auth?.access_token,
           auth?.role_id,
           auth?.registration_step,
-        )}
-        // initialRouteName={"Profile"}
-      >
+        )}>
         <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}

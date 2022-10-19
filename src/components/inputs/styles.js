@@ -61,7 +61,7 @@ export default {
   },
   rowStyle: {width: Prencentage.PRECENTAGE_100},
   rowTextStyle: {textAlign: Alignment.CENTER, color: Colors.BLACK},
-  dropdownStyle:{
+  dropdownStyle: {
     textAlign: Alignment.LEFT,
     minHeight: Value.CONSTANT_VALUE_40,
   },

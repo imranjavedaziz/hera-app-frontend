@@ -7,7 +7,7 @@ export default {
   attributesSetter: 'attributes-setter-data',
   donerProfile: 'doner-profile-details',
   getGallery: 'get-gallery',
-  deleteGallery:'delete-gallery',
+  deleteGallery: 'delete-gallery',
   getProfileMatches: 'get-profile-matches',
   preferencesAgeRangeData: 'preferences-age-range-data',
   preferencesSetterData: 'preferences-setter-data',
