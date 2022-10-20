@@ -3,7 +3,8 @@ import { SHOW_LOADER, HIDE_LOADER, SHOW_TOAST, HIDE_TOAST } from "../constants";
 const initState = {
   loading: false,
   text: '',
-  show: false,
+  showToast: false,
+  isErrToast: true,
   toastText: '',
 };
 
@@ -23,13 +24,14 @@ export default (state = initState, { type = '', payload = null } = {}) => {
     case SHOW_TOAST:
       return {
         ...state,
-        show: true,
+        showToast: true,
+        isErrToast: payload.isErrToast,
         toastText: payload.text,
       };
     case HIDE_TOAST:
       return {
         ...state,
-        show: false,
+        showToast: false,
       };
     default:
       return state;

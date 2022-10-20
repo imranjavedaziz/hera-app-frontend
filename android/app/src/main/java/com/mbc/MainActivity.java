@@ -1,9 +1,15 @@
 package com.mbc;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+ import java.util.List;
+ import java.util.Arrays;
+ import com.facebook.react.shell.MainReactPackage;
+ import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
-
+import com.zoontek.rnbootsplash.RNBootSplash;
+import com.brentvatne.react.ReactVideoPackage;
 public class MainActivity extends ReactActivity {
 
   /**
@@ -13,6 +19,12 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "MBC";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    RNBootSplash.init(this);
+    super.onCreate(savedInstanceState);
   }
 
   /**
@@ -44,5 +56,12 @@ public class MainActivity extends ReactActivity {
       // More on this on https://reactjs.org/blog/2022/03/29/react-v18.html
       return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     }
+
+    protected List<ReactPackage> getPackages() {
+      return Arrays.asList(
+            new MainReactPackage(),
+            new ReactVideoPackage()
+    );
+}
   }
 }
