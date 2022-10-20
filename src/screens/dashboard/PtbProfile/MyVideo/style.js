@@ -1,6 +1,6 @@
 import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize} from '../../../../utils/responsive';
+import { dynamicSize, width } from "../../../../utils/responsive";
 import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 export default {
@@ -29,7 +29,8 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   VdoContainer: {
-    width: 412.4,
+    justifyContent:'center',
+    width: width,
     height: 232,
     backgroundColor: Colors.VDOCONTAINER,
     marginTop: Value.CONSTANT_VALUE_30,
@@ -50,5 +51,21 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_13,
     lineHeight: Value.CONSTANT_VALUE_21,
+  },
+  imageOverlayWrapper: {
+    position: Alignment.RELATIVE,
+    overflow: Alignment.HIDDEN,
+  },
+  video: {
+    overflow: Alignment.HIDDEN,
+    width: width,
+    height: 232,
+    resizeMode: Alignment.COVER,
+    marginTop: Value.CONSTANT_VALUE_3,
+  },
+  playIcon: {
+    position: Alignment.ABSOLUTE,
+    left: width / Value.CONSTANT_VALUE_2,
+    top: Value.CONSTANT_VALUE_80,
   },
 };
