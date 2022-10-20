@@ -78,7 +78,7 @@ const PtbDashboard = () => {
     } else {
       setEmpty(false);
       setTimeout(() => {
-        useSwiper.current.swipeLeft();
+        useSwiper?.current?.swipeLeft();
       }, 1000);
     }
     setTimeout(() => {
@@ -94,7 +94,7 @@ const PtbDashboard = () => {
     } else {
       setEmpty(false);
       setTimeout(() => {
-        useSwiper.current.swipeRight();
+        useSwiper?.current?.swipeRight();
       }, 1000);
     }
     setTimeout(() => {
@@ -135,7 +135,7 @@ const PtbDashboard = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
-  
+
   const headerComp = () => (
     <IconHeader
       leftIcon={{uri: registerUser?.data?.data?.profile_pic
