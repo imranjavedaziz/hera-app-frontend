@@ -21,11 +21,8 @@ import BottomSheetComp from '../../../../components/BottomSheet';
 import Video from 'react-native-video';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
-import { deleteGallery, getUserGallery } from "../../../../redux/actions/CreateGallery";
+import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import User from '../../../../services/User';
-import {width} from '../../../../utils/responsive';
-import {Value} from '../../../../constants/FixedValues';
-import Alignment from '../../../../constants/Alignment';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -63,7 +60,6 @@ const MyVideo = () => {
 
   const selectVideo = () => {
     videoPicker().then(v => {
-      console.log(v, 'v::::::::::::::');
       setVideo({file_url: v.path, loading: true});
       const reqData = new FormData();
       reqData.append('video', {
@@ -76,17 +72,9 @@ const MyVideo = () => {
       );
     });
   };
-
-
-
-
-
-
   const cb = v => {
     setOpen(false);
   };
-
-  console.log(video, 'video:::::::::');
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -122,7 +110,7 @@ const MyVideo = () => {
               imageStyle={{
                 resizeMode: 'contain',
               }}>
-              {video?.file_url==='' ? (
+              {video?.file_url === '' ? (
                 <>
                   <View style={styles.innerVdo}>
                     <Text style={styles.vdoHeading}>
