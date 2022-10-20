@@ -4,7 +4,7 @@ import {Fonts} from '../../../../constants/Constants';
 
 export default {
   container: {
-    width: 354,
+    //width: 354,
     height: 115,
     borderWidth: 2,
     borderRadius: 11,

@@ -19,11 +19,20 @@ export default {
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(50),
     paddingVertical: Value.CONSTANT_VALUE_12,
+    marginTop: 35,
+  },
+   iosInnerContainer: {
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    alignItems: Alignment.CENTER,
+    paddingHorizontal: dynamicSize(50),
+    paddingVertical: Value.CONSTANT_VALUE_12,
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
+ 
   },
   iconImage: {
     justifyContent: Alignment.CENTER,
@@ -59,7 +68,7 @@ export default {
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
+    paddingHorizontal: Value.CONSTANT_VALUE_20,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_98),
