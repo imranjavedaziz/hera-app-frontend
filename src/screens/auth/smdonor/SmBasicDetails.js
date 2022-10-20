@@ -110,7 +110,7 @@ const SmBasicDetails = () => {
       if (save_basic_detail_success) {
         dispatch(hideAppLoader());
         navigation.navigate(
-          user?.role_id === '2' ? Routes.SetPreference : Routes.SetAttributes,
+          user?.role_id === 2 ? Routes.SetPreference : Routes.SetAttributes,
           payloadData,
         );
       }
