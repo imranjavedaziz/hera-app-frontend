@@ -9,6 +9,7 @@ import {takeLatest, put} from 'redux-saga/effects';
 function* getDonorDashboard() {
   try {
     const result = yield DonorDashboardApi();
+    console.log(result, "result:::::::::");
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: DONOR_DASHBOARD_SUCCESS, data: result});
     } else {

@@ -8,6 +8,7 @@ import SetPreference from './SetPreference';
 import SetAttribute from './SetAttribute';
 import DonorDashBoard from './DonorDashboard';
 import PtbProfileDetail from './PtbProfileDetail';
+import SmDonorDetail from "./SmDonerDetail";
 
 const allReducers = combineReducers({
   Auth,
@@ -19,6 +20,7 @@ const allReducers = combineReducers({
   SetAttribute,
   DonorDashBoard,
   PtbProfileDetail,
+  SmDonorDetail,
 });
 
 export default allReducers;

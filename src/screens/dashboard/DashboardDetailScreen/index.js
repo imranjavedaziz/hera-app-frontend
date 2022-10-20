@@ -34,11 +34,11 @@ const DashboardDetailScreen = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef();
   const {
-    get_sm_doner_success,
-    get_sm_doner_loading,
-    get_sm_doner_error_msg,
-    get_sm_doner_res,
-  } = useSelector(state => state.SmDonerDetail);
+    get_sm_donor_success,
+    get_sm_donor_loading,
+    get_sm_donor_error_msg,
+    get_sm_donor_res,
+  } = useSelector(state => state.SmDonorDetail);
 
   const {
     params: {userId},
@@ -50,21 +50,20 @@ const DashboardDetailScreen = () => {
 
   useFocusEffect(
     useCallback(() => {
-      if (loadingRef.current && !get_sm_doner_loading) {
+      if (loadingRef.current && !get_sm_donor_loading) {
         dispatch(showAppLoader());
-        if (get_sm_doner_success) {
+        if (get_sm_donor_success) {
           dispatch(hideAppLoader());
-          setSmDetailRes(get_sm_doner_res);
+          console.log(get_sm_donor_res, "get_sm_donor_res:::::::");
+          setSmDetailRes(get_sm_donor_res);
         }
-        if (get_sm_doner_error_msg) {
+        if (get_sm_donor_error_msg) {
           dispatch(hideAppLoader());
         }
       }
-      loadingRef.current = get_sm_doner_loading;
-    }, [get_sm_doner_success, get_sm_doner_loading]),
+      loadingRef.current = get_sm_donor_loading;
+    }, [get_sm_donor_success, get_sm_donor_loading]),
   );
-  console.log(get_sm_doner_success, 'smDetailRes');
-  console.log(get_sm_doner_res, 'smDetailRes');
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -73,7 +72,6 @@ const DashboardDetailScreen = () => {
     />
   );
   const renderItemData = item => {
-    console.log(item, 'itemflat');
     return (
       <>
         <TouchableOpacity>
@@ -96,82 +94,82 @@ const DashboardDetailScreen = () => {
         headerComp={headerComp}>
         <View style={styles.mainContainer}>
           <DetailComp
-            Place={smDetailRes.location?.name}
-            Code={smDetailRes.username}
-            DonerType={smDetailRes.role}
-            image={{uri: smDetailRes.profile_pic}}
+            Place={smDetailRes?.location?.name}
+            Code={smDetailRes?.username}
+            DonerType={smDetailRes?.role}
+            image={{uri: smDetailRes?.profile_pic}}
           />
           <View style={styles.bioContainer}>
             <BioComponent
               Name={Strings.donorPofile.Age}
-              Detail={`${smDetailRes.age} yrs`}
+              Detail={`${smDetailRes?.age} yrs`}
             />
             <BioComponent
               Name={Strings.donorPofile.Height}
-              Detail={Math.floor(smDetailRes.doner_attribute?.height / 12)}
+              Detail={Math.floor(smDetailRes?.doner_attribute?.height / 12)}
             />
             <BioComponent
               Name={Strings.donorPofile.Weight}
-              Detail={`${smDetailRes.doner_attribute?.weight} pounds`}
+              Detail={`${smDetailRes?.doner_attribute?.weight} pounds`}
             />
             <BioComponent
               Name={Strings.donorPofile.Education}
-              Detail={smDetailRes.doner_attribute?.education}
+              Detail={smDetailRes?.doner_attribute?.education}
             />
             <BioComponent
               Name={Strings.donorPofile.Occupation}
-              Detail={smDetailRes.user_profile?.occupation}
+              Detail={smDetailRes?.user_profile?.occupation}
             />
           </View>
           <ImageBackground
             imageStyle={styles.backgroundImage}
             source={Images.iconComma}>
             <Text style={styles.Description}>
-              {smDetailRes.user_profile?.bio}
+              {smDetailRes?.user_profile?.bio}
             </Text>
           </ImageBackground>
           <View style={styles.nativeMainContainer}>
-            {smDetailRes.location?.name ? (
+            {smDetailRes?.location?.name ? (
               <View style={styles.nativePlace}>
                 <Text style={styles.nativeText}>
-                  {smDetailRes.location?.name}
+                  {smDetailRes?.location?.name}
                 </Text>
               </View>
             ) : null}
-            {smDetailRes.doner_attribute?.race ? (
+            {smDetailRes?.doner_attribute?.race ? (
               <View style={styles.fatherPlace}>
                 <Text style={styles.fatherPlaceText}>
-                  {`${Strings.donorPofile.fatherPlace} ${smDetailRes.doner_attribute?.race}`}
+                  {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>
             ) : null}
           </View>
           <View style={styles.hairContainer}>
-            {smDetailRes.doner_attribute?.race ? (
+            {smDetailRes?.doner_attribute?.race ? (
               <View style={styles.motherPlace}>
                 <Text style={styles.motherPlaceText}>
-                  {`${Strings.donorPofile.motherPlace} ${smDetailRes.doner_attribute?.race}`}
+                  {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>
             ) : null}
-            {smDetailRes.doner_attribute?.hair_colour ? (
+            {smDetailRes?.doner_attribute?.hair_colour ? (
               <View style={styles.hairColor}>
                 <Text style={styles.hairColorText}>
-                  {`${smDetailRes.doner_attribute?.hair_colour} ${Strings.donorPofile.hairColor}`}
+                  {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.donorPofile.hairColor}`}
                 </Text>
               </View>
             ) : null}
           </View>
-          {smDetailRes.doner_attribute?.eye_colour ? (
+          {smDetailRes?.doner_attribute?.eye_colour ? (
             <View style={styles.eyeColorContainer}>
               <Text style={styles.eyeColorText}>
-                {`${smDetailRes.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
+                {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
               </Text>
             </View>
           ) : null}
           <View style={styles.imageMainContainer}>
             <FlatList
-              data={smDetailRes.doner_photo_gallery}
+              data={smDetailRes?.doner_photo_gallery}
               renderItem={renderItemData}
               numColumns={3}
               showsVerticalScrollIndicator={false}
@@ -179,14 +177,14 @@ const DashboardDetailScreen = () => {
             />
           </View>
 
-          {smDetailRes.doner_video_gallery != null ? (
+          {smDetailRes?.doner_video_gallery != null ? (
             <View>
               <Text style={styles.middleText}>
                 {Strings.donorPofile.shortClip}
               </Text>
               <Video
                 controls={true}
-                source={{uri: smDetailRes.doner_video_gallery}}
+                source={{uri: smDetailRes?.doner_video_gallery}}
                 onError={err => console.log(err)}
                 style={styles.imageDemo2}
                 paused={true}

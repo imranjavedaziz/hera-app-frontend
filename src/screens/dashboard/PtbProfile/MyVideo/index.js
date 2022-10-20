@@ -60,7 +60,14 @@ const MyVideo = () => {
 
   const selectVideo = () => {
     videoPicker().then(v => {
-      setVideo({file_url: v.path, loading: true});
+      if (v?.path) {
+        setVideo({file_url: v.path, loading: true});
+        setOpen(false);
+      } else {
+        setVideo({file_url: '', loading: false});
+        setOpen(false);
+      }
+
       const reqData = new FormData();
       reqData.append('video', {
         name: v.filename,
@@ -71,8 +78,10 @@ const MyVideo = () => {
         setVideo(old => ({...old, loading})),
       );
     });
+
   };
   const cb = v => {
+    console.log(v, "v :::::::::");
     setOpen(false);
   };
   const headerComp = () => (
@@ -147,16 +156,18 @@ const MyVideo = () => {
       </Container>
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
+          {/*<TouchableOpacity*/}
+          {/*  onPress={() => {*/}
+          {/*    openCamera(0, cb);*/}
+          {/*    // setOpen(false);*/}
+          {/*  }}*/}
+          {/*  style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>*/}
+          {/*  <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>*/}
+          {/*</TouchableOpacity>*/}
           <TouchableOpacity
             onPress={() => {
-              openCamera(0, cb);
-              setOpen(false);
+              selectVideo();
             }}
-            style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => selectVideo()}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
           </TouchableOpacity>

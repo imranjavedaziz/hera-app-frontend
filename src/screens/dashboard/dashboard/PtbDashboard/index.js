@@ -105,11 +105,11 @@ const PtbDashboard = () => {
         <TouchableOpacity
           activeOpacity={1}
           key={cardIndex}
-          // onPress={() => {
-          //   navigation.navigate('DashboardDetailScreen', {
-          //     userId: item?.user?.id,
-          //   });
-          // }}
+          onPress={() => {
+            navigation.navigate('DashboardDetailScreen', {
+              userId: item?.user?.id,
+            });
+          }}
         >
           <ImageComp
             locationText={item?.user?.state_name}
