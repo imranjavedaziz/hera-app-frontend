@@ -115,7 +115,7 @@ const MyVideo = () => {
           <TouchableOpacity
             disabled={video?.file_url === '' ? false : true}
             onPress={() =>
-              video?.file_url === '' ? selectVideo() : setIsPlaying(p => !p)
+              video?.file_url === '' ? setOpen(true) : setIsPlaying(p => !p)
             }>
             <ImageBackground
               style={styles.VdoContainer}
