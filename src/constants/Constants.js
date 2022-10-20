@@ -1,5 +1,5 @@
-import { ValidationMessages } from "./Strings";
-import { Regx } from "./schemas";
+import {ValidationMessages} from './Strings';
+import {Regx} from './schemas';
 
 const environment = {
   dev: {
@@ -15,7 +15,7 @@ const environment = {
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
   },
 };
-export const {bucket, api_url} = environment.dev;
+export const {bucket, api_url} = environment.qa;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -50,31 +50,31 @@ export const Fonts = {
   OpenSansRegular: 'OpenSans',
   OpenSansSemibold: 'OpenSans-Semibold',
 };
-export const FormKey ={
-  role_id:'role_id',
-  first_name:'first_name',
-  middle_name:'middle_name',
-  last_name:'last_name',
-  dob:'dob',
-  email:'email',
-  password:'password',
-  country_code:'country_code',
-  phone_no:'phone_no',
-  file:'file',
-  name:'name',
-  confirm_password:'confirm_password',
-  set_password:'set_password',
-  date_of_birth:'date_of_birth',
-  looking:"looking",
-  location:"location",
-  education:"education",
-  age_range:"age_range",
-  height:"height",
-  race:"race",
-  ethnicity:"ethnicity",
-  hair:"hair",
-  eye:"eye",
-}
+export const FormKey = {
+  role_id: 'role_id',
+  first_name: 'first_name',
+  middle_name: 'middle_name',
+  last_name: 'last_name',
+  dob: 'dob',
+  email: 'email',
+  password: 'password',
+  country_code: 'country_code',
+  phone_no: 'phone_no',
+  file: 'file',
+  name: 'name',
+  confirm_password: 'confirm_password',
+  set_password: 'set_password',
+  date_of_birth: 'date_of_birth',
+  looking: 'looking',
+  location: 'location',
+  education: 'education',
+  age_range: 'age_range',
+  height: 'height',
+  race: 'race',
+  ethnicity: 'ethnicity',
+  hair: 'hair',
+  eye: 'eye',
+};
 
 export const smRoles = [
   {
@@ -368,6 +368,5 @@ export const Routes = {
   PtbProfile: 'PtbProfile',
   MyVideo: 'MyVideo',
   SmSetting: 'SmDonorSettings',
-  donorGallery:'DonorGallery',
-
+  donorGallery: 'DonorGallery',
 };

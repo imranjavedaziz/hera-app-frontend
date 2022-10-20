@@ -1,5 +1,5 @@
 // store
-import {createStore,applyMiddleware, compose} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import createSagaMiddleware from 'redux-saga';
@@ -10,7 +10,7 @@ import rootSaga from './Sagas';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth'],
+  whitelist: ['Auth'],
   blacklist: ['loader'],
 };
 const persistedReducer = persistReducer(persistConfig, allReducers);

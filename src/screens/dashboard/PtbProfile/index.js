@@ -9,9 +9,15 @@ import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage'
 import Strings from '../../../constants/Strings';
 import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
+import {useDispatch, useSelector} from 'react-redux';
+import {logOut} from '../../../redux/actions/Auth';
+import {Routes} from '../../../constants/Constants';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
+  const {registerUser} = useSelector(state => state.Auth);
+  const dispatch = useDispatch();
+  console.log('regi5sterUser', registerUser?.data?.data?.profile_pic);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -19,7 +25,10 @@ const PtbProfile = () => {
       leftPress={() => navigation.goBack()}
     />
   );
-
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
   return (
     <>
       <Container
@@ -31,8 +40,16 @@ const PtbProfile = () => {
         <View style={styles.mainContainer}>
           <ProfileImage
             Heading={Strings.smSetting.ptbProfile}
-            Name={Strings.smSetting.ProfileName}
-            source={Images.DASHBOARD_IMG}
+            Name={
+              registerUser?.data?.data?.first_name
+                ? registerUser?.data?.data?.first_name
+                : Strings.smSetting.ProfileName
+            }
+            source={{
+              uri: registerUser?.data?.data?.profile_pic
+                ? registerUser?.data?.data?.profile_pic
+                : Images.DASHBOARD_IMG,
+            }}
           />
           <Subscribe
             Icon={Images.STAR}
@@ -67,7 +84,9 @@ const PtbProfile = () => {
             title={Strings.smSetting.AboutUs}
           />
           <View style={styles.buttoncontainer}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => logoutScreen()}>
               <Text style={styles.buttonText}>{Strings.smSetting.Btn}</Text>
             </TouchableOpacity>
           </View>

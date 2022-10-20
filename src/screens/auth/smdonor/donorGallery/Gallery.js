@@ -24,7 +24,10 @@ import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../services/User';
 import {useSelector, useDispatch} from 'react-redux';
-import {getUserGallery } from "../../../../redux/actions/CreateGallery";
+import {
+  getUserGallery,
+  deleteGallery,
+} from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import Video from 'react-native-video';
@@ -144,24 +147,26 @@ const Gallery = ({route}) => {
     return;
   };
 
-  function handelDel(index){
+  function handelDel(index) {
     setDel(true);
     let pushArr = remove;
     let isExist = pushArr.findIndex(val => val === index);
     if (isExist === -1) {
       pushArr.push(index);
-      setRmvImgCount(rmvImgCount+1);
+      setRmvImgCount(rmvImgCount + 1);
     } else {
       pushArr.splice(isExist, 1);
-      setRmvImgCount(rmvImgCount-1);
+      setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
-  };
+  }
+  console.log(remove,"REMOVE")
   const deleteImg = () => {
-   // let payload={
-   //   ids:remove
-   // }
-   // dipatch(deleteGallery(payload))
+    let payload = {
+      ids: remove,
+    };
+    dispatch(deleteGallery(payload));
+    console.log(payload,"POAYLOAD RMV IMG")
     dispatch(getUserGallery());
     setDel(false);
     setRmvImgCount(0);
@@ -224,7 +229,6 @@ const Gallery = ({route}) => {
                     <TouchableOpacity
                       onPress={() => {
                         handelDel(img.id);
-
                       }}
                       style={{}}>
                       <Image
@@ -248,9 +252,9 @@ const Gallery = ({route}) => {
             ))}
           </View>
           <TouchableOpacity
-            disabled={video?.file_url==='' ? false : true}
+            disabled={video?.file_url === '' ? false : true}
             onPress={() =>
-              video?.file_url==='' ? selectVideo() : setIsPlaying(p => !p)
+              video?.file_url === '' ? selectVideo() : setIsPlaying(p => !p)
             }>
             <ImageBackground
               style={styles.videoContainer}
@@ -285,7 +289,7 @@ const Gallery = ({route}) => {
               )}
             </ImageBackground>
           </TouchableOpacity>
-          {isDel&&rmvImgCount!==0?(
+          {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
                 {rmvImgCount} Photos Selected

@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 import {showAppLoader, hideAppLoader} from '../redux/actions/loader';
-import axios from 'axios';
 
 const SetterData = () => {
   const [myState, setMyState] = React.useState([]);
@@ -85,7 +84,7 @@ const SetterData = () => {
 
   const smDororDashBoard = endPoint => {
     dispatch(showAppLoader());
-    const api = `${ApiPath.ptbProfileCard}${endPoint}`
+    const api = `${ApiPath.ptbProfileCard}${endPoint}`;
     axiosRequest
       .get(api)
       .then(async res => {
@@ -110,13 +109,11 @@ const SetterData = () => {
   };
 
   const smDonorProfileDetail = userid => {
-    console.log(`${ApiPath.doner_profile_details}?user_id=${userid}`)
     dispatch(showAppLoader());
     axiosRequest
 
       .get(`${ApiPath.doner_profile_details}?user_id=${userid}`)
       .then(async res => {
-
         setSmDonorDetails(res.data.data);
       })
       .finally(() => {
@@ -167,7 +164,6 @@ const SetterData = () => {
     ptbProfileDetail,
     ptbProfileDetails,
     highlits,
-
   };
 };
 

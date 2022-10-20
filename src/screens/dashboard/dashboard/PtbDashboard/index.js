@@ -22,6 +22,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
+import {Routes} from '../../../../constants/Constants';
 
 const PtbDashboard = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -35,6 +36,8 @@ const PtbDashboard = () => {
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef();
+  const {registerUser} = useSelector(state => state.Auth);
+  console.log('registerUsejhkjr', registerUser);
   useEffect(() => {
     dispatch(getPtbDashboard());
   }, [dispatch]);
@@ -50,8 +53,9 @@ const PtbDashboard = () => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
         dispatch(showAppLoader());
         if (get_ptb_dashboard_success) {
+          console.log(get_ptb_dashboard_res?.data, "get_ptb_dashboard_res?.data:::::::::");
           dispatch(hideAppLoader());
-          setPtbDashboardRes(get_ptb_dashboard_res?.data);
+          setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
         }
         if (get_ptb_dashboard_error_msg) {
           dispatch(hideAppLoader());
@@ -95,17 +99,18 @@ const PtbDashboard = () => {
   };
 
   function renderCardData(item) {
-    console.log('item?.user?.id', item?.user?.id)
+    console.log('item?.user?.id', item?.user?.id);
     return (
       <>
         <TouchableOpacity
           activeOpacity={1}
           key={cardIndex}
-          onPress={() => {
-            navigation.navigate('DashboardDetailScreen', {
-              userId: item?.user?.id,
-            });
-          }}>
+          // onPress={() => {
+          //   navigation.navigate('DashboardDetailScreen', {
+          //     userId: item?.user?.id,
+          //   });
+          // }}
+        >
           <ImageComp
             locationText={item?.user?.state_name}
             code={item?.user?.username}
@@ -121,15 +126,25 @@ const PtbDashboard = () => {
       </>
     );
   }
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
+
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.iconRadiounsel}
+      leftIcon={{
+        uri: registerUser?.data?.data?.profile_pic
+          ? registerUser?.data?.data?.profile_pic
+          : Images.iconRadiounsel,
+      }}
       leftPress={() => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      rightPress={() => dispatch(logOut)}
+      rightPress={() => logoutScreen()}
       style={styles.headerIcon}
+      ApiImage={true}
     />
   );
   return (

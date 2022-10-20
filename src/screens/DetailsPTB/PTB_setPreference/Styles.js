@@ -1,5 +1,5 @@
 import {Value} from '../../../constants/FixedValues';
-import {Fonts,} from '../../../constants/Constants';
+import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
 
@@ -22,14 +22,14 @@ export default {
     zIndex: -1,
     color: Colors.LABEL_BLACK,
   },
-  ageContainer:{
-    flexDirection: Alignment.ROW, 
+  ageContainer: {
+    flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
   },
   lookingsm: {
     alignItems: Alignment.CENTER,
     marginLeft: Value.CONSTANT_VALUE_15,
-    fontFamily:Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
   },
@@ -54,7 +54,7 @@ export default {
     paddingBottom: Value.CONSTANT_VALUE_10,
   },
   heightText: {
-    color:Colors.RED,
+    color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_18,
   },
   chipText: {
@@ -98,20 +98,20 @@ export default {
     marginVertical: Value.CONSTANT_VALUE_10,
     padding: Value.CONSTANT_VALUE_0,
   },
-  chipInsideText:{
-    alignSelf: Alignment.CENTER
+  chipInsideText: {
+    alignSelf: Alignment.CENTER,
   },
-  flexRow:{
-    flexDirection:Alignment.ROW,
+  flexRow: {
+    flexDirection: Alignment.ROW,
   },
-  headerTxt:{
-    color:Colors.RED,
-    textDecorationLine:Alignment.UNDERLINE,
-    fontFamily:Fonts.OpenSansBold,
-    fontSize:Value.CONSTANT_VALUE_16
+  headerTxt: {
+    color: Colors.RED,
+    textDecorationLine: Alignment.UNDERLINE,
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_16,
   },
-  Btn:{
-    height:Value.CONSTANT_VALUE_80,
+  Btn: {
+    height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
-  }
+  },
 };

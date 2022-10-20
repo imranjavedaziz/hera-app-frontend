@@ -12,7 +12,7 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {smBasicSchema} from '../../constants/schemas';
 import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
-import {genders, Static,Routes} from '../../constants/Constants';
+import {genders, Static, Routes} from '../../constants/Constants';
 import Dropdown from '../../components/inputs/Dropdown';
 import styles from '../../styles/auth/smdonor/basicDetailsScreen';
 
@@ -21,14 +21,14 @@ const PtbBasicDetails = ({route}) => {
   const {
     handleSubmit,
     control,
-    formState: {errors,},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
-  const onSubmit = (data)=>{
+  const onSubmit = data => {
     console.log(data);
-    navigation.navigate(Routes.SetPreference,{...data,...route.params});
-  }
+    navigation.navigate(Routes.SetPreference, {...data, ...route.params});
+  };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -36,7 +36,7 @@ const PtbBasicDetails = ({route}) => {
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
-  console.log("PTB BASIC DETAILS +++>")
+  console.log('PTB BASIC DETAILS +++>');
   return (
     <>
       <Container
@@ -46,13 +46,13 @@ const PtbBasicDetails = ({route}) => {
         headerComp={headerComp}>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>{Strings.sm_basic.Title}</Text>
-          <Text style={[globalStyle.screenSubTitle,{marginBottom:40}]}>
+          <Text style={[globalStyle.screenSubTitle, {marginBottom: 40}]}>
             {Strings.sm_basic.Subtitle}
           </Text>
           <Text
-          style={styles.label}
-          accessible={true}
-          accessibilityLabel={'Gender'}>
+            style={styles.label}
+            accessible={true}
+            accessibilityLabel={'Gender'}>
             Gender
             <Text style={[{color: 'red'}]}>*</Text>
           </Text>
@@ -79,7 +79,7 @@ const PtbBasicDetails = ({route}) => {
               </View>
             )}
             name="gender"
-          />        
+          />
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -120,7 +120,7 @@ const PtbBasicDetails = ({route}) => {
               />
             )}
             name="zip"
-          />   
+          />
           <Controller
             control={control}
             render={({field: {onChange}}) => (

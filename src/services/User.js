@@ -105,7 +105,6 @@ const User = () => {
     saveBasicDetails,
     setAttributes,
     createGallery,
-    deleteGallery,
     setPreferences,
   };
 };

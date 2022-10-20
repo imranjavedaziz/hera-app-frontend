@@ -41,6 +41,7 @@ import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
+import {logOut} from '../../redux/actions/Auth';
 
 const Profile = ({route}) => {
   const navigation = useNavigation();
@@ -75,8 +76,7 @@ const Profile = ({route}) => {
       if (register_user_success) {
         dispatch(hideAppLoader());
         navigation.navigate(Routes.SmBasicDetails);
-      }
-      else {
+      } else {
         dispatch(showAppToast(true, register_user_error_msg));
         dispatch(hideAppLoader());
       }
@@ -95,6 +95,11 @@ const Profile = ({route}) => {
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
   );
+
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
@@ -187,10 +192,7 @@ const Profile = ({route}) => {
 
           {/* Image Upload End  */}
         </View>
-        <View
-          style={{
-            width: '100%',
-          }}>
+        <View style={styles.fullWidth}>
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
@@ -270,10 +272,7 @@ const Profile = ({route}) => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <View
-                style={{
-                  width: '100%',
-                }}>
+              <View style={styles.fullWidth}>
                 <FloatingLabelInput
                   label={Strings.profile.setPassword}
                   value={value}
@@ -375,7 +374,7 @@ const Profile = ({route}) => {
         </View>
         <Pressable
           onPress={() => {
-            navigation.navigate(Routes.SmRegister, route.params);
+            navigation.navigate(Routes.SmRegister, {isRouteData});
           }}>
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
@@ -433,7 +432,7 @@ const Profile = ({route}) => {
               <TouchableOpacity
                 onPress={() => {
                   setShowModal(false);
-                  navigation.navigate(Routes.Landing);
+                  logoutScreen();
                 }}>
                 <Text style={styles.modalOption1}>
                   {Strings.profile.ModalOption1}

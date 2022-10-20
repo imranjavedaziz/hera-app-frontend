@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -12,7 +12,7 @@ import globalStyle from '../../../styles/global';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {genders, Routes} from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
@@ -22,20 +22,22 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import SetterData from '../../../services/SetterData';
 import {
   getStates,
   getProfileSetterDetail,
-  saveBasicDetail, sexualOrientation,
-} from "../../../redux/actions/Register";
-import { useNavigation } from "@react-navigation/native";
+  saveBasicDetail,
+  sexualOrientation,
+} from '../../../redux/actions/Register';
+import {useNavigation} from '@react-navigation/native';
+import {logOut} from '../../../redux/actions/Auth';
+import getRoute from '../../../utils/getRoute';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [stateRes, setStateRes] = useState();
   const [profileRes, setProfileRes] = useState();
-  const [sexualOrientationData, setSexualOrientationData] = useState();
+  const [payloadData, setPayloadData] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
@@ -56,8 +58,9 @@ const SmBasicDetails = () => {
     save_basic_detail_success,
     save_basic_detail_loading,
     save_basic_detail_error_msg,
-
   } = useSelector(state => state.Register);
+  const user = useSelector(state => state.Auth.user);
+  console.log(user, 'user:::::::::::');
   const {
     handleSubmit,
     control,
@@ -100,9 +103,16 @@ const SmBasicDetails = () => {
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
       dispatch(showAppLoader());
+      console.log(
+        save_basic_detail_success,
+        'save_basic_detail_success:::::::::::',
+      );
       if (save_basic_detail_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.SetPreference);
+        navigation.navigate(
+          user?.role_id === '2' ? Routes.SetPreference : Routes.SetAttributes,
+          payloadData,
+        );
       }
       if (save_basic_detail_error_msg) {
         dispatch(hideAppLoader());
@@ -112,7 +122,8 @@ const SmBasicDetails = () => {
   }, [save_basic_detail_success, save_basic_detail_loading]);
 
   const onSubmit = data => {
-    console.log(data, "data::::::");
+    console.log(data, 'data::::::');
+    setPayloadData(data);
     dispatch(saveBasicDetail(data));
   };
   const headerComp = () => (
@@ -123,6 +134,11 @@ const SmBasicDetails = () => {
       }}
     />
   );
+
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
 
   return (
     <>
@@ -288,8 +304,7 @@ const SmBasicDetails = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            // onPress={authService.logout}
-          >
+            onPress={() => logoutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>
