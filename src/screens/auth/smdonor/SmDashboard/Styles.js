@@ -49,4 +49,9 @@ export default {
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
   },
+  headerIcon: {
+    position: 'absolute',
+    paddingTop: Value.CONSTANT_VALUE_5,
+    marginHorizontal: Value.CONSTANT_VALUE_30,
+  },
 };
