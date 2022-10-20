@@ -15,7 +15,7 @@ import {Routes} from '../../../constants/Constants';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
-  const {registerUser} = useSelector(state => state.Auth);
+  const {registerUser,log_in_data} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
   console.log('regi5sterUser', registerUser?.data?.data?.profile_pic);
   const headerComp = () => (
@@ -43,12 +43,12 @@ const PtbProfile = () => {
             Name={
               registerUser?.data?.data?.first_name
                 ? registerUser?.data?.data?.first_name
-                : Strings.smSetting.ProfileName
+                : log_in_data?.first_name
             }
             source={{
               uri: registerUser?.data?.data?.profile_pic
                 ? registerUser?.data?.data?.profile_pic
-                : Images.DASHBOARD_IMG,
+                : log_in_data?.profile_pic
             }}
           />
           <Subscribe

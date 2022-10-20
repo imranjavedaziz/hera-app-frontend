@@ -124,13 +124,20 @@ const SmDashboard = ({route}) => {
     navigation.navigate(Routes.Landing);
   };
   const headerComp = () => (
-    <IconHeader
+     <IconHeader
       profileImg={profileImg}
       profileView={true}
+        leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightPress={() => logoutScreen()}
+      style={{
+        position:"absolute",
+        paddingTop: Value.CONSTANT_VALUE_10,
+        marginHorizontal: Value.CONSTANT_VALUE_10,
+      }}
+      
     />
+    
   );
   return (
     <Container

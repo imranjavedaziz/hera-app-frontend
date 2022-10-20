@@ -6,6 +6,7 @@ import {
   Animated,
   Text,
   FlatList,
+  Platform,
 } from 'react-native';
 import React, {useRef, useState, useCallback, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
@@ -36,12 +37,13 @@ const PtbDashboard = () => {
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef();
-  const {registerUser} = useSelector(state => state.Auth);
+  const {registerUser,log_in_data} = useSelector(state => state.Auth);
   console.log('registerUsejhkjr', registerUser);
+  console.log('log_in_data',log_in_data)
   useEffect(() => {
     dispatch(getPtbDashboard());
   }, [dispatch]);
-  const {
+   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
     get_ptb_dashboard_error_msg,
@@ -53,7 +55,10 @@ const PtbDashboard = () => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
         dispatch(showAppLoader());
         if (get_ptb_dashboard_success) {
-          console.log(get_ptb_dashboard_res?.data, "get_ptb_dashboard_res?.data:::::::::");
+          console.log(
+            get_ptb_dashboard_res?.data,
+            'get_ptb_dashboard_res?.data:::::::::',
+          );
           dispatch(hideAppLoader());
           setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
         }
@@ -130,14 +135,11 @@ const PtbDashboard = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
-
+  
   const headerComp = () => (
     <IconHeader
-      leftIcon={{
-        uri: registerUser?.data?.data?.profile_pic
-          ? registerUser?.data?.data?.profile_pic
-          : Images.iconRadiounsel,
-      }}
+      leftIcon={{uri: registerUser?.data?.data?.profile_pic
+        ? registerUser?.data?.data?.profile_pic :log_in_data.profile_pic}}
       leftPress={() => {
         navigation.navigate('PtbProfile');
       }}
@@ -188,7 +190,7 @@ const PtbDashboard = () => {
                 </View>
               </ImageBackground>
             </View>
-            <View style={styles.innerContainer}>
+            <View style={Platform.OS ==='ios'?  styles.iosInnerContainer : styles.innerContainer}>
               <TouchableOpacity
                 onPress={() => {
                   setIsVisibleLogo(true);

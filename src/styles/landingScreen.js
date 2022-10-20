@@ -8,7 +8,15 @@ import {Fonts} from '../constants/Constants';
 export default {
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
-    height: Prencentage.PRECENTAGE_40,
+    //height: Prencentage.PRECENTAGE_30,
+    ...Platform.select({
+      android: {
+        height: Prencentage.PRECENTAGE_25,
+      },
+      ios: {
+        height: Prencentage.PRECENTAGE_30,
+      },
+    }),
     backgroundColor: Colors.BACKGROUND,
   },
   bgImg: {
@@ -21,6 +29,15 @@ export default {
     flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
+    ...Platform.select({
+      android: {
+        paddingBottom: Value.CONSTANT_VALUE_100,
+      },
+      ios: {
+        paddingBottom: Value.CONSTANT_VALUE_0,
+      },
+    }),
+    //paddingBottom:Value.CONSTANT_VALUE_60
   },
   logo: {
     width: Value.CONSTANT_VALUE_200,
