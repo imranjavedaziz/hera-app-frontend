@@ -12,6 +12,7 @@ import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
+
 import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import openCamera from '../../../../utils/openCamera';
@@ -22,9 +23,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import User from '../../../../services/User';
-import {width} from '../../../../utils/responsive';
-import {Value} from '../../../../constants/FixedValues';
-import Alignment from '../../../../constants/Alignment';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -35,21 +33,17 @@ const MyVideo = () => {
   const loadingGalleryRef = useRef(false);
   const navigation = useNavigation();
   const videoRef = useRef();
+
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
-
   useEffect(() => {
     dispatch(getUserGallery());
-  }, [dispatch]);
-
+  }, []);
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
       if (gallery_success) {
-        console.log(gallery_data, 'gallery_data::::::::::');
-        // setPhotoGallery(gallery_data?.doner_photo_gallery);
-        // updateGallery();
         setVideo({
           file_url: gallery_data?.doner_video_gallery?.file_url
             ? gallery_data?.doner_video_gallery?.file_url
@@ -63,23 +57,24 @@ const MyVideo = () => {
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
-  const cb = v => {
-    setOpen(false);
-  };
+
   const selectVideo = () => {
     videoPicker().then(v => {
-      console.log(v, 'v::::::::::::::');
-      setVideo({file_url: v.path, loading: false});
+      setVideo({file_url: v.path, loading: true});
       const reqData = new FormData();
       reqData.append('video', {
         name: v.filename,
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData);
+      userService.createGallery(reqData, loading =>
+        setVideo(old => ({...old, loading})),
+      );
     });
   };
-  console.log(video, 'video:::::::::');
+  const cb = v => {
+    setOpen(false);
+  };
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -108,14 +103,14 @@ const MyVideo = () => {
           <TouchableOpacity
             disabled={video?.file_url === '' ? false : true}
             onPress={() =>
-              video?.file_url === '' ? selectVideo() : setIsPlaying(p => !p)
+              video?.file_url === '' ? setOpen(true) : setIsPlaying(p => !p)
             }>
             <ImageBackground
               style={styles.VdoContainer}
               imageStyle={{
                 resizeMode: 'contain',
               }}>
-              {!video?.file_url ? (
+              {video?.file_url === '' ? (
                 <>
                   <View style={styles.innerVdo}>
                     <Text style={styles.vdoHeading}>
@@ -143,14 +138,7 @@ const MyVideo = () => {
                     resizeMode={'cover'}
                     style={styles.video}
                   />
-                  <Image
-                    source={Images.playButton}
-                    style={{
-                      position: Alignment.ABSOLUTE,
-                      left: width / Value.CONSTANT_VALUE_2,
-                      top: Value.CONSTANT_VALUE_80,
-                    }}
-                  />
+                  <Image source={Images.playButton} style={styles.playIcon} />
                 </View>
               )}
             </ImageBackground>

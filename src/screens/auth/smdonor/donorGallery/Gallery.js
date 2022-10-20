@@ -261,7 +261,7 @@ const Gallery = ({route}) => {
               imageStyle={{
                 resizeMode: 'contain',
               }}>
-              {!video?.file_url ? (
+              {video?.file_url === '' ? (
                 <>
                   <Text style={styles.videoTitle}>Upload Video</Text>
                   <Text style={styles.videoPara}>Add a short 60 sec video</Text>
