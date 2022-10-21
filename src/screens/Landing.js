@@ -57,6 +57,7 @@ const Landing = () => {
         </TouchableOpacity>
         <TouchableOpacity
           accessible={true}
+          onPress={() => navigation.navigate(Routes.inqueryForm)}
           accessibilityLabel={Strings.landing.InquiryForm}>
           <Text style={styles.footerBtn} accessible={false}>
             {Strings.landing.InquiryForm}

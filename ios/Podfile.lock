@@ -93,6 +93,9 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibraryAddOnly (3.6.1):
     - RNPermissions
+  - PromisesObjC (2.1.1)
+  - PromisesSwift (2.1.1):
+    - PromisesObjC (= 2.1.1)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -310,10 +313,11 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-video (5.2.1):
+  - react-native-video (6.0.0-alpha.1):
     - React-Core
-    - react-native-video/Video (= 5.2.1)
-  - react-native-video/Video (5.2.1):
+    - react-native-video/Video (= 6.0.0-alpha.1)
+  - react-native-video/Video (6.0.0-alpha.1):
+    - PromisesSwift
     - React-Core
   - React-perflogger (0.69.5)
   - React-RCTActionSheet (0.69.5):
@@ -393,12 +397,12 @@ PODS:
     - React-Core
   - RNGestureHandler (2.6.0):
     - React-Core
-  - RNImageCropPicker (0.38.0):
+  - RNImageCropPicker (0.37.3):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.38.0)
+    - RNImageCropPicker/QBImagePickerController (= 0.37.3)
     - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.38.0):
+  - RNImageCropPicker/QBImagePickerController (0.37.3):
     - React-Core
     - React-RCTImage
     - TOCropViewController
@@ -507,6 +511,8 @@ SPEC REPOS:
     - fmt
     - libevent
     - OpenSSL-Universal
+    - PromisesObjC
+    - PromisesSwift
     - SocketRocket
     - TOCropViewController
     - YogaKit
@@ -647,6 +653,8 @@ SPEC CHECKSUMS:
   Permission-Notifications: 150484ae586eb9be4e32217582a78350a9bb31c3
   Permission-PhotoLibrary: 5b34ca67279f7201ae109cef36f9806a6596002d
   Permission-PhotoLibraryAddOnly: 6dba8924024e239af2e282daa8a88967679b4983
+  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
+  PromisesSwift: 99fddfe4a0ec88a56486644c0da106694c92a604
   RCT-Folly: b9d9fe1fc70114b751c076104e52f3b1b5e5a95a
   RCTRequired: 85c60c4bde8241278be2c93420de4c65475a2151
   RCTTypeSafety: 15990f289215eb0fc65c5eb6e2610faeeda8d5e1
@@ -663,7 +671,7 @@ SPEC CHECKSUMS:
   React-logger: 15c734997c06fe9c9b88e528fb7757601e7a56df
   react-native-date-picker: 55193347d8d0f40948f441ffd4e5db6f0a8fbe13
   react-native-safe-area-context: b456e1c40ec86f5593d58b275bd0e9603169daca
-  react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
+  react-native-video: bb6f12a7198db53b261fefb5d609dc77417acc8b
   React-perflogger: 367418425c5e4a9f0f80385ee1eaacd2a7348f8e
   React-RCTActionSheet: e4885e7136f98ded1137cd3daccc05eaed97d5a6
   React-RCTAnimation: 7c5a74f301c9b763343ba98a3dd776ed2676993f
@@ -682,7 +690,7 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 4f1fc917f5af9d9ae4c5fc0c63a4474d61338693
   RNDeviceInfo: 4a2d995e05823cf364e8791bfa450d8f2f461c42
   RNGestureHandler: 920eb17f5b1e15dae6e5ed1904045f8f90e0b11e
-  RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241
+  RNImageCropPicker: 44e2807bc410741f35d4c45b6586aedfe3da39d2
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608

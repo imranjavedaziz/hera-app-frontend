@@ -15,8 +15,6 @@ import Dropdown from '../../../components/inputs/Dropdown';
 import Auth from '../../../services/Auth';
 import {Value} from '../../../constants/FixedValues';
 import {useDispatch, useSelector} from 'react-redux';
-import SetterData from '../../../services/SetterData';
-import {getStates} from '../../../redux/actions/Register';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import {getAttribute, saveAttribute} from '../../../redux/actions/SetAttribute';
 import SetAttribute from '../../../redux/reducers/SetAttribute';

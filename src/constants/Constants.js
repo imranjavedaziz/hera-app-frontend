@@ -369,4 +369,6 @@ export const Routes = {
   MyVideo: 'MyVideo',
   SmSetting: 'SmDonorSettings',
   donorGallery: 'DonorGallery',
+  stateList: 'StateList',
+  inqueryForm:'InqueryForm'
 };

@@ -6,6 +6,7 @@ import styles from './styles';
 const FloatingLabelInput = props => {
   const [isFocused, setFocused] = useState(false);
   const {
+    messageStyle=false,
     label,
     containerStyle = {},
     fixed = false,
@@ -26,6 +27,7 @@ const FloatingLabelInput = props => {
             isFocused || textInputProps.value || fixed
               ? styles.floated
               : styles.unfloated,
+            messageStyle && styles.floatedmessage,
           ]}
           accessible={true}
           accessibilityLabel={label}>
@@ -37,7 +39,7 @@ const FloatingLabelInput = props => {
             styles.input,
             isFocused ? styles.focusBorder : styles.blurBorder,
             error ? {borderColor: 'red'} : null,
-            inputStyle
+            inputStyle,
           ]}
           onFocus={handleFocus}
           onBlur={handleBlur}

@@ -13,6 +13,7 @@ import Styles from './Styles';
 import {Value} from '../../../../constants/FixedValues';
 import {Routes} from '../../../../constants/Constants';
 import Auth from '../../../../services/Auth';
+
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const authService = Auth();
@@ -89,10 +90,10 @@ const SmDonorSettings = () => {
         <Image source={Images.setting2} />
         <Text style={Styles.text}>{Strings.smSetting.Settings}</Text>
       </View>
-      <View style={Styles.contain}>
+      <TouchableOpacity onPress={()=>{navigation.navigate(Routes.inqueryForm)}} style={Styles.contain}>
         <Image source={Images.writing} />
         <Text style={Styles.text}>{Strings.smSetting.Inquiry}</Text>
-      </View>
+      </TouchableOpacity>
       <View style={Styles.contain}>
         <Image source={Images.information} />
         <Text style={Styles.text}>{Strings.smSetting.AboutUs}</Text>

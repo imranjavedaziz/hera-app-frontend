@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  FlatList,
   Platform,
 } from 'react-native';
 import React, {useRef, useState, useCallback, useEffect} from 'react';
