@@ -37,9 +37,6 @@ export default {
     tintColor: Colors.BLACK,
     maxWidth: Value.CONSTANT_VALUE_25,
     resizeMode: Alignment.CONTAIN,
-    // alignItems: Alignment.CENTER,
-    // justifyContent: Alignment.CENTER,
-    // alignSlef:'center'
   },
   videoContainer: {
     width: width,
