@@ -132,8 +132,8 @@ const SmDashboard = ({route}) => {
       rightPress={() => logoutScreen()}
       style={{
         position:"absolute",
-        paddingTop: Value.CONSTANT_VALUE_10,
-        marginHorizontal: Value.CONSTANT_VALUE_10,
+        // paddingTop: Value.CONSTANT_VALUE_10,
+        // marginHorizontal: Value.CONSTANT_VALUE_60,
       }}
       
     />

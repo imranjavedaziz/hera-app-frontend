@@ -44,7 +44,8 @@ const styles = {
     borderColor: Colors.WHITE,
   },
   profileIconConatiner: {
-    marginRight: Value.CONSTANT_VALUE_270,
+    marginRight: Value.CONSTANT_VALUE_290,
+
   },
 };
 export const CircleBtn = ({icon, onPress, ...otherProps}) => (

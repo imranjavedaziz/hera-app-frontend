@@ -67,7 +67,6 @@ const SmDonorSettings = () => {
           <Image source={Images.preferences} />
           <Text style={Styles.text}>{Strings.smSetting.EditAttribute}</Text>
         </View>
-
         <View style={Styles.dot}></View>
       </View>
 

@@ -120,12 +120,21 @@ const SmBasicDetails = () => {
     }
     SubmitLoadingRef.current = save_basic_detail_loading;
   }, [save_basic_detail_success, save_basic_detail_loading]);
-
+ 
+  useEffect(() => {
+    if (!isValid) {
+      const e = errors.gender_id;
+      if (e) {
+        dispatch(showAppToast(true, e.message));
+      }
+    }
+  }, [dispatch, errors, isValid]);
   const onSubmit = data => {
     console.log(data, 'data::::::');
     setPayloadData(data);
     dispatch(saveBasicDetail(data));
   };
+  
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}

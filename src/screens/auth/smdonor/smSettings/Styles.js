@@ -12,7 +12,6 @@ export default {
     width: Value.CONSTANT_VALUE_80,
     height: Value.CONSTANT_VALUE_80,
     borderRadius: Value.CONSTANT_VALUE_100,
-    borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
   profileImgContainner: {
@@ -20,7 +19,7 @@ export default {
     justifyContent: Alignment.CENTER,
     height: Value.CONSTANT_VALUE_90,
     width: Value.CONSTANT_VALUE_90,
-    borderWidth: Value.CONSTANT_VALUE_4,
+    borderWidth: Value.CONSTANT_VALUE_3,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_100,
     marginBottom: Value.CONSTANT_VALUE_15,
@@ -63,6 +62,7 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_18,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
+    color: "#353a3a",
   },
   dot: {
     height: Value.CONSTANT_VALUE_12,
