@@ -31,7 +31,6 @@ import {
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import Video from 'react-native-video';
-import {width} from '../../../../utils/responsive';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 
 const Gallery = ({route}) => {
@@ -50,13 +49,6 @@ const Gallery = ({route}) => {
     {id: 4, uri: '', loading: false},
     {id: 5, uri: '', loading: false},
   ]);
-  // const photoGallery = useSelector(
-  //   state => state?.CreateGallery.gallery.doner_photo_gallery,
-  // );
-  // console.log(photoGallery, 'photoGallery:::::::');
-  // const videoGallery = useSelector(
-  //   state => state?.CreateGallery?.gallery.doner_video_gallery,
-  // );
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
@@ -123,11 +115,18 @@ const Gallery = ({route}) => {
   };
   const selectVideo = () => {
     videoPicker().then(v => {
-      console.log(v, 'v::::::::::::::');
-      setVideo({file_url: v.path, loading: true});
+      if (v?.path) {
+        setVideo({file_url: v.path, loading: false});
+        setOpen(false);
+      } else {
+        setVideo({file_url: '', loading: false});
+        setOpen(false);
+      }
+
       const reqData = new FormData();
+      const fileName = v?.path.substring(v?.path.lastIndexOf("/") + 1)
       reqData.append('video', {
-        name: v.filename,
+        name: fileName,
         type: v.mime,
         uri: v.path,
       });
@@ -135,6 +134,7 @@ const Gallery = ({route}) => {
         setVideo(old => ({...old, loading})),
       );
     });
+
   };
   const ImageClick = index => {
     setImgPreviewIndex(index);
@@ -318,14 +318,14 @@ const Gallery = ({route}) => {
               openCamera(0, cb);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
+            <Text style={styleSheet.pickerBtnLabel}>{Strings.PTB_Profile.Open_Camera}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               openCamera(1, cb);
             }}
             style={styleSheet.pickerBtn}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
+            <Text style={styleSheet.pickerBtnLabel}> {Strings.PTB_Profile.Open_Gallery}</Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>

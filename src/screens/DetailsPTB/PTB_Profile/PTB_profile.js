@@ -50,7 +50,6 @@ const PTB_profile = ({route}) => {
   useEffect(() => {
     dispatch(getPtbProfileDetail(userid));
   }, []);
-  console.log('Parameter==', route.params.userid);
   const navigation = useNavigation();
   const [sendReq, setSendReq] = useState(false);
   const [requestDecline, SetRequestDecline] = useState(false);

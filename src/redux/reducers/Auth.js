@@ -150,7 +150,7 @@ export default (state = initState, action) => {
         token: action,
         user: {
           ...state.user,
-          access_token: action,
+          access_token: action.payload,
         },
       };
     case UPDATE_REG_STEP:

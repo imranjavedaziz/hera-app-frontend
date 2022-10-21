@@ -67,8 +67,9 @@ const User = () => {
         console.log('response', response.data.data);
         setLoading(false);
       })
-      .finally(() => {
-        dispatch(showAppToast(false, 'Gallery Updated Successfully!'));
+      .finally((e) => {
+        console.log(e,'e.log')
+        setLoading(false);
       });
   };
   // const deleteGallery =  async(data)=>{
