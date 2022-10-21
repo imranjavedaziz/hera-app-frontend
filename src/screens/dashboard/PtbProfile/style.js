@@ -8,7 +8,7 @@ export default {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_5,
+    paddingTop: Value.CONSTANT_VALUE_10,
     paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
   buttoncontainer: {
@@ -25,7 +25,7 @@ export default {
     alignItems: Alignment.CENTER,
   },
   buttonText: {
-    fontSize: 13,
+    fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
     letterSpacing: 1.67,

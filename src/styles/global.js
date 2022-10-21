@@ -17,6 +17,7 @@ export default {
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     textAlign: 'center',
+    marginBottom: Value.CONSTANT_VALUE_8,
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_22,

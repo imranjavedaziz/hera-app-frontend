@@ -5,6 +5,8 @@ import {Fonts} from '../../../constants/Constants';
 
 export default {
   title: {
+    fontSize: Value.CONSTANT_VALUE_11,
+    fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.LEFT,
     width: Prencentage.PRECENTAGE_100,
     marginBottom: Value.CONSTANT_VALUE_20,
@@ -13,7 +15,7 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    paddingVertical: Value.CONSTANT_VALUE_10,
+    paddingVertical: Value.CONSTANT_VALUE_8,
     justifyContent: Alignment.FLEX_START,
     width: Prencentage.PRECENTAGE_100,
   },
@@ -98,7 +100,7 @@ export default {
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_15,
     marginTop: Value.CONSTANT_VALUE_20,
-    marginBottom:Value.CONSTANT_VALUE_60
+    marginBottom: Value.CONSTANT_VALUE_60,
   },
   imgPickerContainer: {
     width: Prencentage.PRECENTAGE_100,
@@ -123,11 +125,11 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.LABEL_BLACK,
   },
-  Btn:{
-    height:Value.CONSTANT_VALUE_80,
-    width:Value.CONSTANT_VALUE_197,
-    paddingHorizontal:Value.CONSTANT_VALUE_0,
-    paddingVertical:Value.CONSTANT_VALUE_0,
-    marginTop:Value.CONSTANT_VALUE_36
-  }
+  Btn: {
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_197,
+    paddingHorizontal: Value.CONSTANT_VALUE_0,
+    paddingVertical: Value.CONSTANT_VALUE_0,
+    marginTop: Value.CONSTANT_VALUE_36,
+  },
 };

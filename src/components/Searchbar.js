@@ -29,6 +29,7 @@ const Searchbar = props => {
           onChangeText={props.onChangeText}
           value={props.value}
           placeholder={Strings.search_Bar.search}
+          placeholderTextColor={Colors.BLACK}
         />
         {props.editing ? (
           <TouchableOpacity style={styles.pinIcon}>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     marginLeft: Value.CONSTANT_VALUE_15,
   },
   pinIcon: {
-    marginRight: Value.CONSTANT_VALUE_8,
+    marginRight: Value.CONSTANT_VALUE_15,
     alignSelf: Alignment.CENTER,
   },
   crossIconContainer: {

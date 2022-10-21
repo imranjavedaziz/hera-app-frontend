@@ -21,7 +21,7 @@ import BioComponent from '../../../components/dashboard/DetailScreen/BioComponen
 import styles from './style';
 import Strings from '../../../constants/Strings';
 import {Value} from '../../../constants/FixedValues';
-import SetterData from '../../../services/SetterData';
+
 import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,7 +30,6 @@ import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
-  const data = SetterData();
   const dispatch = useDispatch();
   const loadingRef = useRef();
   const {
@@ -54,7 +53,7 @@ const DashboardDetailScreen = () => {
         dispatch(showAppLoader());
         if (get_sm_donor_success) {
           dispatch(hideAppLoader());
-          console.log(get_sm_donor_res, "get_sm_donor_res:::::::");
+          console.log(get_sm_donor_res, 'get_sm_donor_res:::::::');
           setSmDetailRes(get_sm_donor_res);
         }
         if (get_sm_donor_error_msg) {
@@ -138,7 +137,7 @@ const DashboardDetailScreen = () => {
             ) : null}
             {smDetailRes?.doner_attribute?.race ? (
               <View style={styles.fatherPlace}>
-                <Text style={styles.fatherPlaceText}>
+                <Text style={styles.fatherPlaceText} numberOfLines={2}>
                   {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>
@@ -147,7 +146,7 @@ const DashboardDetailScreen = () => {
           <View style={styles.hairContainer}>
             {smDetailRes?.doner_attribute?.race ? (
               <View style={styles.motherPlace}>
-                <Text style={styles.motherPlaceText}>
+                <Text style={styles.motherPlaceText} numberOfLines={2}>
                   {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>

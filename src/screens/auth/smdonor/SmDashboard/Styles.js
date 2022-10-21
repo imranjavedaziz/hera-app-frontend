@@ -54,4 +54,9 @@ export default {
     paddingTop: Value.CONSTANT_VALUE_5,
     marginHorizontal: Value.CONSTANT_VALUE_30,
   },
+  title: {marginBottom: Value.CONSTANT_VALUE_8},
+  search: {
+    paddingBottom: Value.CONSTANT_VALUE_10,
+  },
+  subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
 };

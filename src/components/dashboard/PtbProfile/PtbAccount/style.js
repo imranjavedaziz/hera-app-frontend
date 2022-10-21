@@ -2,12 +2,12 @@ import Colors from '../../../../constants/Colors';
 import {Fonts} from '../../../../constants/Constants';
 import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
+import {dynamicSize} from '../../../../utils/responsive';
 
 export default {
   container: {
     flexDirection: Alignment.ROW,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_40),
+    marginTop: Value.CONSTANT_VALUE_40,
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_26),
   },
   row: {
@@ -15,12 +15,13 @@ export default {
     alignItems: Alignment.CENTER,
   },
   iconContent: {
-    width: dynamicSize(Value.CONSTANT_VALUE_17),
+    width: Value.CONSTANT_VALUE_17,
   },
   title: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_15),
+    color: Colors.BLACK,
   },
   blueDot: {
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_6),

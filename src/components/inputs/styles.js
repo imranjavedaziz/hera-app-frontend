@@ -8,7 +8,7 @@ export default {
     paddingTop: Value.CONSTANT_VALUE_18,
     flex: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
-    marginVertical: Value.CONSTANT_VALUE_20,
+    marginVertical: Value.CONSTANT_VALUE_15,
   },
   label: {
     position: Alignment.ABSOLUTE,

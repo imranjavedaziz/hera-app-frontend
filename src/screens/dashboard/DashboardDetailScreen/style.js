@@ -28,22 +28,24 @@ export default {
   nativePlace: {
     backgroundColor: Colors.PINK,
     width: scaleWidth(Value.CONSTANT_VALUE_120),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   nativeText: {
+    paddingVertical: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
   },
   fatherPlace: {
     backgroundColor: Colors.PINK,
     width: scaleWidth(Value.CONSTANT_VALUE_180),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   fatherPlaceText: {
+    paddingVertical: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
   },
   hairContainer: {
@@ -52,32 +54,35 @@ export default {
   motherPlace: {
     backgroundColor: Colors.PINK,
     width: scaleWidth(Value.CONSTANT_VALUE_185),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   motherPlaceText: {
+    paddingVertical: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
   },
   hairColor: {
     backgroundColor: Colors.PINK,
     width: scaleWidth(Value.CONSTANT_VALUE_117),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   hairColorText: {
+    paddingVertical: 5,
+    paddingHorizontal: 5,
     textAlign: Alignment.CENTER,
   },
   eyeColorContainer: {
     backgroundColor: Colors.PINK,
     width: scaleWidth(Value.CONSTANT_VALUE_117),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   eyeColorText: {
+    paddingVertical: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
   },
   imageDemo1: {
@@ -155,6 +160,7 @@ export default {
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   crossIcon: {
     flexDirection: Alignment.ROW,

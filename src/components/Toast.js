@@ -14,6 +14,7 @@ import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import Images from '../constants/Images';
 import {hideAppToast} from '../redux/actions/loader';
+import {Fonts} from '../constants/Constants';
 
 const styles = {
   container: {
@@ -36,6 +37,7 @@ const styles = {
     width: Prencentage.PRECENTAGE_100,
   },
   text: {
+    fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
     marginLeft: Value.CONSTANT_VALUE_10,
   },
@@ -53,7 +55,7 @@ const Toast = () => {
   const dispatch = useDispatch();
   const toastState = useSelector(state => state.loader);
   const backgroundColor = toastState.isErrToast
-    ? Colors.COLOR_F18D93
+    ? Colors.COLOR_RED
     : Colors.GREEN;
   const icon = toastState.isErrToast ? Images.warning : Images.path;
   const hideToast = async () => {
@@ -63,7 +65,7 @@ const Toast = () => {
     if (toastState.showToast) {
       setTimeout(hideToast, 5000);
     }
-  }, [toastState.showToast]);
+  }, [toastState.showToast,]);
   if (toastState.showToast) {
     return (
       <View style={[styles.container, {backgroundColor}]}>

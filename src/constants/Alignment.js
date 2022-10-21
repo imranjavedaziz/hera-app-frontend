@@ -25,4 +25,5 @@ export default {
   UNDERLINE: 'underline',
   HIDDEN: 'hidden',
   CONTAIN: 'contain',
+  JUSTIFY: 'justify',
 };

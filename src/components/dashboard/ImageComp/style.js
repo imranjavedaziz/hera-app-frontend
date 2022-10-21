@@ -7,15 +7,15 @@ import {Fonts} from '../../../constants/Constants';
 export default {
   upperContainer: {
     alignItems: Alignment.CENTER,
-    bottom: 20,
-    right: 15,
+    bottom: Value.CONSTANT_VALUE_20,
+    right: Value.CONSTANT_VALUE_15,
   },
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
   bgImage: {
-    height: Value.CONSTANT_VALUE_415,
+    height: Value.CONSTANT_VALUE_400,
     width: Value.CONSTANT_VALUE_255,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -30,7 +30,7 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   imageStyle: {
-    borderRadius: 20,
+    borderRadius: Value.CONSTANT_VALUE_20,
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -47,6 +47,7 @@ export default {
   codeText: {
     fontSize: Value.CONSTANT_VALUE_32,
     color: Colors.WHITE,
+    Fonts: Fonts.OpenSansRegular,
   },
   donerAge: {
     fontSize: Value.CONSTANT_VALUE_11,
