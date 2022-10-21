@@ -1,3 +1,4 @@
+// Short Video screen
 import {
   View,
   Text,
@@ -12,10 +13,8 @@ import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
-
 import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
-import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 import Video from 'react-native-video';
@@ -39,7 +38,8 @@ const MyVideo = () => {
   );
   useEffect(() => {
     dispatch(getUserGallery());
-  }, []);
+  }, [dispatch]);
+  // GET GALLERY DATA
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
@@ -57,20 +57,22 @@ const MyVideo = () => {
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
-
+// SELECT VEDIO
   const selectVideo = () => {
     videoPicker().then(v => {
-      if (v?.path) {
-        setVideo({file_url: v.path, loading: true});
-        setOpen(false);
-      } else {
-        setVideo({file_url: '', loading: false});
-        setOpen(false);
-      }
+
+        if (v?.path) {
+          setVideo({file_url: v.path, loading: false});
+          setOpen(false);
+        } else {
+          setVideo({file_url: '', loading: false});
+          setOpen(false);
+        }
 
       const reqData = new FormData();
+      const fileName = v?.path.substring(v?.path.lastIndexOf('/') + 1);
       reqData.append('video', {
-        name: v.filename,
+        name: fileName,
         type: v.mime,
         uri: v.path,
       });
@@ -78,12 +80,8 @@ const MyVideo = () => {
         setVideo(old => ({...old, loading})),
       );
     });
-
   };
-  const cb = v => {
-    console.log(v, "v :::::::::");
-    setOpen(false);
-  };
+  // HEADER COMPONENT
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -114,11 +112,7 @@ const MyVideo = () => {
             onPress={() =>
               video?.file_url === '' ? setOpen(true) : setIsPlaying(p => !p)
             }>
-            <ImageBackground
-              style={styles.VdoContainer}
-              imageStyle={{
-                resizeMode: 'contain',
-              }}>
+            <ImageBackground style={styles.VdoContainer}>
               {video?.file_url === '' ? (
                 <>
                   <View style={styles.innerVdo}>
@@ -144,7 +138,6 @@ const MyVideo = () => {
                     }}
                     paused={!isPlaying}
                     source={{uri: `${video?.file_url}`}}
-                    resizeMode={'cover'}
                     style={styles.video}
                   />
                   <Image source={Images.playButton} style={styles.playIcon} />
@@ -156,20 +149,23 @@ const MyVideo = () => {
       </Container>
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
-          {/*<TouchableOpacity*/}
-          {/*  onPress={() => {*/}
-          {/*    openCamera(0, cb);*/}
-          {/*    // setOpen(false);*/}
-          {/*  }}*/}
-          {/*  style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>*/}
-          {/*  <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>*/}
-          {/*</TouchableOpacity>*/}
           <TouchableOpacity
             onPress={() => {
-              selectVideo();
+              selectVideo(0);
+            }}
+            style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.PTB_Profile.Open_Camera}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              selectVideo(1);
             }}
             style={styleSheet.pickerBtn}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.PTB_Profile.Open_Gallery}
+            </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>

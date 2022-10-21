@@ -49,7 +49,6 @@ function* saveBasicDetail(payload) {
   console.log(payload, 'payload:::::::');
   try {
     const result = yield saveBasicDetailApi(payload.data);
-    console.log(result, 'resultRes::');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SAVE_BASIC_DETAIL_SUCCESS, data: result});
     } else {
@@ -87,7 +86,6 @@ export function* watchGetStates() {
 function* getProfileSetterDetail() {
   try {
     const result = yield getProfileSetterApi();
-    console.log('RESULT setter==>', result);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: GET_PROFILE_SETTER_SUCCESS, data: result?.data?.data});
     } else {

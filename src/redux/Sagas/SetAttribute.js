@@ -12,7 +12,6 @@ import {getAttributes, saveAttributes} from '../../Api/SetAttribute';
 function* SetAttributeRes() {
   try {
     const result = yield getAttributes();
-    console.log(result, 'result:::::::::::');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: GET_ATTRIBUTE_SUCCESS, data: result});
     } else {

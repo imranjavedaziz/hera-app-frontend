@@ -60,7 +60,6 @@ export default {
     overflow: Alignment.HIDDEN,
     width: width,
     height: 232,
-    resizeMode: Alignment.COVER,
     marginTop: Value.CONSTANT_VALUE_3,
   },
   playIcon: {

@@ -103,11 +103,8 @@ const SmBasicDetails = () => {
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
       dispatch(showAppLoader());
-      console.log(
-        save_basic_detail_success,
-        'save_basic_detail_success:::::::::::',
-      );
       if (save_basic_detail_success) {
+        console.log(user?.role_id, "user?.role_id ::::");
         dispatch(hideAppLoader());
         navigation.navigate(
           user?.role_id === 2 ? Routes.SetPreference : Routes.SetAttributes,

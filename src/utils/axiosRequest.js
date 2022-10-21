@@ -12,12 +12,11 @@ const axiosRequest = axios.create({
 
 axiosRequest.interceptors.request.use(
   request => {
-
     const token = store.getState().Auth.token;
-    console.log(token, "token:::::::::");
+    console.log(token, 'token:::::::::');
     if (token) {
       request.headers = {
-        Authorization: `Bearer ${token?.type==="UPDATE_TOKEN"?token?.payload:token}`,
+        Authorization: `Bearer ${token}`,
       };
     }
     return request;
@@ -33,9 +32,9 @@ axiosRequest.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 401&&!originalRequest._retry) {
+    if (error.response.status === 401 && originalRequest._retry===false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
-      console.log(tokenRes, "tokenRes.data");
+      console.log(tokenRes, 'tokenRes.data');
       store.dispatch(updateToken(tokenRes.data.token));
       // get access token from refresh token and retry
       originalRequest._retry = true;
