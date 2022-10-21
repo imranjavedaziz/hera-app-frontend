@@ -14,13 +14,13 @@ export default {
     alignItems: Alignment.CENTER,
   },
   Image: {
-    height: dynamicSize(86),
-    width: dynamicSize(86),
+    height: Value.CONSTANT_VALUE_86,
+    width: Value.CONSTANT_VALUE_86,
     borderRadius: dynamicSize(90),
   },
   cameraContainer: {
-    height: scaleHeight(30),
-    width: scaleWidth(30),
+    height: Value.CONSTANT_VALUE_30,
+    width: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.CAMERA_BLUE,
     borderRadius: Value.CONSTANT_VALUE_30,
     left: Value.CONSTANT_VALUE_30,
@@ -29,13 +29,18 @@ export default {
     alignItems: Alignment.CENTER,
   },
   cameraIcon: {
-    height: 14,
-    width: 17,
+    height: Value.CONSTANT_VALUE_14,
+    width: Value.CONSTANT_VALUE_17,
   },
   Heading: {
-    fontSize: normalizeFont(15),
+    fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
-    letterSpacing: 2.84,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
+    color: Colors.BLACK,
   },
-  Name: {fontSize: normalizeFont(24), fontFamily: Fonts.OpenSansBold},
+  Name: {
+    fontSize: Value.CONSTANT_VALUE_24,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+  },
 };
