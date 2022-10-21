@@ -28,6 +28,7 @@ export default {
   COLOR_F18D93: '#F18D93',
   COLOR_F7F5F0: '#F7F5F0',
   COLOR_A3C6C4: '#A3C6C4',
+  COLOR_RED: '#ff4544',
   HIGHLIGHT_PINK: '#e5acb1d9',
   PINK: '#e5acb1',
   CAMERA_BLUE: '#93c0ba',

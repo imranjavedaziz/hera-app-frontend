@@ -23,7 +23,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import SetterData from '../../../../services/SetterData';
-import { logOut } from '../../../../redux/actions/Auth';
+import {logOut} from '../../../../redux/actions/Auth';
+import Styles from '../smSettings/Styles';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ const SmDashboard = ({route}) => {
         <View style={styles.conatiner}>
           <ImageBackground
             style={[styles.profileImgView]}
-            imageStyle={{borderRadius: 18}}
+            imageStyle={{borderRadius: Value.CONSTANT_VALUE_18}}
             source={{uri: item.profile_pic}}>
             <LinearGradient
               start={{x: 0.0, y: 0.28}}
@@ -124,20 +125,18 @@ const SmDashboard = ({route}) => {
     navigation.navigate(Routes.Landing);
   };
   const headerComp = () => (
-     <IconHeader
+    <IconHeader
       profileImg={profileImg}
       profileView={true}
-        leftPress={() => navigation.navigate(Routes.SmSetting)}
+      leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
       rightPress={() => logoutScreen()}
       style={{
-        position:"absolute",
-        paddingTop: Value.CONSTANT_VALUE_10,
-        marginHorizontal: Value.CONSTANT_VALUE_10,
+        position: 'absolute',
+        paddingTop: Value.CONSTANT_VALUE_15,
+        marginHorizontal: Value.CONSTANT_VALUE_60,
       }}
-      
     />
-    
   );
   return (
     <Container
@@ -147,19 +146,15 @@ const SmDashboard = ({route}) => {
       headerEnd={true}
       style={{
         paddingTop: Value.CONSTANT_VALUE_60,
-        marginBottom: Value.CONSTANT_VALUE_200,
       }}>
       <View style={globalStyle.mainContainer}>
         {search === '' ? (
           <>
-            <Text style={globalStyle.screenTitle}>
+            <Text style={[globalStyle.screenTitle]}>
               {Strings.sm_dashboard.Title}
             </Text>
             <View
-              style={[
-                globalStyle.screenSubTitle,
-                {marginBottom: Value.CONSTANT_VALUE_32},
-              ]}
+              style={[globalStyle.screenSubTitle, styles.subTitle]}
               accessible={true}
               accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
               <Text
@@ -178,14 +173,16 @@ const SmDashboard = ({route}) => {
           </>
         ) : null}
         <View>
-          <Searchbar
-            value={search}
-            onChangeText={onSearch}
-            editing={search === ''}
-            onClear={onClear}
-          />
+          <View style={styles.search}>
+            <Searchbar
+              value={search}
+              onChangeText={onSearch}
+              editing={search === ''}
+              onClear={onClear}
+            />
+          </View>
           <View>
-            <View>
+            <View style={Styles.flatlist}>
               <FlatList
                 columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
                 data={cards?.data}

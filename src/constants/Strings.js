@@ -174,8 +174,8 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
-    maxUpload: 'You can upload maximum 6 photos',
-    imagetype: '(png, jpeg format)',
+    maxUpload: 'This step is optional.',
+    imagetype: 'Maximum 6 photos (png, jpeg format)',
     Btn: 'Go to dashboard',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",
@@ -217,7 +217,7 @@ export default {
     second_name: 'Anderson',
     type: 'Parent to be',
     age: '29',
-    yrs: 'yrs',
+    yrs: ' yrs',
     bio: 'I give priority to health and play wide range of sports. I have a good exposure to different cultures of the world. I value the donations programmes & every parent who need support ',
     profileHighlits: ['Female', 'Hetrosexual', 'Married'],
     send_request: 'LIKE THIS PROFILE',
@@ -227,7 +227,7 @@ export default {
     video_text: 'Parant has uploaded a sort clip',
     Open_Gallery: 'Open Gallery',
     Open_Camera: 'Open Camera',
-    Cross_Button: "Cross Button, Go back",
+    Cross_Button: 'Cross Button, Go back',
   },
   donorPofile: {
     Age: 'Age: ',
@@ -279,5 +279,8 @@ export default {
     Subscribe_Now: 'Subscribe Now',
     Plans:
       'You can select any one of our plans \n& explore 5 profiles per day!',
+  },
+  SmDashboard: {
+    search: 'Search',
   },
 };
