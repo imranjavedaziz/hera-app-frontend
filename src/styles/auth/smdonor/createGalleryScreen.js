@@ -108,12 +108,12 @@ export default {
   imageOverlayWrapper: {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
+    width: width,
   },
   video: {
     overflow: Alignment.HIDDEN,
     width: width,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    resizeMode: Alignment.COVER,
     marginTop: Value.CONSTANT_VALUE_3,
   },
   playIcon: {

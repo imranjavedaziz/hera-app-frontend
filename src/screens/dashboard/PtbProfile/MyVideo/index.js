@@ -1,12 +1,5 @@
 // Short Video screen
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
@@ -16,12 +9,11 @@ import styles from './style';
 import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
-import BottomSheetComp from '../../../../components/BottomSheet';
-import Video from 'react-native-video';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import User from '../../../../services/User';
+import VideoUploading from '../../../../components/VedioUploading';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -57,17 +49,16 @@ const MyVideo = () => {
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
-// SELECT VEDIO
-  const selectVideo = () => {
-    videoPicker().then(v => {
-
-        if (v?.path) {
-          setVideo({file_url: v.path, loading: false});
-          setOpen(false);
-        } else {
-          setVideo({file_url: '', loading: false});
-          setOpen(false);
-        }
+  // SELECT VEDIO
+  const selectVideo = index => {
+    videoPicker(index).then(v => {
+      if (v?.path) {
+        setVideo({file_url: v.path, loading: false});
+        setOpen(false);
+      } else {
+        setVideo({file_url: '', loading: false});
+        setOpen(false);
+      }
 
       const reqData = new FormData();
       const fileName = v?.path.substring(v?.path.lastIndexOf('/') + 1);
@@ -107,44 +98,18 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          <TouchableOpacity
+          <VideoUploading
+            imageOverlay={styles.imageOverlayWrapper}
+            style={styles.VdoContainer}
             disabled={video?.file_url === '' ? false : true}
             onPress={() =>
               video?.file_url === '' ? setOpen(true) : setIsPlaying(p => !p)
-            }>
-            <ImageBackground style={styles.VdoContainer}>
-              {video?.file_url === '' ? (
-                <>
-                  <View style={styles.innerVdo}>
-                    <Text style={styles.vdoHeading}>
-                      {Strings.smSetting.UploadVideo}
-                    </Text>
-                    <Text style={styles.content}>
-                      {Strings.smSetting.ShortVideo}
-                    </Text>
-                  </View>
-                </>
-              ) : video.loading ? (
-                <ActivityIndicator />
-              ) : (
-                <View style={styles.imageOverlayWrapper}>
-                  <Video
-                    ref={videoRef}
-                    onLoad={() => {
-                      videoRef?.current?.seek(3);
-                      videoRef?.current?.setNativeProps({
-                        paused: true,
-                      });
-                    }}
-                    paused={!isPlaying}
-                    source={{uri: `${video?.file_url}`}}
-                    style={styles.video}
-                  />
-                  <Image source={Images.playButton} style={styles.playIcon} />
-                </View>
-              )}
-            </ImageBackground>
-          </TouchableOpacity>
+            }
+            videoStyle={styles.video}
+            videoRef={videoRef}
+            isPlaying={isPlaying}
+            video={video}
+          />
         </View>
       </Container>
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>

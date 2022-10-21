@@ -30,17 +30,16 @@ import {
 } from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
-import Video from 'react-native-video';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import VideoUploading from '../../../../components/VedioUploading';
 
-const Gallery = ({route}) => {
+const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingGalleryRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
   const [visible, setIsVisible] = useState(false);
-  const [photoGallery, setPhotoGallery] = useState([]);
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
     {id: 1, uri: '', loading: false},
@@ -58,6 +57,7 @@ const Gallery = ({route}) => {
   const [images, setImages] = useState([]);
   const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isVideo, setIsVideo] = useState(false);
   const videoRef = useRef();
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
@@ -69,7 +69,6 @@ const Gallery = ({route}) => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
       if (gallery_success) {
-        setPhotoGallery(gallery_data?.doner_photo_gallery);
         updateGallery();
         setVideo({
           file_url: gallery_data?.doner_video_gallery?.file_url
@@ -113,8 +112,8 @@ const Gallery = ({route}) => {
     });
     userService.createGallery(reqData, setLoading);
   };
-  const selectVideo = () => {
-    videoPicker().then(v => {
+  const selectVideo = index => {
+    videoPicker(index).then(v => {
       if (v?.path) {
         setVideo({file_url: v.path, loading: false});
         setOpen(false);
@@ -124,7 +123,7 @@ const Gallery = ({route}) => {
       }
 
       const reqData = new FormData();
-      const fileName = v?.path.substring(v?.path.lastIndexOf("/") + 1)
+      const fileName = v?.path.substring(v?.path.lastIndexOf('/') + 1);
       reqData.append('video', {
         name: fileName,
         type: v.mime,
@@ -134,10 +133,10 @@ const Gallery = ({route}) => {
         setVideo(old => ({...old, loading})),
       );
     });
-
   };
   const ImageClick = index => {
     setImgPreviewIndex(index);
+    setIsVideo(false);
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
     }
@@ -160,13 +159,13 @@ const Gallery = ({route}) => {
     }
     setRemove(pushArr);
   }
-  console.log(remove,"REMOVE")
+  console.log(remove, 'REMOVE');
   const deleteImg = () => {
     let payload = {
       ids: remove,
     };
     dispatch(deleteGallery(payload));
-    console.log(payload,"POAYLOAD RMV IMG")
+    console.log(payload, 'POAYLOAD RMV IMG');
     dispatch(getUserGallery());
     setDel(false);
     setRmvImgCount(0);
@@ -200,6 +199,10 @@ const Gallery = ({route}) => {
       style={{marginLeft: 30}}
     />
   );
+  const openBottomVideoSheet = () => {
+    setOpen(true);
+    setIsVideo(true);
+  };
   console.log(video, 'vedio:::::::::::::::');
   return (
     <>
@@ -251,44 +254,20 @@ const Gallery = ({route}) => {
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity
+          <VideoUploading
             disabled={video?.file_url === '' ? false : true}
+            style={styles.videoContainer}
+            imageOverlay={styles.imageOverlayWrapper}
+            videoStyle={styles.video}
             onPress={() =>
-              video?.file_url === '' ? selectVideo() : setIsPlaying(p => !p)
-            }>
-            <ImageBackground
-              style={styles.videoContainer}
-              imageStyle={{
-                resizeMode: 'contain',
-              }}>
-              {video?.file_url === '' ? (
-                <>
-                  <Text style={styles.videoTitle}>Upload Video</Text>
-                  <Text style={styles.videoPara}>Add a short 60 sec video</Text>
-                  <Text style={styles.videoPara}>(AVI, MOV, MP4 format)</Text>
-                </>
-              ) : video.loading ? (
-                <ActivityIndicator />
-              ) : (
-                <View style={styles.imageOverlayWrapper}>
-                  <Video
-                    ref={videoRef}
-                    onLoad={() => {
-                      videoRef?.current?.seek(3);
-                      videoRef?.current?.setNativeProps({
-                        paused: true,
-                      });
-                    }}
-                    paused={!isPlaying}
-                    source={{uri: `${video?.file_url}`}}
-                    resizeMode={'cover'}
-                    style={styles.video}
-                  />
-                  <Image source={Images.playButton} style={styles.playIcon} />
-                </View>
-              )}
-            </ImageBackground>
-          </TouchableOpacity>
+              video?.file_url === ''
+                ? openBottomVideoSheet()
+                : setIsPlaying(p => !p)
+            }
+            videoRef={videoRef}
+            isPlaying={isPlaying}
+            video={video}
+          />
           {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
@@ -315,17 +294,22 @@ const Gallery = ({route}) => {
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
             onPress={() => {
-              openCamera(0, cb);
+              !isVideo ? openCamera(0, cb) : selectVideo(0);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
-            <Text style={styleSheet.pickerBtnLabel}>{Strings.PTB_Profile.Open_Camera}</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.PTB_Profile.Open_Camera}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              openCamera(1, cb);
+              !isVideo ? openCamera(1, cb) : selectVideo(1);
             }}
             style={styleSheet.pickerBtn}>
-            <Text style={styleSheet.pickerBtnLabel}> {Strings.PTB_Profile.Open_Gallery}</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {' '}
+              {Strings.PTB_Profile.Open_Gallery}
+            </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
