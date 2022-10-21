@@ -70,7 +70,7 @@ const ImageComp = (
                 </View>
                 <Text style={styles.codeText}>#{code}</Text>
                 <Text style={styles.donerAge}>
-                  {category} ,{donerAge}
+                  {category} ,{donerAge} yrs
                 </Text>
               </View>
             </View>

@@ -43,6 +43,13 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
+  innerProfileimg:{
+    width: Value.CONSTANT_VALUE_30,
+    height: Value.CONSTANT_VALUE_30,
+    borderRadius: Value.CONSTANT_VALUE_20,
+    borderWidth: Value.CONSTANT_VALUE_2,
+    borderColor: Colors.WHITE,
+  },
   profileIconConatiner: {
     marginRight: Value.CONSTANT_VALUE_290,
 
@@ -85,7 +92,7 @@ export const IconHeader = ({
         accessibilityRole="button">
         {ApiImage ? (
           <View style={[styles.profileImgContainner]}>
-            <Image source={leftIcon} style={styles.profileImg} />
+            <Image source={leftIcon} style={styles.innerProfileimg} />
           </View>
         ) : (
           <Image accessible={false} source={leftIcon} style={styles.img} />
