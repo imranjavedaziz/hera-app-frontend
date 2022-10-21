@@ -36,22 +36,12 @@ export default function Inqueryform() {
     />
   );
   const onSubmit = data => {
-    console.log('data', data);
-    console.log('FILE', file);
-
     const reqData = new FormData();
     reqData.append('name', data.name);
     reqData.append('user_type', data.user_type);
     reqData.append('emailAddress', data.emailAddress);
     reqData.append('mobileNumber', data.mobileNumber);
     reqData.append('message', data.message);
-
-    reqData.append('file', {
-      name: 'name',
-      type: file.mime,
-      uri: file.path,
-    });
-    console.log('reqData---->', reqData);
   };
   return (
     <Container
@@ -75,7 +65,6 @@ export default function Inqueryform() {
           )}
           name="name"
         />
-
         <Controller
           control={control}
           render={({field: {onChange}}) => (
@@ -137,7 +126,6 @@ export default function Inqueryform() {
           )}
           name="message"
         />
-
         <Button
           label={Strings.inqueryForm.SendInquiry}
           onPress={handleSubmit(onSubmit)}
