@@ -250,7 +250,7 @@ const CreateGallery = () => {
           <View style={styles.profileImgContainner}>
             <Image source={{uri: profileImg}} style={styles.profileImg} />
           </View>
-          <Text style={globalStyle.screenTitle}>
+          <Text style={[globalStyle.screenTitle, styles.title]}>
             {Strings.sm_create_gallery.Title}
           </Text>
           <View

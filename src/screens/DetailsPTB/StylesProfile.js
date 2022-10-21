@@ -92,7 +92,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   ImageText: {
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.LABEL_BLACK,
   },

@@ -49,7 +49,7 @@ export default {
   },
   tittle: {
     fontSize: Value.CONSTANT_VALUE_11,
-    margtinTop: Value.CONSTANT_VALUE_8,
+    marginBottom: Value.CONSTANT_VALUE_10,
   },
   highlightContainer: {
     flexDirection: Alignment.ROW,
@@ -62,7 +62,10 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_18,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    color: "#353a3a",
+    color: Colors.BLACK,
+  },
+  textColor: {
+    color: Colors.BLACK,
   },
   dot: {
     height: Value.CONSTANT_VALUE_12,
@@ -88,5 +91,8 @@ export default {
   },
   flexRow: {
     flexDirection: Alignment.ROW,
+  },
+  flatlist: {
+    paddingBottom: Value.CONSTANT_VALUE_60,
   },
 };
