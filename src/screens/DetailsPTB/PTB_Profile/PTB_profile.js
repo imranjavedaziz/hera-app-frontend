@@ -5,7 +5,6 @@ import {
   ImageBackground,
   Pressable,
   TouchableOpacity,
-  FlatList,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import Container from '../../../components/Container';
@@ -16,18 +15,16 @@ import Strings from '../../../constants/Strings';
 import Alignment from '../../../constants/Alignment';
 import Video from 'react-native-video';
 import styles from './Styles';
-import SetterData from '../../../services/SetterData';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbProfileDetail} from '../../../redux/actions/PtbProfileDetail';
 import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
-const PTB_profile = ({route}) => {
+const PTB_profile = () => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const {
     get_ptb_profile_detail_success,
     get_ptb_profile_detail_loading,
-    get_ptb_profile_detail_error_msg,
     get_ptb_profile_detail_res,
   } = useSelector(state => state.PtbProfileDetail);
   useEffect(() => {
@@ -36,8 +33,7 @@ const PTB_profile = ({route}) => {
       if (get_ptb_profile_detail_success) {
         dispatch(hideAppLoader());
         setStateRes(get_ptb_profile_detail_res);
-      }
-      if (get_ptb_profile_detail_error_msg) {
+      } else {
         dispatch(hideAppLoader());
       }
     }
@@ -54,9 +50,6 @@ const PTB_profile = ({route}) => {
   const [sendReq, setSendReq] = useState(false);
   const [requestDecline, SetRequestDecline] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [hi, sethi] = useState([]);
-
-  const data = SetterData();
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -64,12 +57,6 @@ const PTB_profile = ({route}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  // useEffect(() => {
-  //   data.ptbProfileDetail(route.params.userid);
-  //    sethi(data.highlits);
-
-  // }, []);
-
   return (
     <Container
       showHeader={true}
@@ -102,17 +89,11 @@ const PTB_profile = ({route}) => {
         <View>
           <ImageBackground
             source={Images.QUOTES}
-            style={styles.bioBackground}></ImageBackground>
+            style={styles.bioBackground}
+          />
           <Text style={styles.bioText}>{stateRes?.user_profile?.bio}</Text>
         </View>
         <View style={{flexDirection: Alignment.ROW}}>
-          {/* {data.ptbProfileDetails?.user_profile?.map((item, i) => {
-            return (
-              <View key={i} style={styles.highlits}>
-                <Text style={styles.highlitsText}>{item}</Text>
-              </View>
-            );
-          })} */}
           <View style={{flexDirection: 'row'}}>
             {stateRes?.user_profile?.gender ? (
               <View style={styles.highlits}>

@@ -24,9 +24,7 @@ import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
 import User from '../../../services/User';
-import Auth from '../../../services/Auth';
 import {logOut} from '../../../redux/actions/Auth';
-import SetterData from '../../../services/SetterData';
 import {SetPreferenceRes} from '../../../redux/actions/SetPreference';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
@@ -51,10 +49,8 @@ const SetPreference = ({route, navigation}) => {
   const ageRange = Static.ageRange;
   const dispatch = useDispatch();
   const userService = User();
-  const authService = Auth();
   const {
     handleSubmit,
-    getValues,
     control,
     formState: {errors, isValid},
   } = useForm({

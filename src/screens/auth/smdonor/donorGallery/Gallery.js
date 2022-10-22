@@ -31,7 +31,7 @@ import {
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import VideoUploading from '../../../../components/VedioUploading';
+import VideoUploading from '../../../../components/VideoUploading';
 
 const Gallery = () => {
   const userService = User();
@@ -143,7 +143,6 @@ const Gallery = () => {
     if (index < gIndex && rmvImgCount === 0) {
       setIsVisible(true);
     }
-    return;
   };
 
   function handelDel(index) {
@@ -186,7 +185,7 @@ const Gallery = () => {
         return img;
       });
     });
-    for (var i = 0; i < url?.length; ++i) {
+    for (let i = 0; i < url?.length; ++i) {
       images.push({uri: url[i]});
     }
     setGIndex(url?.length);
@@ -203,7 +202,6 @@ const Gallery = () => {
     setOpen(true);
     setIsVideo(true);
   };
-  console.log(video, 'vedio:::::::::::::::');
   return (
     <>
       <Container

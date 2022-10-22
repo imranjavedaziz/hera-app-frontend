@@ -13,7 +13,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import User from '../../../../services/User';
-import VideoUploading from '../../../../components/VedioUploading';
+import VideoUploading from '../../../../components/VideoUploading';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});

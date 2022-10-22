@@ -47,16 +47,11 @@ const PtbDashboard = () => {
     get_ptb_dashboard_error_msg,
     get_ptb_dashboard_res,
   } = useSelector(state => state.PtbDashboard);
-  console.log('ressss', get_ptb_dashboard_res);
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
         dispatch(showAppLoader());
         if (get_ptb_dashboard_success) {
-          console.log(
-            get_ptb_dashboard_res?.data,
-            'get_ptb_dashboard_res?.data:::::::::',
-          );
           dispatch(hideAppLoader());
           setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
         }
@@ -102,7 +97,6 @@ const PtbDashboard = () => {
   };
 
   function renderCardData(item) {
-    console.log('item?.user?.id', item?.user?.id);
     return (
       <>
         <TouchableOpacity
@@ -165,7 +159,7 @@ const PtbDashboard = () => {
         ) : (
           <View style={styles.mainContainer}>
             <TitleComp
-              Title={Strings.dashboard.Title}
+              Title={Strings.landing.Like_Match_Connect}
               Subtitle={Strings.dashboard.Subtitle}
               Icon={Images.iconArrow}
             />
