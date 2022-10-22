@@ -52,7 +52,8 @@ export const ValidationMessages = {
   CAPSLOCK: 'Atleast 1 upper case letter',
   OTP_REQUIRED: 'Required!',
   USER_TYPE: 'Please select a user type',
-
+  Name: 'Name is a required field.',
+  ENTER_Message: 'Please enter your Message',
 };
 export default {
   landing: {
@@ -280,6 +281,16 @@ export default {
     Subscribe_Now: 'Subscribe Now',
     Plans:
       'You can select any one of our plans \n& explore 5 profiles per day!',
+  },
+  inqueryForm: {
+    Subtitle: 'Have a question? \n Write to us and we’ll get \nback to you',
+    Name: 'Name',
+    EmailAddress: 'Email Address',
+    USER_TYPE: 'User Type ',
+    MobileNumber: 'Mobile Number',
+    Message: 'Message',
+    SendInquiry: 'SEND INQUIRY',
+    Title: 'Inquery Form',
   },
   SmDashboard: {
     search: 'Search',

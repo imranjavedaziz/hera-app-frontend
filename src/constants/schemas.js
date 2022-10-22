@@ -150,6 +150,16 @@ export const smBasicSchema = yup.object().shape({
     .required(ValidationMessages.ENTER_RELATIONSHIP),
   bio: yup.string().required(ValidationMessages.ENTER_BIO),
 });
+export const inqueryFormSchema = yup.object().shape({
+  name: yup.string().required(ValidationMessages.Name),
+  user_type: yup.string().required(ValidationMessages.USER_TYPE),
+  emailAddress: yup.string().required(ValidationMessages.EMPTY_EMAIL).matches(Regx.EMAIL, {
+    excludeEmptyString: true,
+    message: ValidationMessages.INVALID_EMAIL,
+  }),
+mobileNumber: yup.number().required(ValidationMessages.INVALID_MOBILE),
+  message: yup.string().required(ValidationMessages.ENTER_Message),
+});
 export const smSetAttributesSchema = yup.object().shape({
   height_id: yup.string().required(ValidationMessages.SELECT_HEIGHT),
   race_id: yup.string().required(ValidationMessages.SELECT_RACE),

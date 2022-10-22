@@ -37,10 +37,9 @@ const SmDonorSettings = () => {
   );
   const cb = image => {
     setOpen(false);
-    console.log("IMG",image);
+    console.log('IMG', image);
     // dispatch(updateImg(image))
-
-  }
+  };
   return (
     <>
       <Container
@@ -65,12 +64,14 @@ const SmDonorSettings = () => {
             </View>
           </View>
         </View>
-        <Text style={[globalStyle.screenTitle, Styles.tittle, Styles.textColor]}>
+        <Text
+          style={[globalStyle.screenTitle, Styles.tittle, Styles.textColor]}>
           {Strings.smSetting.profile}
         </Text>
         <Text
           style={[
-            globalStyle.screenSubTitle, Styles.textColor,
+            globalStyle.screenSubTitle,
+            Styles.textColor,
             {marginBottom: Value.CONSTANT_VALUE_10},
           ]}>
           {userName}
@@ -111,7 +112,6 @@ const SmDonorSettings = () => {
           <Image source={Images.information} />
           <Text style={Styles.text}>{Strings.smSetting.AboutUs}</Text>
         </View>
-
         <View style={Styles.BtnContainer}>
           <Button
             style={Styles.Btn}

@@ -33,4 +33,6 @@ export default {
   PINK: '#e5acb1',
   CAMERA_BLUE: '#93c0ba',
   VDOCONTAINER: 'rgba(215,213,202,0.49)',
+  COLOR_535858: 'rgba(53,58,58)',
+  COLOR_228226216: '#E4E2D8',
 };
