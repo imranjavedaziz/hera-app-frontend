@@ -22,12 +22,11 @@ const MobileNumber = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [isRouteData, setIsRouteData] = useState();
   const {
     handleSubmit,
     control,
-    formState: {errors, isValid},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(mobileSchema),
   });
@@ -129,10 +128,7 @@ const MobileNumber = () => {
             name="phone"
           />
         </View>
-        <View
-          style={
-            isKeyboardVisible === true ? {marginTop: 44} : {marginTop: 280}
-          }>
+        <View style={{marginTop: 280}}>
           <Button
             style={styles.Btn}
             label={Strings.mobile.VERIFY}

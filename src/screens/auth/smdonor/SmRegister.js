@@ -9,7 +9,6 @@ import {
   ImageBackground,
   Pressable,
 } from 'react-native';
-// import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {useForm, Controller} from 'react-hook-form';
@@ -31,7 +30,6 @@ import {askCameraPermission} from '../../../utils/permissionManager';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {showAppToast} from '../../../redux/actions/loader';
 import styles from '../../../styles/auth/smdonor/registerScreen';
-import Auth from '../../../services/Auth';
 import {Value} from '../../../constants/FixedValues';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import {ptbRegister} from '../../../redux/actions/Register';
@@ -78,7 +76,6 @@ const validatePassword = (value, type) => {
   return Colors.BORDER_LINE;
 };
 const SmRegister = () => {
-  const authService = Auth();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const loadingRef = useRef(false);
@@ -99,7 +96,6 @@ const SmRegister = () => {
   const {
     params: {isRouteData},
   } = useRoute();
-  console.log('isRoute', isRouteData);
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);

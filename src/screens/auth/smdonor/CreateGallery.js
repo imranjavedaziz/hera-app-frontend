@@ -1,5 +1,5 @@
 // CreateGallery
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -22,7 +22,6 @@ import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import User from '../../../services/User';
 import {useSelector, useDispatch} from 'react-redux';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import {
   getUserGallery,
   deleteGallery,
@@ -49,12 +48,10 @@ const CreateGallery = () => {
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
-  const [photoGallery, setPhotoGallery] = useState([]);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [images, setImages] = useState([]);
   const [remove, setRemove] = useState([]);
-  const loadingGalleryRef = useRef(false);
-  const {gallery_success, gallery_loading, gallery_data} = useSelector(
+  const {gallery_data} = useSelector(
     state => state.CreateGallery,
   );
   const cb = image => {
@@ -183,27 +180,6 @@ const CreateGallery = () => {
     }
     setRemove(pushArr);
   }
-  
-  const updateGallery = () => {
-    const url =
-      gallery_data?.doner_photo_gallery?.length > 0 &&
-      gallery_data?.doner_photo_gallery.map((item, i) => {
-        return item.file_url;
-      });
-    console.log('Gallery_DATA', url);
-    setGallery(oldImg => {
-      return oldImg.map((img, i) => {
-        if (i <= gallery_data?.doner_photo_gallery?.length) {
-          return {id: i, uri: url[i], loading: false};
-        }
-        return img;
-      });
-    });
-    for (var i = 0; i < url?.length; ++i) {
-      images.push({uri: url[i]});
-    }
-    setGIndex(url?.length);
-  };
   const deleteImg = () => {
     let payload = {
       ids: remove,
@@ -217,25 +193,6 @@ const CreateGallery = () => {
   useEffect(() => {
     console.log('USE EFFECT');
   }, [gallery]);
-  // useEffect(() => {
-  //   if (loadingGalleryRef.current && !gallery_loading) {
-  //     dispatch(showAppLoader());
-  //     if (gallery_success) {
-  //       setPhotoGallery(gallery_data?.doner_photo_gallery);
-  //       updateGallery();
-  //       setVideo({
-  //         file_url: gallery_data?.doner_video_gallery?.file_url
-  //           ? gallery_data?.doner_video_gallery?.file_url
-  //           : '',
-  //         loading: false,
-  //       });
-  //       dispatch(hideAppLoader());
-  //     } else {
-  //       dispatch(hideAppLoader());
-  //     }
-  //   }
-  //   loadingGalleryRef.current = gallery_loading;
-  // }, [gallery_success, gallery_loading]);
   const headerComp = () => {
     <></>;
   };

@@ -19,7 +19,7 @@ import {
   showAppToast,
 } from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
-import {logIn, setUser} from '../../redux/actions/Auth';
+import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 const Login = () => {
   const navigation = useNavigation();

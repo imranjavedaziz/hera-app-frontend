@@ -22,15 +22,12 @@ import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import SetterData from '../../../../services/SetterData';
 import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const data = SetterData();
   const LoadingRef = useRef(false);
-  // const stateData = useSelector(state => state?.Auth?.user);
   const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
@@ -74,7 +71,6 @@ const SmDashboard = ({route}) => {
       if (get_donor_dashboard_success) {
         dispatch(hideAppLoader());
         setCards(get_donor_dashboard_res.data);
-        // navigation.navigate(Routes.SmDashboard);
       }
       if (get_donor_dashboard_error_msg) {
         dispatch(hideAppLoader());
@@ -151,7 +147,7 @@ const SmDashboard = ({route}) => {
         {search === '' ? (
           <>
             <Text style={[globalStyle.screenTitle]}>
-              {Strings.sm_dashboard.Title}
+              {Strings.landing.Like_Match_Connect}
             </Text>
             <View
               style={[globalStyle.screenSubTitle, styles.subTitle]}

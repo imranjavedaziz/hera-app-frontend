@@ -14,7 +14,7 @@ import moment from 'moment';
 import openCamera from '../../utils/openCamera';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {showAppToast} from '../../redux/actions/loader';
+import { showAppToast, hideAppLoader, showAppLoader } from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -34,13 +34,12 @@ import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
-import {parentRegisterSchema, Regx} from '../../constants/schemas';
+import {parentRegisterSchema} from '../../constants/schemas';
 import styles from './StylesProfile';
 import Alignment from '../../constants/Alignment';
 import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
-import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {logOut} from '../../redux/actions/Auth';
 
 const Profile = ({route}) => {
@@ -134,7 +133,7 @@ const Profile = ({route}) => {
     dispatch(ptbRegister(reqData));
   };
   useEffect(() => {
-    askCameraPermission;
+    askCameraPermission();
   }, [navigation]);
   return (
     <>
