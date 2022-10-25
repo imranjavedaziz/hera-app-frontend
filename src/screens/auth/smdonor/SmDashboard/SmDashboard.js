@@ -32,7 +32,6 @@ const SmDashboard = ({route}) => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
-
   const dashboardApi=(value,page,limit)=>{
     let payload = {
       keyword: value,
