@@ -22,7 +22,7 @@ import BottomSheetComp from '../../../../components/BottomSheet';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
-import User from '../../../../services/User';
+import User from '../../../../Api/User';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserGallery,

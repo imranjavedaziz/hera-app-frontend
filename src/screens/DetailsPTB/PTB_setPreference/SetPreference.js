@@ -23,7 +23,7 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import User from '../../../services/User';
+import User from '../../../Api/User';
 import {logOut} from '../../../redux/actions/Auth';
 import {SetPreferenceRes} from '../../../redux/actions/SetPreference';
 const onValueSelect = (data, value = '') => {

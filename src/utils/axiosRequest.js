@@ -22,6 +22,7 @@ axiosRequest.interceptors.request.use(
     return request;
   },
   error => {
+    console.log(error, "error:::::::");
     return Promise.reject(error);
   },
 );
@@ -32,6 +33,7 @@ axiosRequest.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
+    console.log(error.response.status, "error.response.status::::::");
     if (error.response.status === 401 && originalRequest._retry===false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       console.log(tokenRes, 'tokenRes.data');
@@ -42,12 +44,6 @@ axiosRequest.interceptors.response.use(
     } else if (error.response.status === 404 && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
     } else if (error.response.status === 417 && error.response.data.message) {
-      // Validation msg
-      // let messages = [];
-      // Object.keys(error.response.data.message).forEach(key=>{
-      //   messages = [...messages,...error.response.data.message[key]];
-      // });
-      // await store.dispatch(showAppToast(true,messages.join('\n')));
       return error.response.data.message;
     }
     return Promise.reject(error);

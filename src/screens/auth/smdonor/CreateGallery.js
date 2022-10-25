@@ -20,7 +20,7 @@ import videoPicker from '../../../utils/videoPicker';
 import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
-import User from '../../../services/User';
+import User from '../../../Api/User';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserGallery,
@@ -166,7 +166,7 @@ const CreateGallery = () => {
   //   setDel(false);
   //   setRmvImgCount(0);
   // };
-  
+
   function handelDel(index) {
     setDel(true);
     let pushArr = remove;
