@@ -210,3 +210,6 @@ export const Prencentage = {
   PRECENTAGE_98: '98%',
   PRECENTAGE_100: '100%',
 };
+export const FontSize = {
+  FONT_16: 16,
+};
