@@ -22,11 +22,9 @@ const SmDonorSettings = () => {
   const authService = Auth();
   const dispatch = useDispatch();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
-  console.log(profileImg, 'mjuyt');
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const userName = `${first_name} ${last_name}`;
-  console.log('++++', userName);
   const [isOpen, setOpen] = useState(false);
   const headerComp = () => (
     <CircleBtn
@@ -37,8 +35,6 @@ const SmDonorSettings = () => {
   );
   const cb = image => {
     setOpen(false);
-    console.log('IMG', image);
-    // dispatch(updateImg(image))
   };
   return (
     <>

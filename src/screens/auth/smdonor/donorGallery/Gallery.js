@@ -158,13 +158,11 @@ const Gallery = () => {
     }
     setRemove(pushArr);
   }
-  console.log(remove, 'REMOVE');
   const deleteImg = () => {
     let payload = {
       ids: remove,
     };
     dispatch(deleteGallery(payload));
-    console.log(payload, 'POAYLOAD RMV IMG');
     dispatch(getUserGallery());
     setDel(false);
     setRmvImgCount(0);
@@ -176,7 +174,6 @@ const Gallery = () => {
       gallery_data?.doner_photo_gallery.map((item, i) => {
         return item.file_url;
       });
-    console.log('Gallery_DATA', url);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {

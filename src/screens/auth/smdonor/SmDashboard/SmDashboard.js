@@ -51,21 +51,12 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_error_msg,
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
-  console.log('CARDS', cards);
-
   useEffect(() => {
     dispatch(getDonorDashboard());
   }, []);
 
   //DONOR DASHBOARD CARD
   useEffect(() => {
-    console.log(
-      'donor Dashboard comp',
-      get_donor_dashboard_success,
-      LoadingRef.current,
-      get_donor_dashboard_loading,
-      get_donor_dashboard_res,
-    );
     if (LoadingRef.current && !get_donor_dashboard_loading) {
       dispatch(showAppLoader());
       if (get_donor_dashboard_success) {

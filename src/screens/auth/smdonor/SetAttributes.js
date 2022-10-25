@@ -22,7 +22,6 @@ import {useNavigation} from '@react-navigation/native';
 
 const SetAttributes = ({route}) => {
   const initialState = useSelector(state => state.Auth);
-  console.log(initialState);
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [attributeData, setAttributeData] = useState();
