@@ -8,13 +8,18 @@ import {
   ImageBackground,
   Modal,
   Platform,
-} from 'react-native';
+  BackHandler, Alert,
+} from "react-native";
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import { showAppToast, hideAppLoader, showAppLoader } from '../../redux/actions/loader';
+import {
+  showAppToast,
+  hideAppLoader,
+  showAppLoader,
+} from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -43,6 +48,27 @@ import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
 
 const Profile = ({route}) => {
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to exit the app?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const {
