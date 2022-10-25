@@ -15,6 +15,7 @@ import {Routes} from '../../../../constants/Constants';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
+import {logOut} from '../../../../redux/actions/Auth';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -34,6 +35,11 @@ const SmDonorSettings = () => {
   const cb = image => {
     setOpen(false);
   };
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
+
   return (
     <>
       <Container
@@ -111,7 +117,7 @@ const SmDonorSettings = () => {
             style={Styles.Btn}
             label={Strings.smSetting.Btn}
             color={Colors.COLOR_F18D93}
-            // onPress={authService.logout}
+            onPress={() => logoutScreen()}
           />
           <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
         </View>

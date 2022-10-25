@@ -14,6 +14,7 @@ import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import User from '../../../../services/User';
 import VideoUploading from '../../../../components/VideoUploading';
+import BottomSheetComp from '../../../../components/BottomSheet';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -80,7 +81,7 @@ const MyVideo = () => {
       leftPress={() => navigation.goBack()}
     />
   );
-
+console.log('video',video)
   return (
     <>
       <Container

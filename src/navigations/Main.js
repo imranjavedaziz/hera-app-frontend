@@ -25,8 +25,8 @@ import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
 import PtbProfile from '../screens/dashboard/PtbProfile';
 import MyVideo from '../screens/dashboard/PtbProfile/MyVideo';
 import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery';
-
 import Inqueryform from '../screens/InqueryForm/Inqueryform';
+import Subscription from '../screens/dashboard/PtbProfile/Subscription';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -139,12 +139,16 @@ const Main = () => {
           component={DonorGallery}
           options={{headerShown: false}}
         />
-           <Stack.Screen
+        <Stack.Screen
           name={Routes.inqueryForm}
           component={Inqueryform}
           options={{headerShown: false}}
         />
-           
+        <Stack.Screen
+          name={Routes.Subscription}
+          component={Subscription}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

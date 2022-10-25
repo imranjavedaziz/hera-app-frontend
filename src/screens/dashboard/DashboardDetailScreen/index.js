@@ -83,6 +83,7 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
+  console.log('smDetailRes,', smDetailRes)
   return (
     <>
       <Container
@@ -183,7 +184,7 @@ const DashboardDetailScreen = () => {
               </Text>
               <Video
                 controls={true}
-                source={{uri: smDetailRes?.doner_video_gallery}}
+                source={{uri: smDetailRes?.doner_video_gallery?.file_url}}
                 onError={err => console.log(err)}
                 style={styles.imageDemo2}
                 paused={true}
