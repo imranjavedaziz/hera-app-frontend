@@ -39,7 +39,6 @@ const PTB_profile = () => {
     }
     loadingRef.current = get_ptb_profile_detail_loading;
   }, [get_ptb_profile_detail_success, get_ptb_profile_detail_loading]);
-  console.log('result', get_ptb_profile_detail_res);
   const {
     params: {userid},
   } = useRoute();
