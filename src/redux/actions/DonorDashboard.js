@@ -1,8 +1,8 @@
 import {DONOR_DASHBOARD} from '../Type';
 
-export const getDonorDashboard = () => {
+export const getDonorDashboard = (payload) => {
   return {
     type: DONOR_DASHBOARD,
-    data: {},
+    data: payload,
   };
 };

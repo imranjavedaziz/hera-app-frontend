@@ -1,8 +1,9 @@
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 
-export const DonorDashboardApi = () => {
+export const DonorDashboardApi = (payload) => {
+  console.log(payload, "payload:::::");
   return axiosRequest.get(
-    `${ApiPath.ptbProfileCard}?state_ids%5B%5D=1&page=1&limit=${10}`,
+    `${ApiPath.ptbProfileCard}?keyword=${payload.keyword}&state_ids${payload.state_ids}&limit=${payload.limit}&page=${payload.page}`
   );
 };
