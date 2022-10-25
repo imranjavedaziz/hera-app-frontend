@@ -6,10 +6,9 @@ import {
   DONOR_DASHBOARD_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-function* getDonorDashboard() {
+function* getDonorDashboard(payload) {
   try {
-    const result = yield DonorDashboardApi();
-    console.log(result, "result:::::::::");
+    const result = yield DonorDashboardApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: DONOR_DASHBOARD_SUCCESS, data: result});
     } else {

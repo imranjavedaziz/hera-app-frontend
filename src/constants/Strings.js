@@ -9,6 +9,8 @@ export const ValidationMessages = {
   LAST_NAME: 'Please enter your Last Name',
   EMPTY_EMAIL: 'Please enter your Email ID',
   INVALID_EMAIL: 'Please enter a valid Email ID',
+  INVALID_FIRST_NAME: 'Please enter a valid First Name',
+  INVALID_LAST_NAME: 'Please enter a valid Last Name',
   PASSWORD: 'Please Set the Password',
   CONFIRM_PASSWORD: 'Please enter Confirm Password',
   ADD_PROFILE_PHOTO: 'Please add Profile Photo',
