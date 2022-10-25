@@ -12,14 +12,12 @@ import Button from '../../../../components/Button';
 import Styles from './Styles';
 import {Value} from '../../../../constants/FixedValues';
 import {Routes} from '../../../../constants/Constants';
-import Auth from '../../../../services/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
-  const authService = Auth();
   const dispatch = useDispatch();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
@@ -113,7 +111,7 @@ const SmDonorSettings = () => {
             style={Styles.Btn}
             label={Strings.smSetting.Btn}
             color={Colors.COLOR_F18D93}
-            onPress={authService.logout}
+            // onPress={authService.logout}
           />
           <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
         </View>

@@ -291,6 +291,7 @@ export default {
     Message: 'Message',
     SendInquiry: 'SEND INQUIRY',
     Title: 'Inquery Form',
+    LEFT_ARROW_BUTTON: "Left arrow Button, Press to go back",
   },
   SmDashboard: {
     search: 'Search',

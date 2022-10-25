@@ -74,6 +74,10 @@ export const FormKey = {
   ethnicity: 'ethnicity',
   hair: 'hair',
   eye: 'eye',
+  user_type:"user_type",
+  emailAddress:"emailAddress",
+  mobileNumber:"mobileNumber",
+  message:"message"
 };
 
 export const smRoles = [
