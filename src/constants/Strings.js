@@ -293,9 +293,25 @@ export default {
     Message: 'Message',
     SendInquiry: 'SEND INQUIRY',
     Title: 'Inquery Form',
-    LEFT_ARROW_BUTTON: "Left arrow Button, Press to go back",
+    LEFT_ARROW_BUTTON: 'Left arrow Button, Press to go back',
   },
   SmDashboard: {
     search: 'Search',
+  },
+  Subscription: {
+    SubHeader: `See 5 profiles per day 
+    (Use-it-or-lose it)`,
+    SubscribeButton: 'SUBSCRIBE & PAY',
+    BySubs: '*By subscribing, you agree to HERA’s ',
+    TermsServices: 'Terms of Service',
+    PrivacyPolicy: 'Privacy Policy. ',
+    And: ' and ',
+    SubscribePolicy:
+      'Your subscription will be billed monthly and can be canceled anytime.',
+    Commitment: '6 Month Commitment',
+    YearCommitment: '12 Month Commitment',
+    Price: '$299.00/mo',
+    Later: 'Later',
+    yearPrice: '$199.00/mo',
   },
 };

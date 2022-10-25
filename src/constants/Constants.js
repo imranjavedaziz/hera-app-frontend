@@ -74,11 +74,11 @@ export const FormKey = {
   ethnicity: 'ethnicity',
   hair: 'hair',
   eye: 'eye',
-  user_type:"user_type",
-  emailAddress:"emailAddress",
-  mobileNumber:"mobileNumber",
-  message:"message",
-  parent_to_be_role_id:2
+  user_type: 'user_type',
+  emailAddress: 'emailAddress',
+  mobileNumber: 'mobileNumber',
+  message: 'message',
+  parent_to_be_role_id: 2,
 };
 
 export const smRoles = [
@@ -375,5 +375,6 @@ export const Routes = {
   SmSetting: 'SmDonorSettings',
   donorGallery: 'DonorGallery',
   stateList: 'StateList',
-  inqueryForm:'InqueryForm'
+  inqueryForm: 'InqueryForm',
+  Subscription: 'Subscription',
 };
