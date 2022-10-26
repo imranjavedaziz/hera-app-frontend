@@ -31,7 +31,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  // console.log(action.data,'action?.data::::::::');
   switch (action.type) {
     /**
      * SAVE BASIC DETAIL

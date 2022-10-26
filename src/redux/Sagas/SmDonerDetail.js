@@ -9,7 +9,6 @@ import { SmDonorDetailApi } from "../../Api/SmDonerDetail";
 function* SmDonorDetail(payload) {
   try {
     const result = yield SmDonorDetailApi(payload.data);
-    console.log('result???????tttt', result);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SM_DONOR_DETAIL_SUCCESS, data: result});
     } else {

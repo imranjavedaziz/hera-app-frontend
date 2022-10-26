@@ -43,7 +43,6 @@ export function* watchPtbRegisterApi() {
 
 //SaveBasicDetail
 function* saveBasicDetail(payload) {
-  console.log(payload, 'payload:::::::');
   try {
     const result = yield saveBasicDetailApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {

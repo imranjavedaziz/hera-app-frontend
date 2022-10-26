@@ -5,7 +5,6 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
-  GET_GALLERY,
 } from '../constants';
 import {
   AUTH_LOG_IN,
