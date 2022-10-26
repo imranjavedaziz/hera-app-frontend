@@ -231,7 +231,7 @@ const Gallery = () => {
                       style={{}}>
                       <Image
                         source={
-                          remove.includes(img.id) === true
+                          remove.includes(img.id)
                             ? Images.iconRadiosel
                             : Images.iconRadiounsel
                         }
