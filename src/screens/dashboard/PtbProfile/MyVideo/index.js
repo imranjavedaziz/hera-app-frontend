@@ -1,4 +1,3 @@
-// Short Video screen
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
