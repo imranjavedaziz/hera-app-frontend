@@ -18,7 +18,7 @@ import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
 import {watchGetDonorDashboard} from './DonorDashboard';
 import {watchDeleteUserGallery} from './CreateGallery';
 import {watchGetPtbProfileDetail} from './PtbProfileDetail';
-import { watchSmDonorDetail } from "./SmDonerDetail";
+import {watchSmDonorDetail} from './SmDonerDetail';
 
 export default function* rootSaga() {
   yield all([

@@ -745,48 +745,4 @@ export const Static = {
       name: 'Ph.D.',
     },
   ],
-  Profile: [
-    {
-      name: 'Marley',
-      image:
-        'https://dindin-preprod-backend.s3.amazonaws.com/chefs/kelsey-kane/profile-screen_2x.jpg',
-      location: 'USA',
-    },
-    {
-      name: 'Steve',
-      image:
-        'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
-      location: 'USA',
-    },
-    {
-      name: 'Emilio',
-      image:
-        'https://dindin-preprod-backend.s3.amazonaws.com/chefs/kelsey-kane/profile-screen_2x.jpg',
-      location: 'USA',
-    },
-    {
-      name: 'AYUSH',
-      image:
-        'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
-      location: 'USA',
-    },
-    {
-      name: 'AYUSH',
-      image:
-        'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
-      location: 'USA',
-    },
-    {
-      name: 'AYUSH',
-      image:
-        'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
-      location: 'USA',
-    },
-    {
-      name: 'AYUSH',
-      image:
-        'https://dindin-preprod-backend.s3.amazonaws.com/chefs/joan-bonilla/profile-logo.png',
-      location: 'USA',
-    },
-  ],
 };

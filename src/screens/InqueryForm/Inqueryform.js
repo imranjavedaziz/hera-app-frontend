@@ -84,7 +84,7 @@ export default function Inqueryform() {
           control={control}
           render={({field: {onChange, value}}) => (
             <FloatingLabelInput
-              label={Strings.inqueryForm.EmailAddress}
+              label={Strings.profile.EmailAddress}
               value={value}
               onChangeText={v => onChange(v)}
               error={errors && errors.emailAddress?.message}

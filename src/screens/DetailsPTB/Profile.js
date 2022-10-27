@@ -385,7 +385,7 @@ const Profile = ({route}) => {
               }}
               style={[styles.pickerBtn, styles.pickerBtnBorder]}>
               <Text style={styles.pickerBtnLabel}>
-                {Strings.PTB_Profile.Open_Camera}
+                {Strings.sm_create_gallery.bottomSheetCamera}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -394,7 +394,7 @@ const Profile = ({route}) => {
               }}
               style={styles.pickerBtn}>
               <Text style={styles.pickerBtnLabel}>
-                {Strings.PTB_Profile.Open_Gallery}
+                {Strings.sm_create_gallery.bottomSheetGallery}
               </Text>
             </TouchableOpacity>
           </View>

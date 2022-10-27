@@ -155,7 +155,7 @@ const DashboardDetailScreen = () => {
             {smDetailRes?.doner_attribute?.hair_colour ? (
               <View style={styles.hairColor}>
                 <Text style={styles.hairColorText}>
-                  {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.donorPofile.hairColor}`}
+                  {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
                 </Text>
               </View>
             ) : null}
