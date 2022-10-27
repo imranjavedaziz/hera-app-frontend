@@ -144,7 +144,11 @@ const Main = () => {
           component={Inqueryform}
           options={{headerShown: false}}
         />
-        <Stack.Screen name={Routes.stateList} component={StateList} />
+        <Stack.Screen
+          name={Routes.stateList}
+          component={StateList}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
