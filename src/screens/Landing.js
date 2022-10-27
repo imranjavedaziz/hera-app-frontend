@@ -25,7 +25,10 @@ const Landing = () => {
       </View>
       <Container 
       scroller={true} 
-     // style={{paddingTop: 10, marginTop: -10}}
+      style={{
+       marginTop: -77,
+       
+      }}
      >
         <View style={styles.mainContainer}>
           <Image
