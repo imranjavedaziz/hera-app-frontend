@@ -1,23 +1,29 @@
-// search Bar
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+// search Bar for stateList
+import {StyleSheet, View, Image, TextInput} from 'react-native';
 import React from 'react';
-import Images from '../constants/Images';
-import Strings from '../constants/Strings';
-import Alignment from '../constants/Alignment';
-import {Value} from '../constants/FixedValues';
-import Colors from '../constants/Colors';
-import {useNavigation} from '@react-navigation/native';
-import {Routes} from '../constants/Constants';
+import Images from '../../../../constants/Images';
+import Strings from '../../../../constants/Strings';
+import Alignment from '../../../../constants/Alignment';
+import {Value} from '../../../../constants/FixedValues';
+import Colors from '../../../../constants/Colors';
 
-const Searchbar = props => {
-  const navigation = useNavigation();
+const StateSearch = props => {
+  // console.log('======', props.allState);
+
+  const filterSearch = text => {
+    console.log('FILTER', text);
+    if (text) {
+      const newData = props.allState?.filter(item => {
+        if (item.name.includes(text)) {
+          return item.name;
+        } else if (item.isActive === true) {
+        }
+      });
+      props.setState(newData);
+    } else {
+      props.setState(props.allState);
+    }
+  };
   return (
     <View style={styles.mainContainer}>
       <View
@@ -29,35 +35,17 @@ const Searchbar = props => {
         <Image style={styles.searchImage} source={Images.search} />
         <TextInput
           style={styles.searchBar}
-          onChangeText={props.onChangeText}
-          value={props.value}
+          onChangeText={text => filterSearch(text)}
+          // value={props.value}
           placeholder={Strings.search_Bar.search}
           placeholderTextColor={Colors.BLACK}
         />
-        {props.editing ? (
-          <TouchableOpacity
-            style={styles.pinIcon}
-            onPress={() => navigation.navigate(Routes.stateList)}>
-            <Image source={Images.pin} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={props.onClear}
-            style={styles.crossIconContainer}>
-            <Image style={styles.crossIcon} source={Images.iconcross} />
-          </TouchableOpacity>
-        )}
       </View>
-      {props.editing ? null : (
-        <TouchableOpacity onPress={props.onClear} style={styles.clearView}>
-          <Text style={styles.clearText}>Cancel</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 };
 
-export default Searchbar;
+export default StateSearch;
 
 const styles = StyleSheet.create({
   mainContainer: {

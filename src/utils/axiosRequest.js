@@ -16,13 +16,14 @@ axiosRequest.interceptors.request.use(
     console.log(token, 'token:::::::::');
     if (token) {
       request.headers = {
+        // 'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       };
     }
     return request;
   },
   error => {
-    console.log(error, "error:::::::");
+    console.log(error, 'error:::::::');
     return Promise.reject(error);
   },
 );
@@ -33,8 +34,8 @@ axiosRequest.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    console.log(error.response.status, "error.response.status::::::");
-    if (error.response.status === 401 && originalRequest._retry===false) {
+    console.log(error.response.status, 'error.response.status::::::');
+    if (error.response.status === 401 && originalRequest._retry === false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       console.log(tokenRes, 'tokenRes.data');
       store.dispatch(updateToken(tokenRes.data.token));

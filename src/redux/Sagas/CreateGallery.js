@@ -7,7 +7,7 @@ import {
   GET_DELETE_GALLERY_FAIL,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-import {getUserGalleryApi, deleteGallery} from '../../Api';
+import {getUserGalleryApi, deleteGalleryApi} from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
 
 //GetUserGallery
@@ -28,9 +28,10 @@ export function* watchGetUserGallery() {
 }
 
 //DeleteGallery
-function* deleteUserGallery() {
+function* deleteUserGallery(payload) {
+  console.log("SAGAPAYLOAD", payload.data);
   try {
-    const result = yield deleteGallery();
+    const result = yield deleteGalleryApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: GET_DELETE_GALLERY_SUCCESS, data: result});
     } else {

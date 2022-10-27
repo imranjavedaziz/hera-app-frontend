@@ -19,6 +19,7 @@ export default {
     textAlign: 'center',
     fontSize:Value.CONSTANT_VALUE_11,
     marginBottom: Value.CONSTANT_VALUE_8,
+    fontSize: Value.CONSTANT_VALUE_11,
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_23,
