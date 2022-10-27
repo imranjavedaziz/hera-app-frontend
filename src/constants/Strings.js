@@ -63,7 +63,7 @@ export default {
     REGISTER: 'REGISTER',
     Like_Match_Connect: 'Like, Match & Connect!',
     AboutUs: 'About Us',
-    InquiryForm: 'Inquiry Form',
+    InquiryForm: 'Support',
   },
   login: {
     MobileNumber: 'Mobile Number',
@@ -272,7 +272,7 @@ export default {
     Gallery: 'My Gallery',
     EditProfile: 'Edit Profile',
     Settings: 'Settings',
-    Inquiry: 'Inquiry Form',
+    Inquiry: 'Support',
     AboutUs: 'About Us',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
@@ -290,7 +290,7 @@ export default {
     MobileNumber: 'Mobile Number',
     Message: 'Message',
     SendInquiry: 'SEND INQUIRY',
-    Title: 'Inquery Form',
+    Title: 'Support',
     LEFT_ARROW_BUTTON: 'Left arrow Button, Press to go back',
   },
   SmDashboard: {

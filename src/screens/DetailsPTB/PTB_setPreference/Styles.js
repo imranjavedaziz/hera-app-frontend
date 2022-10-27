@@ -32,6 +32,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
+    color:Colors.COLOR_535858
   },
   lookingDonor: {
     marginLeft: Value.CONSTANT_VALUE_10,
@@ -58,7 +59,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_18,
   },
   chipText: {
-    marginVertical: Value.CONSTANT_VALUE_15,
+    marginVertical: Value.CONSTANT_VALUE_10,
     fontSize: Value.CONSTANT_VALUE_14,
   },
   chipsRequiredText: {

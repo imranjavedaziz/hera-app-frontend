@@ -5,8 +5,6 @@ import {Fonts} from '../../../constants/Constants';
 
 import Colors from '../../../constants/Colors';
 
-
-
 export default {
     mainContainer: {
         flex: 1,
@@ -17,8 +15,7 @@ export default {
         textAlign: Alignment.CENTER,
         fontSize: Value.CONSTANT_VALUE_12,
         fontFamily: Fonts.OpenSansSemibold,
-       
-      },
+       },
       title1: {
         textAlign: Alignment.CENTER,
         fontSize: Value.CONSTANT_VALUE_23,

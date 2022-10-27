@@ -22,7 +22,7 @@ export default function Inqueryform() {
   const {
     handleSubmit,
     control,
-    formState: {errors, isValid},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(inqueryFormSchema),
   });

@@ -50,9 +50,10 @@ export default {
     alignSelf: Alignment.CENTER,
   },
   headerIcon: {
-    position: 'absolute',
-    paddingTop: Value.CONSTANT_VALUE_5,
-    marginHorizontal: Value.CONSTANT_VALUE_30,
+    paddingTop: Value.CONSTANT_VALUE_10,
+    // position: 'absolute',
+    // paddingTop: Value.CONSTANT_VALUE_5,
+    // marginHorizontal: Value.CONSTANT_VALUE_30,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
   search: {

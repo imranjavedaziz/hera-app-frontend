@@ -11,7 +11,7 @@ export default {
     //height: Prencentage.PRECENTAGE_30,
     ...Platform.select({
       android: {
-        height: Prencentage.PRECENTAGE_40,
+        height: Prencentage.PRECENTAGE_35,
       },
       ios: {
         height: Prencentage.PRECENTAGE_40,
@@ -57,7 +57,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   btnContainer: {
-    // flex: 1,
+    //flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_10,

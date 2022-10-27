@@ -47,9 +47,7 @@ const PTB_profile = () => {
   }, []);
   const navigation = useNavigation();
   const [sendReq, setSendReq] = useState(false);
-  // const [requestDecline, SetRequestDecline] = useState(false);
   const requestDecline = false;
-  // const [liked, setLiked] = useState(false);
   const liked = false;
   const headerComp = () => (
     <CircleBtn
