@@ -153,7 +153,6 @@ const StateList = () => {
         sl.push(item.id);
       }
     });
-    console.log('Sel', sl);
     navigation.navigate(Routes.SmDashboard, {data: sl});
   };
   const headerComp = () => (

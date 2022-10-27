@@ -6,7 +6,7 @@ export const getUserGalleryApi = () => {
 };
 
 export const deleteGalleryApi = data => {
-  console.log('API CALL===', data);
+  // console.log("log",`${ApiPath.deleteGallery}?${data}`);
   // console.log('MYMAP', axiosRequest.delete(ApiPath.deleteGallery, data));
-  return axiosRequest.delete(ApiPath.deleteGallery, data);
+  return axiosRequest.delete(`${ApiPath.deleteGallery}?${data}`);
 };

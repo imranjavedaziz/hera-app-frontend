@@ -209,6 +209,10 @@ const Gallery = () => {
     for (let i = 0; i < url?.length; ++i) {
       images.push({uri: url[i]});
     }
+    if (url?.length === undefined) {
+      setGIndex(0);
+      return;
+    }
     setGIndex(url?.length);
     console.log('GALLY', gallery);
   };

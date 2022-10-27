@@ -74,11 +74,14 @@ export default {
     paddingVertical: 10,
     fontSize: 20,
     fontFamily: Fonts.OpenSansRegular,
+    // marginRight:180,
+    // backgroundColor:'red'
   },
   sel: {
     paddingVertical: 10,
     fontSize: 20,
     fontFamily: Fonts.OpenSansBold,
+    // marginRight:'30%',
   },
   imgSel: {marginLeft: 100, tintColor: Colors.GREEN},
   iconFont: {

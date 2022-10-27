@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 import {showAppLoader, hideAppLoader} from '../redux/actions/loader';
+import {showAppToast} from '../redux/actions/loader';
 
 const User = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const User = () => {
       })
       .then(async response => {
         console.log('response', response.data.data);
+        await dispatch(showAppToast(false, response.data.message));
         setLoading(false);
       })
       .finally(e => {

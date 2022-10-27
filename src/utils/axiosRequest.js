@@ -16,6 +16,7 @@ axiosRequest.interceptors.request.use(
     console.log(token, 'token:::::::::');
     if (token) {
       request.headers = {
+        // 'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       };
     }
@@ -32,7 +33,7 @@ axiosRequest.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 401 && originalRequest._retry===false) {
+    if (error.response.status === 401 && originalRequest._retry === false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       console.log(tokenRes, 'tokenRes.data');
       store.dispatch(updateToken(tokenRes.data.token));
