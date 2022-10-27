@@ -49,11 +49,9 @@ const CreateGallery = () => {
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const images = [];
   const [remove, setRemove] = useState([]);
-  const {gallery_data} = useSelector(
-    state => state.CreateGallery,
-  );
+  const {gallery_data} = useSelector(state => state.CreateGallery);
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
@@ -99,11 +97,11 @@ const CreateGallery = () => {
     setImgPreviewIndex(index);
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
-    }
-    if (index < gIndex && rmvImgCount === 0) {
+    } else if (index < gIndex && rmvImgCount === 0) {
       setIsVisible(true);
+    } else {
+      return;
     }
-    return;
   };
 
   // const handelDel = index => {
@@ -185,7 +183,7 @@ const CreateGallery = () => {
       ids: remove,
     };
     dispatch(deleteGallery(payload));
-    console.log(payload,"POAYLOAD RMV IMG")
+    console.log(payload, 'POAYLOAD RMV IMG');
     dispatch(getUserGallery());
     setDel(false);
     setRmvImgCount(0);

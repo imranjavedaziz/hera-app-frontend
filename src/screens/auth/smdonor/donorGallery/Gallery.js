@@ -136,12 +136,12 @@ const Gallery = () => {
   };
   const ImageClick = index => {
     setImgPreviewIndex(index);
-    setIsVideo(false);
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
-    }
-    if (index < gIndex && rmvImgCount === 0) {
+    } else if (index < gIndex && rmvImgCount === 0) {
       setIsVisible(true);
+    } else {
+      return;
     }
   };
 
@@ -293,7 +293,7 @@ const Gallery = () => {
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.PTB_Profile.Open_Camera}
+              {Strings.profile.bottomSheetCamera}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -303,7 +303,7 @@ const Gallery = () => {
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
               {' '}
-              {Strings.PTB_Profile.Open_Gallery}
+              {Strings.profile.bottomSheetGallery}
             </Text>
           </TouchableOpacity>
         </View>

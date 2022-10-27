@@ -11,13 +11,14 @@ export default {
     //height: Prencentage.PRECENTAGE_30,
     ...Platform.select({
       android: {
-        height: Prencentage.PRECENTAGE_25,
+        height: Prencentage.PRECENTAGE_40,
       },
       ios: {
-        height: Prencentage.PRECENTAGE_30,
+        height: Prencentage.PRECENTAGE_40,
       },
     }),
     backgroundColor: Colors.BACKGROUND,
+    
   },
   bgImg: {
     width: Prencentage.PRECENTAGE_100,
@@ -31,7 +32,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     ...Platform.select({
       android: {
-        paddingBottom: Value.CONSTANT_VALUE_100,
+        paddingBottom: Value.CONSTANT_VALUE_0,
       },
       ios: {
         paddingBottom: Value.CONSTANT_VALUE_0,
@@ -51,29 +52,30 @@ export default {
     fontWeight: 'bold',
     color: Colors.BLACK,
     marginBottom: Value.CONSTANT_VALUE_20,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_20,
     flex: Value.CONSTANT_VALUE_0,
     fontFamily: Fonts.OpenSansBold,
   },
   btnContainer: {
-    flex: 1,
+    // flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
+    paddingTop: Value.CONSTANT_VALUE_10,
   },
   footer: {
     flex: 0,
     width: Prencentage.PRECENTAGE_100,
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
-    paddingVertical: Value.CONSTANT_VALUE_10,
+    paddingVertical: Value.CONSTANT_VALUE_40,
     paddingHorizontal: Value.CONSTANT_VALUE_40,
     position: Alignment.ABSOLUTE,
     ...Platform.select({
       android: {
-        bottom: 10,
+        bottom: 0,
       },
       ios: {
-        bottom: 40,
+        bottom: 0,
       },
     }),
   },

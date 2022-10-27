@@ -36,7 +36,6 @@ const PtbBasicDetails = ({route}) => {
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
-  console.log('PTB BASIC DETAILS +++>');
   return (
     <>
       <Container

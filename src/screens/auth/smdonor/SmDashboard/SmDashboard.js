@@ -32,28 +32,28 @@ const SmDashboard = ({route}) => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
-  const dashboardApi=(value,page,limit)=>{
+  const dashboardApi = (value, page, limit) => {
     let payload = {
       keyword: value,
       state_ids: '',
       page: page,
-      limit: limit
-    }
+      limit: limit,
+    };
     dispatch(getDonorDashboard(payload));
-  }
+  };
   const onSearch = value => {
-    if (value === ''&&value.length<3) {
-      dashboardApi('',1,10)
+    if (value === '' && value.length < 3) {
+      dashboardApi('', 1, 10);
       setSearch('');
       setSearching(false);
       return;
     }
-    dashboardApi(value,1,10)
+    dashboardApi(value, 1, 10);
     setSearching(true);
     setSearch(value);
   };
   const onClear = () => {
-    dashboardApi('',1,10)
+    dashboardApi('', 1, 10);
     setSearching(false);
     setSearch('');
   };
@@ -64,7 +64,7 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   useEffect(() => {
-    dashboardApi('',1,10)
+    dashboardApi('', 1, 10);
   }, [dispatch]);
 
   //DONOR DASHBOARD CARD
@@ -81,9 +81,6 @@ const SmDashboard = ({route}) => {
     }
     LoadingRef.current = get_donor_dashboard_loading;
   }, [get_donor_dashboard_success, get_donor_dashboard_loading]);
-
-
-
 
   const renderProfile = ({item, index}) => {
     return (
