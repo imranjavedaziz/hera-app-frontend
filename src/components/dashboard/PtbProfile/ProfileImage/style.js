@@ -1,9 +1,6 @@
 import {
   dynamicSize,
-  normalizeFont,
-  scaleHeight,
-  scaleWidth,
-} from '../../../../utils/responsive';
+ } from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';

@@ -1,5 +1,3 @@
-import Strings from '../constants/Strings';
-
 export function getRoleType(id) {
   var _type =
     id === 2

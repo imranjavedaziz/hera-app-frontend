@@ -27,8 +27,7 @@ const Landing = () => {
       scroller={true} 
       style={{
        marginTop: -77,
-       
-      }}
+       }}
      >
         <View style={styles.mainContainer}>
           <Image
@@ -69,7 +68,7 @@ const Landing = () => {
           </Text>
         </TouchableOpacity>
       </View>
-       <StatusBar hidden={Platform.OS === 'android'} animated={true} /> 
+       <StatusBar hidden={Platform.OS === 'android'} animated={true}/> 
     </View>
   );
 };
