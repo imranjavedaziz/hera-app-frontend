@@ -18,6 +18,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     textAlign: 'center',
     marginBottom: Value.CONSTANT_VALUE_8,
+    fontSize: Value.CONSTANT_VALUE_11,
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_22,

@@ -5,7 +5,7 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
-  GET_GALLERY,
+  // UPDATE_USER_PROFILE_IMG,
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -23,6 +23,9 @@ import {
   AUTH_REGISTER,
   AUTH_REGISTER_FAIL,
   AUTH_REGISTER_SUCCESS,
+  UPDATE_PROFILE_IMG,
+  UPDATE_PROFILE_IMG_SUCCESS,
+  UPDATE_PROFILE_IMG_FAIL,
 } from '../Type';
 
 const initState = {
@@ -90,9 +93,13 @@ const initState = {
   register_user_success: false,
   register_user_loading: false,
   register_user_error_msg: '',
+  update_user_profile_img_success: false,
+  update_user_profile_img_fail: false,
+  update_user_profile_img_error_msg: '',
 };
 
 export default (state = initState, action) => {
+  console.log(action?.data, 'action.data.msg', action?.type, 'action.type');
   switch (action.type) {
     /**
      * SignIn
@@ -283,6 +290,39 @@ export default (state = initState, action) => {
         token: access_token,
       };
     }
+    /**
+     * UPDATE PROFILE IMG
+     */
+    case UPDATE_PROFILE_IMG: {
+      console.log('REDUCER UPDATE PROFILE IMAGE -->', action.data);
+      return {
+        ...state,
+        update_user_profile_img_success: false,
+        update_user_profile_img_loading: true,
+        update_user_profile_img_error_msg: '',
+      };
+    }
+    case UPDATE_PROFILE_IMG_FAIL: {
+      return {
+        ...state,
+        update_user_profile_img_success: false,
+        update_user_profile_img_loading: false,
+        update_user_profile_img_error_msg: action.data.msg,
+      };
+    }
+    case UPDATE_PROFILE_IMG_SUCCESS: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          profile_pic: action?.data?.data?.data,
+        },
+        update_user_profile_img_success: true,
+        update_user_profile_img_loading: false,
+        update_user_profile_img_error_msg: '',
+      };
+    }
+
     default:
       return state;
   }

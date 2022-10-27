@@ -1,5 +1,5 @@
 import {Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from '../../../../components/Container';
 import {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
@@ -12,6 +12,7 @@ import Button from '../../../../components/Button';
 import Styles from './Styles';
 import {Value} from '../../../../constants/FixedValues';
 import {Routes} from '../../../../constants/Constants';
+import {updateProfileImg} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
@@ -25,6 +26,7 @@ const SmDonorSettings = () => {
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const userName = `${first_name} ${last_name}`;
   const [isOpen, setOpen] = useState(false);
+  const [file, setFile] = useState(null);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -34,7 +36,23 @@ const SmDonorSettings = () => {
   );
   const cb = image => {
     setOpen(false);
+    setFile(image);
+    // dispatch(updateImg(image))
   };
+  useEffect(() => {
+    const reqData = new FormData();
+    {
+      file !== null &&
+        reqData.append('file', {
+          name: 'name',
+          type: file.mime,
+          uri: file.path,
+        });
+      // console.log('REQDATA--->', reqData);
+      dispatch(updateProfileImg(reqData));
+    }
+  }, [file, dispatch]);
+
   const logoutScreen = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
@@ -98,7 +116,7 @@ const SmDonorSettings = () => {
             <Image source={Images.person} />
             <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
           </View>
-          <View style={Styles.dot}></View>
+          <View style={Styles.dot} />
         </View>
         <View style={Styles.contain}>
           <Image source={Images.setting2} />
@@ -116,7 +134,8 @@ const SmDonorSettings = () => {
           <Button
             style={Styles.Btn}
             label={Strings.smSetting.Btn}
-            color={Colors.COLOR_F18D93}
+            color={Colors.PINK}
+            // onPress={authService.logout}
             onPress={() => logoutScreen()}
           />
           <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>

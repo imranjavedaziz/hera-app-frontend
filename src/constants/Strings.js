@@ -296,6 +296,10 @@ export default {
   SmDashboard: {
     search: 'Search',
   },
+  stateList: {
+    Subtitle: 'Search in any state',
+    iconText: 'Done',
+  },
   Subscription: {
     SubHeader: `See 5 profiles per day 
     (Use-it-or-lose it)`,

@@ -93,6 +93,6 @@ export default {
     flexDirection: Alignment.ROW,
   },
   flatlist: {
-    paddingBottom: Value.CONSTANT_VALUE_60,
+    paddingBottom: Value.CONSTANT_VALUE_300,
   },
 };

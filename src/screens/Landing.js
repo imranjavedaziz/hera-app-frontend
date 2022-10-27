@@ -23,13 +23,11 @@ const Landing = () => {
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
-      <Container 
-      scroller={true} 
-      style={{
-       marginTop: -77,
-       
-      }}
-     >
+      <Container
+        scroller={true}
+        style={{
+          marginTop: -77,
+        }}>
         <View style={styles.mainContainer}>
           <Image
             source={Images.LOGO}
@@ -67,7 +65,7 @@ const Landing = () => {
           </Text>
         </TouchableOpacity>
       </View>
-       <StatusBar hidden={Platform.OS === 'android'} animated={true} /> 
+      <StatusBar hidden={Platform.OS === 'android'} animated={true} />
     </View>
   );
 };

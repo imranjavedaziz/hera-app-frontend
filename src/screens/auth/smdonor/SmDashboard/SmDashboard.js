@@ -25,6 +25,7 @@ import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 const SmDashboard = ({route}) => {
+  console.log('ROUTES', route.params);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const LoadingRef = useRef(false);
@@ -64,6 +65,7 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   useEffect(() => {
+    dispatch(getDonorDashboard());
     dashboardApi('', 1, 10);
   }, [dispatch]);
 
@@ -80,7 +82,13 @@ const SmDashboard = ({route}) => {
       }
     }
     LoadingRef.current = get_donor_dashboard_loading;
-  }, [get_donor_dashboard_success, get_donor_dashboard_loading]);
+  }, [
+    get_donor_dashboard_success,
+    get_donor_dashboard_loading,
+    get_donor_dashboard_res,
+    get_donor_dashboard_error_msg,
+    dispatch,
+  ]);
 
   const renderProfile = ({item, index}) => {
     return (
@@ -98,12 +106,7 @@ const SmDashboard = ({route}) => {
               start={{x: 0.0, y: 0.28}}
               end={{x: 0.011, y: 1.15}}
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
-              style={{
-                width: '100%',
-                height: '100%',
-                opacity: 0.2,
-                borderRadius: Value.CONSTANT_VALUE_18,
-              }}
+              style={styles.gradient}
             />
           </ImageBackground>
           <View style={styles.locationContainer}>
@@ -130,11 +133,7 @@ const SmDashboard = ({route}) => {
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
       rightPress={() => logoutScreen()}
-      style={{
-        position: Alignment.ABSOLUTE,
-        paddingTop: Value.CONSTANT_VALUE_15,
-        marginHorizontal: Value.CONSTANT_VALUE_60,
-      }}
+      style={styles.iconHead}
     />
   );
   return (
@@ -181,16 +180,15 @@ const SmDashboard = ({route}) => {
             />
           </View>
           <View>
-            <View style={Styles.flatlist}>
-              <FlatList
-                columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
-                data={cards?.data}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderProfile}
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
+            <FlatList
+              contentContainerStyle={Styles.flatlist}
+              columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
+              data={cards?.data}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderProfile}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
         </View>
       </View>
