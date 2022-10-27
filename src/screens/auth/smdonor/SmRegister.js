@@ -155,14 +155,13 @@ const SmRegister = () => {
       type: file.mime,
       uri: file.path,
     });
-    console.log('reqData---->', reqData);
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
   };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => navigation.navigate(Routes.Profile,{isRouteData})}
+      onPress={() => navigation.navigate(Routes.Profile, {isRouteData})}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
@@ -389,7 +388,7 @@ const SmRegister = () => {
           />
           <Pressable
             onPress={() => {
-              navigation.navigate(Routes.Profile);
+              navigation.navigate(Routes.Profile, {isRouteData});
             }}>
             <Text style={styles.parentBtn}>Register as Parent To Be</Text>
           </Pressable>

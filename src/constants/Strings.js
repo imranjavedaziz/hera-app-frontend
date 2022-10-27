@@ -295,4 +295,8 @@ export default {
   SmDashboard: {
     search: 'Search',
   },
+  stateList: {
+    Subtitle: 'Search in any state',
+    iconText: 'Done',
+  },
 };

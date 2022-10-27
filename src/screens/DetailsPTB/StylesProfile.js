@@ -142,4 +142,9 @@ export default {
   fullWidth: {
     width: '100%',
   },
+  userImg: {
+    position: Alignment.ABSOLUTE,
+    bottom: Value.CONSTANT_VALUE_0,
+    right: Value.CONSTANT_VALUE_20,
+  },
 };

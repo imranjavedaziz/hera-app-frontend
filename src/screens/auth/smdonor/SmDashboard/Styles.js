@@ -59,4 +59,48 @@ export default {
     paddingBottom: Value.CONSTANT_VALUE_10,
   },
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
+  stateItem: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  stateItemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // flex:1
+  },
+  unSel: {
+    paddingVertical: 10,
+    fontSize: 20,
+    fontFamily: Fonts.OpenSansRegular,
+  },
+  sel: {
+    paddingVertical: 10,
+    fontSize: 20,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  imgSel: {marginLeft: 100, tintColor: Colors.GREEN},
+  iconFont: {
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: 'underline',
+  },
+  stateSubtitle: {marginBottom: 15},
+  flexRow: {
+    flexDirection: 'row',
+  },
+  gradient: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.2,
+    borderRadius: Value.CONSTANT_VALUE_18,
+  },
+  iconHead: {
+    position: 'absolute',
+    paddingTop: Value.CONSTANT_VALUE_15,
+    marginHorizontal: Value.CONSTANT_VALUE_60,
+  },
+  flatlist: {
+    paddingBottom: Value.CONSTANT_VALUE_150,
+  },
 };

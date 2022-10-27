@@ -14,7 +14,11 @@ import moment from 'moment';
 import openCamera from '../../utils/openCamera';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import { showAppToast, hideAppLoader, showAppLoader } from '../../redux/actions/loader';
+import {
+  showAppToast,
+  hideAppLoader,
+  showAppLoader,
+} from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -41,6 +45,7 @@ import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
+import StylesProfile from './StylesProfile';
 
 const Profile = ({route}) => {
   const navigation = useNavigation();
@@ -59,6 +64,7 @@ const Profile = ({route}) => {
   const {
     handleSubmit,
     control,
+    reset,
     setValue,
     formState: {errors},
   } = useForm({
@@ -81,7 +87,13 @@ const Profile = ({route}) => {
       }
     }
     loadingRef.current = register_user_loading;
-  }, [register_user_success, register_user_loading]);
+  }, [
+    register_user_success,
+    register_user_loading,
+    register_user_error_msg,
+    dispatch,
+    navigation,
+  ]);
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
@@ -134,7 +146,11 @@ const Profile = ({route}) => {
   };
   useEffect(() => {
     askCameraPermission();
-  }, [navigation]);
+    const unsubscribe = navigation.addListener('focus', () => {
+      reset();
+    });
+    return unsubscribe;
+  }, [navigation, reset]);
   return (
     <>
       <Container
@@ -169,13 +185,7 @@ const Profile = ({route}) => {
                   <TouchableOpacity
                     style={[
                       styles.uploadBackground,
-                      userImage
-                        ? {
-                            position: Alignment.ABSOLUTE,
-                            bottom: 0,
-                            right: 20,
-                          }
-                        : null,
+                      userImage ? styles.userImg : null,
                     ]}
                     onPress={() => setOpen(true)}>
                     <Image source={Images.camera} style={styles.profileImg} />

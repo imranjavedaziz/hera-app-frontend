@@ -1,5 +1,5 @@
 import {Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from '../../../../components/Container';
 import {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
@@ -12,14 +12,13 @@ import Button from '../../../../components/Button';
 import Styles from './Styles';
 import {Value} from '../../../../constants/FixedValues';
 import {Routes} from '../../../../constants/Constants';
-import Auth from '../../../../services/Auth';
+import {updateProfileImg} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
-  const authService = Auth();
   const dispatch = useDispatch();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   console.log(profileImg, 'mjuyt');
@@ -28,6 +27,7 @@ const SmDonorSettings = () => {
   const userName = `${first_name} ${last_name}`;
   console.log('++++', userName);
   const [isOpen, setOpen] = useState(false);
+  const [file, setFile] = useState(null);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -37,9 +37,22 @@ const SmDonorSettings = () => {
   );
   const cb = image => {
     setOpen(false);
-    console.log('IMG', image);
+    setFile(image);
     // dispatch(updateImg(image))
   };
+  useEffect(() => {
+    const reqData = new FormData();
+    {
+      file !== null &&
+        reqData.append('file', {
+          name: 'name',
+          type: file.mime,
+          uri: file.path,
+        });
+      // console.log('REQDATA--->', reqData);
+      dispatch(updateProfileImg(reqData));
+    }
+  }, [file, dispatch]);
   return (
     <>
       <Container
@@ -98,7 +111,7 @@ const SmDonorSettings = () => {
             <Image source={Images.person} />
             <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
           </View>
-          <View style={Styles.dot}></View>
+          <View style={Styles.dot} />
         </View>
         <View style={Styles.contain}>
           <Image source={Images.setting2} />
@@ -116,8 +129,8 @@ const SmDonorSettings = () => {
           <Button
             style={Styles.Btn}
             label={Strings.smSetting.Btn}
-            color={Colors.COLOR_F18D93}
-            onPress={authService.logout}
+            color={Colors.PINK}
+            // onPress={authService.logout}
           />
           <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
         </View>

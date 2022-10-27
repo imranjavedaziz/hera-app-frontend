@@ -62,9 +62,11 @@ const Gallery = () => {
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
+  // console.log('Hello', gallery_data);
   useEffect(() => {
     dispatch(getUserGallery());
   }, []);
+
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
@@ -91,15 +93,17 @@ const Gallery = () => {
           return {id: i, uri: image.path, loading: true};
         }
         return img;
+        // return {id: i, uri: '', loading: false};
       });
     });
     const setLoading = loading => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
           if (i === gIndex) {
-            return {uri: img.uri, loading};
+            return {id: i, uri: img.uri, loading};
           }
           return img;
+          // return {id: i, uri: '', loading: false};
         });
       });
     };
@@ -157,18 +161,34 @@ const Gallery = () => {
       setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
+    console.log('REMOVE', remove);
+    // console.log('GALLY', gallery);
   }
+  remove.sort();
+  let del = [];
+  let iterator = 0;
+  gallery_data?.doner_photo_gallery?.map((item, index) => {
+    if (index === remove[iterator]) {
+      del.push(item.id.toString());
+      iterator++;
+    }
+  });
+  console.log('DEL', del);
   console.log(remove, 'REMOVE');
+
   const deleteImg = () => {
-    let payload = {
-      ids: remove,
-    };
+    let payload = JSON.stringify({
+      ids: del,
+    });
+    console.log('PAYLOAD', payload);
     dispatch(deleteGallery(payload));
-    console.log(payload, 'POAYLOAD RMV IMG');
     dispatch(getUserGallery());
+
     setDel(false);
     setRmvImgCount(0);
+    setRemove([]);
   };
+  // useEffect(() => {}, [deleteImg]);
 
   const updateGallery = () => {
     const url =
@@ -176,19 +196,21 @@ const Gallery = () => {
       gallery_data?.doner_photo_gallery.map((item, i) => {
         return item.file_url;
       });
-    console.log('Gallery_DATA', url);
+    // console.log('Gallery_DATA', url);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
           return {id: i, uri: url[i], loading: false};
         }
-        return img;
+        // return img;
+        return {id: i, uri: '', loading: false};
       });
     });
     for (let i = 0; i < url?.length; ++i) {
       images.push({uri: url[i]});
     }
     setGIndex(url?.length);
+    console.log('GALLY', gallery);
   };
   const headerComp = () => (
     <CircleBtn
@@ -216,7 +238,7 @@ const Gallery = () => {
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
-                key={index}
+                key={img.id}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
                 <ImageBackground
@@ -329,7 +351,7 @@ const Gallery = () => {
               onPress={() => {
                 setShowModal(false);
                 deleteImg();
-                navigation.navigate(Routes.SmSetting);
+                // navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

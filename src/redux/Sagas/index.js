@@ -18,8 +18,8 @@ import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
 import {watchGetDonorDashboard} from './DonorDashboard';
 import {watchDeleteUserGallery} from './CreateGallery';
 import {watchGetPtbProfileDetail} from './PtbProfileDetail';
-import { watchSmDonorDetail } from "./SmDonerDetail";
-
+import {watchSmDonorDetail} from './SmDonerDetail';
+import {watchupdateProfileImg} from './Auth';
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
@@ -39,5 +39,6 @@ export default function* rootSaga() {
     fork(watchDeleteUserGallery),
     fork(watchGetPtbProfileDetail),
     fork(watchSmDonorDetail),
+    fork(watchupdateProfileImg),
   ]);
 }

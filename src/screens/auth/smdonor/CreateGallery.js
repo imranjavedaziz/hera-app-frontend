@@ -1,5 +1,5 @@
 // CreateGallery
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   View,
@@ -26,6 +26,7 @@ import {
   getUserGallery,
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 
 import ImageView from 'react-native-image-viewing';
 const CreateGallery = () => {
@@ -42,7 +43,7 @@ const CreateGallery = () => {
     {id: 5, uri: '', loading: false},
   ]);
   const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
-  console.log('PROFILE', profileImg);
+  const loadingGalleryRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({uri: '', loading: false});
   const [isOpen, setOpen] = useState(false);
@@ -51,7 +52,8 @@ const CreateGallery = () => {
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [images, setImages] = useState([]);
   const [remove, setRemove] = useState([]);
-  const {gallery_data} = useSelector(
+  // const {gallery_data} = useSelector(state => state.CreateGallery);
+  const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
   const cb = image => {
@@ -64,11 +66,12 @@ const CreateGallery = () => {
         return img;
       });
     });
+    // images.push({uri: image.path});
     const setLoading = loading => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
           if (i === gIndex) {
-            return {uri: img.uri, loading};
+            return {id: i, uri: img.uri, loading};
           }
           return img;
         });
@@ -83,16 +86,26 @@ const CreateGallery = () => {
     });
     userService.createGallery(reqData, setLoading);
   };
-  const selectVideo = () => {
-    videoPicker().then(v => {
-      setVideo({uri: v.path, loading: true});
+  const selectVideo = index => {
+    videoPicker(index).then(v => {
+      if (v?.path) {
+        setVideo({file_url: v.path, loading: false});
+        setOpen(false);
+      } else {
+        setVideo({file_url: '', loading: false});
+        setOpen(false);
+      }
+
       const reqData = new FormData();
-      reqData.append('vedio', {
-        name: v.filename,
+      const fileName = v?.path.substring(v?.path.lastIndexOf('/') + 1);
+      reqData.append('video', {
+        name: fileName,
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData);
+      userService.createGallery(reqData, loading =>
+        setVideo(old => ({...old, loading})),
+      );
     });
   };
   const ImageClick = index => {
@@ -105,68 +118,45 @@ const CreateGallery = () => {
     }
     return;
   };
+  useEffect(() => {
+    if (loadingGalleryRef.current && !gallery_loading) {
+      dispatch(showAppLoader());
+      if (gallery_success) {
+        // console.log('SUCCESS');
+        updateGallery();
 
-  // const handelDel = index => {
-  //   setDel(true);
-  //   const temp = [];
-  //   remove.map((item, idx) => {
-  //     if (index === idx) {
-  //       if (item.isSelected === true) {
-  //         temp.push({id: idx, isSelected: false});
-  //         setRmvImgCount(rmvImgCount - 1);
-  //         return;
-  //       } else {
-  //         temp.push({id: idx, isSelected: true});
-  //         setRmvImgCount(rmvImgCount + 1);
-  //         return;
-  //       }
-  //     } else {
-  //       if (item.isSelected === true) {
-  //         temp.push({id: idx, isSelected: true});
-  //         return;
-  //       } else {
-  //         temp.push({id: idx, isSelected: false});
-  //         return;
-  //       }
-  //     }
-  //   });
-  //   setRemove(temp);
-  // };
-  // const deleteImg = () => {
-  //   let index = [];
-  //   remove.map((item, ind) => {
-  //     if (item.isSelected === true) {
-  //       index.push(ind);
-  //     }
-  //   });
-  //   let pointer = 0;
-  //   const filterItem = gallery.map((oldImg, i) => {
-  //     if (i === index[pointer]) {
-  //       pointer++;
-  //       return {id: i, uri: '', loading: false};
-  //     } else {
-  //       return {id: i, uri: oldImg.uri, loading: false};
-  //     }
-  //   });
-  //   setGIndex(gIndex - index.length);
-  //   function sortImg(a, b) {
-  //     if (a.uri === '') {
-  //       return 1;
-  //     } else {
-  //       return -1;
-  //     }
-  //   }
-  //   filterItem.sort(sortImg);
-  //   setGallery(filterItem);
-  //   setRemove(item => {
-  //     return item.map(i => {
-  //       return {isSelected: false};
-  //     });
-  //   });
-  //   setDel(false);
-  //   setRmvImgCount(0);
-  // };
-  
+        dispatch(hideAppLoader());
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingGalleryRef.current = gallery_loading;
+  }, [gallery_success, gallery_loading]);
+
+  const updateGallery = () => {
+    // console.log('UPIMG');
+    const url =
+      gallery_data?.doner_photo_gallery?.length > 0 &&
+      gallery_data?.doner_photo_gallery.map((item, i) => {
+        return item.file_url;
+      });
+    // console.log('Gallery_DATA', url);
+    setGallery(oldImg => {
+      return oldImg.map((img, i) => {
+        console.log('IMG', img);
+        if (i <= gallery_data?.doner_photo_gallery?.length) {
+          return {id: i, uri: url[i], loading: false};
+        }
+        // return img;
+        return {id: i, uri: '', loading: false};
+      });
+    });
+    for (let i = 0; i < url?.length; ++i) {
+      images.push({uri: url[i]});
+    }
+    setGIndex(url?.length);
+    // console.log('GALRY', gallery);
+  };
   function handelDel(index) {
     setDel(true);
     let pushArr = remove;
@@ -179,20 +169,29 @@ const CreateGallery = () => {
       setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
+    // console.log('REMOVE', remove);
+    // console.log('GAL', gallery);
   }
+  remove.sort();
+  let del = [];
+  let iterator = 0;
+  gallery_data?.doner_photo_gallery?.map((item, index) => {
+    if (index === remove[iterator]) {
+      del.push(item.id.toString());
+      iterator++;
+    }
+  });
   const deleteImg = () => {
     let payload = {
-      ids: remove,
+      ids: del,
     };
+    console.log('PAYLOAD', payload);
     dispatch(deleteGallery(payload));
-    console.log(payload,"POAYLOAD RMV IMG")
     dispatch(getUserGallery());
     setDel(false);
+    setRemove([]);
     setRmvImgCount(0);
   };
-  useEffect(() => {
-    console.log('USE EFFECT');
-  }, [gallery]);
   const headerComp = () => {
     <></>;
   };
@@ -238,7 +237,7 @@ const CreateGallery = () => {
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
-                key={index}
+                key={img.id}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
                 <ImageBackground
@@ -254,14 +253,14 @@ const CreateGallery = () => {
                         handelDel(img.id);
                       }}
                       style={{}}>
-                      {/* <Image
+                      <Image
                         source={
                           remove.includes(img.id) === true
                             ? Images.iconRadiosel
                             : Images.iconRadiounsel
                         }
                         style={styles.selectIcon}
-                      /> */}
+                      />
                     </TouchableOpacity>
                   ) : null}
                   {gIndex === index && (
