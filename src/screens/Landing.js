@@ -40,10 +40,12 @@ const Landing = () => {
           <Text style={styles.title}>{Strings.landing.Like_Match_Connect}</Text>
           <View style={styles.btnContainer}>
             <Button
+            style={{width:212}}
               label={Strings.landing.LOG_IN}
               onPress={() => navigation.navigate(Routes.Login)}
             />
             <Button
+               style={{width:212}}
               label={Strings.landing.REGISTER}
               onPress={() => navigation.navigate(Routes.MobileNumber)}
             />
