@@ -322,7 +322,7 @@ const Gallery = () => {
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.profile.bottomSheetCamera}
+              {Strings.sm_create_gallery.bottomSheetCamera}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -332,7 +332,7 @@ const Gallery = () => {
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
               {' '}
-              {Strings.profile.bottomSheetGallery}
+              {Strings.sm_create_gallery.bottomSheetGallery}
             </Text>
           </TouchableOpacity>
         </View>
