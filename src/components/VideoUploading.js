@@ -20,7 +20,7 @@ const VideoUploading = props => {
       disabled={props?.disabled}
       onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
-        {props?.video?.file_url === '' ? (
+        {props?.video?.file_url === '' && (
           <>
             <View style={styles.innerVdo}>
               <Text style={styles.vdoHeading}>
@@ -29,9 +29,9 @@ const VideoUploading = props => {
               <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
             </View>
           </>
-        ) : props?.video.loading ? (
-          <ActivityIndicator />
-        ) : (
+        )}
+        {props?.video?.loading && <ActivityIndicator />}
+        {props?.video?.file_url !== '' && (
           <View style={props?.imageOverlay}>
             <Video
               ref={props?.videoRef}

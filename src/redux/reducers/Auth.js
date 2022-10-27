@@ -27,7 +27,6 @@ import {
   UPDATE_PROFILE_IMG_SUCCESS,
   UPDATE_PROFILE_IMG_FAIL,
 } from '../Type';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initState = {
   user: {
@@ -127,11 +126,9 @@ export default (state = initState, action) => {
     }
     case AUTH_LOG_IN_SUCCESS: {
       const {access_token} = action.data.data.data;
-      // AsyncStorage.setItem('token', access_token);
       return {
         ...state,
         user: action?.data?.data?.data,
-
         log_in_success: true,
         log_in_loading: false,
         token: access_token,

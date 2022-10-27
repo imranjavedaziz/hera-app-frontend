@@ -29,7 +29,6 @@ const Dropdown = ({
         <SelectDropdown
           data={data}
           defaultButtonText={value}
-          // disableAutoScroll={false}
           onSelect={(selectedItem, index) => {
             setValue(selectedItem);
             onSelect(selectedItem, index);

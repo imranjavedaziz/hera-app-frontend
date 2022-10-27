@@ -20,7 +20,7 @@ import videoPicker from '../../../utils/videoPicker';
 import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
-import User from '../../../services/User';
+import User from '../../../Api/User';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserGallery,
@@ -50,7 +50,7 @@ const CreateGallery = () => {
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const images = [];
   const [remove, setRemove] = useState([]);
   // const {gallery_data} = useSelector(state => state.CreateGallery);
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
@@ -112,11 +112,11 @@ const CreateGallery = () => {
     setImgPreviewIndex(index);
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
-    }
-    if (index < gIndex && rmvImgCount === 0) {
+    } else if (index < gIndex && rmvImgCount === 0) {
       setIsVisible(true);
+    } else {
+      return;
     }
-    return;
   };
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {

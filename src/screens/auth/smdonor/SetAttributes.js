@@ -21,8 +21,6 @@ import {Routes} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
 
 const SetAttributes = ({route}) => {
-  const initialState = useSelector(state => state.Auth);
-  console.log(initialState);
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [attributeData, setAttributeData] = useState();
@@ -219,7 +217,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
-                label={Strings.sm_set_attributes.HairColor}
+                label={Strings.preference.HairColor}
                 data={attributeData?.hair_colour}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);

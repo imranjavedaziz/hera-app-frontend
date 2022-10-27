@@ -12,7 +12,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  console.log(action.data);
   switch (action.type) {
     /**
      * GET DONOR DASHBOARD CARDS

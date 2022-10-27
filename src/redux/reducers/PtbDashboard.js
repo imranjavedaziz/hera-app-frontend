@@ -12,7 +12,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  console.log(action.data,'PTB_DASHBOARD::::::::::');
   switch (action.type) {
     /**
      * GET PROFILE SETTER

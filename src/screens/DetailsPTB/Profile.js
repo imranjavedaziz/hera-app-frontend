@@ -127,7 +127,7 @@ const Profile = ({route}) => {
       return;
     }
     const reqData = new FormData();
-    reqData.append(FormKey.role_id, 2);
+    reqData.append(FormKey.role_id, FormKey.parent_to_be_role_id);
     reqData.append(FormKey.first_name, data.first_name);
     reqData.append(FormKey.middle_name, data.middle_name);
     reqData.append(FormKey.last_name, data.last_name);
@@ -395,7 +395,7 @@ const Profile = ({route}) => {
               }}
               style={[styles.pickerBtn, styles.pickerBtnBorder]}>
               <Text style={styles.pickerBtnLabel}>
-                {Strings.PTB_Profile.Open_Camera}
+                {Strings.sm_create_gallery.bottomSheetCamera}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -404,7 +404,7 @@ const Profile = ({route}) => {
               }}
               style={styles.pickerBtn}>
               <Text style={styles.pickerBtnLabel}>
-                {Strings.PTB_Profile.Open_Gallery}
+                {Strings.sm_create_gallery.bottomSheetGallery}
               </Text>
             </TouchableOpacity>
           </View>

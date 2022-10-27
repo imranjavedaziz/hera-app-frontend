@@ -9,7 +9,6 @@ import {takeLatest, put} from 'redux-saga/effects';
 function* getPtbProfileDetail(payload) {
   try {
     const result = yield PtbProfileDetailApi(payload.data);
-    console.log('result', result);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: PTB_PROFILE_DETAI_SUCCESS, data: result});
     } else {

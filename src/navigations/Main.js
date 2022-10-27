@@ -25,9 +25,9 @@ import DashboardDetailScreen from '../screens/dashboard/DashboardDetailScreen';
 import PtbProfile from '../screens/dashboard/PtbProfile';
 import MyVideo from '../screens/dashboard/PtbProfile/MyVideo';
 import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery';
-import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Inqueryform from '../screens/InqueryForm/Inqueryform';
-
+import Subscription from '../screens/dashboard/PtbProfile/Subscription';
+import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 const Stack = createStackNavigator();
 const Main = () => {
   const auth = useSelector(state => state.Auth.user);
@@ -144,9 +144,10 @@ const Main = () => {
           component={Inqueryform}
           options={{headerShown: false}}
         />
+        <Stack.Screen name={Routes.stateList} component={StateList} />
         <Stack.Screen
-          name={Routes.stateList}
-          component={StateList}
+          name={Routes.Subscription}
+          component={Subscription}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

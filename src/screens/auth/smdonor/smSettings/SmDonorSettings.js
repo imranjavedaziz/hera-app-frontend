@@ -16,16 +16,15 @@ import {updateProfileImg} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
+import {logOut} from '../../../../redux/actions/Auth';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
-  console.log(profileImg, 'mjuyt');
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const userName = `${first_name} ${last_name}`;
-  console.log('++++', userName);
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const headerComp = () => (
@@ -53,6 +52,12 @@ const SmDonorSettings = () => {
       dispatch(updateProfileImg(reqData));
     }
   }, [file, dispatch]);
+
+  const logoutScreen = () => {
+    dispatch(logOut());
+    navigation.navigate(Routes.Landing);
+  };
+
   return (
     <>
       <Container
@@ -131,6 +136,7 @@ const SmDonorSettings = () => {
             label={Strings.smSetting.Btn}
             color={Colors.PINK}
             // onPress={authService.logout}
+            onPress={() => logoutScreen()}
           />
           <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
         </View>

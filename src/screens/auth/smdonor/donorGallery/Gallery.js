@@ -22,7 +22,7 @@ import BottomSheetComp from '../../../../components/BottomSheet';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
-import User from '../../../../services/User';
+import User from '../../../../Api/User';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserGallery,
@@ -140,12 +140,12 @@ const Gallery = () => {
   };
   const ImageClick = index => {
     setImgPreviewIndex(index);
-    setIsVideo(false);
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
-    }
-    if (index < gIndex && rmvImgCount === 0) {
+    } else if (index < gIndex && rmvImgCount === 0) {
       setIsVisible(true);
+    } else {
+      return;
     }
   };
 
@@ -260,7 +260,7 @@ const Gallery = () => {
                       style={{}}>
                       <Image
                         source={
-                          remove.includes(img.id) === true
+                          remove.includes(img.id)
                             ? Images.iconRadiosel
                             : Images.iconRadiounsel
                         }
@@ -322,7 +322,7 @@ const Gallery = () => {
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.PTB_Profile.Open_Camera}
+              {Strings.profile.bottomSheetCamera}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -332,7 +332,7 @@ const Gallery = () => {
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
               {' '}
-              {Strings.PTB_Profile.Open_Gallery}
+              {Strings.profile.bottomSheetGallery}
             </Text>
           </TouchableOpacity>
         </View>

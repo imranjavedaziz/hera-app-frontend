@@ -39,7 +39,6 @@ const PTB_profile = () => {
     }
     loadingRef.current = get_ptb_profile_detail_loading;
   }, [get_ptb_profile_detail_success, get_ptb_profile_detail_loading]);
-  console.log('result', get_ptb_profile_detail_res);
   const {
     params: {userid},
   } = useRoute();
@@ -48,8 +47,10 @@ const PTB_profile = () => {
   }, []);
   const navigation = useNavigation();
   const [sendReq, setSendReq] = useState(false);
-  const [requestDecline, SetRequestDecline] = useState(false);
-  const [liked, setLiked] = useState(false);
+  // const [requestDecline, SetRequestDecline] = useState(false);
+  const requestDecline = false;
+  // const [liked, setLiked] = useState(false);
+  const liked = false;
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}

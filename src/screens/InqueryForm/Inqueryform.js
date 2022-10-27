@@ -13,17 +13,16 @@ import styles from '../../styles/auth/smdonor/basicDetailsScreen';
 import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import Dropdown from '../../components/inputs/Dropdown';
 import Button from '../../components/Button';
+import {FormKey} from '../../constants/Constants';
 export default function Inqueryform() {
-    const dataone = [
-        { label: 'One', value: '1' },
-        { label: 'Two', value: '2' },
-     
-    ];
+  const dataone = [
+    {label: 'One', value: '1'},
+    {label: 'Two', value: '2'},
+  ];
   const {
     handleSubmit,
     control,
     formState: {errors, isValid},
-    
   } = useForm({
     resolver: yupResolver(inqueryFormSchema),
   });
@@ -32,16 +31,16 @@ export default function Inqueryform() {
     <CircleBtn
       icon={Images.iconcross}
       onPress={() => navigation.goBack()}
-      accessibilityLabel="Left arrow Button, Press to go back"
+      accessibilityLabel={Strings.inqueryForm.LEFT_ARROW_BUTTON}
     />
   );
   const onSubmit = data => {
     const reqData = new FormData();
-    reqData.append('name', data.name);
-    reqData.append('user_type', data.user_type);
-    reqData.append('emailAddress', data.emailAddress);
-    reqData.append('mobileNumber', data.mobileNumber);
-    reqData.append('message', data.message);
+    reqData.append(FormKey.name, data.name);
+    reqData.append(FormKey.user_type, data.user_type);
+    reqData.append(FormKey.emailAddress, data.emailAddress);
+    reqData.append(FormKey.mobileNumber, data.mobileNumber);
+    reqData.append(FormKey.message, data.message);
   };
   return (
     <Container
@@ -63,7 +62,7 @@ export default function Inqueryform() {
               required={true}
             />
           )}
-          name="name"
+          name={FormKey.name}
         />
         <Controller
           control={control}
@@ -71,7 +70,6 @@ export default function Inqueryform() {
             <Dropdown
               label={Strings.inqueryForm.USER_TYPE}
               data={dataone}
-              
               onSelect={(selectedItem, index) => {
                 onChange(selectedItem, index);
               }}
@@ -79,21 +77,21 @@ export default function Inqueryform() {
               error={errors && errors.user_type?.message}
             />
           )}
-          name="user_type"
+          name={FormKey.user_type}
         />
 
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
             <FloatingLabelInput
-              label={Strings.inqueryForm.EmailAddress}
+              label={Strings.profile.EmailAddress}
               value={value}
               onChangeText={v => onChange(v)}
               error={errors && errors.emailAddress?.message}
               required={true}
             />
           )}
-          name="emailAddress"
+          name={FormKey.emailAddress}
         />
         <Controller
           control={control}
@@ -106,7 +104,7 @@ export default function Inqueryform() {
               required={true}
             />
           )}
-          name="mobileNumber"
+          name={FormKey.mobileNumber}
         />
         <Controller
           control={control}
@@ -124,7 +122,7 @@ export default function Inqueryform() {
               inputStyle={Styles.textArea}
             />
           )}
-          name="message"
+          name={FormKey.message}
         />
         <Button
           label={Strings.inqueryForm.SendInquiry}

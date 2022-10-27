@@ -3,15 +3,15 @@ import {Regx} from './schemas';
 
 const environment = {
   dev: {
-    bucket: 'geldating-dev-frontend',
+    bucket: '',
     api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',
   },
   qa: {
-    bucket: 'geldating-qa-frontend',
+    bucket: '',
     api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
   },
   stage: {
-    bucket: 'geldating-stage-frontend',
+    bucket: '',
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
   },
 };
@@ -74,6 +74,11 @@ export const FormKey = {
   ethnicity: 'ethnicity',
   hair: 'hair',
   eye: 'eye',
+  user_type: 'user_type',
+  emailAddress: 'emailAddress',
+  mobileNumber: 'mobileNumber',
+  message: 'message',
+  parent_to_be_role_id: 2,
 };
 
 export const smRoles = [
@@ -161,6 +166,7 @@ export const Routes = {
   donorGallery: 'DonorGallery',
   stateList: 'StateList',
   inqueryForm: 'InqueryForm',
+  Subscription: 'Subscription',
 };
 export const Static = {
   countries: [

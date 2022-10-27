@@ -164,6 +164,7 @@ export const Value = {
   CONSTANT_VALUE_335: 335,
   CONSTANT_VALUE_332: 332,
   CONSTANT_VALUE_348: 348,
+  CONSTANT_VALUE_349: 349,
   CONSTANT_VALUE_350: 350,
   CONSTANT_VALUE_360: 360,
   CONSTANT_VALUE_375: 375,
@@ -208,4 +209,7 @@ export const Prencentage = {
   PRECENTAGE_90: '90%',
   PRECENTAGE_98: '98%',
   PRECENTAGE_100: '100%',
+};
+export const FontSize = {
+  FONT_16: 16,
 };

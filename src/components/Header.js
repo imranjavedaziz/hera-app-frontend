@@ -11,7 +11,7 @@ const styles = {
     paddingVertical: Value.CONSTANT_VALUE_10,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.CLEAR,
-    position: 'absolute',
+    position: Alignment.ABSOLUTE,
     top: 0,
     left: 0,
     zIndex: 999,
@@ -27,7 +27,7 @@ const styles = {
   },
   img: {
     maxWidth: Value.CONSTANT_VALUE_50,
-    resizeMode: 'cover',
+    resizeMode: Alignment.COVER,
     maxHeight: Value.CONSTANT_VALUE_50,
     flex: Value.CONSTANT_VALUE_0,
   },
@@ -43,7 +43,7 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
-  innerProfileimg:{
+  innerProfileimg: {
     width: Value.CONSTANT_VALUE_30,
     height: Value.CONSTANT_VALUE_30,
     borderRadius: Value.CONSTANT_VALUE_20,
@@ -52,7 +52,6 @@ const styles = {
   },
   profileIconConatiner: {
     marginRight: Value.CONSTANT_VALUE_290,
-
   },
 };
 export const CircleBtn = ({icon, onPress, ...otherProps}) => (
@@ -117,7 +116,7 @@ const Header = ({end = false, children}) => {
     </View>
   );
 };
-export const ProfileIcon = ({}) => (
+export const ProfileIcon = () => (
   <View style={[styles.container, styles.start]}>
     <View style={styles.profileImgContainner}>
       <Image
