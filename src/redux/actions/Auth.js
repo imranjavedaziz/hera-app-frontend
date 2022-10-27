@@ -80,12 +80,9 @@ export const ptbRegister = payload => {
     data: payload,
   };
 };
-
-// export const getUserGallery = () => async dispatch => {
-//   const result = await axiosRequest.get(ApiPath.getGallery);
-//   //  console.log("RES",result.data.data)
-//   dispatch({
-//     type: GET_GALLERY,
-//     payload: result.data.data,
-//   });
-// };
+export const updateProfileImg = payload => {
+  return {
+    type: UPDATE_PROFILE_IMG,
+    data: payload,
+  };
+};
