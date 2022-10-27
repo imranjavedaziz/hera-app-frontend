@@ -288,7 +288,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
-                label={Strings.sm_register.email}
+                label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v.toLowerCase())}
                 error={errors && errors.email?.message}
