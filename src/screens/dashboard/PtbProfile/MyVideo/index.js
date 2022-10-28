@@ -120,7 +120,7 @@ console.log('video',video)
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.PTB_Profile.Open_Camera}
+              {Strings.sm_create_gallery.bottomSheetCamera}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -129,7 +129,7 @@ console.log('video',video)
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.PTB_Profile.Open_Gallery}
+              {Strings.sm_create_gallery.bottomSheetGallery}
             </Text>
           </TouchableOpacity>
         </View>
