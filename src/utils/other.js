@@ -1,13 +1,16 @@
 export function getRoleType(id) {
-  var _type =
-    id === 2
-      ? 'PARENTS_TO_BE'
-      : id === 3
-      ? 'SURROGATE_MOTHER'
-      : id === 4
-      ? 'EGG_DONER'
-      : id === 5
-      ? 'SPERM_DONER'
-      : '';
-  return _type;
+  if (id === 2) {
+    return 'PARENTS_TO_BE';
+  }
+  if (id === 3) {
+    return 'SURROGATE_MOTHER';
+  }
+  if (id === 4) {
+    return 'EGG_DONER';
+  }
+  if (id === 5) {
+    return 'SPERM_DONER';
+  } else {
+    return '';
+  }
 }
