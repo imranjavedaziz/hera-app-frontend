@@ -11,7 +11,7 @@ import {
   watchGetStates,
   watchGetProfileSetter,
 } from './Register';
-import {watchsetPreference} from './SetPreference';
+import {watchSavePreferenceRes, watchsetPreference} from './SetPreference';
 import {watchGetUserGallery} from './CreateGallery';
 import {watchGetPtbDashboard} from './PtbDashboard';
 import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
@@ -40,5 +40,6 @@ export default function* rootSaga() {
     fork(watchGetPtbProfileDetail),
     fork(watchSmDonorDetail),
     fork(watchupdateProfileImg),
+    fork(watchSavePreferenceRes),
   ]);
 }
