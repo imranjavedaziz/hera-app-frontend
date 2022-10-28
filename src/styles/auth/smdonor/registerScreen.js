@@ -84,6 +84,7 @@ export default {
     flexDirection: Alignment.ROW,
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_10,
   },
   checkboxLabel: {
     fontSize: Value.CONSTANT_VALUE_13,

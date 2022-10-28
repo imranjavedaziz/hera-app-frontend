@@ -87,6 +87,7 @@ const SmBasicDetails = () => {
     if (LoadingRef.current && !get_profile_setter_loading) {
       dispatch(showAppLoader());
       if (get_profile_setter_success) {
+        // console.log("GETSETTER",get_profile_setter_res)
         dispatch(hideAppLoader());
         setProfileRes(get_profile_setter_res);
       }

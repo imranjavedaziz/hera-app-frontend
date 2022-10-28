@@ -27,7 +27,8 @@ import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 
 const SmDashboard = ({route}) => {
-  console.log('ROUTES', route.params);
+  // let selectedState = route.params?.data;
+  console.log('ROUTES', route.params?.data);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const LoadingRef = useRef(false);
@@ -38,7 +39,7 @@ const SmDashboard = ({route}) => {
   const dashboardApi=(value,page,limit)=>{
     let payload = {
       keyword: value,
-      state_ids: '',
+      state_ids: route.params,
       page: page,
       limit: limit
     }
@@ -67,6 +68,11 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   useEffect(() => {
+    let payload = {
+      state_ids: '',
+      page: 1,
+      limit: 10,
+    };
     dispatch(getDonorDashboard());
     dashboardApi('', 1, 10);
   }, [dispatch]);
