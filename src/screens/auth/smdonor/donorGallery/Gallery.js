@@ -105,9 +105,10 @@ const Gallery = () => {
       });
     };
     setGIndex(gIndex + 1);
+    const fileName = image?.path.substring(image?.path.lastIndexOf('/') + 1);
     const reqData = new FormData();
     reqData.append('image', {
-      name: image.filename,
+      name: fileName,
       type: image.mime,
       uri: image.path,
     });
