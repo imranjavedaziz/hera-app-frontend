@@ -29,7 +29,7 @@ const initState = {
   get_sexual_orientation_error_msg: '',
 };
 
-export default (action, state = initState) => {
+export default (state = initState, action) => {
   switch (action.type) {
     /**
      * SAVE BASIC DETAIL

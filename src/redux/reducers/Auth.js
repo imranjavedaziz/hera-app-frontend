@@ -97,7 +97,7 @@ const initState = {
   update_user_profile_img_error_msg: '',
 };
 
-export default (action, state = initState) => {
+export default (state = initState,action) => {
   switch (action.type) {
     /**
      * SignIn

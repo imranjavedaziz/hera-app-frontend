@@ -11,7 +11,7 @@ const initState = {
   get_ptb_profile_detail_res: {},
 };
 
-export default (action, state = initState) => {
+export default (state = initState, action) => {
   switch (action.type) {
     /**
      * GET PROFILE SETTER
