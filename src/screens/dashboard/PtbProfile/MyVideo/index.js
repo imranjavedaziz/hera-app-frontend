@@ -80,7 +80,14 @@ const MyVideo = () => {
       leftPress={() => navigation.goBack()}
     />
   );
-console.log('video',video)
+  const videoPlay = () => {
+    console.log('inside vedio play');
+    if (video?.file_url === '') {
+      setOpen(true);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  };
   return (
     <>
       <Container
@@ -102,9 +109,14 @@ console.log('video',video)
             imageOverlay={styles.imageOverlayWrapper}
             style={styles.VdoContainer}
             disabled={video?.file_url === '' ? false : true}
-            onPress={() =>
-              video?.file_url === '' ? setOpen(true) : setIsPlaying(p => !p)
-            }
+            onEnd={() => {
+              setIsPlaying(false);
+              videoRef?.current?.seek(0);
+              videoRef?.current?.setNativeProps({
+                paused: true,
+              });
+            }}
+            onPress={() => videoPlay()}
             videoStyle={styles.video}
             videoRef={videoRef}
             isPlaying={isPlaying}
@@ -120,7 +132,7 @@ console.log('video',video)
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.PTB_Profile.Open_Camera}
+              {Strings.sm_create_gallery.bottomSheetCamera}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -129,7 +141,7 @@ console.log('video',video)
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.PTB_Profile.Open_Gallery}
+              {Strings.sm_create_gallery.bottomSheetGallery}
             </Text>
           </TouchableOpacity>
         </View>

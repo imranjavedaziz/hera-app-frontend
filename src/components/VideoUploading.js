@@ -15,10 +15,11 @@ import Images from '../constants/Images';
 import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
+  console.log(props.isPlaying, "isPlaying");
   return (
     <TouchableOpacity
-      disabled={props?.disabled}
-      onPress={() => props?.onPress()}>
+      // disabled={props?.video?.file_url === '' ? false : true}
+      onPress={()=>props?.onPress()}>
       <ImageBackground style={props?.style}>
         {props?.video?.file_url === '' && (
           <>
@@ -45,8 +46,15 @@ const VideoUploading = props => {
               source={{uri: `${props?.video?.file_url}`}}
               style={props?.videoStyle}
               resizeMode={Alignment.COVER}
+              onEnd={() => {
+                props?.onEnd();
+              }}
             />
-            <Image source={Images.playButton} style={styles.playIcon} />
+            {
+              !props?.isPlaying&&
+              <Image source={Images.playButton} style={styles.playIcon} />
+            }
+
           </View>
         )}
       </ImageBackground>

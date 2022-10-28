@@ -47,7 +47,6 @@ axiosRequest.interceptors.response.use(
     } else if (error.response.status === 417 && error.response.data.message) {
       return error.response.data.message;
     }
-    console.log('AXIOMSG', error.response.data);
     return Promise.reject(error);
   },
 );
