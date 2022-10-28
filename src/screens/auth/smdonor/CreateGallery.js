@@ -27,13 +27,17 @@ import {
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import VideoUploading from '../../../components/VideoUploading';
 
 import ImageView from 'react-native-image-viewing';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
+  const videoRef = useRef();
   const dispatch = useDispatch();
   const [visible, setIsVisible] = useState(false);
+
+  const [isPlaying, setIsPlaying] = useState(false);
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
     {id: 1, uri: '', loading: false},
@@ -45,13 +49,15 @@ const CreateGallery = () => {
   const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const loadingGalleryRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({uri: '', loading: false});
+  const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const images = [];
   const [remove, setRemove] = useState([]);
+  const [isVideo, setIsVideo] = useState(false);
+
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
@@ -77,9 +83,10 @@ const CreateGallery = () => {
       });
     };
     setGIndex(gIndex + 1);
+    const fileName = image?.path.substring(image?.path.lastIndexOf('/') + 1);
     const reqData = new FormData();
     reqData.append('image', {
-      name: image.filename,
+      name: fileName,
       type: image.mime,
       uri: image.path,
     });
@@ -184,6 +191,10 @@ const CreateGallery = () => {
     setRemove([]);
     setRmvImgCount(0);
   };
+  const openBottomVideoSheet = () => {
+    setOpen(true);
+    setIsVideo(true);
+  };
   const headerComp = () => {
     <></>;
   };
@@ -265,7 +276,7 @@ const CreateGallery = () => {
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity onPress={selectVideo}>
+          {/* <TouchableOpacity onPress={selectVideo}>
             <ImageBackground
               style={styles.videoContainer}
               source={video.uri ? {uri: video.uri} : null}
@@ -288,7 +299,24 @@ const CreateGallery = () => {
                 <Image source={Images.playButton} />
               )}
             </ImageBackground>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+
+          <VideoUploading
+            disabled={video?.file_url === '' ? false : true}
+            style={styles.videoContainer}
+            imageOverlay={styles.imageOverlayWrapper}
+            videoStyle={styles.video}
+            onEnd={() => setIsPlaying(false)}
+            onPress={() =>
+              video?.file_url === ''
+                ? openBottomVideoSheet()
+                : setIsPlaying(p => !p)
+            }
+            videoRef={videoRef}
+            isPlaying={isPlaying}
+            video={video}
+          />
+
           {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
@@ -315,7 +343,8 @@ const CreateGallery = () => {
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
             onPress={() => {
-              openCamera(0, cb);
+              // openCamera(0, cb);
+              !isVideo ? openCamera(0, cb) : selectVideo(0);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
@@ -324,7 +353,8 @@ const CreateGallery = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              openCamera(1, cb);
+              // openCamera(1, cb);
+              !isVideo ? openCamera(1, cb) : selectVideo(1);
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
