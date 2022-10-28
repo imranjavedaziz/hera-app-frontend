@@ -40,7 +40,7 @@ const PtbDashboard = () => {
 
   useEffect(() => {
     dispatch(getPtbDashboard());
-  }, [dispatch]);
+  }, []);
   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
