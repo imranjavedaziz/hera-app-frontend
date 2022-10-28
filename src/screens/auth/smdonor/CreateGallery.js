@@ -36,6 +36,7 @@ const CreateGallery = () => {
   const videoRef = useRef();
   const dispatch = useDispatch();
   const [visible, setIsVisible] = useState(false);
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
@@ -48,7 +49,7 @@ const CreateGallery = () => {
   const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const loadingGalleryRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({uri: '', loading: false});
+  const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
@@ -275,7 +276,7 @@ const CreateGallery = () => {
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity onPress={selectVideo}>
+          {/* <TouchableOpacity onPress={selectVideo}>
             <ImageBackground
               style={styles.videoContainer}
               source={video.uri ? {uri: video.uri} : null}
@@ -298,9 +299,9 @@ const CreateGallery = () => {
                 <Image source={Images.playButton} />
               )}
             </ImageBackground>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          {/* <VideoUploading
+          <VideoUploading
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}
@@ -310,10 +311,10 @@ const CreateGallery = () => {
                 ? openBottomVideoSheet()
                 : setIsPlaying(p => !p)
             }
-            // videoRef={videoRef}
-            // isPlaying={isPlaying}
-            // video={video}
-          /> */}
+            videoRef={videoRef}
+            isPlaying={isPlaying}
+            video={video}
+          />
 
           {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
