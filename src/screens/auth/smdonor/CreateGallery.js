@@ -52,7 +52,6 @@ const CreateGallery = () => {
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const images = [];
   const [remove, setRemove] = useState([]);
-  // const {gallery_data} = useSelector(state => state.CreateGallery);
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
@@ -66,7 +65,7 @@ const CreateGallery = () => {
         return img;
       });
     });
-    // images.push({uri: image.path});
+    images.push({uri: image.path});
     const setLoading = loading => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
@@ -122,7 +121,6 @@ const CreateGallery = () => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
       if (gallery_success) {
-        // console.log('SUCCESS');
         updateGallery();
 
         dispatch(hideAppLoader());
@@ -134,20 +132,17 @@ const CreateGallery = () => {
   }, [gallery_success, gallery_loading]);
 
   const updateGallery = () => {
-    // console.log('UPIMG');
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
       gallery_data?.doner_photo_gallery.map((item, i) => {
         return item.file_url;
       });
-    // console.log('Gallery_DATA', url);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         console.log('IMG', img);
         if (i <= gallery_data?.doner_photo_gallery?.length) {
           return {id: i, uri: url[i], loading: false};
         }
-        // return img;
         return {id: i, uri: '', loading: false};
       });
     });
@@ -155,7 +150,6 @@ const CreateGallery = () => {
       images.push({uri: url[i]});
     }
     setGIndex(url?.length);
-    // console.log('GALRY', gallery);
   };
   function handelDel(index) {
     setDel(true);
@@ -169,8 +163,6 @@ const CreateGallery = () => {
       setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
-    // console.log('REMOVE', remove);
-    // console.log('GAL', gallery);
   }
   remove.sort();
   let del = [];

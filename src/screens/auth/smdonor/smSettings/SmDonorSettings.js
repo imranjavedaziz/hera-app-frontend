@@ -48,7 +48,6 @@ const SmDonorSettings = () => {
           type: file.mime,
           uri: file.path,
         });
-      // console.log('REQDATA--->', reqData);
       dispatch(updateProfileImg(reqData));
     }
   }, [file, dispatch]);

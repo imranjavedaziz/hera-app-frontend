@@ -25,7 +25,6 @@ const StateList = () => {
   const loadingRef = useRef(false);
   const [state, setState] = useState([]);
   const [allstate, setAllState] = useState([]);
-  // const [done, setDone] = useState(false);
   const [count, setCount] = useState(0);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
@@ -81,10 +80,6 @@ const StateList = () => {
     setSearching(true);
     setSearch(value);
   };
-  // const onClear = () => {
-  //   setSearching(false);
-  //   setSearch('');
-  // };
   const selectState = item => {
     if (count === 3 && item.isActive === false) {
       Alert.alert('Can select upto 3 state');
@@ -123,9 +118,6 @@ const StateList = () => {
         }
       });
     });
-    // if (selected !== null) {
-    //   setDone(true);
-    // }
   };
   const renderState = ({item, index}) => {
     return (
@@ -189,7 +181,6 @@ const StateList = () => {
           state={state}
           setState={setState}
           allState={allstate}
-          // onClear={onClear}
         />
         <View style={Styles.flexRow}>
           <FlatList

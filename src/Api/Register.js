@@ -17,6 +17,7 @@ export const getStateApi = () => {
   return axiosRequest.get(ApiPath.states);
 };
 export const getProfileSetterApi = () => {
+  console.log("APICALL SETTER")
   return axiosRequest.get(ApiPath.profile_setter_data);
 };
 export const donorProfileDetailApi = userid => {

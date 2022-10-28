@@ -54,6 +54,7 @@ const styles = {
     color: 'red',
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
+    // marginBottom: 5,
     fontSize: Value.CONSTANT_VALUE_14,
     lineHeight: Value.CONSTANT_VALUE_21,
     textVerticleAlignment: Alignment.CENTER,
