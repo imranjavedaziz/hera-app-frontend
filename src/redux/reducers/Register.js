@@ -8,7 +8,6 @@ import {
   GET_PROFILE_SETTER_DETAIL,
   GET_PROFILE_SETTER_SUCCESS,
   GET_PROFILE_SETTER_FAIL,
-  GET_SEXUAL_ORIENTATION,
 } from '../Type';
 
 const initState = {

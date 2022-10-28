@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
+
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,6 +25,7 @@ import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
+
 const SmDashboard = ({route}) => {
   // let selectedState = route.params?.data;
   console.log('ROUTES', route.params?.data);
@@ -34,28 +36,28 @@ const SmDashboard = ({route}) => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
-  const dashboardApi = (value, page, limit) => {
+  const dashboardApi=(value,page,limit)=>{
     let payload = {
       keyword: value,
-      state_ids: route.params,
+      state_ids: route.params?route.params:'',
       page: page,
-      limit: limit,
-    };
+      limit: limit
+    }
     dispatch(getDonorDashboard(payload));
-  };
+  }
   const onSearch = value => {
-    if (value === '' && value.length < 3) {
-      dashboardApi('', 1, 10);
+    if (value === ''&&value.length<3) {
+      dashboardApi('',1,10)
       setSearch('');
       setSearching(false);
       return;
     }
-    dashboardApi(value, 1, 10);
+    dashboardApi(value,1,10)
     setSearching(true);
     setSearch(value);
   };
   const onClear = () => {
-    dashboardApi('', 1, 10);
+    dashboardApi('',1,10)
     setSearching(false);
     setSearch('');
   };
@@ -66,12 +68,6 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   useEffect(() => {
-    let payload = {
-      state_ids: '',
-      page: 1,
-      limit: 10,
-    };
-    dispatch(getDonorDashboard());
     dashboardApi('', 1, 10);
   }, [dispatch]);
 
@@ -95,6 +91,9 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_error_msg,
     dispatch,
   ]);
+
+
+
 
   const renderProfile = ({item, index}) => {
     return (
@@ -133,25 +132,25 @@ const SmDashboard = ({route}) => {
     navigation.navigate(Routes.Landing);
   };
   const headerComp = () => (
+
     <IconHeader
-      profileImg={profileImg}
-      profileView={true}
-      leftPress={() => navigation.navigate(Routes.SmSetting)}
-      rightIcon={Images.iconChat}
-      rightPress={() => logoutScreen()}
-      style={styles.iconHead}
+    leftIcon={{uri: profileImg}}
+    leftPress={() => navigation.navigate(Routes.SmSetting)}
+    rightIcon={Images.iconChat}
+    rightPress={() => logoutScreen()}
+    style={styles.headerIcon}
+    ApiImage={true}
     />
   );
+
   return (
     <Container
-      scroller={false}
-      showHeader={searching ? false : true}
-      headerComp={headerComp}
-      headerEnd={true}
-      style={{
-        paddingTop: Value.CONSTANT_VALUE_60,
-      }}>
-      <View style={globalStyle.mainContainer}>
+    mainStyle={true}
+    scroller={false}
+    showHeader={searching ? false : true}
+    headerComp={headerComp}
+      >
+      <View style={[globalStyle.mainContainer, {paddingTop: Value.CONSTANT_VALUE_60}]}>
         {search === '' ? (
           <>
             <Text style={[globalStyle.screenTitle]}>
