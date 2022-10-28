@@ -306,6 +306,7 @@ const CreateGallery = () => {
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}
             videoStyle={styles.video}
+            onEnd={() => setIsPlaying(false)}
             onPress={() =>
               video?.file_url === ''
                 ? openBottomVideoSheet()
