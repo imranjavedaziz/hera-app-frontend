@@ -5,7 +5,6 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
-  // UPDATE_USER_PROFILE_IMG,
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -98,8 +97,7 @@ const initState = {
   update_user_profile_img_error_msg: '',
 };
 
-export default (state = initState, action) => {
-  console.log(action?.data, 'action.data.msg', action?.type, 'action.type');
+export default (action, state = initState) => {
   switch (action.type) {
     /**
      * SignIn

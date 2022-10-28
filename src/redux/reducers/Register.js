@@ -8,7 +8,6 @@ import {
   GET_PROFILE_SETTER_DETAIL,
   GET_PROFILE_SETTER_SUCCESS,
   GET_PROFILE_SETTER_FAIL,
-  GET_SEXUAL_ORIENTATION,
 } from '../Type';
 
 const initState = {
@@ -30,7 +29,7 @@ const initState = {
   get_sexual_orientation_error_msg: '',
 };
 
-export default (state = initState, action) => {
+export default (action, state = initState) => {
   switch (action.type) {
     /**
      * SAVE BASIC DETAIL

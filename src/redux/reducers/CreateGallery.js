@@ -16,7 +16,7 @@ const initState = {
   delete_gallery_loading: false,
   delete_gallery__error_msg: '',
 };
-export default (state = initState, action) => {
+export default (action, state = initState) => {
   switch (action.type) {
     /**
      * Gallery
