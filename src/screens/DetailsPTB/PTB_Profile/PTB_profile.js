@@ -125,7 +125,7 @@ const PTB_profile = () => {
           <Text style={styles.videoText}>{Strings.PTB_Profile.video_text}</Text>
           <Video
             controls={true}
-            source={{uri: stateRes?.doner_video_gallery}}
+            source={{uri: stateRes?.doner_video_gallery?.file_url}}
             onError={err => console.log(err)}
             style={styles.videoContainer}
             paused={true}

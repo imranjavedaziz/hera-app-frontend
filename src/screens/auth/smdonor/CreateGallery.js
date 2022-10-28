@@ -27,13 +27,16 @@ import {
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import VideoUploading from '../../../components/VideoUploading';
 
 import ImageView from 'react-native-image-viewing';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
+  const videoRef = useRef();
   const dispatch = useDispatch();
   const [visible, setIsVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
     {id: 1, uri: '', loading: false},
@@ -52,6 +55,8 @@ const CreateGallery = () => {
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const images = [];
   const [remove, setRemove] = useState([]);
+  const [isVideo, setIsVideo] = useState(false);
+
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
@@ -185,6 +190,10 @@ const CreateGallery = () => {
     setRemove([]);
     setRmvImgCount(0);
   };
+  const openBottomVideoSheet = () => {
+    setOpen(true);
+    setIsVideo(true);
+  };
   const headerComp = () => {
     <></>;
   };
@@ -290,6 +299,22 @@ const CreateGallery = () => {
               )}
             </ImageBackground>
           </TouchableOpacity>
+
+          {/* <VideoUploading
+            disabled={video?.file_url === '' ? false : true}
+            style={styles.videoContainer}
+            imageOverlay={styles.imageOverlayWrapper}
+            videoStyle={styles.video}
+            onPress={() =>
+              video?.file_url === ''
+                ? openBottomVideoSheet()
+                : setIsPlaying(p => !p)
+            }
+            // videoRef={videoRef}
+            // isPlaying={isPlaying}
+            // video={video}
+          /> */}
+
           {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
               <Text style={styles.selectedText}>
@@ -316,7 +341,8 @@ const CreateGallery = () => {
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
             onPress={() => {
-              openCamera(0, cb);
+              // openCamera(0, cb);
+              !isVideo ? openCamera(0, cb) : selectVideo(0);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
@@ -325,7 +351,8 @@ const CreateGallery = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              openCamera(1, cb);
+              // openCamera(1, cb);
+              !isVideo ? openCamera(1, cb) : selectVideo(1);
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>

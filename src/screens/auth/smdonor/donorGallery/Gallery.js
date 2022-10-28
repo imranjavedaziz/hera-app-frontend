@@ -58,6 +58,7 @@ const Gallery = () => {
   const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
+  const [selVideo, setSelVideo] = useState(false);
   const videoRef = useRef();
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
@@ -146,7 +147,13 @@ const Gallery = () => {
       return;
     }
   };
-
+  // const handelVideoDel = () => {
+  //   setSelVideo(!selVideo);
+  //   if (selVideo === true) {
+  //     // setRmvImgCount(1);
+  //   }
+  //   setDel(true);
+  // };
   function handelDel(index) {
     setDel(true);
     let pushArr = remove;
@@ -269,6 +276,13 @@ const Gallery = () => {
               </TouchableOpacity>
             ))}
           </View>
+          {/* <TouchableOpacity
+            onPress={() => handelVideoDel()}
+            style={styles.videoSel}>
+            <Image
+              source={selVideo ? Images.iconRadiounsel : Images.iconRadiosel}
+            />
+          </TouchableOpacity> */}
           <VideoUploading
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
