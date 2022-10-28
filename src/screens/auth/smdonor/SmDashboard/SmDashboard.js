@@ -68,12 +68,6 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   useEffect(() => {
-    let payload = {
-      state_ids: '',
-      page: 1,
-      limit: 10,
-    };
-    dispatch(getDonorDashboard());
     dashboardApi('', 1, 10);
   }, [dispatch]);
 
@@ -138,7 +132,7 @@ const SmDashboard = ({route}) => {
     navigation.navigate(Routes.Landing);
   };
   const headerComp = () => (
-    
+
     <IconHeader
     leftIcon={{uri: profileImg}}
     leftPress={() => navigation.navigate(Routes.SmSetting)}
@@ -148,7 +142,7 @@ const SmDashboard = ({route}) => {
     ApiImage={true}
     />
   );
- 
+
   return (
     <Container
     mainStyle={true}
