@@ -83,7 +83,6 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
-  console.log('smDetailRes,', smDetailRes)
   return (
     <>
       <Container
