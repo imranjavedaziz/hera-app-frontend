@@ -36,7 +36,7 @@ const SmDashboard = ({route}) => {
   const dashboardApi = (value, page, limit) => {
     let payload = {
       keyword: value,
-      state_ids: '',
+      state_ids:'',
       page: page,
       limit: limit,
     };
@@ -79,8 +79,9 @@ const SmDashboard = ({route}) => {
     if (LoadingRef.current && !get_donor_dashboard_loading) {
       dispatch(showAppLoader());
       if (get_donor_dashboard_success) {
-        dispatch(hideAppLoader());
+
         setCards(get_donor_dashboard_res.data);
+        dispatch(hideAppLoader());
       }
       if (get_donor_dashboard_error_msg) {
         dispatch(hideAppLoader());
