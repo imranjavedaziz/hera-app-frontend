@@ -39,7 +39,7 @@ const SmDashboard = ({route}) => {
   const dashboardApi=(value,page,limit)=>{
     let payload = {
       keyword: value,
-      state_ids: route.params,
+      state_ids: route.params?route.params:'',
       page: page,
       limit: limit
     }
