@@ -8,8 +8,6 @@ import {Value} from '../../../../constants/FixedValues';
 import Colors from '../../../../constants/Colors';
 
 const StateSearch = props => {
-  // console.log('======', props.allState);
-
   const filterSearch = text => {
     console.log('FILTER', text);
     if (text) {
@@ -22,6 +20,7 @@ const StateSearch = props => {
       props.setState(newData);
     } else {
       props.setState(props.allState);
+      return;
     }
   };
   return (
