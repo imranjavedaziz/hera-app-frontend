@@ -62,7 +62,6 @@ const Gallery = () => {
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
-  // console.log('Hello', gallery_data);
   useEffect(() => {
     dispatch(getUserGallery());
   }, []);
@@ -93,7 +92,6 @@ const Gallery = () => {
           return {id: i, uri: image.path, loading: true};
         }
         return img;
-        // return {id: i, uri: '', loading: false};
       });
     });
     const setLoading = loading => {
@@ -103,7 +101,6 @@ const Gallery = () => {
             return {id: i, uri: img.uri, loading};
           }
           return img;
-          // return {id: i, uri: '', loading: false};
         });
       });
     };
@@ -143,7 +140,7 @@ const Gallery = () => {
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
     } else if (index < gIndex && rmvImgCount === 0) {
-      setIsVisible(true);
+      return setIsVisible(true);
     } else {
       return;
     }
@@ -161,8 +158,6 @@ const Gallery = () => {
       setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
-    console.log('REMOVE', remove);
-    // console.log('GALLY', gallery);
   }
   remove.sort();
   let del = [];
@@ -173,9 +168,6 @@ const Gallery = () => {
       iterator++;
     }
   });
-  console.log('DEL', del);
-  console.log(remove, 'REMOVE');
-
   const deleteImg = () => {
     let payload = JSON.stringify({
       ids: del,
@@ -196,13 +188,11 @@ const Gallery = () => {
       gallery_data?.doner_photo_gallery.map((item, i) => {
         return item.file_url;
       });
-    // console.log('Gallery_DATA', url);
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
           return {id: i, uri: url[i], loading: false};
         }
-        // return img;
         return {id: i, uri: '', loading: false};
       });
     });
@@ -322,7 +312,7 @@ const Gallery = () => {
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {Strings.profile.bottomSheetCamera}
+              {Strings.sm_create_gallery.bottomSheetCamera}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -332,7 +322,7 @@ const Gallery = () => {
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
               {' '}
-              {Strings.profile.bottomSheetGallery}
+              {Strings.sm_create_gallery.bottomSheetGallery}
             </Text>
           </TouchableOpacity>
         </View>
@@ -355,7 +345,7 @@ const Gallery = () => {
               onPress={() => {
                 setShowModal(false);
                 deleteImg();
-                // navigation.navigate(Routes.SmSetting);
+                navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

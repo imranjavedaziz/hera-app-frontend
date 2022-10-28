@@ -45,7 +45,6 @@ import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
-import StylesProfile from './StylesProfile';
 
 const Profile = ({route}) => {
   const navigation = useNavigation();

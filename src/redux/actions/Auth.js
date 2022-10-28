@@ -5,10 +5,7 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
-  GET_GALLERY,
 } from '../constants';
-import axiosRequest from '../../utils/axiosRequest';
-import ApiPath from '../../constants/ApiPath';
 import {
   AUTH_LOG_IN,
   AUTH_MOBILE_NUMBER,
