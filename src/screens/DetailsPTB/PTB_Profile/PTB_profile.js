@@ -81,10 +81,6 @@ const PTB_profile = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  // console.log(
-  //   stateRes?.doner_video_gallery,
-  //   'stateRes?.doner_video_gallery :::::',
-  // );
   return (
     <Container
       showHeader={true}
