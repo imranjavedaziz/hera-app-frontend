@@ -124,4 +124,5 @@ export default {
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
   },
+  videoSel: {position: 'absolute', right: 10, top: 280},
 };

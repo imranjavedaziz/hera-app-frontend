@@ -7,7 +7,7 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import React, {useRef, useState, useCallback, useEffect} from 'react';
+import React, {useRef, useState, useCallback} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import Images from '../../../../constants/Images';
@@ -38,9 +38,11 @@ const PtbDashboard = () => {
   const loadingRef = useRef();
   const {registerUser, log_in_data} = useSelector(state => state.Auth);
 
-  useEffect(() => {
-    dispatch(getPtbDashboard());
-  }, [dispatch]);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getPtbDashboard());
+    }, [dispatch]),
+  );
   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
@@ -62,11 +64,11 @@ const PtbDashboard = () => {
       loadingRef.current = get_ptb_dashboard_loading;
     }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
   );
-
+  console.log(ptbDashboardRes.length, 'okkk');
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count >= 4) {
+    if (count >= ptbDashboardRes.length - 1) {
       setEmpty(true);
     } else {
       setEmpty(false);
@@ -82,7 +84,7 @@ const PtbDashboard = () => {
   const handleOnSwipedRight = () => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count >= 4) {
+    if (count >= ptbDashboardRes.length - 1) {
       setEmpty(true);
     } else {
       setEmpty(false);
@@ -95,7 +97,7 @@ const PtbDashboard = () => {
       setIslikedLogo('');
     }, 150);
   };
-
+  console.log('ptbDashboard', get_ptb_dashboard_res);
   function renderCardData(item) {
     return (
       <>

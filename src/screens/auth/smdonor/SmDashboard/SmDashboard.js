@@ -25,7 +25,6 @@ import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
-
 const SmDashboard = ({route}) => {
   // let selectedState = route.params?.data;
   console.log('ROUTES', route.params?.informationDetail);

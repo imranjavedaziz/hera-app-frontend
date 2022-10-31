@@ -44,7 +44,7 @@ const PTB_profile = () => {
   } = useRoute();
   useEffect(() => {
     dispatch(getPtbProfileDetail(userid));
-  }, []);
+  }, [dispatch, userid]);
   const navigation = useNavigation();
   const [sendReq, setSendReq] = useState(false);
   const requestDecline = false;
@@ -56,107 +56,121 @@ const PTB_profile = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+  console.log(stateRes?.doner_video_gallery, "stateRes?.doner_video_gallery :::::");
   return (
     <Container
       showHeader={true}
       headerEnd={false}
       headerComp={headerComp}
       style={{}}>
-      <View>
-        <View style={styles.location}>
-          <Image source={Images.iconmapblue} />
-          <Text style={styles.locationText}>{stateRes?.location?.name}</Text>
-        </View>
-        <Text style={styles.profileName}>{stateRes?.first_name}</Text>
-        <Text style={styles.profileName}>{stateRes?.last_name}</Text>
-        <View style={styles.profileImg}>
-          <Image
-            style={styles.profileLogo}
-            source={{
-              uri: stateRes?.profile_pic,
-            }}
-          />
-        </View>
-        <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
-        <View style={styles.ageContainer}>
-          <Text>Age: </Text>
-          <Text style={styles.ageYrs}>
-            {stateRes?.age}
-            {Strings.PTB_Profile.yrs}
-          </Text>
-        </View>
-        <View>
-          <ImageBackground
-            source={Images.QUOTES}
-            style={styles.bioBackground}
-          />
-          <Text style={styles.bioText}>{stateRes?.user_profile?.bio}</Text>
-        </View>
-        <View style={{flexDirection: Alignment.ROW}}>
-          <View style={{flexDirection: 'row'}}>
-            {stateRes?.user_profile?.gender ? (
-              <View style={styles.highlits}>
-                <Text style={styles.highlitsText}>
-                  {stateRes?.user_profile?.gender}
-                </Text>
+      {stateRes?.doner_video_gallery !== undefined && (
+        <>
+          <View>
+            <View style={styles.location}>
+              <Image source={Images.iconmapblue} />
+              <Text style={styles.locationText}>
+                {stateRes?.location?.name}
+              </Text>
+            </View>
+            <Text style={styles.profileName}>{stateRes?.first_name}</Text>
+            <Text style={styles.profileName}>{stateRes?.last_name}</Text>
+            <View style={styles.profileImg}>
+              <Image
+                style={styles.profileLogo}
+                source={{
+                  uri: stateRes?.profile_pic,
+                }}
+              />
+            </View>
+            <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
+            <View style={styles.ageContainer}>
+              <Text>Age: </Text>
+              <Text style={styles.ageYrs}>
+                {stateRes?.age}
+                {Strings.PTB_Profile.yrs}
+              </Text>
+            </View>
+            <View>
+              <ImageBackground
+                source={Images.QUOTES}
+                style={styles.bioBackground}
+              />
+              <Text style={styles.bioText}>{stateRes?.user_profile?.bio}</Text>
+            </View>
+            <View style={{flexDirection: Alignment.ROW}}>
+              <View style={{flexDirection: 'row'}}>
+                {stateRes?.user_profile?.gender && (
+                  <View style={styles.highlits}>
+                    <Text style={styles.highlitsText}>
+                      {stateRes?.user_profile?.gender}
+                    </Text>
+                  </View>
+                )}
+                {stateRes?.user_profile?.sexual_orientation && (
+                  <View style={styles.highlits}>
+                    <Text style={styles.highlitsText}>
+                      {stateRes?.user_profile?.sexual_orientation}
+                    </Text>
+                  </View>
+                )}
+                {stateRes?.user_profile?.relationship_status && (
+                  <View style={styles.highlits}>
+                    <Text style={styles.highlitsText}>
+                      {stateRes?.user_profile?.relationship_status}
+                    </Text>
+                  </View>
+                )}
               </View>
-            ) : null}
-            {stateRes?.user_profile?.sexual_orientation ? (
-              <View style={styles.highlits}>
-                <Text style={styles.highlitsText}>
-                  {stateRes?.user_profile?.sexual_orientation}
-                </Text>
-              </View>
-            ) : null}
-            {stateRes?.user_profile?.relationship_status ? (
-              <View style={styles.highlits}>
-                <Text style={styles.highlitsText}>
-                  {stateRes?.user_profile?.relationship_status}
-                </Text>
-              </View>
-            ) : null}
+            </View>
           </View>
-        </View>
-      </View>
-      {stateRes?.doner_video_gallery != null ? (
-        <View>
-          <Text style={styles.videoText}>{Strings.PTB_Profile.video_text}</Text>
-          <Video
-            controls={true}
-            source={{uri: stateRes?.doner_video_gallery}}
-            onError={err => console.log(err)}
-            style={styles.videoContainer}
-            paused={true}
-          />
-        </View>
-      ) : null}
-      {sendReq ? (
-        <TouchableOpacity
-          style={styles.reqSentBtn}
-          onPress={() => console.log(sendReq)}>
-          <Image source={Images.HEARTH_ICON} />
-          <Text style={styles.reqsentText}>
-            {Strings.PTB_Profile.request_sent}
-          </Text>
-        </TouchableOpacity>
-      ) : requestDecline ? (
-        <Pressable style={styles.declineReq}>
-          <Image source={Images.RED_CROSS_ICON} />
-          <Text style={styles.declineText}>
-            {Strings.PTB_Profile.request_decline}
-          </Text>
-        </Pressable>
-      ) : (
-        <Pressable style={styles.sendMsgBtn} onPress={() => setSendReq(true)}>
-          <Image source={liked ? Images.iconChat : Images.HEARTH_ICON} />
-          <Text style={[styles.sendMsgText, {padding: liked ? 10 : 0}]}>
-            {liked
-              ? Strings.PTB_Profile.send_msg
-              : Strings.PTB_Profile.send_request}
-          </Text>
-        </Pressable>
+          {stateRes?.doner_video_gallery?.file_url && (
+            <View>
+              <Text style={styles.videoText}>
+                {Strings.PTB_Profile.video_text}
+              </Text>
+              <Video
+                controls={true}
+                source={{
+                  uri:
+                    stateRes?.doner_video_gallery?.file_url === undefined
+                      ? ''
+                      : stateRes?.doner_video_gallery?.file_url,
+                }}
+                style={styles.videoContainer}
+                paused={true}
+              />
+            </View>
+          )}
+          {sendReq ? (
+            <TouchableOpacity
+              style={styles.reqSentBtn}
+              onPress={() => console.log(sendReq)}>
+              <Image source={Images.HEARTH_ICON} />
+              <Text style={styles.reqsentText}>
+                {Strings.PTB_Profile.request_sent}
+              </Text>
+            </TouchableOpacity>
+          ) : requestDecline ? (
+            <Pressable style={styles.declineReq}>
+              <Image source={Images.RED_CROSS_ICON} />
+              <Text style={styles.declineText}>
+                {Strings.PTB_Profile.request_decline}
+              </Text>
+            </Pressable>
+          ) : (
+            <Pressable
+              style={styles.sendMsgBtn}
+              onPress={() => setSendReq(true)}>
+              <Image source={liked ? Images.iconChat : Images.HEARTH_ICON} />
+              <Text style={[styles.sendMsgText, {padding: liked ? 10 : 0}]}>
+                {liked
+                  ? Strings.PTB_Profile.send_msg
+                  : Strings.PTB_Profile.send_request}
+              </Text>
+            </Pressable>
+          )}
+        </>
       )}
-      {/* </View> */}
     </Container>
   );
 };

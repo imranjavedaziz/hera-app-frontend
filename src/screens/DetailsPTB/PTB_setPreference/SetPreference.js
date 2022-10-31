@@ -25,7 +25,10 @@ import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
 import User from '../../../Api/User';
 import {logOut} from '../../../redux/actions/Auth';
-import {SetPreferenceRes} from '../../../redux/actions/SetPreference';
+import {
+  SetPreferenceRes,
+  SavePreference,
+} from '../../../redux/actions/SetPreference';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -48,7 +51,7 @@ const SetPreference = ({route, navigation}) => {
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
   const dispatch = useDispatch();
-  const userService = User();
+  const SubmitLoadingRef = useRef(false);
   const {
     handleSubmit,
     control,
@@ -61,6 +64,10 @@ const SetPreference = ({route, navigation}) => {
     set_preference_loading,
     set_preference_error_msg,
     set_preference_res,
+
+    save_preference_success,
+    save_preference_loading,
+    save_preference_error_msg,
   } = useSelector(state => state.SetPreference);
 
   const loadingRef = useRef(false);
@@ -79,6 +86,23 @@ const SetPreference = ({route, navigation}) => {
     }
     loadingRef.current = set_preference_loading;
   }, [set_preference_success, set_preference_loading]);
+
+  // SAVE PREFERENCE
+
+  useEffect(() => {
+    if (SubmitLoadingRef.current && !save_preference_loading) {
+      dispatch(showAppLoader());
+      console.log(save_preference_success, 'save_preference_success');
+      if (save_preference_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.PtbDashboard);
+      }
+      if (save_preference_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    SubmitLoadingRef.current = save_preference_loading;
+  }, [save_preference_loading, save_preference_success]);
   useEffect(() => {
     dispatch(SetPreferenceRes());
     if (!isValid) {
@@ -105,8 +129,9 @@ const SetPreference = ({route, navigation}) => {
       state: '1,2',
     };
     console.log(value, 'Value');
-    userService.setPreferences(value);
-    navigation.navigate(Routes.PtbDashboard);
+    dispatch(showAppLoader());
+    dispatch(SavePreference(value));
+    // userService.setPreferences(value);
   };
 
   const logoutScreen = () => {
