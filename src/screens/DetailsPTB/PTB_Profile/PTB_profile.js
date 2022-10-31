@@ -181,7 +181,7 @@ const PTB_profile = () => {
             <Image source={Images.HEARTH_ICON} />
             <Text style={styles.sendMsgText}>
               {' '}
-              Strings.PTB_Profile.send_request
+              {Strings.PTB_Profile.send_request}
             </Text>
           </Pressable>
         </>
