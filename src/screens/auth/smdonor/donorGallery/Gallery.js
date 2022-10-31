@@ -59,6 +59,7 @@ const Gallery = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
+  const [imgSel, setImgSel] = useState(false);
   const videoRef = useRef();
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
@@ -147,25 +148,34 @@ const Gallery = () => {
       return;
     }
   };
-  // const handelVideoDel = () => {
-  //   setSelVideo(!selVideo);
-  //   if (selVideo === true) {
-  //     // setRmvImgCount(1);
-  //   }
-  //   setDel(true);
-  // };
-  function handelDel(index) {
-    setDel(true);
-    let pushArr = remove;
-    let isExist = pushArr.findIndex(val => val === index);
-    if (isExist === -1) {
-      pushArr.push(index);
-      setRmvImgCount(rmvImgCount + 1);
-    } else {
-      pushArr.splice(isExist, 1);
-      setRmvImgCount(rmvImgCount - 1);
+  function handelDel(index, isVideo) {
+    if (isVideo) {
+      setSelVideo(!selVideo);
+      setDel(true);
+      if (selVideo === false) {
+        setRmvImgCount(1);
+      } else {
+        setRmvImgCount(0);
+      }
+      return;
+    } else if (isVideo === false) {
+      // if (rmvImgCount > 0) {
+      //   setImgSel(false);
+      // } else if (rmvImgCount == 0) {
+      //   setImgSel(true);
+      // }
+      setDel(true);
+      let pushArr = remove;
+      let isExist = pushArr.findIndex(val => val === index);
+      if (isExist === -1) {
+        pushArr.push(index);
+        setRmvImgCount(rmvImgCount + 1);
+      } else {
+        pushArr.splice(isExist, 1);
+        setRmvImgCount(rmvImgCount - 1);
+      }
+      setRemove(pushArr);
     }
-    setRemove(pushArr);
   }
   remove.sort();
   let del = [];
@@ -176,17 +186,25 @@ const Gallery = () => {
       iterator++;
     }
   });
-  const deleteImg = () => {
-    let payload = JSON.stringify({
-      ids: del,
-    });
-    console.log('PAYLOAD', payload);
-    dispatch(deleteGallery(payload));
-    dispatch(getUserGallery());
-
-    setDel(false);
-    setRmvImgCount(0);
-    setRemove([]);
+  const deleteImg = selVideo => {
+    if (selVideo) {
+      console.log('VIDEO DEL');
+      setDel(false);
+      setRmvImgCount(0);
+      setSelVideo(false);
+      // console.log("vel",remove!== undefined)
+      return;
+    } else {
+      let payload = JSON.stringify({
+        ids: del,
+      });
+      console.log('PAYLOAD', payload);
+      dispatch(deleteGallery(payload));
+      dispatch(getUserGallery());
+      setDel(false);
+      setRmvImgCount(0);
+      setRemove([]);
+    }
   };
   // useEffect(() => {}, [deleteImg]);
 
@@ -250,10 +268,10 @@ const Gallery = () => {
                     resizeMode: 'cover',
                   }}
                   source={img.uri ? {uri: img.uri} : null}>
-                  {img.uri ? (
+                  {img.uri && selVideo === false ? (
                     <TouchableOpacity
                       onPress={() => {
-                        handelDel(img.id);
+                        handelDel(img.id, false);
                       }}
                       style={{}}>
                       <Image
@@ -276,19 +294,12 @@ const Gallery = () => {
               </TouchableOpacity>
             ))}
           </View>
-          {/* <TouchableOpacity
-            onPress={() => handelVideoDel()}
-            style={styles.videoSel}>
-            <Image
-              source={selVideo ? Images.iconRadiounsel : Images.iconRadiosel}
-            />
-          </TouchableOpacity> */}
           <VideoUploading
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}
             videoStyle={styles.video}
-            onEnd={()=> setIsPlaying(false)}
+            onEnd={() => setIsPlaying(false)}
             onPress={() =>
               video?.file_url === ''
                 ? openBottomVideoSheet()
@@ -297,6 +308,9 @@ const Gallery = () => {
             videoRef={videoRef}
             isPlaying={isPlaying}
             video={video}
+            selVideo={selVideo}
+            handelDel={handelDel}
+            imgSel={imgSel}
           />
           {isDel && rmvImgCount !== 0 ? (
             <View style={styles.delContainer}>
@@ -360,8 +374,8 @@ const Gallery = () => {
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
-                deleteImg();
-                navigation.navigate(Routes.SmSetting);
+                deleteImg(selVideo);
+                // navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

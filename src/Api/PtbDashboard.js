@@ -7,3 +7,6 @@ export const PtbDashboardApi = () => {
 export const PtbProfileDetailApi = data => {
   return axiosRequest.get(`${ApiPath.ptbProfileDetails}?user_id=${data}`);
 };
+export const ptbSendLike = payload => {
+  return axiosRequest.post(ApiPath.profileMatchRequest, payload);
+};

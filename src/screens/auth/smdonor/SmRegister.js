@@ -30,6 +30,7 @@ import {askCameraPermission} from '../../../utils/permissionManager';
 import BottomSheetComp from '../../../components/BottomSheet';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
+import updateRegStep from '../../../redux/actions/Auth';
 import {
   hideAppLoader,
   showAppLoader,
@@ -61,7 +62,7 @@ const validatePassword = (value, type) => {
   if (value) {
     switch (type) {
       case validationType.LEN:
-        return value.length >= 8 ? Colors.BLACK : 'red';
+        return value.length >= 8 ? Colors.BLACK : Colors.RED;
       case validationType.ALPHA_NUM:
         return Regx.ALPHA_LOWER.test(value) &&
           Regx.ALPHA_CAP.test(value) &&
@@ -114,6 +115,7 @@ const SmRegister = () => {
       dispatch(showAppLoader());
       if (register_user_success) {
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
@@ -121,7 +123,13 @@ const SmRegister = () => {
       }
     }
     loadingRef.current = register_user_loading;
-  }, [register_user_success, register_user_loading]);
+  }, [
+    register_user_success,
+    register_user_loading,
+    register_user_error_msg,
+    dispatch,
+    navigation,
+  ]);
 
   useEffect(() => {
     askCameraPermission();
@@ -303,11 +311,7 @@ const SmRegister = () => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <View
-                style={{
-                  width: '100%',
-                  marginVertical: 20,
-                }}>
+              <View style={styles.error}>
                 <FloatingLabelInput
                   label={Strings.sm_register.Password}
                   value={value}

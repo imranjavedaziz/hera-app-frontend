@@ -1,9 +1,12 @@
-import {PtbProfileDetailApi} from '../../Api';
+import {PtbProfileDetailApi, ptbSendLike} from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
 import {
   PTB_PROFILE_DETAIL,
   PTB_PROFILE_DETAI_SUCCESS,
   PTB_PROFILE_DETAI_FAIL,
+  SEND_LIKE_PTB,
+  SEND_LIKE_PTB_SUCCESS,
+  SEND_LIKE_PTB_FAIL,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
 function* getPtbProfileDetail(payload) {
@@ -23,4 +26,22 @@ function* getPtbProfileDetail(payload) {
 }
 export function* watchGetPtbProfileDetail() {
   yield takeLatest(PTB_PROFILE_DETAIL, getPtbProfileDetail);
+}
+function* sendLikePtb(payload) {
+  try {
+    const result = yield ptbSendLike(payload.data);
+    if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      yield put({type: SEND_LIKE_PTB_SUCCESS, data: result});
+    } else {
+      yield put({
+        type: SEND_LIKE_PTB_FAIL,
+        data: {msg: result.data.message},
+      });
+    }
+  } catch (err) {
+    yield put({type: SEND_LIKE_PTB_FAIL, data: {msg: 'NET ERROR'}});
+  }
+}
+export function* watchsendLikePtb() {
+  yield takeLatest(SEND_LIKE_PTB, sendLikePtb);
 }

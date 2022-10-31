@@ -28,7 +28,7 @@ import {
   saveBasicDetail,
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
-import {logOut} from '../../../redux/actions/Auth';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -58,7 +58,6 @@ const SmBasicDetails = () => {
     save_basic_detail_error_msg,
   } = useSelector(state => state.Register);
   const user = useSelector(state => state.Auth.user);
-  console.log(user, 'user:::::::::::');
   const {
     handleSubmit,
     control,
@@ -105,6 +104,7 @@ const SmBasicDetails = () => {
       if (save_basic_detail_success) {
         console.log(user?.role_id, 'user?.role_id ::::');
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         navigation.navigate(
           user?.role_id === 2 ? Routes.SetPreference : Routes.SetAttributes,
           payloadData,

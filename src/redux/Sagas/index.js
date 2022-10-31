@@ -17,7 +17,7 @@ import {watchGetPtbDashboard} from './PtbDashboard';
 import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
 import {watchGetDonorDashboard} from './DonorDashboard';
 import {watchDeleteUserGallery} from './CreateGallery';
-import {watchGetPtbProfileDetail} from './PtbProfileDetail';
+import {watchGetPtbProfileDetail, watchsendLikePtb} from './PtbProfileDetail';
 import {watchSmDonorDetail} from './SmDonerDetail';
 import {watchupdateProfileImg} from './Auth';
 export default function* rootSaga() {
@@ -41,5 +41,6 @@ export default function* rootSaga() {
     fork(watchSmDonorDetail),
     fork(watchupdateProfileImg),
     fork(watchSavePreferenceRes),
+    fork(watchsendLikePtb),
   ]);
 }

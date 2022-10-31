@@ -336,6 +336,7 @@ const SetPreference = ({route, navigation}) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem.id);
                   }}
+                  required={true}
                   error={errors && errors.ethnicity?.message}
                 />
               )}

@@ -28,6 +28,7 @@ import {
 } from '../../../redux/actions/CreateGallery';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
+import {updateRegStep} from '../../../redux/actions/Auth';
 
 import ImageView from 'react-native-image-viewing';
 const CreateGallery = () => {
@@ -333,7 +334,10 @@ const CreateGallery = () => {
             <Button
               style={styles.btn}
               label={Strings.sm_create_gallery.Btn}
-              onPress={() => navigation.navigate(Routes.SmDashboard)}
+              onPress={() => {
+                dispatch(updateRegStep());
+                navigation.navigate(Routes.SmDashboard);
+              }}
             />
           )}
         </View>
