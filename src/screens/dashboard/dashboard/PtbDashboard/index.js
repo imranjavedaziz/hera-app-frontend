@@ -49,6 +49,7 @@ const PtbDashboard = () => {
     get_ptb_dashboard_error_msg,
     get_ptb_dashboard_res,
   } = useSelector(state => state.PtbDashboard);
+
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
