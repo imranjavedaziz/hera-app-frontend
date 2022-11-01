@@ -67,7 +67,12 @@ export default {
   },
   playIcon: {
     position: Alignment.ABSOLUTE,
-    left: width / Value.CONSTANT_VALUE_2_3,
-    top: Value.CONSTANT_VALUE_80,
+    left: width / Value.CONSTANT_VALUE_3,
+    top: Value.CONSTANT_VALUE_70,
+  },
+  videoSel: {
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_5,
+    top: Value.CONSTANT_VALUE_10,
   },
 };

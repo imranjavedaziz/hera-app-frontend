@@ -133,4 +133,8 @@ export default {
     paddingVertical: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_36,
   },
+  error: {
+    width: '100%',
+    marginVertical: Value.CONSTANT_VALUE_20,
+  },
 };

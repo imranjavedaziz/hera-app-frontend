@@ -63,7 +63,13 @@ const SetAttributes = ({route}) => {
       }
     }
     LoadingRef.current = set_attribute_loading;
-  }, [set_attribute_success, set_attribute_loading]);
+  }, [
+    set_attribute_success,
+    set_attribute_loading,
+    dispatch,
+    set_attribute_res,
+    set_attribute_error_msg,
+  ]);
 
   //SAVE ATTRIBUTE DETAIL DATA
   useEffect(() => {
@@ -78,7 +84,13 @@ const SetAttributes = ({route}) => {
       }
     }
     SubmitLoadingRef.current = save_attribute_loading;
-  }, [save_attribute_loading, save_attribute_success]);
+  }, [
+    save_attribute_loading,
+    save_attribute_success,
+    save_attribute_error_msg,
+    navigation,
+    dispatch,
+  ]);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}

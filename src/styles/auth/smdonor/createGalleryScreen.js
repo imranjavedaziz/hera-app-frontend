@@ -105,13 +105,14 @@ export default {
   imageOverlayWrapper: {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
-    width: width,
+    height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
+    width:320,
   },
   video: {
     overflow: Alignment.HIDDEN,
-    width: width,
+    width: 320,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    marginTop: Value.CONSTANT_VALUE_3,
+    // marginTop: Value.CONSTANT_VALUE_3,
   },
   playIcon: {
     position: Alignment.ABSOLUTE,
@@ -124,5 +125,4 @@ export default {
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
   },
-  videoSel: {position: 'absolute', right: 10, top: 280},
 };

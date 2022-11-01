@@ -24,7 +24,7 @@ const PTB_profile = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const LoadinfRef = useRef(false);
-  const [liked,setLiked] = useState(false);
+  const [liked, setLiked] = useState(false);
   const {
     get_ptb_profile_detail_success,
     get_ptb_profile_detail_loading,
@@ -166,28 +166,28 @@ const PTB_profile = () => {
               />
             </View>
           )}
-          {!liked && 
-          <Pressable
-            style={styles.sendMsgBtn}
-            onPress={() => {
-              setLiked(true)
-              dispatch(
-                sendLikePtb({
-                  to_user_id: userid,
-                  status: 1,
-                }),
-              );
-              setTimeout(() => {
-                navigation.navigate(Routes.SmDashboard);
-              }, 1000);
-            }}>
-            <Image source={Images.HEARTH_ICON} />
-            <Text style={styles.sendMsgText}>
-              {' '}
-              {Strings.PTB_Profile.send_request}
-            </Text>
-          </Pressable>
-}
+          {!liked && (
+            <Pressable
+              style={styles.sendMsgBtn}
+              onPress={() => {
+                setLiked(true);
+                dispatch(
+                  sendLikePtb({
+                    to_user_id: userid,
+                    status: 1,
+                  }),
+                );
+                setTimeout(() => {
+                  navigation.navigate(Routes.SmDashboard);
+                }, 1000);
+              }}>
+              <Image source={Images.HEARTH_ICON} />
+              <Text style={styles.sendMsgText}>
+                {' '}
+                {Strings.PTB_Profile.send_request}
+              </Text>
+            </Pressable>
+          )}
         </>
       )}
     </Container>

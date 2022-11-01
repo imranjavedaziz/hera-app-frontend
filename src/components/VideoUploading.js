@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
@@ -15,11 +16,11 @@ import Images from '../constants/Images';
 import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
-  console.log(props.isPlaying, "isPlaying");
+  console.log(props.isPlaying, 'isPlaying');
   return (
     <TouchableOpacity
       // disabled={props?.video?.file_url === '' ? false : true}
-      onPress={()=>props?.onPress()}>
+      onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
         {props?.video?.file_url === '' && (
           <>
@@ -33,29 +34,44 @@ const VideoUploading = props => {
         )}
         {props?.video?.loading && <ActivityIndicator />}
         {props?.video?.file_url !== '' && (
-          <View style={props?.imageOverlay}>
-            <Video
-              ref={props?.videoRef}
-              onLoad={() => {
-                props?.videoRef?.current?.seek(3);
-                props?.videoRef?.current?.setNativeProps({
-                  paused: true,
-                });
-              }}
-              paused={!props?.isPlaying}
-              source={{uri: `${props?.video?.file_url}`}}
-              style={props?.videoStyle}
-              resizeMode={Alignment.COVER}
-              onEnd={() => {
-                props?.onEnd();
-              }}
-            />
-            {
-              !props?.isPlaying&&
-              <Image source={Images.playButton} style={styles.playIcon} />
-            }
-
-          </View>
+          <>
+            {props?.rmvImgCount <= 0 && (
+              <TouchableWithoutFeedback>
+                <TouchableOpacity
+                  onPress={() => props?.handelDel(136, true)}
+                  style={styles.videoSel}>
+                  <Image
+                    source={
+                      props?.selVideo
+                        ? Images.iconRadiosel
+                        : Images.iconRadiounsel
+                    }
+                  />
+                </TouchableOpacity>
+              </TouchableWithoutFeedback>
+            )}
+            <View style={props?.imageOverlay}>
+              <Video
+                ref={props?.videoRef}
+                onLoad={() => {
+                  props?.videoRef?.current?.seek(3);
+                  props?.videoRef?.current?.setNativeProps({
+                    paused: true,
+                  });
+                }}
+                paused={!props?.isPlaying}
+                source={{uri: `${props?.video?.file_url}`}}
+                style={props?.videoStyle}
+                // resizeMode={Alignment.COVER}
+                onEnd={() => {
+                  props?.onEnd();
+                }}
+              />
+              {!props?.isPlaying && (
+                <Image source={Images.playButton} style={styles.playIcon} />
+              )}
+            </View>
+          </>
         )}
       </ImageBackground>
     </TouchableOpacity>

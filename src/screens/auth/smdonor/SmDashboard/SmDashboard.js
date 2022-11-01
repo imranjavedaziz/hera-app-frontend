@@ -38,7 +38,7 @@ const SmDashboard = ({route}) => {
       keyword: value,
       state_ids:'',
       page: page,
-      limit: limit,
+      limit: 10,
     };
     dispatch(getDonorDashboard(payload));
   };
@@ -134,20 +134,24 @@ const SmDashboard = ({route}) => {
   };
   const headerComp = () => (
     <IconHeader
-      profileImg={profileImg}
-      profileView={true}
-      leftPress={() => navigation.navigate(Routes.SmSetting)}
+      leftIcon={{
+        uri: profileImg,
+      }}
+      leftPress={() => {
+        navigation.navigate(Routes.SmSetting);
+      }}
       rightIcon={Images.iconChat}
       rightPress={() => logoutScreen()}
-      style={styles.iconHead}
+      style={styles.headerIcon}
+      ApiImage={true}
     />
   );
   return (
     <Container
+      mainStyle={true}
       scroller={false}
       showHeader={searching ? false : true}
       headerComp={headerComp}
-      headerEnd={true}
       style={{
         paddingTop: Value.CONSTANT_VALUE_60,
       }}>

@@ -72,24 +72,27 @@ export default {
     // flex:1
   },
   unSel: {
-    paddingVertical: 10,
-    fontSize: 20,
+    paddingVertical: Value.CONSTANT_VALUE_10,
+    fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
     // marginRight:180,
     // backgroundColor:'red'
   },
   sel: {
-    paddingVertical: 10,
-    fontSize: 20,
+    paddingVertical: Value.CONSTANT_VALUE_10,
+    fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
     // marginRight:'30%',
   },
-  imgSel: {marginLeft: 100, tintColor: Colors.GREEN},
+  imgSel: {marginLeft: Value.CONSTANT_VALUE_100, tintColor: Colors.GREEN},
   iconFont: {
     fontFamily: Fonts.OpenSansBold,
     textDecorationLine: 'underline',
+    color: Colors.BLACK,
   },
-  stateSubtitle: {marginBottom: 15},
+  stateSubtitle: {marginBottom: Value.CONSTANT_VALUE_15},
   flexRow: {
     flexDirection: 'row',
   },

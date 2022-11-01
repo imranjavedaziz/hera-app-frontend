@@ -180,7 +180,7 @@ export const smBasicSchema = yup.object().shape({
   relationship_status_id: yup
     .string()
     .required(ValidationMessages.ENTER_RELATIONSHIP),
-  bio: yup.string().required(ValidationMessages.ENTER_BIO),
+  bio: yup.string().required(ValidationMessages.ENTER_BIO).max(250),
 });
 export const inqueryFormSchema = yup.object().shape({
   name: yup.string().required(ValidationMessages.Name),
