@@ -5,7 +5,7 @@ import {
   SM_DONOR_DETAIL_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-import { SmDonorDetailApi } from "../../Api/SmDonerDetail";
+import {SmDonorDetailApi} from '../../Api/SmDonerDetail';
 function* SmDonorDetail(payload) {
   try {
     const result = yield SmDonorDetailApi(payload.data);

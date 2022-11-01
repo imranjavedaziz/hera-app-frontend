@@ -6,7 +6,7 @@ import styles from './styles';
 const FloatingLabelInput = props => {
   const [isFocused, setFocused] = useState(false);
   const {
-    messageStyle=false,
+    messageStyle = false,
     label,
     containerStyle = {},
     fixed = false,
@@ -14,6 +14,7 @@ const FloatingLabelInput = props => {
     required = false,
     error = '',
     inputStyle = {},
+    maxLength,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
@@ -41,6 +42,7 @@ const FloatingLabelInput = props => {
             error ? {borderColor: 'red'} : null,
             inputStyle,
           ]}
+          maxLength={maxLength}
           onFocus={handleFocus}
           onBlur={handleBlur}
           blurOnSubmit

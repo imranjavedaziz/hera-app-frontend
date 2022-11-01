@@ -23,12 +23,11 @@ const Landing = () => {
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
-      <Container 
-      scroller={true} 
-      style={{
-       marginTop: -77,
-       }}
-     >
+      <Container
+        scroller={true}
+        style={{
+          marginTop: -77,
+        }}>
         <View style={styles.mainContainer}>
           <Image
             source={Images.LOGO}
@@ -39,12 +38,12 @@ const Landing = () => {
           <Text style={styles.title}>{Strings.landing.Like_Match_Connect}</Text>
           <View style={styles.btnContainer}>
             <Button
-            style={{width:212}}
+              style={{width: 212}}
               label={Strings.landing.LOG_IN}
               onPress={() => navigation.navigate(Routes.Login)}
             />
             <Button
-               style={{width:212}}
+              style={{width: 212}}
               label={Strings.landing.REGISTER}
               onPress={() => navigation.navigate(Routes.MobileNumber)}
             />
@@ -61,14 +60,14 @@ const Landing = () => {
         </TouchableOpacity>
         <TouchableOpacity
           accessible={true}
-          onPress={() => navigation.navigate(Routes.inqueryForm)}
+          onPress={() => navigation.navigate(Routes.Support)}
           accessibilityLabel={Strings.landing.InquiryForm}>
           <Text style={styles.footerBtn} accessible={false}>
             {Strings.landing.InquiryForm}
           </Text>
         </TouchableOpacity>
       </View>
-       <StatusBar hidden={Platform.OS === 'android'} animated={true}/> 
+      <StatusBar hidden={Platform.OS === 'android'} animated={true} />
     </View>
   );
 };
