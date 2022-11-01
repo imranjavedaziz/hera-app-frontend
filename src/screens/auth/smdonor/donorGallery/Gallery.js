@@ -32,7 +32,7 @@ import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import VideoUploading from '../../../../components/VideoUploading';
-
+import RNSDWebImage from 'react-native-sdwebimage';
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -267,7 +267,7 @@ const Gallery = () => {
                         handelDel(img.id, false);
                       }}
                       style={{}}>
-                      <Image
+                      <RNSDWebImage
                         source={
                           remove.includes(img.id)
                             ? Images.iconRadiosel
@@ -279,7 +279,9 @@ const Gallery = () => {
                   ) : null}
                   {gIndex === index && (
                     <TouchableOpacity onPress={() => setOpen(true)} style={{}}>
-                      <Image source={Images.camera} style={styles.camIcon} />
+                      <RNSDWebImage
+                        source={Images.camera} style={styles.camIcon}
+                      />
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}

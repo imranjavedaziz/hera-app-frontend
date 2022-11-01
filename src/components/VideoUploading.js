@@ -16,11 +16,9 @@ import Images from '../constants/Images';
 import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
-  console.log(props.isPlaying, 'isPlaying');
   return (
     <TouchableOpacity
-      // disabled={props?.video?.file_url === '' ? false : true}
-      onPress={() => props?.onPress()}>
+      onPress={()=>props?.onPress()}>
       <ImageBackground style={props?.style}>
         {props?.video?.file_url === '' && (
           <>
