@@ -60,7 +60,6 @@ const Gallery = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-  const [imgSel, setImgSel] = useState(false);
   const videoRef = useRef();
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
@@ -280,7 +279,8 @@ const Gallery = () => {
                   {gIndex === index && (
                     <TouchableOpacity onPress={() => setOpen(true)} style={{}}>
                       <RNSDWebImage
-                        source={Images.camera} style={styles.camIcon}
+                        source={Images.camera}
+                        style={styles.camIcon}
                       />
                     </TouchableOpacity>
                   )}
@@ -305,7 +305,6 @@ const Gallery = () => {
             video={video}
             selVideo={selVideo}
             handelDel={handelDel}
-            imgSel={imgSel}
             rmvImgCount={rmvImgCount}
           />
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (

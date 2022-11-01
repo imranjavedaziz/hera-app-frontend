@@ -65,11 +65,6 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   useEffect(() => {
-    let payload = {
-      state_ids: '',
-      page: 1,
-      limit: 10,
-    };
     dispatch(getDonorDashboard());
     dashboardApi('', 1, 10);
   }, [dispatch]);

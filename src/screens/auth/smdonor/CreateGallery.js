@@ -125,7 +125,7 @@ const CreateGallery = () => {
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
     } else if (index < gIndex && rmvImgCount === 0) {
-      setIsVisible(true);
+      return setIsVisible(true);
     } else {
       return;
     }
@@ -316,7 +316,6 @@ const CreateGallery = () => {
             video={video}
             selVideo={selVideo}
             handelDel={handelDel}
-            // imgSel={imgSel}
             rmvImgCount={rmvImgCount}
           />
 
@@ -392,7 +391,6 @@ const CreateGallery = () => {
               onPress={() => {
                 setShowModal(false);
                 deleteImg(selVideo);
-                // navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={sty.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

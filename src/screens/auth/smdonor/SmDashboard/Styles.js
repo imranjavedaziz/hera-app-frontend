@@ -66,6 +66,7 @@ export default {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft:10,
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,

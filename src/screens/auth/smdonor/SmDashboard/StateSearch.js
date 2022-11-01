@@ -9,12 +9,12 @@ import Colors from '../../../../constants/Colors';
 
 const StateSearch = props => {
   const filterSearch = text => {
-    console.log('FILTER', text);
     if (text) {
       const newData = props.allState?.filter(item => {
         if (item.name.includes(text)) {
           return item.name;
         } else if (item.isActive === true) {
+          return;
         }
       });
       props.setState(newData);

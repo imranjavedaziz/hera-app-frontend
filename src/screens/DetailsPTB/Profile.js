@@ -145,10 +145,9 @@ const Profile = ({route}) => {
   };
   useEffect(() => {
     askCameraPermission();
-    const unsubscribe = navigation.addListener('focus', () => {
+    return navigation.addListener('focus', () => {
       reset();
     });
-    return unsubscribe;
   }, [navigation, reset]);
   return (
     <>
