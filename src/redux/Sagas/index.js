@@ -20,6 +20,8 @@ import {watchDeleteUserGallery} from './CreateGallery';
 import {watchGetPtbProfileDetail} from './PtbProfileDetail';
 import {watchSmDonorDetail} from './SmDonerDetail';
 import {watchupdateProfileImg} from './Auth';
+import {watchSupportForm, watchUserType} from './Support';
+
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
@@ -41,5 +43,7 @@ export default function* rootSaga() {
     fork(watchSmDonorDetail),
     fork(watchupdateProfileImg),
     fork(watchSavePreferenceRes),
+    fork(watchSupportForm),
+    fork(watchUserType),
   ]);
 }

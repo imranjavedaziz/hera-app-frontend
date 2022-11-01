@@ -78,6 +78,7 @@ const PtbProfile = () => {
           <PtbAccount
             leftIcon={Images.writing}
             title={Strings.smSetting.Inquiry}
+            onPress={() => navigation.navigate('Support')}
           />
           <PtbAccount
             leftIcon={Images.information}
