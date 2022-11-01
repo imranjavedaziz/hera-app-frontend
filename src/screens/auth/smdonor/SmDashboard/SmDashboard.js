@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
@@ -26,8 +25,6 @@ import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 const SmDashboard = ({route}) => {
-  // let selectedState = route.params?.data;
-  console.log('ROUTES', route.params?.informationDetail);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const LoadingRef = useRef(false);
@@ -49,10 +46,8 @@ const SmDashboard = ({route}) => {
     useCallback(() => {
       dispatch(showAppLoader());
       _getDonorDashboard();
-
-      return () => {
-
-        unsubscribe();
+       return () => {
+       unsubscribe();
       };
 
     }, [dispatch]),
@@ -90,7 +85,6 @@ const SmDashboard = ({route}) => {
       page: 1,
       limit: 10,
     };
-    console.log('payloadsaneesh', payload);
     dispatch(getDonorDashboard(payload));
   };
 
