@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
 import LinearGradient from 'react-native-linear-gradient';
-
+import RNSDWebImage from 'react-native-sdwebimage';
 const FadeInView = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -65,7 +65,9 @@ const ImageComp = (
               ) : null}
               <View style={styles.textInnerContainer}>
                 <View style={styles.innerContainer}>
-                  <Image source={mapIcon} />
+                  <RNSDWebImage
+                    source={mapIcon}
+                  />
                   <Text style={styles.locationText}>{locationText}</Text>
                 </View>
                 <Text style={styles.codeText}>#{code}</Text>
