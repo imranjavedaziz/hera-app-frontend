@@ -24,6 +24,7 @@ const PTB_profile = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const LoadinfRef = useRef(false);
+  const [liked,setLiked] = useState(false);
   const {
     get_ptb_profile_detail_success,
     get_ptb_profile_detail_loading,
@@ -165,9 +166,11 @@ const PTB_profile = () => {
               />
             </View>
           )}
+          {!liked && 
           <Pressable
             style={styles.sendMsgBtn}
             onPress={() => {
+              setLiked(true)
               dispatch(
                 sendLikePtb({
                   to_user_id: userid,
@@ -184,6 +187,7 @@ const PTB_profile = () => {
               {Strings.PTB_Profile.send_request}
             </Text>
           </Pressable>
+}
         </>
       )}
     </Container>

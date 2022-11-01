@@ -53,6 +53,7 @@ const Gallery = () => {
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
+  const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [images, setImages] = useState([]);
   const [remove, setRemove] = useState([]);
@@ -153,9 +154,9 @@ const Gallery = () => {
       setSelVideo(!selVideo);
       setDel(true);
       if (selVideo === false) {
-        setRmvImgCount(1);
+        setRmvVideoCount(1);
       } else {
-        setRmvImgCount(0);
+        setRmvVideoCount(0);
       }
       return;
     } else if (isVideo === false) {
@@ -190,15 +191,14 @@ const Gallery = () => {
     if (selVideo) {
       console.log('VIDEO DEL');
       setDel(false);
-      setRmvImgCount(0);
+      setRmvVideoCount(0);
       setSelVideo(false);
-      // console.log("vel",remove!== undefined)
       return;
     } else {
       let payload = JSON.stringify({
         ids: del,
       });
-      console.log('PAYLOAD', payload);
+      // console.log('PAYLOAD', payload);
       dispatch(deleteGallery(payload));
       dispatch(getUserGallery());
       setDel(false);
@@ -206,7 +206,6 @@ const Gallery = () => {
       setRemove([]);
     }
   };
-  // useEffect(() => {}, [deleteImg]);
 
   const updateGallery = () => {
     const url =
@@ -311,12 +310,20 @@ const Gallery = () => {
             selVideo={selVideo}
             handelDel={handelDel}
             imgSel={imgSel}
+            rmvImgCount={rmvImgCount}
           />
-          {isDel && rmvImgCount !== 0 ? (
+          {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
-              <Text style={styles.selectedText}>
-                {rmvImgCount} Photos Selected
-              </Text>
+              {rmvVideoCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvVideoCount} Video Selected
+                </Text>
+              )}
+              {rmvImgCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvImgCount} Photos Selected
+                </Text>
+              )}
               <TouchableOpacity
                 style={styles.deleteBtnContainer}
                 onPress={() => setShowModal(true)}>
