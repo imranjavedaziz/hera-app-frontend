@@ -35,4 +35,6 @@ export default {
   doner_profile_details: 'doner-profile-details',
   update_profile_img: 'update-profile-pic',
   profile_match_request: 'profile-match-request',
+  enquiry: 'enquiry',
+  userType: 'roles',
 };

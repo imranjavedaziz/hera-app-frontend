@@ -80,7 +80,6 @@ const SmBasicDetails = () => {
     }
     loadingRef.current = get_state_loading;
   }, [get_state_success, get_state_loading]);
-
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {

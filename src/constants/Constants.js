@@ -165,7 +165,7 @@ export const Routes = {
   SmSetting: 'SmDonorSettings',
   donorGallery: 'DonorGallery',
   stateList: 'StateList',
-  inqueryForm: 'InqueryForm',
+  Support: 'Support',
   Subscription: 'Subscription',
 };
 export const Static = {
