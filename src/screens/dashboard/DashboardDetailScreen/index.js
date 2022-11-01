@@ -26,6 +26,7 @@ import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
+import RNSDWebImage from "react-native-sdwebimage";
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -53,7 +54,6 @@ const DashboardDetailScreen = () => {
         dispatch(showAppLoader());
         if (get_sm_donor_success) {
           dispatch(hideAppLoader());
-          console.log(get_sm_donor_res, 'get_sm_donor_res:::::::');
           setSmDetailRes(get_sm_donor_res);
         }
         if (get_sm_donor_error_msg) {
@@ -74,7 +74,7 @@ const DashboardDetailScreen = () => {
     return (
       <>
         <TouchableOpacity>
-          <Image
+          <RNSDWebImage
             resizeMode="cover"
             source={{uri: item?.item?.file_url}}
             style={styles.imageBox}
