@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
@@ -10,7 +10,10 @@ import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
-import {getUserGallery} from '../../../../redux/actions/CreateGallery';
+import {
+  deleteGallery,
+  getUserGallery,
+} from '../../../../redux/actions/CreateGallery';
 import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
 import BottomSheetComp from '../../../../components/BottomSheet';
@@ -19,6 +22,7 @@ const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const userService = User();
   const loadingGalleryRef = useRef(false);
@@ -88,6 +92,13 @@ const MyVideo = () => {
       setIsPlaying(!isPlaying);
     }
   };
+  const deleteImg = () => {
+    let payload = JSON.stringify({
+      ids: [JSON.stringify(gallery_data?.doner_video_gallery?.id)],
+    });
+    console.log('PAYLOAD', payload);
+    dispatch(deleteGallery(payload));
+  };
   return (
     <>
       <Container
@@ -122,6 +133,16 @@ const MyVideo = () => {
             isPlaying={isPlaying}
             video={video}
           />
+          {video?.file_url !== '' && (
+            <TouchableOpacity
+              style={styles.deleteBtnContainer}
+              onPress={() => setShowModal(true)}>
+              <Image source={Images.trashRed} />
+              <Text style={styles.rmvText}>
+                {Strings.smSetting.RemoveVideo}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </Container>
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
@@ -146,6 +167,40 @@ const MyVideo = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[styles.centeredView]}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalHeader}>
+              {Strings.smSetting.Remove_Video}
+            </Text>
+            <Text style={styles.modalSubHeader}>
+              {Strings.sm_create_gallery.modalsubTitle}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                deleteImg();
+              }}>
+              <Text style={styles.modalOption1}>
+                {Strings.sm_create_gallery.modalText}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={styles.modalOption2}>
+                {Strings.sm_create_gallery.modalText_2}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
