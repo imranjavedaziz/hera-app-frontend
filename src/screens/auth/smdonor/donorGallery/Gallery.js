@@ -160,11 +160,6 @@ const Gallery = () => {
       }
       return;
     } else if (isVideo === false) {
-      // if (rmvImgCount > 0) {
-      //   setImgSel(false);
-      // } else if (rmvImgCount == 0) {
-      //   setImgSel(true);
-      // }
       setDel(true);
       let pushArr = remove;
       let isExist = pushArr.findIndex(val => val === index);
