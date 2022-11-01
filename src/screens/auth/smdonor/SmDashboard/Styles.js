@@ -51,9 +51,6 @@ export default {
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_10,
-    // position: 'absolute',
-    // paddingTop: Value.CONSTANT_VALUE_5,
-    // marginHorizontal: Value.CONSTANT_VALUE_30,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
   search: {
@@ -69,22 +66,18 @@ export default {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // flex:1
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
-    // marginRight:180,
-    // backgroundColor:'red'
   },
   sel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    // marginRight:'30%',
   },
   imgSel: {marginLeft: Value.CONSTANT_VALUE_100, tintColor: Colors.GREEN},
   iconFont: {
