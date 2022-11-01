@@ -189,7 +189,6 @@ const Gallery = () => {
   });
   const deleteImg = selVideo => {
     if (selVideo) {
-      console.log('VIDEO DEL');
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
