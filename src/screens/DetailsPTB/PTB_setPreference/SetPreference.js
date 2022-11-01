@@ -23,7 +23,6 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import User from '../../../Api/User';
 import {logOut} from '../../../redux/actions/Auth';
 import {
   SetPreferenceRes,
@@ -131,7 +130,6 @@ const SetPreference = ({route, navigation}) => {
     console.log(value, 'Value');
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
-    // userService.setPreferences(value);
   };
 
   const logoutScreen = () => {

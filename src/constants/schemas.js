@@ -184,17 +184,18 @@ export const smBasicSchema = yup.object().shape({
 });
 export const inqueryFormSchema = yup.object().shape({
   name: yup.string().required(ValidationMessages.Name),
-  user_type: yup.string().required(ValidationMessages.USER_TYPE),
-  emailAddress: yup
+  user_type: yup.object().required(ValidationMessages.USER_TYPE),
+  email: yup
     .string()
     .required(ValidationMessages.EMPTY_EMAIL)
     .matches(Regx.EMAIL, {
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_EMAIL,
     }),
-  mobileNumber: yup.number().required(ValidationMessages.INVALID_MOBILE),
+  phone_no: yup.number().required(ValidationMessages.INVALID_MOBILE),
   message: yup.string().required(ValidationMessages.ENTER_Message),
 });
+
 export const smSetAttributesSchema = yup.object().shape({
   height_id: yup.string().required(ValidationMessages.SELECT_HEIGHT),
   race_id: yup.string().required(ValidationMessages.SELECT_RACE),
