@@ -175,24 +175,25 @@ const Gallery = () => {
   remove.sort();
   let del = [];
   let iterator = 0;
-  gallery_data?.doner_photo_gallery?.map((item, index) => {
-    if (index === remove[iterator]) {
-      del.push(item.id.toString());
-      iterator++;
-    }
-  });
+  if (remove.length) {
+    gallery_data?.doner_photo_gallery?.map((item, index) => {
+      if (index === remove[iterator]) {
+        del.push(`ids[]=${item.id}`);
+        iterator++;
+      }
+    });
+  } else {
+    del.push(`ids[]=${gallery_data?.doner_video_gallery?.id}`);
+  }
   const deleteImg = selVideo => {
     if (selVideo) {
+      dispatch(deleteGallery(del.join('&')));
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
       return;
     } else {
-      let payload = JSON.stringify({
-        ids: del,
-      });
-      // console.log('PAYLOAD', payload);
-      dispatch(deleteGallery(payload));
+      dispatch(deleteGallery(del.join('&')));
       dispatch(getUserGallery());
       setDel(false);
       setRmvImgCount(0);
@@ -222,7 +223,6 @@ const Gallery = () => {
       return;
     }
     setGIndex(url?.length);
-    console.log('GALLY', gallery);
   };
   const headerComp = () => (
     <CircleBtn
@@ -377,7 +377,7 @@ const Gallery = () => {
               onPress={() => {
                 setShowModal(false);
                 deleteImg(selVideo);
-                // navigation.navigate(Routes.SmSetting);
+                navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

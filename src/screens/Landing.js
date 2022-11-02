@@ -24,9 +24,9 @@ const Landing = () => {
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
       <Container
-        scroller={true}
+        scroller={false}
         style={{
-          marginTop: -77,
+          marginTop: -20
         }}>
         <View style={styles.mainContainer}>
           <Image

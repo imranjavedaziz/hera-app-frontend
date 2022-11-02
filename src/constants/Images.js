@@ -48,6 +48,7 @@ export default {
   circleIconBack: require('../assets/icons/circleIconBack/circleIconBack.png'),
   iconComma: require('../assets/icons/iconComma/iconComma.png'),
   trashRed: require('../assets/icons/trashRed/bitmap.png'),
+  line8: require('../assets/icons/line8/line8Copy.png'),
   // IMAGES
   LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
   LOGO: require('../assets/Images/logo/logo.png'),

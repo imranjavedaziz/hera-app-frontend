@@ -1,5 +1,5 @@
 // CreateGallery
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   View,
@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Modal,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
@@ -28,7 +28,11 @@ import {
   getUserGallery,
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
 
@@ -51,6 +55,7 @@ const CreateGallery = () => {
   ]);
   const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const loadingGalleryRef = useRef(false);
+  const loadRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
@@ -64,9 +69,55 @@ const CreateGallery = () => {
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
 
-  const {gallery_success, gallery_loading, gallery_data} = useSelector(
-    state => state.CreateGallery,
+  const {
+    gallery_success,
+    gallery_loading,
+    gallery_data,
+    delete_gallery_success,
+    delete_gallery_loading,
+    delete_gallery__error_msg,
+  } = useSelector(state => state.CreateGallery);
+  useEffect(() => {
+    dispatch(getUserGallery());
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingGalleryRef.current && !gallery_loading) {
+        dispatch(showAppLoader());
+        if (gallery_success) {
+          updateGallery();
+          setVideo({
+            file_url: gallery_data?.doner_video_gallery?.file_url
+              ? gallery_data?.doner_video_gallery?.file_url
+              : '',
+            loading: false,
+          });
+          dispatch(hideAppLoader());
+        } else {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingGalleryRef.current = gallery_loading;
+    }, [gallery_success, gallery_loading]),
   );
+
+  useFocusEffect(
+    useCallback(() => {
+      if (loadRef.current && !delete_gallery_loading) {
+        dispatch(showAppLoader());
+        if (delete_gallery_success) {
+          dispatch(hideAppLoader());
+          dispatch(getUserGallery());
+        } else {
+          dispatch(showAppToast(false, delete_gallery__error_msg));
+          dispatch(hideAppLoader());
+        }
+      }
+      loadRef.current = delete_gallery_loading;
+    }, [delete_gallery_success, delete_gallery_loading]),
+  );
+
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
@@ -130,20 +181,6 @@ const CreateGallery = () => {
       return;
     }
   };
-  useEffect(() => {
-    if (loadingGalleryRef.current && !gallery_loading) {
-      dispatch(showAppLoader());
-      if (gallery_success) {
-        updateGallery();
-
-        dispatch(hideAppLoader());
-      } else {
-        dispatch(hideAppLoader());
-      }
-    }
-    loadingGalleryRef.current = gallery_loading;
-  }, [gallery_success, gallery_loading]);
-
   const updateGallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
@@ -152,7 +189,6 @@ const CreateGallery = () => {
       });
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
-        console.log('IMG', img);
         if (i <= gallery_data?.doner_photo_gallery?.length) {
           return {id: i, uri: url[i], loading: false};
         }
@@ -161,6 +197,10 @@ const CreateGallery = () => {
     });
     for (let i = 0; i < url?.length; ++i) {
       images.push({uri: url[i]});
+    }
+    if (url?.length === undefined) {
+      setGIndex(0);
+      return;
     }
     setGIndex(url?.length);
   };
@@ -191,24 +231,28 @@ const CreateGallery = () => {
   remove.sort();
   let del = [];
   let iterator = 0;
-  gallery_data?.doner_photo_gallery?.map((item, index) => {
-    if (index === remove[iterator]) {
-      del.push(item.id.toString());
-      iterator++;
-    }
-  });
+  if (remove.length) {
+    gallery_data?.doner_photo_gallery?.map((item, index) => {
+      if (index === remove[iterator]) {
+        del.push(`ids[]=${item.id}`);
+        iterator++;
+      }
+    });
+  } else {
+    del.push(`ids[]=${gallery_data?.doner_video_gallery?.id}`);
+  }
   const deleteImg = selVideo => {
     if (selVideo) {
+      dispatch(showAppLoader());
+      dispatch(deleteGallery(del.join('&')));
+      dispatch(getUserGallery());
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
       return;
     } else {
-      let payload = JSON.stringify({
-        ids: del,
-      });
-      // console.log('PAYLOAD', payload);
-      dispatch(deleteGallery(payload));
+      dispatch(showAppLoader());
+      dispatch(deleteGallery(del.join('&')));
       dispatch(getUserGallery());
       setDel(false);
       setRmvImgCount(0);
