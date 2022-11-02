@@ -96,6 +96,7 @@ const initState = {
   update_user_profile_img_success: false,
   update_user_profile_img_fail: false,
   update_user_profile_img_error_msg: '',
+  update_message: '',
 };
 
 export default (state = initState, action) => {
@@ -265,6 +266,7 @@ export default (state = initState, action) => {
         register_user_loading: true,
         register_user_error_msg: '',
         user: {},
+        log_in_data: action?.data?.data?.data,
         registerUser: action?.data?.data?.data,
       };
     }
@@ -286,6 +288,7 @@ export default (state = initState, action) => {
         register_user_loading: false,
         registerUser: action.data,
         register_user_error_msg: '',
+        log_in_data: action?.data?.data?.data,
         user: action?.data?.data?.data,
         token: access_token,
       };
@@ -320,6 +323,7 @@ export default (state = initState, action) => {
         update_user_profile_img_success: true,
         update_user_profile_img_loading: false,
         update_user_profile_img_error_msg: '',
+        update_message: action.data?.data?.message,
       };
     }
 

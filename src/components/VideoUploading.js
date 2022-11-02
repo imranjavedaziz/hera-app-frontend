@@ -13,12 +13,10 @@ import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
-import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
   return (
-    <TouchableOpacity
-      onPress={()=>props?.onPress()}>
+    <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
         {props?.video?.file_url === '' && (
           <>

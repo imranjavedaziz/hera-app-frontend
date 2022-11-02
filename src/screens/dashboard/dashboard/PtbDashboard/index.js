@@ -36,8 +36,7 @@ const PtbDashboard = () => {
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef();
-  const {registerUser, log_in_data} = useSelector(state => state.Auth);
-
+  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   useFocusEffect(
     useCallback(() => {
       dispatch(getPtbDashboard());
@@ -133,9 +132,7 @@ const PtbDashboard = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={{
-        uri: registerUser?.data?.data?.profile_pic
-          ? registerUser?.data?.data?.profile_pic
-          : log_in_data.profile_pic,
+        uri: profileImg,
       }}
       leftPress={() => {
         navigation.navigate('PtbProfile');

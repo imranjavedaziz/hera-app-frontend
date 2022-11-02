@@ -1,15 +1,15 @@
 export function getRoleType(id) {
   if (id === 2) {
-    return 'PARENTS_TO_BE';
+    return 'Parent To Be';
   }
   if (id === 3) {
-    return 'SURROGATE_MOTHER';
+    return 'Surrogate Mother';
   }
   if (id === 4) {
-    return 'EGG_DONER';
+    return 'Egg Doner';
   }
   if (id === 5) {
-    return 'SPERM_DONER';
+    return 'Sperm Doner';
   } else {
     return '';
   }
