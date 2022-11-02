@@ -57,6 +57,7 @@ const Container = props => {
     style = {},
     safeAreViewStyle = {},
     mainStyle = false,
+    fixedHeader = false,
     showsVerticalScrollIndicator = false,
   } = props;
 
@@ -72,14 +73,29 @@ const Container = props => {
         <KeyboardAvoidingView
           style={styles.flexMain}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <Scroller
-            enabled={scroller}
-            style={style}
-            mainStyle={mainStyle}
-            showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
-            {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
-            {children}
-          </Scroller>
+          {fixedHeader === true ? (
+            <>
+              <Header end={headerEnd}>{headerComp()}</Header>
+              <Scroller
+                enabled={scroller}
+                style={style}
+                mainStyle={mainStyle}
+                fixedHeader={fixedHeader}
+                showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+                {children}
+              </Scroller>
+            </>
+          ) : (
+            <Scroller
+              enabled={scroller}
+              style={style}
+              mainStyle={mainStyle}
+              fixedHeader={fixedHeader}
+              showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+              {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
+              {children}
+            </Scroller>
+          )}
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>

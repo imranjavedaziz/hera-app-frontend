@@ -109,7 +109,7 @@ const PTB_profile = () => {
             </View>
             <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
             <View style={styles.ageContainer}>
-              <Text>Age: </Text>
+              <Text style={styles.colorText}>Age: </Text>
               <Text style={styles.ageYrs}>
                 {stateRes?.age}
                 {Strings.PTB_Profile.yrs}

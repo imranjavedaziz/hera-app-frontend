@@ -9,6 +9,7 @@ export default {
     height: Value.CONSTANT_VALUE_80,
     borderRadius: Value.CONSTANT_VALUE_40,
   },
+  colorText: {color: Colors.BLACK},
   location: {
     flexDirection: Alignment.ROW,
     marginTop: Value.CONSTANT_VALUE_10,
@@ -17,6 +18,7 @@ export default {
   locationText: {
     fontFamily: Fonts.OpenSansRegular,
     marginLeft: Value.CONSTANT_VALUE_5,
+    color: Colors.BLACK,
   },
   profileName: {
     fontFamily: Fonts.OpenSansRegular,
@@ -33,6 +35,7 @@ export default {
   profileType: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_20,
+    color: Colors.BLACK,
   },
   ageContainer: {
     flexDirection: Alignment.ROW,

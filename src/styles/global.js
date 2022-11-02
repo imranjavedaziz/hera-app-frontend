@@ -12,7 +12,7 @@ import {Fonts} from '../constants/Constants';
 export default {
   screenTitle: {
     textTransform: 'uppercase',
-    letterSpacing: Value.CONSTANT_VALUE_2,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
     fontWeight: '600',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,

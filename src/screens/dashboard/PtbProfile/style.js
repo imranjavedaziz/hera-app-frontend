@@ -6,6 +6,7 @@ import Colors from '../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginTop: 40
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_10,
@@ -13,7 +14,7 @@ export default {
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,
-    paddingTop: Value.CONSTANT_VALUE_45,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
     paddingBottom: Value.CONSTANT_VALUE_89,
   },
   button: {

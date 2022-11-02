@@ -4,8 +4,10 @@ import Alignment from '../constants/Alignment';
 import Colors from '../constants/Colors';
 import global from './global';
 import {Fonts} from '../constants/Constants';
+import {dynamicSize} from '../utils/responsive';
 
 export default {
+  flex: {flex: Value.CONSTANT_VALUE_1},
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
     //height: Prencentage.PRECENTAGE_30,
@@ -18,7 +20,6 @@ export default {
       },
     }),
     backgroundColor: Colors.BACKGROUND,
-    
   },
   bgImg: {
     width: Prencentage.PRECENTAGE_100,
@@ -38,7 +39,7 @@ export default {
         paddingBottom: Value.CONSTANT_VALUE_0,
       },
     }),
-    //paddingBottom:Value.CONSTANT_VALUE_60
+    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
   },
   logo: {
     width: Value.CONSTANT_VALUE_200,
@@ -84,4 +85,5 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     ...global.underlineText,
   },
+  widthText: {width: Value.CONSTANT_VALUE_212},
 };

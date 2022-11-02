@@ -54,8 +54,9 @@ export const ValidationMessages = {
   CAPSLOCK: 'Atleast 1 upper case letter',
   OTP_REQUIRED: 'Required!',
   USER_TYPE: 'Please select a user type',
-  Name: 'Name is a required field.',
+  Name: 'Please enter your Name',
   ENTER_Message: 'Please enter your Message',
+  MOBILE_NUMBER: 'Please enter your Mobile Number',
 };
 export default {
   landing: {

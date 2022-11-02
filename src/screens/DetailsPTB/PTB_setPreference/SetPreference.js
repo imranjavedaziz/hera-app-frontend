@@ -18,7 +18,7 @@ import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {Static, Routes, FormKey} from '../../../constants/Constants';
+import {Static, Routes, FormKey, Fonts} from '../../../constants/Constants';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
@@ -139,6 +139,7 @@ const SetPreference = ({route, navigation}) => {
 
   const headerComp = () => (
     <CircleBtn
+      Fixedstyle={styles.fixedheaderStyle}
       icon={Images.iconSettings}
       onPress={() => {
         setOpen(true);
@@ -149,6 +150,7 @@ const SetPreference = ({route, navigation}) => {
     <>
       <Container
         scroller={true}
+        fixedHeader={true}
         showHeader={true}
         headerComp={headerComp}
         headerEnd={true}
@@ -171,7 +173,7 @@ const SetPreference = ({route, navigation}) => {
             </Text>
           </View>
           <View style={styles.lookingFor}>
-            <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
+            <Text style={styles.lookingForText}>
               {Strings.preference.lookingFor}
             </Text>
             <Controller
@@ -282,7 +284,7 @@ const SetPreference = ({route, navigation}) => {
             />
             <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
               <View style={styles.heightContainer}>
-                <Text>
+                <Text style={styles.heightTextInner}>
                   {Strings.preference.Height}{' '}
                   <Text style={styles.heightText}>*</Text>
                 </Text>
@@ -374,12 +376,12 @@ const SetPreference = ({route, navigation}) => {
                             style={[
                               {
                                 alignSelf: Alignment.CENTER,
-                                fontWeight: isSelected(
+                                fontFamily: isSelected(
                                   value,
                                   item.id.toString(),
                                 )
-                                  ? Alignment.BOLD
-                                  : null,
+                                  ? Fonts.OpenSansBold
+                                  : Fonts.OpenSansRegular,
                                 color: isSelected(value, item.id.toString())
                                   ? Colors.WHITE
                                   : null,
@@ -429,9 +431,9 @@ const SetPreference = ({route, navigation}) => {
                           style={[
                             {
                               alignSelf: Alignment.CENTER,
-                              fontWeight: isSelected(value, item.id.toString())
-                                ? Alignment.BOLD
-                                : null,
+                              fontFamily: isSelected(value, item.id.toString())
+                                ? Fonts.OpenSansBold
+                                : Fonts.OpenSansRegular,
                               color: isSelected(value, item.id.toString())
                                 ? Colors.WHITE
                                 : null,
