@@ -1,4 +1,3 @@
-import {ActivityIndicatorComponent} from 'react-native';
 import {
   SUPPORT_FORM,
   SUPPORT_FORM_FAIL,

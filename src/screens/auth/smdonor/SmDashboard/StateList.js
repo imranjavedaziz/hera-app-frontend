@@ -144,7 +144,7 @@ const StateList = () => {
         sl.push(item.id);
       }
     });
-    navigation.navigate(Routes.SmDashboard, {data: sl});
+    navigation.navigate(Routes.SmDashboard, {informationDetail:sl});
   };
   const headerComp = () => (
     <>
