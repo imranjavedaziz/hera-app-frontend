@@ -269,7 +269,8 @@ const Gallery = () => {
                   {gIndex === index && (
                     <TouchableOpacity onPress={() => setOpen(true)} style={{}}>
                       <RNSDWebImage
-                        source={Images.camera} style={styles.camIcon}
+                        source={Images.camera}
+                        style={styles.camIcon}
                       />
                     </TouchableOpacity>
                   )}
@@ -290,7 +291,7 @@ const Gallery = () => {
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}
             videoStyle={styles.video}
-            onEnd={()=> setIsPlaying(false)}
+            onEnd={() => setIsPlaying(false)}
             onPress={() =>
               video?.file_url === ''
                 ? openBottomVideoSheet()
