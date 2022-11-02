@@ -6,6 +6,7 @@ import {
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
 } from '../constants';
+
 import {
   AUTH_LOG_IN,
   AUTH_LOG_IN_FAIL,
@@ -97,7 +98,7 @@ const initState = {
   update_user_profile_img_error_msg: '',
 };
 
-export default (state = initState,action) => {
+export default (state = initState, action) => {
   switch (action.type) {
     /**
      * SignIn
@@ -250,6 +251,7 @@ export default (state = initState,action) => {
         log_out_error_msg: '',
         token: '',
         log_in_data: '',
+        user: initState.user,
         registerUser: '',
       };
     }

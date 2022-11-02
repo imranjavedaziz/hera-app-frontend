@@ -275,6 +275,8 @@ export default {
     AboutUs: 'About Us',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
+    RemoveVideo: 'REMOVE VIDEO',
+    Remove_Video: 'Remove Video?',
   },
   subscribe: {
     Subscribe_Now: 'Subscribe Now',
