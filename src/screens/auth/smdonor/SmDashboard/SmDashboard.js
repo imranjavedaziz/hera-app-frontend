@@ -105,7 +105,6 @@ const SmDashboard = ({route}) => {
     setSearching(false);
     setSearch('');
   };
-
   const renderProfile = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -159,12 +158,11 @@ const SmDashboard = ({route}) => {
       mainStyle={true}
       scroller={false}
       showHeader={searching ? false : true}
-      headerComp={headerComp}>
-      <View
-        style={[
-          globalStyle.mainContainer,
-          {paddingTop: Value.CONSTANT_VALUE_60},
-        ]}>
+      headerComp={headerComp}
+      style={{
+        paddingTop: Value.CONSTANT_VALUE_60,
+      }}>
+      <View style={globalStyle.mainContainer}>
         {search === '' ? (
           <>
             <Text style={[globalStyle.screenTitle]}>

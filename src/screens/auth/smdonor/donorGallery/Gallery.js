@@ -53,6 +53,7 @@ const Gallery = () => {
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
+  const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [images, setImages] = useState([]);
   const [remove, setRemove] = useState([]);
@@ -147,25 +148,29 @@ const Gallery = () => {
       return;
     }
   };
-  // const handelVideoDel = () => {
-  //   setSelVideo(!selVideo);
-  //   if (selVideo === true) {
-  //     // setRmvImgCount(1);
-  //   }
-  //   setDel(true);
-  // };
-  function handelDel(index) {
-    setDel(true);
-    let pushArr = remove;
-    let isExist = pushArr.findIndex(val => val === index);
-    if (isExist === -1) {
-      pushArr.push(index);
-      setRmvImgCount(rmvImgCount + 1);
-    } else {
-      pushArr.splice(isExist, 1);
-      setRmvImgCount(rmvImgCount - 1);
+  function handelDel(index, isVideo) {
+    if (isVideo) {
+      setSelVideo(!selVideo);
+      setDel(true);
+      if (selVideo === false) {
+        setRmvVideoCount(1);
+      } else {
+        setRmvVideoCount(0);
+      }
+      return;
+    } else if (isVideo === false) {
+      setDel(true);
+      let pushArr = remove;
+      let isExist = pushArr.findIndex(val => val === index);
+      if (isExist === -1) {
+        pushArr.push(index);
+        setRmvImgCount(rmvImgCount + 1);
+      } else {
+        pushArr.splice(isExist, 1);
+        setRmvImgCount(rmvImgCount - 1);
+      }
+      setRemove(pushArr);
     }
-    setRemove(pushArr);
   }
   remove.sort();
   let del = [];
@@ -176,19 +181,24 @@ const Gallery = () => {
       iterator++;
     }
   });
-  const deleteImg = () => {
-    let payload = JSON.stringify({
-      ids: del,
-    });
-    console.log('PAYLOAD', payload);
-    dispatch(deleteGallery(payload));
-    dispatch(getUserGallery());
-
-    setDel(false);
-    setRmvImgCount(0);
-    setRemove([]);
+  const deleteImg = selVideo => {
+    if (selVideo) {
+      setDel(false);
+      setRmvVideoCount(0);
+      setSelVideo(false);
+      return;
+    } else {
+      let payload = JSON.stringify({
+        ids: del,
+      });
+      // console.log('PAYLOAD', payload);
+      dispatch(deleteGallery(payload));
+      dispatch(getUserGallery());
+      setDel(false);
+      setRmvImgCount(0);
+      setRemove([]);
+    }
   };
-  // useEffect(() => {}, [deleteImg]);
 
   const updateGallery = () => {
     const url =
@@ -250,10 +260,10 @@ const Gallery = () => {
                     resizeMode: 'cover',
                   }}
                   source={img.uri ? {uri: img.uri} : null}>
-                  {img.uri ? (
+                  {img.uri && selVideo === false ? (
                     <TouchableOpacity
                       onPress={() => {
-                        handelDel(img.id);
+                        handelDel(img.id, false);
                       }}
                       style={{}}>
                       <RNSDWebImage
@@ -279,13 +289,6 @@ const Gallery = () => {
               </TouchableOpacity>
             ))}
           </View>
-          {/* <TouchableOpacity
-            onPress={() => handelVideoDel()}
-            style={styles.videoSel}>
-            <Image
-              source={selVideo ? Images.iconRadiounsel : Images.iconRadiosel}
-            />
-          </TouchableOpacity> */}
           <VideoUploading
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
@@ -300,12 +303,22 @@ const Gallery = () => {
             videoRef={videoRef}
             isPlaying={isPlaying}
             video={video}
+            selVideo={selVideo}
+            handelDel={handelDel}
+            rmvImgCount={rmvImgCount}
           />
-          {isDel && rmvImgCount !== 0 ? (
+          {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
-              <Text style={styles.selectedText}>
-                {rmvImgCount} Photos Selected
-              </Text>
+              {rmvVideoCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvVideoCount} Video Selected
+                </Text>
+              )}
+              {rmvImgCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvImgCount} Photos Selected
+                </Text>
+              )}
               <TouchableOpacity
                 style={styles.deleteBtnContainer}
                 onPress={() => setShowModal(true)}>
@@ -363,8 +376,8 @@ const Gallery = () => {
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
-                deleteImg();
-                navigation.navigate(Routes.SmSetting);
+                deleteImg(selVideo);
+                // navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

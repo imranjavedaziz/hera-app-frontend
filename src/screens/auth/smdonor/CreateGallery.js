@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Container from '../../../components/Container';
@@ -20,6 +21,7 @@ import videoPicker from '../../../utils/videoPicker';
 import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
+import sty from '../../auth/smdonor/donorGallery/styles';
 import User from '../../../Api/User';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -28,6 +30,7 @@ import {
 } from '../../../redux/actions/CreateGallery';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
+import {updateRegStep} from '../../../redux/actions/Auth';
 
 import ImageView from 'react-native-image-viewing';
 const CreateGallery = () => {
@@ -53,10 +56,13 @@ const CreateGallery = () => {
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
+  const [rmvVideoCount, setRmvVideoCount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const images = [];
   const [remove, setRemove] = useState([]);
   const [isVideo, setIsVideo] = useState(false);
+  const [selVideo, setSelVideo] = useState(false);
 
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
@@ -119,7 +125,7 @@ const CreateGallery = () => {
     if (gIndex === index && rmvImgCount === 0) {
       return setOpen(true);
     } else if (index < gIndex && rmvImgCount === 0) {
-      setIsVisible(true);
+      return setIsVisible(true);
     } else {
       return;
     }
@@ -158,18 +164,29 @@ const CreateGallery = () => {
     }
     setGIndex(url?.length);
   };
-  function handelDel(index) {
-    setDel(true);
-    let pushArr = remove;
-    let isExist = pushArr.findIndex(val => val === index);
-    if (isExist === -1) {
-      pushArr.push(index);
-      setRmvImgCount(rmvImgCount + 1);
-    } else {
-      pushArr.splice(isExist, 1);
-      setRmvImgCount(rmvImgCount - 1);
+  function handelDel(index, isVideo) {
+    if (isVideo) {
+      setSelVideo(!selVideo);
+      setDel(true);
+      if (selVideo === false) {
+        setRmvVideoCount(1);
+      } else {
+        setRmvVideoCount(0);
+      }
+      return;
+    } else if (isVideo === false) {
+      setDel(true);
+      let pushArr = remove;
+      let isExist = pushArr.findIndex(val => val === index);
+      if (isExist === -1) {
+        pushArr.push(index);
+        setRmvImgCount(rmvImgCount + 1);
+      } else {
+        pushArr.splice(isExist, 1);
+        setRmvImgCount(rmvImgCount - 1);
+      }
+      setRemove(pushArr);
     }
-    setRemove(pushArr);
   }
   remove.sort();
   let del = [];
@@ -180,23 +197,30 @@ const CreateGallery = () => {
       iterator++;
     }
   });
-  const deleteImg = () => {
-    let payload = {
-      ids: del,
-    };
-    console.log('PAYLOAD', payload);
-    dispatch(deleteGallery(payload));
-    dispatch(getUserGallery());
-    setDel(false);
-    setRemove([]);
-    setRmvImgCount(0);
+  const deleteImg = selVideo => {
+    if (selVideo) {
+      setDel(false);
+      setRmvVideoCount(0);
+      setSelVideo(false);
+      return;
+    } else {
+      let payload = JSON.stringify({
+        ids: del,
+      });
+      // console.log('PAYLOAD', payload);
+      dispatch(deleteGallery(payload));
+      dispatch(getUserGallery());
+      setDel(false);
+      setRmvImgCount(0);
+      setRemove([]);
+    }
+  };
+  const headerComp = () => {
+    <></>;
   };
   const openBottomVideoSheet = () => {
     setOpen(true);
     setIsVideo(true);
-  };
-  const headerComp = () => {
-    <></>;
   };
   return (
     <>
@@ -250,10 +274,10 @@ const CreateGallery = () => {
                     resizeMode: 'cover',
                   }}
                   source={img.uri ? {uri: img.uri} : null}>
-                  {img.uri ? (
+                  {img.uri && selVideo === false ? (
                     <TouchableOpacity
                       onPress={() => {
-                        handelDel(img.id);
+                        handelDel(img.id, false);
                       }}
                       style={{}}>
                       <Image
@@ -276,31 +300,6 @@ const CreateGallery = () => {
               </TouchableOpacity>
             ))}
           </View>
-          {/* <TouchableOpacity onPress={selectVideo}>
-            <ImageBackground
-              style={styles.videoContainer}
-              source={video.uri ? {uri: video.uri} : null}
-              imageStyle={styles.resizeContain}>
-              {!video.uri ? (
-                <>
-                  <Text style={styles.videoTitle}>
-                    {Strings.sm_create_gallery.uploadVideo}
-                  </Text>
-                  <Text style={styles.videoPara}>
-                    {Strings.sm_create_gallery.videoDuration}
-                  </Text>
-                  <Text style={styles.videoPara}>
-                    {Strings.sm_create_gallery.videoFormat}
-                  </Text>
-                </>
-              ) : video.loading ? (
-                <ActivityIndicator />
-              ) : (
-                <Image source={Images.playButton} />
-              )}
-            </ImageBackground>
-          </TouchableOpacity> */}
-
           <VideoUploading
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
@@ -315,16 +314,26 @@ const CreateGallery = () => {
             videoRef={videoRef}
             isPlaying={isPlaying}
             video={video}
+            selVideo={selVideo}
+            handelDel={handelDel}
+            rmvImgCount={rmvImgCount}
           />
 
-          {isDel && rmvImgCount !== 0 ? (
+          {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
-              <Text style={styles.selectedText}>
-                {rmvImgCount} Photos Selected
-              </Text>
+              {rmvVideoCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvVideoCount} Video Selected
+                </Text>
+              )}
+              {rmvImgCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvImgCount} Photos Selected
+                </Text>
+              )}
               <TouchableOpacity
                 style={styles.deleteBtnContainer}
-                onPress={() => deleteImg()}>
+                onPress={() => setShowModal(true)}>
                 <Image source={Images.trashRed} style={{}} />
                 <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
@@ -333,7 +342,10 @@ const CreateGallery = () => {
             <Button
               style={styles.btn}
               label={Strings.sm_create_gallery.Btn}
-              onPress={() => navigation.navigate(Routes.SmDashboard)}
+              onPress={() => {
+                dispatch(updateRegStep());
+                navigation.navigate(Routes.SmDashboard);
+              }}
             />
           )}
         </View>
@@ -343,7 +355,6 @@ const CreateGallery = () => {
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
             onPress={() => {
-              // openCamera(0, cb);
               !isVideo ? openCamera(0, cb) : selectVideo(0);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
@@ -353,7 +364,6 @@ const CreateGallery = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              // openCamera(1, cb);
               !isVideo ? openCamera(1, cb) : selectVideo(1);
             }}
             style={styleSheet.pickerBtn}>
@@ -363,6 +373,40 @@ const CreateGallery = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[sty.centeredView]}>
+          <View style={sty.modalView}>
+            <Text style={sty.modalHeader}>
+              {Strings.sm_create_gallery.modalTitle}
+            </Text>
+            <Text style={sty.modalSubHeader}>
+              {Strings.sm_create_gallery.modalsubTitle}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                deleteImg(selVideo);
+              }}>
+              <Text style={sty.modalOption1}>
+                {Strings.sm_create_gallery.modalText}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={sty.modalOption2}>
+                {Strings.sm_create_gallery.modalText_2}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <ImageView
         images={images}
         imageIndex={imgPreviewindex}

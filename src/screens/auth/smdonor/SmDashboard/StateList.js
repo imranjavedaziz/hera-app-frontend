@@ -141,7 +141,6 @@ const StateList = () => {
     let sl = [];
     allstate.map((item, index) => {
       if (item.isActive === true) {
-        console.log('NAME---', item);
         sl.push(item.id);
       }
     });

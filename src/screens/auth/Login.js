@@ -27,9 +27,13 @@ const Login = () => {
   const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
   const [payloadData, setPayloadData] = useState('');
+  const [phone, setPhone] = useState('');
   const {
     handleSubmit,
     control,
+    getValues,
+    setValue,
+    reset,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(loginSchema),
@@ -47,7 +51,7 @@ const Login = () => {
         dispatch(showAppToast(false, msg));
       }
     }
-  }, [errors, isValid]);
+  }, [errors, isValid, dispatch]);
   useEffect(() => {
     if (loadingRef.current && !log_in_loading) {
       dispatch(showAppLoader());
@@ -85,6 +89,39 @@ const Login = () => {
     setPayloadData(payload);
     dispatch(logIn(payload));
   };
+
+  const normalizeInput = (value, previousValue) => {
+    if (!value) {
+      return value;
+    }
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+    if (!previousValue || value.length > previousValue.length) {
+      if (cvLength < 4) {
+        return currentValue;
+      }
+      if (cvLength < 7) {
+        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
+      }
+      return `${currentValue.slice(0, 3)} ${currentValue.slice(
+        3,
+        6,
+      )} (${currentValue.slice(6, 10)})`;
+    }
+  };
+  const handelChange = async value => {
+    reset({phone: '', password: getValues('password')});
+    // const valLen = value.length();
+    // console.log("Len",valLen);
+    await setPhone(prevstate => normalizeInput(value, prevstate));
+    let a = '';
+    for (var i = 0; i < value.length; i++) {
+      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
+        a = a + value[i];
+      }
+    }
+    setValue('phone', a);
+  };
   return (
     <Container
       scroller={true}
@@ -98,10 +135,12 @@ const Login = () => {
           render={({field: {onChange, value}}) => (
             <FloatingLabelInput
               label={Strings.login.MobileNumber}
-              value={value}
-              onChangeText={v => onChange(v)}
+              value={phone}
+              onChangeText={v => {
+                handelChange(v);
+              }}
               keyboardType="number-pad"
-              maxLength={10}
+              maxLength={14}
               error={errors && errors.phone?.message}
               // required={true}
             />
