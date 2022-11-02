@@ -371,6 +371,10 @@ const Profile = ({route}) => {
               </Text>
             </View>
           </View>
+          {/* TEXT DESCRIPTIVE */}
+          <View>
+            <Text>{Strings.profile.desc}</Text>
+          </View>
         </View>
         <View style={styles.BtnContainer}>
           <Button
