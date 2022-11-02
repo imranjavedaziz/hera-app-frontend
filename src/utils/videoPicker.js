@@ -13,9 +13,8 @@ const videoPicker = index => {
   return new Promise((resolve, reject) => {
     myAction(options)
       .then(video => {
-        let duration = ((video?.duration % 60000) / 1000).toFixed(0);
-        if (duration > 59) {
-          alert(Strings.sm_create_gallery.videoDuration);
+        if (video?.duration > 59000) {
+          alert(Strings.sm_create_gallery.videoDuration)
         } else {
           resolve(video);
         }
