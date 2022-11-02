@@ -46,13 +46,12 @@ const SmDashboard = ({route}) => {
     useCallback(() => {
       dispatch(showAppLoader());
       _getDonorDashboard();
-       return () => {
-       unsubscribe();
+      return () => {
+        unsubscribe();
       };
-
     }, [dispatch]),
   );
-//  DONOR DASHBOARD CARD
+  //  DONOR DASHBOARD CARD
   useFocusEffect(
     useCallback(() => {
       if (LoadingRef.current && !get_donor_dashboard_loading) {
@@ -89,14 +88,13 @@ const SmDashboard = ({route}) => {
   };
 
   const onSearch = value => {
- 
     if (value === '' && value.length < 3) {
-      _getDonorDashboard('')
+      _getDonorDashboard('');
       setSearch('');
       setSearching(false);
       return;
     }
-    _getDonorDashboard(value)
+    _getDonorDashboard(value);
     setSearching(true);
     setSearch(value);
   };
@@ -202,16 +200,16 @@ const SmDashboard = ({route}) => {
                 <Text>No RESULT FOUND</Text>
               </View>
             ) : (
-            <FlatList
-              contentContainerStyle={Styles.flatlist}
-              columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
-              data={cards?.data}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderProfile}
-              numColumns={2}
-              showsVerticalScrollIndicator={false}
-            />
-           ) }
+              <FlatList
+                contentContainerStyle={Styles.flatlist}
+                columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
+                data={cards?.data}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderProfile}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+              />
+            )}
           </View>
         </View>
       </View>
