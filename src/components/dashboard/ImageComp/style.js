@@ -15,8 +15,8 @@ export default {
     alignItems: Alignment.CENTER,
   },
   bgImage: {
-    height: Value.CONSTANT_VALUE_400,
-    width: Value.CONSTANT_VALUE_255,
+    height: dynamicSize(Value.CONSTANT_VALUE_400),
+    width: dynamicSize(Value.CONSTANT_VALUE_248),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
@@ -35,6 +35,9 @@ export default {
   innerContainer: {
     flexDirection: Alignment.ROW,
   },
+  mapIcon: {
+    marginLeft: 10,
+  },
   locationText: {
     fontSize: Value.CONSTANT_VALUE_11,
     paddingLeft: dynamicSize(Value.CONSTANT_VALUE_10),
@@ -42,7 +45,6 @@ export default {
     letterSpacing: 2.84,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
-    fontWeight: '800',
   },
   codeText: {
     fontSize: Value.CONSTANT_VALUE_32,
