@@ -110,7 +110,7 @@ const CreateGallery = () => {
           dispatch(hideAppLoader());
           dispatch(getUserGallery());
         } else {
-          dispatch(showAppToast(false, delete_gallery__error_msg));
+        //  dispatch(showAppToast(false, delete_gallery__error_msg));
           dispatch(hideAppLoader());
         }
       }
