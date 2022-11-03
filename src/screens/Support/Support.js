@@ -123,6 +123,7 @@ export default function Support() {
     if (deleting) {
       return value;
     }
+    // Value
     if (!value) {
       return value;
     }
