@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   ImageBackground,
+  BackHandler,
 } from 'react-native';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,6 +25,7 @@ import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
+import {deviceHandler} from '../../../../utils/commonFunction';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -32,6 +34,8 @@ const SmDashboard = ({route}) => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
+  const [page, setPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState(1);
   const {
     get_donor_dashboard_success,
     get_donor_dashboard_loading,
@@ -39,13 +43,18 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   const unsubscribe = navigation.addListener('focus', () => {
-    _getDonorDashboard();
+    _getDonorDashboard('');
   });
-
+  useEffect(() => {
+    if (route?.name === 'SmDashboard') {
+      deviceHandler(navigation, 'exit');
+    }
+  }, []);
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
       _getDonorDashboard();
+      _getDonorDashboard('');
       return () => {
         unsubscribe();
       };
@@ -59,6 +68,7 @@ const SmDashboard = ({route}) => {
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
           setCards(get_donor_dashboard_res.data);
+          setPreviousPage(previousPage + 1);
         }
         if (get_donor_dashboard_error_msg) {
           dispatch(hideAppLoader());
@@ -81,7 +91,7 @@ const SmDashboard = ({route}) => {
         route.params?.informationDetail != undefined
           ? route.params?.informationDetail
           : '',
-      page: 1,
+      page: previousPage,
       limit: 10,
     };
     dispatch(getDonorDashboard(payload));
@@ -98,10 +108,14 @@ const SmDashboard = ({route}) => {
     setSearching(true);
     setSearch(value);
   };
+  const onEndReached = () => {
+    _getDonorDashboard(search);
+  };
   const onClear = () => {
-    _getDonorDashboard('');
+    setPreviousPage(1);
     setSearching(false);
     setSearch('');
+    _getDonorDashboard('');
   };
   const renderProfile = ({item, index}) => {
     return (
@@ -150,7 +164,7 @@ const SmDashboard = ({route}) => {
       ApiImage={true}
     />
   );
-
+  console.log(cards?.data, 'cards?.data::::::::');
   return (
     <Container
       mainStyle={true}
@@ -208,6 +222,11 @@ const SmDashboard = ({route}) => {
                 renderItem={renderProfile}
                 numColumns={2}
                 showsVerticalScrollIndicator={false}
+                onEndReached={() => {
+                  route.params?.informationDetail !== undefined &&
+                    onEndReached();
+                  searching && onEndReached();
+                }}
               />
             )}
           </View>

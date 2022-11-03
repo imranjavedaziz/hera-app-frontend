@@ -7,8 +7,8 @@ import {
   Pressable,
   ImageBackground,
   Modal,
-  Platform,
-} from 'react-native';
+  Platform, BackHandler,
+} from "react-native";
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
@@ -45,8 +45,9 @@ import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
+import { deviceHandler } from "../../utils/commonFunction";
 
-const Profile = ({route}) => {
+const Profile = (props) => {
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const {
@@ -74,6 +75,11 @@ const Profile = ({route}) => {
     register_user_loading,
     register_user_error_msg,
   } = useSelector(state => state.Auth);
+  useEffect(() => {
+      deviceHandler(props.navigation,Routes.Landing);
+
+
+  }, [props.navigation]);
   useEffect(() => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
