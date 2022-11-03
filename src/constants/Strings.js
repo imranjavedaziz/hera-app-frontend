@@ -56,6 +56,10 @@ export const ValidationMessages = {
   USER_TYPE: 'Please select a user type',
   Name: 'Name is a required field.',
   ENTER_Message: 'Please enter your Message',
+  ALERT:'Are you sure you want to abort?',
+  HOLD_ON:'Hold on!',
+  CANCEL:'Cancel',
+  YES:'YES'
 };
 export default {
   landing: {

@@ -1,5 +1,5 @@
 // Landing
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Image,
@@ -15,9 +15,13 @@ import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
 import Strings from '../constants/Strings';
 import {Routes} from '../constants/Constants';
+import {deviceHandler} from '../utils/commonFunction';
 
 const Landing = () => {
   const navigation = useNavigation();
+  useEffect(() => {
+    deviceHandler(navigation, 'exit');
+  }, [navigation]);
   return (
     <View style={{flex: 1}}>
       <View style={styles.bgContainer}>
