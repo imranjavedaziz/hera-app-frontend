@@ -296,7 +296,7 @@ export default {
     MobileNumber: 'Mobile Number',
     Message: 'Message',
     SendInquiry: 'SEND INQUIRY',
-    Title: 'Support',
+    Title: 'SUPPORT',
     LEFT_ARROW_BUTTON: 'Left arrow Button, Press to go back',
   },
   SmDashboard: {
