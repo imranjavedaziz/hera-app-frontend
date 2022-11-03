@@ -50,10 +50,10 @@ export const Fonts = {
   OpenSansExtraBoldItalic: 'OpenSans-ExtraBoldItalic',
   OpenSansItalic: 'OpenSans-Italic',
   OpenSansLight: 'OpenSans-Light',
-  OpenSansLightItalic:'OpenSans-LightItalic',
-  OpenSansRegular:'OpenSans-Regular',
-  OpenSansSemibold:'OpenSans-Semibold',
-  OpenSansSemiboldItalic:'OpenSans-SemiboldItalic',
+  OpenSansLightItalic: 'OpenSans-LightItalic',
+  OpenSansRegular: 'OpenSans-Regular',
+  OpenSansSemibold: 'OpenSans-Semibold',
+  OpenSansSemiboldItalic: 'OpenSans-SemiboldItalic',
 };
 export const FormKey = {
   role_id: 'role_id',

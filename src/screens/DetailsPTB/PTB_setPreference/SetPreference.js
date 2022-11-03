@@ -47,6 +47,7 @@ const isSelected = (data, value) => {
 const SetPreference = ({route, navigation}) => {
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
+  const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const SetPreference = ({route, navigation}) => {
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
+  console.log(EditPreferences, 'EditPreferences');
   const {
     set_preference_success,
     set_preference_loading,
@@ -138,13 +140,23 @@ const SetPreference = ({route, navigation}) => {
   };
 
   const headerComp = () => (
-    <CircleBtn
-      Fixedstyle={styles.fixedheaderStyle}
-      icon={Images.iconSettings}
-      onPress={() => {
-        setOpen(true);
-      }}
-    />
+    <>
+      {EditPreferences === true ? (
+        <TouchableOpacity
+          style={styles.header}
+          onPress={() => navigation.goBack()}>
+          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
+        </TouchableOpacity>
+      ) : (
+        <CircleBtn
+          Fixedstyle={styles.fixedheaderStyle}
+          icon={Images.iconSettings}
+          onPress={() => {
+            setOpen(true);
+          }}
+        />
+      )}
+    </>
   );
   return (
     <>
@@ -159,9 +171,15 @@ const SetPreference = ({route, navigation}) => {
         }
         style={{paddingBottom: Value.CONSTANT_VALUE_50}}>
         <View style={styles.mainContainer}>
-          <Text style={globalStyle.screenTitle}>
-            {Strings.preference.setPreference}
-          </Text>
+          {EditPreferences === true ? (
+            <Text style={globalStyle.screenTitle}>
+              {Strings.preference.editPreference}
+            </Text>
+          ) : (
+            <Text style={globalStyle.screenTitle}>
+              {Strings.preference.setPreference}
+            </Text>
+          )}
           <View
             accessible={true}
             accessibilityLabel={`${Strings.preference.filter}`}>
@@ -169,7 +187,7 @@ const SetPreference = ({route, navigation}) => {
               style={globalStyle.screenSubTitle}
               numberOfLines={2}
               accessible={false}>
-              {Strings.preference.filter}
+              {Strings.preference.SearchPrioritize}
             </Text>
           </View>
           <View style={styles.lookingFor}>

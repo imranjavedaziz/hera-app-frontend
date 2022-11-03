@@ -110,6 +110,7 @@ export default {
   preference: {
     setPreference: 'Set Preference',
     filter: 'Filter your search criteria',
+    SearchPrioritize: 'Prioritize your search',
     surrogateMother: 'Surrogate Mother',
     EggDonor: 'Egg Donor',
     SpermDonor: 'Sperm Donor',
@@ -127,6 +128,7 @@ export default {
     Logout: 'Log Out',
     yrs: 'yrs',
     Education: 'Education',
+    editPreference: 'Edit Preference',
   },
   otp: {
     title: 'Verify your mobile',
@@ -285,14 +287,13 @@ export default {
   },
   subscribe: {
     Subscribe_Now: 'Subscribe Now',
-    Plans:
-      'You can select any one of our plans \n& explore 5 profiles per day!',
+    Plans: 'You can select any one of our plans & explore 5 profiles per day!',
   },
   inqueryForm: {
     Subtitle: 'Have a question? \n Write to us and we’ll get \nback to you',
     Name: 'Name',
     // EmailAddress: 'Email Address',
-    USER_TYPE: 'User Type ',
+    USER_TYPE: 'User Type',
     MobileNumber: 'Mobile Number',
     Message: 'Message',
     SendInquiry: 'SEND INQUIRY',
@@ -321,5 +322,6 @@ export default {
     Price: '$299.00/mo',
     Later: 'Later',
     yearPrice: '$199.00/mo',
+    Cancel: 'Cancel',
   },
 };

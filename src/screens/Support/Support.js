@@ -232,6 +232,7 @@ export default function Support() {
               fixed={true}
               multiline={true}
               numberOfLines={5}
+              maxLength={200}
               inputStyle={Styles.textArea}
             />
           )}

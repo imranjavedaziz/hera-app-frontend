@@ -10,12 +10,12 @@ export default {
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_10,
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
+    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_25),
-    paddingBottom: Value.CONSTANT_VALUE_89,
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_45),
   },
   button: {
     width: dynamicSize(Value.CONSTANT_VALUE_144),
@@ -50,5 +50,11 @@ export default {
   },
   fullWidth: {
     width: '100%',
+  },
+  AppVersion: {
+    textAlign: 'center',
+    fontSize: 14,
+    marginTop: 25,
+    color: '#999999',
   },
 };
