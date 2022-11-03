@@ -44,6 +44,8 @@ export default {
   payButton: {
     marginTop: Value.CONSTANT_VALUE_31,
     marginBottom: Value.CONSTANT_VALUE_30,
+    backgroundColor: Colors.COLOR_163198196,
+    textAlign: Alignment.CENTER,
   },
   box: {
     borderWidth: Value.CONSTANT_VALUE_2,

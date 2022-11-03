@@ -273,7 +273,7 @@ export default {
     AddVideo: 'Add a Short Video',
     MyVideo: 'MY VIDEO',
     UploadVideo: 'Upload Video',
-    ShortVideo: 'Add a short 60 sec video\n(AVI, MOV, MP4 format)',
+    ShortVideo: 'Add a short 60 sec video',
     VideoContent: 'A short video might just \nhelp you find a better match',
     Gallery: 'My Gallery',
     EditProfile: 'Edit Profile',
@@ -308,7 +308,7 @@ export default {
     iconText: 'Done',
   },
   Subscription: {
-    SubHeader: `See 5 profiles per day 
+    SubHeader: `See 5 profiles per day\n
     (Use-it-or-lose it)`,
     SubscribeButton: 'SUBSCRIBE & PAY',
     BySubs: '*By subscribing, you agree to HERA’s ',
