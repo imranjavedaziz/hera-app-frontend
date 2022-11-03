@@ -7,8 +7,9 @@ import {
   Pressable,
   ImageBackground,
   Modal,
-  Platform, BackHandler,
-} from "react-native";
+  Platform,
+  BackHandler,
+} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
@@ -45,9 +46,10 @@ import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
-import { deviceHandler } from "../../utils/commonFunction";
+import {deviceHandler} from '../../utils/commonFunction';
+import {scaleHeight, scaleWidth} from '../../utils/responsive';
 
-const Profile = (props) => {
+const Profile = props => {
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const {
@@ -76,9 +78,7 @@ const Profile = (props) => {
     register_user_error_msg,
   } = useSelector(state => state.Auth);
   useEffect(() => {
-      deviceHandler(props.navigation,Routes.Landing);
-
-
+    deviceHandler(props.navigation, Routes.Landing);
   }, [props.navigation]);
   useEffect(() => {
     if (loadingRef.current && !register_user_loading) {
@@ -162,7 +162,10 @@ const Profile = (props) => {
         showHeader={true}
         headerComp={headerComp}
         headerEnd={true}
-        style={{paddingBottom: Value.CONSTANT_VALUE_70}}>
+        style={{
+          paddingBottom: Value.CONSTANT_VALUE_70,
+          marginHorizontal: scaleWidth(32),
+        }}>
         <View style={styles.imgContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.profile.makeAccountFor}
@@ -210,6 +213,7 @@ const Profile = (props) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginVertical: 0, marginTop: scaleHeight(15)}}
                 label={Strings.profile.FirstName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -223,6 +227,7 @@ const Profile = (props) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginVertical: 0, marginTop: scaleHeight(15)}}
                 label={Strings.profile.MiddleName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -236,6 +241,7 @@ const Profile = (props) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+              containerStyle={{marginVertical: 0, marginTop: scaleHeight(15)}}
                 label={Strings.profile.LastName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -250,6 +256,7 @@ const Profile = (props) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginVertical: 0, marginTop: scaleHeight(15)}}
                 label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v.toLowerCase())}
@@ -266,6 +273,8 @@ const Profile = (props) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+              containerStyle={{marginVertical: 0, marginTop: scaleHeight(15)}}
+
                 label={Strings.profile.DateOfBirth}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -294,6 +303,7 @@ const Profile = (props) => {
                   secureTextEntry={true}
                   containerStyle={{
                     marginBottom: Value.CONSTANT_VALUE_5,
+                    marginVertical: 0, marginTop: scaleHeight(15)
                   }}
                 />
                 {pwdErrMsg.map(msg => (
@@ -345,6 +355,7 @@ const Profile = (props) => {
                 error={errors && errors.confirm_password?.message}
                 containerStyle={{
                   flex: 1,
+                   marginTop: scaleHeight(10)
                 }}
               />
             )}

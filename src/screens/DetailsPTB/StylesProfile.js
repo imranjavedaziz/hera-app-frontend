@@ -2,6 +2,7 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
+import { normalizeFont, scaleWidth } from '../../utils/responsive';
 
 export default {
   imgContainer: {
@@ -92,9 +93,10 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   ImageText: {
-    fontSize: Value.CONSTANT_VALUE_16,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.LABEL_BLACK,
+    lineHeight:scaleWidth(21)
   },
   uploadBackground: {
     width: Value.CONSTANT_VALUE_35,
