@@ -10,7 +10,6 @@ export default {
   flex: {flex: Value.CONSTANT_VALUE_1},
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
-    //height: Prencentage.PRECENTAGE_30,
     ...Platform.select({
       android: {
         height: Prencentage.PRECENTAGE_35,

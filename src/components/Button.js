@@ -26,7 +26,7 @@ const styles = {
     flex: Value.CONSTANT_VALUE_0,
     letterSpacing: 1.8,
     textTransform: 'uppercase',
-    fontFamily: Fonts.OpenSansRomanBold,
+    fontFamily: Fonts.OpenSansBold,
   },
 };
 const Button = props => {
