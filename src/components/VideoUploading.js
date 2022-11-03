@@ -12,6 +12,8 @@ import {
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
+import { TextTrackType } from 'react-native-video';
+
 import Images from '../constants/Images';
 
 const VideoUploading = props => {
@@ -55,17 +57,40 @@ const VideoUploading = props => {
                     paused: true,
                   });
                 }}
+                controls
+                muted
                 paused={!props?.isPlaying}
                 source={{uri: `${props?.video?.file_url}`}}
                 style={props?.videoStyle}
-                // resizeMode={Alignment.COVER}
+                resizeMode={Alignment.COVER}
                 onEnd={() => {
                   props?.onEnd();
                 }}
+                // selectedTextTrack={{
+                // type: "index",
+                // value: 0
+                // }}
+                // subtitleStyle={{ paddingBottom: 150, fontSize: 20 }}
+                // textTracks={[
+                //   {
+                //   title: "English CC",
+                //   language: "en",
+                //   type: TextTrackType.VTT, // "text/vtt"
+                //   uri: "https://rsysdemo-b7be9.web.app/MIB2-subtitles-pt-BR.vtt" // "https://bitdash-a.akamaihd.net/content/sintel/subtitles/subtitles_en.vtt"
+                //   },
+                //   {
+                //   title: "Spanish Subtitles",
+                //   language: "es",
+                //   type: TextTrackType.VTT, // "application/x-subrip"
+                //   uri: "https://brenopolanski.github.io/html5-video-webvtt-example/MIB2-subtitles-pt-BR.vtt"
+                //   }
+                //   ]
+                // }
+                
               />
-              {!props?.isPlaying && (
+              {/* {!props?.isPlaying && (
                 <Image source={Images.playButton} style={styles.playIcon} />
-              )}
+              )} */}
             </View>
           </>
         )}
