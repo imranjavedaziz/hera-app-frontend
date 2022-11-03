@@ -54,7 +54,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_20,
     flex: Value.CONSTANT_VALUE_0,
-    fontFamily: Fonts.OpenSansRomanBold,
+    fontFamily: Fonts.OpenSansBold,
   },
   btnContainer: {
     //flex: 1,
@@ -81,7 +81,7 @@ export default {
   },
   footerBtn: {
     color: Colors.BLACK,
-    fontFamily: Fonts.OpenSansRomanBold,
+    fontFamily: Fonts.OpenSansBold,
     ...global.underlineText,
   },
   widthText: {width: Value.CONSTANT_VALUE_212},
