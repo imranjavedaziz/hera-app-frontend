@@ -6,15 +6,15 @@ import Colors from '../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    marginTop: Value.CONSTANT_VALUE_50,
+    bottom: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_10,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_4),
     paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_24),
     paddingBottom: Value.CONSTANT_VALUE_89,
   },
   button: {
@@ -50,5 +50,11 @@ export default {
   },
   fullWidth: {
     width: '100%',
+  },
+  AppVersion: {
+    textAlign: 'center',
+    fontSize: 14,
+    marginTop: 25,
+    color: '#999999',
   },
 };

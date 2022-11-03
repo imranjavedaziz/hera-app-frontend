@@ -79,6 +79,7 @@ export default {
     }),
   },
   footerBtn: {
+    fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     ...global.underlineText,

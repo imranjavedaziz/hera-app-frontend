@@ -1,6 +1,6 @@
 // Header
 import React from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
+import {View, TouchableOpacity, Image, Platform} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';

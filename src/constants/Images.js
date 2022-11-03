@@ -48,6 +48,7 @@ export default {
   circleIconBack: require('../assets/icons/circleIconBack/circleIconBack.png'),
   iconComma: require('../assets/icons/iconComma/iconComma.png'),
   trashRed: require('../assets/icons/trashRed/bitmap.png'),
+  line8: require('../assets/icons/line8/line8Copy.png'),
   greenIconLike: require('../assets/icons/greenIconLike/icon_like.png'),
   shadowIconNotLike: require('../assets/icons/shadowIconNotLike/icon_notlike.png'),
   // IMAGES

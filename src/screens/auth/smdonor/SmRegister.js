@@ -31,6 +31,7 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
 import updateRegStep from '../../../redux/actions/Auth';
+import { Fonts } from '../../../constants/Constants';
 import {
   hideAppLoader,
   showAppLoader,
@@ -386,6 +387,12 @@ const SmRegister = () => {
               By continuing, you agree to HERA's{' '}
               <Text style={styles.checkboxTitle}>Terms of use </Text>
               and <Text style={styles.checkboxTitle}>Privacy Policy</Text>
+            </Text>
+          </View>
+          <View style={{marginTop: 15, flexDirection: 'row'}}>
+            <Text style={{color: 'red'}}>*</Text>
+            <Text style={{fontFamily: Fonts.OpenSansItalic}}>
+              {Strings.profile.desc}
             </Text>
           </View>
           <Button

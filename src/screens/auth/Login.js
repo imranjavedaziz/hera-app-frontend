@@ -56,7 +56,7 @@ const Login = (props) => {
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
       const msg = messages.join('\n').trim();
       if (msg) {
-        dispatch(showAppToast(false, msg));
+        dispatch(showAppToast(true, msg));
       }
     }
   }, [errors, isValid, dispatch]);

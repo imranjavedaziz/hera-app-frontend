@@ -14,7 +14,7 @@ import Alignment from '../constants/Alignment';
 import {Value} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
-import {Routes} from '../constants/Constants';
+import {Fonts, Routes} from '../constants/Constants';
 
 const Searchbar = props => {
   const navigation = useNavigation();
@@ -33,6 +33,8 @@ const Searchbar = props => {
           value={props.value}
           placeholder={Strings.search_Bar.search}
           placeholderTextColor={Colors.BLACK}
+          keyboardType={'web-search'}
+          autoCorrect={false}
         />
         {props.editing ? (
           <TouchableOpacity
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     marginLeft: Value.CONSTANT_VALUE_15,
   },
   clearText: {
-    fontWeight: Alignment.BOLD,
+    fontFamily: Fonts.OpenSansBold,
     color: Colors.RED,
     textDecorationLine: Alignment.UNDERLINE,
     alignSelf: Alignment.CENTER,
