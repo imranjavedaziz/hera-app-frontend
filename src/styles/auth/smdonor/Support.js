@@ -13,13 +13,14 @@ export default {
   title: {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_12,
-    fontFamily: Fonts.OpenSansSemibold,
+    fontFamily: Fonts.OpenSansRomanBold,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
   },
   title1: {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_23,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.COLOR_535858,
+    color: Colors.BLACK,
   },
   textArea: {
     borderWidth: Value.CONSTANT_VALUE_1,

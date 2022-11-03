@@ -45,8 +45,9 @@ const isSelected = (data, value) => {
   return data.split(',').includes(value.toString());
 };
 const SetPreference = ({route, navigation}) => {
-  const [height, setHeight] = useState([58, 84]);
+  const [height, setHeight] = useState( [58,84]);
   const [isOpen, setOpen] = useState(false);
+  const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const SetPreference = ({route, navigation}) => {
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
+  console.log(EditPreferences, 'EditPreferences');
   const {
     set_preference_success,
     set_preference_loading,
@@ -119,7 +121,9 @@ const SetPreference = ({route, navigation}) => {
     let value = {
       role_id_looking_for: data.looking,
       age: data.age_range,
-      height: data.height.join('-'),
+      height: data?.height !== undefined
+        ? data?.height.join('-')
+        : height.join('-'),
       race: data.race,
       education: data.education.id.toString(),
       hair_colour: data.hair,
@@ -127,7 +131,6 @@ const SetPreference = ({route, navigation}) => {
       ethnicity: data.ethnicity,
       state: '1,2',
     };
-    console.log(value, 'Value');
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
   };
@@ -138,13 +141,23 @@ const SetPreference = ({route, navigation}) => {
   };
 
   const headerComp = () => (
-    <CircleBtn
-      Fixedstyle={styles.fixedheaderStyle}
-      icon={Images.iconSettings}
-      onPress={() => {
-        setOpen(true);
-      }}
-    />
+    <>
+      {EditPreferences === true ? (
+        <TouchableOpacity
+          style={styles.header}
+          onPress={() => navigation.goBack()}>
+          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
+        </TouchableOpacity>
+      ) : (
+        <CircleBtn
+          Fixedstyle={styles.fixedheaderStyle}
+          icon={Images.iconSettings}
+          onPress={() => {
+            setOpen(true);
+          }}
+        />
+      )}
+    </>
   );
   return (
     <>
@@ -159,9 +172,15 @@ const SetPreference = ({route, navigation}) => {
         }
         style={{paddingBottom: Value.CONSTANT_VALUE_50}}>
         <View style={styles.mainContainer}>
-          <Text style={globalStyle.screenTitle}>
-            {Strings.preference.setPreference}
-          </Text>
+          {EditPreferences === true ? (
+            <Text style={globalStyle.screenTitle}>
+              {Strings.preference.editPreference}
+            </Text>
+          ) : (
+            <Text style={globalStyle.screenTitle}>
+              {Strings.preference.setPreference}
+            </Text>
+          )}
           <View
             accessible={true}
             accessibilityLabel={`${Strings.preference.filter}`}>
@@ -169,7 +188,7 @@ const SetPreference = ({route, navigation}) => {
               style={globalStyle.screenSubTitle}
               numberOfLines={2}
               accessible={false}>
-              {Strings.preference.filter}
+              {Strings.preference.SearchPrioritize}
             </Text>
           </View>
           <View style={styles.lookingFor}>
@@ -304,6 +323,7 @@ const SetPreference = ({route, navigation}) => {
                     value={height}
                     setValue={setHeight}
                     onValueChange={value => {
+                      console.log(value, "value:::::::::");
                       onChange(value);
                     }}
                   />

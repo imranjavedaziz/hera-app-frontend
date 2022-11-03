@@ -128,4 +128,12 @@ export default {
     height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
   },
+  header: {justifyContent: Alignment.FLEXEND},
+  headerText: {
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.RED,
+    marginRight: 30,
+  },
 };

@@ -34,6 +34,7 @@ export default {
   CAMERA_BLUE: '#93c0ba',
   VDOCONTAINER: 'rgba(215,213,202,0.49)',
   COLOR_535858: 'rgb(53,58,58)',
+  COLOR_163198196: '#A3C6C4',
   COLOR_228226216: '#E4E2D8',
   PURE_WHITE: '#FFFFFF',
 };
