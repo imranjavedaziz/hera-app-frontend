@@ -8,6 +8,12 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
+  usernameText: {
+    fontSize: Value.CONSTANT_VALUE_24,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
+  },
   profileImg: {
     width: Value.CONSTANT_VALUE_80,
     height: Value.CONSTANT_VALUE_80,
@@ -91,6 +97,7 @@ export default {
   },
   flexRow: {
     flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
   },
   flatlist: {
     paddingBottom: Value.CONSTANT_VALUE_300,

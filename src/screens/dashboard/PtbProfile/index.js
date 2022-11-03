@@ -60,10 +60,9 @@ const PtbProfile = () => {
   return (
     <>
       <Container
-      style={{flex:1, marginHorizontal: 0, marginTop:0}}
+        style={{flex: 1, marginHorizontal: 0, marginTop: 0}}
         scroller={false}
         showHeader={true}
-        showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>
           <ProfileImage

@@ -23,15 +23,11 @@ const Landing = () => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.flex}>
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
-      <Container
-        scroller={true}
-        style={{
-          marginTop: -77,
-        }}>
+      <Container scroller={false}>
         <View style={styles.mainContainer}>
           <Image
             source={Images.LOGO}
@@ -42,12 +38,12 @@ const Landing = () => {
           <Text style={styles.title}>{Strings.landing.Like_Match_Connect}</Text>
           <View style={styles.btnContainer}>
             <Button
-              style={{width: 212}}
+              style={styles.widthText}
               label={Strings.landing.LOG_IN}
               onPress={() => navigation.navigate(Routes.Login)}
             />
             <Button
-              style={{width: 212}}
+              style={styles.widthText}
               label={Strings.landing.REGISTER}
               onPress={() => navigation.navigate(Routes.MobileNumber)}
             />

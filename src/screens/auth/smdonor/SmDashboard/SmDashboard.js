@@ -4,8 +4,9 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ImageBackground, BackHandler,
-} from "react-native";
+  ImageBackground,
+  BackHandler,
+} from 'react-native';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
@@ -24,7 +25,7 @@ import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
-import { deviceHandler } from "../../../../utils/commonFunction";
+import {deviceHandler} from '../../../../utils/commonFunction';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -44,14 +45,15 @@ const SmDashboard = ({route}) => {
   const unsubscribe = navigation.addListener('focus', () => {
     _getDonorDashboard('');
   });
-useEffect(()=>{
-  if(route?.name==='SmDashboard'){
-    deviceHandler(navigation, 'exit');
-  }
-},[])
+  useEffect(() => {
+    if (route?.name === 'SmDashboard') {
+      deviceHandler(navigation, 'exit');
+    }
+  }, []);
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
+      _getDonorDashboard();
       _getDonorDashboard('');
       return () => {
         unsubscribe();
@@ -66,7 +68,7 @@ useEffect(()=>{
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
           setCards(get_donor_dashboard_res.data);
-          setPreviousPage(previousPage+1)
+          setPreviousPage(previousPage + 1);
         }
         if (get_donor_dashboard_error_msg) {
           dispatch(hideAppLoader());
