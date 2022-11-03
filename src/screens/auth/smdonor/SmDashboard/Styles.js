@@ -60,7 +60,7 @@ export default {
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   stateItemContainer: {
     flexDirection: 'row',
@@ -84,7 +84,6 @@ export default {
   },
   imgSel: {
     alignSelf: 'center',
-    marginLeft: Value.CONSTANT_VALUE_0,
     tintColor: Colors.GREEN,
   },
   iconFont: {

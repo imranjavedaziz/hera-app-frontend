@@ -36,8 +36,8 @@ export default {
   camImg: {
     width: Value.CONSTANT_VALUE_20,
     height: Value.CONSTANT_VALUE_20,
-    resizeMode: Alignment.CENTER,
-    backgroundColor: Colors.GREEN,
+    resizeMode: 'cover',
+    // backgroundColor: Colors.GREEN,
   },
   camSelectedBtn: {
     position: Alignment.ABSOLUTE,
