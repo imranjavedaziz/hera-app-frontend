@@ -25,9 +25,8 @@ const styles = {
     textAlign: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_0,
     letterSpacing: 1.8,
-    fontWeight: 'bold',
     textTransform: 'uppercase',
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansRomanBold,
   },
 };
 const Button = props => {
