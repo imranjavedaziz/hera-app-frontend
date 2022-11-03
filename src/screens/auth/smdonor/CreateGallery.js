@@ -80,7 +80,6 @@ const CreateGallery = () => {
   useEffect(() => {
     dispatch(getUserGallery());
   }, []);
-
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -110,7 +109,7 @@ const CreateGallery = () => {
           dispatch(hideAppLoader());
           dispatch(getUserGallery());
         } else {
-          dispatch(showAppToast(false, delete_gallery__error_msg));
+          // dispatch(showAppToast(false, delete_gallery__error_msg));
           dispatch(hideAppLoader());
         }
       }
