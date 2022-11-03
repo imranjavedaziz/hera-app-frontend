@@ -73,6 +73,10 @@ const MobileNumber = () => {
     />
   );
   const normalizeInput = (value, previousValue) => {
+    const deleting = previousValue && previousValue.length > value.length;
+    if (deleting) {
+      return value;
+    }
     if (!value) {
       return value;
     }
