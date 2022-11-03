@@ -45,7 +45,7 @@
 	<string>YOUR TEXT</string>
 	<key>UIAppFonts</key>
 	<array>
-	<key>UIAppFonts</key>
+		<string>UIAppFonts</string>
 		<string>OpenSans-Bold.ttf</string>
 		<string>OpenSansRoman-Bold.ttf</string>
 		<string>OpenSans-BoldItalic.ttf</string>
