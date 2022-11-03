@@ -127,12 +127,12 @@ const StateList = () => {
           onPress={() => selectState(item)}>
           <View style={Styles.stateItemContainer}>
             <Text style={[item.isActive !== true ? Styles.unSel : Styles.sel]}>
-              {item.name}
+              {item.name}{' '}
             </Text>
-            {item.isActive && (
-              <Image style={Styles.imgSel} source={Images.path} />
-            )}
           </View>
+          {item.isActive && (
+            <Image style={Styles.imgSel} source={Images.path} />
+          )}
         </TouchableOpacity>
       </>
     );
@@ -144,7 +144,7 @@ const StateList = () => {
         sl.push(item.id);
       }
     });
-    navigation.navigate(Routes.SmDashboard, {informationDetail:sl});
+    navigation.navigate(Routes.SmDashboard, {informationDetail: sl});
   };
   const headerComp = () => (
     <>

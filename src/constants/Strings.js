@@ -105,8 +105,7 @@ export default {
     tmc1: "By continuing, you agree to HERA's ",
     tmc2: 'Terms of use',
     tmc3: 'Privacy Policy',
-    // bottomSheetCamera: 'Open Camera',
-    // bottomSheetGallery: 'Open Gallery',
+    desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',
   },
   preference: {
     setPreference: 'Set Preference',

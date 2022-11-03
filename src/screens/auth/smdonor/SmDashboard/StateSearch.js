@@ -38,6 +38,8 @@ const StateSearch = props => {
           // value={props.value}
           placeholder={Strings.search_Bar.search}
           placeholderTextColor={Colors.BLACK}
+          keyboardType={'web-search'}
+          autoCorrect={false}
         />
       </View>
     </View>

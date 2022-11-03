@@ -23,6 +23,7 @@ export default {
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
     width: Value.CONSTANT_VALUE_167,
+    // opacity: 0.85,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
@@ -33,7 +34,7 @@ export default {
     fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.BACKGROUND,
+    color: Colors.WHITE,
     marginBottom: Value.CONSTANT_VALUE_5,
   },
   locationText: {
@@ -59,14 +60,13 @@ export default {
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   stateItemContainer: {
     flexDirection: 'row',
     width: 334,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginLeft: 10,
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
@@ -82,7 +82,11 @@ export default {
     color: Colors.BLACK,
     justifyContent: 'flex-start',
   },
-  imgSel: {justifyContent: 'flex-end', tintColor: Colors.GREEN},
+  imgSel: {
+    alignSelf: 'center',
+    marginLeft: Value.CONSTANT_VALUE_0,
+    tintColor: Colors.GREEN,
+  },
   iconFont: {
     fontFamily: Fonts.OpenSansBold,
     textDecorationLine: 'underline',

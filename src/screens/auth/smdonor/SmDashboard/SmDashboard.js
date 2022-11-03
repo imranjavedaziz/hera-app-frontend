@@ -172,7 +172,9 @@ const SmDashboard = ({route}) => {
       showHeader={searching ? false : true}
       headerComp={headerComp}
       style={{
-        paddingTop: Value.CONSTANT_VALUE_60,
+        paddingTop: searching
+          ? Value.CONSTANT_VALUE_10
+          : Value.CONSTANT_VALUE_60,
       }}>
       <View style={globalStyle.mainContainer}>
         {search === '' ? (
