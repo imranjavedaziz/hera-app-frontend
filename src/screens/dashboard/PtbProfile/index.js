@@ -60,9 +60,10 @@ const PtbProfile = () => {
   return (
     <>
       <Container
-        style={{flex: 1, marginHorizontal: 0, marginTop: 0}}
-        scroller={false}
+        mainStyle={true}
+        scroller={true}
         showHeader={true}
+        showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>
           <ProfileImage
@@ -82,7 +83,6 @@ const PtbProfile = () => {
             leftIcon={Images.preferences}
             title={Strings.smSetting.EditPreferences}
             BlueDot
-            onPress={() => navigation.navigate('SetPreference')}
           />
           <PtbAccount
             leftIcon={Images.video}
@@ -112,6 +112,9 @@ const PtbProfile = () => {
               onPress={() => logoutScreen()}>
               <Text style={styles.buttonText}>{Strings.smSetting.Btn}</Text>
             </TouchableOpacity>
+          </View>
+          <View style={styles.Version}>
+            <Text>App Version 0.5</Text>
           </View>
         </View>
         <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
