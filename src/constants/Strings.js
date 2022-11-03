@@ -308,7 +308,7 @@ export default {
     iconText: 'Done',
   },
   Subscription: {
-    SubHeader: `See 5 profiles per day 
+    SubHeader: `See 5 profiles per day\n
     (Use-it-or-lose it)`,
     SubscribeButton: 'SUBSCRIBE & PAY',
     BySubs: '*By subscribing, you agree to HERA’s ',
