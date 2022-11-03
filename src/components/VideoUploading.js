@@ -15,6 +15,7 @@ import Video from 'react-native-video';
 import { TextTrackType } from 'react-native-video';
 
 import Images from '../constants/Images';
+import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
   console.log('VIDEO', props?.video);
