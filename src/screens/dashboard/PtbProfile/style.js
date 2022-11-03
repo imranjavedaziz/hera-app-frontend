@@ -6,16 +6,16 @@ import Colors from '../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    marginTop: Value.CONSTANT_VALUE_50,
+    bottom: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_10,
-    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_4),
+    paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_25),
-    marginBottom: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_24),
+    paddingBottom: Value.CONSTANT_VALUE_89,
   },
   button: {
     width: dynamicSize(Value.CONSTANT_VALUE_144),
