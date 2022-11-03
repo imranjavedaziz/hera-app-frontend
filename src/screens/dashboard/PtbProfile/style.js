@@ -14,11 +14,7 @@ export default {
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,
-<<<<<<< HEAD
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
-=======
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_25),
->>>>>>> 289192c71f3d215edd2e1ab5b06615fff5f42243
     paddingBottom: Value.CONSTANT_VALUE_89,
   },
   button: {
