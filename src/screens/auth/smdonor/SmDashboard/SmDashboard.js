@@ -35,7 +35,7 @@ const SmDashboard = ({route}) => {
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
   const [page, setPage] = useState(1);
-  const [previousPage, setPreviousPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
   const {
     get_donor_dashboard_success,
     get_donor_dashboard_loading,
@@ -43,7 +43,7 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   const unsubscribe = navigation.addListener('focus', () => {
-    _getDonorDashboard('');
+    _getDonorDashboard(1,'');
   });
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
@@ -53,8 +53,7 @@ const SmDashboard = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
-      _getDonorDashboard();
-      _getDonorDashboard('');
+      _getDonorDashboard(1,'');
       return () => {
         unsubscribe();
       };
@@ -67,8 +66,10 @@ const SmDashboard = ({route}) => {
         dispatch(showAppLoader());
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
+          console.log(get_donor_dashboard_res, "get_donor_dashboard_res");
           setCards(get_donor_dashboard_res.data);
-          setPreviousPage(previousPage + 1);
+          setPage(get_donor_dashboard_res.data.current_page);
+          setLastPage(get_donor_dashboard_res.data.last_page);
         }
         if (get_donor_dashboard_error_msg) {
           dispatch(hideAppLoader());
@@ -84,38 +85,42 @@ const SmDashboard = ({route}) => {
     ]),
   );
 
-  const _getDonorDashboard = value => {
+  const _getDonorDashboard = (page,value) => {
     let payload = {
       keyword: value ? value : '',
       state_ids:
         route.params?.informationDetail != undefined
           ? route.params?.informationDetail
           : '',
-      page: previousPage,
+      page: page,
       limit: 10,
     };
+    console.log(payload, "payload::::::");
     dispatch(getDonorDashboard(payload));
   };
 
   const onSearch = value => {
     if (value === '' && value.length < 3) {
-      _getDonorDashboard('');
+      _getDonorDashboard(1,'');
       setSearch('');
       setSearching(false);
       return;
     }
-    _getDonorDashboard(value);
+    _getDonorDashboard(1, value);
     setSearching(true);
     setSearch(value);
   };
   const onEndReached = () => {
-    _getDonorDashboard(search);
+    if (lastPage > page) {
+      _getDonorDashboard(page + 1, search);
+    }
+
   };
   const onClear = () => {
-    setPreviousPage(1);
+
     setSearching(false);
     setSearch('');
-    _getDonorDashboard('');
+    _getDonorDashboard(1,'');
   };
   const renderProfile = ({item, index}) => {
     return (
@@ -164,7 +169,6 @@ const SmDashboard = ({route}) => {
       ApiImage={true}
     />
   );
-  console.log(cards?.data, 'cards?.data::::::::');
   return (
     <Container
       mainStyle={true}

@@ -161,7 +161,7 @@ export const setPreferenceSchema = yup.object().shape({
   race: yup.string().required(ValidationMessages.RACE),
   hair: yup.string().required(ValidationMessages.SELECT_HAIR),
   eye: yup.string().required(ValidationMessages.SELECT_EYE),
-  height: yup.array().required(ValidationMessages.SELECT_HEIGHT),
+  height: yup.array(),
   age_range: yup.string().required(ValidationMessages.SELECT_AGE),
   ethnicity: yup.string().required(ValidationMessages.SELECT_ETHNICITY),
 });

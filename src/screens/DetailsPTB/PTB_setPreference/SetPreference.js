@@ -45,7 +45,7 @@ const isSelected = (data, value) => {
   return data.split(',').includes(value.toString());
 };
 const SetPreference = ({route, navigation}) => {
-  const [height, setHeight] = useState([58, 84]);
+  const [height, setHeight] = useState( [58,84]);
   const [isOpen, setOpen] = useState(false);
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
@@ -121,7 +121,9 @@ const SetPreference = ({route, navigation}) => {
     let value = {
       role_id_looking_for: data.looking,
       age: data.age_range,
-      height: data.height.join('-'),
+      height: data?.height !== undefined
+        ? data?.height.join('-')
+        : height.join('-'),
       race: data.race,
       education: data.education.id.toString(),
       hair_colour: data.hair,
@@ -129,7 +131,6 @@ const SetPreference = ({route, navigation}) => {
       ethnicity: data.ethnicity,
       state: '1,2',
     };
-    console.log(value, 'Value');
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
   };
@@ -322,6 +323,7 @@ const SetPreference = ({route, navigation}) => {
                     value={height}
                     setValue={setHeight}
                     onValueChange={value => {
+                      console.log(value, "value:::::::::");
                       onChange(value);
                     }}
                   />
