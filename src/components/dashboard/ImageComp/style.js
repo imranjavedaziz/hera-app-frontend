@@ -19,6 +19,11 @@ export default {
     width: dynamicSize(Value.CONSTANT_VALUE_248),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    // backgroundColor: 'red',
+    shadowOffset: {width: -2, height: 9},
+    shadowColor: '#171717',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
   },
   iconContainer: {
     flex: 0.88,
@@ -36,7 +41,7 @@ export default {
     flexDirection: Alignment.ROW,
   },
   mapIcon: {
-    marginLeft: 10,
+    left: Value.CONSTANT_VALUE_3,
   },
   locationText: {
     fontSize: Value.CONSTANT_VALUE_11,
@@ -63,8 +68,9 @@ export default {
   },
   linearGradient: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    width: 257,
-    borderRadius: 20,
+    width: dynamicSize(Value.CONSTANT_VALUE_248),
+    height: dynamicSize(Value.CONSTANT_VALUE_400),
+    borderRadius: Value.CONSTANT_VALUE_20,
     justifyContent: Alignment.CENTER,
   },
 };

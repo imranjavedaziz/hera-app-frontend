@@ -7,7 +7,7 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import React, {useRef, useState, useCallback} from 'react';
+import React, {useRef, useState, useCallback, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import Images from '../../../../constants/Images';
@@ -23,8 +23,9 @@ import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import {Routes} from '../../../../constants/Constants';
+import {deviceHandler} from '../../../../utils/commonFunction';
 
-const PtbDashboard = () => {
+const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const [islikedLogo, setIslikedLogo] = useState('');
@@ -37,6 +38,12 @@ const PtbDashboard = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const {registerUser, log_in_data} = useSelector(state => state.Auth);
+  useEffect(() => {
+    if (props?.navigation?.route?.name === 'PtbDashboard') {
+      deviceHandler(navigation, 'exit');
+    }
+  });
   useFocusEffect(
     useCallback(() => {
       dispatch(getPtbDashboard());
@@ -64,7 +71,6 @@ const PtbDashboard = () => {
       loadingRef.current = get_ptb_dashboard_loading;
     }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
   );
-  console.log(ptbDashboardRes.length, 'okkk');
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
@@ -198,7 +204,7 @@ const PtbDashboard = () => {
                 }}>
                 <Image
                   style={styles.dislikeButton}
-                  source={Images.iconNotlike}
+                  source={Images.shadowIconNotLike}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -207,7 +213,10 @@ const PtbDashboard = () => {
                   setIslikedLogo('liked');
                   handleOnSwipedRight();
                 }}>
-                <Image style={styles.likeButton} source={Images.iconLike} />
+                <Image
+                  style={styles.likeButton}
+                  source={Images.greenIconLike}
+                />
               </TouchableOpacity>
             </View>
           </View>
