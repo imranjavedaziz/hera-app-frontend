@@ -198,7 +198,7 @@ const PtbDashboard = () => {
                 }}>
                 <Image
                   style={styles.dislikeButton}
-                  source={Images.iconNotlike}
+                  source={Images.shadowIconNotLike}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -207,7 +207,10 @@ const PtbDashboard = () => {
                   setIslikedLogo('liked');
                   handleOnSwipedRight();
                 }}>
-                <Image style={styles.likeButton} source={Images.iconLike} />
+                <Image
+                  style={styles.likeButton}
+                  source={Images.greenIconLike}
+                />
               </TouchableOpacity>
             </View>
           </View>

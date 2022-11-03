@@ -7,7 +7,7 @@ import {dynamicSize} from '../../../../utils/responsive';
 export default {
   container: {
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_30,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_30),
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_26),
   },
   row: {
