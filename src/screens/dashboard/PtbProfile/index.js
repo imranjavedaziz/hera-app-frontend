@@ -121,9 +121,6 @@ const PtbProfile = () => {
               {Strings.smSetting.AppVersion}
             </Text>
           </View>
-          <View style={styles.Version}>
-            <Text>App Version 0.5</Text>
-          </View>
         </View>
         <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
           <View style={styles.imgPickerContainer}>
