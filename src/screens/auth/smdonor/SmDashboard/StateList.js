@@ -6,11 +6,11 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import Container from '../../../../components/Container';
 import {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getStates} from '../../../../redux/actions/Register';
 import globalStyle from '../../../../styles/global';
@@ -37,37 +37,40 @@ const StateList = () => {
   } = useSelector(st => st?.Register);
 
   //GET STATE
-  useEffect(() => {
-    if (loadingRef.current && !get_state_loading) {
-      dispatch(showAppLoader());
-      if (get_state_success) {
-        dispatch(hideAppLoader());
-        setState(
-          get_state_res?.map(prev => ({
-            ...prev,
-            isActive: false,
-          })),
-        );
-        setAllState(
-          get_state_res?.map(prev => ({
-            ...prev,
-            isActive: false,
-          })),
-        );
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !get_state_loading) {
+        dispatch(showAppLoader());
+        if (get_state_success) {
+          setTimeout(() => {
+            dispatch(hideAppLoader());
+          }, 200);
+          setState(
+            get_state_res?.map(prev => ({
+              ...prev,
+              isActive: false,
+            })),
+          );
+          setAllState(
+            get_state_res?.map(prev => ({
+              ...prev,
+              isActive: false,
+            })),
+          );
+        }
+        if (get_state_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (get_state_error_msg) {
-        dispatch(hideAppLoader());
-      }
-    }
-    loadingRef.current = get_state_loading;
-  }, [
-    get_state_success,
-    get_state_loading,
-    get_state_error_msg,
-    get_state_res,
-    dispatch,
-  ]);
-
+      loadingRef.current = get_state_loading;
+    }, [
+      get_state_success,
+      get_state_loading,
+      get_state_error_msg,
+      get_state_res,
+      dispatch,
+    ]),
+  );
   useEffect(() => {
     dispatch(getStates());
   }, [dispatch]);
@@ -129,10 +132,10 @@ const StateList = () => {
             <Text style={[item.isActive !== true ? Styles.unSel : Styles.sel]}>
               {item.name}{' '}
             </Text>
+            {item.isActive && (
+              <Image style={Styles.imgSel} source={Images.path} />
+            )}
           </View>
-          {item.isActive && (
-            <Image style={Styles.imgSel} source={Images.path} />
-          )}
         </TouchableOpacity>
       </>
     );
