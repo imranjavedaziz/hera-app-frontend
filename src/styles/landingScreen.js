@@ -48,9 +48,9 @@ export default {
     flex: Value.CONSTANT_VALUE_0,
   },
   title: {
-    fontSize: Value.CONSTANT_VALUE_22,
+    fontSize: Value.CONSTANT_VALUE_23,
     lineHeight: Value.CONSTANT_VALUE_28,
-    fontWeight: 'bold',
+    fontWeight: Fonts.OpenSansRomanBold,
     color: Colors.BLACK,
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_20,
@@ -82,7 +82,7 @@ export default {
   },
   footerBtn: {
     color: Colors.BLACK,
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansRomanBold,
     ...global.underlineText,
   },
   widthText: {width: Value.CONSTANT_VALUE_212},

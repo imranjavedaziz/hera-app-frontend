@@ -43,12 +43,17 @@ export const HttpStatus = {
 };
 
 export const Fonts = {
-  OoohBabyRegular: 'OoohBaby-Regular',
   OpenSansBold: 'OpenSans-Bold',
+  OpenSansRomanBold: 'OpenSansRoman-Bold',
+  OpenSansBoldItalic: 'OpenSans-BoldItalic',
+  OpenSansExtraBold: 'OpenSans-ExtraBold',
+  OpenSansExtraBoldItalic: 'OpenSans-ExtraBoldItalic',
   OpenSansItalic: 'OpenSans-Italic',
   OpenSansLight: 'OpenSans-Light',
-  OpenSansRegular: 'OpenSans',
-  OpenSansSemibold: 'OpenSans-Semibold',
+  OpenSansLightItalic:'OpenSans-LightItalic',
+  OpenSansRegular:'OpenSans-Regular',
+  OpenSansSemibold:'OpenSans-Semibold',
+  OpenSansSemiboldItalic:'OpenSans-SemiboldItalic',
 };
 export const FormKey = {
   role_id: 'role_id',
