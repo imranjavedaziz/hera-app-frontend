@@ -44,7 +44,6 @@ export const HttpStatus = {
 
 export const Fonts = {
   OpenSansBold: 'OpenSans-Bold',
-  OpenSansRomanBold: 'OpenSansRoman-Bold',
   OpenSansBoldItalic: 'OpenSans-BoldItalic',
   OpenSansExtraBold: 'OpenSans-ExtraBold',
   OpenSansExtraBoldItalic: 'OpenSans-ExtraBoldItalic',

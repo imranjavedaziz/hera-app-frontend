@@ -10,7 +10,6 @@ export default {
   flex: {flex: Value.CONSTANT_VALUE_1},
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
-    //height: Prencentage.PRECENTAGE_30,
     ...Platform.select({
       android: {
         height: Prencentage.PRECENTAGE_35,
@@ -54,7 +53,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_20,
     flex: Value.CONSTANT_VALUE_0,
-    fontFamily: Fonts.OpenSansRomanBold,
+    fontFamily: Fonts.OpenSansBold,
   },
   btnContainer: {
     //flex: 1,
@@ -82,7 +81,7 @@ export default {
   footerBtn: {
     fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
-    fontFamily: Fonts.OpenSansRomanBold,
+    fontFamily: Fonts.OpenSansBold,
     ...global.underlineText,
   },
   widthText: {width: Value.CONSTANT_VALUE_212},
