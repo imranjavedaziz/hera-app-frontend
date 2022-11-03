@@ -4,7 +4,7 @@ export default {
   BLACK: '#353A3A',
   LABEL_BLACK: '#302f2f',
   RED: '#FF0000',
-  BACKGROUND: '#F7F5F0',
+  BACKGROUND: '#F6F5EF',
   LITE_BG: '#e9e8db',
   GREEN: '#98c9c3',
   SKY_BLUE: '#4fc3f1',
@@ -33,6 +33,6 @@ export default {
   PINK: '#e5acb1',
   CAMERA_BLUE: '#93c0ba',
   VDOCONTAINER: 'rgba(215,213,202,0.49)',
-  COLOR_535858: 'rgba(53,58,58)',
+  COLOR_535858: 'rgb(53,58,58)',
   COLOR_228226216: '#E4E2D8',
 };
