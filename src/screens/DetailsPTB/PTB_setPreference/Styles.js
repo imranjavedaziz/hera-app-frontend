@@ -67,8 +67,8 @@ export default {
   },
   chipText: {
     fontSize: Value.CONSTANT_VALUE_14,
-    marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_10),
+    // marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
     fontFamily: Fonts.OpenSansRegular,
   },
   chipsRequiredText: {
@@ -96,7 +96,7 @@ export default {
   ageText: {
     marginVertical: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_25,
     fontFamily: Fonts.OpenSansRegular,
   },
   heightTextInner: {
@@ -108,7 +108,7 @@ export default {
     width: Value.CONSTANT_VALUE_104,
     borderRadius: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
-    // marginRight: Value.CONSTANT_VALUE_5,
+    marginRight: Value.CONSTANT_VALUE_5,
     marginVertical: Value.CONSTANT_VALUE_10,
     padding: Value.CONSTANT_VALUE_0,
   },

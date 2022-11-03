@@ -28,6 +28,8 @@ import {
   SetPreferenceRes,
   SavePreference,
 } from '../../../redux/actions/SetPreference';
+import { scaleWidth } from '../../../utils/responsive';
+import { ScrollView } from 'react-native-gesture-handler';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -170,7 +172,7 @@ const SetPreference = ({route, navigation}) => {
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }
-        style={{paddingBottom: Value.CONSTANT_VALUE_50}}>
+        style={{paddingBottom: Value.CONSTANT_VALUE_50,marginHorizontal:scaleWidth(35)}}>
         <View style={styles.mainContainer}>
           {EditPreferences === true ? (
             <Text style={globalStyle.screenTitle}>
@@ -207,7 +209,7 @@ const SetPreference = ({route, navigation}) => {
                         activeOpacity={1}
                         onPress={() => onChange(whom.id)}>
                         <Image
-                          style={{}}
+                          style={{resizeMode:"contain"}}
                           source={
                             value === whom.id
                               ? Images.iconRadiosel
@@ -261,6 +263,7 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value = ''}}) => (
                 <View style={styles.ageContainer}>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   {ageRange.map((item, index) => {
                     return (
                       <TouchableOpacity
@@ -297,6 +300,7 @@ const SetPreference = ({route, navigation}) => {
                       </TouchableOpacity>
                     );
                   })}
+                  </ScrollView>
                 </View>
               )}
               name={FormKey.age_range}
@@ -304,7 +308,7 @@ const SetPreference = ({route, navigation}) => {
             <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
               <View style={styles.heightContainer}>
                 <Text style={styles.heightTextInner}>
-                  {Strings.preference.Height}{' '}
+                  {Strings.preference.Height}
                   <Text style={styles.heightText}>*</Text>
                 </Text>
                 <Text style={{fontWeight: Alignment.BOLD}}>
@@ -346,7 +350,7 @@ const SetPreference = ({route, navigation}) => {
               )}
               name={FormKey.race}
             />
-            <Controller
+            {/* <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
@@ -361,7 +365,7 @@ const SetPreference = ({route, navigation}) => {
                 />
               )}
               name={FormKey.ethnicity}
-            />
+            /> */}
             <Text style={styles.chipText}>
               {Strings.preference.HairColor}
               <Text style={styles.chipsRequiredText}>*</Text>
