@@ -64,7 +64,7 @@ const CreateGallery = () => {
   const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const images = [];
+  const [images, setImages] = useState([]);
   const [remove, setRemove] = useState([]);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
