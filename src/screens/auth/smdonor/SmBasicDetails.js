@@ -276,6 +276,7 @@ const SmBasicDetails = () => {
                 error={errors && errors.bio?.message}
                 required={true}
                 fixed={true}
+                maxLength={250}
                 multiline={true}
                 numberOfLines={5}
                 inputStyle={styles.textArea}

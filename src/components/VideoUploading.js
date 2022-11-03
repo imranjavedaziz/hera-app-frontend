@@ -18,6 +18,7 @@ import Images from '../constants/Images';
 import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
+  console.log('VIDEO', props?.video);
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
@@ -37,7 +38,7 @@ const VideoUploading = props => {
             {props?.rmvImgCount <= 0 && (
               <TouchableWithoutFeedback>
                 <TouchableOpacity
-                  onPress={() => props?.handelDel(136, true)}
+                  onPress={() => props?.handelDel(props?.video?.id, true)}
                   style={styles.videoSel}>
                   <Image
                     source={

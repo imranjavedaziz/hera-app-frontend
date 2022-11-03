@@ -1,5 +1,5 @@
 // CreateGallery
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   View,
@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Modal,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../../components/Container';
 import Button from '../../../../components/Button';
 import Images from '../../../../constants/Images';
@@ -61,9 +61,15 @@ const Gallery = () => {
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
   const videoRef = useRef();
-  const {gallery_success, gallery_loading, gallery_data} = useSelector(
-    state => state.CreateGallery,
-  );
+  const loadRef = useRef(false);
+  const {
+    gallery_success,
+    gallery_loading,
+    gallery_data,
+    delete_gallery_success,
+    delete_gallery_loading,
+    delete_gallery__error_msg,
+  } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
   }, []);
@@ -116,6 +122,21 @@ const Gallery = () => {
     });
     userService.createGallery(reqData, setLoading);
   };
+  useFocusEffect(
+    useCallback(() => {
+      if (loadRef.current && !delete_gallery_loading) {
+        dispatch(showAppLoader());
+        if (delete_gallery_success) {
+          dispatch(hideAppLoader());
+          dispatch(getUserGallery());
+        } else {
+          // dispatch(showAppToast(false, delete_gallery__error_msg));
+          dispatch(hideAppLoader());
+        }
+      }
+      loadRef.current = delete_gallery_loading;
+    }, [delete_gallery_success, delete_gallery_loading]),
+  );
   const selectVideo = index => {
     videoPicker(index).then(v => {
       if (v?.path) {
@@ -175,24 +196,25 @@ const Gallery = () => {
   remove.sort();
   let del = [];
   let iterator = 0;
-  gallery_data?.doner_photo_gallery?.map((item, index) => {
-    if (index === remove[iterator]) {
-      del.push(item.id.toString());
-      iterator++;
-    }
-  });
+  if (remove.length) {
+    gallery_data?.doner_photo_gallery?.map((item, index) => {
+      if (index === remove[iterator]) {
+        del.push(`ids[]=${item.id}`);
+        iterator++;
+      }
+    });
+  } else {
+    del.push(`ids[]=${gallery_data?.doner_video_gallery?.id}`);
+  }
   const deleteImg = selVideo => {
     if (selVideo) {
+      dispatch(deleteGallery(del.join('&')));
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
       return;
     } else {
-      let payload = JSON.stringify({
-        ids: del,
-      });
-      // console.log('PAYLOAD', payload);
-      dispatch(deleteGallery(payload));
+      dispatch(deleteGallery(del.join('&')));
       dispatch(getUserGallery());
       setDel(false);
       setRmvImgCount(0);
@@ -222,7 +244,6 @@ const Gallery = () => {
       return;
     }
     setGIndex(url?.length);
-    console.log('GALLY', gallery);
   };
   const headerComp = () => (
     <CircleBtn
@@ -377,7 +398,7 @@ const Gallery = () => {
               onPress={() => {
                 setShowModal(false);
                 deleteImg(selVideo);
-                // navigation.navigate(Routes.SmSetting);
+                navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

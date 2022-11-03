@@ -51,8 +51,10 @@ export default {
   fullWidth: {
     width: '100%',
   },
-  Version: {
-    alignItems: Alignment.CENTER,
-    bottom: Value.CONSTANT_VALUE_60,
+  AppVersion: {
+    textAlign: 'center',
+    fontSize: 14,
+    marginTop: 25,
+    color: '#999999',
   },
 };

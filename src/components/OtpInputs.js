@@ -1,11 +1,20 @@
 // OtpInputs
 import React, {useState, useEffect, useRef} from 'react';
-import {TextInput, View, Keyboard, StyleSheet, Text, Dimensions} from 'react-native';
+import {
+  TextInput,
+  View,
+  Keyboard,
+  StyleSheet,
+  Text,
+  Dimensions,
+  Image,
+} from 'react-native';
 import Alignment from '../constants/Alignment';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
-import { Fonts } from '../constants/Constants';
-const { width } = Dimensions.get('window');
+import {Fonts} from '../constants/Constants';
+import Images from '../constants/Images';
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -26,8 +35,8 @@ const styles = StyleSheet.create({
     textAlign: Alignment.CENTER,
     minWidth: Value.CONSTANT_VALUE_40,
     minHeight: Value.CONSTANT_VALUE_40,
-    width: width/8,
-    height: width/8,
+    width: width / 8,
+    height: width / 8,
     fontFamily: Fonts.OpenSansBold,
   },
   validInput: {
@@ -56,7 +65,7 @@ const styles = StyleSheet.create({
     textAlignVertical: Alignment.CENTER,
   },
 });
-const OtpInputs = ({onChange,isValid=true}) => {
+const OtpInputs = ({onChange, isValid = true}) => {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const refs = [
     useRef(null),
@@ -90,19 +99,28 @@ const OtpInputs = ({onChange,isValid=true}) => {
       refs[index - 1].current?.focus();
     }
   };
-  useEffect(()=>{
-    console.log('isValid-',isValid);
-  },[isValid])
-  useEffect(()=>{
+  useEffect(() => {
+    console.log('isValid-', isValid);
+  }, [isValid]);
+  useEffect(() => {
     const otp = code.join('');
     onChange(otp);
-  },[code])
+  }, [code]);
 
   return (
     <View style={styles.container}>
       {code.map((c, i) => (
-        <View key={i} style={{flex: 0,width: i === 2?width/4:width/8,
-        height: width/8,borderWidth: 0,alignItems: 'center',justifyContent: 'center',flexDirection: 'row'}}>
+        <View
+          key={i}
+          style={{
+            flex: 0,
+            width: i === 2 ? width / 4 : width / 8,
+            height: width / 8,
+            borderWidth: 0,
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+          }}>
           <TextInput
             value={c}
             onChangeText={v => updateCode(v, i)}
@@ -111,7 +129,7 @@ const OtpInputs = ({onChange,isValid=true}) => {
               styles.input,
               i === 0 || i === 3 ? styles.input1or4 : {},
               i === 2 || i === 5 ? styles.input3or6 : {},
-              isValid?styles.validInput:styles.invalidInput,
+              isValid ? styles.validInput : styles.invalidInput,
             ]}
             maxLength={1}
             ref={refs[i]}
@@ -124,7 +142,16 @@ const OtpInputs = ({onChange,isValid=true}) => {
             key={i.toString()}
             autoFocus={i === 0}
           />
-          {i === 2 && <Text style={[styles.input, styles.hyphen]}>-</Text>}
+          {i === 2 && (
+            <Text
+              style={[
+                styles.input,
+                styles.hyphen,
+                {fontFamily: Fonts.OpenSansRegular},
+              ]}>
+              —
+            </Text>
+          )}
         </View>
       ))}
     </View>

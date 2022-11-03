@@ -23,6 +23,7 @@ const PtbProfile = () => {
   const dispatch = useDispatch();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
+  const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -70,6 +71,7 @@ const PtbProfile = () => {
             Heading={Strings.smSetting.ptbProfile}
             onPressImg={() => setOpen(true)}
             Name={first_name}
+            LastName={last_name}
             source={{
               uri: profileImg,
             }}
@@ -83,6 +85,9 @@ const PtbProfile = () => {
             leftIcon={Images.preferences}
             title={Strings.smSetting.EditPreferences}
             BlueDot
+            onPress={() =>
+              navigation.navigate('SetPreference', {EditPreferences: true})
+            }
           />
           <PtbAccount
             leftIcon={Images.video}
@@ -112,9 +117,9 @@ const PtbProfile = () => {
               onPress={() => logoutScreen()}>
               <Text style={styles.buttonText}>{Strings.smSetting.Btn}</Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.Version}>
-            <Text>App Version 0.5</Text>
+            <Text style={styles.AppVersion}>
+              {Strings.smSetting.AppVersion}
+            </Text>
           </View>
         </View>
         <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
