@@ -37,6 +37,7 @@ const PtbDashboard = props => {
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef();
+  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const {registerUser, log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
@@ -137,9 +138,7 @@ const PtbDashboard = props => {
   const headerComp = () => (
     <IconHeader
       leftIcon={{
-        uri: registerUser?.data?.data?.profile_pic
-          ? registerUser?.data?.data?.profile_pic
-          : log_in_data.profile_pic,
+        uri: profileImg,
       }}
       leftPress={() => {
         navigation.navigate('PtbProfile');
@@ -205,7 +204,7 @@ const PtbDashboard = props => {
                 }}>
                 <Image
                   style={styles.dislikeButton}
-                  source={Images.iconNotlike}
+                  source={Images.shadowIconNotLike}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -214,7 +213,10 @@ const PtbDashboard = props => {
                   setIslikedLogo('liked');
                   handleOnSwipedRight();
                 }}>
-                <Image style={styles.likeButton} source={Images.iconLike} />
+                <Image
+                  style={styles.likeButton}
+                  source={Images.greenIconLike}
+                />
               </TouchableOpacity>
             </View>
           </View>

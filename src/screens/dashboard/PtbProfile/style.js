@@ -6,6 +6,7 @@ import Colors from '../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginTop: Value.CONSTANT_VALUE_50,
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_10,
@@ -13,7 +14,7 @@ export default {
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,
-    paddingTop: Value.CONSTANT_VALUE_45,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_25),
     paddingBottom: Value.CONSTANT_VALUE_89,
   },
   button: {
@@ -29,5 +30,25 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
     letterSpacing: 1.67,
+  },
+  imgPickerContainer: {
+    width: '100%',
+    paddingHorizontal: Value.CONSTANT_VALUE_20,
+    paddingVertical: Value.CONSTANT_VALUE_10,
+  },
+  pickerBtn: {
+    paddingVertical: Value.CONSTANT_VALUE_20,
+  },
+  pickerBtnBorder: {
+    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomColor: Colors.BORDER_LINE,
+  },
+  pickerBtnLabel: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+  },
+  fullWidth: {
+    width: '100%',
   },
 };

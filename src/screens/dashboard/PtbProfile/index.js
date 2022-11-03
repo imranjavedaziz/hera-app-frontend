@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import Container from '../../../components/Container';
@@ -10,14 +10,19 @@ import Strings from '../../../constants/Strings';
 import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
-import {logOut} from '../../../redux/actions/Auth';
+import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
+import BottomSheetComp from '../../../components/BottomSheet';
+import openCamera from '../../../utils/openCamera';
+import {askCameraPermission} from '../../../utils/permissionManager';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
-  const {registerUser, log_in_data} = useSelector(state => state.Auth);
+  const [isOpen, setOpen] = useState(false);
+  const [file, setFile] = useState(null);
   const dispatch = useDispatch();
-  console.log('regi5sterUser', registerUser?.data?.data?.profile_pic);
+  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -25,6 +30,29 @@ const PtbProfile = () => {
       leftPress={() => navigation.goBack()}
     />
   );
+
+  const cb = image => {
+    setOpen(false);
+    setFile(image);
+  };
+
+  console.log('file', file);
+  useEffect(() => {
+    askCameraPermission();
+    return navigation.addListener('focus', () => {});
+  }, [navigation]);
+  useEffect(() => {
+    const reqData = new FormData();
+    {
+      file !== null &&
+        reqData.append('file', {
+          name: 'name',
+          type: file.mime,
+          uri: file.path,
+        });
+      dispatch(updateProfileImg(reqData));
+    }
+  }, [file, dispatch]);
   const logoutScreen = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
@@ -32,23 +60,18 @@ const PtbProfile = () => {
   return (
     <>
       <Container
-        mainStyle={true}
-        scroller={true}
+      style={{flex:1, marginHorizontal: 0, marginTop:0}}
+        scroller={false}
         showHeader={true}
         showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>
           <ProfileImage
             Heading={Strings.smSetting.ptbProfile}
-            Name={
-              registerUser?.data?.data?.first_name
-                ? registerUser?.data?.data?.first_name
-                : log_in_data?.first_name
-            }
+            onPressImg={() => setOpen(true)}
+            Name={first_name}
             source={{
-              uri: registerUser?.data?.data?.profile_pic
-                ? registerUser?.data?.data?.profile_pic
-                : log_in_data?.profile_pic,
+              uri: profileImg,
             }}
           />
           <Subscribe
@@ -92,6 +115,28 @@ const PtbProfile = () => {
             </TouchableOpacity>
           </View>
         </View>
+        <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
+          <View style={styles.imgPickerContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                openCamera(0, cb);
+              }}
+              style={[styles.pickerBtn, styles.pickerBtnBorder]}>
+              <Text style={styles.pickerBtnLabel}>
+                {Strings.sm_create_gallery.bottomSheetCamera}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                openCamera(1, cb);
+              }}
+              style={styles.pickerBtn}>
+              <Text style={styles.pickerBtnLabel}>
+                {Strings.sm_create_gallery.bottomSheetGallery}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </BottomSheetComp>
       </Container>
     </>
   );

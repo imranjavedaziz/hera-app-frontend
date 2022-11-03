@@ -12,6 +12,7 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_30,
     marginRight: Value.CONSTANT_VALUE_20,
+    backgroundColor: Colors.SEARCH_BOX,
   },
   row: {
     flexDirection: Alignment.ROW,

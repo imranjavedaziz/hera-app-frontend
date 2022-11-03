@@ -12,7 +12,6 @@ export default {
   screenTitle: {
     textTransform: 'uppercase',
     letterSpacing: Value.CONSTANT_VALUE_2_84,
-    fontWeight: '700',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
@@ -21,7 +20,6 @@ export default {
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_23,
     lineHeight: Value.CONSTANT_VALUE_30,
-    fontWeight: '700',
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,

@@ -19,7 +19,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_11,
     letterSpacing: 2.84,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
+    color: Colors.COLOR_535858,
   },
   innerHeadingContainer: {
     marginTop: Value.CONSTANT_VALUE_8,
