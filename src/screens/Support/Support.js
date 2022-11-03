@@ -27,12 +27,15 @@ export default function Support() {
   const {
     handleSubmit,
     control,
+    setValue,
+    // reset,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(inqueryFormSchema),
   });
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [phone, setPhone] = useState('');
   const SubmitLoadingRef = useRef(false);
   const {
     get_support_form_error_msg,
@@ -115,7 +118,35 @@ export default function Support() {
     dispatch(showAppLoader());
     dispatch(SupportForm(reqData));
   };
-
+  const normalizeInput = (value, previousValue) => {
+    if (!value) {
+      return value;
+    }
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+    if (!previousValue || value.length > previousValue.length) {
+      if (cvLength < 4) {
+        return currentValue;
+      }
+      if (cvLength < 7) {
+        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
+      }
+      return `${currentValue.slice(0, 3)} ${currentValue.slice(
+        3,
+        6,
+      )} (${currentValue.slice(6, 10)})`;
+    }
+  };
+  const handelChange = async value => {
+    await setPhone(prevstate => normalizeInput(value, prevstate));
+    let a = '';
+    for (var i = 0; i < value.length; i++) {
+      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
+        a = a + value[i];
+      }
+    }
+    setValue('phone_no', a);
+  };
   return (
     <Container
       scroller={true}
@@ -131,6 +162,7 @@ export default function Support() {
             <FloatingLabelInput
               label={Strings.inqueryForm.Name}
               value={value}
+              autoCorrect={false}
               onChangeText={v => onChange(v)}
               error={errors && errors.name?.message}
               required={true}
@@ -160,8 +192,11 @@ export default function Support() {
             <FloatingLabelInput
               label={Strings.profile.EmailAddress}
               value={value}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
               onChangeText={v => onChange(v)}
-              error={errors && errors.emailAddress?.message}
+              error={errors && errors.email?.message}
               required={true}
             />
           )}
@@ -172,11 +207,14 @@ export default function Support() {
           render={({field: {onChange, value}}) => (
             <FloatingLabelInput
               label={Strings.inqueryForm.MobileNumber}
-              value={value}
-              onChangeText={v => onChange(v)}
-              error={errors && errors.emailAddress?.message}
+              value={phone}
+              keyboardType="numeric"
+              onChangeText={v => {
+                handelChange(v);
+              }}
+              error={errors && errors.phone_no?.message}
               required={true}
-              maxLength={10}
+              maxLength={14}
             />
           )}
           name={FormKey.phone_no}

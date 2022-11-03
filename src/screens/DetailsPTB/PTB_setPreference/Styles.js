@@ -2,15 +2,22 @@ import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
+import {dynamicSize} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
   },
+  fixedheaderStyle: {marginRight: Value.CONSTANT_VALUE_20},
   lookingFor: {
     width: '100%',
     marginTop: Value.CONSTANT_VALUE_50,
+  },
+  lookingForText: {
+    fontFamily: Fonts.OpenSansRegular,
+    marginBottom: Value.CONSTANT_VALUE_17,
+    fontSize: 14,
   },
   required: {
     color: Colors.RED,
@@ -28,11 +35,11 @@ export default {
   },
   lookingsm: {
     alignItems: Alignment.CENTER,
-    marginLeft: Value.CONSTANT_VALUE_15,
+    marginLeft: Value.CONSTANT_VALUE_10,
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
-    color:Colors.COLOR_535858
+    color: Colors.COLOR_535858,
   },
   lookingDonor: {
     marginLeft: Value.CONSTANT_VALUE_10,
@@ -59,8 +66,10 @@ export default {
     fontSize: Value.CONSTANT_VALUE_18,
   },
   chipText: {
-    marginVertical: Value.CONSTANT_VALUE_10,
     fontSize: Value.CONSTANT_VALUE_14,
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_10),
+    fontFamily: Fonts.OpenSansRegular,
   },
   chipsRequiredText: {
     color: Colors.RED,
@@ -69,7 +78,6 @@ export default {
   hairContainer: {
     flexDirection: Alignment.ROW,
     flexWrap: 'wrap',
-    marginVertical: Value.CONSTANT_VALUE_5,
   },
   chips: {
     height: Value.CONSTANT_VALUE_41,
@@ -89,6 +97,11 @@ export default {
     marginVertical: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
     marginTop: Value.CONSTANT_VALUE_10,
+    fontFamily: Fonts.OpenSansRegular,
+  },
+  heightTextInner: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
   },
   ageRangeChip: {
     height: Value.CONSTANT_VALUE_41,

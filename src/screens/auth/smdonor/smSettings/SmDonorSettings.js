@@ -17,6 +17,7 @@ import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 import {logOut} from '../../../../redux/actions/Auth';
+import styles from 'rn-range-slider/styles';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -65,51 +66,40 @@ const SmDonorSettings = () => {
         headerComp={headerComp}
         headerEnd={false}>
         <View style={Styles.headerContainer}>
-          <TouchableOpacity onPress={() => setOpen(true)}>
-            <View style={[Styles.profileImgContainner]}>
-              <Image
-                style={Styles.profileImg}
-                source={{
-                  uri: profileImg,
-                }}
-              />
-            </View>
-          </TouchableOpacity>
+          <View style={[Styles.profileImgContainner]}>
+            <Image
+              style={Styles.profileImg}
+              source={{
+                uri: profileImg,
+              }}
+            />
+          </View>
           <View>
-            <View style={[Styles.camBtn, Styles.camSelectedBtn]}>
-              <Image source={Images.camera} style={Styles.camImg} />
-            </View>
+            <TouchableOpacity onPress={() => setOpen(true)}>
+              <View style={[Styles.camBtn, Styles.camSelectedBtn]}>
+                <Image source={Images.camera} style={Styles.camImg} />
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
         <Text
           style={[globalStyle.screenTitle, Styles.tittle, Styles.textColor]}>
           {Strings.smSetting.profile}
         </Text>
-        <Text
-          style={[
-            globalStyle.screenSubTitle,
-            Styles.textColor,
-            {marginBottom: Value.CONSTANT_VALUE_10},
-          ]}>
-          {userName}
-        </Text>
-
+        <Text style={Styles.usernameText}>{userName}</Text>
         <View style={Styles.highlightContainer}>
           <View style={Styles.flexRow}>
             <Image source={Images.preferences} />
             <Text style={Styles.text}>{Strings.smSetting.EditAttribute}</Text>
           </View>
-
           <View style={Styles.dot}></View>
         </View>
-
         <TouchableOpacity
           style={Styles.contain}
           onPress={() => navigation.navigate(Routes.donorGallery)}>
           <Image source={Images.galleryimage} />
           <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
         </TouchableOpacity>
-
         <View style={Styles.highlightContainer}>
           <View style={Styles.flexRow}>
             <Image source={Images.person} />

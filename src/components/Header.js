@@ -4,8 +4,7 @@ import {View, TouchableOpacity, Image} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
-import { dynamicSize } from '../utils/responsive';
-
+import {dynamicSize} from '../utils/responsive';
 
 const styles = {
   container: {
@@ -55,13 +54,13 @@ const styles = {
   profileIconConatiner: {
     marginRight: Value.CONSTANT_VALUE_290,
   },
-  androidIconCon:{
+  androidIconCon: {
     marginRight: dynamicSize(Value.CONSTANT_VALUE_290),
-  }
+  },
 };
-export const CircleBtn = ({icon, onPress, ...otherProps}) => (
+export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
   <TouchableOpacity
-    style={styles.circle}
+    style={[styles.circle, Fixedstyle]}
     onPress={onPress}
     {...otherProps}
     accessible={true}
@@ -81,7 +80,13 @@ export const IconHeader = ({
 }) => (
   <>
     {profileView ? (
-      <TouchableOpacity style={Platform.OS === 'ios' ? styles.profileIconConatiner: styles.androidIconCon} onPress={leftPress}>
+      <TouchableOpacity
+        style={
+          Platform.OS === 'ios'
+            ? styles.profileIconConatiner
+            : styles.androidIconCon
+        }
+        onPress={leftPress}>
         <View
           style={[styles.circle, styles.start, styles.profileImgContainner]}>
           <Image source={{uri: profileImg}} style={styles.profileImg} />

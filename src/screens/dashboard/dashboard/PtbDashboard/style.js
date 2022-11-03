@@ -11,7 +11,7 @@ import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    paddingTop: Value.CONSTANT_VALUE_45,
+    paddingTop: Value.CONSTANT_VALUE_30,
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -23,10 +23,11 @@ export default {
   },
   iosInnerContainer: {
     flexDirection: Alignment.ROW,
-    justifyContent: Alignment.SPACE_BETWEEN,
+    justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: dynamicSize(50),
-    paddingVertical: Value.CONSTANT_VALUE_12,
+    paddingHorizontal: dynamicSize(10),
+    // paddingVertical: Value.CONSTANT_VALUE_10,
+    // height:190
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -44,7 +45,7 @@ export default {
   emptyCardContainer: {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    marginTop: 263,
+    marginTop: Value.CONSTANT_VALUE_263,
   },
   sryText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
@@ -66,14 +67,16 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_10,
+    paddingTop: Value.CONSTANT_VALUE_5,
   },
   likeButton: {
-    height: scaleWidth(Value.CONSTANT_VALUE_98),
-    width: scaleWidth(Value.CONSTANT_VALUE_98),
+    height: scaleWidth(Value.CONSTANT_VALUE_130),
+    width: scaleWidth(Value.CONSTANT_VALUE_125),
+    right: 8,
   },
   dislikeButton: {
-    height: scaleWidth(Value.CONSTANT_VALUE_98),
-    width: scaleWidth(Value.CONSTANT_VALUE_98),
+    height: scaleWidth(Value.CONSTANT_VALUE_130),
+    width: scaleWidth(Value.CONSTANT_VALUE_125),
+    left: 5,
   },
 };

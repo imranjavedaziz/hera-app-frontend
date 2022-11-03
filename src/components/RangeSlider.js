@@ -1,7 +1,7 @@
-import {StyleSheet,} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React from 'react';
 import {Slider} from '@miblanchard/react-native-slider';
-import { Value } from '../constants/FixedValues';
+import {Value} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
 
 const RangeSlider = ({value, setValue, onValueChange}) => {
@@ -26,11 +26,11 @@ const RangeSlider = ({value, setValue, onValueChange}) => {
 export default RangeSlider;
 
 const styles = StyleSheet.create({
-  thumb:{
-      height: Value.CONSTANT_VALUE_35,
-      width: Value.CONSTANT_VALUE_35,
-      borderRadius: Value.CONSTANT_VALUE_40,
-      borderColor: Colors.BACKGROUND,
-      borderWidth: Value.CONSTANT_VALUE_4,
-  }
+  thumb: {
+    height: Value.CONSTANT_VALUE_35,
+    width: Value.CONSTANT_VALUE_35,
+    borderRadius: Value.CONSTANT_VALUE_40,
+    borderColor: Colors.PURE_WHITE,
+    borderWidth: Value.CONSTANT_VALUE_4,
+  },
 });

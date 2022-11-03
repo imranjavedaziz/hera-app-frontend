@@ -64,7 +64,8 @@ export default {
   },
   stateItemContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    width: 334,
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   unSel: {
@@ -72,12 +73,14 @@ export default {
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
+    justifyContent: 'flex-start',
   },
   sel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
+    justifyContent: 'flex-start',
   },
   imgSel: {
     alignSelf: 'center',
