@@ -50,7 +50,7 @@ export const Fonts = {
   OpenSansItalic: 'OpenSans-Italic',
   OpenSansLight: 'OpenSans-Light',
   OpenSansLightItalic: 'OpenSans-LightItalic',
-  OpenSansRegular: 'OpenSans-Regular',
+  OpenSansRegular: 'OpenSans',
   OpenSansSemibold: 'OpenSans-Semibold',
   OpenSansSemiboldItalic: 'OpenSans-SemiboldItalic',
 };

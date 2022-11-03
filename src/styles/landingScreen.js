@@ -45,6 +45,7 @@ export default {
     height: Value.CONSTANT_VALUE_120,
     resizeMode: 'contain',
     flex: Value.CONSTANT_VALUE_0,
+    marginTop: Value.CONSTANT_VALUE_25,
   },
   title: {
     fontSize: Value.CONSTANT_VALUE_23,
