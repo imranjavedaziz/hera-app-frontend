@@ -1,5 +1,5 @@
 import {Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, ScrollView} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
@@ -28,8 +28,7 @@ import {
   SetPreferenceRes,
   SavePreference,
 } from '../../../redux/actions/SetPreference';
-import { scaleWidth } from '../../../utils/responsive';
-import { ScrollView } from 'react-native-gesture-handler';
+import {scaleWidth} from '../../../utils/responsive';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -47,7 +46,7 @@ const isSelected = (data, value) => {
   return data.split(',').includes(value.toString());
 };
 const SetPreference = ({route, navigation}) => {
-  const [height, setHeight] = useState( [58,84]);
+  const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
@@ -123,9 +122,8 @@ const SetPreference = ({route, navigation}) => {
     let value = {
       role_id_looking_for: data.looking,
       age: data.age_range,
-      height: data?.height !== undefined
-        ? data?.height.join('-')
-        : height.join('-'),
+      height:
+        data?.height !== undefined ? data?.height.join('-') : height.join('-'),
       race: data.race,
       education: data.education.id.toString(),
       hair_colour: data.hair,
@@ -172,7 +170,10 @@ const SetPreference = ({route, navigation}) => {
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }
-        style={{paddingBottom: Value.CONSTANT_VALUE_50,marginHorizontal:scaleWidth(35)}}>
+        style={{
+          paddingBottom: Value.CONSTANT_VALUE_50,
+          marginHorizontal: scaleWidth(35),
+        }}>
         <View style={styles.mainContainer}>
           {EditPreferences === true ? (
             <Text style={globalStyle.screenTitle}>
@@ -209,7 +210,7 @@ const SetPreference = ({route, navigation}) => {
                         activeOpacity={1}
                         onPress={() => onChange(whom.id)}>
                         <Image
-                          style={{resizeMode:"contain"}}
+                          style={{resizeMode: 'contain'}}
                           source={
                             value === whom.id
                               ? Images.iconRadiosel
@@ -264,42 +265,44 @@ const SetPreference = ({route, navigation}) => {
               render={({field: {onChange, value = ''}}) => (
                 <View style={styles.ageContainer}>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  {ageRange.map((item, index) => {
-                    return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          onChange(onValueSelect(value, item.name));
-                        }}
-                        activeOpacity={0.8}
-                        key={item.id}>
-                        <View
-                          style={[
-                            styles.ageRangeChip,
-                            {
-                              backgroundColor: isSelected(value, item.name)
-                                ? Colors.COLOR_5ABCEC
-                                : Colors.BACKGROUND,
-                              borderWidth: isSelected(value, item.name) ? 0 : 1,
-                            },
-                          ]}>
-                          <Text
+                    {ageRange.map((item, index) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            onChange(onValueSelect(value, item.name));
+                          }}
+                          activeOpacity={0.8}
+                          key={item.id}>
+                          <View
                             style={[
-                              styles.chipInsideText,
+                              styles.ageRangeChip,
                               {
-                                color: isSelected(value, item.name)
-                                  ? Colors.WHITE
-                                  : null,
-                                fontWeight: isSelected(value, item.name)
-                                  ? Alignment.BOLD
-                                  : null,
+                                backgroundColor: isSelected(value, item.name)
+                                  ? Colors.COLOR_5ABCEC
+                                  : Colors.BACKGROUND,
+                                borderWidth: isSelected(value, item.name)
+                                  ? 0
+                                  : 1,
                               },
                             ]}>
-                            {item.name} {Strings.preference.yrs}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    );
-                  })}
+                            <Text
+                              style={[
+                                styles.chipInsideText,
+                                {
+                                  color: isSelected(value, item.name)
+                                    ? Colors.WHITE
+                                    : null,
+                                  fontWeight: isSelected(value, item.name)
+                                    ? Alignment.BOLD
+                                    : null,
+                                },
+                              ]}>
+                              {item.name} {Strings.preference.yrs}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    })}
                   </ScrollView>
                 </View>
               )}
@@ -327,7 +330,7 @@ const SetPreference = ({route, navigation}) => {
                     value={height}
                     setValue={setHeight}
                     onValueChange={value => {
-                      console.log(value, "value:::::::::");
+                      console.log(value, 'value:::::::::');
                       onChange(value);
                     }}
                   />
