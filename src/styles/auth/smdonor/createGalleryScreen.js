@@ -6,7 +6,7 @@ import {width} from '../../../utils/responsive';
 
 export default {
   profileImgContainner: {
-    borderWidth: Value.CONSTANT_VALUE_2,
+    borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_15,

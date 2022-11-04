@@ -186,7 +186,7 @@ const Profile = (props) => {
                   source={userImage ? {uri: userImage} : null}
                   style={styles.background}
                   imageStyle={styles.imgBack}>
-                  <TouchableOpacity
+                  <TouchableOpacity activeOpacity={1}
                     style={[
                       styles.uploadBackground,
                       userImage ? styles.userImg : null,

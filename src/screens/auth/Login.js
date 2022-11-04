@@ -123,8 +123,6 @@ const Login = (props) => {
   };
   const handelChange = async value => {
     reset({phone: '', password: getValues('password')});
-    // const valLen = value.length();
-    // console.log("Len",valLen);
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
     for (var i = 0; i < value.length; i++) {

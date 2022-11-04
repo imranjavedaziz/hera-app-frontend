@@ -92,13 +92,15 @@ const SmDonorSettings = () => {
             <Image source={Images.preferences} />
             <Text style={Styles.text}>{Strings.smSetting.EditAttribute}</Text>
           </View>
-          <View style={Styles.dot}></View>
+          <View style={Styles.dot} />
         </View>
         <TouchableOpacity
           style={Styles.contain}
           onPress={() => navigation.navigate(Routes.donorGallery)}>
           <Image source={Images.galleryimage} />
-          <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
+          <Text style={[Styles.text, Styles.extraTxt]}>
+            {Strings.smSetting.Gallery}
+          </Text>
         </TouchableOpacity>
         <View style={Styles.highlightContainer}>
           <View style={Styles.flexRow}>
@@ -109,7 +111,9 @@ const SmDonorSettings = () => {
         </View>
         <View style={Styles.contain}>
           <Image source={Images.setting2} />
-          <Text style={Styles.text}>{Strings.smSetting.Settings}</Text>
+          <Text style={[Styles.text, Styles.extraTxt]}>
+            {Strings.smSetting.Settings}
+          </Text>
         </View>
         <View style={Styles.contain}>
           <Image source={Images.writing} />
@@ -117,7 +121,9 @@ const SmDonorSettings = () => {
         </View>
         <View style={Styles.contain}>
           <Image source={Images.information} />
-          <Text style={Styles.text}>{Strings.smSetting.AboutUs}</Text>
+          <Text style={[Styles.text, Styles.extraTxt]}>
+            {Strings.smSetting.AboutUs}
+          </Text>
         </View>
         <View style={Styles.BtnContainer}>
           <Button

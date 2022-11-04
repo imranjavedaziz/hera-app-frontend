@@ -5,8 +5,16 @@ import {Fonts} from '../../../../constants/Constants';
 
 export default {
   headerContainer: {
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
+    alignSelf: 'center',
+    shadowColor: 'rgba(0,0,0,0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    elevation: 1,
+    shadowRadius: 34,
+    borderRadius:100,
   },
   usernameText: {
     fontSize: Value.CONSTANT_VALUE_24,
@@ -34,16 +42,15 @@ export default {
     color: Colors.PARA,
   },
   camImg: {
-    width: Value.CONSTANT_VALUE_20,
-    height: Value.CONSTANT_VALUE_20,
+    width: Value.CONSTANT_VALUE_17,
+    height: Value.CONSTANT_VALUE_14,
     resizeMode: 'cover',
     // backgroundColor: Colors.GREEN,
   },
   camSelectedBtn: {
     position: Alignment.ABSOLUTE,
     bottom: Value.CONSTANT_VALUE_15,
-    right: Value.CONSTANT_VALUE_5,
-    left: Value.CONSTANT_VALUE_11,
+    right: Value.CONSTANT_VALUE_0,
   },
   camBtn: {
     width: Value.CONSTANT_VALUE_30,
@@ -101,5 +108,8 @@ export default {
   },
   flatlist: {
     paddingBottom: Value.CONSTANT_VALUE_300,
+  },
+  extraTxt: {
+    marginLeft: 15,
   },
 };
