@@ -1,7 +1,7 @@
 export default {
   WHITE: '#fff',
   CLEAR: 'transparent',
-  BLACK: '#353A3A',
+  BLACK: '#353a3a',
   LABEL_BLACK: '#302f2f',
   RED: '#FF0000',
   BACKGROUND: '#F6F5EF',
