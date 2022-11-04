@@ -188,7 +188,7 @@ const Profile = props => {
                   source={userImage ? {uri: userImage} : null}
                   style={styles.background}
                   imageStyle={styles.imgBack}>
-                  <TouchableOpacity
+                  <TouchableOpacity activeOpacity={1}
                     style={[
                       styles.uploadBackground,
                       userImage ? styles.userImg : null,
@@ -260,6 +260,8 @@ const Profile = props => {
                 autoCapitalize="none"
                 spellCheck={false}
                 error={errors && errors.email?.message}
+                keyboardType="email-address"
+                autoCorrect={false}
               />
             )}
             name={FormKey.email}
@@ -275,7 +277,7 @@ const Profile = props => {
                 required={true}
                 endComponent={() => (
                   <TouchableOpacity onPress={() => setShow(true)}>
-                    <Image source={Images.calendar} />
+                    <Image source={Images.calendar} style={styles.calender} />
                   </TouchableOpacity>
                 )}
                 editable={false}

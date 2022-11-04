@@ -2,7 +2,7 @@ import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
-import {scaleWidth} from '../../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -16,7 +16,8 @@ export default {
     height: Value.CONSTANT_VALUE_120,
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
-    marginBottom: Value.CONSTANT_VALUE_7,
+    marginBottom: Value.CONSTANT_VALUE_25,
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {
@@ -26,32 +27,37 @@ export default {
     color: Colors.BLACK,
   },
   terms: {
-    top: Value.CONSTANT_VALUE_2,
+    top: Value.CONSTANT_VALUE_3,
     textDecorationLine: Alignment.UNDERLINE,
-    fontSize: Value.CONSTANT_VALUE_13,
+    fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
   },
   mainText: {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_13,
-    color: Colors.BLACK,
+    color: Colors.COLOR_535858,
   },
   textView: {
     width: scaleWidth(Value.CONSTANT_VALUE_332),
-    marginBottom: Value.CONSTANT_VALUE_75,
+    // marginBottom: Value.CONSTANT_VALUE_75,
   },
   payButton: {
-    marginTop: Value.CONSTANT_VALUE_31,
+    marginTop: dynamicSize(36),
     marginBottom: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.COLOR_163198196,
     textAlign: Alignment.CENTER,
+    width: dynamicSize(236),
+    height: dynamicSize(80),
+    borderRadius: dynamicSize(40),
+    paddingHorizontal: 0,
+    paddingVertical: 0,
   },
   box: {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.COLOR_A3C6C4,
   },
   innerContainer: {
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: dynamicSize(34),
   },
 };
