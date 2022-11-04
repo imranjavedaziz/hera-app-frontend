@@ -58,7 +58,7 @@ export default {
   },
   eyeColorContainer: {
     backgroundColor: Colors.RGBA_229_172_177,
-    width: scaleWidth(Value.CONSTANT_VALUE_117),
+    width: scaleWidth(Value?.CONSTANT_VALUE_124),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
@@ -98,12 +98,12 @@ export default {
     borderColor: color,
     borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
     backgroundColor: Colors.BACKGROUND,
-    height:scaleHeight(Value.CONSTANT_VALUE_80),
-    width:scaleWidth(296),
+    height:Value.CONSTANT_VALUE_80,
+    width:Value.CONSTANT_VALUE_296,
     alignSelf:Alignment.CENTER
   }),
   textbtn1: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
+    fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 3.62,
   },

@@ -7,7 +7,7 @@ import {
 } from '../../../../../utils/responsive';
 import {Fonts} from '../../../../../constants/Constants';
 import Colors from '../../../../../constants/Colors';
-import { Value } from '../../../../../constants/FixedValues';
+import { FontSize, Value } from '../../../../../constants/FixedValues';
 
 export default {
   mainContainer: {
@@ -25,21 +25,21 @@ export default {
     alignItems: Alignment.CENTER,
   },
   locationText: {
-    fontSize: normalizeFont(16),
+    fontSize: FontSize?.FONT_16,
     marginLeft: scaleWidth(5),
     fontFamily: Fonts.OpenSansRegular,
     lineHeight: scaleHeight(21),
     color: Colors.COLOR_535858,
   },
   codeText: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_32),
+    fontSize: Value.CONSTANT_VALUE_31,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     letterSpacing: 0,
   },
   typeText: {
     color: Colors.COLOR_535858,
-    fontSize: normalizeFont(20),
+    fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansRegular,
   },
 };

@@ -218,4 +218,5 @@ export const Prencentage = {
 };
 export const FontSize = {
   FONT_16: 16,
+  FONT_32: 32,
 };

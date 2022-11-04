@@ -121,10 +121,9 @@ export default {
     marginLeft: scaleWidth(value),
   }),
   tagText: {
-    paddingVertical: Value.CONSTANT_VALUE_6,
-    paddingHorizontal: Value.CONSTANT_VALUE_6,
+    padding: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
+    fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
   },
 };

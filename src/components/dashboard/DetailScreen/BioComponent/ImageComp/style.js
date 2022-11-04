@@ -10,7 +10,7 @@ export default {
     flexDirection: Alignment.ROW,
   },
   text: {
-    fontSize: normalizeFont(FontSize.FONT_16),
+    fontSize: FontSize.FONT_16,
     fontFamily: Fonts.OpenSansRegular,
     lineHeight: scaleHeight(Value.CONSTANT_VALUE_21),
     letterSpacing: Value.CONSTANT_VALUE_0,
@@ -21,7 +21,7 @@ export default {
     lineHeight: scaleHeight(Value.CONSTANT_VALUE_21),
     letterSpacing: Value.CONSTANT_VALUE_0,
     color:Colors.COLOR_535858,
-    fontSize: normalizeFont(FontSize.FONT_16),
+    fontSize: FontSize.FONT_16,
     fontFamily: Fonts.OpenSansBold,
     paddingBottom:scaleHeight(Value.CONSTANT_VALUE_8)
 
