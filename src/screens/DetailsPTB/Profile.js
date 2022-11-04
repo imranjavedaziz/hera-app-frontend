@@ -149,7 +149,6 @@ const Profile = props => {
     dispatch(ptbRegister(reqData));
   };
   useEffect(() => {
-    askCameraPermission();
     return navigation.addListener('focus', () => {
       reset();
     });
@@ -180,7 +179,11 @@ const Profile = props => {
             {/* IMage Upload */}
 
             <View style={styles.profileContainer}>
-              <TouchableOpacity onPress={() => setOpen(true)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setOpen(true);
+                  askCameraPermission();
+                }}>
                 <ImageBackground
                   source={userImage ? {uri: userImage} : null}
                   style={styles.background}
