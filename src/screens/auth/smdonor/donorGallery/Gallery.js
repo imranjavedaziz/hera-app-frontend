@@ -49,7 +49,7 @@ const Gallery = () => {
     {id: 5, uri: '', loading: false},
   ]);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({file_url: '', loading: false});
+  const [video, setVideo] = useState({file_url: '', loading: false,id:0});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
@@ -61,7 +61,7 @@ const Gallery = () => {
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
   const videoRef = useRef();
-  const {gallery_success, gallery_loading, gallery_data} = useSelector(
+  const {gallery_success, gallery_loading, gallery_data,  delete_gallery_success,delete_gallery_loading,delete_gallery__error_msg} = useSelector(
     state => state.CreateGallery,
   );
   useEffect(() => {
@@ -73,11 +73,13 @@ const Gallery = () => {
       dispatch(showAppLoader());
       if (gallery_success) {
         updateGallery();
+        console.log(gallery_data?.doner_video_gallery,'gallery_data?.doner_video_gallery')
         setVideo({
           file_url: gallery_data?.doner_video_gallery?.file_url
             ? gallery_data?.doner_video_gallery?.file_url
             : '',
           loading: false,
+          id:gallery_data?.doner_video_gallery?.id
         });
         dispatch(hideAppLoader());
       } else {
@@ -86,6 +88,20 @@ const Gallery = () => {
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
+
+  useEffect(() => {
+    if (loadingGalleryRef.current && !delete_gallery_loading) {
+      dispatch(showAppLoader());
+      if (delete_gallery_success) {
+        dispatch(getUserGallery());
+        dispatch(hideAppLoader());
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingGalleryRef.current = delete_gallery_loading;
+  }, [delete_gallery_success, delete_gallery_loading]);
+
   const cb = image => {
     setOpen(false);
     setGallery(oldImg => {
@@ -149,10 +165,15 @@ const Gallery = () => {
     }
   };
   function handelDel(index, isVideo) {
+    console.log(index, isVideo,'index, isVideo')
+
     if (isVideo) {
       setSelVideo(!selVideo);
       setDel(true);
       if (selVideo === false) {
+        let arr =[]
+        arr.push(index)
+        setRemove(arr);
         setRmvVideoCount(1);
       } else {
         setRmvVideoCount(0);
@@ -182,15 +203,16 @@ const Gallery = () => {
     }
   });
   const deleteImg = selVideo => {
+    console.log(remove,'remove:::::')
     if (selVideo) {
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
       return;
     } else {
-      let payload = JSON.stringify({
-        ids: del,
-      });
+      let payload = {
+        ids: del?.join(),
+      };       
       // console.log('PAYLOAD', payload);
       dispatch(deleteGallery(payload));
       dispatch(getUserGallery());
