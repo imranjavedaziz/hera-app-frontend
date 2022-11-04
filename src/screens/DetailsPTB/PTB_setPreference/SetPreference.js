@@ -353,7 +353,7 @@ const SetPreference = ({route, navigation}) => {
               )}
               name={FormKey.race}
             />
-            {/* <Controller
+            <Controller
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
@@ -368,7 +368,7 @@ const SetPreference = ({route, navigation}) => {
                 />
               )}
               name={FormKey.ethnicity}
-            /> */}
+            />
             <Text style={styles.chipText}>
               {Strings.preference.HairColor}
               <Text style={styles.chipsRequiredText}>*</Text>
