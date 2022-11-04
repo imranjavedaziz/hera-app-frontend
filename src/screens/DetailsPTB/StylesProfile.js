@@ -147,4 +147,8 @@ export default {
     bottom: Value.CONSTANT_VALUE_0,
     right: Value.CONSTANT_VALUE_20,
   },
+  calender: {
+    width: Value.CONSTANT_VALUE_16,
+    height: Value.CONSTANT_VALUE_16,
+  },
 };

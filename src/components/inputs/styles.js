@@ -21,8 +21,10 @@ export default {
     top: Value.CONSTANT_VALUE_0,
     fontSize: Value.CONSTANT_VALUE_14,
   },
-  floatedmessage:{ top: Value.CONSTANT_VALUE_0,
-    fontSize: Value.CONSTANT_VALUE_18,},
+  floatedmessage: {
+    top: Value.CONSTANT_VALUE_0,
+    fontSize: Value.CONSTANT_VALUE_18,
+  },
   unfloated: {
     top: Value.CONSTANT_VALUE_24,
     fontSize: Value.CONSTANT_VALUE_18,

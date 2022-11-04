@@ -26,7 +26,7 @@ export default {
     color: Colors.BLACK,
   },
   terms: {
-    top: Value.CONSTANT_VALUE_2,
+    top: Value.CONSTANT_VALUE_3,
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
@@ -35,11 +35,11 @@ export default {
   mainText: {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_13,
-    color: Colors.BLACK,
+    color: Colors.COLOR_535858,
   },
   textView: {
     width: scaleWidth(Value.CONSTANT_VALUE_332),
-    marginBottom: Value.CONSTANT_VALUE_75,
+    // marginBottom: Value.CONSTANT_VALUE_75,
   },
   payButton: {
     marginTop: Value.CONSTANT_VALUE_31,

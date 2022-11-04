@@ -21,9 +21,9 @@ import {
 import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
-import { deviceHandler } from "../../utils/commonFunction";
-import { Routes } from "../../constants/Constants";
-const Login = (props) => {
+import {deviceHandler} from '../../utils/commonFunction';
+import {Routes} from '../../constants/Constants';
+const Login = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
@@ -44,10 +44,7 @@ const Login = (props) => {
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
   useEffect(() => {
-
-    deviceHandler(props.navigation,'goBack');
-
-
+    deviceHandler(props.navigation, 'goBack');
   }, [props.navigation]);
   useEffect(() => {
     if (!isValid) {
