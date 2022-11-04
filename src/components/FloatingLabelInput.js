@@ -51,10 +51,9 @@ const styles = {
     zIndex: Value.CONSTANT_VALUE_2,
   },
   errMessage: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
-    // marginBottom: 5,
     fontSize: Value.CONSTANT_VALUE_14,
     lineHeight: Value.CONSTANT_VALUE_21,
     textVerticleAlignment: Alignment.CENTER,

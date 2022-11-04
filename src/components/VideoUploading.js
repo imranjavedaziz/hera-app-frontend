@@ -88,7 +88,6 @@ const VideoUploading = props => {
                 //   }
                 //   ]
                 // }
-                
               />
               {/* {!props?.isPlaying && (
                 <Image source={Images.playButton} style={styles.playIcon} />

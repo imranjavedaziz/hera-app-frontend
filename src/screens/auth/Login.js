@@ -13,11 +13,7 @@ import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../redux/actions/loader';
+import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';

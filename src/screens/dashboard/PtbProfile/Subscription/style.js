@@ -17,7 +17,7 @@ export default {
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_25,
-    marginTop:Value.CONSTANT_VALUE_20
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {
@@ -27,7 +27,7 @@ export default {
     color: Colors.BLACK,
   },
   terms: {
-    
+    top: Value.CONSTANT_VALUE_3,
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
@@ -36,11 +36,11 @@ export default {
   mainText: {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_13,
-    color: Colors.BLACK,
+    color: Colors.COLOR_535858,
   },
   textView: {
     width: scaleWidth(Value.CONSTANT_VALUE_332),
-    marginBottom: Value.CONSTANT_VALUE_75,
+    // marginBottom: Value.CONSTANT_VALUE_75,
   },
   payButton: {
     marginTop: dynamicSize(36),
@@ -52,7 +52,6 @@ export default {
     borderRadius: dynamicSize(40),
     paddingHorizontal: 0,
     paddingVertical: 0,
-   
   },
   box: {
     borderWidth: Value.CONSTANT_VALUE_2,
