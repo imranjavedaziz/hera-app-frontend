@@ -37,4 +37,6 @@ export default {
   COLOR_163198196: '#A3C6C4',
   COLOR_228226216: '#E4E2D8',
   PURE_WHITE: '#FFFFFF',
+  RGBA_229_172_177:'rgba(229,172,177,.3)'
+  
 };

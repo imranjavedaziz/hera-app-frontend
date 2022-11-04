@@ -104,19 +104,19 @@ export default function Support() {
       }
     }
   }, [errors, isValid]);
-  console.log('get_support_form_res', get_support_form_res);
   const onSubmit = data => {
     console.log('userTypeData', data);
     const reqData = new FormData();
-    reqData.append('name', data.name);
-    reqData.append('email', data.email);
-    reqData.append('country_code', '+91');
-    reqData.append('phone_no', data.phone_no);
-    reqData.append('enquiring_as', data.user_type.id);
-    reqData.append('message', data.message);
-    console.log(reqData, 'reqData');
+    const payload = {
+      "name": data.name,
+      "email": data.email,
+      "country_code": "+91",
+      "phone_no": data.phone_no,
+      "enquiring_as": data.user_type.id,
+      "message": data.message
+    }
     dispatch(showAppLoader());
-    dispatch(SupportForm(reqData));
+    dispatch(SupportForm(payload));
   };
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;

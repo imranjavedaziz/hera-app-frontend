@@ -26,7 +26,7 @@ export default {
     flexDirection: Alignment.ROW,
   },
   nativePlace: {
-    backgroundColor: Colors.PINK,
+    backgroundColor: Colors.RGBA_229_172_177,
     width: scaleWidth(Value.CONSTANT_VALUE_120),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -37,7 +37,7 @@ export default {
     textAlign: Alignment.CENTER,
   },
   fatherPlace: {
-    backgroundColor: Colors.PINK,
+    backgroundColor: Colors.RGBA_229_172_177,
     width: scaleWidth(Value.CONSTANT_VALUE_180),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -52,7 +52,7 @@ export default {
     flexDirection: Alignment.ROW,
   },
   motherPlace: {
-    backgroundColor: Colors.PINK,
+    backgroundColor: Colors.RGBA_229_172_177,
     width: scaleWidth(Value.CONSTANT_VALUE_185),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -63,7 +63,7 @@ export default {
     textAlign: Alignment.CENTER,
   },
   hairColor: {
-    backgroundColor: Colors.PINK,
+    backgroundColor: Colors.RGBA_229_172_177,
     width: scaleWidth(Value.CONSTANT_VALUE_117),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -75,7 +75,7 @@ export default {
     textAlign: Alignment.CENTER,
   },
   eyeColorContainer: {
-    backgroundColor: Colors.PINK,
+    backgroundColor: Colors.RGBA_229_172_177,
     width: scaleWidth(Value.CONSTANT_VALUE_117),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
