@@ -68,6 +68,7 @@ const VideoUploading = props => {
                 onEnd={() => {
                   props?.onEnd();
                 }}
+                ignoreSilentSwitch="ignore"
                 // selectedTextTrack={{
                 // type: "index",
                 // value: 0

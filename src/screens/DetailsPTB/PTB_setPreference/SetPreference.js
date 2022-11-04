@@ -1,4 +1,4 @@
-import {Text, View, Image, TouchableOpacity,ScrollView} from 'react-native';
+import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
@@ -128,7 +128,7 @@ const SetPreference = ({route, navigation}) => {
       education: data.education.id.toString(),
       hair_colour: data.hair,
       eye_colour: data.eye,
-      ethnicity: data.ethnicity,
+      ethnicity: '2,3',
       state: '1,2',
     };
     dispatch(showAppLoader());
