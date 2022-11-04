@@ -48,12 +48,11 @@ export default {
   },
   title: {
     fontSize: Value.CONSTANT_VALUE_23,
-    lineHeight: Value.CONSTANT_VALUE_28,
     color: Colors.BLACK,
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_20,
-    flex: Value.CONSTANT_VALUE_0,
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansRegular,
+    fontWeight: "bold",
   },
   btnContainer: {
     //flex: 1,
