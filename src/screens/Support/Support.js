@@ -104,17 +104,17 @@ export default function Support() {
       }
     }
   }, [errors, isValid]);
+
+
   const onSubmit = data => {
-    console.log('userTypeData', data);
-    const reqData = new FormData();
     const payload = {
-      "name": data.name,
-      "email": data.email,
-      "country_code": "+91",
-      "phone_no": data.phone_no,
-      "enquiring_as": data.user_type.id,
-      "message": data.message
-    }
+      name: data.name,
+      email: data.email,
+      country_code: '+91',
+      phone_no: data.phone_no,
+      enquiring_as: data.user_type.id,
+      message: data.message,
+    };
     dispatch(showAppLoader());
     dispatch(SupportForm(payload));
   };

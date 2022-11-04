@@ -31,7 +31,7 @@ import BottomSheetComp from '../../../components/BottomSheet';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
 import updateRegStep from '../../../redux/actions/Auth';
-import { Fonts } from '../../../constants/Constants';
+import {Fonts} from '../../../constants/Constants';
 import {
   hideAppLoader,
   showAppLoader,
@@ -133,7 +133,6 @@ const SmRegister = () => {
   ]);
 
   useEffect(() => {
-    askCameraPermission();
     if (!isValid) {
       const e = errors.role;
       if (e) {
@@ -224,7 +223,10 @@ const SmRegister = () => {
                     styles.camBtn,
                     userImage ? styles.camSelectedBtn : null,
                   ]}
-                  onPress={() => setOpen(true)}>
+                  onPress={() => {
+                    setOpen(true);
+                    askCameraPermission();
+                  }}>
                   <Image source={Images.camera} style={styles.camImg} />
                 </TouchableOpacity>
               </ImageBackground>

@@ -39,7 +39,6 @@ const PtbProfile = () => {
 
   console.log('file', file);
   useEffect(() => {
-    askCameraPermission();
     return navigation.addListener('focus', () => {});
   }, [navigation]);
   useEffect(() => {
@@ -69,7 +68,10 @@ const PtbProfile = () => {
         <View style={styles.mainContainer}>
           <ProfileImage
             Heading={Strings.smSetting.ptbProfile}
-            onPressImg={() => setOpen(true)}
+            onPressImg={() => {
+              setOpen(true);
+              askCameraPermission();
+            }}
             Name={first_name}
             LastName={last_name}
             source={{
