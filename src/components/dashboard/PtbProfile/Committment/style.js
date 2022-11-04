@@ -7,7 +7,7 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     borderRadius: Value.CONSTANT_VALUE_9,
-    width: Value.CONSTANT_VALUE_330,
+    width: Value.CONSTANT_VALUE_354,
     height: Value.CONSTANT_VALUE_104,
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     backgroundColor: Colors.SEARCH_BOX,
@@ -23,10 +23,13 @@ export default {
   },
   innerText: {
     fontSize: Value.CONSTANT_VALUE_16,
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
+    fontWeight: Alignment.BOLD,
   },
   Icon: {
     top: Value.CONSTANT_VALUE_36,
+    width: Value.CONSTANT_VALUE_33,
+    height: Value.CONSTANT_VALUE_33
   },
 };

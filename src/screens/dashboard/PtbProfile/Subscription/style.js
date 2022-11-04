@@ -2,7 +2,7 @@ import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
-import {scaleWidth} from '../../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -16,7 +16,7 @@ export default {
     height: Value.CONSTANT_VALUE_120,
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
-    marginBottom: Value.CONSTANT_VALUE_7,
+    marginBottom: Value.CONSTANT_VALUE_37,
   },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {
@@ -42,16 +42,23 @@ export default {
     // marginBottom: Value.CONSTANT_VALUE_75,
   },
   payButton: {
-    marginTop: Value.CONSTANT_VALUE_31,
+    marginTop: dynamicSize(46),
     marginBottom: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.COLOR_163198196,
     textAlign: Alignment.CENTER,
+
+    width: dynamicSize(256),
+    height: dynamicSize(80),
+    borderRadius: dynamicSize(40),
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+   
   },
   box: {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.COLOR_A3C6C4,
   },
   innerContainer: {
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_40,
   },
 };

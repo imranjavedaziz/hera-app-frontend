@@ -1,7 +1,7 @@
 export default {
   WHITE: '#fff',
   CLEAR: 'transparent',
-  BLACK: '#353A3A',
+  BLACK: '#353a3a',
   LABEL_BLACK: '#302f2f',
   RED: '#FF0000',
   BACKGROUND: '#F6F5EF',
@@ -37,7 +37,7 @@ export default {
   COLOR_163198196: '#A3C6C4',
   COLOR_228226216: '#E4E2D8',
   PURE_WHITE: '#FFFFFF',
-  RGBA_229_172_177:'rgba(229,172,177,.3)',
-  RGBA_152_200_194:'rgba(152,200,194)'
-  
+  BLACK_KEY: '#000000',
+  RGBA_229_172_177: 'rgba(229,172,177,.3)',
+  RGBA_152_200_194: 'rgba(152,200,194)',
 };

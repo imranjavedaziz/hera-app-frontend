@@ -19,11 +19,15 @@ export default {
   },
   floated: {
     top: Value.CONSTANT_VALUE_0,
+
     fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_KEY,
   },
   floatedmessage: {
     top: Value.CONSTANT_VALUE_0,
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK_KEY,
   },
   unfloated: {
     top: Value.CONSTANT_VALUE_24,

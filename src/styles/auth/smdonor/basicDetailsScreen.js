@@ -51,4 +51,6 @@ export default {
     paddingVertical: Value.CONSTANT_VALUE_0,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
   },
+  fixedheaderStyle: {marginRight: Value.CONSTANT_VALUE_20},
+  paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
 };

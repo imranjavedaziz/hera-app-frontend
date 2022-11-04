@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
@@ -21,7 +21,8 @@ import {
   hideAppLoader,
   showAppToast,
 } from '../../redux/actions/loader';
-
+import MultiTextInput from '../../components/MultiTextMessage/MultiTextMessage';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();
   const {
@@ -86,6 +87,7 @@ export default function Support() {
 
   const headerComp = () => (
     <CircleBtn
+      Fixedstyle={styles.fixedheaderStyle}
       icon={Images.iconcross}
       onPress={() => navigation.goBack()}
       accessibilityLabel={Strings.inqueryForm.LEFT_ARROW_BUTTON}
@@ -156,98 +158,106 @@ export default function Support() {
       scroller={true}
       showHeader={true}
       headerEnd={true}
+      fixedHeader={true}
       headerComp={headerComp}>
-      <View style={Styles.mainContainer}>
-        <Text style={Styles.title}>{Strings.inqueryForm.Title}</Text>
-        <Text style={Styles.title1}>{Strings.inqueryForm.Subtitle}</Text>
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              label={Strings.inqueryForm.Name}
-              value={value}
-              autoCorrect={false}
-              onChangeText={v => onChange(v)}
-              error={errors && errors.name?.message}
-              required={true}
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        resetScrollToCoords={{x: 0, y: 10}}
+        keyboardOpeningTime={0}
+        scrollEnabled={true}
+        extraHeight={180}
+        showsVerticalScrollIndicator={false}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={[Styles.mainContainer, styles.container]}>
+            <Text style={Styles.title}>{Strings.inqueryForm.Title}</Text>
+            <Text style={Styles.title1}>{Strings.inqueryForm.Subtitle}</Text>
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <FloatingLabelInput
+                  label={Strings.inqueryForm.Name}
+                  value={value}
+                  autoCorrect={false}
+                  onChangeText={v => onChange(v)}
+                  error={errors && errors.name?.message}
+                  required={true}
+                />
+              )}
+              name={FormKey.name}
             />
-          )}
-          name={FormKey.name}
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange}}) => (
-            <Dropdown
-              label={Strings.inqueryForm.USER_TYPE}
-              data={userTypeData?.data}
-              onSelect={selectedItem => {
-                onChange(selectedItem);
-              }}
-              required={true}
-              error={errors && errors.user_type?.message}
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  label={Strings.inqueryForm.USER_TYPE}
+                  data={userTypeData?.data}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem);
+                  }}
+                  required={true}
+                  error={errors && errors.user_type?.message}
+                />
+              )}
+              name={FormKey.user_type}
             />
-          )}
-          name={FormKey.user_type}
-        />
 
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              label={Strings.profile.EmailAddress}
-              value={value}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              onChangeText={v => onChange(v)}
-              error={errors && errors.email?.message}
-              required={true}
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <FloatingLabelInput
+                  label={Strings.profile.EmailAddress}
+                  value={value}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onChangeText={v => onChange(v)}
+                  error={errors && errors.email?.message}
+                  required={true}
+                />
+              )}
+              name={FormKey.email}
             />
-          )}
-          name={FormKey.email}
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              label={Strings.inqueryForm.MobileNumber}
-              value={phone}
-              keyboardType="numeric"
-              onChangeText={v => {
-                handelChange(v);
-              }}
-              error={errors && errors.phone_no?.message}
-              required={true}
-              maxLength={14}
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <FloatingLabelInput
+                  label={Strings.inqueryForm.MobileNumber}
+                  value={phone}
+                  keyboardType="numeric"
+                  onChangeText={v => {
+                    handelChange(v);
+                  }}
+                  error={errors && errors.phone_no?.message}
+                  required={true}
+                  maxLength={14}
+                />
+              )}
+              name={FormKey.phone_no}
             />
-          )}
-          name={FormKey.phone_no}
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              messageStyle={true}
-              label={Strings.inqueryForm.Message}
-              value={value}
-              onChangeText={v => onChange(v)}
-              error={errors && errors.message?.message}
-              required={true}
-              fixed={true}
-              multiline={true}
-              numberOfLines={5}
-              maxLength={200}
-              inputStyle={Styles.textArea}
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <MultiTextInput
+                  title={Strings.inqueryForm.Message}
+                  required={true}
+                  value={value}
+                  maxLength={200}
+                  onChangeText={v => {
+                    onChange(v);
+                  }}
+                  error={errors && errors.message?.message}
+                />
+              )}
+              name={FormKey.message}
             />
-          )}
-          name={FormKey.message}
-        />
-        <Button
-          label={Strings.inqueryForm.SendInquiry}
-          onPress={handleSubmit(onSubmit)}
-          style={styles.Btn}
-        />
-      </View>
+            <Button
+              label={Strings.inqueryForm.SendInquiry}
+              onPress={handleSubmit(onSubmit)}
+              style={styles.Btn}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </Container>
   );
 }

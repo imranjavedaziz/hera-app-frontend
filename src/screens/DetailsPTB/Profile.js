@@ -260,6 +260,8 @@ const Profile = props => {
                 autoCapitalize="none"
                 spellCheck={false}
                 error={errors && errors.email?.message}
+                keyboardType="email-address"
+                autoCorrect={false}
               />
             )}
             name={FormKey.email}
