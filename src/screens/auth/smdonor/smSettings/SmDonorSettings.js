@@ -115,10 +115,14 @@ const SmDonorSettings = () => {
             {Strings.smSetting.Settings}
           </Text>
         </View>
-        <View style={Styles.contain}>
+        <TouchableOpacity
+          style={Styles.contain}
+          onPress={() => {
+            navigation.navigate(Routes.Support);
+          }}>
           <Image source={Images.writing} />
           <Text style={Styles.text}>{Strings.smSetting.Inquiry}</Text>
-        </View>
+        </TouchableOpacity>
         <View style={Styles.contain}>
           <Image source={Images.information} />
           <Text style={[Styles.text, Styles.extraTxt]}>

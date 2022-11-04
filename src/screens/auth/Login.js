@@ -1,6 +1,6 @@
 // Login
 import React, {useState, useEffect, useRef} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -21,9 +21,10 @@ import {
 import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
-import { deviceHandler } from "../../utils/commonFunction";
-import { Routes } from "../../constants/Constants";
-const Login = (props) => {
+import {deviceHandler} from '../../utils/commonFunction';
+import {Routes} from '../../constants/Constants';
+import {Value} from '../../constants/FixedValues';
+const Login = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
@@ -44,22 +45,19 @@ const Login = (props) => {
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
   useEffect(() => {
-
-    deviceHandler(props.navigation,'goBack');
-
-
+    deviceHandler(props.navigation, 'goBack');
   }, [props.navigation]);
-  useEffect(() => {
-    if (!isValid) {
-      const e = errors;
-      const messages = [];
-      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-      const msg = messages.join('\n').trim();
-      if (msg) {
-        dispatch(showAppToast(true, msg));
-      }
-    }
-  }, [errors, isValid, dispatch]);
+  // useEffect(() => {
+  //   if (!isValid) {
+  //     const e = errors;
+  //     const messages = [];
+  //     Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+  //     const msg = messages.join('\n').trim();
+  //     if (msg) {
+  //       dispatch(showAppToast(true, msg));
+  //     }
+  //   }
+  // }, [errors, isValid, dispatch]);
   useEffect(() => {
     if (loadingRef.current && !log_in_loading) {
       dispatch(showAppLoader());
@@ -134,63 +132,66 @@ const Login = (props) => {
   };
   return (
     <Container
-      scroller={true}
+      scroller={false}
       showHeader={true}
       headerComp={headerComp}
-      headerEnd={true}>
-      <View style={globalStyle.mainContainer}>
-        <Image source={Images.LOGO} style={styles.logo} />
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              label={Strings.login.MobileNumber}
-              value={phone}
-              onChangeText={v => {
-                handelChange(v);
-              }}
-              keyboardType="number-pad"
-              maxLength={14}
-              error={errors && errors.phone?.message}
-              // required={true}
-            />
-          )}
-          name="phone"
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              label={Strings.login.Password}
-              value={value}
-              onChangeText={v => onChange(v)}
-              secureTextEntry={!show}
-              minLength={8}
-              error={errors && errors.password?.message}
-              endComponent={() => (
-                <TouchableOpacity onPress={() => setShow(!show)}>
-                  <Image source={show ? Images.eye2 : Images.eye} />
-                </TouchableOpacity>
-              )}
-            />
-          )}
-          name="password"
-        />
-        <Button
-          label={Strings.login.LOG_IN}
-          style={styles.loginBtn}
-          onPress={handleSubmit(onSubmit)}
-        />
-        <TouchableOpacity
-          style={styles.btnMargin}
-          accessible={true}
-          accessibilityRole="button"
-          accessibilityLabel={Strings.login.ForgotPassword}>
-          <Text style={styles.underlineBtn} accessible={false}>
-            {Strings.login.ForgotPassword}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      headerEnd={true}
+      style={{marginHorizontal: 35}}>
+      <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}}>
+        <View style={globalStyle.mainContainer}>
+          <Image source={Images.LOGO} style={styles.logo} />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.login.MobileNumber}
+                value={phone}
+                onChangeText={v => {
+                  handelChange(v);
+                }}
+                keyboardType="number-pad"
+                maxLength={14}
+                error={errors && errors.phone?.message}
+                // required={true}
+              />
+            )}
+            name="phone"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.login.Password}
+                value={value}
+                onChangeText={v => onChange(v)}
+                secureTextEntry={!show}
+                minLength={8}
+                error={errors && errors.password?.message}
+                endComponent={() => (
+                  <TouchableOpacity onPress={() => setShow(!show)}>
+                    <Image source={show ? Images.eye2 : Images.eye} />
+                  </TouchableOpacity>
+                )}
+              />
+            )}
+            name="password"
+          />
+          <Button
+            label={Strings.login.LOG_IN}
+            style={styles.loginBtn}
+            onPress={handleSubmit(onSubmit)}
+          />
+          <TouchableOpacity
+            style={styles.btnMargin}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={Strings.login.ForgotPassword}>
+            <Text style={styles.underlineBtn} accessible={false}>
+              {Strings.login.ForgotPassword}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </Container>
   );
 };

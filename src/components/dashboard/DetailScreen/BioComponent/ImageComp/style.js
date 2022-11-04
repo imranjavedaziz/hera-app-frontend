@@ -2,6 +2,7 @@ import Alignment from '../../../../../constants/Alignment';
 import Colors from '../../../../../constants/Colors';
 import {Fonts} from '../../../../../constants/Constants';
 import {FontSize, Value} from '../../../../../constants/FixedValues';
+import {normalizeFont, scaleHeight} from '../../../../../utils/responsive';
 
 export default {
   row: {
@@ -12,11 +13,17 @@ export default {
   text: {
     fontSize: FontSize.FONT_16,
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.BLACK,
+    lineHeight: scaleHeight(Value.CONSTANT_VALUE_21),
+    letterSpacing: Value.CONSTANT_VALUE_0,
+    color: Colors.COLOR_535858,
+    paddingBottom: scaleHeight(Value.CONSTANT_VALUE_8),
   },
   textBold: {
+    lineHeight: scaleHeight(Value.CONSTANT_VALUE_21),
+    letterSpacing: Value.CONSTANT_VALUE_0,
+    color: Colors.COLOR_535858,
     fontSize: FontSize.FONT_16,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
+    paddingBottom: scaleHeight(Value.CONSTANT_VALUE_8),
   },
 };
