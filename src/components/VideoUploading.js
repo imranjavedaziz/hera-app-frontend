@@ -18,7 +18,7 @@ import Images from '../constants/Images';
 import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
-  console.log('VIDEO', props?.video);
+  console.log(props?.video,'props?.video::::::')
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>

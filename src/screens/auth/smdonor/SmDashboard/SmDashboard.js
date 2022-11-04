@@ -36,6 +36,7 @@ const SmDashboard = ({route}) => {
   const [searching, setSearching] = useState(false);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
   const {
     get_donor_dashboard_success,
     get_donor_dashboard_loading,
@@ -70,6 +71,7 @@ const SmDashboard = ({route}) => {
           setCards(get_donor_dashboard_res.data);
           setPage(get_donor_dashboard_res.data.current_page);
           setLastPage(get_donor_dashboard_res.data.last_page);
+          setRefreshing(false);
         }
         if (get_donor_dashboard_error_msg) {
           dispatch(hideAppLoader());
@@ -90,7 +92,7 @@ const SmDashboard = ({route}) => {
       keyword: value ? value : '',
       state_ids:
         route.params?.informationDetail != undefined
-          ? route.params?.informationDetail
+          ? route.params?.informationDetail.join()
           : '',
       page: page,
       limit: 10,
@@ -114,10 +116,8 @@ const SmDashboard = ({route}) => {
     if (lastPage > page) {
       _getDonorDashboard(page + 1, search);
     }
-
   };
   const onClear = () => {
-
     setSearching(false);
     setSearch('');
     _getDonorDashboard(1,'');
@@ -169,6 +169,10 @@ const SmDashboard = ({route}) => {
       ApiImage={true}
     />
   );
+  const onRefresh = () => {
+    setRefreshing(true);
+    _getDonorDashboard(1,'');
+  };
   return (
     <Container
       mainStyle={true}
@@ -233,6 +237,14 @@ const SmDashboard = ({route}) => {
                     onEndReached();
                   searching && onEndReached();
                 }}
+
+            
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        testID="flat-list"
+      
+    
+        
               />
             )}
           </View>
