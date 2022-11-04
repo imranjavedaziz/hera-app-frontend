@@ -76,7 +76,10 @@ const PtbDashboard = props => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
     if (count >= ptbDashboardRes.length - 1) {
-      setEmpty(true);
+      useSwiper?.current?.swipeLeft();
+      setTimeout(() => {
+        setEmpty(true);
+      }, 800);
     } else {
       setEmpty(false);
       setTimeout(() => {
@@ -92,7 +95,10 @@ const PtbDashboard = props => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
     if (count >= ptbDashboardRes.length - 1) {
-      setEmpty(true);
+      useSwiper?.current?.swipeRight();
+      setTimeout(() => {
+        setEmpty(true);
+      }, 850);
     } else {
       setEmpty(false);
       setTimeout(() => {
