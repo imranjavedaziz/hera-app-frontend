@@ -23,7 +23,7 @@ import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 import {Routes} from '../../constants/Constants';
-import { Value } from '../../constants/FixedValues';
+import {Value} from '../../constants/FixedValues';
 const Login = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -121,7 +121,6 @@ const Login = props => {
   };
   const handelChange = async value => {
     reset({phone: '', password: getValues('password')});
-
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
     for (var i = 0; i < value.length; i++) {
@@ -138,60 +137,60 @@ const Login = props => {
       headerComp={headerComp}
       headerEnd={true}
       style={{marginHorizontal: 35}}>
-      <ScrollView style={{marginTop:Value.CONSTANT_VALUE_80}}>
-      <View style={globalStyle.mainContainer}>
-        <Image source={Images.LOGO} style={styles.logo} />
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              label={Strings.login.MobileNumber}
-              value={phone}
-              onChangeText={v => {
-                handelChange(v);
-              }}
-              keyboardType="number-pad"
-              maxLength={14}
-              error={errors && errors.phone?.message}
-              // required={true}
-            />
-          )}
-          name="phone"
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <FloatingLabelInput
-              label={Strings.login.Password}
-              value={value}
-              onChangeText={v => onChange(v)}
-              secureTextEntry={!show}
-              minLength={8}
-              error={errors && errors.password?.message}
-              endComponent={() => (
-                <TouchableOpacity onPress={() => setShow(!show)}>
-                  <Image source={show ? Images.eye2 : Images.eye} />
-                </TouchableOpacity>
-              )}
-            />
-          )}
-          name="password"
-        />
-        <Button
-          label={Strings.login.LOG_IN}
-          style={styles.loginBtn}
-          onPress={handleSubmit(onSubmit)}
-        />
-        <TouchableOpacity
-          style={styles.btnMargin}
-          accessible={true}
-          accessibilityRole="button"
-          accessibilityLabel={Strings.login.ForgotPassword}>
-          <Text style={styles.underlineBtn} accessible={false}>
-            {Strings.login.ForgotPassword}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}}>
+        <View style={globalStyle.mainContainer}>
+          <Image source={Images.LOGO} style={styles.logo} />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.login.MobileNumber}
+                value={phone}
+                onChangeText={v => {
+                  handelChange(v);
+                }}
+                keyboardType="number-pad"
+                maxLength={14}
+                error={errors && errors.phone?.message}
+                // required={true}
+              />
+            )}
+            name="phone"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.login.Password}
+                value={value}
+                onChangeText={v => onChange(v)}
+                secureTextEntry={!show}
+                minLength={8}
+                error={errors && errors.password?.message}
+                endComponent={() => (
+                  <TouchableOpacity onPress={() => setShow(!show)}>
+                    <Image source={show ? Images.eye2 : Images.eye} />
+                  </TouchableOpacity>
+                )}
+              />
+            )}
+            name="password"
+          />
+          <Button
+            label={Strings.login.LOG_IN}
+            style={styles.loginBtn}
+            onPress={handleSubmit(onSubmit)}
+          />
+          <TouchableOpacity
+            style={styles.btnMargin}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={Strings.login.ForgotPassword}>
+            <Text style={styles.underlineBtn} accessible={false}>
+              {Strings.login.ForgotPassword}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </Container>
   );

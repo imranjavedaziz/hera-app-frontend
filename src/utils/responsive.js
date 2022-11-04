@@ -2,6 +2,13 @@
 import {Dimensions, PixelRatio, Platform} from 'react-native';
 
 export const {width, height} = Dimensions.get('window');
+let max;
+if (width > height) {
+  max = height;
+} else {
+  max = width;
+}
+let scale = max / 375;
 // based on iphone 6 scale
 const DEFAULT = {
   height: 812,
@@ -25,3 +32,11 @@ export const normalizeFont = size => {
 export const scaleHeight = h => Math.round(h * ScaleHeight);
 export const scaleWidth = w => Math.round(w * ScaleWidth);
 export const dynamicSize = size => K * size;
+export function px(size) {
+  if (typeof size === 'number') {
+    const newSize = size * scale;
+    return newSize;
+  } else {
+    return size;
+  }
+}

@@ -26,14 +26,12 @@ export const mobileSchema = yup.object().shape({
     }),
 });
 export const otpSchema = yup.object().shape({
-  otp: yup
-    .string()
-    .required(ValidationMessages.OTP_REQUIRED)
-    .length(6, ValidationMessages.INVALID_OTP)
-    .matches(Regx.OTP, {
-      excludeEmptyString: true,
-      message: ValidationMessages.INVALID_OTP,
-    }),
+  otp: yup.string().required(ValidationMessages.OTP_REQUIRED),
+  // .length(6, ValidationMessages.INVALID_OTP)
+  // .matches(Regx.OTP, {
+  //   excludeEmptyString: true,
+  //   message: ValidationMessages.INVALID_OTP,
+  // }),
 });
 export const loginSchema = yup.object().shape({
   phone: yup
@@ -48,7 +46,7 @@ export const loginSchema = yup.object().shape({
 export const parentRegisterSchema = yup.object().shape({
   first_name: yup
     .string()
-    .required(ValidationMessages.FIRST_NAME)
+    .required(ValidationMessages.COMMON_REQUIRED)
     .max(30, ValidationMessages.MAX_FIRST_NAME)
     .matches(Regx.FIRST_NAME, {
       excludeEmptyString: true,
@@ -57,7 +55,7 @@ export const parentRegisterSchema = yup.object().shape({
   middle_name: yup.string().max(30, ValidationMessages.MAX_MIDDLE_NAME),
   last_name: yup
     .string()
-    .required(ValidationMessages.LAST_NAME)
+    .required(ValidationMessages.COMMON_REQUIRED)
     .max(30, ValidationMessages.MAX_LAST_NAME)
     .matches(Regx.FIRST_NAME, {
       excludeEmptyString: true,
@@ -65,20 +63,20 @@ export const parentRegisterSchema = yup.object().shape({
     }),
   date_of_birth: yup
     .string()
-    .required(ValidationMessages.DOB)
+    .required(ValidationMessages.COMMON_REQUIRED)
     .test('DOB', 'Invalid Date', value => {
       return moment().diff(moment(value), 'years') >= 18;
     }),
   email: yup
     .string()
-    .required(ValidationMessages.EMPTY_EMAIL)
+    .required(ValidationMessages.COMMON_REQUIRED)
     .matches(Regx.EMAIL, {
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_EMAIL,
     }),
   set_password: yup
     .string()
-    .required(ValidationMessages.PASSWORD)
+    .required(ValidationMessages.COMMON_REQUIRED)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
@@ -98,7 +96,7 @@ export const parentRegisterSchema = yup.object().shape({
     }),
   confirm_password: yup
     .string()
-    .required(ValidationMessages.CONFIRM_PASSWORD)
+    .required(ValidationMessages.COMMON_REQUIRED)
     .oneOf([yup.ref('set_password')], 'Your passwords do not match.'),
 });
 export const smRegisterSchema = yup.object().shape({
@@ -106,12 +104,20 @@ export const smRegisterSchema = yup.object().shape({
   first_name: yup
     .string()
     .required(ValidationMessages.FIRST_NAME)
-    .max(30, ValidationMessages.MAX_FIRST_NAME),
+    .max(30, ValidationMessages.MAX_FIRST_NAME)
+    .matches(Regx.FIRST_NAME, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_FIRST_NAME,
+    }),
   middle_name: yup.string().max(30, ValidationMessages.MAX_MIDDLE_NAME),
   last_name: yup
     .string()
     .required(ValidationMessages.LAST_NAME)
-    .max(30, ValidationMessages.MAX_LAST_NAME),
+    .max(30, ValidationMessages.MAX_LAST_NAME)
+    .matches(Regx.FIRST_NAME, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_LAST_NAME,
+    }),
   dob: yup
     .string()
     .required(ValidationMessages.DOB)
