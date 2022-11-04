@@ -5,6 +5,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useCallback, useState} from 'react';
 
@@ -26,7 +27,9 @@ import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
-import RNSDWebImage from "react-native-sdwebimage";
+import RNSDWebImage from 'react-native-sdwebimage';
+import global from '../../../styles/global';
+import Colors from '../../../constants/Colors';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -89,7 +92,6 @@ const DashboardDetailScreen = () => {
         mainStyle={true}
         scroller={true}
         showHeader={true}
-        showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>
           <DetailComp
@@ -99,84 +101,97 @@ const DashboardDetailScreen = () => {
             image={{uri: smDetailRes?.profile_pic}}
           />
           <View style={styles.bioContainer}>
-            <BioComponent
-              Name={Strings.donorPofile.Age}
-              Detail={`${smDetailRes?.age} yrs`}
-            />
-            <BioComponent
-              Name={Strings.donorPofile.Height}
-              Detail={Math.floor(smDetailRes?.doner_attribute?.height / 12)}
-            />
-            <BioComponent
-              Name={Strings.donorPofile.Weight}
-              Detail={`${smDetailRes?.doner_attribute?.weight} pounds`}
-            />
-            <BioComponent
-              Name={Strings.donorPofile.Education}
-              Detail={smDetailRes?.doner_attribute?.education}
-            />
-            <BioComponent
-              Name={Strings.donorPofile.Occupation}
-              Detail={smDetailRes?.user_profile?.occupation}
-            />
+            {smDetailRes?.age && (
+              <BioComponent
+                Name={Strings.donorPofile.Age}
+                Detail={`${smDetailRes?.age} yrs`}
+              />
+            )}
+            {smDetailRes?.doner_attribute?.height && (
+              <BioComponent
+                Name={Strings.donorPofile.Height}
+                Detail={Math.floor(smDetailRes?.doner_attribute?.height / 12)}
+              />
+            )}
+            {smDetailRes?.doner_attribute?.weight && (
+              <BioComponent
+                Name={Strings.donorPofile.Weight}
+                Detail={`${smDetailRes?.doner_attribute?.weight} pounds`}
+              />
+            )}
+            {smDetailRes?.doner_attribute?.education && (
+              <BioComponent
+                Name={Strings.donorPofile.Education}
+                Detail={smDetailRes?.doner_attribute?.education}
+              />
+            )}
+            {smDetailRes?.user_profile?.occupation && (
+              <BioComponent
+                Name={Strings.donorPofile.Occupation}
+                Detail={smDetailRes?.user_profile?.occupation}
+              />
+            )}
           </View>
-          <ImageBackground
-            imageStyle={styles.backgroundImage}
-            source={Images.iconComma}>
-            <Text style={styles.Description}>
-              {smDetailRes?.user_profile?.bio}
-            </Text>
-          </ImageBackground>
+          <View style={global.dynamicMarginBottom(8)}>
+            <ImageBackground
+              imageStyle={styles.backgroundImage}
+              source={Images.iconComma}>
+              <Text style={styles.Description}>
+                {smDetailRes?.user_profile?.bio}
+              </Text>
+            </ImageBackground>
+          </View>
           <View style={styles.nativeMainContainer}>
             {smDetailRes?.location?.name ? (
               <View style={styles.nativePlace}>
-                <Text style={styles.nativeText}>
+                <Text style={global?.tagText}>
                   {smDetailRes?.location?.name}
                 </Text>
               </View>
             ) : null}
             {smDetailRes?.doner_attribute?.race ? (
               <View style={styles.fatherPlace}>
-                <Text style={styles.fatherPlaceText} numberOfLines={2}>
+                <Text style={global?.tagText} numberOfLines={2}>
                   {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>
             ) : null}
           </View>
           <View style={styles.hairContainer}>
-            {smDetailRes?.doner_attribute?.race ? (
+            {smDetailRes?.doner_attribute?.race && (
               <View style={styles.motherPlace}>
-                <Text style={styles.motherPlaceText} numberOfLines={2}>
+                <Text style={global?.tagText} numberOfLines={2}>
                   {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>
-            ) : null}
-            {smDetailRes?.doner_attribute?.hair_colour ? (
+            )}
+            {smDetailRes?.doner_attribute?.hair_colour && (
               <View style={styles.hairColor}>
-                <Text style={styles.hairColorText}>
+                <Text style={global?.tagText}>
                   {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
                 </Text>
               </View>
-            ) : null}
+            )}
           </View>
-          {smDetailRes?.doner_attribute?.eye_colour ? (
+          {smDetailRes?.doner_attribute?.eye_colour && (
             <View style={styles.eyeColorContainer}>
-              <Text style={styles.eyeColorText}>
+              <Text style={global?.tagText}>
                 {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
               </Text>
             </View>
-          ) : null}
-          <View style={styles.imageMainContainer}>
-            <FlatList
-              data={smDetailRes?.doner_photo_gallery}
-              renderItem={renderItemData}
-              numColumns={3}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          </View>
-
-          {smDetailRes?.doner_video_gallery != null ? (
+          )}
+          {smDetailRes?.doner_photo_gallery?.length > 0 && (
+            <View style={styles.imageMainContainer}>
+              <FlatList
+                data={smDetailRes?.doner_photo_gallery}
+                renderItem={renderItemData}
+                numColumns={3}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+          )}
+          {smDetailRes?.doner_video_gallery != null && (
             <View>
               <Text style={styles.middleText}>
                 {Strings.donorPofile.shortClip}
@@ -189,12 +204,11 @@ const DashboardDetailScreen = () => {
                 paused={true}
               />
             </View>
-          ) : null}
-
+          )}
           <View style={styles.heartIconContainer}>
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
-              style={styles.btn}
+              style={styles.btn(Colors.GREEN)}
               accessibilityRole={'button'}
               accessible={true}>
               <View style={styles.heartIcon}>
@@ -211,7 +225,7 @@ const DashboardDetailScreen = () => {
           <View style={styles.crossIconContainer}>
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
-              style={styles.btn2}
+              style={styles.btn(Colors.RED)}
               accessibilityRole={'button'}
               accessible={true}>
               <View style={styles.crossIcon}>

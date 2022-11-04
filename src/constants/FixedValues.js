@@ -21,6 +21,7 @@ export const Value = {
   CONSTANT_VALUE_FRAC80: 0.8,
   CONSTANT_VALUE_FRAC85: 0.85,
   CONSTANT_VALUE_FRAC115: 1.15,
+  CONSTANT_VALUE_FRAC115: 1.30,
   CONSTANT_VALUE_1: 1,
   CONSTANT_VALUE_2: 2,
   CONSTANT_VALUE_2_3: 2.3,
@@ -218,4 +219,5 @@ export const Prencentage = {
 };
 export const FontSize = {
   FONT_16: 16,
+  FONT_32: 32,
 };
