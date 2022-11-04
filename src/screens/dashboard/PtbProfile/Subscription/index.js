@@ -8,6 +8,7 @@ import styles from './style';
 import {useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Subscription = () => {
   const navigation = useNavigation();
@@ -36,11 +37,14 @@ const Subscription = () => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}>
+        <ScrollView>
       <View style={styles.mainContainer}>
         <Image source={Images.LOGO} style={styles.logo} />
         <TitleComp
           Title={Strings.subscribe.Subscribe_Now}
           Subtitle={Strings.Subscription.SubHeader}
+          Midtitle={Strings.Subscription.MidHeader}
+          isCenter={true}
         />
         <View style={styles.innerContainer}>
           <Commitment
@@ -70,8 +74,8 @@ const Subscription = () => {
         <View>
           <View style={styles.textView}>
             <Text style={styles.mainText}>
-              {Strings.Subscription.BySubs}
-              <TouchableOpacity>
+            <Text style={{color:'red'}}>*</Text>{Strings.Subscription.BySubs}
+              <TouchableOpacity style={{ top: 2,}}>
                 <Text style={styles.terms}>
                   {Strings.Subscription.TermsServices}
                 </Text>
@@ -87,6 +91,7 @@ const Subscription = () => {
           </View>
         </View>
       </View>
+      </ScrollView>
     </Container>
   );
 };
