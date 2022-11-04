@@ -1,5 +1,5 @@
-import {Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useRef, useState, ScrollView} from 'react';
+import {Text, View, Image, TouchableOpacity,ScrollView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
