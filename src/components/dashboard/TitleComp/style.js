@@ -27,6 +27,15 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     fontWeight: Alignment.BOLD,
   },
+  midTitle:{
+    fontSize: Value.CONSTANT_VALUE_23,
+    lineHeight: Value.CONSTANT_VALUE_30,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
+    fontWeight: Alignment.BOLD,
+  },
+
   Icon: {
     left: dynamicSize(Value.CONSTANT_VALUE_263),
     bottom: dynamicSize(Value.CONSTANT_VALUE_25),

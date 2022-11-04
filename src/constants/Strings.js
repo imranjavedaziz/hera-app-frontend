@@ -308,10 +308,10 @@ export default {
     iconText: 'Done',
   },
   Subscription: {
-    SubHeader: `See 5 profiles per day\n
-    (Use-it-or-lose it)`,
+    SubHeader: 'See 5 profiles per day',
+    MidHeader:'(Use-it-or-lose it)',
     SubscribeButton: 'SUBSCRIBE & PAY',
-    BySubs: '*By subscribing, you agree to HERA’s ',
+    BySubs: 'By subscribing, you agree to HERA’s ',
     TermsServices: 'Terms of Service',
     PrivacyPolicy: 'Privacy Policy. ',
     And: ' and ',
