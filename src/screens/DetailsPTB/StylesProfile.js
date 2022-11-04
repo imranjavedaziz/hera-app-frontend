@@ -55,7 +55,8 @@ export default {
     alignSelf: Alignment.CENTER,
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_15,
-    marginTop: Value.CONSTANT_VALUE_25,
+    marginTop: Value.CONSTANT_VALUE_20,
+    marginBottom: Value.CONSTANT_VALUE_60,
   },
   modalView: {
     height: Value.CONSTANT_VALUE_230,
@@ -147,4 +148,8 @@ export default {
     bottom: Value.CONSTANT_VALUE_0,
     right: Value.CONSTANT_VALUE_20,
   },
+  footText:{
+    marginTop: Value.CONSTANT_VALUE_20,
+    marginBottom: Value.CONSTANT_VALUE_60,
+  }
 };

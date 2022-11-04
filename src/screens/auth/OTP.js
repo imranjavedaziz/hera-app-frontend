@@ -32,6 +32,7 @@ const OTP = ({route}) => {
     handleSubmit,
     control,
     formState: {errors, isValid},
+    clearErrors,
   } = useForm({
     resolver: yupResolver(otpSchema),
   });
@@ -118,11 +119,13 @@ const OTP = ({route}) => {
           )}
           <Controller
             control={control}
-            render={({field: {onChange, value}}) => (
+            render={({field: {onChange, value, onBlur}}) => (
               <OtpInputs
+              onBlur={()=>	clearErrors()}
                 value={value}
                 onChange={onChange}
                 isValid={errors.otp === undefined}
+
               />
             )}
             name="otp"
