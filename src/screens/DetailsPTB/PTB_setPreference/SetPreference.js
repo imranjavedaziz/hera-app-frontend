@@ -1,5 +1,5 @@
 import {Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, ScrollView} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
@@ -29,7 +29,6 @@ import {
   SavePreference,
 } from '../../../redux/actions/SetPreference';
 import {scaleWidth} from '../../../utils/responsive';
-import {ScrollView} from 'react-native-gesture-handler';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;

@@ -37,7 +37,7 @@ export default {
     minHeight: Value.CONSTANT_VALUE_40,
     fontSize: Value.CONSTANT_VALUE_18,
     color: Colors.BLACK,
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomWidth: Value.CONSTANT_VALUE_FRAC115,
     paddingBottom: Value.CONSTANT_VALUE_10,
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,

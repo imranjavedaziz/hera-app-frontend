@@ -105,4 +105,25 @@ export default {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
+  dynamicMarginTop: (value) => ({
+    marginTop: scaleHeight(value),
+  }),
+  dynamicMarginBottom: (value) => ({
+    marginBottom: scaleHeight(value),
+  }),
+  dynamicMarginHorizontal: (value) => ({
+    marginHorizontal: scaleWidth(value),
+  }),
+  dynamicMarginRight: (value) => ({
+    marginRight: scaleWidth(value),
+  }),
+  dynamicMarginLeft: (value) => ({
+    marginLeft: scaleWidth(value),
+  }),
+  tagText: {
+    padding: Value.CONSTANT_VALUE_5,
+    textAlign: Alignment.CENTER,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
+  },
 };
