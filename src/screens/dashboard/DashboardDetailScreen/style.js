@@ -27,44 +27,26 @@ export default {
   },
   nativePlace: {
     backgroundColor: Colors.RGBA_229_172_177,
-    width: scaleWidth(Value.CONSTANT_VALUE_120),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
-  nativeText: {
-    paddingVertical: Value.CONSTANT_VALUE_5,
-    paddingHorizontal: Value.CONSTANT_VALUE_5,
-    textAlign: Alignment.CENTER,
-  },
   fatherPlace: {
     backgroundColor: Colors.RGBA_229_172_177,
-    width: scaleWidth(Value.CONSTANT_VALUE_180),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
-  fatherPlaceText: {
-    paddingVertical: Value.CONSTANT_VALUE_5,
-    paddingHorizontal: Value.CONSTANT_VALUE_5,
-    textAlign: Alignment.CENTER,
-  },
+  
   hairContainer: {
     flexDirection: Alignment.ROW,
   },
   motherPlace: {
     backgroundColor: Colors.RGBA_229_172_177,
-    width: scaleWidth(Value.CONSTANT_VALUE_185),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
-  motherPlaceText: {
-    paddingVertical: Value.CONSTANT_VALUE_5,
-    paddingHorizontal: Value.CONSTANT_VALUE_5,
-    textAlign: Alignment.CENTER,
-  },
   hairColor: {
     backgroundColor: Colors.RGBA_229_172_177,
-    width: scaleWidth(Value.CONSTANT_VALUE_117),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
@@ -109,30 +91,17 @@ export default {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
     fontFamily: Fonts.OpenSansBold,
   },
-  btn: {
-    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_60),
-    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_30),
+  btn: (color)=>({
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_40),
-    minWidth: Value.CONSTANT_VALUE_100,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    flex: dynamicSize(Value.CONSTANT_VALUE_0),
-    borderColor: Colors.GREEN,
+    borderColor: color,
     borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
     backgroundColor: Colors.BACKGROUND,
-  },
-  btn2: {
-    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_60),
-    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_30),
-    borderRadius: dynamicSize(Value.CONSTANT_VALUE_40),
-    minWidth: Value.CONSTANT_VALUE_100,
-    alignItems: Alignment.CENTER,
-    justifyContent: Alignment.CENTER,
-    flex: dynamicSize(Value.CONSTANT_VALUE_0),
-    borderColor: Colors.RED,
-    borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
-    backgroundColor: Colors.BACKGROUND,
-  },
+    height:scaleHeight(Value.CONSTANT_VALUE_80),
+    width:scaleWidth(296),
+    alignSelf:Alignment.CENTER
+  }),
   textbtn1: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
     fontFamily: Fonts.OpenSansBold,

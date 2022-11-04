@@ -7,6 +7,7 @@ import {
 } from '../../../../../utils/responsive';
 import {Fonts} from '../../../../../constants/Constants';
 import Colors from '../../../../../constants/Colors';
+import { Value } from '../../../../../constants/FixedValues';
 
 export default {
   mainContainer: {
@@ -31,7 +32,7 @@ export default {
     color: Colors.COLOR_535858,
   },
   codeText: {
-    fontSize: normalizeFont(32),
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_32),
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     letterSpacing: 0,
