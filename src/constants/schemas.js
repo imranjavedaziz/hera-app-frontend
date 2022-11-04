@@ -169,7 +169,6 @@ export const setPreferenceSchema = yup.object().shape({
   eye: yup.string().required(ValidationMessages.SELECT_EYE),
   height: yup.array(),
   age_range: yup.string().required(ValidationMessages.SELECT_AGE),
-  ethnicity: yup.string().required(ValidationMessages.SELECT_ETHNICITY),
 });
 export const smBasicSchema = yup.object().shape({
   gender_id: yup.string().required(ValidationMessages.ENTER_GENDER),

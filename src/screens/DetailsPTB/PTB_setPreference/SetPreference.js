@@ -353,22 +353,6 @@ const SetPreference = ({route, navigation}) => {
               )}
               name={FormKey.race}
             />
-            <Controller
-              control={control}
-              render={({field: {onChange}}) => (
-                <Dropdown
-                  label={Strings.preference.Ethnicity}
-                  data={preferencesData?.ethnicity}
-                  onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.ethnicity?.message}
-                />
-              )}
-              name={FormKey.ethnicity}
-            />
             <Text style={styles.chipText}>
               {Strings.preference.HairColor}
               <Text style={styles.chipsRequiredText}>*</Text>
