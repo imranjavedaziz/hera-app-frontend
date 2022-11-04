@@ -6,6 +6,7 @@ import {
   Animated,
   Text,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useRef, useState, useCallback, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
@@ -103,7 +104,6 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 150);
   };
-  console.log('ptbDashboard', get_ptb_dashboard_res);
   function renderCardData(item) {
     return (
       <>
@@ -149,20 +149,11 @@ const PtbDashboard = props => {
       ApiImage={true}
     />
   );
-  return (
-    <>
-      <Container
-        mainStyle={true}
-        scroller={false}
-        showHeader={true}
-        headerComp={headerComp}>
-        {empty === true ? (
-          <View style={styles.emptyCardContainer}>
-            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
-            <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
-            <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
-          </View>
-        ) : (
+
+  const dashboardShow = () => {
+    return (
+      <>
+        {get_ptb_dashboard_res?.data?.data?.data.length > 0 ? (
           <View style={styles.mainContainer}>
             <TitleComp
               Title={Strings.landing.Like_Match_Connect}
@@ -220,6 +211,28 @@ const PtbDashboard = props => {
               </TouchableOpacity>
             </View>
           </View>
+        ) : (
+          <ActivityIndicator style={{flex: 1}} />
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <Container
+        mainStyle={true}
+        scroller={false}
+        showHeader={true}
+        headerComp={headerComp}>
+        {empty === true ? (
+          <View style={styles.emptyCardContainer}>
+            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+            <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
+            <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
+          </View>
+        ) : (
+          dashboardShow()
         )}
       </Container>
     </>
