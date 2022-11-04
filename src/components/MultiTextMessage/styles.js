@@ -14,7 +14,7 @@ export default {
     borderWidth: px(1),
     borderColor: Colors.BORDER_LINE,
     paddingHorizontal: px(10),
-    width: px(320),
+    width: px(310),
     height: px(121),
   },
   description: {
@@ -30,7 +30,7 @@ export default {
     marginTop: px(8),
   },
   label: {
-    right: 145,
+    right: 130,
     marginBottom: 13,
     top: Value.CONSTANT_VALUE_0,
     fontSize: Value.CONSTANT_VALUE_14,
