@@ -107,7 +107,6 @@ export default function Support() {
     }
   }, [errors, isValid]);
 
-
   const onSubmit = data => {
     const payload = {
       name: data.name,
@@ -210,7 +209,7 @@ export default function Support() {
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => onChange(v.toLowerCase())}
                   error={errors && errors.email?.message}
                   required={true}
                 />
