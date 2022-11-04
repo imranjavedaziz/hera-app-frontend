@@ -18,6 +18,7 @@ import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
+import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
 const Login = props => {
   const navigation = useNavigation();
@@ -116,7 +117,6 @@ const Login = props => {
   };
   const handelChange = async value => {
     reset({phone: '', password: getValues('password')});
-
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
     for (var i = 0; i < value.length; i++) {

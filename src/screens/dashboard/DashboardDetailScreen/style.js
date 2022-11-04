@@ -16,7 +16,7 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_29),
   },
   bioContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,
@@ -36,7 +36,7 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
-  
+
   hairContainer: {
     flexDirection: Alignment.ROW,
   },
@@ -55,6 +55,7 @@ export default {
     paddingVertical: 5,
     paddingHorizontal: 5,
     textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
   },
   eyeColorContainer: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -66,6 +67,7 @@ export default {
     paddingVertical: Value.CONSTANT_VALUE_5,
     paddingHorizontal: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
   },
   imageDemo1: {
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_30),
@@ -80,6 +82,7 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_53),
     fontSize: normalizeFont(Value.CONSTANT_VALUE_20),
     fontFamily: Fonts.OpenSansLight,
+    color: Colors.BLACK,
   },
   backgroundImage: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_16),
@@ -90,22 +93,24 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_38),
     fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
     fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
   },
-  btn: (color)=>({
+  btn: color => ({
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_40),
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     borderColor: color,
     borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
     backgroundColor: Colors.BACKGROUND,
-    height:Value.CONSTANT_VALUE_80,
-    width:Value.CONSTANT_VALUE_296,
-    alignSelf:Alignment.CENTER
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_296,
+    alignSelf: Alignment.CENTER,
   }),
   textbtn1: {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 3.62,
+    color: Colors.BLACK,
   },
   heartIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_50),
@@ -118,6 +123,8 @@ export default {
     flexDirection: Alignment.ROW,
   },
   imageBox: {
+    borderWidth: Value.CONSTANT_VALUE_1,
+    borderColor: Colors.BACKGROUND,
     height: scaleHeight(Value.CONSTANT_VALUE_117),
     width: scaleWidth(Value.CONSTANT_VALUE_105),
   },

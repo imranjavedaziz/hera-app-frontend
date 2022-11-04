@@ -7,7 +7,7 @@ import {
 } from '../../../../../utils/responsive';
 import {Fonts} from '../../../../../constants/Constants';
 import Colors from '../../../../../constants/Colors';
-import { FontSize, Value } from '../../../../../constants/FixedValues';
+import {FontSize, Value} from '../../../../../constants/FixedValues';
 
 export default {
   mainContainer: {
@@ -41,5 +41,16 @@ export default {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
+  },
+  codeText: {
+    fontSize: normalizeFont(32),
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+  },
+  typeText: {
+    fontSize: normalizeFont(20),
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
   },
 };
