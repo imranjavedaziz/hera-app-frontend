@@ -11,6 +11,7 @@
     "generate": "npx react-native generate-bootsplash ./src/assets/original_icon.png --background-color=F7F5F0   --logo-width=100 --assets-path=./src/assets --flavor=main"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.0.0",
     "@hookform/resolvers": "^2.9.8",
     "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
@@ -33,6 +34,7 @@
     "react-native-gesture-handler": "^2.6.0",
     "react-native-image-crop-picker": "0.37.3",
     "react-native-image-viewing": "^0.2.2",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-modal-datetime-picker": "^14.0.0",
     "react-native-permissions": "^3.6.1",
@@ -66,5 +68,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./src/assets/fonts/"]}
+    "assets": [
+      "./src/assets/fonts/"
+    ]
+  }
 }

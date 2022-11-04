@@ -306,7 +306,7 @@ const SmRegister = () => {
                 onChangeText={v => onChange(v.toLowerCase())}
                 error={errors && errors.email?.message}
                 required={true}
-                spellCheck={false}
+                autoCapitalize="none"
               />
             )}
             name="email"

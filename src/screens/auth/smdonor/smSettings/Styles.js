@@ -42,10 +42,8 @@ export default {
     color: Colors.PARA,
   },
   camImg: {
-    width: Value.CONSTANT_VALUE_17,
     height: Value.CONSTANT_VALUE_14,
-    resizeMode: 'cover',
-    // backgroundColor: Colors.GREEN,
+    width: Value.CONSTANT_VALUE_17,
   },
   camSelectedBtn: {
     position: Alignment.ABSOLUTE,
