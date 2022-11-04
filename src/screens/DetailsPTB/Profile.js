@@ -7,8 +7,9 @@ import {
   Pressable,
   ImageBackground,
   Modal,
-  Platform, BackHandler,
-} from "react-native";
+  Platform,
+  BackHandler,
+} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
@@ -45,9 +46,9 @@ import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
-import { deviceHandler } from "../../utils/commonFunction";
+import {deviceHandler} from '../../utils/commonFunction';
 
-const Profile = (props) => {
+const Profile = props => {
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const {
@@ -76,9 +77,7 @@ const Profile = (props) => {
     register_user_error_msg,
   } = useSelector(state => state.Auth);
   useEffect(() => {
-      deviceHandler(props.navigation,Routes.Landing);
-
-
+    deviceHandler(props.navigation, Routes.Landing);
   }, [props.navigation]);
   useEffect(() => {
     if (loadingRef.current && !register_user_loading) {
@@ -258,6 +257,8 @@ const Profile = (props) => {
                 autoCapitalize="none"
                 spellCheck={false}
                 error={errors && errors.email?.message}
+                keyboardType="email-address"
+                autoCorrect={false}
               />
             )}
             name={FormKey.email}
