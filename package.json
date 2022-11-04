@@ -11,6 +11,7 @@
     "generate": "npx react-native generate-bootsplash ./src/assets/original_icon.png --background-color=F7F5F0   --logo-width=100 --assets-path=./src/assets --flavor=main"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.0.0",
     "@hookform/resolvers": "^2.9.8",
     "@miblanchard/react-native-slider": "^2.1.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
@@ -66,5 +67,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./src/assets/fonts/"]}
+    "assets": [
+      "./src/assets/fonts/"
+    ]
+  }
 }

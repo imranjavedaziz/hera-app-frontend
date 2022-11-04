@@ -13,6 +13,7 @@ import {store, persistor} from './redux/store';
 import Main from './navigations/Main';
 import Loader from './components/Loader';
 import Toast from './components/Toast';
+
 const App = () => {
   return (
     <Provider store={store}>
