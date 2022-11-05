@@ -23,6 +23,7 @@ import {
 } from '../../redux/actions/loader';
 import MultiTextInput from '../../components/MultiTextMessage/MultiTextMessage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();
   const {
@@ -208,7 +209,6 @@ export default function Support() {
                   label={Strings.profile.EmailAddress}
                   value={value}
                   onChangeText={v => onChange(v)}
-                  fontWeight={Alignment.BOLD}
                   required={true}
                   error={errors && errors.email?.message}
                 />

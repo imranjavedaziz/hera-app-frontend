@@ -304,7 +304,6 @@ const SmRegister = () => {
                 label={Strings.profile.EmailAddress}
                   value={value}
                   onChangeText={v => onChange(v)}
-                  fontWeight={Alignment.BOLD}
                   required={true}
                   error={errors && errors.email?.message}
               />
