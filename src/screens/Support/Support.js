@@ -207,12 +207,10 @@ export default function Support() {
                 <FloatingLabelInput
                   label={Strings.profile.EmailAddress}
                   value={value}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  onChangeText={v => onChange(v.toLowerCase())}
-                  error={errors && errors.email?.message}
+                  onChangeText={v => onChange(v)}
+                  fontWeight={Alignment.BOLD}
                   required={true}
+                  error={errors && errors.email?.message}
                 />
               )}
               name={FormKey.email}

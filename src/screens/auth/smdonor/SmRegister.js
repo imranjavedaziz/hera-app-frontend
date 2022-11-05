@@ -302,11 +302,11 @@ const SmRegister = () => {
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
                 label={Strings.profile.EmailAddress}
-                value={value}
-                onChangeText={v => onChange(v.toLowerCase())}
-                error={errors && errors.email?.message}
-                required={true}
-                autoCapitalize="none"
+                  value={value}
+                  onChangeText={v => onChange(v)}
+                  fontWeight={Alignment.BOLD}
+                  required={true}
+                  error={errors && errors.email?.message}
               />
             )}
             name="email"
