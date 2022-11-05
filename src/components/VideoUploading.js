@@ -49,6 +49,24 @@ const VideoUploading = props => {
             </TouchableWithoutFeedback>
             <View style={props?.imageOverlay}>
               <Video
+                source={{uri: `${props?.video?.file_url}`}}
+                style={props?.videoStyle}
+                controls={true}
+                audioOnly={true}
+                ref={props?.videoRef}
+                onLoad={() => {
+                  props?.videoRef?.current?.seek(3);
+                  props?.videoRef?.current?.setNativeProps({
+                    paused: true,
+                  });
+                }}
+                paused={!props?.isPlaying}
+                onEnd={() => {
+                  props?.onEnd();
+                }}
+              />
+
+              {/* <Video
                 ref={props?.videoRef}
                 onLoad={() => {
                   props?.videoRef?.current?.seek(3);
@@ -86,7 +104,7 @@ const VideoUploading = props => {
                 //   }
                 //   ]
                 // }
-              />
+              /> */}
               {/* {!props?.isPlaying && (
                 <Image source={Images.playButton} style={styles.playIcon} />
               )} */}
