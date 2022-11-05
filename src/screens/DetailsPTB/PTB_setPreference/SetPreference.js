@@ -1,4 +1,4 @@
-import {Text, View, Image, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
@@ -18,16 +18,17 @@ import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {Static, Routes, FormKey} from '../../../constants/Constants';
+import {Static, Routes, FormKey, Fonts} from '../../../constants/Constants';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import User from '../../../services/User';
-import Auth from '../../../services/Auth';
 import {logOut} from '../../../redux/actions/Auth';
-import SetterData from '../../../services/SetterData';
-import {SetPreferenceRes} from '../../../redux/actions/SetPreference';
+import {
+  SetPreferenceRes,
+  SavePreference,
+} from '../../../redux/actions/SetPreference';
+import {scaleWidth} from '../../../utils/responsive';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -47,24 +48,28 @@ const isSelected = (data, value) => {
 const SetPreference = ({route, navigation}) => {
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
+  const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
   const dispatch = useDispatch();
-  const userService = User();
-  const authService = Auth();
+  const SubmitLoadingRef = useRef(false);
   const {
     handleSubmit,
-    getValues,
     control,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
+  console.log(EditPreferences, 'EditPreferences');
   const {
     set_preference_success,
     set_preference_loading,
     set_preference_error_msg,
     set_preference_res,
+
+    save_preference_success,
+    save_preference_loading,
+    save_preference_error_msg,
   } = useSelector(state => state.SetPreference);
 
   const loadingRef = useRef(false);
@@ -83,6 +88,23 @@ const SetPreference = ({route, navigation}) => {
     }
     loadingRef.current = set_preference_loading;
   }, [set_preference_success, set_preference_loading]);
+
+  // SAVE PREFERENCE
+
+  useEffect(() => {
+    if (SubmitLoadingRef.current && !save_preference_loading) {
+      dispatch(showAppLoader());
+      console.log(save_preference_success, 'save_preference_success');
+      if (save_preference_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.PtbDashboard);
+      }
+      if (save_preference_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    SubmitLoadingRef.current = save_preference_loading;
+  }, [save_preference_loading, save_preference_success]);
   useEffect(() => {
     dispatch(SetPreferenceRes());
     if (!isValid) {
@@ -100,17 +122,17 @@ const SetPreference = ({route, navigation}) => {
     let value = {
       role_id_looking_for: data.looking,
       age: data.age_range,
-      height: data.height.join('-'),
+      height:
+        data?.height !== undefined ? data?.height.join('-') : height.join('-'),
       race: data.race,
       education: data.education.id.toString(),
       hair_colour: data.hair,
       eye_colour: data.eye,
-      ethnicity: data.ethnicity,
+      ethnicity: '2,3',
       state: '1,2',
     };
-    console.log(value, 'Value');
-    userService.setPreferences(value);
-    navigation.navigate(Routes.PtbDashboard);
+    dispatch(showAppLoader());
+    dispatch(SavePreference(value));
   };
 
   const logoutScreen = () => {
@@ -119,28 +141,49 @@ const SetPreference = ({route, navigation}) => {
   };
 
   const headerComp = () => (
-    <CircleBtn
-      icon={Images.iconSettings}
-      onPress={() => {
-        setOpen(true);
-      }}
-    />
+    <>
+      {EditPreferences === true ? (
+        <TouchableOpacity
+          style={styles.header}
+          onPress={() => navigation.goBack()}>
+          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
+        </TouchableOpacity>
+      ) : (
+        <CircleBtn
+          Fixedstyle={styles.fixedheaderStyle}
+          icon={Images.iconSettings}
+          onPress={() => {
+            setOpen(true);
+          }}
+        />
+      )}
+    </>
   );
   return (
     <>
       <Container
         scroller={true}
+        fixedHeader={true}
         showHeader={true}
         headerComp={headerComp}
         headerEnd={true}
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }
-        style={{paddingBottom: Value.CONSTANT_VALUE_50}}>
+        style={{
+          paddingBottom: Value.CONSTANT_VALUE_50,
+          marginHorizontal: scaleWidth(35),
+        }}>
         <View style={styles.mainContainer}>
-          <Text style={globalStyle.screenTitle}>
-            {Strings.preference.setPreference}
-          </Text>
+          {EditPreferences === true ? (
+            <Text style={globalStyle.screenTitle}>
+              {Strings.preference.editPreference}
+            </Text>
+          ) : (
+            <Text style={globalStyle.screenTitle}>
+              {Strings.preference.setPreference}
+            </Text>
+          )}
           <View
             accessible={true}
             accessibilityLabel={`${Strings.preference.filter}`}>
@@ -148,11 +191,11 @@ const SetPreference = ({route, navigation}) => {
               style={globalStyle.screenSubTitle}
               numberOfLines={2}
               accessible={false}>
-              {Strings.preference.filter}
+              {Strings.preference.SearchPrioritize}
             </Text>
           </View>
           <View style={styles.lookingFor}>
-            <Text style={{marginBottom: Value.CONSTANT_VALUE_17}}>
+            <Text style={styles.lookingForText}>
               {Strings.preference.lookingFor}
             </Text>
             <Controller
@@ -167,7 +210,7 @@ const SetPreference = ({route, navigation}) => {
                         activeOpacity={1}
                         onPress={() => onChange(whom.id)}>
                         <Image
-                          style={{}}
+                          style={{resizeMode: 'contain'}}
                           source={
                             value === whom.id
                               ? Images.iconRadiosel
@@ -221,50 +264,54 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value = ''}}) => (
                 <View style={styles.ageContainer}>
-                  {ageRange.map((item, index) => {
-                    return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          onChange(onValueSelect(value, item.name));
-                        }}
-                        activeOpacity={0.8}
-                        key={item.id}>
-                        <View
-                          style={[
-                            styles.ageRangeChip,
-                            {
-                              backgroundColor: isSelected(value, item.name)
-                                ? Colors.COLOR_5ABCEC
-                                : Colors.BACKGROUND,
-                              borderWidth: isSelected(value, item.name) ? 0 : 1,
-                            },
-                          ]}>
-                          <Text
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    {ageRange.map((item, index) => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            onChange(onValueSelect(value, item.name));
+                          }}
+                          activeOpacity={0.8}
+                          key={item.id}>
+                          <View
                             style={[
-                              styles.chipInsideText,
+                              styles.ageRangeChip,
                               {
-                                color: isSelected(value, item.name)
-                                  ? Colors.WHITE
-                                  : null,
-                                fontWeight: isSelected(value, item.name)
-                                  ? Alignment.BOLD
-                                  : null,
+                                backgroundColor: isSelected(value, item.name)
+                                  ? Colors.COLOR_5ABCEC
+                                  : Colors.BACKGROUND,
+                                borderWidth: isSelected(value, item.name)
+                                  ? 0
+                                  : 1,
                               },
                             ]}>
-                            {item.name} {Strings.preference.yrs}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    );
-                  })}
+                            <Text
+                              style={[
+                                styles.chipInsideText,
+                                {
+                                  color: isSelected(value, item.name)
+                                    ? Colors.WHITE
+                                    : null,
+                                  fontWeight: isSelected(value, item.name)
+                                    ? Alignment.BOLD
+                                    : null,
+                                },
+                              ]}>
+                              {item.name} {Strings.preference.yrs}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </ScrollView>
                 </View>
               )}
               name={FormKey.age_range}
             />
             <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
               <View style={styles.heightContainer}>
-                <Text>
-                  {Strings.preference.Height}{' '}
+                <Text style={styles.heightTextInner}>
+                  {Strings.preference.Height}
                   <Text style={styles.heightText}>*</Text>
                 </Text>
                 <Text style={{fontWeight: Alignment.BOLD}}>
@@ -283,6 +330,7 @@ const SetPreference = ({route, navigation}) => {
                     value={height}
                     setValue={setHeight}
                     onValueChange={value => {
+                      console.log(value, 'value:::::::::');
                       onChange(value);
                     }}
                   />
@@ -304,21 +352,6 @@ const SetPreference = ({route, navigation}) => {
                 />
               )}
               name={FormKey.race}
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange}}) => (
-                <Dropdown
-                  label={Strings.preference.Ethnicity}
-                  data={preferencesData?.ethnicity}
-                  onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
-                    onChange(selectedItem.id);
-                  }}
-                  error={errors && errors.ethnicity?.message}
-                />
-              )}
-              name={FormKey.ethnicity}
             />
             <Text style={styles.chipText}>
               {Strings.preference.HairColor}
@@ -344,7 +377,7 @@ const SetPreference = ({route, navigation}) => {
                                 item.id.toString(),
                               )
                                 ? Colors.COLOR_5ABCEC
-                                : Colors.WHITE,
+                                : Colors.BACKGROUND,
                               borderWidth: isSelected(value, item.id.toString())
                                 ? 0
                                 : 1,
@@ -354,12 +387,12 @@ const SetPreference = ({route, navigation}) => {
                             style={[
                               {
                                 alignSelf: Alignment.CENTER,
-                                fontWeight: isSelected(
+                                fontFamily: isSelected(
                                   value,
                                   item.id.toString(),
                                 )
-                                  ? Alignment.BOLD
-                                  : null,
+                                  ? Fonts.OpenSansBold
+                                  : Fonts.OpenSansRegular,
                                 color: isSelected(value, item.id.toString())
                                   ? Colors.WHITE
                                   : null,
@@ -399,7 +432,7 @@ const SetPreference = ({route, navigation}) => {
                               item.id.toString(),
                             )
                               ? Colors.COLOR_5ABCEC
-                              : Colors.WHITE,
+                              : Colors.BACKGROUND,
                             borderWidth: isSelected(value, item.id.toString())
                               ? 0
                               : 1,
@@ -409,9 +442,9 @@ const SetPreference = ({route, navigation}) => {
                           style={[
                             {
                               alignSelf: Alignment.CENTER,
-                              fontWeight: isSelected(value, item.id.toString())
-                                ? Alignment.BOLD
-                                : null,
+                              fontFamily: isSelected(value, item.id.toString())
+                                ? Fonts.OpenSansBold
+                                : Fonts.OpenSansRegular,
                               color: isSelected(value, item.id.toString())
                                 ? Colors.WHITE
                                 : null,

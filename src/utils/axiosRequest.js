@@ -12,17 +12,18 @@ const axiosRequest = axios.create({
 
 axiosRequest.interceptors.request.use(
   request => {
-
     const token = store.getState().Auth.token;
-    console.log(token, "token:::::::::");
+    console.log(token, 'token:::::::::');
     if (token) {
       request.headers = {
-        Authorization: `Bearer ${token?.type==="UPDATE_TOKEN"?token?.payload:token}`,
+        // 'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
       };
     }
     return request;
   },
   error => {
+    console.log(error, 'error:::::::');
     return Promise.reject(error);
   },
 );
@@ -33,9 +34,10 @@ axiosRequest.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 401&&!originalRequest._retry) {
+    console.log(error.response.status, 'error.response.status::::::');
+    if (error.response.status === 401 && originalRequest._retry === false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
-      console.log(tokenRes, "tokenRes.data");
+      console.log(tokenRes, 'tokenRes.data');
       store.dispatch(updateToken(tokenRes.data.token));
       // get access token from refresh token and retry
       originalRequest._retry = true;
@@ -43,12 +45,6 @@ axiosRequest.interceptors.response.use(
     } else if (error.response.status === 404 && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
     } else if (error.response.status === 417 && error.response.data.message) {
-      // Validation msg
-      // let messages = [];
-      // Object.keys(error.response.data.message).forEach(key=>{
-      //   messages = [...messages,...error.response.data.message[key]];
-      // });
-      // await store.dispatch(showAppToast(true,messages.join('\n')));
       return error.response.data.message;
     }
     return Promise.reject(error);

@@ -9,7 +9,6 @@ import {
   ImageBackground,
   Pressable,
 } from 'react-native';
-// import {useNavigation} from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {useForm, Controller} from 'react-hook-form';
@@ -29,11 +28,15 @@ import {smRoles, Routes} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import BottomSheetComp from '../../../components/BottomSheet';
-import {showAppToast} from '../../../redux/actions/loader';
 import styles from '../../../styles/auth/smdonor/registerScreen';
-import Auth from '../../../services/Auth';
 import {Value} from '../../../constants/FixedValues';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import updateRegStep from '../../../redux/actions/Auth';
+import {Fonts} from '../../../constants/Constants';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import {ptbRegister} from '../../../redux/actions/Register';
 
 const validationType = {
@@ -60,7 +63,7 @@ const validatePassword = (value, type) => {
   if (value) {
     switch (type) {
       case validationType.LEN:
-        return value.length >= 8 ? Colors.BLACK : 'red';
+        return value.length >= 8 ? Colors.BLACK : Colors.RED;
       case validationType.ALPHA_NUM:
         return Regx.ALPHA_LOWER.test(value) &&
           Regx.ALPHA_CAP.test(value) &&
@@ -78,7 +81,6 @@ const validatePassword = (value, type) => {
   return Colors.BORDER_LINE;
 };
 const SmRegister = () => {
-  const authService = Auth();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const loadingRef = useRef(false);
@@ -99,7 +101,6 @@ const SmRegister = () => {
   const {
     params: {isRouteData},
   } = useRoute();
-  console.log('isRoute', isRouteData);
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
@@ -115,6 +116,7 @@ const SmRegister = () => {
       dispatch(showAppLoader());
       if (register_user_success) {
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
@@ -122,10 +124,15 @@ const SmRegister = () => {
       }
     }
     loadingRef.current = register_user_loading;
-  }, [register_user_success, register_user_loading]);
+  }, [
+    register_user_success,
+    register_user_loading,
+    register_user_error_msg,
+    dispatch,
+    navigation,
+  ]);
 
   useEffect(() => {
-    askCameraPermission();
     if (!isValid) {
       const e = errors.role;
       if (e) {
@@ -159,14 +166,13 @@ const SmRegister = () => {
       type: file.mime,
       uri: file.path,
     });
-    console.log('reqData---->', reqData);
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
   };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => navigation.navigate(Routes.Profile,{isRouteData})}
+      onPress={() => navigation.navigate(Routes.Profile, {isRouteData})}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
@@ -217,7 +223,10 @@ const SmRegister = () => {
                     styles.camBtn,
                     userImage ? styles.camSelectedBtn : null,
                   ]}
-                  onPress={() => setOpen(true)}>
+                  onPress={() => {
+                    setOpen(true);
+                    askCameraPermission();
+                  }}>
                   <Image source={Images.camera} style={styles.camImg} />
                 </TouchableOpacity>
               </ImageBackground>
@@ -292,12 +301,12 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
-                label={Strings.sm_register.email}
+                label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v.toLowerCase())}
                 error={errors && errors.email?.message}
                 required={true}
-                spellCheck={false}
+                autoCapitalize="none"
               />
             )}
             name="email"
@@ -305,11 +314,7 @@ const SmRegister = () => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <View
-                style={{
-                  width: '100%',
-                  marginVertical: 20,
-                }}>
+              <View style={styles.error}>
                 <FloatingLabelInput
                   label={Strings.sm_register.Password}
                   value={value}
@@ -386,6 +391,12 @@ const SmRegister = () => {
               and <Text style={styles.checkboxTitle}>Privacy Policy</Text>
             </Text>
           </View>
+          <View style={{marginTop: 15, flexDirection: 'row'}}>
+            <Text style={{color: 'red'}}>*</Text>
+            <Text style={{fontFamily: Fonts.OpenSansItalic}}>
+              {Strings.profile.desc}
+            </Text>
+          </View>
           <Button
             label={Strings.sm_register.Btn}
             onPress={handleSubmit(onSubmit)}
@@ -393,7 +404,7 @@ const SmRegister = () => {
           />
           <Pressable
             onPress={() => {
-              navigation.navigate(Routes.Profile);
+              navigation.navigate(Routes.Profile, {isRouteData});
             }}>
             <Text style={styles.parentBtn}>Register as Parent To Be</Text>
           </Pressable>

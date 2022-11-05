@@ -6,6 +6,7 @@ import styles from './styles';
 const FloatingLabelInput = props => {
   const [isFocused, setFocused] = useState(false);
   const {
+    messageStyle = false,
     label,
     containerStyle = {},
     fixed = false,
@@ -13,12 +14,13 @@ const FloatingLabelInput = props => {
     required = false,
     error = '',
     inputStyle = {},
+    maxLength,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
   return (
-    <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
+    <View style={[styles.container, containerStyle, {paddingTop: 0,}]}>
       <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
         <Text
           style={[
@@ -26,6 +28,7 @@ const FloatingLabelInput = props => {
             isFocused || textInputProps.value || fixed
               ? styles.floated
               : styles.unfloated,
+            messageStyle && styles.floatedmessage,
           ]}
           accessible={true}
           accessibilityLabel={label}>
@@ -37,8 +40,9 @@ const FloatingLabelInput = props => {
             styles.input,
             isFocused ? styles.focusBorder : styles.blurBorder,
             error ? {borderColor: 'red'} : null,
-            inputStyle
+            inputStyle,
           ]}
+          maxLength={maxLength}
           onFocus={handleFocus}
           onBlur={handleBlur}
           blurOnSubmit

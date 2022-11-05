@@ -1,34 +1,37 @@
 import Alignment from '../../../../constants/Alignment';
 import Colors from '../../../../constants/Colors';
 import {Fonts} from '../../../../constants/Constants';
+import {Value} from '../../../../constants/FixedValues';
 
 export default {
   container: {
-    //width: 354,
-    height: 115,
-    borderWidth: 2,
-    borderRadius: 11,
+    height: Value.CONSTANT_VALUE_115,
+    borderWidth: Value.CONSTANT_VALUE_2,
+    borderRadius: Value.CONSTANT_VALUE_11,
     borderColor: Colors.PINK,
-    marginLeft: 20,
-    marginTop: 30,
-    marginRight: 20,
+    marginLeft: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_30,
+    marginRight: Value.CONSTANT_VALUE_20,
+    backgroundColor: Colors.SEARCH_BOX,
   },
   row: {
-    flexDirection: 'row',
-    paddingHorizontal: 25,
-    marginTop: 22,
-    alignItems: 'center',
+    flexDirection: Alignment.ROW,
+    paddingHorizontal: Value.CONSTANT_VALUE_25,
+    marginTop: Value.CONSTANT_VALUE_22,
+    alignItems: Alignment.CENTER,
   },
   mainText: {
-    marginLeft: 7,
-    fontSize: 16,
+    marginLeft: Value.CONSTANT_VALUE_7,
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
   },
   innerText: {
-    textAlign: 'justify',
-    paddingHorizontal: 25,
-    fontSize: 15,
+    textAlign: Alignment.JUSTIFY,
+    paddingHorizontal: Value.CONSTANT_VALUE_25,
+    fontSize: Value.CONSTANT_VALUE_15,
     fontFamily: Fonts.OpenSansLight,
-    marginTop: 5,
+    marginTop: Value.CONSTANT_VALUE_5,
+    color: Colors.BLACK,
   },
 };

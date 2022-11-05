@@ -14,6 +14,7 @@ import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import Images from '../constants/Images';
 import {hideAppToast} from '../redux/actions/loader';
+import {Fonts} from '../constants/Constants';
 
 const styles = {
   container: {
@@ -21,6 +22,7 @@ const styles = {
     top: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
     paddingHorizontal: Value.CONSTANT_VALUE_30,
+    // height: Value.CONSTANT_VALUE_134,
   },
   safe: {
     flex: Value.CONSTANT_VALUE_1,
@@ -31,11 +33,13 @@ const styles = {
   row: {
     flex: Value.CONSTANT_VALUE_1,
     flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
+    // alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_40,
     width: Prencentage.PRECENTAGE_100,
   },
   text: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
     marginLeft: Value.CONSTANT_VALUE_10,
   },
@@ -44,7 +48,7 @@ const styles = {
     height: Value.CONSTANT_VALUE_5,
     backgroundColor: Colors.WHITE,
     opacity: 0.4,
-    marginTop: Value.CONSTANT_VALUE_40,
+    marginTop: Value.CONSTANT_VALUE_10,
     marginBottom: Value.CONSTANT_VALUE_10,
     borderRadius: Value.CONSTANT_VALUE_3,
   },
@@ -53,7 +57,7 @@ const Toast = () => {
   const dispatch = useDispatch();
   const toastState = useSelector(state => state.loader);
   const backgroundColor = toastState.isErrToast
-    ? Colors.COLOR_F18D93
+    ? Colors.COLOR_RED
     : Colors.GREEN;
   const icon = toastState.isErrToast ? Images.warning : Images.path;
   const hideToast = async () => {
@@ -63,7 +67,7 @@ const Toast = () => {
     if (toastState.showToast) {
       setTimeout(hideToast, 5000);
     }
-  }, [toastState.showToast]);
+  }, [toastState.showToast,]);
   if (toastState.showToast) {
     return (
       <View style={[styles.container, {backgroundColor}]}>

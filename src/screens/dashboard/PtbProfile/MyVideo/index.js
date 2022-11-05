@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
@@ -14,42 +7,39 @@ import Container from '../../../../components/Container';
 import styles from './style';
 import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
-import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
-import BottomSheetComp from '../../../../components/BottomSheet';
-import Video from 'react-native-video';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
-import {getUserGallery} from '../../../../redux/actions/CreateGallery';
-import User from '../../../../services/User';
-import {width} from '../../../../utils/responsive';
-import {Value} from '../../../../constants/FixedValues';
-import Alignment from '../../../../constants/Alignment';
+import {
+  deleteGallery,
+  getUserGallery,
+} from '../../../../redux/actions/CreateGallery';
+import User from '../../../../Api/User';
+import VideoUploading from '../../../../components/VideoUploading';
+import BottomSheetComp from '../../../../components/BottomSheet';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const userService = User();
   const loadingGalleryRef = useRef(false);
   const navigation = useNavigation();
   const videoRef = useRef();
+
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
-
   useEffect(() => {
     dispatch(getUserGallery());
   }, [dispatch]);
-
+  // GET GALLERY DATA
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
       if (gallery_success) {
-        console.log(gallery_data, 'gallery_data::::::::::');
-        // setPhotoGallery(gallery_data?.doner_photo_gallery);
-        // updateGallery();
         setVideo({
           file_url: gallery_data?.doner_video_gallery?.file_url
             ? gallery_data?.doner_video_gallery?.file_url
@@ -63,23 +53,30 @@ const MyVideo = () => {
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
-  const cb = v => {
-    setOpen(false);
-  };
-  const selectVideo = () => {
-    videoPicker().then(v => {
-      console.log(v, 'v::::::::::::::');
-      setVideo({file_url: v.path, loading: false});
+  // SELECT VEDIO
+  const selectVideo = index => {
+    videoPicker(index).then(v => {
+      if (v?.path) {
+        setVideo({file_url: v.path, loading: false});
+        setOpen(false);
+      } else {
+        setVideo({file_url: '', loading: false});
+        setOpen(false);
+      }
+
       const reqData = new FormData();
+      const fileName = v?.path.substring(v?.path.lastIndexOf('/') + 1);
       reqData.append('video', {
-        name: v.filename,
+        name: fileName,
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData);
+      userService.createGallery(reqData, loading =>
+        setVideo(old => ({...old, loading})),
+      );
     });
   };
-  console.log(video, 'video:::::::::');
+  // HEADER COMPONENT
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -87,7 +84,21 @@ const MyVideo = () => {
       leftPress={() => navigation.goBack()}
     />
   );
-
+  const videoPlay = () => {
+    console.log('inside vedio play');
+    if (video?.file_url === '') {
+      setOpen(true);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  };
+  const deleteImg = () => {
+    let payload = JSON.stringify({
+      ids: [JSON.stringify(gallery_data?.doner_video_gallery?.id)],
+    });
+    console.log('PAYLOAD', payload);
+    dispatch(deleteGallery(payload));
+  };
   return (
     <>
       <Container
@@ -105,75 +116,91 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          <TouchableOpacity
+          <VideoUploading
+            imageOverlay={styles.imageOverlayWrapper}
+            style={styles.VdoContainer}
             disabled={video?.file_url === '' ? false : true}
-            onPress={() =>
-              video?.file_url === '' ? selectVideo() : setIsPlaying(p => !p)
-            }>
-            <ImageBackground
-              style={styles.VdoContainer}
-              imageStyle={{
-                resizeMode: 'contain',
-              }}>
-              {!video?.file_url ? (
-                <>
-                  <View style={styles.innerVdo}>
-                    <Text style={styles.vdoHeading}>
-                      {Strings.smSetting.UploadVideo}
-                    </Text>
-                    <Text style={styles.content}>
-                      {Strings.smSetting.ShortVideo}
-                    </Text>
-                  </View>
-                </>
-              ) : video.loading ? (
-                <ActivityIndicator />
-              ) : (
-                <View style={styles.imageOverlayWrapper}>
-                  <Video
-                    ref={videoRef}
-                    onLoad={() => {
-                      videoRef?.current?.seek(3);
-                      videoRef?.current?.setNativeProps({
-                        paused: true,
-                      });
-                    }}
-                    paused={!isPlaying}
-                    source={{uri: `${video?.file_url}`}}
-                    resizeMode={'cover'}
-                    style={styles.video}
-                  />
-                  <Image
-                    source={Images.playButton}
-                    style={{
-                      position: Alignment.ABSOLUTE,
-                      left: width / Value.CONSTANT_VALUE_2,
-                      top: Value.CONSTANT_VALUE_80,
-                    }}
-                  />
-                </View>
-              )}
-            </ImageBackground>
-          </TouchableOpacity>
+            onEnd={() => {
+              setIsPlaying(false);
+              videoRef?.current?.seek(0);
+              videoRef?.current?.setNativeProps({
+                paused: true,
+              });
+            }}
+            onPress={() => videoPlay()}
+            videoStyle={styles.video}
+            videoRef={videoRef}
+            isPlaying={isPlaying}
+            video={video}
+          />
+          {video?.file_url !== '' && (
+            <TouchableOpacity
+              style={styles.deleteBtnContainer}
+              onPress={() => setShowModal(true)}>
+              <Image source={Images.trashRed} />
+              <Text style={styles.rmvText}>
+                {Strings.smSetting.RemoveVideo}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </Container>
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
             onPress={() => {
-              openCamera(0, cb);
-              setOpen(false);
+              selectVideo(0);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.sm_create_gallery.bottomSheetCamera}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => selectVideo()}
+            onPress={() => {
+              selectVideo(1);
+            }}
             style={styleSheet.pickerBtn}>
-            <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
+            <Text style={styleSheet.pickerBtnLabel}>
+              {Strings.sm_create_gallery.bottomSheetGallery}
+            </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[styles.centeredView]}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalHeader}>
+              {Strings.smSetting.Remove_Video}
+            </Text>
+            <Text style={styles.modalSubHeader}>
+              {Strings.sm_create_gallery.modalsubTitle}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                deleteImg();
+              }}>
+              <Text style={styles.modalOption1}>
+                {Strings.sm_create_gallery.modalText}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={styles.modalOption2}>
+                {Strings.sm_create_gallery.modalText_2}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };

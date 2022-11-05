@@ -6,14 +6,15 @@ import Colors from '../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_5,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_4),
     paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,
-    paddingTop: Value.CONSTANT_VALUE_45,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_24),
     paddingBottom: Value.CONSTANT_VALUE_89,
   },
   button: {
@@ -25,9 +26,35 @@ export default {
     alignItems: Alignment.CENTER,
   },
   buttonText: {
-    fontSize: 13,
+    fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
     letterSpacing: 1.67,
+  },
+  imgPickerContainer: {
+    width: '100%',
+    paddingHorizontal: Value.CONSTANT_VALUE_20,
+    paddingVertical: Value.CONSTANT_VALUE_10,
+  },
+  pickerBtn: {
+    paddingVertical: Value.CONSTANT_VALUE_20,
+  },
+  pickerBtnBorder: {
+    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomColor: Colors.BORDER_LINE,
+  },
+  pickerBtnLabel: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+  },
+  fullWidth: {
+    width: '100%',
+  },
+  AppVersion: {
+    textAlign: 'center',
+    fontSize: 14,
+    marginTop: 25,
+    color: '#999999',
   },
 };

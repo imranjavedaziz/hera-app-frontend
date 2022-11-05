@@ -7,18 +7,23 @@ import {Fonts} from '../../../constants/Constants';
 export default {
   upperContainer: {
     alignItems: Alignment.CENTER,
-    bottom: 20,
-    right: 15,
+    bottom: Value.CONSTANT_VALUE_20,
+    right: Value.CONSTANT_VALUE_15,
   },
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
   bgImage: {
-    height: Value.CONSTANT_VALUE_415,
-    width: Value.CONSTANT_VALUE_255,
+    height: dynamicSize(Value.CONSTANT_VALUE_400),
+    width: dynamicSize(Value.CONSTANT_VALUE_248),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    // backgroundColor: 'red',
+    shadowOffset: {width: -2, height: 9},
+    shadowColor: '#171717',
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
   },
   iconContainer: {
     flex: 0.88,
@@ -30,10 +35,13 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   imageStyle: {
-    borderRadius: 20,
+    borderRadius: Value.CONSTANT_VALUE_20,
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
+  },
+  mapIcon: {
+    left: Value.CONSTANT_VALUE_3,
   },
   locationText: {
     fontSize: Value.CONSTANT_VALUE_11,
@@ -42,11 +50,11 @@ export default {
     letterSpacing: 2.84,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
-    fontWeight: '800',
   },
   codeText: {
     fontSize: Value.CONSTANT_VALUE_32,
     color: Colors.WHITE,
+    Fonts: Fonts.OpenSansRegular,
   },
   donerAge: {
     fontSize: Value.CONSTANT_VALUE_11,
@@ -60,8 +68,9 @@ export default {
   },
   linearGradient: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    width: 257,
-    borderRadius: 20,
+    width: dynamicSize(Value.CONSTANT_VALUE_248),
+    height: dynamicSize(Value.CONSTANT_VALUE_400),
+    borderRadius: Value.CONSTANT_VALUE_20,
     justifyContent: Alignment.CENTER,
   },
 };

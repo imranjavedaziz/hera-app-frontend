@@ -8,7 +8,7 @@ export default {
     paddingTop: Value.CONSTANT_VALUE_18,
     flex: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
-    marginVertical: Value.CONSTANT_VALUE_20,
+    marginVertical: Value.CONSTANT_VALUE_15,
   },
   label: {
     position: Alignment.ABSOLUTE,
@@ -19,7 +19,15 @@ export default {
   },
   floated: {
     top: Value.CONSTANT_VALUE_0,
+
     fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_KEY,
+  },
+  floatedmessage: {
+    top: Value.CONSTANT_VALUE_0,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK_KEY,
   },
   unfloated: {
     top: Value.CONSTANT_VALUE_24,
@@ -29,7 +37,7 @@ export default {
     minHeight: Value.CONSTANT_VALUE_40,
     fontSize: Value.CONSTANT_VALUE_18,
     color: Colors.BLACK,
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomWidth: Value.CONSTANT_VALUE_FRAC115,
     paddingBottom: Value.CONSTANT_VALUE_10,
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,

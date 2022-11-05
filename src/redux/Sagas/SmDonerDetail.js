@@ -1,4 +1,3 @@
-import {SmDonerDetailApi} from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
 import {
   SM_DONOR_DETAIL,
@@ -6,11 +5,10 @@ import {
   SM_DONOR_DETAIL_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-function* SmDonerDetail(payload) {
-//   console.log('payload', payload);
+import {SmDonorDetailApi} from '../../Api/SmDonerDetail';
+function* SmDonorDetail(payload) {
   try {
-    const result = yield SmDonerDetailApi(payload.data);
-    // console.log('result???????tttt', result);
+    const result = yield SmDonorDetailApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SM_DONOR_DETAIL_SUCCESS, data: result});
     } else {
@@ -23,6 +21,6 @@ function* SmDonerDetail(payload) {
     yield put({type: SM_DONOR_DETAIL_FAIL, data: {msg: 'NET ERROR'}});
   }
 }
-export function* watchSmDonerDetail() {
-  yield takeLatest(SM_DONOR_DETAIL, SmDonerDetail);
+export function* watchSmDonorDetail() {
+  yield takeLatest(SM_DONOR_DETAIL, SmDonorDetail);
 }

@@ -17,13 +17,12 @@ const initState = {
   delete_gallery__error_msg: '',
 };
 export default (state = initState, action) => {
-  console.log(action?.data?.data?.data, "action.data.data.data", action.type, "type");
+  console.log(action.type, 'action.type');
   switch (action.type) {
     /**
      * Gallery
      */
     case GET_GALLERY:
-
       return {
         ...state,
         gallery_data: {},

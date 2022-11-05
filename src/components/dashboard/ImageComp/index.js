@@ -3,7 +3,6 @@ import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
 import LinearGradient from 'react-native-linear-gradient';
-
 const FadeInView = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -65,12 +64,12 @@ const ImageComp = (
               ) : null}
               <View style={styles.textInnerContainer}>
                 <View style={styles.innerContainer}>
-                  <Image source={mapIcon} />
+                  <Image source={mapIcon} style={styles.mapIcon} />
                   <Text style={styles.locationText}>{locationText}</Text>
                 </View>
                 <Text style={styles.codeText}>#{code}</Text>
                 <Text style={styles.donerAge}>
-                  {category} ,{donerAge}
+                  {category} ,{donerAge} yrs
                 </Text>
               </View>
             </View>

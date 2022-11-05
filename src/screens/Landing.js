@@ -1,5 +1,5 @@
 // Landing
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Image,
@@ -15,18 +15,19 @@ import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
 import Strings from '../constants/Strings';
 import {Routes} from '../constants/Constants';
+import {deviceHandler} from '../utils/commonFunction';
 
 const Landing = () => {
   const navigation = useNavigation();
+  useEffect(() => {
+    deviceHandler(navigation, 'exit');
+  }, [navigation]);
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.flex}>
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
-      <Container 
-      scroller={true} 
-     // style={{paddingTop: 10, marginTop: -10}}
-     >
+      <Container scroller={false}>
         <View style={styles.mainContainer}>
           <Image
             source={Images.LOGO}
@@ -37,10 +38,12 @@ const Landing = () => {
           <Text style={styles.title}>{Strings.landing.Like_Match_Connect}</Text>
           <View style={styles.btnContainer}>
             <Button
+              style={styles.widthText}
               label={Strings.landing.LOG_IN}
               onPress={() => navigation.navigate(Routes.Login)}
             />
             <Button
+              style={styles.widthText}
               label={Strings.landing.REGISTER}
               onPress={() => navigation.navigate(Routes.MobileNumber)}
             />
@@ -57,13 +60,14 @@ const Landing = () => {
         </TouchableOpacity>
         <TouchableOpacity
           accessible={true}
+          onPress={() => navigation.navigate(Routes.Support)}
           accessibilityLabel={Strings.landing.InquiryForm}>
           <Text style={styles.footerBtn} accessible={false}>
             {Strings.landing.InquiryForm}
           </Text>
         </TouchableOpacity>
       </View>
-       <StatusBar hidden={Platform.OS === 'android'} animated={true} /> 
+      <StatusBar hidden={Platform.OS === 'android'} animated={true} />
     </View>
   );
 };

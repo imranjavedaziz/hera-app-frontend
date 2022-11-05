@@ -23,6 +23,7 @@ export default {
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
     width: Value.CONSTANT_VALUE_167,
+    // opacity: 0.85,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
@@ -33,7 +34,7 @@ export default {
     fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.BACKGROUND,
+    color: Colors.WHITE,
     marginBottom: Value.CONSTANT_VALUE_5,
   },
   locationText: {
@@ -50,8 +51,62 @@ export default {
     alignSelf: Alignment.CENTER,
   },
   headerIcon: {
+    paddingTop: Value.CONSTANT_VALUE_10,
+  },
+  title: {marginBottom: Value.CONSTANT_VALUE_8},
+  search: {
+    paddingBottom: Value.CONSTANT_VALUE_10,
+  },
+  subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
+  stateItem: {
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
+  },
+  stateItemContainer: {
+    flexDirection: 'row',
+    width: 334,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  unSel: {
+    paddingVertical: Value.CONSTANT_VALUE_10,
+    fontSize: Value.CONSTANT_VALUE_20,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
+    justifyContent: 'flex-start',
+  },
+  sel: {
+    paddingVertical: Value.CONSTANT_VALUE_10,
+    fontSize: Value.CONSTANT_VALUE_20,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    justifyContent: 'flex-start',
+  },
+  imgSel: {
+    alignSelf: 'center',
+    tintColor: Colors.GREEN,
+  },
+  iconFont: {
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: 'underline',
+    color: Colors.BLACK,
+  },
+  stateSubtitle: {marginBottom: Value.CONSTANT_VALUE_15},
+  flexRow: {
+    flexDirection: 'row',
+  },
+  gradient: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.2,
+    borderRadius: Value.CONSTANT_VALUE_18,
+  },
+  iconHead: {
     position: 'absolute',
-    paddingTop: Value.CONSTANT_VALUE_5,
-    marginHorizontal: Value.CONSTANT_VALUE_30,
+    paddingTop: Value.CONSTANT_VALUE_15,
+    marginHorizontal: Value.CONSTANT_VALUE_60,
+  },
+  flatlist: {
+    paddingBottom: Value.CONSTANT_VALUE_150,
   },
 };

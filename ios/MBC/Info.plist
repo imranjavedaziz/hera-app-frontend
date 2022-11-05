@@ -36,13 +36,28 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-  	<string>Using for profile picture</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Using for profile picture</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>YOUR TEXT</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>YOUR TEXT</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>UIAppFonts</string>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSansRoman-Bold.ttf</string>
+		<string>OpenSans-BoldItalic.ttf</string>
+		<string>OpenSans-ExtraBold.ttf</string>
+		<string>OpenSans-ExtraBoldItalic.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-LightItalic.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-Semibold.ttf</string>
+		<string>OpenSans-SemiboldItalic.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -52,19 +67,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>OoohBaby-Regular.ttf</string>
-		<string>OpenSans-Bold.ttf</string>
-		<string>OpenSans-Italic.ttf</string>
-		<string>OpenSans-Light.ttf</string>
-		<string>OpenSans-Regular.ttf</string>
-		<string>OpenSans-Semibold.ttf</string>
-	</array>
 </dict>
 </plist>

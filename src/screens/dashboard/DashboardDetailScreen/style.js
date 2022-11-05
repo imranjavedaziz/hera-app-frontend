@@ -16,7 +16,7 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_29),
   },
   bioContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,
@@ -26,59 +26,48 @@ export default {
     flexDirection: Alignment.ROW,
   },
   nativePlace: {
-    backgroundColor: Colors.PINK,
-    width: scaleWidth(Value.CONSTANT_VALUE_120),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
+    backgroundColor: Colors.RGBA_229_172_177,
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
-  nativeText: {
-    textAlign: Alignment.CENTER,
-  },
   fatherPlace: {
-    backgroundColor: Colors.PINK,
-    width: scaleWidth(Value.CONSTANT_VALUE_180),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
+    backgroundColor: Colors.RGBA_229_172_177,
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
-  fatherPlaceText: {
-    textAlign: Alignment.CENTER,
-  },
+
   hairContainer: {
     flexDirection: Alignment.ROW,
   },
   motherPlace: {
-    backgroundColor: Colors.PINK,
-    width: scaleWidth(Value.CONSTANT_VALUE_185),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
+    backgroundColor: Colors.RGBA_229_172_177,
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
-  motherPlaceText: {
-    textAlign: Alignment.CENTER,
-  },
   hairColor: {
-    backgroundColor: Colors.PINK,
-    width: scaleWidth(Value.CONSTANT_VALUE_117),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
+    backgroundColor: Colors.RGBA_229_172_177,
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   hairColorText: {
+    paddingVertical: 5,
+    paddingHorizontal: 5,
     textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
   },
   eyeColorContainer: {
-    backgroundColor: Colors.PINK,
-    width: scaleWidth(Value.CONSTANT_VALUE_117),
-    height: scaleHeight(Value.CONSTANT_VALUE_31),
+    backgroundColor: Colors.RGBA_229_172_177,
+    width: scaleWidth(Value?.CONSTANT_VALUE_124),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   eyeColorText: {
+    paddingVertical: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
   },
   imageDemo1: {
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_30),
@@ -93,6 +82,7 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_53),
     fontSize: normalizeFont(Value.CONSTANT_VALUE_20),
     fontFamily: Fonts.OpenSansLight,
+    color: Colors.BLACK,
   },
   backgroundImage: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_16),
@@ -103,35 +93,24 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_38),
     fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
     fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
   },
-  btn: {
-    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_60),
-    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_30),
+  btn: color => ({
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_40),
-    minWidth: Value.CONSTANT_VALUE_100,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    flex: dynamicSize(Value.CONSTANT_VALUE_0),
-    borderColor: Colors.GREEN,
+    borderColor: color,
     borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
     backgroundColor: Colors.BACKGROUND,
-  },
-  btn2: {
-    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_60),
-    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_30),
-    borderRadius: dynamicSize(Value.CONSTANT_VALUE_40),
-    minWidth: Value.CONSTANT_VALUE_100,
-    alignItems: Alignment.CENTER,
-    justifyContent: Alignment.CENTER,
-    flex: dynamicSize(Value.CONSTANT_VALUE_0),
-    borderColor: Colors.RED,
-    borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
-    backgroundColor: Colors.BACKGROUND,
-  },
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_296,
+    alignSelf: Alignment.CENTER,
+  }),
   textbtn1: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
+    fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 3.62,
+    color: Colors.BLACK,
   },
   heartIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_50),
@@ -144,6 +123,8 @@ export default {
     flexDirection: Alignment.ROW,
   },
   imageBox: {
+    borderWidth: Value.CONSTANT_VALUE_1,
+    borderColor: Colors.BACKGROUND,
     height: scaleHeight(Value.CONSTANT_VALUE_117),
     width: scaleWidth(Value.CONSTANT_VALUE_105),
   },
@@ -155,6 +136,7 @@ export default {
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   crossIcon: {
     flexDirection: Alignment.ROW,

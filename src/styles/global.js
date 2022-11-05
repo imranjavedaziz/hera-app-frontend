@@ -12,15 +12,17 @@ import {Fonts} from '../constants/Constants';
 export default {
   screenTitle: {
     textTransform: 'uppercase',
-    letterSpacing: Value.CONSTANT_VALUE_2,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
     fontWeight: '600',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     textAlign: 'center',
+    fontSize: Value.CONSTANT_VALUE_11,
+    marginBottom: Value.CONSTANT_VALUE_8,
   },
   screenSubTitle: {
-    fontSize: Value.CONSTANT_VALUE_22,
-    lineHeight: Value.CONSTANT_VALUE_30,
+    fontSize: Value.CONSTANT_VALUE_23,
+    lineHeight: Value.CONSTANT_VALUE_32,
     fontWeight: '700',
     textAlign: 'center',
     color: Colors.BLACK,
@@ -102,5 +104,26 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_20,
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
+  },
+  dynamicMarginTop: (value) => ({
+    marginTop: scaleHeight(value),
+  }),
+  dynamicMarginBottom: (value) => ({
+    marginBottom: scaleHeight(value),
+  }),
+  dynamicMarginHorizontal: (value) => ({
+    marginHorizontal: scaleWidth(value),
+  }),
+  dynamicMarginRight: (value) => ({
+    marginRight: scaleWidth(value),
+  }),
+  dynamicMarginLeft: (value) => ({
+    marginLeft: scaleWidth(value),
+  }),
+  tagText: {
+    padding: Value.CONSTANT_VALUE_5,
+    textAlign: Alignment.CENTER,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
   },
 };

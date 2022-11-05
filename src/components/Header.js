@@ -1,9 +1,10 @@
 // Header
 import React from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
+import {View, TouchableOpacity, Image, Platform} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
+import {dynamicSize} from '../utils/responsive';
 
 const styles = {
   container: {
@@ -11,7 +12,7 @@ const styles = {
     paddingVertical: Value.CONSTANT_VALUE_10,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.CLEAR,
-    position: 'absolute',
+    position: Alignment.ABSOLUTE,
     top: 0,
     left: 0,
     zIndex: 999,
@@ -27,7 +28,7 @@ const styles = {
   },
   img: {
     maxWidth: Value.CONSTANT_VALUE_50,
-    resizeMode: 'cover',
+    resizeMode: Alignment.COVER,
     maxHeight: Value.CONSTANT_VALUE_50,
     flex: Value.CONSTANT_VALUE_0,
   },
@@ -43,13 +44,23 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
+  innerProfileimg: {
+    width: Value.CONSTANT_VALUE_30,
+    height: Value.CONSTANT_VALUE_30,
+    borderRadius: Value.CONSTANT_VALUE_20,
+    borderWidth: Value.CONSTANT_VALUE_2,
+    borderColor: Colors.WHITE,
+  },
   profileIconConatiner: {
-    marginRight: Value.CONSTANT_VALUE_270,
+    marginRight: Value.CONSTANT_VALUE_290,
+  },
+  androidIconCon: {
+    marginRight: dynamicSize(Value.CONSTANT_VALUE_290),
   },
 };
-export const CircleBtn = ({icon, onPress, ...otherProps}) => (
+export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
   <TouchableOpacity
-    style={styles.circle}
+    style={[styles.circle, Fixedstyle]}
     onPress={onPress}
     {...otherProps}
     accessible={true}
@@ -69,7 +80,13 @@ export const IconHeader = ({
 }) => (
   <>
     {profileView ? (
-      <TouchableOpacity style={styles.profileIconConatiner} onPress={leftPress}>
+      <TouchableOpacity
+        style={
+          Platform.OS === 'ios'
+            ? styles.profileIconConatiner
+            : styles.androidIconCon
+        }
+        onPress={leftPress}>
         <View
           style={[styles.circle, styles.start, styles.profileImgContainner]}>
           <Image source={{uri: profileImg}} style={styles.profileImg} />
@@ -84,7 +101,7 @@ export const IconHeader = ({
         accessibilityRole="button">
         {ApiImage ? (
           <View style={[styles.profileImgContainner]}>
-            <Image source={leftIcon} style={styles.profileImg} />
+            <Image source={leftIcon} style={styles.innerProfileimg} />
           </View>
         ) : (
           <Image accessible={false} source={leftIcon} style={styles.img} />
@@ -109,7 +126,7 @@ const Header = ({end = false, children}) => {
     </View>
   );
 };
-export const ProfileIcon = ({}) => (
+export const ProfileIcon = () => (
   <View style={[styles.container, styles.start]}>
     <View style={styles.profileImgContainner}>
       <Image

@@ -4,17 +4,18 @@ import Alignment from '../constants/Alignment';
 import Colors from '../constants/Colors';
 import global from './global';
 import {Fonts} from '../constants/Constants';
+import {dynamicSize} from '../utils/responsive';
 
 export default {
+  flex: {flex: Value.CONSTANT_VALUE_1},
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
-    //height: Prencentage.PRECENTAGE_30,
     ...Platform.select({
       android: {
-        height: Prencentage.PRECENTAGE_25,
+        height: Prencentage.PRECENTAGE_35,
       },
       ios: {
-        height: Prencentage.PRECENTAGE_30,
+        height: Prencentage.PRECENTAGE_40,
       },
     }),
     backgroundColor: Colors.BACKGROUND,
@@ -31,13 +32,13 @@ export default {
     justifyContent: Alignment.FLEX_START,
     ...Platform.select({
       android: {
-        paddingBottom: Value.CONSTANT_VALUE_100,
+        paddingBottom: Value.CONSTANT_VALUE_0,
       },
       ios: {
         paddingBottom: Value.CONSTANT_VALUE_0,
       },
     }),
-    //paddingBottom:Value.CONSTANT_VALUE_60
+    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
   },
   logo: {
     width: Value.CONSTANT_VALUE_200,
@@ -46,40 +47,41 @@ export default {
     flex: Value.CONSTANT_VALUE_0,
   },
   title: {
-    fontSize: Value.CONSTANT_VALUE_22,
-    lineHeight: Value.CONSTANT_VALUE_28,
-    fontWeight: 'bold',
+    fontSize: Value.CONSTANT_VALUE_23,
     color: Colors.BLACK,
     marginBottom: Value.CONSTANT_VALUE_20,
-    marginTop: Value.CONSTANT_VALUE_10,
-    flex: Value.CONSTANT_VALUE_0,
-    fontFamily: Fonts.OpenSansBold,
+    marginTop: Value.CONSTANT_VALUE_20,
+    fontFamily: Fonts.OpenSansRegular,
+    fontWeight: "bold",
   },
   btnContainer: {
-    flex: 1,
+    //flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
+    paddingTop: Value.CONSTANT_VALUE_10,
   },
   footer: {
     flex: 0,
     width: Prencentage.PRECENTAGE_100,
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
-    paddingVertical: Value.CONSTANT_VALUE_10,
+    paddingVertical: Value.CONSTANT_VALUE_40,
     paddingHorizontal: Value.CONSTANT_VALUE_40,
     position: Alignment.ABSOLUTE,
     ...Platform.select({
       android: {
-        bottom: 10,
+        bottom: 0,
       },
       ios: {
-        bottom: 40,
+        bottom: 0,
       },
     }),
   },
   footerBtn: {
+    fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     ...global.underlineText,
   },
+  widthText: {width: Value.CONSTANT_VALUE_212},
 };

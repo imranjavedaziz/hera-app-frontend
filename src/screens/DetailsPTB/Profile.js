@@ -8,13 +8,18 @@ import {
   ImageBackground,
   Modal,
   Platform,
+  BackHandler,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {showAppToast} from '../../redux/actions/loader';
+import {
+  showAppToast,
+  hideAppLoader,
+  showAppLoader,
+} from '../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -34,16 +39,16 @@ import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
-import {parentRegisterSchema, Regx} from '../../constants/schemas';
+import {parentRegisterSchema} from '../../constants/schemas';
 import styles from './StylesProfile';
 import Alignment from '../../constants/Alignment';
 import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
-import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {logOut} from '../../redux/actions/Auth';
+import {deviceHandler} from '../../utils/commonFunction';
 
-const Profile = ({route}) => {
+const Profile = props => {
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const {
@@ -60,6 +65,7 @@ const Profile = ({route}) => {
   const {
     handleSubmit,
     control,
+    reset,
     setValue,
     formState: {errors},
   } = useForm({
@@ -70,6 +76,9 @@ const Profile = ({route}) => {
     register_user_loading,
     register_user_error_msg,
   } = useSelector(state => state.Auth);
+  useEffect(() => {
+    deviceHandler(props.navigation, Routes.Landing);
+  }, [props.navigation]);
   useEffect(() => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
@@ -82,7 +91,13 @@ const Profile = ({route}) => {
       }
     }
     loadingRef.current = register_user_loading;
-  }, [register_user_success, register_user_loading]);
+  }, [
+    register_user_success,
+    register_user_loading,
+    register_user_error_msg,
+    dispatch,
+    navigation,
+  ]);
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
@@ -116,7 +131,7 @@ const Profile = ({route}) => {
       return;
     }
     const reqData = new FormData();
-    reqData.append(FormKey.role_id, 2);
+    reqData.append(FormKey.role_id, FormKey.parent_to_be_role_id);
     reqData.append(FormKey.first_name, data.first_name);
     reqData.append(FormKey.middle_name, data.middle_name);
     reqData.append(FormKey.last_name, data.last_name);
@@ -134,8 +149,10 @@ const Profile = ({route}) => {
     dispatch(ptbRegister(reqData));
   };
   useEffect(() => {
-    askCameraPermission;
-  }, [navigation]);
+    return navigation.addListener('focus', () => {
+      reset();
+    });
+  }, [navigation, reset]);
   return (
     <>
       <Container
@@ -162,21 +179,20 @@ const Profile = ({route}) => {
             {/* IMage Upload */}
 
             <View style={styles.profileContainer}>
-              <TouchableOpacity onPress={() => setOpen(true)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setOpen(true);
+                  askCameraPermission();
+                }}>
                 <ImageBackground
                   source={userImage ? {uri: userImage} : null}
                   style={styles.background}
                   imageStyle={styles.imgBack}>
                   <TouchableOpacity
+                    activeOpacity={1}
                     style={[
                       styles.uploadBackground,
-                      userImage
-                        ? {
-                            position: Alignment.ABSOLUTE,
-                            bottom: 0,
-                            right: 20,
-                          }
-                        : null,
+                      userImage ? styles.userImg : null,
                     ]}
                     onPress={() => setOpen(true)}>
                     <Image source={Images.camera} style={styles.profileImg} />
@@ -245,6 +261,8 @@ const Profile = ({route}) => {
                 autoCapitalize="none"
                 spellCheck={false}
                 error={errors && errors.email?.message}
+                keyboardType="email-address"
+                autoCorrect={false}
               />
             )}
             name={FormKey.email}
@@ -260,7 +278,7 @@ const Profile = ({route}) => {
                 required={true}
                 endComponent={() => (
                   <TouchableOpacity onPress={() => setShow(true)}>
-                    <Image source={Images.calendar} />
+                    <Image source={Images.calendar} style={styles.calender} />
                   </TouchableOpacity>
                 )}
                 editable={false}
@@ -386,7 +404,7 @@ const Profile = ({route}) => {
               }}
               style={[styles.pickerBtn, styles.pickerBtnBorder]}>
               <Text style={styles.pickerBtnLabel}>
-                {Strings.PTB_Profile.Open_Camera}
+                {Strings.sm_create_gallery.bottomSheetCamera}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -395,7 +413,7 @@ const Profile = ({route}) => {
               }}
               style={styles.pickerBtn}>
               <Text style={styles.pickerBtnLabel}>
-                {Strings.PTB_Profile.Open_Gallery}
+                {Strings.sm_create_gallery.bottomSheetGallery}
               </Text>
             </TouchableOpacity>
           </View>

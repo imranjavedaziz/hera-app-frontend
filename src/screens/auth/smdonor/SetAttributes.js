@@ -12,25 +12,18 @@ import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
 import BottomSheetComp from '../../../components/BottomSheet';
 import Dropdown from '../../../components/inputs/Dropdown';
-import Auth from '../../../services/Auth';
 import {Value} from '../../../constants/FixedValues';
 import {useDispatch, useSelector} from 'react-redux';
-import SetterData from '../../../services/SetterData';
-import {getStates} from '../../../redux/actions/Register';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import {getAttribute, saveAttribute} from '../../../redux/actions/SetAttribute';
-import SetAttribute from '../../../redux/reducers/SetAttribute';
 import {logOut} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
 
 const SetAttributes = ({route}) => {
-  const initialState = useSelector(state => state.Auth);
-  console.log(initialState);
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [attributeData, setAttributeData] = useState();
-  const authService = Auth();
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -40,7 +33,6 @@ const SetAttributes = ({route}) => {
     resolver: yupResolver(smSetAttributesSchema),
   });
   const onSubmit = data => {
-    console.log('SUBMIT', data);
     dispatch(saveAttribute(data));
   };
   React.useEffect(() => {
@@ -71,7 +63,13 @@ const SetAttributes = ({route}) => {
       }
     }
     LoadingRef.current = set_attribute_loading;
-  }, [set_attribute_success, set_attribute_loading]);
+  }, [
+    set_attribute_success,
+    set_attribute_loading,
+    dispatch,
+    set_attribute_res,
+    set_attribute_error_msg,
+  ]);
 
   //SAVE ATTRIBUTE DETAIL DATA
   useEffect(() => {
@@ -86,7 +84,13 @@ const SetAttributes = ({route}) => {
       }
     }
     SubmitLoadingRef.current = save_attribute_loading;
-  }, [save_attribute_loading, save_attribute_success]);
+  }, [
+    save_attribute_loading,
+    save_attribute_success,
+    save_attribute_error_msg,
+    navigation,
+    dispatch,
+  ]);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -122,7 +126,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange, value}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Height}
-                data={set_attribute_res?.height}
+                data={attributeData?.height}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -145,7 +149,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Race}
-                data={set_attribute_res?.race}
+                data={attributeData?.race}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -160,7 +164,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.MotherEthnicity}
-                data={set_attribute_res?.ethnicity}
+                data={attributeData?.ethnicity}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -175,7 +179,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.FatheEthnicity}
-                data={set_attribute_res?.ethnicity}
+                data={attributeData?.ethnicity}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -190,7 +194,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Weight}
-                data={set_attribute_res?.weight}
+                data={attributeData?.weight}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -211,7 +215,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.EyeColor}
-                data={set_attribute_res?.eye_colour}
+                data={attributeData?.eye_colour}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -225,8 +229,8 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
-                label={Strings.sm_set_attributes.HairColor}
-                data={set_attribute_res?.hair_colour}
+                label={Strings.preference.HairColor}
+                data={attributeData?.hair_colour}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}
@@ -241,7 +245,7 @@ const SetAttributes = ({route}) => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_set_attributes.Education}
-                data={set_attribute_res?.education}
+                data={attributeData?.education}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
                 }}

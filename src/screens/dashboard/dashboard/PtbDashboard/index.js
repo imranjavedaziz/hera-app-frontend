@@ -5,8 +5,8 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  FlatList,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useRef, useState, useCallback, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
@@ -24,8 +24,9 @@ import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
 import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import {Routes} from '../../../../constants/Constants';
+import {deviceHandler} from '../../../../utils/commonFunction';
 
-const PtbDashboard = () => {
+const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const [islikedLogo, setIslikedLogo] = useState('');
@@ -37,28 +38,30 @@ const PtbDashboard = () => {
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef();
-  const {registerUser,log_in_data} = useSelector(state => state.Auth);
-  console.log('registerUsejhkjr', registerUser);
-  console.log('log_in_data',log_in_data)
+  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const {registerUser, log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
-    dispatch(getPtbDashboard());
-  }, [dispatch]);
-   const {
+    if (props?.navigation?.route?.name === 'PtbDashboard') {
+      deviceHandler(navigation, 'exit');
+    }
+  });
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getPtbDashboard());
+    }, [dispatch]),
+  );
+  const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
     get_ptb_dashboard_error_msg,
     get_ptb_dashboard_res,
   } = useSelector(state => state.PtbDashboard);
-  console.log('ressss', get_ptb_dashboard_res);
+
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
         dispatch(showAppLoader());
         if (get_ptb_dashboard_success) {
-          console.log(
-            get_ptb_dashboard_res?.data,
-            'get_ptb_dashboard_res?.data:::::::::',
-          );
           dispatch(hideAppLoader());
           setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
         }
@@ -69,16 +72,18 @@ const PtbDashboard = () => {
       loadingRef.current = get_ptb_dashboard_loading;
     }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
   );
-
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count >= 4) {
-      setEmpty(true);
+    if (count >= ptbDashboardRes.length - 1) {
+      useSwiper?.current?.swipeLeft();
+      setTimeout(() => {
+        setEmpty(true);
+      }, 800);
     } else {
       setEmpty(false);
       setTimeout(() => {
-        useSwiper.current.swipeLeft();
+        useSwiper?.current?.swipeLeft();
       }, 1000);
     }
     setTimeout(() => {
@@ -89,12 +94,15 @@ const PtbDashboard = () => {
   const handleOnSwipedRight = () => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count >= 4) {
-      setEmpty(true);
+    if (count >= ptbDashboardRes.length - 1) {
+      useSwiper?.current?.swipeRight();
+      setTimeout(() => {
+        setEmpty(true);
+      }, 850);
     } else {
       setEmpty(false);
       setTimeout(() => {
-        useSwiper.current.swipeRight();
+        useSwiper?.current?.swipeRight();
       }, 1000);
     }
     setTimeout(() => {
@@ -102,25 +110,22 @@ const PtbDashboard = () => {
       setIslikedLogo('');
     }, 150);
   };
-
   function renderCardData(item) {
-    console.log('item?.user?.id', item?.user?.id);
     return (
       <>
         <TouchableOpacity
           activeOpacity={1}
           key={cardIndex}
-          // onPress={() => {
-          //   navigation.navigate('DashboardDetailScreen', {
-          //     userId: item?.user?.id,
-          //   });
-          // }}
-        >
+          onPress={() => {
+            navigation.navigate('DashboardDetailScreen', {
+              userId: item?.user?.id,
+            });
+          }}>
           <ImageComp
             locationText={item?.user?.state_name}
             code={item?.user?.username}
             donerAge={item?.user?.age}
-            mapIcon={Images.mapgraypin}
+            mapIcon={Images.iconmapwhite}
             image={{uri: item?.user?.profile_pic}}
             fadeAnim={fadeAnim}
             isVisibleLogo={isVisibleLogo}
@@ -135,11 +140,12 @@ const PtbDashboard = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
-  
+
   const headerComp = () => (
     <IconHeader
-      leftIcon={{uri: registerUser?.data?.data?.profile_pic
-        ? registerUser?.data?.data?.profile_pic :log_in_data.profile_pic}}
+      leftIcon={{
+        uri: profileImg,
+      }}
       leftPress={() => {
         navigation.navigate('PtbProfile');
       }}
@@ -149,23 +155,14 @@ const PtbDashboard = () => {
       ApiImage={true}
     />
   );
-  return (
-    <>
-      <Container
-        mainStyle={true}
-        scroller={false}
-        showHeader={true}
-        headerComp={headerComp}>
-        {empty === true ? (
-          <View style={styles.emptyCardContainer}>
-            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
-            <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
-            <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
-          </View>
-        ) : (
+
+  const dashboardShow = () => {
+    return (
+      <>
+        {get_ptb_dashboard_res?.data?.data?.data.length > 0 ? (
           <View style={styles.mainContainer}>
             <TitleComp
-              Title={Strings.dashboard.Title}
+              Title={Strings.landing.Like_Match_Connect}
               Subtitle={Strings.dashboard.Subtitle}
               Icon={Images.iconArrow}
             />
@@ -190,7 +187,12 @@ const PtbDashboard = () => {
                 </View>
               </ImageBackground>
             </View>
-            <View style={Platform.OS ==='ios'?  styles.iosInnerContainer : styles.innerContainer}>
+            <View
+              style={
+                Platform.OS === 'ios'
+                  ? styles.iosInnerContainer
+                  : styles.innerContainer
+              }>
               <TouchableOpacity
                 onPress={() => {
                   setIsVisibleLogo(true);
@@ -199,7 +201,7 @@ const PtbDashboard = () => {
                 }}>
                 <Image
                   style={styles.dislikeButton}
-                  source={Images.iconNotlike}
+                  source={Images.shadowIconNotLike}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -208,10 +210,35 @@ const PtbDashboard = () => {
                   setIslikedLogo('liked');
                   handleOnSwipedRight();
                 }}>
-                <Image style={styles.likeButton} source={Images.iconLike} />
+                <Image
+                  style={styles.likeButton}
+                  source={Images.greenIconLike}
+                />
               </TouchableOpacity>
             </View>
           </View>
+        ) : (
+          <ActivityIndicator style={{flex: 1}} />
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <Container
+        mainStyle={true}
+        scroller={false}
+        showHeader={true}
+        headerComp={headerComp}>
+        {empty === true ? (
+          <View style={styles.emptyCardContainer}>
+            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+            <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
+            <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
+          </View>
+        ) : (
+          dashboardShow()
         )}
       </Container>
     </>

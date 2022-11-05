@@ -5,14 +5,27 @@ import {Fonts} from '../../../../constants/Constants';
 
 export default {
   headerContainer: {
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
+    alignSelf: 'center',
+    shadowColor: 'rgba(0,0,0,0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    elevation: 1,
+    shadowRadius: 34,
+    borderRadius:100,
+  },
+  usernameText: {
+    fontSize: Value.CONSTANT_VALUE_24,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   profileImg: {
     width: Value.CONSTANT_VALUE_80,
     height: Value.CONSTANT_VALUE_80,
     borderRadius: Value.CONSTANT_VALUE_100,
-    borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
   profileImgContainner: {
@@ -20,7 +33,7 @@ export default {
     justifyContent: Alignment.CENTER,
     height: Value.CONSTANT_VALUE_90,
     width: Value.CONSTANT_VALUE_90,
-    borderWidth: Value.CONSTANT_VALUE_4,
+    borderWidth: Value.CONSTANT_VALUE_3,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_100,
     marginBottom: Value.CONSTANT_VALUE_15,
@@ -29,16 +42,13 @@ export default {
     color: Colors.PARA,
   },
   camImg: {
-    width: Value.CONSTANT_VALUE_20,
-    height: Value.CONSTANT_VALUE_20,
-    resizeMode: Alignment.CENTER,
-    backgroundColor: Colors.GREEN,
+    height: Value.CONSTANT_VALUE_14,
+    width: Value.CONSTANT_VALUE_17,
   },
   camSelectedBtn: {
     position: Alignment.ABSOLUTE,
     bottom: Value.CONSTANT_VALUE_15,
-    right: Value.CONSTANT_VALUE_5,
-    left: Value.CONSTANT_VALUE_11,
+    right: Value.CONSTANT_VALUE_0,
   },
   camBtn: {
     width: Value.CONSTANT_VALUE_30,
@@ -50,7 +60,7 @@ export default {
   },
   tittle: {
     fontSize: Value.CONSTANT_VALUE_11,
-    margtinTop: Value.CONSTANT_VALUE_8,
+    marginBottom: Value.CONSTANT_VALUE_10,
   },
   highlightContainer: {
     flexDirection: Alignment.ROW,
@@ -63,6 +73,10 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_18,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+  },
+  textColor: {
+    color: Colors.BLACK,
   },
   dot: {
     height: Value.CONSTANT_VALUE_12,
@@ -88,5 +102,12 @@ export default {
   },
   flexRow: {
     flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+  },
+  flatlist: {
+    paddingBottom: Value.CONSTANT_VALUE_300,
+  },
+  extraTxt: {
+    marginLeft: 15,
   },
 };

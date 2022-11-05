@@ -13,8 +13,11 @@ import Strings from '../constants/Strings';
 import Alignment from '../constants/Alignment';
 import {Value} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
+import {useNavigation} from '@react-navigation/native';
+import {Fonts, Routes} from '../constants/Constants';
 
 const Searchbar = props => {
+  const navigation = useNavigation();
   return (
     <View style={styles.mainContainer}>
       <View
@@ -29,9 +32,14 @@ const Searchbar = props => {
           onChangeText={props.onChangeText}
           value={props.value}
           placeholder={Strings.search_Bar.search}
+          placeholderTextColor={Colors.BLACK}
+          keyboardType={'web-search'}
+          autoCorrect={false}
         />
         {props.editing ? (
-          <TouchableOpacity style={styles.pinIcon}>
+          <TouchableOpacity
+            style={styles.pinIcon}
+            onPress={() => navigation.navigate(Routes.stateList)}>
             <Image source={Images.pin} />
           </TouchableOpacity>
         ) : (
@@ -88,7 +96,7 @@ const styles = StyleSheet.create({
     marginLeft: Value.CONSTANT_VALUE_15,
   },
   pinIcon: {
-    marginRight: Value.CONSTANT_VALUE_8,
+    marginRight: Value.CONSTANT_VALUE_15,
     alignSelf: Alignment.CENTER,
   },
   crossIconContainer: {
@@ -107,7 +115,7 @@ const styles = StyleSheet.create({
     marginLeft: Value.CONSTANT_VALUE_15,
   },
   clearText: {
-    fontWeight: Alignment.BOLD,
+    fontFamily: Fonts.OpenSansBold,
     color: Colors.RED,
     textDecorationLine: Alignment.UNDERLINE,
     alignSelf: Alignment.CENTER,

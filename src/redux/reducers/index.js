@@ -4,10 +4,12 @@ import loader from './loader';
 import CreateGallery from './CreateGallery';
 import Register from './Register';
 import PtbDashboard from './PtbDashboard';
-import SetPreference from './SetPreference';
 import SetAttribute from './SetAttribute';
 import DonorDashBoard from './DonorDashboard';
 import PtbProfileDetail from './PtbProfileDetail';
+import SmDonorDetail from './SmDonerDetail';
+import SetPreference from './SetPreference';
+import Support from './Support';
 
 const allReducers = combineReducers({
   Auth,
@@ -19,6 +21,8 @@ const allReducers = combineReducers({
   SetAttribute,
   DonorDashBoard,
   PtbProfileDetail,
+  SmDonorDetail,
+  Support,
 });
 
 export default allReducers;

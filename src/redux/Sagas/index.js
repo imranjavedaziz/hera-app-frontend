@@ -4,6 +4,7 @@ import {
   watchMobileNumber,
   watchVerifyOtp,
   watchLogOutApi,
+  watchupdateProfileImg,
 } from './Auth';
 import {
   watchPtbRegisterApi,
@@ -11,13 +12,14 @@ import {
   watchGetStates,
   watchGetProfileSetter,
 } from './Register';
-import {watchsetPreference} from './SetPreference';
-import {watchGetUserGallery} from './CreateGallery';
+import {watchSavePreferenceRes, watchsetPreference} from './SetPreference';
+import {watchGetUserGallery, watchDeleteUserGallery} from './CreateGallery';
 import {watchGetPtbDashboard} from './PtbDashboard';
 import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
 import {watchGetDonorDashboard} from './DonorDashboard';
-import {watchDeleteUserGallery} from './CreateGallery';
-import {watchGetPtbProfileDetail} from './PtbProfileDetail';
+import {watchGetPtbProfileDetail, watchsendLikePtb} from './PtbProfileDetail';
+import {watchSmDonorDetail} from './SmDonerDetail';
+import {watchSupportForm, watchUserType} from './Support';
 
 export default function* rootSaga() {
   yield all([
@@ -37,5 +39,11 @@ export default function* rootSaga() {
     fork(watchGetDonorDashboard),
     fork(watchDeleteUserGallery),
     fork(watchGetPtbProfileDetail),
+    fork(watchSmDonorDetail),
+    fork(watchupdateProfileImg),
+    fork(watchSavePreferenceRes),
+    fork(watchsendLikePtb),
+    fork(watchSupportForm),
+    fork(watchUserType),
   ]);
 }

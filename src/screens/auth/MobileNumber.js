@@ -22,12 +22,14 @@ const MobileNumber = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [isRouteData, setIsRouteData] = useState();
+  const [phone, setPhone] = useState('');
   const {
     handleSubmit,
     control,
-    formState: {errors, isValid},
+    formState: {errors},
+    reset,
+    setValue,
   } = useForm({
     resolver: yupResolver(mobileSchema),
   });
@@ -70,6 +72,41 @@ const MobileNumber = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+  const normalizeInput = (value, previousValue) => {
+    const deleting = previousValue && previousValue.length > value.length;
+    if (deleting) {
+      return value;
+    }
+    if (!value) {
+      return value;
+    }
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+    if (!previousValue || value.length > previousValue.length) {
+      if (cvLength < 4) {
+        return currentValue;
+      }
+      if (cvLength < 7) {
+        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
+      }
+      return `${currentValue.slice(0, 3)} ${currentValue.slice(
+        3,
+        6,
+      )} (${currentValue.slice(6, 10)})`;
+    }
+  };
+  const handelChange = async value => {
+    reset({phone: ''});
+
+    await setPhone(prevstate => normalizeInput(value, prevstate));
+    let a = '';
+    for (var i = 0; i < value.length; i++) {
+      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
+        a = a + value[i];
+      }
+    }
+    setValue('phone', a);
+  };
   return (
     <Container
       scroller={true}
@@ -115,10 +152,12 @@ const MobileNumber = () => {
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
                 label={Strings.mobile.MobileNumber}
-                value={value}
-                onChangeText={v => onChange(v)}
+                value={phone}
+                onChangeText={v => {
+                  handelChange(v);
+                }}
                 keyboardType="number-pad"
-                maxLength={10}
+                maxLength={14}
                 error={errors && errors.phone?.message}
                 containerStyle={{
                   flex: 1,
@@ -129,10 +168,7 @@ const MobileNumber = () => {
             name="phone"
           />
         </View>
-        <View
-          style={
-            isKeyboardVisible === true ? {marginTop: 44} : {marginTop: 280}
-          }>
+        <View style={{marginTop: 280}}>
           <Button
             style={styles.Btn}
             label={Strings.mobile.VERIFY}

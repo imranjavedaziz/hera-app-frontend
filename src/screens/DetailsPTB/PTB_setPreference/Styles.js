@@ -2,15 +2,22 @@ import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
+import {dynamicSize} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
   },
+  fixedheaderStyle: {marginRight: Value.CONSTANT_VALUE_20},
   lookingFor: {
     width: '100%',
     marginTop: Value.CONSTANT_VALUE_50,
+  },
+  lookingForText: {
+    fontFamily: Fonts.OpenSansRegular,
+    marginBottom: Value.CONSTANT_VALUE_17,
+    fontSize: 14,
   },
   required: {
     color: Colors.RED,
@@ -28,10 +35,11 @@ export default {
   },
   lookingsm: {
     alignItems: Alignment.CENTER,
-    marginLeft: Value.CONSTANT_VALUE_15,
+    marginLeft: Value.CONSTANT_VALUE_10,
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
+    color: Colors.COLOR_535858,
   },
   lookingDonor: {
     marginLeft: Value.CONSTANT_VALUE_10,
@@ -58,8 +66,10 @@ export default {
     fontSize: Value.CONSTANT_VALUE_18,
   },
   chipText: {
-    marginVertical: Value.CONSTANT_VALUE_15,
     fontSize: Value.CONSTANT_VALUE_14,
+    // marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    fontFamily: Fonts.OpenSansRegular,
   },
   chipsRequiredText: {
     color: Colors.RED,
@@ -68,7 +78,6 @@ export default {
   hairContainer: {
     flexDirection: Alignment.ROW,
     flexWrap: 'wrap',
-    marginVertical: Value.CONSTANT_VALUE_5,
   },
   chips: {
     height: Value.CONSTANT_VALUE_41,
@@ -87,14 +96,19 @@ export default {
   ageText: {
     marginVertical: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_25,
+    fontFamily: Fonts.OpenSansRegular,
+  },
+  heightTextInner: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
   },
   ageRangeChip: {
     height: Value.CONSTANT_VALUE_41,
     width: Value.CONSTANT_VALUE_104,
     borderRadius: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
-    // marginRight: Value.CONSTANT_VALUE_5,
+    marginRight: Value.CONSTANT_VALUE_5,
     marginVertical: Value.CONSTANT_VALUE_10,
     padding: Value.CONSTANT_VALUE_0,
   },
@@ -113,5 +127,13 @@ export default {
   Btn: {
     height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
+  },
+  header: {justifyContent: Alignment.FLEXEND},
+  headerText: {
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.RED,
+    marginRight: 30,
   },
 };

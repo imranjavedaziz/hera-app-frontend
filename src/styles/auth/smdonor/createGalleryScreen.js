@@ -6,7 +6,7 @@ import {width} from '../../../utils/responsive';
 
 export default {
   profileImgContainner: {
-    borderWidth: Value.CONSTANT_VALUE_3,
+    borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_15,
@@ -37,9 +37,6 @@ export default {
     tintColor: Colors.BLACK,
     maxWidth: Value.CONSTANT_VALUE_25,
     resizeMode: Alignment.CONTAIN,
-    // alignItems: Alignment.CENTER,
-    // justifyContent: Alignment.CENTER,
-    // alignSlef:'center'
   },
   videoContainer: {
     width: width,
@@ -108,13 +105,14 @@ export default {
   imageOverlayWrapper: {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
+    height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
+    width:320,
   },
   video: {
     overflow: Alignment.HIDDEN,
-    width: width,
+    width: 320,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    resizeMode: Alignment.COVER,
-    marginTop: Value.CONSTANT_VALUE_3,
+    // marginTop: Value.CONSTANT_VALUE_3,
   },
   playIcon: {
     position: Alignment.ABSOLUTE,
@@ -123,5 +121,8 @@ export default {
   },
   resizeContain: {
     resizeMode: Alignment.COVER,
+  },
+  title: {
+    fontSize: Value.CONSTANT_VALUE_11,
   },
 };

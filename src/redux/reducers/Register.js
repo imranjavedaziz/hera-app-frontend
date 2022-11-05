@@ -8,7 +8,6 @@ import {
   GET_PROFILE_SETTER_DETAIL,
   GET_PROFILE_SETTER_SUCCESS,
   GET_PROFILE_SETTER_FAIL,
-  GET_SEXUAL_ORIENTATION,
 } from '../Type';
 
 const initState = {
@@ -31,7 +30,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  // console.log(action.data,'action?.data::::::::');
   switch (action.type) {
     /**
      * SAVE BASIC DETAIL

@@ -5,8 +5,8 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
-  GET_GALLERY,
 } from '../constants';
+
 import {
   AUTH_LOG_IN,
   AUTH_LOG_IN_FAIL,
@@ -23,8 +23,10 @@ import {
   AUTH_REGISTER,
   AUTH_REGISTER_FAIL,
   AUTH_REGISTER_SUCCESS,
+  UPDATE_PROFILE_IMG,
+  UPDATE_PROFILE_IMG_SUCCESS,
+  UPDATE_PROFILE_IMG_FAIL,
 } from '../Type';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initState = {
   user: {
@@ -91,10 +93,13 @@ const initState = {
   register_user_success: false,
   register_user_loading: false,
   register_user_error_msg: '',
+  update_user_profile_img_success: false,
+  update_user_profile_img_fail: false,
+  update_user_profile_img_error_msg: '',
+  update_message: '',
 };
 
 export default (state = initState, action) => {
-  console.log(action?.data, "action.data.msg",action?.type,'action.type');
   switch (action.type) {
     /**
      * SignIn
@@ -121,11 +126,9 @@ export default (state = initState, action) => {
     }
     case AUTH_LOG_IN_SUCCESS: {
       const {access_token} = action.data.data.data;
-      // AsyncStorage.setItem('token', access_token);
       return {
         ...state,
         user: action?.data?.data?.data,
-
         log_in_success: true,
         log_in_loading: false,
         token: access_token,
@@ -150,7 +153,7 @@ export default (state = initState, action) => {
         token: action,
         user: {
           ...state.user,
-          access_token: action,
+          access_token: action.payload,
         },
       };
     case UPDATE_REG_STEP:
@@ -249,6 +252,7 @@ export default (state = initState, action) => {
         log_out_error_msg: '',
         token: '',
         log_in_data: '',
+        user: initState.user,
         registerUser: '',
       };
     }
@@ -262,6 +266,7 @@ export default (state = initState, action) => {
         register_user_loading: true,
         register_user_error_msg: '',
         user: {},
+        log_in_data: action?.data?.data?.data,
         registerUser: action?.data?.data?.data,
       };
     }
@@ -283,10 +288,45 @@ export default (state = initState, action) => {
         register_user_loading: false,
         registerUser: action.data,
         register_user_error_msg: '',
+        log_in_data: action?.data?.data?.data,
         user: action?.data?.data?.data,
         token: access_token,
       };
     }
+    /**
+     * UPDATE PROFILE IMG
+     */
+    case UPDATE_PROFILE_IMG: {
+      console.log('REDUCER UPDATE PROFILE IMAGE -->', action.data);
+      return {
+        ...state,
+        update_user_profile_img_success: false,
+        update_user_profile_img_loading: true,
+        update_user_profile_img_error_msg: '',
+      };
+    }
+    case UPDATE_PROFILE_IMG_FAIL: {
+      return {
+        ...state,
+        update_user_profile_img_success: false,
+        update_user_profile_img_loading: false,
+        update_user_profile_img_error_msg: action.data.msg,
+      };
+    }
+    case UPDATE_PROFILE_IMG_SUCCESS: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          profile_pic: action?.data?.data?.data,
+        },
+        update_user_profile_img_success: true,
+        update_user_profile_img_loading: false,
+        update_user_profile_img_error_msg: '',
+        update_message: action.data?.data?.message,
+      };
+    }
+
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,7 +9,7 @@ import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
-import Strings, {ValidationMessages} from '../../../constants/Strings';
+import Strings from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
 import {Routes} from '../../../constants/Constants';
@@ -26,11 +26,9 @@ import {
   getStates,
   getProfileSetterDetail,
   saveBasicDetail,
-  sexualOrientation,
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
-import {logOut} from '../../../redux/actions/Auth';
-import getRoute from '../../../utils/getRoute';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -60,7 +58,6 @@ const SmBasicDetails = () => {
     save_basic_detail_error_msg,
   } = useSelector(state => state.Register);
   const user = useSelector(state => state.Auth.user);
-  console.log(user, 'user:::::::::::');
   const {
     handleSubmit,
     control,
@@ -83,12 +80,12 @@ const SmBasicDetails = () => {
     }
     loadingRef.current = get_state_loading;
   }, [get_state_success, get_state_loading]);
-
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {
       dispatch(showAppLoader());
       if (get_profile_setter_success) {
+        // console.log("GETSETTER",get_profile_setter_res)
         dispatch(hideAppLoader());
         setProfileRes(get_profile_setter_res);
       }
@@ -103,14 +100,12 @@ const SmBasicDetails = () => {
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
       dispatch(showAppLoader());
-      console.log(
-        save_basic_detail_success,
-        'save_basic_detail_success:::::::::::',
-      );
       if (save_basic_detail_success) {
+        console.log(user?.role_id, 'user?.role_id ::::');
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         navigation.navigate(
-          user?.role_id === '2' ? Routes.SetPreference : Routes.SetAttributes,
+          user?.role_id === 2 ? Routes.SetPreference : Routes.SetAttributes,
           payloadData,
         );
       }
@@ -121,11 +116,20 @@ const SmBasicDetails = () => {
     SubmitLoadingRef.current = save_basic_detail_loading;
   }, [save_basic_detail_success, save_basic_detail_loading]);
 
+  useEffect(() => {
+    if (!isValid) {
+      const e = errors.gender_id;
+      if (e) {
+        dispatch(showAppToast(true, e.message));
+      }
+    }
+  }, [dispatch, errors, isValid]);
   const onSubmit = data => {
     console.log(data, 'data::::::');
     setPayloadData(data);
     dispatch(saveBasicDetail(data));
   };
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconSettings}
@@ -272,6 +276,7 @@ const SmBasicDetails = () => {
                 error={errors && errors.bio?.message}
                 required={true}
                 fixed={true}
+                maxLength={250}
                 multiline={true}
                 numberOfLines={5}
                 inputStyle={styles.textArea}
