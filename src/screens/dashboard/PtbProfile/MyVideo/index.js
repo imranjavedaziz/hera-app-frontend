@@ -23,6 +23,7 @@ const MyVideo = () => {
   const [isOpen, setOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [remove, setRemove] = useState([]);
   const dispatch = useDispatch();
   const userService = User();
   const loadingGalleryRef = useRef(false);
@@ -35,6 +36,17 @@ const MyVideo = () => {
   useEffect(() => {
     dispatch(getUserGallery());
   }, [dispatch]);
+  function handelDel(index) {
+    let pushArr = remove;
+    let isExist = pushArr.findIndex(val => val === index);
+    if (isExist === -1) {
+      pushArr.push(index);
+    } else {
+      pushArr.splice(isExist, 1);
+      setRmvImgCount(rmvImgCount - 1);
+    }
+    setRemove(pushArr);
+}
   // GET GALLERY DATA
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
@@ -93,11 +105,13 @@ const MyVideo = () => {
     }
   };
   const deleteImg = () => {
-    let payload = JSON.stringify({
-      ids: [JSON.stringify(gallery_data?.doner_video_gallery?.id)],
-    });
-    console.log('PAYLOAD', payload);
-    dispatch(deleteGallery(payload));
+  
+      let payload = {
+        ids: remove?.join(),
+      };       
+      dispatch(deleteGallery(payload));
+      setRemove([]);
+
   };
   return (
     <>
@@ -132,6 +146,10 @@ const MyVideo = () => {
             videoRef={videoRef}
             isPlaying={isPlaying}
             video={video}
+
+            handelDel={handelDel}
+          
+            remove={remove}
           />
           {video?.file_url !== '' && (
             <TouchableOpacity
