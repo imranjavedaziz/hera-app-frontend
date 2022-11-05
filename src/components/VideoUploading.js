@@ -12,10 +12,7 @@ import {
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
-import {TextTrackType} from 'react-native-video';
-
 import Images from '../constants/Images';
-import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
   return (
