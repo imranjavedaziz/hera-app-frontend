@@ -56,7 +56,7 @@ const VideoUploading = props => {
                     paused: true,
                   });
                 }}
-                controls
+                controls={true}
                 muted
                 paused={!props?.isPlaying}
                 source={{uri: `${props?.video?.file_url}`}}

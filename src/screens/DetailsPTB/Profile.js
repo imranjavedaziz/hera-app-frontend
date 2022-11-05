@@ -7,8 +7,7 @@ import {
   Pressable,
   ImageBackground,
   Modal,
-  Platform,
-  TextInput
+  Platform
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
