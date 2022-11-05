@@ -8,7 +8,7 @@ import {
   ImageBackground,
   Modal,
   Platform,
-  BackHandler,
+  TextInput
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
@@ -252,17 +252,17 @@ const Profile = props => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
+
               <FloatingLabelInput
                 label={Strings.profile.EmailAddress}
                 value={value}
-                onChangeText={v => onChange(v.toLowerCase())}
+                onChangeText={v => onChange(v)}
                 fontWeight={Alignment.BOLD}
                 required={true}
-                autoCapitalize="none"
-                spellCheck={false}
+                
                 error={errors && errors.email?.message}
-                keyboardType="email-address"
-                autoCorrect={false}
+              
+            
               />
             )}
             name={FormKey.email}
@@ -270,6 +270,7 @@ const Profile = props => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
+
               <FloatingLabelInput
                 label={Strings.profile.DateOfBirth}
                 value={value}
