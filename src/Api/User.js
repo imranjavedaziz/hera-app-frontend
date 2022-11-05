@@ -7,7 +7,9 @@ import {
   hideAppLoader,
   showAppToast,
 } from '../redux/actions/loader';
-
+import {
+  getUserGallery,
+} from '../redux/actions/CreateGallery';
 const User = () => {
   const dispatch = useDispatch();
   const createGallery = (data, setLoading) => {
@@ -20,7 +22,9 @@ const User = () => {
       })
       .then(async response => {
         console.log('response', response.data.data);
+        dispatch(getUserGallery());
         await dispatch(showAppToast(false, response.data.message));
+      
         setLoading(false);
       })
       .finally(e => {

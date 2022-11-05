@@ -12,13 +12,12 @@ import {
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
-import { TextTrackType } from 'react-native-video';
+import {TextTrackType} from 'react-native-video';
 
 import Images from '../constants/Images';
 import Alignment from '../constants/Alignment';
 
 const VideoUploading = props => {
-  console.log(props?.video,'props?.video::::::')
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
@@ -35,21 +34,19 @@ const VideoUploading = props => {
         {props?.video?.loading && <ActivityIndicator />}
         {props?.video?.file_url !== '' && (
           <>
-            {props?.rmvImgCount <= 0 && (
-              <TouchableWithoutFeedback>
-                <TouchableOpacity
-                  onPress={() => props?.handelDel(props?.video?.id, true)}
-                  style={styles.videoSel}>
-                  <Image
-                    source={
-                      props?.selVideo
-                        ? Images.iconRadiosel
-                        : Images.iconRadiounsel
-                    }
-                  />
-                </TouchableOpacity>
-              </TouchableWithoutFeedback>
-            )}
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => props?.handelDel(props?.video?.id, true)}
+                style={styles.videoSel}>
+                <Image
+                  source={
+                    props.remove.includes(props?.video?.id)
+                      ? Images.iconRadiosel
+                      : Images.iconRadiounsel
+                  }
+                />
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
             <View style={props?.imageOverlay}>
               <Video
                 ref={props?.videoRef}
