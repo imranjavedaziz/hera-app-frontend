@@ -1,7 +1,7 @@
 import Alignment from '../../constants/Alignment';
 import Colors from '../../constants/Colors';
 import {Fonts} from '../../constants/Constants';
-import {Value} from '../../constants/FixedValues';
+import {Prencentage, Value} from '../../constants/FixedValues';
 import {px} from '../../utils/responsive';
 
 export default {
@@ -9,7 +9,13 @@ export default {
     borderRadius: px(18),
     marginBottom: px(Value.CONSTANT_VALUE_20),
   },
-  row: {flexDirection: 'row'},
+  row: {
+    paddingTop: Value.CONSTANT_VALUE_18,
+    flex: Value.CONSTANT_VALUE_0,
+    width: Prencentage.PRECENTAGE_100,
+    // marginVertical: Value.CONSTANT_VALUE_15,
+    flexDirection: 'row',
+  },
   border: {
     borderWidth: px(1),
     borderColor: Colors.BORDER_LINE,
@@ -30,12 +36,12 @@ export default {
     marginTop: px(8),
   },
   label: {
-    right: 130,
-    marginBottom: 13,
-    top: Value.CONSTANT_VALUE_0,
+    zIndex: -1,
+    marginBottom: px(13),
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK_KEY,
+    marginLeft: px(5),
   },
   red: {color: Colors.RED},
   focusBorder: {
