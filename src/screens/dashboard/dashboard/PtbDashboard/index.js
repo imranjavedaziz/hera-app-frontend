@@ -6,7 +6,6 @@ import {
   Animated,
   Text,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useRef, useState, useCallback, useEffect} from 'react';
 import Swiper from 'react-native-deck-swiper';
@@ -25,7 +24,8 @@ import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {logOut} from '../../../../redux/actions/Auth';
 import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
-
+import {MaterialIndicator} from 'react-native-indicators';
+import Colors from '../../../../constants/Colors';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -39,7 +39,6 @@ const PtbDashboard = props => {
   const dispatch = useDispatch();
   const loadingRef = useRef();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
-  const {registerUser, log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -113,26 +112,24 @@ const PtbDashboard = props => {
   function renderCardData(item) {
     return (
       <>
-        <TouchableOpacity
+        <ImageComp
+          locationText={item?.user?.state_name}
+          code={item?.user?.username}
+          donerAge={item?.user?.age}
+          mapIcon={Images.iconmapwhite}
+          image={{uri: item?.user?.profile_pic}}
+          fadeAnim={fadeAnim}
+          isVisibleLogo={isVisibleLogo}
+          has_happen={islikedLogo}
+          category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
           key={cardIndex}
           onPress={() => {
             navigation.navigate('DashboardDetailScreen', {
               userId: item?.user?.id,
             });
-          }}>
-          <ImageComp
-            locationText={item?.user?.state_name}
-            code={item?.user?.username}
-            donerAge={item?.user?.age}
-            mapIcon={Images.iconmapwhite}
-            image={{uri: item?.user?.profile_pic}}
-            fadeAnim={fadeAnim}
-            isVisibleLogo={isVisibleLogo}
-            has_happen={islikedLogo}
-            category={getRoleType(item?.user?.role_id)}
-          />
-        </TouchableOpacity>
+          }}
+        />
       </>
     );
   }
@@ -218,7 +215,7 @@ const PtbDashboard = props => {
             </View>
           </View>
         ) : (
-          <ActivityIndicator style={{flex: 1}} />
+          <MaterialIndicator color={Colors.COLOR_A3C6C4} />
         )}
       </>
     );

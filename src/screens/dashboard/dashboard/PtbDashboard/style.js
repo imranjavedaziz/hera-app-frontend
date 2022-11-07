@@ -50,13 +50,11 @@ export default {
   sryText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
-    fontWeight: 'bold',
     fontFamily: Fonts.OpenSansBold,
   },
   innerText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
-    fontWeight: 'bold',
     fontFamily: Fonts.OpenSansBold,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
