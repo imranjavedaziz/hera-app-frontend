@@ -1,11 +1,19 @@
-import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Modal,
+  Platform,
+  Alert,
+} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
-import Strings from '../../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -43,10 +51,10 @@ const MyVideo = () => {
       pushArr.push(index);
     } else {
       pushArr.splice(isExist, 1);
-      setRmvImgCount(rmvImgCount - 1);
+      // setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
-}
+  }
   // GET GALLERY DATA
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
@@ -105,13 +113,30 @@ const MyVideo = () => {
     }
   };
   const deleteImg = () => {
-  
-      let payload = {
-        ids: remove?.join(),
-      };       
-      dispatch(deleteGallery(payload));
-      setRemove([]);
-
+    let payload = {
+      ids: remove?.join(),
+    };
+    dispatch(deleteGallery(payload));
+    setRemove([]);
+  };
+  const backAction = () => {
+    Alert.alert(
+      Strings.smSetting.Remove_Video,
+      Strings.sm_create_gallery.modalsubTitle,
+      [
+        {
+          text: Strings.sm_create_gallery.modalText,
+          onPress: () => deleteImg(),
+        },
+        {
+          text: Strings.sm_create_gallery.modalText_2,
+          onPress: () => {
+            console.log('Cancel');
+          },
+        },
+      ],
+    );
+    return true;
   };
   return (
     <>
@@ -146,15 +171,15 @@ const MyVideo = () => {
             videoRef={videoRef}
             isPlaying={isPlaying}
             video={video}
-
             handelDel={handelDel}
-          
             remove={remove}
           />
           {video?.file_url !== '' && (
             <TouchableOpacity
               style={styles.deleteBtnContainer}
-              onPress={() => setShowModal(true)}>
+              onPress={() => {
+                Platform.OS === 'ios' ? backAction() : setShowModal(true);
+              }}>
               <Image source={Images.trashRed} />
               <Text style={styles.rmvText}>
                 {Strings.smSetting.RemoveVideo}

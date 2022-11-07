@@ -32,7 +32,7 @@ target 'MBC' do
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
-
+  pod 'RNCPicker', :path => '../node_modules/@react-native-community/picker'
   target 'MBCTests' do
     inherit! :complete
     # Pods for testing

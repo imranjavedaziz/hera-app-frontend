@@ -134,6 +134,7 @@ export default function Support() {
   };
 
   const onSubmit = data => {
+    console.log(data, 'finaldata');
     const payload = {
       name: data.name,
       email: data.email,
@@ -142,6 +143,7 @@ export default function Support() {
       enquiring_as: data.user_type.id,
       message: data.message,
     };
+    console.log(payload);
     dispatch(showAppLoader());
     dispatch(SupportForm(payload));
   };
@@ -178,6 +180,7 @@ export default function Support() {
     }
     setValue('phone_no', a);
   };
+
   return (
     <Container
       scroller={true}

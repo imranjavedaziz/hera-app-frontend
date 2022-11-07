@@ -17,6 +17,10 @@ export default {
     color: Colors.LABEL_BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
+  IOSlabel: {
+    color: Colors.LABEL_BLACK,
+    fontFamily: Fonts.OpenSansRegular,
+  },
   floated: {
     top: Value.CONSTANT_VALUE_0,
 
@@ -88,5 +92,10 @@ export default {
     fontSize: Value.CONSTANT_VALUE_18,
     marginHorizontal: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
+  },
+  linebelow: {
+    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    justifyContent: 'center',
+    top: Value.CONSTANT_VALUE_17,
   },
 };
