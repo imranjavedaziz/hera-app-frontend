@@ -28,7 +28,7 @@ import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery';
 import Subscription from '../screens/dashboard/PtbProfile/Subscription';
 import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Support from '../screens/Support/Support';
-
+import ChatList from '../screens/chat/ChatList';
 const Stack = createStackNavigator();
 const Main = () => {
   const auth = useSelector(state => state.Auth.user);
@@ -153,6 +153,11 @@ const Main = () => {
         <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
+          options={{headerShown: false}}
+        />
+              <Stack.Screen
+          name={Routes.Chat}
+          component={ChatList}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

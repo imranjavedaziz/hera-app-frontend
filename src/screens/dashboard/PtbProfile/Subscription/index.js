@@ -37,7 +37,7 @@ const Subscription = () => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.mainContainer}>
         <Image source={Images.LOGO} style={styles.logo} />
         <TitleComp

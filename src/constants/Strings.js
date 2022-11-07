@@ -324,4 +324,8 @@ export default {
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
   },
+  Chat:{
+    Chat:'CHAT',
+    All_Conversations:'All Conversations'
+  }
 };

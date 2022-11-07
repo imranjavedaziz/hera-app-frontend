@@ -133,7 +133,7 @@ const Login = props => {
       headerComp={headerComp}
       headerEnd={true}
       style={{marginHorizontal: 35}}>
-      <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}}>
+      <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}} showsVerticalScrollIndicator={false}>
         <View style={globalStyle.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
           <Controller
