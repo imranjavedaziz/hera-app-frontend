@@ -8,7 +8,7 @@ import styles from './style';
 import {useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const Subscription = () => {
   const navigation = useNavigation();
@@ -37,60 +37,61 @@ const Subscription = () => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}>
-        <ScrollView>
-      <View style={styles.mainContainer}>
-        <Image source={Images.LOGO} style={styles.logo} />
-        <TitleComp
-          Title={Strings.subscribe.Subscribe_Now}
-          Subtitle={Strings.Subscription.SubHeader}
-          Midtitle={Strings.Subscription.MidHeader}
-          isCenter={true}
-        />
-        <View style={styles.innerContainer}>
-          <Commitment
-            MainText={Strings.Subscription.Price}
-            Months={Strings.Subscription.Commitment}
-            Icon={
-              halfYear === true ? Images.iconRadiosel : Images.iconRadiounsel
-            }
-            Style={halfYear === true && styles.box}
-            onPress={() => onChangeHalf()}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.mainContainer}>
+          <Image source={Images.LOGO} style={styles.logo} />
+          <TitleComp
+            Title={Strings.subscribe.Subscribe_Now}
+            Subtitle={Strings.Subscription.SubHeader}
+            Midtitle={Strings.Subscription.MidHeader}
+            isCenter={true}
           />
-          <Commitment
-            MainText={Strings.Subscription.yearPrice}
-            Months={Strings.Subscription.YearCommitment}
-            Icon={
-              fullYear === true ? Images.iconRadiosel : Images.iconRadiounsel
-            }
-            Style={fullYear === true && styles.box}
-            onPress={() => onChangeFull()}
+          <View style={styles.innerContainer}>
+            <Commitment
+              MainText={Strings.Subscription.Price}
+              Months={Strings.Subscription.Commitment}
+              Icon={
+                halfYear === true ? Images.iconRadiosel : Images.iconRadiounsel
+              }
+              Style={halfYear === true && styles.box}
+              onPress={() => onChangeHalf()}
+            />
+            <Commitment
+              MainText={Strings.Subscription.yearPrice}
+              Months={Strings.Subscription.YearCommitment}
+              Icon={
+                fullYear === true ? Images.iconRadiosel : Images.iconRadiounsel
+              }
+              Style={fullYear === true && styles.box}
+              onPress={() => onChangeFull()}
+            />
+          </View>
+          <Button
+            label={Strings.Subscription.SubscribeButton}
+            style={styles.payButton}
+            onPress={() => onSubsribe()}
           />
-        </View>
-        <Button
-          label={Strings.Subscription.SubscribeButton}
-          style={styles.payButton}
-          onPress={() => onSubsribe()}
-        />
-        <View>
-          <View style={styles.textView}>
-            <Text style={styles.mainText}>
-            <Text style={{color:'red'}}>*</Text>{Strings.Subscription.BySubs}
-              <TouchableOpacity style={{ top: 2,}}>
-                <Text style={styles.terms}>
-                  {Strings.Subscription.TermsServices}
-                </Text>
-              </TouchableOpacity>
-              {Strings.Subscription.And}
-              <TouchableOpacity>
-                <Text style={styles.terms}>
-                  {Strings.Subscription.PrivacyPolicy}
-                </Text>
-              </TouchableOpacity>
-              {Strings.Subscription.SubscribePolicy}
-            </Text>
+          <View>
+            <View style={styles.textView}>
+              <Text style={styles.mainText}>
+                <Text style={{color: 'red'}}>*</Text>
+                {Strings.Subscription.BySubs}
+                <TouchableOpacity style={{top: 2}}>
+                  <Text style={styles.terms}>
+                    {Strings.Subscription.TermsServices}
+                  </Text>
+                </TouchableOpacity>
+                {Strings.Subscription.And}
+                <TouchableOpacity>
+                  <Text style={styles.terms}>
+                    {Strings.Subscription.PrivacyPolicy}
+                  </Text>
+                </TouchableOpacity>
+                {Strings.Subscription.SubscribePolicy}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
       </ScrollView>
     </Container>
   );
