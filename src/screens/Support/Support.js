@@ -1,11 +1,17 @@
-import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import Styles from '../../styles/auth/smdonor/Support';
 import {useNavigation} from '@react-navigation/native';
-import Strings from '../../constants/Strings';
+import Strings, {ValidationMessages} from '../../constants/Strings';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {inqueryFormSchema} from '../../constants/schemas';
@@ -30,7 +36,6 @@ export default function Support() {
     handleSubmit,
     control,
     setValue,
-    // reset,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(inqueryFormSchema),
@@ -85,12 +90,13 @@ export default function Support() {
     }
     SubmitLoadingRef.current = get_support_form_loading;
   }, [get_support_form_loading, get_support_form_success]);
-
   const headerComp = () => (
     <CircleBtn
       Fixedstyle={styles.fixedheaderStyle}
       icon={Images.iconcross}
-      onPress={() => navigation.goBack()}
+      onPress={() => {
+        backAction();
+      }}
       accessibilityLabel={Strings.inqueryForm.LEFT_ARROW_BUTTON}
     />
   );
@@ -107,7 +113,25 @@ export default function Support() {
       }
     }
   }, [errors, isValid]);
-
+  const backAction = () => {
+    Alert.alert(
+      ValidationMessages.DISCARD_INQUIRY,
+      ValidationMessages.REJECT_DISCARD,
+      [
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
+        },
+        {
+          text: Strings.profile.ModalOption1,
+          onPress: () => {
+            navigation.goBack();
+          },
+        },
+      ],
+    );
+    return true;
+  };
 
   const onSubmit = data => {
     const payload = {
