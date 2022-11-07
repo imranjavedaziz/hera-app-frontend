@@ -1,6 +1,6 @@
 import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
@@ -22,6 +22,7 @@ const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [rmvImgCount, setRmvImgCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
   const dispatch = useDispatch();
@@ -30,12 +31,17 @@ const MyVideo = () => {
   const navigation = useNavigation();
   const videoRef = useRef();
 
-  const {gallery_success, gallery_loading, gallery_data} = useSelector(
-    state => state.CreateGallery,
-  );
+  const {
+    gallery_success,
+    gallery_loading,
+    gallery_data,
+    delete_gallery_success,
+    delete_gallery_loading,
+  } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
   }, [dispatch]);
+
   function handelDel(index) {
     let pushArr = remove;
     let isExist = pushArr.findIndex(val => val === index);
@@ -46,7 +52,7 @@ const MyVideo = () => {
       setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
-}
+  }
   // GET GALLERY DATA
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
@@ -57,6 +63,7 @@ const MyVideo = () => {
             ? gallery_data?.doner_video_gallery?.file_url
             : '',
           loading: false,
+          id: gallery_data?.doner_video_gallery?.id,
         });
         dispatch(hideAppLoader());
       } else {
@@ -65,6 +72,29 @@ const MyVideo = () => {
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
+
+  console.log(
+    'gallery_data?.doner_video_gallery?.id',
+    gallery_data?.doner_video_gallery?.id,
+  );
+
+  // DELETE VIDEO
+
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingGalleryRef.current && !delete_gallery_loading) {
+        dispatch(showAppLoader());
+        if (delete_gallery_success) {
+          dispatch(getUserGallery());
+          dispatch(hideAppLoader());
+        } else {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingGalleryRef.current = delete_gallery_loading;
+    }, [delete_gallery_success, delete_gallery_loading]),
+  );
+
   // SELECT VEDIO
   const selectVideo = index => {
     videoPicker(index).then(v => {
@@ -104,14 +134,13 @@ const MyVideo = () => {
       setIsPlaying(!isPlaying);
     }
   };
-  const deleteImg = () => {
-  
-      let payload = {
-        ids: remove?.join(),
-      };       
-      dispatch(deleteGallery(payload));
-      setRemove([]);
-
+  const deleteVideo = () => {
+    let payload = {
+      ids: video?.id,
+    };
+    dispatch(showAppLoader());
+    dispatch(deleteGallery(payload));
+    setRemove([]);
   };
   return (
     <>
@@ -146,9 +175,7 @@ const MyVideo = () => {
             videoRef={videoRef}
             isPlaying={isPlaying}
             video={video}
-
             handelDel={handelDel}
-          
             remove={remove}
           />
           {video?.file_url !== '' && (
@@ -202,7 +229,7 @@ const MyVideo = () => {
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
-                deleteImg();
+                deleteVideo();
               }}>
               <Text style={styles.modalOption1}>
                 {Strings.sm_create_gallery.modalText}
