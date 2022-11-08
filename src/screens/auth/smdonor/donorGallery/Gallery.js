@@ -345,7 +345,6 @@ const Gallery = () => {
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {' '}
               {Strings.sm_create_gallery.bottomSheetGallery}
             </Text>
           </TouchableOpacity>

@@ -1,4 +1,11 @@
-import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
@@ -24,6 +31,8 @@ import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
 import {logOut} from '../../../redux/actions/Auth';
+import ActionSheet from 'react-native-actionsheet';
+
 import {
   SetPreferenceRes,
   SavePreference,
@@ -53,6 +62,9 @@ const SetPreference = ({route, navigation}) => {
   const ageRange = Static.ageRange;
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
+  const [threeOption, setThreeOption] = useState([]);
+
+  let actionSheet = useRef();
   const {
     handleSubmit,
     control,
@@ -135,11 +147,35 @@ const SetPreference = ({route, navigation}) => {
     dispatch(SavePreference(value));
   };
 
-  const logoutScreen = () => {
+  const logOutScreen = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
-
+  const navigateSupport = () => {
+    navigation.navigate(Routes.Support);
+  };
+  const handleThreeOption = async option => {
+    switch (option) {
+      case Strings.smSetting.Inquiry:
+        navigateSupport();
+        break;
+      case Strings.preference.About:
+        break;
+      case Strings.preference.Logout:
+        logOutScreen();
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.smSetting.Inquiry,
+      Strings.preference.About,
+      Strings.preference.Logout,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
@@ -149,16 +185,28 @@ const SetPreference = ({route, navigation}) => {
           <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
         </TouchableOpacity>
       ) : (
-        <CircleBtn
-          Fixedstyle={styles.fixedheaderStyle}
-          icon={Images.iconSettings}
-          onPress={() => {
-            setOpen(true);
-          }}
-        />
+        <>
+          <CircleBtn
+            Fixedstyle={styles.fixedheaderStyle}
+            icon={Images.iconSettings}
+            onPress={() => {
+              Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
+            }}
+          />
+          <ActionSheet
+            ref={actionSheet}
+            options={threeOption}
+            destructiveButtonIndex={2}
+            cancelButtonIndex={2}
+            onPress={index => {
+              handleThreeOption(threeOption[index]);
+            }}
+          />
+        </>
       )}
     </>
   );
+
   return (
     <>
       <Container
@@ -168,7 +216,9 @@ const SetPreference = ({route, navigation}) => {
         headerComp={headerComp}
         headerEnd={true}
         safeAreViewStyle={
-          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
+          Platform.OS !== 'ios' && isOpen === true
+            ? globalStyle.modalColor
+            : globalStyle.safeViewStyle
         }
         style={{
           paddingBottom: Value.CONSTANT_VALUE_50,
@@ -469,7 +519,7 @@ const SetPreference = ({route, navigation}) => {
 
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
-        lineStyle={{width: Value.CONSTANT_VALUE_20, backgroundColor: '#494947'}}
+        lineStyle={globalStyle.lineStyle}
         isOpen={isOpen}
         setOpen={setOpen}>
         <View style={globalStyle.basicSheetContainer}>
@@ -483,7 +533,7 @@ const SetPreference = ({route, navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={() => logoutScreen()}>
+            onPress={() => logOutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.preference.Logout}
             </Text>
