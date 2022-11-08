@@ -1,10 +1,11 @@
 // Loader
 import React from 'react';
-import {View, ActivityIndicator, Dimensions} from 'react-native';
+import {View, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
+import {MaterialIndicator} from 'react-native-indicators';
 
 const {width, height} = Dimensions.get('window');
 const styles = {
@@ -26,7 +27,7 @@ const Loader = () => {
   if (loaderState.loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator color={Colors.COLOR_A3C6C4} />
+        <MaterialIndicator color={Colors.COLOR_A3C6C4} />
       </View>
     );
   }
