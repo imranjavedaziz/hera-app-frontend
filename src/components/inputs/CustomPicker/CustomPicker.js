@@ -32,6 +32,11 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
   },
+  touchableOpacity: {
+    width: '100%',
+    height: '100%',
+    opacity: 1,
+  },
 });
 
 export default function CustomPicker({
@@ -42,7 +47,6 @@ export default function CustomPicker({
   selected,
 }) {
   const [selectedRecord, setSelectedRecord] = useState();
-  console.log(data, 'datapopop');
   useEffect(() => {
     setSelectedRecord(selected);
   }, [selected]);
@@ -51,10 +55,9 @@ export default function CustomPicker({
     setSelectedRecord(selected);
     cancel();
   }
-  console.log(selected, 'selected');
+
   return (
     <>
-      {console.log('hello')}
       {data.length > 0 && (
         <Modal
           transparent
@@ -63,11 +66,7 @@ export default function CustomPicker({
           onRequestClose={() => console.log('onRequestClose')}>
           <View style={styles.modalContainer}>
             <TouchableOpacity
-              style={{
-                width: '100%',
-                height: '100%',
-                opacity: 1,
-              }}
+              style={styles.touchableOpacity}
               onPress={() => cancelHandler()}
             />
             <View style={styles.topView}>
@@ -86,7 +85,6 @@ export default function CustomPicker({
                 Done
               </Text>
             </View>
-
             <Picker
               selectedValue={selectedRecord?.id ?? selected?.id ?? 2}
               onValueChange={(_itemValue, itemIndex) => {

@@ -7,6 +7,7 @@ import Images from '../../constants/Images';
 import styles from './styles';
 
 import CustomPicker from './CustomPicker/CustomPicker';
+import {Fonts} from '../../constants/Constants';
 
 const Dropdown = ({
   label,
@@ -21,35 +22,33 @@ const Dropdown = ({
   cancelPress,
   ...dropdownProps
 }) => {
-  
   const [value, setValue] = useState(null);
-  const [isFocused, setIsFocused] = React.useState(false);
   const [isVisible, setVisibility] = useState(false);
- 
+
   return (
     <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
       <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
         {Platform.OS === 'ios' ? (
-          <View style={{marginBottom: 10}}>
+          <View style={styles.bottom}>
             <TouchableOpacity
               onPress={() => {
                 setVisibility(true);
               }}>
-              <View>
+              <View style={styles.marginBottom}>
                 <Text
                   style={[
                     styles.IOSlabel,
-                    value ? styles.floated : styles.unfloated,
+                    value ? styles.IOSfloated : styles.unfloated,
                   ]}
                   accessible={true}
                   accessibilityLabel={label}>
                   {label}
                   {required && (
-                    <Text style={[styles.label, {color: 'red'}]}>*</Text>
+                    <Text style={[styles.label, styles.red]}>*</Text>
                   )}
                 </Text>
               </View>
-              <Image source={Images.arrowDown} style={{left: '90%'}} />
+              <Image source={Images.arrowDown} style={styles.left} />
               {value && (
                 <Text style={styles.buttonTextStyle}>{value?.name}</Text>
               )}
@@ -64,12 +63,10 @@ const Dropdown = ({
               isVisible={isVisible}
               cancel={() => {
                 setVisibility(false);
-                setIsFocused(false);
               }}
               done={(selectedItem, index) => {
-                console.log(selectedItem, 'selectedItem');
-                setIsFocused(false);
                 setVisibility(false);
+                onSelect(selectedItem);
                 setValue(selectedItem);
               }}
               data={data}
@@ -104,7 +101,7 @@ const Dropdown = ({
               }}
               rowStyle={styles.rowStyle}
               rowTextStyle={styles.rowTextStyle}
-              selectedRowTextStyle={{fontWeight: 'bold'}}
+              selectedRowTextStyle={{fontFamily: Fonts.OpenSansBold}}
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
