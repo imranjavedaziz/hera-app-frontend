@@ -48,7 +48,10 @@ const Dropdown = ({
                   )}
                 </Text>
               </View>
-              <Image source={Images.arrowDown} style={styles.left} />
+              <Image
+                source={Images.arrowDown}
+                style={[styles.left, {top: value && 19}]}
+              />
               {value && (
                 <Text style={styles.buttonTextStyle}>{value?.name}</Text>
               )}
