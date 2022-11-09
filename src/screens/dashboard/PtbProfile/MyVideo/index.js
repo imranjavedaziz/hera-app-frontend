@@ -7,6 +7,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
@@ -29,6 +30,7 @@ import BottomSheetComp from '../../../../components/BottomSheet';
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
+  const [isLoader, setLoader] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -73,7 +75,8 @@ const MyVideo = () => {
           loading: false,
           id: gallery_data?.doner_video_gallery?.id,
         });
-        dispatch(hideAppLoader());
+        setLoader(false)
+        dispatch(hideAppLoader());  
       } else {
         dispatch(hideAppLoader());
       }
@@ -142,6 +145,12 @@ const MyVideo = () => {
       setIsPlaying(!isPlaying);
     }
   };
+
+  const deleteImg = () => {
+    let payload = {
+      ids: remove?.join(),
+    };
+  }
   const deleteVideo = () => {
     let payload = {
       ids: video?.id,
@@ -186,25 +195,27 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          <VideoUploading
-            imageOverlay={styles.imageOverlayWrapper}
-            style={styles.VdoContainer}
-            disabled={video?.file_url === '' ? false : true}
-            onEnd={() => {
-              setIsPlaying(false);
-              videoRef?.current?.seek(0);
-              videoRef?.current?.setNativeProps({
-                paused: true,
-              });
-            }}
-            onPress={() => videoPlay()}
-            videoStyle={styles.video}
-            videoRef={videoRef}
-            isPlaying={isPlaying}
-            video={video}
-            handelDel={handelDel}
-            remove={remove}
-          />
+          {isLoader !==true && (
+            <VideoUploading
+              imageOverlay={styles.imageOverlayWrapper}
+              style={styles.VdoContainer}
+              disabled={video?.file_url === '' ? false : true}
+              onEnd={() => {
+                setIsPlaying(false);
+                videoRef?.current?.seek(0);
+                videoRef?.current?.setNativeProps({
+                  paused: true,
+                });
+              }}
+              onPress={() => videoPlay()}
+              videoStyle={styles.video}
+              videoRef={videoRef}
+              isPlaying={isPlaying}
+              video={video}
+              handelDel={handelDel}
+              remove={remove}
+            />
+          )}
           {video?.file_url !== '' && (
             <TouchableOpacity
               style={styles.deleteBtnContainer}
