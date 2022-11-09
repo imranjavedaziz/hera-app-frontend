@@ -324,4 +324,12 @@ export default {
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
   },
+  Sensory: {
+    AS_PER_SEARCH:
+      'As per the search criteria you have set, a series of surrogate mother, sperm donor or egg donor will be shown',
+    SELECT_HEART_TO:
+      'Select heart to send a like to the profile & if they like you back, it will be a match! You will be able to chat only with your matches.',
+    SELECT_CROSS:
+      'Select cross to reject the profile & go to the next profile.',
+  },
 };
