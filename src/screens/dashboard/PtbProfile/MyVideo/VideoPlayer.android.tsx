@@ -3,11 +3,9 @@ import {
   StyleSheet,
   Dimensions,
   View,
-  Text,
   TouchableOpacity,
   StatusBar,
   TouchableWithoutFeedback,
-  ScrollView,
   Image
 } from 'react-native';
 import Video, {
@@ -71,7 +69,7 @@ export const VideoPlayer: React.FC = () => {
                 onPress={handleFullscreen}
                 hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
                 style={styles.fullscreenButton}>
-                {state.fullscreen ? <Image source={Images.iconChat}/>: <Image source={Images.iconChat}/>}
+                {state.fullscreen ? <Image source={Images.MINIMIZE}/>: <Image source={Images.FULL_SCR_BTN}/>}
               </TouchableOpacity>
               <PlayerControls
                 onPlay={handlePlayPause}
@@ -93,13 +91,6 @@ export const VideoPlayer: React.FC = () => {
           )}
         </View>
       </TouchableWithoutFeedback>
-      <ScrollView>
-        <Text style={styles.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus enim
-          suscipit ipsa impedit laboriosam saepe, sapiente excepturi molestiae
-
-        </Text>
-      </ScrollView>
     </View>
   );
 

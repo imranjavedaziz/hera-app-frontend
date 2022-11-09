@@ -30,37 +30,29 @@ export const PlayerControls: React.FC<Props> = ({
   onPrevious,
 }) => (
   <View style={styles.wrapper}>
-    {/* {showPreviousAndNext && (
-    
-    )} */}
-
-<TouchableOpacity
+    {showPreviousAndNext && (
+      <TouchableOpacity
         style={[styles.touchable, previousDisabled && styles.touchableDisabled]}
         onPress={onPrevious}
-        disabled={previousDisabled}
-        >
-        {/* <VideoPrevious /> */}
-        <Image source={Images.STAR}/>
+        disabled={previousDisabled}>
+        <Image source={Images.FAST_BACK}/>
       </TouchableOpacity>
+    )}
     {showSkip && (
       <TouchableOpacity style={styles.touchable} onPress={skipBackwards}>
-        {/* <VideoSkipBack /> */}
-        <Image source={Images.STAR}/>
-
+        <Image source={Images.FAST_BACK}/>
       </TouchableOpacity>
     )}
 
     <TouchableOpacity
       style={styles.touchable}
       onPress={playing ? onPause : onPlay}>
-      {/* {playing ? <VideoPause /> : <VideoPlay />} */}
-      {playing ?<Image source={Images.BACK_ICON}/>: <Image source={Images.BACK_ICON}/>}
+      {playing ?<Image source={Images.PAUSE_BTN}/>: <Image source={Images.PLAY_TWO}/>}
     </TouchableOpacity>
 
     {showSkip && (
       <TouchableOpacity style={styles.touchable} onPress={skipForwards}>
-        {/* <VideoSkipForward /> */}
-      {playing ?<Image source={Images.search}/>: <Image source={Images.BACK_ICON}/>}
+      {playing ?<Image source={Images.FAST_BACK}/>: <Image source={Images.FAST_FRONT}/>}
       </TouchableOpacity>
     )}
 
@@ -69,7 +61,6 @@ export const PlayerControls: React.FC<Props> = ({
         style={[styles.touchable, nextDisabled && styles.touchableDisabled]}
         onPress={onNext}
         disabled={nextDisabled}>
-        {/* <VideoNext /> */}
         <Image source={Images.GEAR_ICON}/>
       </TouchableOpacity>
     )}

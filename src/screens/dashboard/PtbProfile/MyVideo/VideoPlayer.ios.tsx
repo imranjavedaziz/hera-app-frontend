@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Dimensions, View, Text, ScrollView} from 'react-native';
+import {StyleSheet, Dimensions, View} from 'react-native';
 import Video from 'react-native-video';
 
 export const VideoPlayer: React.FC = () => {
@@ -18,17 +18,6 @@ export const VideoPlayer: React.FC = () => {
         controls={true}
         resizeMode={'cover'}
       />
-      <ScrollView>
-        <Text style={styles.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus enim
-          suscipit ipsa impedit laboriosam saepe, sapiente excepturi molestiae
-          laudantium, non tempora cumque, quam assumenda deserunt? Similique
-          eaque voluptas itaque corporis. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Sequi unde iusto vel facere quibusdam nisi placeat,
-          debitis veritatis autem deserunt at voluptas nam ut mollitia qui fugit
-          minus minima quod.
-        </Text>
-      </ScrollView>
     </View>
   );
 };
