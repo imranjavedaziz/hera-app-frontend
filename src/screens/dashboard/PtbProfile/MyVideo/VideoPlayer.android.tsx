@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   TouchableWithoutFeedback,
-  Image
+  Image,
 } from 'react-native';
 import Video, {
   OnSeekData,
@@ -14,10 +14,9 @@ import Video, {
   OnProgressData,
 } from 'react-native-video';
 import Orientation from 'react-native-orientation-locker';
-import { PlayerControls } from '../../../../components/PlayerControls';
-import { ProgressBar } from '../../../../components/ProgressBar';
+import {PlayerControls} from '../../../../components/PlayerControls';
+import {ProgressBar} from '../../../../components/ProgressBar';
 import Images from '../../../../constants/Images';
-
 
 interface State {
   fullscreen: boolean;
@@ -27,7 +26,7 @@ interface State {
   showControls: boolean;
 }
 
-export const VideoPlayer: React.FC = () => {
+export const VideoPlayer: React.FC = (props: any) => {
   const videoRef = React.createRef<Video>();
   const [state, setState] = useState<State>({
     fullscreen: false,
@@ -44,7 +43,8 @@ export const VideoPlayer: React.FC = () => {
       Orientation.removeOrientationListener(handleOrientation);
     };
   }, []);
-
+  console.log("LINE NO 46",props?.url);
+  
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={showControls}>
@@ -52,8 +52,8 @@ export const VideoPlayer: React.FC = () => {
           <Video
             ref={videoRef}
             source={{
-              uri:
-                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+              uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+              // uri: "https://mbc-qa-kiwitech.s3.amazonaws.com/images/user_gellery/5x8mjh9EBs3kC9s8uneFvbk0VvnzolTlLTeptHbN.mp4",
             }}
             style={state.fullscreen ? styles.fullscreenVideo : styles.video}
             controls={false}
@@ -62,6 +62,7 @@ export const VideoPlayer: React.FC = () => {
             onProgress={onProgress}
             onEnd={onEnd}
             paused={!state.play}
+            audioOnly={true}
           />
           {state.showControls && (
             <View style={styles.controlOverlay}>
@@ -69,7 +70,11 @@ export const VideoPlayer: React.FC = () => {
                 onPress={handleFullscreen}
                 hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
                 style={styles.fullscreenButton}>
-                {state.fullscreen ? <Image source={Images.MINIMIZE}/>: <Image source={Images.FULL_SCR_BTN}/>}
+                {state.fullscreen ? (
+                  <Image source={Images.MINIMIZE} />
+                ) : (
+                  <Image source={Images.FULL_SCR_BTN} />
+                )}
               </TouchableOpacity>
               <PlayerControls
                 onPlay={handlePlayPause}
@@ -117,28 +122,24 @@ export const VideoPlayer: React.FC = () => {
     setState({...state, play: true});
     setTimeout(() => setState(s => ({...s, showControls: false})), 2000);
     // console.log("handlePlayPause");
-    
   }
 
   function skipBackward() {
     videoRef.current.seek(state.currentTime - 15);
     setState({...state, currentTime: state.currentTime - 15});
-    console.log("skipBackward");
-    
+    console.log('skipBackward');
   }
 
   function skipForward() {
     videoRef.current.seek(state.currentTime + 15);
     setState({...state, currentTime: state.currentTime + 15});
-    console.log("skipForward");
-    
+    console.log('skipForward');
   }
 
   function onSeek(data: OnSeekData) {
     videoRef.current.seek(data.seekTime);
     setState({...state, currentTime: data.seekTime});
     // console.log("onSeek");
-    
   }
 
   function onLoadEnd(data: OnLoadData) {
@@ -148,7 +149,6 @@ export const VideoPlayer: React.FC = () => {
       currentTime: data.currentTime,
     }));
     // console.log("onLoadEnd");
-    
   }
 
   function onProgress(data: OnProgressData) {
@@ -157,14 +157,12 @@ export const VideoPlayer: React.FC = () => {
       currentTime: data.currentTime,
     }));
     // console.log("onLoadEnd");
-    
   }
 
   function onEnd() {
     setState({...state, play: false});
     videoRef.current.seek(0);
-    console.log("onEnd");
-    
+    console.log('onEnd');
   }
 
   function showControls() {
@@ -172,8 +170,7 @@ export const VideoPlayer: React.FC = () => {
       ? setState({...state, showControls: false})
       : setState({...state, showControls: true});
   }
-  console.log("showControls");
-  
+  console.log('showControls');
 };
 
 const styles = StyleSheet.create({

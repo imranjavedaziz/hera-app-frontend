@@ -19,16 +19,6 @@ const VideoUploading = props => {
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
-        {/* {props?.video?.file_url === null && (
-          <>
-            <View style={styles.innerVdo}>
-              <Text style={styles.vdoHeading}>
-                {Strings.smSetting.UploadVideo}
-              </Text>
-              <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
-            </View>
-          </>
-        )} */}
         {props?.video?.loading && <ActivityIndicator />}
         {props?.video?.file_url !== ''?(
           <>
@@ -63,9 +53,6 @@ const VideoUploading = props => {
                   props?.onEnd();
                 }}
               />
-              {/* {!props?.isPlaying && (
-                <Image source={Images.playButton} style={styles.playIcon} />
-              )} */}
             </View>
           </>
         ): <>
