@@ -10,12 +10,24 @@ export default {
     width: Prencentage.PRECENTAGE_100,
     marginVertical: Value.CONSTANT_VALUE_15,
   },
+  bottom: {bottom: 10},
   label: {
     position: Alignment.ABSOLUTE,
     left: Value.CONSTANT_VALUE_0,
     zIndex: -1,
     color: Colors.LABEL_BLACK,
     fontFamily: Fonts.OpenSansRegular,
+  },
+  marginBottom: {marginBottom: 10},
+  IOSlabel: {
+    color: Colors.LABEL_BLACK,
+    fontFamily: Fonts.OpenSansRegular,
+  },
+  IOSfloated: {
+    top: Value.CONSTANT_VALUE_10,
+
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_KEY,
   },
   floated: {
     top: Value.CONSTANT_VALUE_0,
@@ -89,4 +101,11 @@ export default {
     marginHorizontal: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
   },
+  linebelow: {
+    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    justifyContent: 'center',
+    top: Value.CONSTANT_VALUE_17,
+  },
+  red: {color: 'red'},
+  left: {left: '90%'},
 };

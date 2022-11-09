@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Modal,
   Platform,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
@@ -108,7 +109,9 @@ const Profile = props => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => setShowModal(true)}
+      onPress={() => {
+        Platform.OS === 'ios' ? backAction() : setShowModal(true);
+      }}
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
   );
@@ -142,6 +145,21 @@ const Profile = props => {
     setOpen(false);
     setUserImage(image.path);
     setFile(image);
+  };
+  const backAction = () => {
+    Alert.alert(Strings.profile.ModalHeader, Strings.profile.ModalSubheader, [
+      {
+        text: Strings.profile.ModalOption1,
+        onPress: () => {
+          logoutScreen();
+        },
+      },
+      {
+        text: Strings.profile.ModalOption2,
+        onPress: () => null,
+      },
+    ]);
+    return true;
   };
   // Submit form
   const onSubmit = data => {

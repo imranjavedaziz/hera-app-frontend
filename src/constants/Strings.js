@@ -61,6 +61,8 @@ export const ValidationMessages = {
   HOLD_ON: 'Hold on!',
   CANCEL: 'Cancel',
   YES: 'YES',
+  DISCARD_INQUIRY: 'Discard Inquiry',
+  REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
 };
 export default {
   landing: {
@@ -307,7 +309,7 @@ export default {
   },
   Subscription: {
     SubHeader: 'See 5 profiles per day',
-    MidHeader:'(Use-it-or-lose it)',
+    MidHeader: '(Use-it-or-lose it)',
     SubscribeButton: 'SUBSCRIBE & PAY',
     BySubs: 'By subscribing, you agree to HERA’s ',
     TermsServices: 'Terms of Service',

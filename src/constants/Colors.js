@@ -40,4 +40,7 @@ export default {
   BLACK_KEY: '#000000',
   RGBA_229_172_177: 'rgba(229,172,177,.3)',
   RGBA_152_200_194: 'rgba(152,200,194)',
+  SHEETCOLOR: '#ECECEC',
+  MIDDLE_SHEET: '#E1E1E1',
+  TEXT_SHEET: '#28282A',
 };

@@ -58,7 +58,7 @@ const SmDashboard = ({route}) => {
       return () => {
         unsubscribe();
       };
-    }, [dispatch]),
+    }, []),
   );
   //  DONOR DASHBOARD CARD
   useFocusEffect(

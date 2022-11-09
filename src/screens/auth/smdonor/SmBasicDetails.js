@@ -30,6 +30,7 @@ import {
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
 import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import MultiTextInput from '../../../components/MultiTextMessage/MultiTextMessage';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -309,17 +310,15 @@ const SmBasicDetails = () => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.sm_basic.Bio}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.bio?.message}
+              <MultiTextInput
+                title={Strings.sm_basic.Bio}
                 required={true}
-                fixed={true}
+                value={value}
                 maxLength={250}
-                multiline={true}
-                numberOfLines={5}
-                inputStyle={styles.textArea}
+                onChangeText={v => {
+                  onChange(v);
+                }}
+                error={errors && errors.bio?.message}
               />
             )}
             name="bio"
