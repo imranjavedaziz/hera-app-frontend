@@ -60,4 +60,8 @@ export default {
   Demo2: require('../assets/Images/Demo2.png'),
   QUOTES: require('../assets/Images/background_quotes/invalidName.png'),
   STAR: require('../assets/icons/star3/star3.png'),
+  // SENSORY
+  BABY_MOTHER: require('../assets/icons/babyMother/babyMother.png'),
+  CROSS: require('../assets/icons/cross/cross.png'),
+  HEART: require('../assets/icons/heart/heart.png'),
 };
