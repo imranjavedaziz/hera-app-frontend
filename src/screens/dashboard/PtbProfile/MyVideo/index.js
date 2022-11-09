@@ -1,3 +1,5 @@
+
+
 import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -39,7 +41,6 @@ const MyVideo = () => {
     delete_gallery_success,
     delete_gallery_loading,
   } = useSelector(state => state.CreateGallery);
-
   useEffect(() => {
     dispatch(getUserGallery());
   }, [dispatch]);
@@ -60,7 +61,6 @@ const MyVideo = () => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
       if (gallery_success) {
-
         setVideo({
           file_url: gallery_data?.doner_video_gallery?.file_url
             ? gallery_data?.doner_video_gallery?.file_url
@@ -69,11 +69,10 @@ const MyVideo = () => {
           id: gallery_data?.doner_video_gallery?.id,
         });
         setLoader(false)
-         dispatch(hideAppLoader());
+        dispatch(hideAppLoader());  
       } else {
         dispatch(hideAppLoader());
       }
-    
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
@@ -144,13 +143,12 @@ const MyVideo = () => {
     let payload = {
       ids: remove?.join(),
     };
-
+  }
   const deleteVideo = () => {
     let payload = {
       ids: video?.id,
     };
     dispatch(showAppLoader());
-
     dispatch(deleteGallery(payload));
     setRemove([]);
   };
@@ -192,7 +190,6 @@ const MyVideo = () => {
               remove={remove}
             />
           )}
-
           {video?.file_url !== '' && (
             <TouchableOpacity
               style={styles.deleteBtnContainer}
