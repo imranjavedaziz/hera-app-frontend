@@ -126,6 +126,5 @@ export default {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
-    // width: width / 2,
   },
 };

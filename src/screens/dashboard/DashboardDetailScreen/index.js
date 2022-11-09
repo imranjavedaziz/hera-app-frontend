@@ -141,47 +141,47 @@ const DashboardDetailScreen = () => {
               </Text>
             </ImageBackground>
           </View>
-          <View style={styles.nativeMainContainer}>
-            {smDetailRes?.location?.name ? (
-              <View style={styles.nativePlace}>
-                <Text style={global?.tagText}>
-                  {smDetailRes?.location?.name}
-                </Text>
-              </View>
-            ) : null}
-            {smDetailRes?.doner_attribute?.race ? (
-              <View style={styles.fatherPlace}>
-                <Text style={global?.tagText} numberOfLines={2}>
-                  Father is American Indian and alska native
-                  {/* {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`} */}
-                </Text>
-              </View>
-            ) : null}
-          </View>
-          <View style={styles.nativeMainContainer}>
-            {smDetailRes?.doner_attribute?.race && (
-              <View style={styles.motherPlace}>
-                <Text style={global?.tagText} numberOfLines={2}>
-                Father is American Indian and alska native
-                  {/* {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`} */}
-                </Text>
-              </View>
-            )}
-            {smDetailRes?.doner_attribute?.hair_colour && (
-              <View style={styles.hairColor}>
-                <Text style={global?.tagText}>
-                  {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-                </Text>
-              </View>
-            )}
-          </View>
-          {smDetailRes?.doner_attribute?.eye_colour && (
-            <View style={styles.eyeColorContainer}>
-              <Text style={global?.tagText}>
-                {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
-              </Text>
+          <View style={styles.innerContainer}>
+            <View style={styles.nativeMainContainer}>
+              {smDetailRes?.location?.name ? (
+                <View style={styles.nativePlace}>
+                  <Text style={global?.tagText}>
+                    {smDetailRes?.location?.name}
+                  </Text>
+                </View>
+              ) : null}
+              {smDetailRes?.doner_attribute?.race ? (
+                <View style={styles.fatherPlace}>
+                  <Text style={global?.tagText} numberOfLines={2}>
+                    {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                  </Text>
+                </View>
+              ) : null}
             </View>
-          )}
+            <View style={styles.nativeMainContainer}>
+              {smDetailRes?.doner_attribute?.race && (
+                <View style={styles.motherPlace}>
+                  <Text style={global?.tagText} numberOfLines={2}>
+                    {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                  </Text>
+                </View>
+              )}
+              {smDetailRes?.doner_attribute?.hair_colour && (
+                <View style={styles.hairColor}>
+                  <Text style={global?.tagText}>
+                    {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+                  </Text>
+                </View>
+              )}
+            </View>
+            {smDetailRes?.doner_attribute?.eye_colour && (
+              <View style={styles.eyeColorContainer}>
+                <Text style={global?.tagText}>
+                  {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
+                </Text>
+              </View>
+            )}
+          </View>
           {smDetailRes?.doner_photo_gallery?.length > 0 && (
             <View style={styles.imageMainContainer}>
               <FlatList
