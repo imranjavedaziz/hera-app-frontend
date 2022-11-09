@@ -1,6 +1,6 @@
 // SetAttributes
 import React, {useEffect, useRef, useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, Platform} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
@@ -19,11 +19,15 @@ import {getAttribute, saveAttribute} from '../../../redux/actions/SetAttribute';
 import {logOut} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
+import ActionSheet from 'react-native-actionsheet';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [attributeData, setAttributeData] = useState();
+  const [threeOption, setThreeOption] = useState([]);
+
+  let actionSheet = useRef();
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -91,13 +95,51 @@ const SetAttributes = ({route}) => {
     navigation,
     dispatch,
   ]);
+
+  const navigateSupport = () => {
+    navigation.navigate(Routes.Support);
+  };
+  const handleThreeOption = async option => {
+    switch (option) {
+      case Strings.smSetting.Inquiry:
+        navigateSupport();
+        break;
+      case Strings.preference.About:
+        break;
+      case Strings.preference.Logout:
+        logOutScreen();
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.smSetting.Inquiry,
+      Strings.preference.About,
+      Strings.preference.Logout,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+
   const headerComp = () => (
-    <CircleBtn
-      icon={Images.iconSettings}
-      onPress={() => {
-        setOpen(true);
-      }}
-    />
+    <>
+      <CircleBtn
+        icon={Images.iconSettings}
+        onPress={() => {
+          Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
+        }}
+      />
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
+    </>
   );
 
   const logOutScreen = () => {

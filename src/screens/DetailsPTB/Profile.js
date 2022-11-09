@@ -7,7 +7,8 @@ import {
   Pressable,
   ImageBackground,
   Modal,
-  Platform
+  Platform,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import moment from 'moment';
@@ -46,6 +47,7 @@ import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
 import {deviceHandler} from '../../utils/commonFunction';
+import ActionSheet from 'react-native-actionsheet';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -61,6 +63,8 @@ const Profile = props => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const {
     handleSubmit,
     control,
@@ -105,7 +109,9 @@ const Profile = props => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => setShowModal(true)}
+      onPress={() => {
+        Platform.OS === 'ios' ? backAction() : setShowModal(true);
+      }}
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
   );
@@ -114,10 +120,46 @@ const Profile = props => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        openCamera(0, cb);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        openCamera(1, cb);
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
     setFile(image);
+  };
+  const backAction = () => {
+    Alert.alert(Strings.profile.ModalHeader, Strings.profile.ModalSubheader, [
+      {
+        text: Strings.profile.ModalOption1,
+        onPress: () => {
+          logoutScreen();
+        },
+      },
+      {
+        text: Strings.profile.ModalOption2,
+        onPress: () => null,
+      },
+    ]);
+    return true;
   };
   // Submit form
   const onSubmit = data => {
@@ -152,6 +194,14 @@ const Profile = props => {
       reset();
     });
   }, [navigation, reset]);
+  const openIosSheet = () => {
+    openActionSheet();
+    askCameraPermission();
+  };
+  const openAndroidSheet = () => {
+    setOpen(true);
+    askCameraPermission();
+  };
   return (
     <>
       <Container
@@ -180,8 +230,7 @@ const Profile = props => {
             <View style={styles.profileContainer}>
               <TouchableOpacity
                 onPress={() => {
-                  setOpen(true);
-                  askCameraPermission();
+                  Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}>
                 <ImageBackground
                   source={userImage ? {uri: userImage} : null}
@@ -193,7 +242,11 @@ const Profile = props => {
                       styles.uploadBackground,
                       userImage ? styles.userImg : null,
                     ]}
-                    onPress={() => setOpen(true)}>
+                    onPress={() => {
+                      Platform.OS === 'ios'
+                        ? openIosSheet()
+                        : openAndroidSheet();
+                    }}>
                     <Image source={Images.camera} style={styles.profileImg} />
                   </TouchableOpacity>
                 </ImageBackground>
@@ -251,17 +304,13 @@ const Profile = props => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-
               <FloatingLabelInput
                 label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v)}
                 fontWeight={Alignment.BOLD}
                 required={true}
-                
                 error={errors && errors.email?.message}
-              
-            
               />
             )}
             name={FormKey.email}
@@ -269,7 +318,6 @@ const Profile = props => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-
               <FloatingLabelInput
                 label={Strings.profile.DateOfBirth}
                 value={value}
@@ -396,6 +444,15 @@ const Profile = props => {
           }}>
           <Text style={styles.smRegister}>{Strings.profile.RegisterAs}</Text>
         </Pressable>
+        <ActionSheet
+          ref={actionSheet}
+          options={threeOption}
+          destructiveButtonIndex={2}
+          cancelButtonIndex={2}
+          onPress={index => {
+            handleThreeOption(threeOption[index]);
+          }}
+        />
         <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
           <View style={styles.imgPickerContainer}>
             <TouchableOpacity

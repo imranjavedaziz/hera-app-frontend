@@ -61,6 +61,8 @@ export const ValidationMessages = {
   HOLD_ON: 'Hold on!',
   CANCEL: 'Cancel',
   YES: 'YES',
+  DISCARD_INQUIRY: 'Discard Inquiry',
+  REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
 };
 export default {
   landing: {
@@ -144,7 +146,6 @@ export default {
     MiddleName: 'Middle Name (Optional)',
     LastName: 'Last Name',
     DOB: 'Date Of Birth',
-    // email: 'Email Address',
     Password: 'Set Password',
     Confirm: 'Confirm Password',
     Title: 'Make account for',
@@ -175,7 +176,6 @@ export default {
     FatheEthnicity: 'Father’s Ethnicity',
     Weight: 'Weight',
     EyeColor: 'Eye Color',
-    // HairColor: 'Hair Color',
     Education: 'Education',
     Btn: 'Save',
   },
@@ -309,7 +309,7 @@ export default {
   },
   Subscription: {
     SubHeader: 'See 5 profiles per day',
-    MidHeader:'(Use-it-or-lose it)',
+    MidHeader: '(Use-it-or-lose it)',
     SubscribeButton: 'SUBSCRIBE & PAY',
     BySubs: 'By subscribing, you agree to HERA’s ',
     TermsServices: 'Terms of Service',
@@ -323,5 +323,13 @@ export default {
     Later: 'Later',
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
+  },
+  Sensory: {
+    AS_PER_SEARCH:
+      'As per the search criteria you have set, a series of surrogate mother, sperm donor or egg donor will be shown',
+    SELECT_HEART_TO:
+      'Select heart to send a like to the profile & if they like you back, it will be a match! You will be able to chat only with your matches.',
+    SELECT_CROSS:
+      'Select cross to reject the profile & go to the next profile.',
   },
 };

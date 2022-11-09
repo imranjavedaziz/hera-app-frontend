@@ -1,13 +1,20 @@
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Modal,
+  Platform,
+  Alert,
+} from 'react-native';
 
-
-import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
-import Strings from '../../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -52,7 +59,7 @@ const MyVideo = () => {
       pushArr.push(index);
     } else {
       pushArr.splice(isExist, 1);
-      setRmvImgCount(rmvImgCount - 1);
+      // setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
   }
@@ -152,6 +159,25 @@ const MyVideo = () => {
     dispatch(deleteGallery(payload));
     setRemove([]);
   };
+  const backAction = () => {
+    Alert.alert(
+      Strings.smSetting.Remove_Video,
+      Strings.sm_create_gallery.modalsubTitle,
+      [
+        {
+          text: Strings.sm_create_gallery.modalText,
+          onPress: () => deleteVideo(),
+        },
+        {
+          text: Strings.sm_create_gallery.modalText_2,
+          onPress: () => {
+            console.log('Cancel');
+          },
+        },
+      ],
+    );
+    return true;
+  };
   return (
     <>
       <Container
@@ -193,7 +219,9 @@ const MyVideo = () => {
           {video?.file_url !== '' && (
             <TouchableOpacity
               style={styles.deleteBtnContainer}
-              onPress={() => setShowModal(true)}>
+              onPress={() => {
+                Platform.OS === 'ios' ? backAction() : setShowModal(true);
+              }}>
               <Image source={Images.trashRed} />
               <Text style={styles.rmvText}>
                 {Strings.smSetting.RemoveVideo}

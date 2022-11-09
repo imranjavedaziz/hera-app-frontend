@@ -67,4 +67,8 @@ export default {
   PAUSE_BTN: require('../assets/icons/pause/pause.png'),
   FULL_SCR_BTN: require('../assets/icons/fullScreen/fullScreen.png'),
   MINIMIZE: require('../assets/icons/minimize/minimize.png'),
+  // SENSORY
+  BABY_MOTHER: require('../assets/icons/babyMother/babyMother.png'),
+  CROSS: require('../assets/icons/cross/cross.png'),
+  HEART: require('../assets/icons/heart/heart.png'),
 };
