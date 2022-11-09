@@ -8,7 +8,7 @@ export default {
   row: {
     alignItems: Alignment.CENTER,
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_8,
+    // marginTop: Value.CONSTANT_VALUE_8,
   },
   text: {
     fontSize: FontSize.FONT_16,

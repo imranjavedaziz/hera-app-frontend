@@ -1,5 +1,5 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
 import {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import Container from '../../../components/Container';
@@ -15,11 +15,14 @@ import {Routes} from '../../../constants/Constants';
 import BottomSheetComp from '../../../components/BottomSheet';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
+import ActionSheet from 'react-native-actionsheet';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const dispatch = useDispatch();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
@@ -31,6 +34,35 @@ const PtbProfile = () => {
       leftPress={() => navigation.goBack()}
     />
   );
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        openCamera(0, cb);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        openCamera(1, cb);
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+
+  const openIosSheet = () => {
+    openActionSheet();
+    askCameraPermission();
+  };
+  const openAndroidSheet = () => {
+    setOpen(true);
+    askCameraPermission();
+  };
 
   const cb = image => {
     setOpen(false);
@@ -69,8 +101,7 @@ const PtbProfile = () => {
           <ProfileImage
             Heading={Strings.smSetting.ptbProfile}
             onPressImg={() => {
-              setOpen(true);
-              askCameraPermission();
+              Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
             }}
             Name={first_name}
             LastName={last_name}
@@ -124,6 +155,15 @@ const PtbProfile = () => {
             </Text>
           </View>
         </View>
+        <ActionSheet
+          ref={actionSheet}
+          options={threeOption}
+          destructiveButtonIndex={2}
+          cancelButtonIndex={2}
+          onPress={index => {
+            handleThreeOption(threeOption[index]);
+          }}
+        />
         <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
           <View style={styles.imgPickerContainer}>
             <TouchableOpacity

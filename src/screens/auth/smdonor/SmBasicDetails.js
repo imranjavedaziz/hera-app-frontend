@@ -161,7 +161,7 @@ const SmBasicDetails = () => {
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
   };
-  const handleThreeOption = async option => {
+  const handleThreeOption = option => {
     switch (option) {
       case Strings.smSetting.Inquiry:
         navigateSupport();
