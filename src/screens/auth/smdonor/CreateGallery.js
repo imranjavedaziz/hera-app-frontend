@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Alert,
+  Platform,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../components/Container';
@@ -178,6 +180,25 @@ const CreateGallery = () => {
     } else {
       return;
     }
+  };
+  const deleteAction = () => {
+    Alert.alert(
+      Strings.sm_create_gallery.modalTitle,
+      Strings.sm_create_gallery.modalsubTitle,
+      [
+        {
+          text: Strings.sm_create_gallery.modalText,
+          onPress: () => {
+            deleteImg(selVideo);
+          },
+        },
+        {
+          text: Strings.sm_create_gallery.modalText_2,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
   };
   const updateGallery = () => {
     const url =
@@ -375,7 +396,9 @@ const CreateGallery = () => {
               )}
               <TouchableOpacity
                 style={styles.deleteBtnContainer}
-                onPress={() => setShowModal(true)}>
+                onPress={() => {
+                  Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
+                }}>
                 <Image source={Images.trashRed} style={{}} />
                 <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
