@@ -11,6 +11,7 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_15,
   },
+  zeromargin: {marginHorizontal: Value.CONSTANT_VALUE_0},
   profileImg: {
     width: Value.CONSTANT_VALUE_40,
     height: Value.CONSTANT_VALUE_40,
@@ -106,7 +107,7 @@ export default {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    width:320,
+    width: 320,
   },
   video: {
     overflow: Alignment.HIDDEN,
@@ -124,5 +125,8 @@ export default {
   },
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
+  },
+  resize: {
+    resizeMode: Alignment.COVER,
   },
 };
