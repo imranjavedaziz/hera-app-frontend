@@ -1,7 +1,9 @@
 // BottomSheetComp
 import React, {useRef} from 'react';
-import {Button, Modal, Platform, TouchableOpacity} from 'react-native';
+import {Modal, Platform, TouchableOpacity} from 'react-native';
 import BottomSheet from 'react-native-simple-bottom-sheet';
+
+import ActionSheet from 'react-native-actionsheet';
 
 const BottomSheetComp = props => {
   const {isOpen, setOpen, children, wrapperStyle, lineStyle} = props;

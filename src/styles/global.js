@@ -6,6 +6,7 @@ import {
   dynamicSize,
   scaleWidth,
   scaleHeight,
+  width,
 } from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
 
@@ -105,19 +106,19 @@ export default {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
-  dynamicMarginTop: (value) => ({
+  dynamicMarginTop: value => ({
     marginTop: scaleHeight(value),
   }),
-  dynamicMarginBottom: (value) => ({
+  dynamicMarginBottom: value => ({
     marginBottom: scaleHeight(value),
   }),
-  dynamicMarginHorizontal: (value) => ({
+  dynamicMarginHorizontal: value => ({
     marginHorizontal: scaleWidth(value),
   }),
-  dynamicMarginRight: (value) => ({
+  dynamicMarginRight: value => ({
     marginRight: scaleWidth(value),
   }),
-  dynamicMarginLeft: (value) => ({
+  dynamicMarginLeft: value => ({
     marginLeft: scaleWidth(value),
   }),
   tagText: {
@@ -125,5 +126,6 @@ export default {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
+    // width: width / 2,
   },
 };

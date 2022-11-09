@@ -28,7 +28,6 @@
     "react": "18.0.0",
     "react-hook-form": "^7.34.2",
     "react-native": "0.69.5",
-    "react-native-action-sheet": "^2.2.0",
     "react-native-actionsheet": "^2.4.2",
     "react-native-aws3": "^0.0.9",
     "react-native-bootsplash": "^4.3.2",

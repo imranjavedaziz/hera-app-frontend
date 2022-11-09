@@ -5,6 +5,7 @@ import {Value} from '../../../constants/FixedValues';
 import {
   dynamicSize,
   normalizeFont,
+  px,
   scaleHeight,
   scaleWidth,
 } from '../../../utils/responsive';
@@ -13,7 +14,7 @@ export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_29),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
   },
   bioContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
@@ -24,6 +25,8 @@ export default {
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
+    width: px(320),
+    // backgroundColor:'red'
   },
   nativePlace: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -39,6 +42,7 @@ export default {
 
   hairContainer: {
     flexDirection: Alignment.ROW,
+    width: px(255),
   },
   motherPlace: {
     backgroundColor: Colors.RGBA_229_172_177,

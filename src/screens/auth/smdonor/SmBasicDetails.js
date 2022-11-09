@@ -1,6 +1,6 @@
 // SmBasicDetails
 import React, {useState, useEffect, useRef} from 'react';
-import {Text, TouchableOpacity, View, Image} from 'react-native';
+import {Text, TouchableOpacity, View, Image, Platform} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -17,6 +17,7 @@ import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
+import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
   showAppLoader,
@@ -37,7 +38,10 @@ const SmBasicDetails = () => {
   const [stateRes, setStateRes] = useState();
   const [profileRes, setProfileRes] = useState();
   const [payloadData, setPayloadData] = useState([]);
+  const [threeOption, setThreeOption] = useState([]);
+
   const dispatch = useDispatch();
+  let actionSheet = useRef();
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef();
@@ -132,17 +136,53 @@ const SmBasicDetails = () => {
   };
 
   const headerComp = () => (
-    <CircleBtn
-      icon={Images.iconSettings}
-      onPress={() => {
-        setOpen(true);
-      }}
-    />
+    <>
+      <CircleBtn
+        icon={Images.iconSettings}
+        onPress={() => {
+          Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
+        }}
+      />
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
+    </>
   );
 
-  const logoutScreen = () => {
+  const logOutScreen = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
+  };
+  const navigateSupport = () => {
+    navigation.navigate(Routes.Support);
+  };
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.smSetting.Inquiry:
+        navigateSupport();
+        break;
+      case Strings.preference.About:
+        break;
+      case Strings.preference.Logout:
+        logOutScreen();
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.smSetting.Inquiry,
+      Strings.preference.About,
+      Strings.preference.Logout,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
   };
 
   return (
@@ -308,7 +348,7 @@ const SmBasicDetails = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={() => logoutScreen()}>
+            onPress={() => logOutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>
