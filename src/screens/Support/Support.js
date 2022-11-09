@@ -1,11 +1,20 @@
-import {View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+  TouchableOpacity,
+  Modal,
+  Platform,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../components/Container';
 import {CircleBtn} from '../../components/Header';
 import Images from '../../constants/Images';
 import Styles from '../../styles/auth/smdonor/Support';
 import {useNavigation} from '@react-navigation/native';
-import Strings from '../../constants/Strings';
+import Strings, {ValidationMessages} from '../../constants/Strings';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {inqueryFormSchema} from '../../constants/schemas';
@@ -16,6 +25,7 @@ import Button from '../../components/Button';
 import {FormKey} from '../../constants/Constants';
 import {SupportForm, UserType} from '../../redux/actions/support';
 import {useDispatch, useSelector} from 'react-redux';
+
 import {
   showAppLoader,
   hideAppLoader,
@@ -30,7 +40,6 @@ export default function Support() {
     handleSubmit,
     control,
     setValue,
-    // reset,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(inqueryFormSchema),
@@ -38,6 +47,7 @@ export default function Support() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [phone, setPhone] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const SubmitLoadingRef = useRef(false);
   const {
     get_support_form_error_msg,
@@ -66,13 +76,11 @@ export default function Support() {
     }
     loadingRef.current = get_user_type_loading;
   }, [get_user_type_success, get_user_type_loading]);
-  console.log('userTypeData', userTypeData);
   // SUPPORT FORM
 
   useEffect(() => {
     if (SubmitLoadingRef.current && !get_support_form_loading) {
       dispatch(showAppLoader());
-      console.log(get_support_form_success, 'get_support_form_success');
       if (get_support_form_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, get_support_form_res));
@@ -85,12 +93,15 @@ export default function Support() {
     }
     SubmitLoadingRef.current = get_support_form_loading;
   }, [get_support_form_loading, get_support_form_success]);
-
   const headerComp = () => (
     <CircleBtn
       Fixedstyle={styles.fixedheaderStyle}
       icon={Images.iconcross}
-      onPress={() => navigation.goBack()}
+      onPress={() => {
+        {
+          Platform.OS === 'ios' ? backAction() : setShowModal(true);
+        }
+      }}
       accessibilityLabel={Strings.inqueryForm.LEFT_ARROW_BUTTON}
     />
   );
@@ -107,9 +118,28 @@ export default function Support() {
       }
     }
   }, [errors, isValid]);
-
+  const backAction = () => {
+    Alert.alert(
+      ValidationMessages.DISCARD_INQUIRY,
+      ValidationMessages.REJECT_DISCARD,
+      [
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
+        },
+        {
+          text: Strings.profile.ModalOption1,
+          onPress: () => {
+            navigation.goBack();
+          },
+        },
+      ],
+    );
+    return true;
+  };
 
   const onSubmit = data => {
+    console.log(data, 'finaldata');
     const payload = {
       name: data.name,
       email: data.email,
@@ -154,108 +184,145 @@ export default function Support() {
     }
     setValue('phone_no', a);
   };
-  return (
-    <Container
-      scroller={true}
-      showHeader={true}
-      headerEnd={true}
-      fixedHeader={true}
-      headerComp={headerComp}>
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps="handled"
-        resetScrollToCoords={{x: 0, y: 10}}
-        keyboardOpeningTime={0}
-        scrollEnabled={true}
-        extraHeight={180}
-        showsVerticalScrollIndicator={false}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={[Styles.mainContainer, styles.container]}>
-            <Text style={Styles.title}>{Strings.inqueryForm.Title}</Text>
-            <Text style={Styles.title1}>{Strings.inqueryForm.Subtitle}</Text>
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.inqueryForm.Name}
-                  value={value}
-                  autoCorrect={false}
-                  onChangeText={v => onChange(v)}
-                  error={errors && errors.name?.message}
-                  required={true}
-                />
-              )}
-              name={FormKey.name}
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange}}) => (
-                <Dropdown
-                  label={Strings.inqueryForm.USER_TYPE}
-                  data={userTypeData?.data}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem);
-                  }}
-                  required={true}
-                  error={errors && errors.user_type?.message}
-                />
-              )}
-              name={FormKey.user_type}
-            />
 
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.profile.EmailAddress}
-                  value={value}
-                  onChangeText={v => onChange(v)}
-                  required={true}
-                  error={errors && errors.email?.message}
-                />
-              )}
-              name={FormKey.email}
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.inqueryForm.MobileNumber}
-                  value={phone}
-                  keyboardType="numeric"
-                  onChangeText={v => {
-                    handelChange(v);
-                  }}
-                  error={errors && errors.phone_no?.message}
-                  required={true}
-                  maxLength={14}
-                />
-              )}
-              name={FormKey.phone_no}
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <MultiTextInput
-                  title={Strings.inqueryForm.Message}
-                  required={true}
-                  value={value}
-                  maxLength={200}
-                  onChangeText={v => {
-                    onChange(v);
-                  }}
-                  error={errors && errors.message?.message}
-                />
-              )}
-              name={FormKey.message}
-            />
-            <Button
-              label={Strings.inqueryForm.SendInquiry}
-              onPress={handleSubmit(onSubmit)}
-              style={styles.Btn}
-            />
+  return (
+    <>
+      <Container
+        scroller={true}
+        showHeader={true}
+        headerEnd={true}
+        fixedHeader={true}
+        headerComp={headerComp}>
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          resetScrollToCoords={{x: 0, y: 10}}
+          keyboardOpeningTime={0}
+          scrollEnabled={true}
+          extraHeight={180}
+          showsVerticalScrollIndicator={false}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={[Styles.mainContainer, styles.container]}>
+              <Text style={Styles.title}>{Strings.inqueryForm.Title}</Text>
+              <Text style={Styles.title1}>{Strings.inqueryForm.Subtitle}</Text>
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <FloatingLabelInput
+                    label={Strings.inqueryForm.Name}
+                    value={value}
+                    autoCorrect={false}
+                    onChangeText={v => onChange(v)}
+                    error={errors && errors.name?.message}
+                    required={true}
+                  />
+                )}
+                name={FormKey.name}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange}}) => (
+                  <Dropdown
+                    label={Strings.inqueryForm.USER_TYPE}
+                    data={userTypeData?.data}
+                    onSelect={selectedItem => {
+                      onChange(selectedItem);
+                    }}
+                    required={true}
+                    error={errors && errors.user_type?.message}
+                  />
+                )}
+                name={FormKey.user_type}
+              />
+
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <FloatingLabelInput
+                    label={Strings.profile.EmailAddress}
+                    value={value}
+                    onChangeText={v => onChange(v)}
+                    required={true}
+                    error={errors && errors.email?.message}
+                  />
+                )}
+                name={FormKey.email}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <FloatingLabelInput
+                    label={Strings.inqueryForm.MobileNumber}
+                    value={phone}
+                    keyboardType="numeric"
+                    onChangeText={v => {
+                      handelChange(v);
+                    }}
+                    error={errors && errors.phone_no?.message}
+                    required={true}
+                    maxLength={14}
+                  />
+                )}
+                name={FormKey.phone_no}
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <MultiTextInput
+                    title={Strings.inqueryForm.Message}
+                    required={true}
+                    value={value}
+                    maxLength={200}
+                    onChangeText={v => {
+                      onChange(v);
+                    }}
+                    error={errors && errors.message?.message}
+                  />
+                )}
+                name={FormKey.message}
+              />
+              <Button
+                label={Strings.inqueryForm.SendInquiry}
+                onPress={handleSubmit(onSubmit)}
+                style={styles.Btn}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
+      </Container>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[styles.centeredView]}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalHeader}>
+              {ValidationMessages.DISCARD_INQUIRY}
+            </Text>
+            <Text style={styles.modalSubHeader}>
+              {ValidationMessages.REJECT_DISCARD}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                navigation.goBack();
+              }}>
+              <Text style={styles.modalOption1}>
+                {Strings.sm_create_gallery.modalText}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={styles.modalOption2}>
+                {Strings.sm_create_gallery.modalText_2}
+              </Text>
+            </TouchableOpacity>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
-    </Container>
+        </View>
+      </Modal>
+    </>
   );
 }

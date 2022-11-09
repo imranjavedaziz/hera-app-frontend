@@ -136,4 +136,8 @@ export default {
     color: Colors.RED,
     marginRight: 30,
   },
+  heightlmt: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansBold,
+  },
 };
