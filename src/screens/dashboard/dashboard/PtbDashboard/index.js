@@ -26,9 +26,13 @@ import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import {MaterialIndicator} from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
+import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
+import CustomModal from '../../../../components/CustomModal/CustomModal';
+import {scaleHeight} from '../../../../utils/responsive';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
+  const [mobileModalVisible, setModalVisible] = useState(false);
   const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
   const [cardIndex, setCardIndex] = useState(0);
@@ -238,6 +242,22 @@ const PtbDashboard = props => {
           dashboardShow()
         )}
       </Container>
+      {mobileModalVisible && (
+        <CustomModal
+          modalVisible={mobileModalVisible}
+          onBackdropPress={() => setModalVisible(false)}
+          onBackButtonPress={() => setModalVisible(false)}
+          onSwipeComplete={() => setModalVisible(false)}
+          // swipeDownIconCustom={{
+          //   bottom: Platform.OS === "ios" ? scaleHeight(330) : scaleHeight(335),
+          // }}
+          // customModelStyle={{
+          //   height: Platform.OS === "ios" ? scaleHeight(300) : scaleHeight(310),
+          // }}
+        >
+          <SensoryCharacteristics />
+        </CustomModal>
+      )}
     </>
   );
 };

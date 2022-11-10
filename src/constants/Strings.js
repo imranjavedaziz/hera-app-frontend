@@ -331,5 +331,7 @@ export default {
       'Select heart to send a like to the profile & if they like you back, it will be a match! You will be able to chat only with your matches.',
     SELECT_CROSS:
       'Select cross to reject the profile & go to the next profile.',
+    ABOUT: 'About this Page',
+    OKAY_GOT_IT: 'OKAY, GOT IT!',
   },
 };
