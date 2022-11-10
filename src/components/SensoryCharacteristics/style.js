@@ -1,4 +1,4 @@
-import {scaleHeight, scaleWidth} from '../../utils/responsive';
+import {scaleHeight, scaleWidth,px} from '../../utils/responsive';
 import {Value} from '../../constants/FixedValues';
 import Alignment from '../../constants/Alignment';
 import {Fonts} from '../../constants/Constants';
@@ -8,7 +8,7 @@ export default {
   container: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: 20,
+    paddingHorizontal: px(25),
     marginBottom: scaleHeight(40),
   },
   text: {
@@ -16,7 +16,15 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.COLOR_535858,
-    width: scaleWidth(156),
-    paddingLeft: scaleWidth(20),
+    width: px(156),
+  },
+  title: {
+    color: Colors.COLOR_535858,
+    fontSize: Value.CONSTANT_VALUE_23,
+    fontFamily: Fonts.OpenSansBold,
+    textAlign:Alignment.CENTER,
+    alignSelf:Alignment.CENTER,
+    paddingTop:px(32),
+    paddingBottom:px(32)
   },
 };
