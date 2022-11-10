@@ -35,6 +35,7 @@ import {CircleBtn} from '../../../../components/Header';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
+import ActionSheet from 'react-native-actionsheet';
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -42,6 +43,8 @@ const Gallery = () => {
   const loadingGalleryRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
   const [visible, setIsVisible] = useState(false);
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
     {id: 1, uri: '', loading: false},
@@ -237,6 +240,37 @@ const Gallery = () => {
     }
     setGIndex(url?.length);
   };
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        !isVideo ? openCamera(0, cb) : selectVideo(0);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        !isVideo ? openCamera(1, cb) : selectVideo(1);
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+  const iosPhotoSheet = () => {
+    setIsVideo(false);
+    openActionSheet();
+  };
+  const iosVideoSheet = () => {
+    setIsVideo(true);
+    openActionSheet();
+  };
+  const bottomSheetVideo = () => {
+    Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();
+  };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -290,7 +324,11 @@ const Gallery = () => {
                     </TouchableOpacity>
                   ) : null}
                   {gIndex === index && (
-                    <TouchableOpacity onPress={() => setOpen(true)} style={{}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
+                      }}
+                      style={{}}>
                       <RNSDWebImage
                         source={Images.camera}
                         style={styles.camIcon}
@@ -310,7 +348,7 @@ const Gallery = () => {
             onEnd={() => setIsPlaying(false)}
             onPress={() =>
               video?.file_url === ''
-                ? openBottomVideoSheet()
+                ? bottomSheetVideo()
                 : setIsPlaying(p => !p)
             }
             videoRef={videoRef}
@@ -351,7 +389,15 @@ const Gallery = () => {
           )}
         </View>
       </Container>
-
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
