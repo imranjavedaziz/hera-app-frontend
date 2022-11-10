@@ -5,7 +5,6 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useCallback, useState} from 'react';
 

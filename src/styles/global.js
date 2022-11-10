@@ -6,7 +6,6 @@ import {
   dynamicSize,
   scaleWidth,
   scaleHeight,
-  width,
 } from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
 
@@ -33,6 +32,10 @@ export default {
     flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
+  },
+  containerStyle: {marginHorizontal: 0},
+  backgroundImage: {
+    resizeMode: 'cover',
   },
   underlineText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_18),

@@ -30,11 +30,7 @@ import {
   getUserGallery,
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
 
@@ -77,7 +73,6 @@ const CreateGallery = () => {
     gallery_data,
     delete_gallery_success,
     delete_gallery_loading,
-    delete_gallery__error_msg,
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
@@ -291,7 +286,7 @@ const CreateGallery = () => {
         showHeader={true}
         headerEnd={true}
         headerComp={headerComp}
-        style={{marginHorizontal: 0}}>
+        style={globalStyle.containerStyle}>
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
             <Image source={{uri: profileImg}} style={styles.profileImg} />
@@ -333,9 +328,7 @@ const CreateGallery = () => {
                 <ImageBackground
                   key={img.id}
                   style={styles.galleryImgView}
-                  imageStyle={{
-                    resizeMode: 'cover',
-                  }}
+                  imageStyle={globalStyle.backgroundImage}
                   source={img.uri ? {uri: img.uri} : null}>
                   {img.uri && selVideo === false ? (
                     <TouchableOpacity
