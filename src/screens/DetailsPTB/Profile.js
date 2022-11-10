@@ -396,9 +396,7 @@ const Profile = props => {
                 required={true}
                 secureTextEntry={true}
                 error={errors && errors.confirm_password?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
+                containerStyle={styles.flex}
               />
             )}
             name={FormKey.confirm_password}
