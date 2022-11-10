@@ -1,6 +1,5 @@
-import Colors from '../../constants/Colors';
+import {Alignment, Colors} from '../../constants';
 import {Value, Prencentage} from '../../constants/FixedValues';
-import Alignment from '../../constants/Alignment';
 
 export default {
   inputRow: {

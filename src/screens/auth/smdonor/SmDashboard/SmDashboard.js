@@ -44,7 +44,7 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   const unsubscribe = navigation.addListener('focus', () => {
-    _getDonorDashboard(1,'');
+    _getDonorDashboard(1, '');
   });
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
@@ -54,11 +54,11 @@ const SmDashboard = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
-      _getDonorDashboard(1,'');
+      _getDonorDashboard(1, '');
       return () => {
         unsubscribe();
       };
-    }, [dispatch]),
+    }, []),
   );
   //  DONOR DASHBOARD CARD
   useFocusEffect(
@@ -67,7 +67,7 @@ const SmDashboard = ({route}) => {
         dispatch(showAppLoader());
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
-          console.log(get_donor_dashboard_res, "get_donor_dashboard_res");
+          console.log(get_donor_dashboard_res, 'get_donor_dashboard_res');
           setCards(get_donor_dashboard_res.data);
           setPage(get_donor_dashboard_res.data.current_page);
           setLastPage(get_donor_dashboard_res.data.last_page);
@@ -87,7 +87,7 @@ const SmDashboard = ({route}) => {
     ]),
   );
 
-  const _getDonorDashboard = (page,value) => {
+  const _getDonorDashboard = (page, value) => {
     let payload = {
       keyword: value ? value : '',
       state_ids:
@@ -97,13 +97,13 @@ const SmDashboard = ({route}) => {
       page: page,
       limit: 10,
     };
-    console.log(payload, "payload::::::");
+    console.log(payload, 'payload::::::');
     dispatch(getDonorDashboard(payload));
   };
 
   const onSearch = value => {
     if (value === '' && value.length < 3) {
-      _getDonorDashboard(1,'');
+      _getDonorDashboard(1, '');
       setSearch('');
       setSearching(false);
       return;
@@ -120,7 +120,7 @@ const SmDashboard = ({route}) => {
   const onClear = () => {
     setSearching(false);
     setSearch('');
-    _getDonorDashboard(1,'');
+    _getDonorDashboard(1, '');
   };
   const renderProfile = ({item, index}) => {
     return (
@@ -171,7 +171,7 @@ const SmDashboard = ({route}) => {
   );
   const onRefresh = () => {
     setRefreshing(true);
-    _getDonorDashboard(1,'');
+    _getDonorDashboard(1, '');
   };
   return (
     <Container
@@ -237,14 +237,9 @@ const SmDashboard = ({route}) => {
                     onEndReached();
                   searching && onEndReached();
                 }}
-
-            
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-        testID="flat-list"
-      
-    
-        
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                testID="flat-list"
               />
             )}
           </View>

@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Alert,
+  Platform,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../components/Container';
@@ -35,7 +37,7 @@ import {
 } from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
-
+import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
 const CreateGallery = () => {
   const userService = User();
@@ -43,7 +45,8 @@ const CreateGallery = () => {
   const videoRef = useRef();
   const dispatch = useDispatch();
   const [visible, setIsVisible] = useState(false);
-
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
@@ -110,6 +113,7 @@ const CreateGallery = () => {
           dispatch(getUserGallery());
         } else {
           dispatch(hideAppLoader());
+          showAppToast(true, delete_gallery__error_msg);
         }
       }
       loadRef.current = delete_gallery_loading;
@@ -179,6 +183,25 @@ const CreateGallery = () => {
       return;
     }
   };
+  const deleteAction = () => {
+    Alert.alert(
+      Strings.sm_create_gallery.modalTitle,
+      Strings.sm_create_gallery.modalsubTitle,
+      [
+        {
+          text: Strings.sm_create_gallery.modalText,
+          onPress: () => {
+            deleteImg(selVideo);
+          },
+        },
+        {
+          text: Strings.sm_create_gallery.modalText_2,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
   const updateGallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
@@ -202,7 +225,7 @@ const CreateGallery = () => {
     }
     setGIndex(url?.length);
   };
-  function handelDel(index, isVideo) {
+  function handelDel(index) {
     if (isVideo) {
       setSelVideo(!selVideo);
       setDel(true);
@@ -239,7 +262,7 @@ const CreateGallery = () => {
   } else {
     del.push(`ids[]=${gallery_data?.doner_video_gallery?.id}`);
   }
-  const deleteImg = selVideo => {
+  const deleteImg = () => {
     if (selVideo) {
       dispatch(showAppLoader());
       dispatch(deleteGallery(del.join('&')));
@@ -260,9 +283,41 @@ const CreateGallery = () => {
   const headerComp = () => {
     <></>;
   };
+
   const openBottomVideoSheet = () => {
     setOpen(true);
     setIsVideo(true);
+  };
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        !isVideo ? openCamera(0, cb) : selectVideo(0);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        !isVideo ? openCamera(1, cb) : selectVideo(1);
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+  const iosVideoSheet = () => {
+    setIsVideo(true);
+    openActionSheet();
+  };
+  const iosPhotoSheet = () => {
+    setIsVideo(false);
+    openActionSheet();
+  };
+  const bottomSheetVideo = () => {
+    Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();
   };
   return (
     <>
@@ -270,7 +325,7 @@ const CreateGallery = () => {
         showHeader={true}
         headerEnd={true}
         headerComp={headerComp}
-        style={{marginHorizontal: 0}}>
+        style={styles.zeromargin}>
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
             <Image source={{uri: profileImg}} style={styles.profileImg} />
@@ -312,9 +367,7 @@ const CreateGallery = () => {
                 <ImageBackground
                   key={img.id}
                   style={styles.galleryImgView}
-                  imageStyle={{
-                    resizeMode: 'cover',
-                  }}
+                  imageStyle={styles.resize}
                   source={img.uri ? {uri: img.uri} : null}>
                   {img.uri && selVideo === false ? (
                     <TouchableOpacity
@@ -333,7 +386,11 @@ const CreateGallery = () => {
                     </TouchableOpacity>
                   ) : null}
                   {gIndex === index && (
-                    <TouchableOpacity onPress={() => setOpen(true)} style={{}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
+                      }}>
+                      <Image source={Images.camera} style={styles.camIcon} />
                       <Image source={Images.camera} style={styles.camIcon} />
                     </TouchableOpacity>
                   )}
@@ -350,7 +407,7 @@ const CreateGallery = () => {
             onEnd={() => setIsPlaying(false)}
             onPress={() =>
               video?.file_url === ''
-                ? openBottomVideoSheet()
+                ? bottomSheetVideo()
                 : setIsPlaying(p => !p)
             }
             videoRef={videoRef}
@@ -375,7 +432,9 @@ const CreateGallery = () => {
               )}
               <TouchableOpacity
                 style={styles.deleteBtnContainer}
-                onPress={() => setShowModal(true)}>
+                onPress={() => {
+                  Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
+                }}>
                 <Image source={Images.trashRed} style={{}} />
                 <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
@@ -392,7 +451,15 @@ const CreateGallery = () => {
           )}
         </View>
       </Container>
-
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity

@@ -152,16 +152,18 @@ const DashboardDetailScreen = () => {
             {smDetailRes?.doner_attribute?.race ? (
               <View style={styles.fatherPlace}>
                 <Text style={global?.tagText} numberOfLines={2}>
-                  {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                  Father is American Indian and alska native
+                  {/* {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`} */}
                 </Text>
               </View>
             ) : null}
           </View>
-          <View style={styles.hairContainer}>
+          <View style={styles.nativeMainContainer}>
             {smDetailRes?.doner_attribute?.race && (
               <View style={styles.motherPlace}>
                 <Text style={global?.tagText} numberOfLines={2}>
-                  {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                Father is American Indian and alska native
+                  {/* {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`} */}
                 </Text>
               </View>
             )}

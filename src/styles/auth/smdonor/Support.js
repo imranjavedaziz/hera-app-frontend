@@ -1,8 +1,6 @@
 import {Value} from '../../../constants/FixedValues';
-import Alignment from '../../../constants/Alignment';
+import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
-
-import Colors from '../../../constants/Colors';
 
 export default {
   mainContainer: {

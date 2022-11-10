@@ -1,11 +1,20 @@
-import {View, Text, TouchableOpacity, Image, Modal} from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Modal,
+  Platform,
+  Alert,
+} from 'react-native';
+
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
-import Strings from '../../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,7 +30,9 @@ import BottomSheetComp from '../../../../components/BottomSheet';
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
+  const [isLoader, setLoader] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [rmvImgCount, setRmvImgCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
   const dispatch = useDispatch();
@@ -30,12 +41,17 @@ const MyVideo = () => {
   const navigation = useNavigation();
   const videoRef = useRef();
 
-  const {gallery_success, gallery_loading, gallery_data} = useSelector(
-    state => state.CreateGallery,
-  );
+  const {
+    gallery_success,
+    gallery_loading,
+    gallery_data,
+    delete_gallery_success,
+    delete_gallery_loading,
+  } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
   }, [dispatch]);
+
   function handelDel(index) {
     let pushArr = remove;
     let isExist = pushArr.findIndex(val => val === index);
@@ -43,10 +59,10 @@ const MyVideo = () => {
       pushArr.push(index);
     } else {
       pushArr.splice(isExist, 1);
-      setRmvImgCount(rmvImgCount - 1);
+      // setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
-}
+  }
   // GET GALLERY DATA
   useEffect(() => {
     if (loadingGalleryRef.current && !gallery_loading) {
@@ -57,14 +73,39 @@ const MyVideo = () => {
             ? gallery_data?.doner_video_gallery?.file_url
             : '',
           loading: false,
+          id: gallery_data?.doner_video_gallery?.id,
         });
-        dispatch(hideAppLoader());
+        setLoader(false)
+        dispatch(hideAppLoader());  
       } else {
         dispatch(hideAppLoader());
       }
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
+
+  console.log(
+    'gallery_data?.doner_video_gallery?.id',
+    gallery_data?.doner_video_gallery?.id,
+  );
+
+  // DELETE VIDEO
+
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingGalleryRef.current && !delete_gallery_loading) {
+        dispatch(showAppLoader());
+        if (delete_gallery_success) {
+          dispatch(getUserGallery());
+          dispatch(hideAppLoader());
+        } else {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingGalleryRef.current = delete_gallery_loading;
+    }, [delete_gallery_success, delete_gallery_loading]),
+  );
+
   // SELECT VEDIO
   const selectVideo = index => {
     videoPicker(index).then(v => {
@@ -104,14 +145,38 @@ const MyVideo = () => {
       setIsPlaying(!isPlaying);
     }
   };
-  const deleteImg = () => {
-  
-      let payload = {
-        ids: remove?.join(),
-      };       
-      dispatch(deleteGallery(payload));
-      setRemove([]);
 
+  const deleteImg = () => {
+    let payload = {
+      ids: remove?.join(),
+    };
+  }
+  const deleteVideo = () => {
+    let payload = {
+      ids: video?.id,
+    };
+    dispatch(showAppLoader());
+    dispatch(deleteGallery(payload));
+    setRemove([]);
+  };
+  const backAction = () => {
+    Alert.alert(
+      Strings.smSetting.Remove_Video,
+      Strings.sm_create_gallery.modalsubTitle,
+      [
+        {
+          text: Strings.sm_create_gallery.modalText,
+          onPress: () => deleteVideo(),
+        },
+        {
+          text: Strings.sm_create_gallery.modalText_2,
+          onPress: () => {
+            console.log('Cancel');
+          },
+        },
+      ],
+    );
+    return true;
   };
   return (
     <>
@@ -130,31 +195,33 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          <VideoUploading
-            imageOverlay={styles.imageOverlayWrapper}
-            style={styles.VdoContainer}
-            disabled={video?.file_url === '' ? false : true}
-            onEnd={() => {
-              setIsPlaying(false);
-              videoRef?.current?.seek(0);
-              videoRef?.current?.setNativeProps({
-                paused: true,
-              });
-            }}
-            onPress={() => videoPlay()}
-            videoStyle={styles.video}
-            videoRef={videoRef}
-            isPlaying={isPlaying}
-            video={video}
-
-            handelDel={handelDel}
-          
-            remove={remove}
-          />
+          {isLoader !==true && (
+            <VideoUploading
+              imageOverlay={styles.imageOverlayWrapper}
+              style={styles.VdoContainer}
+              disabled={video?.file_url === '' ? false : true}
+              onEnd={() => {
+                setIsPlaying(false);
+                videoRef?.current?.seek(0);
+                videoRef?.current?.setNativeProps({
+                  paused: true,
+                });
+              }}
+              onPress={() => videoPlay()}
+              videoStyle={styles.video}
+              videoRef={videoRef}
+              isPlaying={isPlaying}
+              video={video}
+              handelDel={handelDel}
+              remove={remove}
+            />
+          )}
           {video?.file_url !== '' && (
             <TouchableOpacity
               style={styles.deleteBtnContainer}
-              onPress={() => setShowModal(true)}>
+              onPress={() => {
+                Platform.OS === 'ios' ? backAction() : setShowModal(true);
+              }}>
               <Image source={Images.trashRed} />
               <Text style={styles.rmvText}>
                 {Strings.smSetting.RemoveVideo}
@@ -202,7 +269,7 @@ const MyVideo = () => {
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
-                deleteImg();
+                deleteVideo();
               }}>
               <Text style={styles.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

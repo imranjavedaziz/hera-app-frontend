@@ -60,4 +60,15 @@ export default {
   Demo2: require('../assets/Images/Demo2.png'),
   QUOTES: require('../assets/Images/background_quotes/invalidName.png'),
   STAR: require('../assets/icons/star3/star3.png'),
+  // PLAY BUTTONS
+  FAST_BACK: require('../assets/icons/fastForwardBack/fastForward.png'),
+  FAST_FRONT: require('../assets/icons/fastForwardFront/fastForwardFront.png'),
+  PLAY_TWO: require('../assets/icons/playButtonTwo/playButton.png'),
+  PAUSE_BTN: require('../assets/icons/pause/pause.png'),
+  FULL_SCR_BTN: require('../assets/icons/fullScreen/fullScreen.png'),
+  MINIMIZE: require('../assets/icons/minimize/minimize.png'),
+  // SENSORY
+  BABY_MOTHER: require('../assets/icons/babyMother/babyMother.png'),
+  CROSS: require('../assets/icons/cross/cross.png'),
+  HEART: require('../assets/icons/heart/heart.png'),
 };

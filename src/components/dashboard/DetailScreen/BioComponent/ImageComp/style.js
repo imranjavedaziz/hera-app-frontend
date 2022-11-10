@@ -2,13 +2,13 @@ import Alignment from '../../../../../constants/Alignment';
 import Colors from '../../../../../constants/Colors';
 import {Fonts} from '../../../../../constants/Constants';
 import {FontSize, Value} from '../../../../../constants/FixedValues';
-import {normalizeFont, scaleHeight} from '../../../../../utils/responsive';
+import {scaleHeight} from '../../../../../utils/responsive';
 
 export default {
   row: {
     alignItems: Alignment.CENTER,
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_8,
+    // marginTop: Value.CONSTANT_VALUE_8,
   },
   text: {
     fontSize: FontSize.FONT_16,

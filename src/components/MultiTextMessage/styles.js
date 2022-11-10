@@ -19,7 +19,7 @@ export default {
   border: {
     borderWidth: px(1),
     borderColor: Colors.BORDER_LINE,
-    paddingHorizontal: px(10),
+    paddingHorizontal: px(6),
     width: px(310),
     height: px(121),
   },
@@ -33,7 +33,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
     textAlignVertical: 'top',
-    marginTop: px(8),
+    marginTop: px(5),
   },
   label: {
     zIndex: -1,
