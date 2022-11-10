@@ -150,13 +150,13 @@ const Main = () => {
           component={StateList}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
           options={{headerShown: false}}
-        />
+        /> */}
               <Stack.Screen
-          name={Routes.Chat}
+          name={Routes.ChatList}
           component={ChatList}
           options={{headerShown: false}}
         />

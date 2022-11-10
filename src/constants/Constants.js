@@ -170,7 +170,7 @@ export const Routes = {
   donorGallery: 'DonorGallery',
   stateList: 'StateList',
   Support: 'Support',
-  Chat: 'Chat',
+  ChatList: 'ChatList',
 };
 export const Static = {
   countries: [
