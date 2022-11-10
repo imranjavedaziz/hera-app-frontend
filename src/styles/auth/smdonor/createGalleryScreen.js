@@ -1,6 +1,5 @@
-import Colors from '../../../constants/Colors';
+import {Colors, Alignment} from '../../../constants';
 import {Value} from '../../../constants/FixedValues';
-import Alignment from '../../../constants/Alignment';
 import {Fonts} from '../../../constants/Constants';
 import {width} from '../../../utils/responsive';
 

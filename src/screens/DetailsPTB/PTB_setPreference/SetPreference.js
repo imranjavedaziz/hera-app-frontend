@@ -216,9 +216,7 @@ const SetPreference = ({route, navigation}) => {
         headerComp={headerComp}
         headerEnd={true}
         safeAreViewStyle={
-          Platform.OS !== 'ios' && isOpen === true
-            ? globalStyle.modalColor
-            : globalStyle.safeViewStyle
+          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }
         style={{
           paddingBottom: Value.CONSTANT_VALUE_50,

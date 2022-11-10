@@ -1,6 +1,7 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
+import {Colors} from '../../constants';
 import styles from './styles';
 
 const FloatingLabelInput = props => {
@@ -15,12 +16,13 @@ const FloatingLabelInput = props => {
     error = '',
     inputStyle = {},
     maxLength,
+    lineColor,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
   return (
-    <View style={[styles.container, containerStyle, {paddingTop: 0,}]}>
+    <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
       <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
         <Text
           style={[
@@ -39,6 +41,7 @@ const FloatingLabelInput = props => {
           style={[
             styles.input,
             isFocused ? styles.focusBorder : styles.blurBorder,
+            lineColor && {borderColor: Colors.LIGHT_BLACK47},
             error ? {borderColor: 'red'} : null,
             inputStyle,
           ]}

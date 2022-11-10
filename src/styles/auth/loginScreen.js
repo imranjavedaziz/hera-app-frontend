@@ -1,4 +1,4 @@
-import Colors from '../../constants/Colors';
+import {Colors, Alignment} from '../../constants';
 import global from '../global';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';

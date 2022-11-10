@@ -1,12 +1,10 @@
-import Colors from '../constants/Colors';
+import {Colors, Alignment} from '../constants';
 import {Value} from '../constants/FixedValues';
-import Alignment from '../constants/Alignment';
 import {
   normalizeFont,
   dynamicSize,
   scaleWidth,
   scaleHeight,
-  width,
 } from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
 

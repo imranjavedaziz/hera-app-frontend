@@ -154,8 +154,17 @@ const Login = props => {
                 minLength={8}
                 error={errors && errors.password?.message}
                 endComponent={() => (
-                  <TouchableOpacity onPress={() => setShow(!show)}>
-                    <Image source={show ? Images.eye2 : Images.eye} />
+                  <TouchableOpacity
+                    onPress={() => setShow(!show)}
+                    style={{
+                      paddingHorizontal: 10,
+                      paddingTop: 5,
+                      paddingBottom: 1,
+                    }}>
+                    <Image
+                      source={show ? Images.eye2 : Images.eye}
+                      style={{height: show ? 15 : 9, width: show ? 15 : 15}}
+                    />
                   </TouchableOpacity>
                 )}
               />

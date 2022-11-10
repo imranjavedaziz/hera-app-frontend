@@ -1,7 +1,6 @@
 import {Platform} from 'react-native';
 import {Value, Prencentage} from '../constants/FixedValues';
-import Alignment from '../constants/Alignment';
-import Colors from '../constants/Colors';
+import {Alignment, Colors} from '../constants';
 import global from './global';
 import {Fonts} from '../constants/Constants';
 import {dynamicSize} from '../utils/responsive';

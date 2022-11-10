@@ -18,18 +18,8 @@ const VideoUploading = props => {
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
-        {props?.video?.file_url === '' && (
-          <>
-            <View style={styles.innerVdo}>
-              <Text style={styles.vdoHeading}>
-                {Strings.smSetting.UploadVideo}
-              </Text>
-              <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
-            </View>
-          </>
-        )}
         {props?.video?.loading && <ActivityIndicator />}
-        {props?.video?.file_url !== '' && (
+        {props?.video?.file_url !== '' ? (
           <>
             <TouchableWithoutFeedback>
               <TouchableOpacity
@@ -37,7 +27,7 @@ const VideoUploading = props => {
                 style={styles.videoSel}>
                 <Image
                   source={
-                    props.remove.includes(props?.video?.id)
+                    props?.remove?.includes(props?.video?.id)
                       ? Images.iconRadiosel
                       : Images.iconRadiounsel
                   }
@@ -62,49 +52,15 @@ const VideoUploading = props => {
                   props?.onEnd();
                 }}
               />
-
-              {/* <Video
-                ref={props?.videoRef}
-                onLoad={() => {
-                  props?.videoRef?.current?.seek(3);
-                  props?.videoRef?.current?.setNativeProps({
-                    paused: true,
-                  });
-                }}
-                controls={true}
-                muted
-                paused={!props?.isPlaying}
-                source={{uri: `${props?.video?.file_url}`}}
-                style={props?.videoStyle}
-                resizeMode={Alignment.COVER}
-                onEnd={() => {
-                  props?.onEnd();
-                }}
-                ignoreSilentSwitch="ignore"
-                // selectedTextTrack={{
-                // type: "index",
-                // value: 0
-                // }}
-                // subtitleStyle={{ paddingBottom: 150, fontSize: 20 }}
-                // textTracks={[
-                //   {
-                //   title: "English CC",
-                //   language: "en",
-                //   type: TextTrackType.VTT, // "text/vtt"
-                //   uri: "https://rsysdemo-b7be9.web.app/MIB2-subtitles-pt-BR.vtt" // "https://bitdash-a.akamaihd.net/content/sintel/subtitles/subtitles_en.vtt"
-                //   },
-                //   {
-                //   title: "Spanish Subtitles",
-                //   language: "es",
-                //   type: TextTrackType.VTT, // "application/x-subrip"
-                //   uri: "https://brenopolanski.github.io/html5-video-webvtt-example/MIB2-subtitles-pt-BR.vtt"
-                //   }
-                //   ]
-                // }
-              /> */}
-              {/* {!props?.isPlaying && (
-                <Image source={Images.playButton} style={styles.playIcon} />
-              )} */}
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={styles.innerVdo}>
+              <Text style={styles.vdoHeading}>
+                {Strings.smSetting.UploadVideo}
+              </Text>
+              <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
             </View>
           </>
         )}
