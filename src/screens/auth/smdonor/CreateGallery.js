@@ -391,7 +391,6 @@ const CreateGallery = () => {
                         Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
                       }}>
                       <Image source={Images.camera} style={styles.camIcon} />
-                      <Image source={Images.camera} style={styles.camIcon} />
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
@@ -416,6 +415,7 @@ const CreateGallery = () => {
             selVideo={selVideo}
             handelDel={handelDel}
             rmvImgCount={rmvImgCount}
+            remove={remove}
           />
 
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (

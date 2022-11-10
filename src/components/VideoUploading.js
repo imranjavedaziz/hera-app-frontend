@@ -15,12 +15,11 @@ import Video from 'react-native-video';
 import Images from '../constants/Images';
 
 const VideoUploading = props => {
-  console.log(props?.video?.file_url,'props?.video?.file_url::::::')
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
         {props?.video?.loading && <ActivityIndicator />}
-        {props?.video?.file_url !== ''?(
+        {props?.video?.file_url !== '' ? (
           <>
             <TouchableWithoutFeedback>
               <TouchableOpacity
@@ -28,7 +27,7 @@ const VideoUploading = props => {
                 style={styles.videoSel}>
                 <Image
                   source={
-                    props.remove.includes(props?.video?.id)
+                    props?.remove?.includes(props?.video?.id)
                       ? Images.iconRadiosel
                       : Images.iconRadiounsel
                   }
@@ -55,14 +54,16 @@ const VideoUploading = props => {
               />
             </View>
           </>
-        ): <>
-        <View style={styles.innerVdo}>
-          <Text style={styles.vdoHeading}>
-            {Strings.smSetting.UploadVideo}
-          </Text>
-          <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
-        </View>
-      </>}
+        ) : (
+          <>
+            <View style={styles.innerVdo}>
+              <Text style={styles.vdoHeading}>
+                {Strings.smSetting.UploadVideo}
+              </Text>
+              <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
+            </View>
+          </>
+        )}
       </ImageBackground>
     </TouchableOpacity>
   );

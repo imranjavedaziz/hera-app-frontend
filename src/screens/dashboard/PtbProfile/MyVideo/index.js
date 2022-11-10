@@ -14,7 +14,7 @@ import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
-import Strings, {ValidationMessages} from '../../../../constants/Strings';
+import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -32,7 +32,6 @@ const MyVideo = () => {
   const [isOpen, setOpen] = useState(false);
   const [isLoader, setLoader] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [rmvImgCount, setRmvImgCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
   const dispatch = useDispatch();
@@ -59,7 +58,6 @@ const MyVideo = () => {
       pushArr.push(index);
     } else {
       pushArr.splice(isExist, 1);
-      // setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
   }
@@ -75,19 +73,14 @@ const MyVideo = () => {
           loading: false,
           id: gallery_data?.doner_video_gallery?.id,
         });
-        setLoader(false)
-        dispatch(hideAppLoader());  
+        setLoader(false);
+        dispatch(hideAppLoader());
       } else {
         dispatch(hideAppLoader());
       }
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
-
-  console.log(
-    'gallery_data?.doner_video_gallery?.id',
-    gallery_data?.doner_video_gallery?.id,
-  );
 
   // DELETE VIDEO
 
@@ -145,12 +138,6 @@ const MyVideo = () => {
       setIsPlaying(!isPlaying);
     }
   };
-
-  const deleteImg = () => {
-    let payload = {
-      ids: remove?.join(),
-    };
-  }
   const deleteVideo = () => {
     let payload = {
       ids: video?.id,
@@ -195,7 +182,7 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          {isLoader !==true && (
+          {isLoader !== true && (
             <VideoUploading
               imageOverlay={styles.imageOverlayWrapper}
               style={styles.VdoContainer}
