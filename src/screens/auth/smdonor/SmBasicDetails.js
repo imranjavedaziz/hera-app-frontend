@@ -261,6 +261,7 @@ const SmBasicDetails = () => {
                 required={true}
                 keyboardType="number-pad"
                 maxLength={6}
+                lineColor={isOpen}
               />
             )}
             name="zipcode"
@@ -303,6 +304,7 @@ const SmBasicDetails = () => {
                 value={value}
                 onChangeText={v => onChange(v)}
                 error={errors && errors.occupation?.message}
+                lineColor={isOpen}
               />
             )}
             name="occupation"

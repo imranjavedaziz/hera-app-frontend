@@ -5,7 +5,6 @@ import {
   dynamicSize,
   scaleWidth,
   scaleHeight,
-  width,
 } from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
 
