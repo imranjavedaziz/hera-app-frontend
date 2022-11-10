@@ -9,6 +9,8 @@ export default {
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_15,
   },
+  marginStyle: {marginHorizontal: Value.CONSTANT_VALUE_10},
+  redColor: {color: Colors.RED},
   trouble: {
     fontSize: Value.CONSTANT_VALUE_16,
     lineHeight: Value.CONSTANT_VALUE_25,

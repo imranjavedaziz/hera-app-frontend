@@ -64,7 +64,13 @@ const DashboardDetailScreen = () => {
         }
       }
       loadingRef.current = get_sm_donor_loading;
-    }, [get_sm_donor_success, get_sm_donor_loading]),
+    }, [
+      get_sm_donor_success,
+      get_sm_donor_loading,
+      get_sm_donor_error_msg,
+      dispatch,
+      get_sm_donor_res,
+    ]),
   );
   const headerComp = () => (
     <IconHeader
@@ -152,8 +158,7 @@ const DashboardDetailScreen = () => {
             {smDetailRes?.doner_attribute?.race ? (
               <View style={styles.fatherPlace}>
                 <Text style={global?.tagText} numberOfLines={2}>
-                  Father is American Indian and alska native
-                  {/* {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`} */}
+                  {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>
             ) : null}
@@ -162,8 +167,7 @@ const DashboardDetailScreen = () => {
             {smDetailRes?.doner_attribute?.race && (
               <View style={styles.motherPlace}>
                 <Text style={global?.tagText} numberOfLines={2}>
-                Father is American Indian and alska native
-                  {/* {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`} */}
+                  {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
                 </Text>
               </View>
             )}

@@ -36,6 +36,9 @@ export default {
   tmc1: {
     fontSize: Value.CONSTANT_VALUE_13,
   },
+  flex: {
+    flex: Value.CONSTANT_VALUE_1,
+  },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,

@@ -52,7 +52,14 @@ const OTP = ({route}) => {
       }
     }
     loadingRef.current = verify_otp_loading;
-  }, [verify_otp_success, verify_otp_loading]);
+  }, [
+    verify_otp_success,
+    verify_otp_loading,
+    dispatch,
+    isRouteData,
+    navigation,
+    verify_otp_error_msg,
+  ]);
   const onSubmit = data => {
     const payload = {
       country_code: isRouteData.country_code,
@@ -93,7 +100,7 @@ const OTP = ({route}) => {
       scroller={true}
       showHeader={true}
       headerComp={headerComp}
-      style={{marginHorizontal: 10}}>
+      style={styles.marginStyle}>
       <View style={[globalStyle.mainContainer, {minHeight: height * 0.8}]}>
         <Text style={globalStyle.screenTitle}>{Strings.otp.title}</Text>
         <View
@@ -115,17 +122,16 @@ const OTP = ({route}) => {
         </View>
         <View style={styles.errMsg}>
           {!isValid && errors.otp?.message && (
-            <Text style={{color: 'red'}}>{errors.otp?.message}</Text>
+            <Text style={styles.redColor}>{errors.otp?.message}</Text>
           )}
           <Controller
             control={control}
             render={({field: {onChange, value, onBlur}}) => (
               <OtpInputs
-              onBlur={()=>	clearErrors()}
+                onBlur={() => clearErrors()}
                 value={value}
                 onChange={onChange}
                 isValid={errors.otp === undefined}
-
               />
             )}
             name="otp"

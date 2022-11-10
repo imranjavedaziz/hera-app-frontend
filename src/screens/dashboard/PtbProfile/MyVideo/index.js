@@ -13,7 +13,7 @@ import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
-import Strings, {ValidationMessages} from '../../../../constants/Strings';
+import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,7 +30,6 @@ const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [rmvImgCount, setRmvImgCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
   const dispatch = useDispatch();

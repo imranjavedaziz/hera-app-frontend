@@ -18,7 +18,7 @@ import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
-import {Routes} from '../../constants/Constants';
+
 import {Value} from '../../constants/FixedValues';
 const Login = props => {
   const navigation = useNavigation();
@@ -33,7 +33,7 @@ const Login = props => {
     getValues,
     setValue,
     reset,
-    formState: {errors, isValid},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
@@ -43,21 +43,10 @@ const Login = props => {
   useEffect(() => {
     deviceHandler(props.navigation, 'goBack');
   }, [props.navigation]);
-  // useEffect(() => {
-  //   if (!isValid) {
-  //     const e = errors;
-  //     const messages = [];
-  //     Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-  //     const msg = messages.join('\n').trim();
-  //     if (msg) {
-  //       dispatch(showAppToast(true, msg));
-  //     }
-  //   }
-  // }, [errors, isValid, dispatch]);
+
   useEffect(() => {
     if (loadingRef.current && !log_in_loading) {
       dispatch(showAppLoader());
-
       if (log_in_success) {
         dispatch(hideAppLoader());
         navigation.navigate(
@@ -88,6 +77,7 @@ const Login = props => {
       phone_no: data.phone,
       password: data.password,
     };
+    dispatch(showAppLoader());
     setPayloadData(payload);
     dispatch(logIn(payload));
   };
@@ -132,7 +122,7 @@ const Login = props => {
       showHeader={true}
       headerComp={headerComp}
       headerEnd={true}
-      style={{marginHorizontal: 35}}>
+      style={styles.margin}>
       <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}}>
         <View style={globalStyle.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
