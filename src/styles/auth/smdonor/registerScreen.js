@@ -1,6 +1,5 @@
-import Colors from '../../../constants/Colors';
+import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
-import Alignment from '../../../constants/Alignment';
 import {Fonts} from '../../../constants/Constants';
 
 export default {
