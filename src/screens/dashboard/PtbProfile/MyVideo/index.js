@@ -136,7 +136,7 @@ const MyVideo = () => {
   const videoPlay = () => {
     console.log('inside vedio play');
     if (video?.file_url === '') {
-      setOpen(true);
+      Platform.OS === 'ios' ? iosVideoSheet() : setOpen(true);
     } else {
       setIsPlaying(!isPlaying);
     }
@@ -220,9 +220,7 @@ const MyVideo = () => {
                   paused: true,
                 });
               }}
-              onPress={() => {
-                Platform.OS === 'ios' ? iosVideoSheet() : videoPlay();
-              }}
+              onPress={() => videoPlay()}
               videoStyle={styles.video}
               videoRef={videoRef}
               isPlaying={isPlaying}
