@@ -1,4 +1,4 @@
-import {ValidationMessages} from './Strings';
+import Strings, {ValidationMessages} from './Strings';
 import {Regx} from './schemas';
 
 const environment = {
@@ -750,3 +750,26 @@ export const Static = {
     },
   ],
 };
+
+export const creditProductsIds = Platform.select({
+  ios: ['Hera_001_1m'],
+  android: ['scord_credit_1'],
+});
+
+export const productsIds = Platform.select({
+  ios: ['Hera_001_1m'],
+  android: ['scord_credit_1'],
+});
+
+export const SUBSCRIPTION_PLAN = [
+  {
+    id: 1,
+    MainText: Strings.Subscription.Price,
+    Months: Strings.Subscription.Commitment,
+  },
+  {
+    id: 2,
+    MainText: Strings.Subscription.yearPrice,
+    Months: Strings.Subscription.YearCommitment,
+  },
+];

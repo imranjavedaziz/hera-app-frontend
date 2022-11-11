@@ -7,7 +7,7 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     borderRadius: Value.CONSTANT_VALUE_9,
-    width: Value.CONSTANT_VALUE_354,
+    width: Value.CONSTANT_VALUE_325,
     height: Value.CONSTANT_VALUE_104,
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     backgroundColor: Colors.SEARCH_BOX,
