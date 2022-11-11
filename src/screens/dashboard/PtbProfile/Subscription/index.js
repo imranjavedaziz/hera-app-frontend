@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
@@ -16,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import { SUBSCRIPTION_PLAN } from '../../../../constants/Constants';
+import {SUBSCRIPTION_PLAN} from '../../../../constants/Constants';
 
 const Subscription = () => {
   const navigation = useNavigation();
@@ -52,7 +45,16 @@ const Subscription = () => {
   //     purchaseAPI(purchasereceipt, purchaseItem, purchaseType, "success");
   //   }
   // }, [isCallApi]);
-
+  // React.useEffect(async () => {
+  //   IAPService.initializeConnection();
+  //   const allProducts = await IAPService.getIAPProducts();
+  //   console.log('ALL PRODUCT ID LINE NO 58', allProducts);
+  //   // const allCreditProducts = await IAPService.getCreditProducts();
+  //   // console.log("all product ids????60", allCreditProducts);
+  //   return () => {
+  //     IAPService.endIAPConnection();
+  //   };
+  // }, []);
   const subscribePlan = (item, type) => {
     if (Platform.OS === 'ios') {
       requestSubscriptionIOS(item?.app_store_id, item, type);
@@ -98,7 +100,6 @@ const Subscription = () => {
     }
   };
 
-
   return (
     <Container
       scroller={false}
@@ -114,22 +115,20 @@ const Subscription = () => {
             Midtitle={Strings.Subscription.MidHeader}
             isCenter={true}
           />
-          <FlatList
-            data={SUBSCRIPTION_PLAN}
-            renderItem={({item, index}) => (
-              <Commitment
-                MainText={Strings.Subscription.Price}
-                Months={Strings.Subscription.Commitment}
-                Icon={
-                  selectCheckBox === item?.id
-                    ? Images.iconRadiosel
-                    : Images.iconRadiounsel
-                }
-                Style={selectCheckBox === item?.id && styles.box}
-                onPress={() => selectCheckHandler(item)}
-              />
-            )}
-          />
+          {SUBSCRIPTION_PLAN.map((item, index) => (
+            <Commitment
+              MainText={Strings.Subscription.Price}
+              Months={Strings.Subscription.Commitment}
+              Icon={
+                selectCheckBox === item?.id
+                  ? Images.iconRadiosel
+                  : Images.iconRadiounsel
+              }
+              Style={selectCheckBox === item?.id && styles.box}
+              onPress={() => selectCheckHandler(item)}
+            />
+          ))}
+
           <Button
             label={Strings.Subscription.SubscribeButton}
             style={styles.payButton}

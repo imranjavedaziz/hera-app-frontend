@@ -753,12 +753,12 @@ export const Static = {
 
 export const creditProductsIds = Platform.select({
   ios: ['Hera_001_1m'],
-  android: ['scord_credit_1'],
+  android: ['Hera_001_1m'],
 });
 
 export const productsIds = Platform.select({
   ios: ['Hera_001_1m'],
-  android: ['scord_credit_1'],
+  android: ['Hera_001_1m'],
 });
 
 export const SUBSCRIPTION_PLAN = [
