@@ -1,5 +1,5 @@
-import {Text, View, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Text, View, Image, TouchableOpacity, Platform} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
 import Container from '../../../../components/Container';
 import {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
@@ -10,14 +10,13 @@ import Strings from '../../../../constants/Strings';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
-import {Value} from '../../../../constants/FixedValues';
 import {Routes} from '../../../../constants/Constants';
 import {updateProfileImg} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
 import {logOut} from '../../../../redux/actions/Auth';
-import styles from 'rn-range-slider/styles';
+import ActionSheet from 'react-native-actionsheet';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -28,6 +27,8 @@ const SmDonorSettings = () => {
   const userName = `${first_name} ${last_name}`;
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -35,10 +36,37 @@ const SmDonorSettings = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        openCamera(0, cb);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        openCamera(1, cb);
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+
+  const openIosSheet = () => {
+    openActionSheet();
+  };
+  const openAndroidSheet = () => {
+    setOpen(true);
+  };
+
   const cb = image => {
     setOpen(false);
     setFile(image);
-    // dispatch(updateImg(image))
   };
   useEffect(() => {
     const reqData = new FormData();
@@ -75,7 +103,10 @@ const SmDonorSettings = () => {
             />
           </View>
           <View>
-            <TouchableOpacity onPress={() => setOpen(true)}>
+            <TouchableOpacity
+              onPress={() => {
+                Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
+              }}>
               <View style={[Styles.camBtn, Styles.camSelectedBtn]}>
                 <Image source={Images.camera} style={Styles.camImg} />
               </View>
@@ -134,12 +165,20 @@ const SmDonorSettings = () => {
             style={Styles.Btn}
             label={Strings.smSetting.Btn}
             color={Colors.PINK}
-            // onPress={authService.logout}
             onPress={() => logoutScreen()}
           />
           <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
         </View>
       </Container>
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
