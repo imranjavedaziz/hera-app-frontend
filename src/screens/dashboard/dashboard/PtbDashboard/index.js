@@ -113,7 +113,7 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 150);
   };
-  function renderCardData(item) {
+  function renderCardData(item, index) {
     return (
       <>
         <ImageComp
@@ -123,7 +123,7 @@ const PtbDashboard = props => {
           mapIcon={Images.iconmapwhite}
           image={{uri: item?.user?.profile_pic}}
           fadeAnim={fadeAnim}
-          isVisibleLogo={isVisibleLogo}
+          isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
@@ -183,7 +183,7 @@ const PtbDashboard = props => {
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
                     showSecondCard={true}
-                    stackSize={1}
+                    stackSize={2}
                   />
                 </View>
               </ImageBackground>
