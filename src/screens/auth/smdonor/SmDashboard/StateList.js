@@ -20,7 +20,9 @@ import Searchbar from './StateSearch';
 import {Routes} from '../../../../constants/Constants';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from './Styles';
-const StateList = () => {
+const StateList = props => {
+  console.log('>>>>>>>props>>>>', props);
+  const {selectedStateList} = props.route.params;
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const [state, setState] = useState([]);
@@ -45,18 +47,7 @@ const StateList = () => {
           setTimeout(() => {
             dispatch(hideAppLoader());
           }, 200);
-          setState(
-            get_state_res?.map(prev => ({
-              ...prev,
-              isActive: false,
-            })),
-          );
-          setAllState(
-            get_state_res?.map(prev => ({
-              ...prev,
-              isActive: false,
-            })),
-          );
+          defaultBackSelection();
         }
         if (get_state_error_msg) {
           dispatch(hideAppLoader());
@@ -71,6 +62,21 @@ const StateList = () => {
       dispatch,
     ]),
   );
+
+  const defaultBackSelection = () => {
+    setState(
+      get_state_res?.map(prev => ({
+        ...prev,
+        isActive: false,
+      })),
+    );
+    setAllState(
+      get_state_res?.map(prev => ({
+        ...prev,
+        isActive: false,
+      })),
+    );
+  };
   useEffect(() => {
     dispatch(getStates());
   }, [dispatch]);
@@ -84,6 +90,7 @@ const StateList = () => {
     setSearch(value);
   };
   const selectState = item => {
+    console.log('>>>>>>>>>state>>>', state);
     if (count === 3 && item.isActive === false) {
       Alert.alert('Can select upto 3 state');
       return;

@@ -254,6 +254,7 @@ const SmDashboard = ({route}) => {
               onChangeText={onSearch}
               editing={search === ''}
               onClear={onClear}
+              selectedStates={route.params?.informationDetail}
             />
           </View>
           <View>
