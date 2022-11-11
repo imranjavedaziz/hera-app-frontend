@@ -2,7 +2,6 @@ import {Colors, Alignment} from '../../constants';
 import global from '../global';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
-import Alignment from '../../constants/Alignment';
 
 export default {
   logo: {
