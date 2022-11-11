@@ -30,7 +30,7 @@ export default (state = initState, action) => {
         get_donor_dashboard_success: true,
         get_donor_dashboard_loading: false,
         get_donor_dashboard_error_msg: '',
-        get_donor_dashboard_res: action.data.data,
+        get_donor_dashboard_res: action.data,
       };
     case DONOR_DASHBOARD_FAIL:
       return {

@@ -109,4 +109,7 @@ export default {
   flatlist: {
     paddingBottom: Value.CONSTANT_VALUE_150,
   },
+  loaderContainer: {
+    marginTop: Value.CONSTANT_VALUE_15, 
+  },
 };
