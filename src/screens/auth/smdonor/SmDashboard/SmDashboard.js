@@ -4,8 +4,6 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ImageBackground,
-  BackHandler,
   ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
@@ -74,7 +72,7 @@ const SmDashboard = ({route}) => {
           console.log(get_donor_dashboard_res, 'get_donor_dashboard_res');
           const {current_page, last_page, data} = get_donor_dashboard_res.data;
           if (current_page > 1) {
-            data.length>0 && setLoadMore(false)
+            data.length > 0 && setLoadMore(false);
             setCards([...cards, ...data]);
           } else {
             setCards(data);
@@ -194,12 +192,13 @@ const SmDashboard = ({route}) => {
   };
 
   const renderEmptyCell = () => {
-    if(!loaderState.loading)
-    return (
-      <View>
-        <Text>No RESULT FOUND</Text>
-      </View>
-    );
+    if (!loaderState.loading) {
+      return (
+        <View>
+          <Text>No RESULT FOUND</Text>
+        </View>
+      );
+    }
   };
 
   const renderFooterCell = () => {

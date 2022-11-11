@@ -28,7 +28,6 @@ import {MaterialIndicator} from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
 import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import {scaleHeight} from '../../../../utils/responsive';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -79,10 +78,7 @@ const PtbDashboard = props => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
     if (count >= ptbDashboardRes.length - 1) {
-      useSwiper?.current?.swipeLeft();
-      setTimeout(() => {
-        setEmpty(true);
-      }, 800);
+      setEmpty(true);
     } else {
       setEmpty(false);
       setTimeout(() => {
@@ -98,10 +94,7 @@ const PtbDashboard = props => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
     if (count >= ptbDashboardRes.length - 1) {
-      useSwiper?.current?.swipeRight();
-      setTimeout(() => {
-        setEmpty(true);
-      }, 850);
+      setEmpty(true);
     } else {
       setEmpty(false);
       setTimeout(() => {

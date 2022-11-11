@@ -5,7 +5,6 @@ import {Value} from '../../../constants/FixedValues';
 import {
   dynamicSize,
   normalizeFont,
-  px,
   scaleHeight,
   scaleWidth,
 } from '../../../utils/responsive';
@@ -25,7 +24,7 @@ export default {
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
-    width: px(320),
+    width: Value.CONSTANT_VALUE_210,
   },
   nativePlace: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -39,7 +38,7 @@ export default {
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   innerContainer: {
-    width: Value.CONSTANT_VALUE_202,
+    width: Value.CONSTANT_VALUE_210,
   },
   hairContainer: {
     flexDirection: Alignment.ROW,

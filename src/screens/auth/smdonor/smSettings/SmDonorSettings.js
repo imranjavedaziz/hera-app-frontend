@@ -11,11 +11,10 @@ import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
 import {Routes} from '../../../../constants/Constants';
-import {updateProfileImg} from '../../../../redux/actions/Auth';
+import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import BottomSheetComp from '../../../../components/BottomSheet';
-import {logOut} from '../../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 
 const SmDonorSettings = () => {
