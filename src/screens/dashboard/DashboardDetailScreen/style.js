@@ -5,7 +5,6 @@ import {Value} from '../../../constants/FixedValues';
 import {
   dynamicSize,
   normalizeFont,
-  px,
   scaleHeight,
   scaleWidth,
 } from '../../../utils/responsive';
@@ -25,8 +24,7 @@ export default {
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
-    width: px(320),
-    // backgroundColor:'red'
+    width: Value.CONSTANT_VALUE_210,
   },
   nativePlace: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -39,10 +37,11 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
-
+  innerContainer: {
+    width: Value.CONSTANT_VALUE_210,
+  },
   hairContainer: {
     flexDirection: Alignment.ROW,
-    width: px(255),
   },
   motherPlace: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -54,12 +53,6 @@ export default {
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
-  },
-  hairColorText: {
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-    textAlign: Alignment.CENTER,
-    color: Colors.BLACK,
   },
   eyeColorContainer: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -118,6 +111,8 @@ export default {
   },
   heartIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_50),
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
   },
   imageMainContainer: {
     flexDirection: Alignment.ROW,

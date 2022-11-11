@@ -8,6 +8,12 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
   },
+  header: {
+    marginLeft: 30,
+  },
+  containerStyle: {
+    marginHorizontal: 0,
+  },
   subTitle: {
     marginVertical: Value.CONSTANT_VALUE_8,
   },
@@ -140,5 +146,8 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
+  },
+  imageStyling: {
+    resizeMode: Alignment.COVER,
   },
 };

@@ -5,7 +5,6 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useCallback, useState} from 'react';
 
@@ -147,21 +146,23 @@ const DashboardDetailScreen = () => {
               </Text>
             </ImageBackground>
           </View>
-          <View style={styles.nativeMainContainer}>
-            {smDetailRes?.location?.name ? (
-              <View style={styles.nativePlace}>
-                <Text style={global?.tagText}>
-                  {smDetailRes?.location?.name}
-                </Text>
-              </View>
-            ) : null}
-            {smDetailRes?.doner_attribute?.race ? (
-              <View style={styles.fatherPlace}>
-                <Text style={global?.tagText} numberOfLines={2}>
-                  {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
-                </Text>
-              </View>
-            ) : null}
+          <View style={styles.innerContainer}>
+            <View style={styles.nativeMainContainer}>
+              {smDetailRes?.location?.name ? (
+                <View style={styles.nativePlace}>
+                  <Text style={global?.tagText}>
+                    {smDetailRes?.location?.name}
+                  </Text>
+                </View>
+              ) : null}
+              {smDetailRes?.doner_attribute?.race ? (
+                <View style={styles.fatherPlace}>
+                  <Text style={global?.tagText} numberOfLines={2}>
+                    {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
           </View>
           <View style={styles.nativeMainContainer}>
             {smDetailRes?.doner_attribute?.race && (
@@ -211,6 +212,7 @@ const DashboardDetailScreen = () => {
               />
             </View>
           )}
+
           <View style={styles.heartIconContainer}>
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
@@ -228,6 +230,7 @@ const DashboardDetailScreen = () => {
               </View>
             </TouchableOpacity>
           </View>
+
           <View style={styles.crossIconContainer}>
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}

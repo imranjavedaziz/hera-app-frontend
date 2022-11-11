@@ -3,7 +3,6 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   View,
-  ImageBackground,
   Image,
   TouchableOpacity,
   ActivityIndicator,
@@ -36,6 +35,7 @@ import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
+import FastImage from 'react-native-fast-image';
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -276,7 +276,7 @@ const Gallery = () => {
       icon={Images.iconBack}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
-      style={{marginLeft: 30}}
+      style={styles.header}
     />
   );
   const openBottomVideoSheet = () => {
@@ -289,7 +289,7 @@ const Gallery = () => {
         showHeader={true}
         headerEnd={false}
         headerComp={headerComp}
-        style={{marginHorizontal: 0}}>
+        style={style.containerStyle}>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.sm_create_gallery.myGallery}
@@ -300,13 +300,14 @@ const Gallery = () => {
                 key={img.id}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
-                <ImageBackground
+                <FastImage
                   key={img.id}
-                  style={styles.galleryImgView}
-                  imageStyle={{
-                    resizeMode: 'cover',
-                  }}
-                  source={img.uri ? {uri: img.uri} : null}>
+                  style={[styles.galleryImgView, styles.imageStyling]}
+                  source={{
+                    uri: img.uri,
+                    priority: FastImage.priority.normal,
+                    cache: FastImage.cacheControl.immutable,
+                  }}>
                   {img.uri ? (
                     <TouchableOpacity
                       onPress={() => {
@@ -336,7 +337,7 @@ const Gallery = () => {
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
-                </ImageBackground>
+                </FastImage>
               </TouchableOpacity>
             ))}
           </View>

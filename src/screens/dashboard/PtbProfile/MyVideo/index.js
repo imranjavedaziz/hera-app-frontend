@@ -26,6 +26,7 @@ import {
 import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
 import BottomSheetComp from '../../../../components/BottomSheet';
+import ActionSheet from 'react-native-actionsheet';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -34,6 +35,8 @@ const MyVideo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const dispatch = useDispatch();
   const userService = User();
   const loadingGalleryRef = useRef(false);
@@ -133,7 +136,7 @@ const MyVideo = () => {
   const videoPlay = () => {
     console.log('inside vedio play');
     if (video?.file_url === '') {
-      setOpen(true);
+      Platform.OS === 'ios' ? iosVideoSheet() : setOpen(true);
     } else {
       setIsPlaying(!isPlaying);
     }
@@ -164,6 +167,29 @@ const MyVideo = () => {
       ],
     );
     return true;
+  };
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        selectVideo(0);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        selectVideo(1);
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+  const iosVideoSheet = () => {
+    openActionSheet();
   };
   return (
     <>
@@ -217,6 +243,15 @@ const MyVideo = () => {
           )}
         </View>
       </Container>
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
