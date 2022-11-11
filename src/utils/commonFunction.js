@@ -13,7 +13,7 @@ export const deviceHandler = (navigation, screen) => {
       {
         text: ValidationMessages.YES,
         onPress: () => {
-          if (screen === 'goBack') {
+          if (screen === 'goBack' && navigation.canGoBack()) {
             navigation.goBack();
           }else if(screen ==='exit'){
             BackHandler.exitApp()

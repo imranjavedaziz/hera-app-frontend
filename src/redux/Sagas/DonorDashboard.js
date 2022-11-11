@@ -10,7 +10,7 @@ function* getDonorDashboard(payload) {
   try {
     const result = yield DonorDashboardApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      yield put({type: DONOR_DASHBOARD_SUCCESS, data: result});
+      yield put({type: DONOR_DASHBOARD_SUCCESS, data: result.data});
     } else {
       yield put({
         type: DONOR_DASHBOARD_FAIL,
