@@ -26,6 +26,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D60EDA71291B86C3008ECCD5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D60EDA70291B86C3008ECCD5 /* GoogleService-Info.plist */; };
 		D610C26328D0693F00C269B0 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D610C26228D0693F00C269B0 /* BootSplash.storyboard */; };
+		ECE5D86A291E35D6000641BA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE5D869291E35D6000641BA /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,8 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-MBC-MBCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBC-MBCTests.release.xcconfig"; path = "Target Support Files/Pods-MBC-MBCTests/Pods-MBC-MBCTests.release.xcconfig"; sourceTree = "<group>"; };
 		D60EDA70291B86C3008ECCD5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D610C26228D0693F00C269B0 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = MBC/BootSplash.storyboard; sourceTree = "<group>"; };
+		ECE5D869291E35D6000641BA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		ECF1BF7A291E4B9500DFC703 /* MBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MBC.entitlements; path = MBC/MBC.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -112,6 +115,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C80B921A6F3F58F76C31292 /* libPods-MBC.a in Frameworks */,
+				ECE5D86A291E35D6000641BA /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +142,7 @@
 		13B07FAE1A68108700A75B9A /* MBC */ = {
 			isa = PBXGroup;
 			children = (
+				ECF1BF7A291E4B9500DFC703 /* MBC.entitlements */,
 				D60EDA70291B86C3008ECCD5 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -153,6 +158,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ECE5D869291E35D6000641BA /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-MBC.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-MBC-MBCTests.a */,
@@ -611,8 +617,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MBC/MBC.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 56S2A4N4D3;
@@ -627,10 +633,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.makingBabyConnetion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.makingBabyConnetionDev;
 				PRODUCT_NAME = MBC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -643,8 +648,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MBC/MBC.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 56S2A4N4D3;
@@ -658,10 +663,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.makingBabyConnetion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.makingBabyConnetionDev;
 				PRODUCT_NAME = MBC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
