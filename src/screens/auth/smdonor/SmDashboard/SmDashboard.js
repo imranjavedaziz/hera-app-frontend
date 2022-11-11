@@ -26,6 +26,8 @@ import {logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
+import {MaterialIndicator} from 'react-native-indicators';
+import {Colors} from '../../../../constants';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -205,7 +207,10 @@ const SmDashboard = ({route}) => {
     if (loadMore && cards.length > 0) {
       return (
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size={Value.CONSTANT_VALUE_40} />
+          <MaterialIndicator
+            size={Value.CONSTANT_VALUE_40}
+            color={Colors.COLOR_A3C6C4}
+          />
         </View>
       );
     }
