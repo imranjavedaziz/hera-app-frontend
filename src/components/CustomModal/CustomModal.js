@@ -2,7 +2,7 @@ import React from "react";
 import { View, Modal,} from "react-native";
 import styles from "./styles";
 const CustomModel = (props) => {
-  const { children, onPress } = props
+  const { children, } = props
   return (
     <Modal transparent={true} animationType="slide">
       <View style={styles.modalContainer} >
