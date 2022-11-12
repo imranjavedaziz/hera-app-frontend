@@ -13,12 +13,16 @@ import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
+import {MaterialIndicator} from 'react-native-indicators';
+import {Colors} from '../constants';
 
 const VideoUploading = props => {
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
-        {props?.video?.loading && <ActivityIndicator />}
+        {props?.video?.loading && (
+          <MaterialIndicator color={Colors.COLOR_A3C6C4} />
+        )}
         {props?.video?.file_url !== '' ? (
           <>
             <TouchableWithoutFeedback>

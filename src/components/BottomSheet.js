@@ -1,9 +1,8 @@
 // BottomSheetComp
 import React, {useRef} from 'react';
-import {Modal, Platform, TouchableOpacity} from 'react-native';
+import {Modal, TouchableOpacity} from 'react-native';
 import BottomSheet from 'react-native-simple-bottom-sheet';
-
-import ActionSheet from 'react-native-actionsheet';
+import global from '../styles/global';
 
 const BottomSheetComp = props => {
   const {isOpen, setOpen, children, wrapperStyle, lineStyle} = props;
@@ -21,10 +20,10 @@ const BottomSheetComp = props => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => setOpen(false)}
-          style={{flex: 1}}
+          style={global.modal}
         />
         <BottomSheet
-          wrapperStyle={wrapperStyle ? wrapperStyle : {borderRadius: 0}}
+          wrapperStyle={wrapperStyle ? wrapperStyle : global.bottomSheet}
           lineStyle={lineStyle}
           isOpen={isOpen}
           ref={ref => (panelRef.current = ref)}
@@ -32,16 +31,8 @@ const BottomSheetComp = props => {
           onClose={() => {
             setOpen(false);
           }}
-          outerContentStyle={{
-            borderRadius: 0,
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-          }}
-          innerContentStyle={{
-            borderRadius: 0,
-            borderTopLeftRadius: 0,
-            borderTopRightRadius: 0,
-          }}>
+          outerContentStyle={global.outerContentStyle}
+          innerContentStyle={global.innerContentStyle}>
           {children}
         </BottomSheet>
       </>

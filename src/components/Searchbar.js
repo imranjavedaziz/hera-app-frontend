@@ -39,7 +39,11 @@ const Searchbar = props => {
         {props.editing ? (
           <TouchableOpacity
             style={styles.pinIcon}
-            onPress={() => navigation.navigate(Routes.stateList)}>
+            onPress={() =>
+              navigation.navigate(Routes.stateList, {
+                selectedStateList: props?.selectedStates,
+              })
+            }>
             <Image source={Images.pin} />
           </TouchableOpacity>
         ) : (

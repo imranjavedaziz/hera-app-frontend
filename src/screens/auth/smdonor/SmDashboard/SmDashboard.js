@@ -4,10 +4,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ImageBackground,
-  BackHandler,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import React, {
   useState,
@@ -38,6 +35,8 @@ import FastImage from 'react-native-fast-image';
 import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 
+import {MaterialIndicator} from 'react-native-indicators';
+import {Colors} from '../../../../constants';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -219,19 +218,23 @@ const SmDashboard = ({route}) => {
   };
 
   const renderEmptyCell = () => {
-    if (!loaderState.loading)
+    if (!loaderState.loading) {
       return (
         <View>
           <Text>No RESULT FOUND</Text>
         </View>
       );
+    }
   };
 
   const renderFooterCell = () => {
     if (loadMore && cards.length > 0) {
       return (
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size={Value.CONSTANT_VALUE_40} />
+          <MaterialIndicator
+            size={Value.CONSTANT_VALUE_40}
+            color={Colors.COLOR_A3C6C4}
+          />
         </View>
       );
     }
@@ -279,6 +282,7 @@ const SmDashboard = ({route}) => {
               onChangeText={onSearch}
               editing={search === ''}
               onClear={onClear}
+              selectedStates={route.params?.informationDetail}
             />
           </View>
           <View>
