@@ -6,9 +6,16 @@ import {
   TouchableOpacity,
   ImageBackground,
   BackHandler,
+  Platform,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
@@ -24,10 +31,13 @@ import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import {logOut} from '../../../../redux/actions/Auth';
+import {deviceRegister, logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
+import DeviceInfo from 'react-native-device-info';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
+
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -46,7 +56,9 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
+
   const [loadMore, setLoadMore] = useState(false);
+  const {fcmToken} = useContext(NotificationContext);
   const unsubscribe = navigation.addListener('focus', () => {
     _getDonorDashboard(1, '');
   });
@@ -54,7 +66,21 @@ const SmDashboard = ({route}) => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
     }
-  }, []);
+  }, [navigation, route?.name]);
+  //Get device Info
+  useEffect(() => {
+    async function fetchDeviceInfo() {
+      const deviceName = await DeviceInfo.getDeviceName();
+      const _deviceInfo = {
+        device_id: DeviceInfo.getDeviceId(),
+        device_token: fcmToken,
+        device_type: Platform.OS,
+      };
+      console.log(deviceName, 'deviceName');
+      dispatch(deviceRegister(_deviceInfo));
+    }
+    fetchDeviceInfo();
+  }, [dispatch, fcmToken]);
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
@@ -71,10 +97,9 @@ const SmDashboard = ({route}) => {
         dispatch(showAppLoader());
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
-          console.log(get_donor_dashboard_res, 'get_donor_dashboard_res');
           const {current_page, last_page, data} = get_donor_dashboard_res.data;
           if (current_page > 1) {
-            data.length>0 && setLoadMore(false)
+            data.length > 0 && setLoadMore(false);
             setCards([...cards, ...data]);
           } else {
             setCards(data);
@@ -194,12 +219,12 @@ const SmDashboard = ({route}) => {
   };
 
   const renderEmptyCell = () => {
-    if(!loaderState.loading)
-    return (
-      <View>
-        <Text>No RESULT FOUND</Text>
-      </View>
-    );
+    if (!loaderState.loading)
+      return (
+        <View>
+          <Text>No RESULT FOUND</Text>
+        </View>
+      );
   };
 
   const renderFooterCell = () => {

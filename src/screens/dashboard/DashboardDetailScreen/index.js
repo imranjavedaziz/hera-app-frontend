@@ -5,15 +5,10 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useRef, useCallback, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import Container from '../../../components/Container';
 import {IconHeader} from '../../../components/Header';
@@ -26,52 +21,80 @@ import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
-import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
+import {
+  showAppLoader,
+  hideAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
+import {profileMatch} from '../../../redux/actions/Profile_Match';
+import {Routes} from '../../../constants/Constants';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
   const dispatch = useDispatch();
-  const loadingRef = useRef();
+  const loadingRef = useRef(false);
+  const loadingMatchRef = useRef(false);
+
   const {
     get_sm_donor_success,
     get_sm_donor_loading,
     get_sm_donor_error_msg,
     get_sm_donor_res,
   } = useSelector(state => state.SmDonorDetail);
-
+  const {
+    profile_match_success,
+    profile_match_loading,
+    profile_match_error_msg,
+  } = useSelector(state => state.Profile_Match);
   const {
     params: {userId},
   } = useRoute();
-
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
   }, [dispatch, userId]);
-
-  useFocusEffect(
-    useCallback(() => {
-      if (loadingRef.current && !get_sm_donor_loading) {
-        dispatch(showAppLoader());
-        if (get_sm_donor_success) {
-          dispatch(hideAppLoader());
-          setSmDetailRes(get_sm_donor_res);
-        }
-        if (get_sm_donor_error_msg) {
-          dispatch(hideAppLoader());
-        }
+  useEffect(() => {
+    if (loadingRef.current && !get_sm_donor_loading) {
+      dispatch(showAppLoader());
+      if (get_sm_donor_success) {
+        dispatch(hideAppLoader());
+        setSmDetailRes(get_sm_donor_res);
       }
-      loadingRef.current = get_sm_donor_loading;
-    }, [
-      get_sm_donor_success,
-      get_sm_donor_loading,
-      get_sm_donor_error_msg,
-      dispatch,
-      get_sm_donor_res,
-    ]),
-  );
+      if (get_sm_donor_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = get_sm_donor_loading;
+  }, [
+    get_sm_donor_success,
+    get_sm_donor_loading,
+    get_sm_donor_error_msg,
+    dispatch,
+    get_sm_donor_res,
+  ]);
+  useEffect(() => {
+    if (loadingMatchRef.current && !profile_match_loading) {
+      dispatch(showAppLoader());
+      if (profile_match_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, profile_match_error_msg));
+        navigation.navigate(Routes.PtbDashboard);
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingMatchRef.current = profile_match_loading;
+  }, [
+    profile_match_success,
+    profile_match_loading,
+    profile_match_error_msg,
+    dispatch,
+    navigation,
+  ]);
+
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -79,6 +102,20 @@ const DashboardDetailScreen = () => {
       style={styles.headerIcon}
     />
   );
+  const onPressLike = () => {
+    const payload = {
+      to_user_id: smDetailRes?.id,
+      status: 1,
+    };
+    dispatch(profileMatch(payload));
+  };
+  const onPressDislike = () => {
+    const payload = {
+      to_user_id: smDetailRes?.id,
+      status: 3,
+    };
+    dispatch(profileMatch(payload));
+  };
   const renderItemData = item => {
     return (
       <>
@@ -213,7 +250,7 @@ const DashboardDetailScreen = () => {
           )}
           <View style={styles.heartIconContainer}>
             <TouchableOpacity
-              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
+              onPress={onPressLike}
               style={styles.btn(Colors.GREEN)}
               accessibilityRole={'button'}
               accessible={true}>
@@ -230,7 +267,7 @@ const DashboardDetailScreen = () => {
           </View>
           <View style={styles.crossIconContainer}>
             <TouchableOpacity
-              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
+              onPress={onPressDislike}
               style={styles.btn(Colors.RED)}
               accessibilityRole={'button'}
               accessible={true}>

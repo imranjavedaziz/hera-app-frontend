@@ -13,6 +13,7 @@ import {
   AUTH_LOG_OUT,
   AUTH_REGISTER,
   UPDATE_PROFILE_IMG,
+  DEVICE_REGISTER,
 } from '../Type';
 
 export const logIn = userInfo => {
@@ -21,7 +22,12 @@ export const logIn = userInfo => {
     data: userInfo,
   };
 };
-
+export const deviceRegister = data => {
+  return {
+    type: DEVICE_REGISTER,
+    data: data,
+  };
+};
 export const setUser = payload => ({
   type: SET_USER,
   payload,
