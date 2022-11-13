@@ -42,8 +42,9 @@ const VideoUploading = props => {
               <Video
                 source={{uri: `${props?.video?.file_url}`}}
                 style={props?.videoStyle}
-                controls={true}
-                audioOnly={true}
+                controls
+                audioOnly
+                resizeMode="cover"
                 ref={props?.videoRef}
                 onLoad={() => {
                   props?.videoRef?.current?.seek(3);

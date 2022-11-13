@@ -131,9 +131,8 @@ def reactNativeArchitectures() {
 
 android {
     ndkVersion rootProject.ext.ndkVersion
-
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+    
     defaultConfig {
         applicationId "com.mbc"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -167,6 +166,8 @@ android {
                 }
             }
         }
+    // react-native-iap: we only use the Google Play flavor
+      missingDimensionStrategy 'store', 'play'
     }
 
     if (isNewArchitectureEnabled()) {

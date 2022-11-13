@@ -45,7 +45,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
-  const [mobileModalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
   const [cardIndex, setCardIndex] = useState(0);
@@ -235,7 +235,7 @@ const PtbDashboard = props => {
           code={item?.user?.username}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
-          image={{uri: item?.user?.profile_pic}}
+          image={{ uri: item?.user?.profile_pic }}
           fadeAnim={fadeAnim}
           isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
@@ -279,6 +279,7 @@ const PtbDashboard = props => {
               Title={Strings.landing.Like_Match_Connect}
               Subtitle={Strings.dashboard.Subtitle}
               Icon={Images.iconArrow}
+              onPress={() => setModalVisible(!modalVisible)}
             />
             <View style={styles.mainImageContainer}>
               <ImageBackground
@@ -355,20 +356,9 @@ const PtbDashboard = props => {
           dashboardShow()
         )}
       </Container>
-      {mobileModalVisible && (
-        <CustomModal
-          modalVisible={mobileModalVisible}
-          onBackdropPress={() => setModalVisible(false)}
-          onBackButtonPress={() => setModalVisible(false)}
-          onSwipeComplete={() => setModalVisible(false)}
-          // swipeDownIconCustom={{
-          //   bottom: Platform.OS === "ios" ? scaleHeight(330) : scaleHeight(335),
-          // }}
-          // customModelStyle={{
-          //   height: Platform.OS === "ios" ? scaleHeight(300) : scaleHeight(310),
-          // }}
-        >
-          <SensoryCharacteristics />
+      {modalVisible && (
+        <CustomModal>
+          <SensoryCharacteristics  onPress={() => setModalVisible(!modalVisible)}/>
         </CustomModal>
       )}
     </>

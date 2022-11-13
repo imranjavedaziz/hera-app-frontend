@@ -47,7 +47,7 @@ const StateList = props => {
           setTimeout(() => {
             dispatch(hideAppLoader());
           }, 200);
-          defaultBackSelection();
+          existingCountrySelection();
         }
         if (get_state_error_msg) {
           dispatch(hideAppLoader());
@@ -63,19 +63,19 @@ const StateList = props => {
     ]),
   );
 
-  const defaultBackSelection = () => {
-    setState(
-      get_state_res?.map(prev => ({
-        ...prev,
-        isActive: false,
-      })),
-    );
-    setAllState(
-      get_state_res?.map(prev => ({
-        ...prev,
-        isActive: false,
-      })),
-    );
+  const existingCountrySelection = () => {
+    const data = get_state_res?.map(item => {
+      item.isActive = false;
+      selectedStateList?.map((_item1, index1) => {
+        if (item.id === selectedStateList[index1]) {
+          setCount(prevCount => prevCount + 1);
+          item.isActive = true;
+        }
+      });
+      return item;
+    });
+    setState(data);
+    setAllState(data);
   };
   useEffect(() => {
     dispatch(getStates());
@@ -90,7 +90,6 @@ const StateList = props => {
     setSearch(value);
   };
   const selectState = item => {
-    console.log('>>>>>>>>>state>>>', state);
     if (count === 3 && item.isActive === false) {
       Alert.alert('Can select upto 3 state');
       return;
@@ -156,11 +155,18 @@ const StateList = props => {
     });
     navigation.navigate(Routes.SmDashboard, {informationDetail: sl});
   };
+  const BackControl = () => {
+    if (count === 0) {
+      navigation.navigate(Routes.SmDashboard);
+    } else {
+      submit();
+    }
+  };
   const headerComp = () => (
     <>
       <CircleBtn
         icon={Images.iconBack}
-        onPress={navigation.goBack}
+        onPress={BackControl}
         accessibilityLabel="Cross Button, Go back"
       />
       {count > 0 && (
