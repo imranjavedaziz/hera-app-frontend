@@ -7,7 +7,13 @@ import {
   Text,
   Platform,
 } from 'react-native';
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  useContext,
+} from 'react';
 import Swiper from 'react-native-deck-swiper';
 import styles from './style';
 import Images from '../../../../constants/Images';
@@ -15,19 +21,27 @@ import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
-import { IconHeader } from '../../../../components/Header';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { getRoleType } from '../../../../utils/other';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPtbDashboard } from '../../../../redux/actions/PtbDashboard';
-import { showAppLoader, hideAppLoader } from '../../../../redux/actions/loader';
-import { logOut } from '../../../../redux/actions/Auth';
-import { Routes } from '../../../../constants/Constants';
-import { deviceHandler } from '../../../../utils/commonFunction';
-import { MaterialIndicator } from 'react-native-indicators';
+import {IconHeader} from '../../../../components/Header';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {getRoleType} from '../../../../utils/other';
+import {useDispatch, useSelector} from 'react-redux';
+import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {deviceRegister, logOut} from '../../../../redux/actions/Auth';
+import {Routes} from '../../../../constants/Constants';
+import {deviceHandler} from '../../../../utils/commonFunction';
+import {MaterialIndicator} from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
 import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
+import DeviceInfo from 'react-native-device-info';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
+import {profileMatch} from '../../../../redux/actions/Profile_Match';
+import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
+
+import _ from 'lodash';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -40,7 +54,9 @@ const PtbDashboard = props => {
   const navigation = useNavigation();
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
-  const loadingRef = useRef();
+  const loadingRef = useRef(false);
+  const loadingMatchRef = useRef();
+  const {fcmToken} = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
@@ -52,13 +68,81 @@ const PtbDashboard = props => {
       dispatch(getPtbDashboard());
     }, [dispatch]),
   );
+  //Get device Info
+  useEffect(() => {
+    async function fetchDeviceInfo() {
+      const deviceName = await DeviceInfo.getDeviceName();
+      const _deviceInfo = {
+        device_id: DeviceInfo.getDeviceId(),
+        device_token: fcmToken,
+        device_type: Platform.OS,
+      };
+      console.log(deviceName, 'deviceName');
+      dispatch(deviceRegister(_deviceInfo));
+    }
+    fetchDeviceInfo();
+  }, [dispatch, fcmToken]);
+  //Push Notification
+  useEffect(() => {
+    //For foreground
+    PushNotification.configure({
+      onNotification: function (notification) {
+        console.log('============NOTIFICATION===============:', notification);
+        const notificationData = notification;
+        if (!_.isEmpty(notificationData)) {
+          if (notificationData.foreground === true) {
+            navigation.navigate('PushNotificationExample');
+          }
+        }
+        // if (!notificationData) {
+        //   navigation.navigate(Routes.PushNotificationExample);
+        // }
+        // setInitialRoute('BottomTabStack');
+        // process the notification
+
+        // (required) Called when a remote is received or opened, or local notification is opened
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
+      // iOS only
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+      popInitialNotification: true,
+      requestPermissions: true,
+    });
+
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        '***Notification caused app to open from background state***',
+        remoteMessage,
+      );
+      const {notification, messageId} = remoteMessage;
+      console.log(messageId);
+      if (!_.isEmpty(notification)) {
+        if (notification.foreground === true) {
+          navigation.navigate('PushNotificationExample');
+        }
+        if (notification.foreground !== true) {
+          navigation.navigate('PushNotificationExample');
+        }
+      }
+    });
+  }, [fcmToken, navigation]);
+
   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
     get_ptb_dashboard_error_msg,
     get_ptb_dashboard_res,
   } = useSelector(state => state.PtbDashboard);
-
+  const {
+    profile_match_success,
+    profile_match_loading,
+    profile_match_error_msg,
+  } = useSelector(state => state.Profile_Match);
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
@@ -74,11 +158,38 @@ const PtbDashboard = props => {
       loadingRef.current = get_ptb_dashboard_loading;
     }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
   );
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingMatchRef.current && !profile_match_loading) {
+        dispatch(showAppLoader());
+        if (profile_match_success) {
+          dispatch(hideAppLoader());
+        }
+        if (profile_match_error_msg) {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingMatchRef.current = profile_match_loading;
+    }, [
+      profile_match_success,
+      profile_match_loading,
+      dispatch,
+      profile_match_error_msg,
+    ]),
+  );
   const handleOnSwipedLeft = () => {
+    const payload = {
+      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+      status: 3,
+    };
+    dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
     if (count >= ptbDashboardRes.length - 1) {
-      setEmpty(true);
+      useSwiper?.current?.swipeLeft();
+      setTimeout(() => {
+        setEmpty(true);
+      }, 400);
     } else {
       setEmpty(false);
       setTimeout(() => {
@@ -91,10 +202,19 @@ const PtbDashboard = props => {
     }, 200);
   };
   const handleOnSwipedRight = () => {
+    const payload = {
+      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+      status: 1,
+    };
+    dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
+
     if (count >= ptbDashboardRes.length - 1) {
-      setEmpty(true);
+      useSwiper?.current?.swipeRight();
+      setTimeout(() => {
+        setEmpty(true);
+      }, 400);
     } else {
       setEmpty(false);
       setTimeout(() => {
@@ -106,6 +226,7 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 150);
   };
+
   function renderCardData(item, index) {
     return (
       <>
@@ -120,7 +241,6 @@ const PtbDashboard = props => {
           has_happen={islikedLogo}
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
-          key={cardIndex}
           onPress={() => {
             navigation.navigate('DashboardDetailScreen', {
               userId: item?.user?.id,

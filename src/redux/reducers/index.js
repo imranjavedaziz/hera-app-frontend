@@ -10,6 +10,7 @@ import PtbProfileDetail from './PtbProfileDetail';
 import SmDonorDetail from './SmDonerDetail';
 import SetPreference from './SetPreference';
 import Support from './Support';
+import Profile_Match from './Profile_Match';
 
 const allReducers = combineReducers({
   Auth,
@@ -23,6 +24,7 @@ const allReducers = combineReducers({
   PtbProfileDetail,
   SmDonorDetail,
   Support,
+  Profile_Match,
 });
 
 export default allReducers;
