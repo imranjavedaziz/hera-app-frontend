@@ -1,4 +1,4 @@
-import BottomSheetComp from './BottomSheet';
+import BottomSheetComp from './BottomSheetComp';
 import Button from './Button';
 import Container from './Container';
 import FloatingLabelInput from './FloatingLabelInput';
