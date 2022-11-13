@@ -19,11 +19,10 @@ export default {
     width: dynamicSize(Value.CONSTANT_VALUE_248),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    // backgroundColor: 'red',
     shadowOffset: {width: -2, height: 9},
     shadowColor: '#171717',
     shadowOpacity: 0.2,
-    shadowRadius: 10,
+    shadowRadius: Value.CONSTANT_VALUE_10,
   },
   iconContainer: {
     flex: 0.88,

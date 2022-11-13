@@ -12,10 +12,10 @@ import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
-import BottomSheetComp from '../../../components/BottomSheet';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
+import {BottomSheetComp} from '../../../components';
 
 const PtbProfile = () => {
   const navigation = useNavigation();

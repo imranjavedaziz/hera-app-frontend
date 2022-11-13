@@ -42,12 +42,12 @@ import Button from '../../components/Button';
 import {parentRegisterSchema} from '../../constants/schemas';
 import styles from './StylesProfile';
 import Alignment from '../../constants/Alignment';
-import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
 import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
+import {BottomSheetComp} from '../../components';
 
 const Profile = props => {
   const navigation = useNavigation();
