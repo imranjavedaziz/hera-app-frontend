@@ -37,7 +37,11 @@ import CustomModal from '../../../../components/CustomModal/CustomModal';
 import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import {profileMatch} from '../../../../redux/actions/Profile_Match';
+import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
 
+import _ from 'lodash';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -78,6 +82,56 @@ const PtbDashboard = props => {
     }
     fetchDeviceInfo();
   }, [dispatch, fcmToken]);
+  //Push Notification
+  useEffect(() => {
+    //For foreground
+    PushNotification.configure({
+      onNotification: function (notification) {
+        console.log('============NOTIFICATION===============:', notification);
+        const notificationData = notification;
+        if (!_.isEmpty(notificationData)) {
+          if (notificationData.foreground === true) {
+            navigation.navigate('PushNotificationExample');
+          }
+        }
+        // if (!notificationData) {
+        //   navigation.navigate(Routes.PushNotificationExample);
+        // }
+        // setInitialRoute('BottomTabStack');
+        // process the notification
+
+        // (required) Called when a remote is received or opened, or local notification is opened
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
+      // iOS only
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+      popInitialNotification: true,
+      requestPermissions: true,
+    });
+
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        '***Notification caused app to open from background state***',
+        remoteMessage,
+      );
+      const {notification, messageId} = remoteMessage;
+      console.log(messageId);
+      if (!_.isEmpty(notification)) {
+        if (notification.foreground === true) {
+          navigation.navigate('PushNotificationExample');
+        }
+        if (notification.foreground !== true) {
+          navigation.navigate('PushNotificationExample');
+        }
+      }
+    });
+  }, [fcmToken, navigation]);
+
   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
@@ -102,8 +156,8 @@ const PtbDashboard = props => {
         }
       }
       loadingRef.current = get_ptb_dashboard_loading;
-    }, [get_ptb_dashboard_success,get_ptb_dashboard_loading,]),
- );
+    }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
+  );
   useFocusEffect(
     useCallback(() => {
       if (loadingMatchRef.current && !profile_match_loading) {

@@ -171,6 +171,7 @@ export const Routes = {
   stateList: 'StateList',
   Support: 'Support',
   Subscription: 'Subscription',
+  PushNotificationExample: 'PushNotificationExample',
 };
 export const Static = {
   countries: [
