@@ -1,44 +1,23 @@
-import {Platform} from 'react-native';
-import {scaleHeight} from '../../utils/responsive';
+import { dynamicSize, } from '../../utils/responsive';
 import Colors from '../../constants/Colors';
+import Alignment from '../../constants/Alignment';
 
 const spaceBetween = 'space-between';
 export default {
-  mainContainerView: {
+  modalContainer: { flex: 1, backgroundColor: '#000000aa' },
+  boxContainer: {
     backgroundColor: Colors.WHITE,
-    marginTop: scaleHeight(23),
-  },
-  modalContainer: {
-    position: 'absolute',
+    width: '100%',
+    height: '80%',
+    borderRadius: dynamicSize(7),
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 2.8,
+    shadowRadius: 2,
+    alignSelf: Alignment.CENTER,
+    position: Alignment.ABSOLUTE,
     bottom: 0,
-    backgroundColor: Colors.WHITE,
-    width: '100%',
-    paddingBottom: scaleHeight(15),
-    minHeight: scaleHeight(320),
-  },
-  swipeDownIcon: {
-    width: '100%',
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? scaleHeight(360) : scaleHeight(361),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bottomModal: {
-    // height: 700,
-    flex: 1,
-    marginHorizontal: 0,
-    justifyContent: 'flex-end',
-    marginBottom: 0,
-  },
-  modalClose: {
-    height: scaleHeight(25),
-    width: '100%',
-    alignSelf: 'center',
-    position: 'absolute',
-    top: -15,
-    zIndex: 9,
-  },
-  rectanlge: {
-    height: scaleHeight(340),
+    paddingHorizontal: 4,
+    paddingVertical: dynamicSize(15),
   },
 };

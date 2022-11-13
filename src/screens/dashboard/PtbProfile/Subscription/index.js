@@ -45,16 +45,16 @@ const Subscription = () => {
   //     purchaseAPI(purchasereceipt, purchaseItem, purchaseType, "success");
   //   }
   // }, [isCallApi]);
-  // React.useEffect(async () => {
-  //   IAPService.initializeConnection();
-  //   const allProducts = await IAPService.getIAPProducts();
-  //   console.log('ALL PRODUCT ID LINE NO 58', allProducts);
-  //   // const allCreditProducts = await IAPService.getCreditProducts();
-  //   // console.log("all product ids????60", allCreditProducts);
-  //   return () => {
-  //     IAPService.endIAPConnection();
-  //   };
-  // }, []);
+
+  React.useEffect(async () => {
+    IAPService.initializeConnection();
+    const allProducts = await IAPService.getIAPProducts();
+    console.log('ALL PRODUCT ID LINE NO 58', allProducts);
+    return () => {
+      IAPService.endIAPConnection();
+    };
+  }, []);
+
   const subscribePlan = (item, type) => {
     if (Platform.OS === 'ios') {
       requestSubscriptionIOS(item?.app_store_id, item, type);
@@ -62,6 +62,7 @@ const Subscription = () => {
       requestSubscriptionAndroid(item?.play_store_id, item, type);
     }
   };
+
   const requestSubscriptionAndroid = async (sku, item, type) => {
     console.log('IAP req android', sku);
     try {
@@ -87,9 +88,10 @@ const Subscription = () => {
       await RNIap.requestSubscription({sku})
         .then(async result => {
           console.log('IAP req sub', result, 'Itemm??', item, 'Type???', type);
-          // purchaseAPI(result, item, type, "success");
-          // setPurchaseItem(item);
-          // setPurchaseType(type);
+         //  This is for API SUCCESS
+          purchaseAPI(result, item, type, "success");
+          setPurchaseItem(item);
+          setPurchaseType(type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);

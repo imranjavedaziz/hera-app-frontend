@@ -17,7 +17,47 @@ import Orientation from 'react-native-orientation-locker';
 import {PlayerControls} from '../../../../components/PlayerControls';
 import {ProgressBar} from '../../../../components/ProgressBar';
 import Images from '../../../../constants/Images';
+import { Value } from '../../../../constants/FixedValues';
 
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ebebeb',
+  },
+  video: {
+    height: Dimensions.get('window').width * (Value.CONSTANT_VALUE_9 / Value.CONSTANT_VALUE_16),
+    width: Dimensions.get('window').width,
+    backgroundColor: 'black',
+  },
+  fullscreenVideo: {
+    height: Dimensions.get('window').width,
+    width: Dimensions.get('window').height,
+    backgroundColor: 'black',
+  },
+  text: {
+    marginTop: 30,
+    marginHorizontal: 20,
+    fontSize: 15,
+    textAlign: 'justify',
+  },
+  fullscreenButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    paddingRight: 10,
+  },
+  controlOverlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#000000c4',
+    justifyContent: 'space-between',
+  },
+});
 interface State {
   fullscreen: boolean;
   play: boolean;
@@ -43,8 +83,8 @@ export const VideoPlayer: React.FC = (props: any) => {
       Orientation.removeOrientationListener(handleOrientation);
     };
   }, []);
-  console.log("LINE NO 46",props?.url);
-  
+  console.log('LINE NO 46', props?.url);
+
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={showControls}>
@@ -53,7 +93,6 @@ export const VideoPlayer: React.FC = (props: any) => {
             ref={videoRef}
             source={{
               uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-              // uri: "https://mbc-qa-kiwitech.s3.amazonaws.com/images/user_gellery/5x8mjh9EBs3kC9s8uneFvbk0VvnzolTlLTeptHbN.mp4",
             }}
             style={state.fullscreen ? styles.fullscreenVideo : styles.video}
             controls={false}
@@ -120,26 +159,22 @@ export const VideoPlayer: React.FC = (props: any) => {
     }
 
     setState({...state, play: true});
-    setTimeout(() => setState(s => ({...s, showControls: false})), 2000);
-    // console.log("handlePlayPause");
+    setTimeout(() => setState(s => ({...s, showControls: false})), Value.CONSTANT_VALUE_2000);
   }
 
   function skipBackward() {
-    videoRef.current.seek(state.currentTime - 15);
-    setState({...state, currentTime: state.currentTime - 15});
-    console.log('skipBackward');
+    videoRef.current.seek(state.currentTime - Value.CONSTANT_VALUE_15);
+    setState({...state, currentTime: state.currentTime - Value.CONSTANT_VALUE_15});
   }
 
   function skipForward() {
-    videoRef.current.seek(state.currentTime + 15);
-    setState({...state, currentTime: state.currentTime + 15});
-    console.log('skipForward');
+    videoRef.current.seek(state.currentTime + Value.CONSTANT_VALUE_15);
+    setState({...state, currentTime: state.currentTime + Value.CONSTANT_VALUE_15});
   }
 
   function onSeek(data: OnSeekData) {
     videoRef.current.seek(data.seekTime);
     setState({...state, currentTime: data.seekTime});
-    // console.log("onSeek");
   }
 
   function onLoadEnd(data: OnLoadData) {
@@ -148,7 +183,6 @@ export const VideoPlayer: React.FC = (props: any) => {
       duration: data.duration,
       currentTime: data.currentTime,
     }));
-    // console.log("onLoadEnd");
   }
 
   function onProgress(data: OnProgressData) {
@@ -156,13 +190,11 @@ export const VideoPlayer: React.FC = (props: any) => {
       ...s,
       currentTime: data.currentTime,
     }));
-    // console.log("onLoadEnd");
   }
 
   function onEnd() {
     setState({...state, play: false});
     videoRef.current.seek(0);
-    console.log('onEnd');
   }
 
   function showControls() {
@@ -170,44 +202,6 @@ export const VideoPlayer: React.FC = (props: any) => {
       ? setState({...state, showControls: false})
       : setState({...state, showControls: true});
   }
-  console.log('showControls');
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ebebeb',
-  },
-  video: {
-    height: Dimensions.get('window').width * (9 / 16),
-    width: Dimensions.get('window').width,
-    backgroundColor: 'black',
-  },
-  fullscreenVideo: {
-    height: Dimensions.get('window').width,
-    width: Dimensions.get('window').height,
-    backgroundColor: 'black',
-  },
-  text: {
-    marginTop: 30,
-    marginHorizontal: 20,
-    fontSize: 15,
-    textAlign: 'justify',
-  },
-  fullscreenButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-    paddingRight: 10,
-  },
-  controlOverlay: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#000000c4',
-    justifyContent: 'space-between',
-  },
-});
+
