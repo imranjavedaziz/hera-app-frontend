@@ -24,7 +24,6 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   radioContainer: {
-    // flexDirection: Alignment.ROW,
     width: Prencentage.PRECENTAGE_100,
   },
   textArea: {

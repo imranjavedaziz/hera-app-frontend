@@ -29,8 +29,7 @@ import {
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
 import {logOut, updateRegStep} from '../../../redux/actions/Auth';
-import MultiTextInput from '../../../components/MultiTextMessage/MultiTextMessage';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, MultiTextInput} from '../../../components';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();

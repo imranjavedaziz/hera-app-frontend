@@ -31,8 +31,8 @@ import {
   hideAppLoader,
   showAppToast,
 } from '../../redux/actions/loader';
-import MultiTextInput from '../../components/MultiTextMessage/MultiTextMessage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {MultiTextInput} from '../../components';
 
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();

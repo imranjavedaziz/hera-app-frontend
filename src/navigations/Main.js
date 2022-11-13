@@ -28,6 +28,7 @@ import DonorGallery from '../screens/auth/smdonor/donorGallery/Gallery';
 import Subscription from '../screens/dashboard/PtbProfile/Subscription';
 import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Support from '../screens/Support/Support';
+import PushNotificationExample from '../screens/Example';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -153,6 +154,11 @@ const Main = () => {
         <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.PushNotificationExample}
+          component={PushNotificationExample}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

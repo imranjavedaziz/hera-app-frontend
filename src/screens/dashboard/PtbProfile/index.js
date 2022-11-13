@@ -125,7 +125,7 @@ const PtbProfile = () => {
           <PtbAccount
             leftIcon={Images.video}
             title={Strings.smSetting.AddVideo}
-            onPress={() => navigation.navigate('MyVideo')}
+            onPress={() => navigation.navigate(Routes.MyVideo)}
           />
           <PtbAccount
             leftIcon={Images.person}

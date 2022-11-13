@@ -41,7 +41,7 @@ const ImageComp = (
     isVisibleLogo,
     category,
     activeOpacity,
-    key,
+
     onPress,
   },
   props,
@@ -49,10 +49,7 @@ const ImageComp = (
   return (
     <View style={styles.upperContainer}>
       <View style={styles.mainContainer}>
-        <TouchableOpacity
-          activeOpacity={activeOpacity}
-          onPress={onPress}
-          key={key}>
+        <TouchableOpacity activeOpacity={activeOpacity} onPress={onPress}>
           <ImageBackground
             source={image}
             style={styles.bgImage}

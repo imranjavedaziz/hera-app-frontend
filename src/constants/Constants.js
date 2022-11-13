@@ -1,5 +1,6 @@
 import Strings, {ValidationMessages} from './Strings';
 import {Regx} from './schemas';
+import Images from './Images';
 
 const environment = {
   dev: {
@@ -171,6 +172,7 @@ export const Routes = {
   stateList: 'StateList',
   Support: 'Support',
   Subscription: 'Subscription',
+  PushNotificationExample: 'PushNotificationExample',
 };
 export const Static = {
   countries: [
@@ -772,4 +774,10 @@ export const SUBSCRIPTION_PLAN = [
     MainText: Strings.Subscription.yearPrice,
     Months: Strings.Subscription.YearCommitment,
   },
+];
+
+export const SENSORY_ARR = [
+  { id: 1, img: Images.BABY_MOTHER, caption: Strings.Sensory.AS_PER_SEARCH },
+  { id: 2, img: Images.HEART, caption: Strings.Sensory.SELECT_HEART_TO },
+  { id: 2, img: Images.CROSS, caption: Strings.Sensory.SELECT_CROSS },
 ];
