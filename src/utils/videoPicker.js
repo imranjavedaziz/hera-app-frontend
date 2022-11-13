@@ -14,7 +14,7 @@ const videoPicker = index => {
     myAction(options)
       .then(video => {
         if (video?.duration > 59000) {
-          alert(Strings.sm_create_gallery.videoDuration)
+          alert(Strings.sm_create_gallery.videoDuration);
         } else {
           resolve(video);
         }
