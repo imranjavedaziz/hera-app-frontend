@@ -5,6 +5,7 @@ import {
   watchVerifyOtp,
   watchLogOutApi,
   watchupdateProfileImg,
+  watchdeviceRegister,
 } from './Auth';
 import {
   watchPtbRegisterApi,
@@ -20,10 +21,12 @@ import {watchGetDonorDashboard} from './DonorDashboard';
 import {watchGetPtbProfileDetail, watchsendLikePtb} from './PtbProfileDetail';
 import {watchSmDonorDetail} from './SmDonerDetail';
 import {watchSupportForm, watchUserType} from './Support';
+import {watchProfileMatch} from './Profile_Match';
 
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
+    fork(watchdeviceRegister),
     fork(watchGetUserGallery),
     fork(watchMobileNumber),
     fork(watchVerifyOtp),
@@ -45,5 +48,6 @@ export default function* rootSaga() {
     fork(watchsendLikePtb),
     fork(watchSupportForm),
     fork(watchUserType),
+    fork(watchProfileMatch),
   ]);
 }

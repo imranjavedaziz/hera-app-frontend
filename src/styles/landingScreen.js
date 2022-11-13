@@ -51,7 +51,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansRegular,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   btnContainer: {
     //flex: 1,

@@ -75,7 +75,7 @@ const Gallery = () => {
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
-  }, []);
+  }, [dispatch]);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -110,7 +110,7 @@ const Gallery = () => {
         }
       }
       loadingGalleryRef.current = delete_gallery_loading;
-    }, [delete_gallery_success, delete_gallery_loading]),
+    }, [delete_gallery_success, delete_gallery_loading, dispatch]),
   );
 
   const cb = image => {
@@ -160,7 +160,7 @@ const Gallery = () => {
   const ImageClick = index => {
     setImgPreviewIndex(index);
     if (gIndex === index && rmvImgCount === 0) {
-      return setOpen(true);
+      return Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
     } else if (index < gIndex && rmvImgCount === 0) {
       return setIsVisible(true);
     } else {
