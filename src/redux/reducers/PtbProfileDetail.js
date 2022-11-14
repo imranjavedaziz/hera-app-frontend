@@ -12,7 +12,6 @@ const initState = {
   get_ptb_profile_detail_loading: false,
   get_ptb_profile_detail_error_msg: '',
   get_ptb_profile_detail_res: {},
-  
   send_like_ptb_success: false,
   send_like_ptb_loading: false,
   send_like_ptb_error_msg: '',

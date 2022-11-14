@@ -74,11 +74,6 @@ export default {
     right: Value.CONSTANT_VALUE_5,
     top: Value.CONSTANT_VALUE_10,
   },
-  removeContainer: {
-    justifyContent: Alignment.CENTER,
-    flexDirection: Alignment.ROW,
-    backgroundColor: 'yellow',
-  },
   deleteBtnContainer: {
     flexDirection: Alignment.ROW,
     paddingVertical: Value.CONSTANT_VALUE_57,

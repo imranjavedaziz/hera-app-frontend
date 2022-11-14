@@ -26,7 +26,6 @@ import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {Static, Routes, FormKey, Fonts} from '../../../constants/Constants';
-import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
@@ -38,6 +37,7 @@ import {
   SavePreference,
 } from '../../../redux/actions/SetPreference';
 import {scaleWidth} from '../../../utils/responsive';
+import {BottomSheetComp} from '../../../components';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;

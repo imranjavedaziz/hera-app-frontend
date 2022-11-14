@@ -13,16 +13,17 @@ import {
   watchGetStates,
   watchGetProfileSetter,
 } from './Register';
-import { watchSavePreferenceRes, watchsetPreference } from './SetPreference';
-import { watchGetUserGallery, watchDeleteUserGallery } from './CreateGallery';
-import { watchGetPtbDashboard } from './PtbDashboard';
-import { watchSetAttribute, watchSaveAttributeRes } from './SetAttribute';
-import { watchGetDonorDashboard } from './DonorDashboard';
-import { watchGetPtbProfileDetail, watchsendLikePtb } from './PtbProfileDetail';
-import { watchSmDonorDetail } from './SmDonerDetail';
-import { watchSupportForm, watchUserType } from './Support';
+
+import {watchSavePreferenceRes, watchsetPreference} from './SetPreference';
+import {watchGetUserGallery, watchDeleteUserGallery} from './CreateGallery';
+import {watchGetPtbDashboard} from './PtbDashboard';
+import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
+import {watchGetDonorDashboard} from './DonorDashboard';
+import {watchGetPtbProfileDetail, watchsendLikePtb} from './PtbProfileDetail';
+import {watchSmDonorDetail} from './SmDonerDetail';
+import {watchSupportForm, watchUserType} from './Support';
+import {watchpProfileMatchResponse, watchProfileMatch} from './Profile_Match';
 import { watchCreateSubscription } from './Subscription';
-import {watchProfileMatch} from './Profile_Match';
 
 export default function* rootSaga() {
   yield all([
@@ -51,5 +52,6 @@ export default function* rootSaga() {
     fork(watchUserType),
     fork(watchCreateSubscription),
     fork(watchProfileMatch),
+    fork(watchpProfileMatchResponse),
   ]);
 }
