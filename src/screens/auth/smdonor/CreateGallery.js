@@ -20,7 +20,6 @@ import Strings from '../../../constants/Strings';
 import openCamera from '../../../utils/openCamera';
 import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
-import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import sty from '../../auth/smdonor/donorGallery/styles';
@@ -39,6 +38,7 @@ import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
+import {BottomSheetComp} from '../../../components';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();

@@ -25,8 +25,8 @@ import {
 } from '../../../../redux/actions/CreateGallery';
 import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
-import BottomSheetComp from '../../../../components/BottomSheet';
 import ActionSheet from 'react-native-actionsheet';
+import {BottomSheetComp} from '../../../../components';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});

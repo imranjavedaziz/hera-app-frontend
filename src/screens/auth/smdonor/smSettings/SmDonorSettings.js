@@ -14,8 +14,8 @@ import {Routes} from '../../../../constants/Constants';
 import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
-import BottomSheetComp from '../../../../components/BottomSheet';
 import ActionSheet from 'react-native-actionsheet';
+import {BottomSheetComp} from '../../../../components';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();

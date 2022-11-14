@@ -19,7 +19,6 @@ import Strings from '../../../../constants/Strings';
 import openCamera from '../../../../utils/openCamera';
 import {Routes} from '../../../../constants/Constants';
 import videoPicker from '../../../../utils/videoPicker';
-import BottomSheetComp from '../../../../components/BottomSheet';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
@@ -36,6 +35,7 @@ import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
+import {BottomSheetComp} from '../../../../components';
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
