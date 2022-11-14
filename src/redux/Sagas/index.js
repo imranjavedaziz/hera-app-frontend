@@ -1,4 +1,4 @@
-import {all, fork} from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 import {
   watchLogIn,
   watchMobileNumber,
@@ -12,14 +12,15 @@ import {
   watchGetStates,
   watchGetProfileSetter,
 } from './Register';
-import {watchSavePreferenceRes, watchsetPreference} from './SetPreference';
-import {watchGetUserGallery, watchDeleteUserGallery} from './CreateGallery';
-import {watchGetPtbDashboard} from './PtbDashboard';
-import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
-import {watchGetDonorDashboard} from './DonorDashboard';
-import {watchGetPtbProfileDetail, watchsendLikePtb} from './PtbProfileDetail';
-import {watchSmDonorDetail} from './SmDonerDetail';
-import {watchSupportForm, watchUserType} from './Support';
+import { watchSavePreferenceRes, watchsetPreference } from './SetPreference';
+import { watchGetUserGallery, watchDeleteUserGallery } from './CreateGallery';
+import { watchGetPtbDashboard } from './PtbDashboard';
+import { watchSetAttribute, watchSaveAttributeRes } from './SetAttribute';
+import { watchGetDonorDashboard } from './DonorDashboard';
+import { watchGetPtbProfileDetail, watchsendLikePtb } from './PtbProfileDetail';
+import { watchSmDonorDetail } from './SmDonerDetail';
+import { watchSupportForm, watchUserType } from './Support';
+import { watchCreateSubscription } from './Subscription';
 
 export default function* rootSaga() {
   yield all([
@@ -45,5 +46,6 @@ export default function* rootSaga() {
     fork(watchsendLikePtb),
     fork(watchSupportForm),
     fork(watchUserType),
+    fork(watchCreateSubscription),
   ]);
 }

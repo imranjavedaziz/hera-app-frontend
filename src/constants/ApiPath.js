@@ -24,6 +24,7 @@ export default {
   parentsMatchedDoner: 'parents-matched-doner',
   createSubscription: 'create-subscription',
   subscriptionPlan: 'subscription-plan',
+  subscriptionStatus: 'subscription-status',
   register: 'register',
   profile_setter_data: 'profile-setter-data',
   preference_setter_data: 'preferences-setter-data',
