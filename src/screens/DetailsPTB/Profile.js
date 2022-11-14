@@ -345,6 +345,7 @@ const Profile = props => {
                   onChangeText={v => onChange(v)}
                   required={true}
                   secureTextEntry={true}
+                  error={errors && errors.confirm_password?.message}
                   containerStyle={{
                     marginBottom: Value.CONSTANT_VALUE_5,
                   }}
@@ -395,14 +396,13 @@ const Profile = props => {
                 onChangeText={v => onChange(v)}
                 required={true}
                 secureTextEntry={true}
-                error={errors && errors.confirm_password?.message}
                 containerStyle={styles.flex}
               />
             )}
             name={FormKey.confirm_password}
           />
           <View style={styles.tmc}>
-            <View style={{alignSelf: Alignment.CENTER}}>
+            <View style={styles.rowContainer}>
               {check ? (
                 <Pressable
                   onPress={() => {

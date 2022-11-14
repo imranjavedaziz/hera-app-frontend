@@ -42,7 +42,7 @@ export default {
   logo: {
     width: Value.CONSTANT_VALUE_200,
     height: Value.CONSTANT_VALUE_120,
-    resizeMode: 'contain',
+    resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
   },
   title: {
@@ -54,7 +54,6 @@ export default {
     fontWeight: 'bold',
   },
   btnContainer: {
-    //flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_10,
@@ -79,8 +78,9 @@ export default {
   footerBtn: {
     fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansRegular,
     ...global.underlineText,
+    fontWeight: 'bold',
   },
   widthText: {width: Value.CONSTANT_VALUE_212},
 };
