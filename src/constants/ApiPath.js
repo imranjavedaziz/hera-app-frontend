@@ -24,6 +24,7 @@ export default {
   parentsMatchedDoner: 'parents-matched-doner',
   createSubscription: 'create-subscription',
   subscriptionPlan: 'subscription-plan',
+  subscriptionStatus: 'subscription-status',
   register: 'register',
   profile_setter_data: 'profile-setter-data',
   preference_setter_data: 'preferences-setter-data',
@@ -37,4 +38,5 @@ export default {
   profile_match_request: 'profile-match-request',
   enquiry: 'enquiry',
   userType: 'roles',
+  profile_match_request_response: 'profile-match-request-response',
 };
