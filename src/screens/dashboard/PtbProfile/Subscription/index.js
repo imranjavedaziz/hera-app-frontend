@@ -1,15 +1,15 @@
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import {SUBSCRIPTION_PLAN} from '../../../../constants/Constants';
+import { SUBSCRIPTION_PLAN } from '../../../../constants/Constants';
 
 const Subscription = () => {
   const navigation = useNavigation();
@@ -39,12 +39,48 @@ const Subscription = () => {
       setSelectCheckBox(item?.id);
     }
   };
-  // React.useEffect(() => {
-  //   if (isCallApi) {
-  //     console.log("purchase item???167", purchaseItem, "Type???", purchaseType, "purchaseReceipt???", purchasereceipt);
-  //     purchaseAPI(purchasereceipt, purchaseItem, purchaseType, "success");
-  //   }
-  // }, [isCallApi]);
+  
+ const calluseEffectTwo =() => {
+    purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
+      async (purchase) => {
+        const receipt = purchase.transactionReceipt;
+        setPurchaseReceipt(purchase);
+        setCallApi(true);
+        if (receipt) {
+          try {
+            await RNIap.finishTransaction({ purchase, isConsumable: true });
+            if (Platform.OS === "ios") {
+              console.log(purchase);
+            } else if (Platform.OS === "android") {
+              await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+            }
+          } catch (ackErr) {
+            setShowBackButton(true);
+          }
+        }
+      }
+    );
+    purchaseErrorSubscription = RNIap.purchaseErrorListener((error) => {
+      setShowBackButton(true);
+    });
+    return () => {
+      if (purchaseUpdateSubscription) {
+        purchaseUpdateSubscription.remove();
+        purchaseUpdateSubscription = null;
+      }
+      if (purchaseErrorSubscription) {
+        purchaseErrorSubscription.remove();
+        purchaseErrorSubscription = null;
+      }
+    };
+  };
+
+  const callUseEffect = () => {
+    if (isCallApi) {
+      console.log("purchase item???167", purchaseItem, "Type???", purchaseType, "purchaseReceipt???", purchasereceipt);
+      purchaseAPI(purchasereceipt, purchaseItem, purchaseType, "success");
+    }
+  }
 
   React.useEffect(async () => {
     IAPService.initializeConnection();
@@ -66,7 +102,7 @@ const Subscription = () => {
   const requestSubscriptionAndroid = async (sku, item, type) => {
     console.log('IAP req android', sku);
     try {
-      await RNIap.requestPurchase({sku})
+      await RNIap.requestPurchase({ sku })
         .then(async result => {
           console.log('IAP req sub android', result);
           setPurchaseItem(item);
@@ -85,10 +121,10 @@ const Subscription = () => {
     setPurchaseItem(item);
     setPurchaseType(type);
     try {
-      await RNIap.requestSubscription({sku})
+      await RNIap.requestSubscription({ sku })
         .then(async result => {
           console.log('IAP req sub', result, 'Itemm??', item, 'Type???', type);
-         //  This is for API SUCCESS
+          //  This is for API SUCCESS
           purchaseAPI(result, item, type, "success");
           setPurchaseItem(item);
           setPurchaseType(type);
@@ -139,9 +175,9 @@ const Subscription = () => {
           <View>
             <View style={styles.textView}>
               <Text style={styles.mainText}>
-                <Text style={{color: 'red'}}>*</Text>
+                <Text style={{ color: 'red' }}>*</Text>
                 {Strings.Subscription.BySubs}
-                <TouchableOpacity style={{top: 2}}>
+                <TouchableOpacity style={{ top: 2 }}>
                   <Text style={styles.terms}>
                     {Strings.Subscription.TermsServices}
                   </Text>
