@@ -30,7 +30,7 @@ import {
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
 import {logOut, updateRegStep} from '../../../redux/actions/Auth';
-import MultiTextInput from '../../../components/MultiTextMessage/MultiTextMessage';
+import {MultiTextInput} from '../../../components';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();

@@ -3,7 +3,6 @@ import {Text, TextInput, View} from 'react-native';
 import Colors from '../../constants/Colors';
 import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-
 import styles from './styles';
 
 export default function MultiTextInput({
