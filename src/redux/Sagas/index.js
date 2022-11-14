@@ -13,6 +13,7 @@ import {
   watchGetStates,
   watchGetProfileSetter,
 } from './Register';
+
 import { watchSavePreferenceRes, watchsetPreference } from './SetPreference';
 import { watchGetUserGallery, watchDeleteUserGallery } from './CreateGallery';
 import { watchGetPtbDashboard } from './PtbDashboard';
@@ -21,8 +22,9 @@ import { watchGetDonorDashboard } from './DonorDashboard';
 import { watchGetPtbProfileDetail, watchsendLikePtb } from './PtbProfileDetail';
 import { watchSmDonorDetail } from './SmDonerDetail';
 import { watchSupportForm, watchUserType } from './Support';
-import { watchProfileMatch } from './Profile_Match';
+import { watchpProfileMatchResponse, watchProfileMatch } from './Profile_Match';
 import { watchCreateSubscription, watchSubscriptionPlan, watchSubscriptionStatus } from './Subscription';
+
 
 export default function* rootSaga() {
   yield all([
@@ -50,6 +52,7 @@ export default function* rootSaga() {
     fork(watchSupportForm),
     fork(watchUserType),
     fork(watchProfileMatch),
+    fork(watchpProfileMatchResponse),
     fork(watchCreateSubscription),
     fork(watchSubscriptionPlan),
     fork(watchSubscriptionStatus),

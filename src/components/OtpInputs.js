@@ -7,13 +7,11 @@ import {
   StyleSheet,
   Text,
   Dimensions,
-  Image,
 } from 'react-native';
 import Alignment from '../constants/Alignment';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
 import {Fonts} from '../constants/Constants';
-import Images from '../constants/Images';
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({

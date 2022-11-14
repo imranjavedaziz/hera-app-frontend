@@ -24,14 +24,12 @@ import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {smRoles, Routes} from '../../../constants/Constants';
+import {smRoles, Routes, Fonts} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
-import BottomSheetComp from '../../../components/BottomSheet';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
 import updateRegStep from '../../../redux/actions/Auth';
-import {Fonts} from '../../../constants/Constants';
 import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
@@ -39,6 +37,7 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {ptbRegister} from '../../../redux/actions/Register';
+import {BottomSheetComp} from '../../../components';
 
 const validationType = {
   LEN: 'LEN',
@@ -424,8 +423,8 @@ const SmRegister = () => {
               and <Text style={styles.checkboxTitle}>Privacy Policy</Text>
             </Text>
           </View>
-          <View style={{marginTop: 15, flexDirection: 'row'}}>
-            <Text style={{color: 'red'}}>*</Text>
+          <View style={styles.starContainer}>
+            <Text style={styles.starColor}>*</Text>
             <Text style={{fontFamily: Fonts.OpenSansItalic}}>
               {Strings.profile.desc}
             </Text>
