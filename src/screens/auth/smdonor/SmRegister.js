@@ -319,6 +319,7 @@ const SmRegister = () => {
                 onChangeText={v => onChange(v)}
                 error={errors && errors.dob?.message}
                 required={true}
+                endComponentPress={() => setShow(true)}
                 endComponent={() => (
                   <TouchableOpacity onPress={() => setShow(true)}>
                     <Image source={Images.calendar} />

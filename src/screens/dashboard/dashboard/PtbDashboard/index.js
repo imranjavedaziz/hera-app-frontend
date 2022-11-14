@@ -58,6 +58,7 @@ const PtbDashboard = props => {
   const loadingMatchRef = useRef();
   const {fcmToken} = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const login = useSelector(state => state.Auth);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -89,7 +90,7 @@ const PtbDashboard = props => {
       onNotification: function (notification) {
         console.log('============NOTIFICATION===============:', notification);
         const notificationData = notification;
-        if (!_.isEmpty(notificationData)) {
+        if (!_.isEmpty(notificationData) && login === true) {
           if (notificationData.foreground === true) {
             navigation.navigate('PushNotificationExample');
           }
@@ -121,13 +122,8 @@ const PtbDashboard = props => {
       );
       const {notification, messageId} = remoteMessage;
       console.log(messageId);
-      if (!_.isEmpty(notification)) {
-        if (notification.foreground === true) {
-          navigation.navigate('PushNotificationExample');
-        }
-        if (notification.foreground !== true) {
-          navigation.navigate('PushNotificationExample');
-        }
+      if (!_.isEmpty(notification) && login === true) {
+        navigation.navigate('PushNotificationExample');
       }
     });
   }, [fcmToken, navigation]);
@@ -235,7 +231,7 @@ const PtbDashboard = props => {
           code={item?.user?.username}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
-          image={{ uri: item?.user?.profile_pic }}
+          image={{uri: item?.user?.profile_pic}}
           fadeAnim={fadeAnim}
           isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
@@ -358,7 +354,9 @@ const PtbDashboard = props => {
       </Container>
       {modalVisible && (
         <CustomModal>
-          <SensoryCharacteristics  onPress={() => setModalVisible(!modalVisible)}/>
+          <SensoryCharacteristics
+            onPress={() => setModalVisible(!modalVisible)}
+          />
         </CustomModal>
       )}
     </>
