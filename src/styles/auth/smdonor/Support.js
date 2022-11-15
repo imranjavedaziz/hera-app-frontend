@@ -9,9 +9,10 @@ export default {
     justifyContent: Alignment.FLEX_START,
   },
   title: {
+    color: Colors.BLACK,
     textAlign: Alignment.CENTER,
-    fontSize: Value.CONSTANT_VALUE_12,
-    fontFamily: Fonts.OpenSansRomanBold,
+    fontSize: Value.CONSTANT_VALUE_11,
+    fontFamily: Fonts.OpenSansBold,
     letterSpacing: Value.CONSTANT_VALUE_2_84,
   },
   title1: {

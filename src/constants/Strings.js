@@ -334,4 +334,15 @@ export default {
     ABOUT: 'About this Page',
     OKAY_GOT_IT: 'OKAY, GOT IT!',
   },
+
+  //Static
+  Meryl_Anderson: 'Meryl Anderson',
+
+  //Chat
+  Type: 'Parent-To-Be',
+  Liked_your_profile: 'Liked your profile',
+  Start_Converstation:
+    'Seems like a good match?\nLike and start a conversation!',
+  All_Matches: 'All Matches',
+  INBOX: 'INBOX',
 };

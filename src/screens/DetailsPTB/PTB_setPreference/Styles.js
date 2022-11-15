@@ -2,7 +2,7 @@ import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -17,11 +17,22 @@ export default {
   lookingForText: {
     fontFamily: Fonts.OpenSansRegular,
     marginBottom: Value.CONSTANT_VALUE_17,
-    fontSize: 14,
+    fontSize: Value.CONSTANT_VALUE_14,
   },
   required: {
     color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_18,
+  },
+  heightTextView: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: Colors.BLACK_0,
+  },
+  containerView: {
+    marginBottom: -40,
+    marginHorizontal: scaleWidth(35),
   },
   label: {
     position: Alignment.ABSOLUTE,
@@ -69,6 +80,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     // marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
     marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
     fontFamily: Fonts.OpenSansRegular,
   },
   chipsRequiredText: {
@@ -105,7 +117,7 @@ export default {
   },
   ageRangeChip: {
     height: Value.CONSTANT_VALUE_41,
-    width: Value.CONSTANT_VALUE_104,
+    width: Value.CONSTANT_VALUE_100,
     borderRadius: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_5,
@@ -113,6 +125,9 @@ export default {
     padding: Value.CONSTANT_VALUE_0,
   },
   chipInsideText: {
+    fontSize: 14,
+    lineHeight: 21,
+    letterSpacing: 0,
     alignSelf: Alignment.CENTER,
   },
   flexRow: {
@@ -127,6 +142,8 @@ export default {
   Btn: {
     height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
+    marginTop: 26,
+    marginBottom: 78,
   },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {

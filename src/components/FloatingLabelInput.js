@@ -1,6 +1,6 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Colors from '../constants/Colors';
 import {Prencentage, Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
@@ -69,6 +69,7 @@ const FloatingLabelInput = props => {
     endComponent = null,
     required = false,
     error = '',
+    endComponentPress,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
@@ -88,17 +89,33 @@ const FloatingLabelInput = props => {
           {label}
           {required && <Text style={[styles.label, {color: 'red'}]}>*</Text>}
         </Text>
-        <TextInput
-          style={[
-            styles.input,
-            isFocused ? styles.focusBorder : styles.blurBorder,
-            error ? {borderBottomColor: 'red'} : null,
-          ]}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          blurOnSubmit
-          {...textInputProps}
-        />
+        {endComponent ? (
+          <TouchableOpacity onPress={endComponentPress}>
+            <TextInput
+              style={[
+                styles.input,
+                isFocused ? styles.focusBorder : styles.blurBorder,
+                error ? {borderBottomColor: 'red'} : null,
+              ]}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              blurOnSubmit
+              {...textInputProps}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TextInput
+            style={[
+              styles.input,
+              isFocused ? styles.focusBorder : styles.blurBorder,
+              error ? {borderBottomColor: 'red'} : null,
+            ]}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            blurOnSubmit
+            {...textInputProps}
+          />
+        )}
         {endComponent && (
           <View style={styles.endComponent}>{endComponent()}</View>
         )}

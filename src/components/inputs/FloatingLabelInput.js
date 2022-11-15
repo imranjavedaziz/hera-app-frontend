@@ -1,6 +1,6 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../constants';
 import styles from './styles';
 
@@ -17,6 +17,7 @@ const FloatingLabelInput = props => {
     inputStyle = {},
     maxLength,
     lineColor,
+    endComponentPress,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
@@ -37,20 +38,39 @@ const FloatingLabelInput = props => {
           {label}
           {required && <Text style={[styles.label, {color: 'red'}]}>*</Text>}
         </Text>
-        <TextInput
-          style={[
-            styles.input,
-            isFocused ? styles.focusBorder : styles.blurBorder,
-            lineColor && {borderColor: Colors.LIGHT_BLACK47},
-            error ? {borderColor: 'red'} : null,
-            inputStyle,
-          ]}
-          maxLength={maxLength}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          blurOnSubmit
-          {...textInputProps}
-        />
+        {endComponent ? (
+          <TouchableOpacity onPress={endComponentPress}>
+            <TextInput
+              style={[
+                styles.input,
+                isFocused ? styles.focusBorder : styles.blurBorder,
+                lineColor && {borderColor: Colors.LIGHT_BLACK47},
+                error ? {borderColor: 'red'} : null,
+                inputStyle,
+              ]}
+              maxLength={maxLength}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              blurOnSubmit
+              {...textInputProps}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TextInput
+            style={[
+              styles.input,
+              isFocused ? styles.focusBorder : styles.blurBorder,
+              lineColor && {borderColor: Colors.LIGHT_BLACK47},
+              error ? {borderColor: 'red'} : null,
+              inputStyle,
+            ]}
+            maxLength={maxLength}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            blurOnSubmit
+            {...textInputProps}
+          />
+        )}
         {endComponent && (
           <View style={styles.endComponent}>{endComponent()}</View>
         )}

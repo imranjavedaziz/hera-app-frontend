@@ -1,5 +1,6 @@
 import BottomSheetComp from './BottomSheetComp';
 import Button from './Button';
+import Chat_listing_Comp from './Chat/Chat_listing_Comp';
 import Container from './Container';
 import FloatingLabelInput from './FloatingLabelInput';
 import Header from './Header';
@@ -24,4 +25,5 @@ export {
   Toast,
   VideoUploading,
   MultiTextInput,
+  Chat_listing_Comp,
 };
