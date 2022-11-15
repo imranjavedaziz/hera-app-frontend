@@ -124,7 +124,8 @@ export default {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
-    paddingHorizontal: Value.CONSTANT_VALUE_10,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
+    lineHeight: 21,
   },
   modal: {
     flex: Value.CONSTANT_VALUE_1,

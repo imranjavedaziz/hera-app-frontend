@@ -11,7 +11,7 @@ import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    paddingTop: Value.CONSTANT_VALUE_30,
+    paddingTop: Value.CONSTANT_VALUE_40,
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -26,8 +26,6 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    // paddingVertical: Value.CONSTANT_VALUE_10,
-    // height:190
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -37,10 +35,10 @@ export default {
   iconImage: {
     justifyContent: Alignment.CENTER,
   },
-  mainImageContainer: {alignItems: Alignment.CENTER},
+  mainImageContainer: {alignItems: Alignment.CENTER, justifyContent: 'center'},
   ImageSize: {
-    height: scaleHeight(467),
-    width: scaleWidth(Value.CONSTANT_VALUE_350),
+    height: scaleHeight(445),
+    width: scaleWidth(340),
   },
   emptyCardContainer: {
     alignItems: Alignment.CENTER,
@@ -70,7 +68,7 @@ export default {
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),
     width: scaleWidth(Value.CONSTANT_VALUE_125),
-    right: 8,
+    right: 5,
   },
   dislikeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

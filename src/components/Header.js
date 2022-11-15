@@ -25,6 +25,7 @@ const styles = {
   },
   circle: {
     flex: Value.CONSTANT_VALUE_0,
+    marginTop: Value.CONSTANT_VALUE_4,
   },
   img: {
     maxWidth: Value.CONSTANT_VALUE_50,

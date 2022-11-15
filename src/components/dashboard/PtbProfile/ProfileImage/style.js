@@ -7,11 +7,20 @@ import Colors from '../../../../constants/Colors';
 export default {
   mainContainer: {
     alignItems: Alignment.CENTER,
+    shadowColor: 'rgba(0,0,0,0.23)',
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 1,
+    elevation: 1,
+    shadowRadius: 25,
   },
   Image: {
     height: Value.CONSTANT_VALUE_86,
     width: Value.CONSTANT_VALUE_86,
     borderRadius: dynamicSize(90),
+    borderColor: Colors.WHITE,
   },
   cameraContainer: {
     height: Value.CONSTANT_VALUE_30,

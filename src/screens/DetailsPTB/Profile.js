@@ -129,12 +129,16 @@ const Profile = props => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      'Cancel',
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -188,6 +192,7 @@ const Profile = props => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
+    console.log('reqData', reqData);
   };
   useEffect(() => {
     return navigation.addListener('focus', () => {

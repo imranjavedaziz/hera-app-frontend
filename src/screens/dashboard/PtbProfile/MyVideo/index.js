@@ -177,12 +177,16 @@ const MyVideo = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         selectVideo(1);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -197,6 +201,7 @@ const MyVideo = () => {
         mainStyle={true}
         scroller={true}
         showHeader={true}
+        fixedHeader={true}
         showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>

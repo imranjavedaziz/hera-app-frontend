@@ -21,7 +21,7 @@ export default {
   },
   profileImg: {
     width: Value.CONSTANT_VALUE_20,
-    height: Value.CONSTANT_VALUE_20,
+    height: Value.CONSTANT_VALUE_25,
     resizeMode: Alignment.CONTAIN,
   },
   ValidPwd: {
