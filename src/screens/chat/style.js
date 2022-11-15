@@ -66,7 +66,7 @@ export default {
   avatar: {
     width: Value.CONSTANT_VALUE_35,
     height: Value.CONSTANT_VALUE_35,
-    // backgroundColor: Colors.RED,
+
     borderRadius: Value.CONSTANT_VALUE_35 / 2,
   },
   outerContainer: {
