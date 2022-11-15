@@ -8,7 +8,7 @@ export default {
   boxContainer: {
     backgroundColor: Colors.WHITE,
     width: '100%',
-    height: '80%',
+    height: '90%',
     borderRadius: dynamicSize(7),
     shadowColor: '#000',
     shadowOffset: { width: 1, height: 1 },

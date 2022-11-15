@@ -25,19 +25,6 @@ const VideoUploading = props => {
         )}
         {props?.video?.file_url !== '' ? (
           <>
-            <TouchableWithoutFeedback>
-              <TouchableOpacity
-                onPress={() => props?.handelDel(props?.video?.id, true)}
-                style={styles.videoSel}>
-                <Image
-                  source={
-                    props?.remove?.includes(props?.video?.id)
-                      ? Images.iconRadiosel
-                      : Images.iconRadiounsel
-                  }
-                />
-              </TouchableOpacity>
-            </TouchableWithoutFeedback>
             <View style={props?.imageOverlay}>
               <Video
                 source={{uri: `${props?.video?.file_url}`}}
@@ -58,6 +45,20 @@ const VideoUploading = props => {
                 }}
               />
             </View>
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => props?.handelDel(props?.video?.id, true)}
+                style={styles.videoSel}
+                >
+                <Image
+                  source={
+                    props?.remove?.includes(props?.video?.id)
+                      ? Images.iconRadiosel
+                      : Images.iconRadiounsel
+                  }
+                />
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
           </>
         ) : (
           <>
