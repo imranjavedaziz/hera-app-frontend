@@ -1,6 +1,7 @@
 import Strings, {ValidationMessages} from './Strings';
 import {Regx} from './schemas';
 import Images from './Images';
+import {Platform} from 'react-native';
 
 const environment = {
   dev: {
@@ -16,7 +17,7 @@ const environment = {
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
   },
 };
-export const {bucket, api_url} = environment.qa;
+export const {bucket, api_url} = environment.dev;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -173,6 +174,8 @@ export const Routes = {
   Support: 'Support',
   Subscription: 'Subscription',
   PushNotificationExample: 'PushNotificationExample',
+  Chat_Request: 'Chat_Request',
+  Chat_Listing: 'Chat_Listing',
 };
 export const Static = {
   countries: [
@@ -777,7 +780,7 @@ export const SUBSCRIPTION_PLAN = [
 ];
 
 export const SENSORY_ARR = [
-  { id: 1, img: Images.BABY_MOTHER, caption: Strings.Sensory.AS_PER_SEARCH },
-  { id: 2, img: Images.HEART, caption: Strings.Sensory.SELECT_HEART_TO },
-  { id: 2, img: Images.CROSS, caption: Strings.Sensory.SELECT_CROSS },
+  {id: 1, img: Images.BABY_MOTHER, caption: Strings.Sensory.AS_PER_SEARCH},
+  {id: 2, img: Images.HEART, caption: Strings.Sensory.SELECT_HEART_TO},
+  {id: 2, img: Images.CROSS, caption: Strings.Sensory.SELECT_CROSS},
 ];

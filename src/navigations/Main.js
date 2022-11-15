@@ -29,6 +29,8 @@ import Subscription from '../screens/dashboard/PtbProfile/Subscription';
 import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Support from '../screens/Support/Support';
 import PushNotificationExample from '../screens/Example';
+import Chat_Request from '../screens/Chat_Request_PTB';
+import Chat_Listing from '../screens/Chat/Chat_Listing';
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -159,6 +161,16 @@ const Main = () => {
         <Stack.Screen
           name={Routes.PushNotificationExample}
           component={PushNotificationExample}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.Chat_Request}
+          component={Chat_Request}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.Chat_Listing}
+          component={Chat_Listing}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

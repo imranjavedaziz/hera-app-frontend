@@ -34,7 +34,10 @@ import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
 import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
-
+import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
+import _ from 'lodash';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {MaterialIndicator} from 'react-native-indicators';
 import {Colors} from '../../../../constants';
 const SmDashboard = ({route}) => {
@@ -55,7 +58,6 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
-
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const unsubscribe = navigation.addListener('focus', () => {
@@ -80,6 +82,51 @@ const SmDashboard = ({route}) => {
     }
     fetchDeviceInfo();
   }, [dispatch, fcmToken]);
+  //Push Notification
+  useEffect(() => {
+    //For foreground
+    PushNotification.configure({
+      onNotification: function (notification) {
+        console.log('============NOTIFICATION===============:', notification);
+        const notificationData = notification;
+        if (!_.isEmpty(notificationData)) {
+          if (notificationData.foreground === true) {
+            navigation.navigate('PushNotificationExample');
+          }
+        }
+        // if (!notificationData) {
+        //   navigation.navigate(Routes.PushNotificationExample);
+        // }
+        // setInitialRoute('BottomTabStack');
+        // process the notification
+
+        // (required) Called when a remote is received or opened, or local notification is opened
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
+      // iOS only
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+      popInitialNotification: true,
+      requestPermissions: true,
+    });
+
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        '***Notification caused app to open from background state***',
+        remoteMessage,
+      );
+      const {notification, messageId} = remoteMessage;
+      console.log(messageId);
+      if (!_.isEmpty(notification)) {
+        navigation.navigate('PushNotificationExample');
+      }
+    });
+  }, [fcmToken, navigation]);
+
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
@@ -207,7 +254,7 @@ console.log(get_donor_dashboard_res, 'get_donor_dashboard_res')
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      rightPress={() => logoutScreen()}
+      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
       style={styles.headerIcon}
       ApiImage={true}
     />
@@ -226,7 +273,6 @@ console.log(get_donor_dashboard_res, 'get_donor_dashboard_res')
       );
     }
   };
-console.log('cards', cards)
   const renderFooterCell = () => {
     if (loadMore && cards.length > 0) {
       return (

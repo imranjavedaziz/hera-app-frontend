@@ -27,8 +27,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
   },
   loginBtn: {
-    height: Value.CONSTANT_VALUE_80,
-    width: px(Value.CONSTANT_VALUE_195),
+    height: 80,
     marginTop: Value.CONSTANT_VALUE_50,
     marginBottom: Value.CONSTANT_VALUE_20,
   },

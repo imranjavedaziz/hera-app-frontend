@@ -327,6 +327,7 @@ const Profile = props => {
                 label={Strings.profile.DateOfBirth}
                 value={value}
                 onChangeText={v => onChange(v)}
+                endComponentPress={() => setShow(true)}
                 error={errors && errors.date_of_birth?.message}
                 required={true}
                 endComponent={() => (
