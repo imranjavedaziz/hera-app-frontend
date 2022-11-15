@@ -31,8 +31,8 @@ import {
   hideAppLoader,
   showAppToast,
 } from '../../redux/actions/loader';
-import MultiTextInput from '../../components/MultiTextMessage/MultiTextMessage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {MultiTextInput} from '../../components';
 
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();
@@ -177,7 +177,7 @@ export default function Support() {
   const handelChange = async value => {
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
-    for (var i = 0; i < value.length; i++) {
+    for (let i = 0; i < value.length; i++) {
       if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
         a = a + value[i];
       }

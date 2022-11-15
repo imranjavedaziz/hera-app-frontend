@@ -1,14 +1,15 @@
-import {View, Text, Image} from 'react-native';
+import { View, Text, Image } from 'react-native';
 import React from 'react';
 import styles from './style';
 
-const TitleComp = ({Title, Subtitle, Icon,isCenter,Midtitle}) => {
+const TitleComp = (props) => {
+  const { Title, Subtitle, Icon, isCenter, Midtitle, onPress } = props
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.screenTitle}>{Title}</Text>
-      <Text style={styles.screenSubTitle}>{Subtitle}</Text>
+      <Text style={styles.screenSubTitle} onPress={onPress}>{Subtitle}</Text>
       {
-        isCenter===true&&
+        isCenter === true &&
         <Text style={styles.midTitle}>{Midtitle}</Text>
       }
       <Image style={styles.Icon} source={Icon} />

@@ -20,7 +20,6 @@ import Strings from '../../../constants/Strings';
 import openCamera from '../../../utils/openCamera';
 import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
-import BottomSheetComp from '../../../components/BottomSheet';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import sty from '../../auth/smdonor/donorGallery/styles';
@@ -39,6 +38,7 @@ import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
+import {BottomSheetComp} from '../../../components';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -176,7 +176,7 @@ const CreateGallery = () => {
   const ImageClick = index => {
     setImgPreviewIndex(index);
     if (gIndex === index && rmvImgCount === 0) {
-      return setOpen(true);
+      return Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
     } else if (index < gIndex && rmvImgCount === 0) {
       return setIsVisible(true);
     } else {
@@ -391,7 +391,6 @@ const CreateGallery = () => {
                         Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
                       }}>
                       <Image source={Images.camera} style={styles.camIcon} />
-                      <Image source={Images.camera} style={styles.camIcon} />
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
@@ -416,6 +415,7 @@ const CreateGallery = () => {
             selVideo={selVideo}
             handelDel={handelDel}
             rmvImgCount={rmvImgCount}
+            remove={remove}
           />
 
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (

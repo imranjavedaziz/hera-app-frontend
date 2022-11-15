@@ -42,12 +42,12 @@ import Button from '../../components/Button';
 import {parentRegisterSchema} from '../../constants/schemas';
 import styles from './StylesProfile';
 import Alignment from '../../constants/Alignment';
-import BottomSheetComp from '../../components/BottomSheet';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {logOut} from '../../redux/actions/Auth';
 import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
+import {BottomSheetComp} from '../../components';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -322,6 +322,7 @@ const Profile = props => {
                 label={Strings.profile.DateOfBirth}
                 value={value}
                 onChangeText={v => onChange(v)}
+                endComponentPress={() => setShow(true)}
                 error={errors && errors.date_of_birth?.message}
                 required={true}
                 endComponent={() => (
@@ -396,9 +397,7 @@ const Profile = props => {
                 required={true}
                 secureTextEntry={true}
                 error={errors && errors.confirm_password?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
+                containerStyle={styles.flex}
               />
             )}
             name={FormKey.confirm_password}

@@ -109,10 +109,11 @@ export default {
     width: 320,
   },
   video: {
-    overflow: Alignment.HIDDEN,
-    width: 320,
-    height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    // marginTop: Value.CONSTANT_VALUE_3,
+    position: 'absolute',
+    top: Value.CONSTANT_VALUE_0,
+    left: Value.CONSTANT_VALUE_0,
+    bottom: Value.CONSTANT_VALUE_0,
+    right: Value.CONSTANT_VALUE_0,
   },
   playIcon: {
     position: Alignment.ABSOLUTE,

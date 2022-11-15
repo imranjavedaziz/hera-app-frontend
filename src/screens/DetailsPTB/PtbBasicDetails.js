@@ -15,7 +15,7 @@ import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import {genders, Static, Routes} from '../../constants/Constants';
 import Dropdown from '../../components/inputs/Dropdown';
 import styles from '../../styles/auth/smdonor/basicDetailsScreen';
-import MultiTextInput from '../../components/MultiTextMessage/MultiTextMessage';
+import {MultiTextInput} from '../../components';
 
 const PtbBasicDetails = ({route}) => {
   const navigation = useNavigation();

@@ -10,7 +10,6 @@ import {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
-import BottomSheetComp from '../../../components/BottomSheet';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {Value} from '../../../constants/FixedValues';
 import {useDispatch, useSelector} from 'react-redux';
@@ -20,6 +19,7 @@ import {logOut} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
+import {BottomSheetComp} from '../../../components';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();

@@ -136,4 +136,11 @@ export default {
     width: '100%',
     marginVertical: Value.CONSTANT_VALUE_20,
   },
+  starContainer: {
+    marginTop: Value.CONSTANT_VALUE_15,
+    flexDirection: Alignment.ROW,
+  },
+  starColor: {
+    color: Colors.RED,
+  },
 };

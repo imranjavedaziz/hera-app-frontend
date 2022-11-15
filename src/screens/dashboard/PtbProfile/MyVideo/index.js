@@ -14,7 +14,7 @@ import Images from '../../../../constants/Images';
 import {IconHeader} from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
-import Strings, {ValidationMessages} from '../../../../constants/Strings';
+import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import {useDispatch, useSelector} from 'react-redux';
@@ -25,16 +25,18 @@ import {
 } from '../../../../redux/actions/CreateGallery';
 import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
-import BottomSheetComp from '../../../../components/BottomSheet';
+import ActionSheet from 'react-native-actionsheet';
+import {BottomSheetComp} from '../../../../components';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isLoader, setLoader] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [rmvImgCount, setRmvImgCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const dispatch = useDispatch();
   const userService = User();
   const loadingGalleryRef = useRef(false);
@@ -59,7 +61,6 @@ const MyVideo = () => {
       pushArr.push(index);
     } else {
       pushArr.splice(isExist, 1);
-      // setRmvImgCount(rmvImgCount - 1);
     }
     setRemove(pushArr);
   }
@@ -75,19 +76,14 @@ const MyVideo = () => {
           loading: false,
           id: gallery_data?.doner_video_gallery?.id,
         });
-        setLoader(false)
-        dispatch(hideAppLoader());  
+        setLoader(false);
+        dispatch(hideAppLoader());
       } else {
         dispatch(hideAppLoader());
       }
     }
     loadingGalleryRef.current = gallery_loading;
   }, [gallery_success, gallery_loading]);
-
-  console.log(
-    'gallery_data?.doner_video_gallery?.id',
-    gallery_data?.doner_video_gallery?.id,
-  );
 
   // DELETE VIDEO
 
@@ -140,17 +136,11 @@ const MyVideo = () => {
   const videoPlay = () => {
     console.log('inside vedio play');
     if (video?.file_url === '') {
-      setOpen(true);
+      Platform.OS === 'ios' ? iosVideoSheet() : setOpen(true);
     } else {
       setIsPlaying(!isPlaying);
     }
   };
-
-  const deleteImg = () => {
-    let payload = {
-      ids: remove?.join(),
-    };
-  }
   const deleteVideo = () => {
     let payload = {
       ids: video?.id,
@@ -178,6 +168,29 @@ const MyVideo = () => {
     );
     return true;
   };
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        selectVideo(0);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        selectVideo(1);
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+  const iosVideoSheet = () => {
+    openActionSheet();
+  };
   return (
     <>
       <Container
@@ -195,7 +208,7 @@ const MyVideo = () => {
               {Strings.smSetting.VideoContent}
             </Text>
           </View>
-          {isLoader !==true && (
+          {isLoader !== true && (
             <VideoUploading
               imageOverlay={styles.imageOverlayWrapper}
               style={styles.VdoContainer}
@@ -230,6 +243,15 @@ const MyVideo = () => {
           )}
         </View>
       </Container>
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity

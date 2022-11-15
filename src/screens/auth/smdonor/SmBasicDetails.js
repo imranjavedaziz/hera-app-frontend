@@ -15,7 +15,6 @@ import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
 import {Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
-import BottomSheetComp from '../../../components/BottomSheet';
 import {Value} from '../../../constants/FixedValues';
 import ActionSheet from 'react-native-actionsheet';
 import {
@@ -30,7 +29,7 @@ import {
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
 import {logOut, updateRegStep} from '../../../redux/actions/Auth';
-import MultiTextInput from '../../../components/MultiTextMessage/MultiTextMessage';
+import {BottomSheetComp, MultiTextInput} from '../../../components';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -261,6 +260,7 @@ const SmBasicDetails = () => {
                 required={true}
                 keyboardType="number-pad"
                 maxLength={6}
+                lineColor={isOpen}
               />
             )}
             name="zipcode"
@@ -303,6 +303,7 @@ const SmBasicDetails = () => {
                 value={value}
                 onChangeText={v => onChange(v)}
                 error={errors && errors.occupation?.message}
+                lineColor={isOpen}
               />
             )}
             name="occupation"

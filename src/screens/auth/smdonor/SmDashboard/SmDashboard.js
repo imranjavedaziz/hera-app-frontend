@@ -4,10 +4,15 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ImageBackground,
-  BackHandler,
+  Platform,
 } from 'react-native';
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
@@ -23,9 +28,18 @@ import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import {logOut} from '../../../../redux/actions/Auth';
+import {deviceRegister, logOut} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 import {deviceHandler} from '../../../../utils/commonFunction';
+import FastImage from 'react-native-fast-image';
+import DeviceInfo from 'react-native-device-info';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
+import PushNotification from 'react-native-push-notification';
+import messaging from '@react-native-firebase/messaging';
+import _ from 'lodash';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import {MaterialIndicator} from 'react-native-indicators';
+import {Colors} from '../../../../constants';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -43,6 +57,10 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_error_msg,
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
+  const loaderState = useSelector(state => state.loader);
+
+  const [loadMore, setLoadMore] = useState(false);
+  const {fcmToken} = useContext(NotificationContext);
   const unsubscribe = navigation.addListener('focus', () => {
     _getDonorDashboard(1, '');
   });
@@ -50,7 +68,66 @@ const SmDashboard = ({route}) => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
     }
-  }, []);
+  }, [navigation, route?.name]);
+  //Get device Info
+  useEffect(() => {
+    async function fetchDeviceInfo() {
+      const deviceName = await DeviceInfo.getDeviceName();
+      const _deviceInfo = {
+        device_id: DeviceInfo.getDeviceId(),
+        device_token: fcmToken,
+        device_type: Platform.OS,
+      };
+      console.log(deviceName, 'deviceName');
+      dispatch(deviceRegister(_deviceInfo));
+    }
+    fetchDeviceInfo();
+  }, [dispatch, fcmToken]);
+  //Push Notification
+  useEffect(() => {
+    //For foreground
+    PushNotification.configure({
+      onNotification: function (notification) {
+        console.log('============NOTIFICATION===============:', notification);
+        const notificationData = notification;
+        if (!_.isEmpty(notificationData)) {
+          if (notificationData.foreground === true) {
+            navigation.navigate('PushNotificationExample');
+          }
+        }
+        // if (!notificationData) {
+        //   navigation.navigate(Routes.PushNotificationExample);
+        // }
+        // setInitialRoute('BottomTabStack');
+        // process the notification
+
+        // (required) Called when a remote is received or opened, or local notification is opened
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
+      // iOS only
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+      popInitialNotification: true,
+      requestPermissions: true,
+    });
+
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        '***Notification caused app to open from background state***',
+        remoteMessage,
+      );
+      const {notification, messageId} = remoteMessage;
+      console.log(messageId);
+      if (!_.isEmpty(notification)) {
+        navigation.navigate('PushNotificationExample');
+      }
+    });
+  }, [fcmToken, navigation]);
+
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
@@ -67,10 +144,15 @@ const SmDashboard = ({route}) => {
         dispatch(showAppLoader());
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
-          console.log(get_donor_dashboard_res, 'get_donor_dashboard_res');
-          setCards(get_donor_dashboard_res.data);
-          setPage(get_donor_dashboard_res.data.current_page);
-          setLastPage(get_donor_dashboard_res.data.last_page);
+          const {current_page, last_page, data} = get_donor_dashboard_res.data;
+          if (current_page > 1) {
+            data.length > 0 && setLoadMore(false);
+            setCards([...cards, ...data]);
+          } else {
+            setCards(data);
+          }
+          setPage(current_page);
+          setLastPage(last_page);
           setRefreshing(false);
         }
         if (get_donor_dashboard_error_msg) {
@@ -114,7 +196,10 @@ const SmDashboard = ({route}) => {
   };
   const onEndReached = () => {
     if (lastPage > page) {
+      setLoadMore(true);
       _getDonorDashboard(page + 1, search);
+    } else {
+      setLoadMore(false);
     }
   };
   const onClear = () => {
@@ -130,17 +215,23 @@ const SmDashboard = ({route}) => {
         }
         style={styles.mainContainer}>
         <View style={styles.conatiner}>
-          <ImageBackground
-            style={[styles.profileImgView]}
-            imageStyle={{borderRadius: Value.CONSTANT_VALUE_18}}
-            source={{uri: item.profile_pic}}>
+          <FastImage
+            style={[
+              styles.profileImgView,
+              {borderRadius: Value.CONSTANT_VALUE_18},
+            ]}
+            source={{
+              uri: item.profile_pic,
+              priority: FastImage.priority.normal,
+              cache: FastImage.cacheControl.immutable,
+            }}>
             <LinearGradient
               start={{x: 0.0, y: 0.28}}
               end={{x: 0.011, y: 1.15}}
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={styles.gradient}
             />
-          </ImageBackground>
+          </FastImage>
           <View style={styles.locationContainer}>
             <Text style={styles.profileName}>{item.first_name}</Text>
             <View style={styles.profileFooter}>
@@ -164,14 +255,38 @@ const SmDashboard = ({route}) => {
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      rightPress={() => navigation.navigate(Routes.ChatList)}
+      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
+      // rightPress={() => navigation.navigate(Routes.ChatList)}
       style={styles.headerIcon}
       ApiImage={true}
     />
   );
   const onRefresh = () => {
     setRefreshing(true);
-    _getDonorDashboard(1, '');
+    _getDonorDashboard(1, search);
+  };
+
+  const renderEmptyCell = () => {
+    if (!loaderState.loading) {
+      return (
+        <View>
+          <Text>No RESULT FOUND</Text>
+        </View>
+      );
+    }
+  };
+
+  const renderFooterCell = () => {
+    if (loadMore && cards.length > 0) {
+      return (
+        <View style={styles.loaderContainer}>
+          <MaterialIndicator
+            size={Value.CONSTANT_VALUE_40}
+            color={Colors.COLOR_A3C6C4}
+          />
+        </View>
+      );
+    }
   };
   return (
     <Container
@@ -216,32 +331,28 @@ const SmDashboard = ({route}) => {
               onChangeText={onSearch}
               editing={search === ''}
               onClear={onClear}
+              selectedStates={route.params?.informationDetail}
             />
           </View>
           <View>
-            {cards?.total === 0 ? (
-              <View>
-                <Text>No RESULT FOUND</Text>
-              </View>
-            ) : (
-              <FlatList
-                contentContainerStyle={Styles.flatlist}
-                columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
-                data={cards?.data}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderProfile}
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-                onEndReached={() => {
-                  route.params?.informationDetail !== undefined &&
-                    onEndReached();
-                  searching && onEndReached();
-                }}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                testID="flat-list"
-              />
-            )}
+            <FlatList
+              contentContainerStyle={Styles.flatlist}
+              columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
+              data={cards}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderProfile}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              onEndReached={() => {
+                route.params?.informationDetail !== undefined && onEndReached();
+                searching && onEndReached();
+              }}
+              ListEmptyComponent={renderEmptyCell}
+              ListFooterComponent={renderFooterCell}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              testID="flat-list"
+            />
           </View>
         </View>
       </View>

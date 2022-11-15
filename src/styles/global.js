@@ -5,7 +5,6 @@ import {
   dynamicSize,
   scaleWidth,
   scaleHeight,
-  width,
 } from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
 
@@ -29,7 +28,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   mainContainer: {
-    flex: 1,
+    flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
   },
@@ -121,10 +120,26 @@ export default {
     marginLeft: scaleWidth(value),
   }),
   tagText: {
-    padding: Value.CONSTANT_VALUE_5,
+    paddingVertical: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
-    // width: width / 2,
+    paddingHorizontal: Value.CONSTANT_VALUE_10,
+  },
+  modal: {
+    flex: Value.CONSTANT_VALUE_1,
+  },
+  bottomSheet: {
+    borderRadius: Value.CONSTANT_VALUE_0,
+  },
+  outerContentStyle: {
+    borderRadius: Value.CONSTANT_VALUE_0,
+    borderTopLeftRadius: Value.CONSTANT_VALUE_0,
+    borderTopRightRadius: Value.CONSTANT_VALUE_0,
+  },
+  innerContentStyle: {
+    borderRadius: Value.CONSTANT_VALUE_0,
+    borderTopLeftRadius: Value.CONSTANT_VALUE_0,
+    borderTopRightRadius: Value.CONSTANT_VALUE_0,
   },
 };

@@ -20,7 +20,9 @@ import Searchbar from './StateSearch';
 import {Routes} from '../../../../constants/Constants';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from './Styles';
-const StateList = () => {
+const StateList = props => {
+  console.log('>>>>>>>props>>>>', props);
+  const {selectedStateList} = props.route.params;
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const [state, setState] = useState([]);
@@ -45,18 +47,7 @@ const StateList = () => {
           setTimeout(() => {
             dispatch(hideAppLoader());
           }, 200);
-          setState(
-            get_state_res?.map(prev => ({
-              ...prev,
-              isActive: false,
-            })),
-          );
-          setAllState(
-            get_state_res?.map(prev => ({
-              ...prev,
-              isActive: false,
-            })),
-          );
+          existingCountrySelection();
         }
         if (get_state_error_msg) {
           dispatch(hideAppLoader());
@@ -71,6 +62,21 @@ const StateList = () => {
       dispatch,
     ]),
   );
+
+  const existingCountrySelection = () => {
+    const data = get_state_res?.map(item => {
+      item.isActive = false;
+      selectedStateList?.map((_item1, index1) => {
+        if (item.id === selectedStateList[index1]) {
+          setCount(prevCount => prevCount + 1);
+          item.isActive = true;
+        }
+      });
+      return item;
+    });
+    setState(data);
+    setAllState(data);
+  };
   useEffect(() => {
     dispatch(getStates());
   }, [dispatch]);
@@ -149,11 +155,18 @@ const StateList = () => {
     });
     navigation.navigate(Routes.SmDashboard, {informationDetail: sl});
   };
+  const BackControl = () => {
+    if (count === 0) {
+      navigation.navigate(Routes.SmDashboard);
+    } else {
+      submit();
+    }
+  };
   const headerComp = () => (
     <>
       <CircleBtn
         icon={Images.iconBack}
-        onPress={navigation.goBack}
+        onPress={BackControl}
         accessibilityLabel="Cross Button, Go back"
       />
       {count > 0 && (

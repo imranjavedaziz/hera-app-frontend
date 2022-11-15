@@ -4,7 +4,9 @@ import ApiPath from '../constants/ApiPath';
 export const loginInApi = data => {
   return axiosRequest.post(ApiPath.login, data);
 };
-
+export const deviceRegisterApi = data => {
+  return axiosRequest.post(ApiPath.registerDevice, data);
+};
 export const mobileNumberApi = data => {
   return axiosRequest.post(ApiPath.sendOtp, data);
 };

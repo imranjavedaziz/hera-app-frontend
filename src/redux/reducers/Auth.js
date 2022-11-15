@@ -26,6 +26,9 @@ import {
   UPDATE_PROFILE_IMG,
   UPDATE_PROFILE_IMG_SUCCESS,
   UPDATE_PROFILE_IMG_FAIL,
+  DEVICE_REGISTER,
+  DEVICE_REGISTER_FAIL,
+  DEVICE_REGISTER_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -46,6 +49,7 @@ const initState = {
     updated_at: '',
     username: '',
   },
+  login: false,
   basic: {
     bio: '',
     created_at: '',
@@ -97,9 +101,18 @@ const initState = {
   update_user_profile_img_fail: false,
   update_user_profile_img_error_msg: '',
   update_message: '',
+  device_info: {
+    device_id: '',
+    device_token: '',
+    device_type: '',
+  },
+  device_info_error_msg: '',
+  device_info_loading: false,
+  device_info_success: false,
 };
 
 export default (state = initState, action) => {
+  // console.log(action.data, 'loginDtaa');
   switch (action.type) {
     /**
      * SignIn
@@ -134,6 +147,36 @@ export default (state = initState, action) => {
         token: access_token,
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
+        login: true,
+      };
+    }
+
+    // DEVICE REGISTER
+    case DEVICE_REGISTER: {
+      return {
+        ...state,
+        device_info_success: false,
+        device_info_loading: true,
+        device_info_error_msg: '',
+        device_info: {},
+      };
+    }
+    case DEVICE_REGISTER_FAIL: {
+      return {
+        ...state,
+        device_info_success: false,
+        device_info_loading: false,
+        device_info_error_msg: action.data.msg,
+        device_info: {},
+      };
+    }
+    case DEVICE_REGISTER_SUCCESS: {
+      return {
+        ...state,
+        device_info_success: true,
+        device_info_loading: false,
+        device_info_error_msg: action.data.msg,
+        device_info: action?.data?.data?.data,
       };
     }
     /**
@@ -291,6 +334,7 @@ export default (state = initState, action) => {
         log_in_data: action?.data?.data?.data,
         user: action?.data?.data?.data,
         token: access_token,
+        login: true,
       };
     }
     /**

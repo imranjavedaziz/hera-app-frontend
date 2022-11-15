@@ -13,15 +13,18 @@ import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
-import Alignment from '../constants/Alignment';
+import {MaterialIndicator} from 'react-native-indicators';
+import {Colors} from '../constants';
+
 
 const VideoUploading = props => {
-  console.log(props?.video?.file_url,'props?.video?.file_url::::::')
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       <ImageBackground style={props?.style}>
-        {props?.video?.loading && <ActivityIndicator />}
-        {props?.video?.file_url !== ''?(
+        {props?.video?.loading && (
+          <MaterialIndicator color={Colors.COLOR_A3C6C4} />
+        )}
+        {props?.video?.file_url !== '' ? (
           <>
             <TouchableWithoutFeedback>
               <TouchableOpacity
@@ -29,7 +32,7 @@ const VideoUploading = props => {
                 style={styles.videoSel}>
                 <Image
                   source={
-                    props.remove.includes(props?.video?.id)
+                    props?.remove?.includes(props?.video?.id)
                       ? Images.iconRadiosel
                       : Images.iconRadiounsel
                   }
@@ -40,8 +43,8 @@ const VideoUploading = props => {
               <Video
                 source={{uri: `${props?.video?.file_url}`}}
                 style={props?.videoStyle}
-                controls={true}
-                audioOnly={true}
+                controls
+                audioOnly
                 ref={props?.videoRef}
                 resizeMode={Alignment.COVER}
                 onLoad={() => {
@@ -57,14 +60,16 @@ const VideoUploading = props => {
               />
             </View>
           </>
-        ): <>
-        <View style={styles.innerVdo}>
-          <Text style={styles.vdoHeading}>
-            {Strings.smSetting.UploadVideo}
-          </Text>
-          <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
-        </View>
-      </>}
+        ) : (
+          <>
+            <View style={styles.innerVdo}>
+              <Text style={styles.vdoHeading}>
+                {Strings.smSetting.UploadVideo}
+              </Text>
+              <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
+            </View>
+          </>
+        )}
       </ImageBackground>
     </TouchableOpacity>
   );

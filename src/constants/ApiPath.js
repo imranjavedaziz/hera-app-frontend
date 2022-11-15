@@ -37,4 +37,5 @@ export default {
   profile_match_request: 'profile-match-request',
   enquiry: 'enquiry',
   userType: 'roles',
+  profile_match_request_response: 'profile-match-request-response',
 };

@@ -335,5 +335,18 @@ export default {
       'Select heart to send a like to the profile & if they like you back, it will be a match! You will be able to chat only with your matches.',
     SELECT_CROSS:
       'Select cross to reject the profile & go to the next profile.',
+    ABOUT: 'About this Page',
+    OKAY_GOT_IT: 'OKAY, GOT IT!',
   },
+
+  //Static
+  Meryl_Anderson: 'Meryl Anderson',
+
+  //Chat
+  Type: 'Parent-To-Be',
+  Liked_your_profile: 'Liked your profile',
+  Start_Converstation:
+    'Seems like a good match?\nLike and start a conversation!',
+  All_Matches: 'All Matches',
+  INBOX: 'INBOX',
 };
