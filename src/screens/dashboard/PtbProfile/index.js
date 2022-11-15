@@ -43,12 +43,16 @@ const PtbProfile = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -94,8 +98,11 @@ const PtbProfile = () => {
       <Container
         mainStyle={true}
         scroller={true}
+        fixedHeader={true}
         showHeader={true}
+        style={styles.containerStyle}
         showsVerticalScrollIndicator={true}
+        profileLoad={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>
           <ProfileImage
@@ -125,10 +132,12 @@ const PtbProfile = () => {
           <PtbAccount
             leftIcon={Images.video}
             title={Strings.smSetting.AddVideo}
+            BlueDot
             onPress={() => navigation.navigate(Routes.MyVideo)}
           />
           <PtbAccount
             leftIcon={Images.person}
+            BlueDot
             title={Strings.smSetting.EditProfile}
           />
           <PtbAccount

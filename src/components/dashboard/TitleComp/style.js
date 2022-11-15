@@ -6,8 +6,8 @@ import {dynamicSize} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
-    height: 118,
-    paddingTop: 15,
+    height: Value.CONSTANT_VALUE_118,
+    paddingTop: Value.CONSTANT_VALUE_15,
   },
   screenTitle: {
     textTransform: 'uppercase',
@@ -20,14 +20,14 @@ export default {
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_23,
-    lineHeight: Value.CONSTANT_VALUE_30,
+    letterSpacing: Value.CONSTANT_VALUE_0,
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
     marginVertical: Value.CONSTANT_VALUE_8,
     fontFamily: Fonts.OpenSansRegular,
     fontWeight: Alignment.BOLD,
   },
-  midTitle:{
+  midTitle: {
     fontSize: Value.CONSTANT_VALUE_23,
     lineHeight: Value.CONSTANT_VALUE_30,
     textAlign: Alignment.CENTER,

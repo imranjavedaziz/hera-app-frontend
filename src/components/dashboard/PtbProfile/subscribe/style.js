@@ -2,10 +2,11 @@ import Alignment from '../../../../constants/Alignment';
 import Colors from '../../../../constants/Colors';
 import {Fonts} from '../../../../constants/Constants';
 import {Value} from '../../../../constants/FixedValues';
+import {px} from '../../../../utils/responsive';
 
 export default {
   container: {
-    height: Value.CONSTANT_VALUE_115,
+    height: px(Value.CONSTANT_VALUE_115),
     borderWidth: Value.CONSTANT_VALUE_2,
     borderRadius: Value.CONSTANT_VALUE_11,
     borderColor: Colors.PINK,

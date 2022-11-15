@@ -172,7 +172,7 @@ const SmDashboard = ({route}) => {
     let payload = {
       keyword: value ? value : '',
       state_ids:
-        route.params?.informationDetail != undefined
+        route.params?.informationDetail !== undefined
           ? route.params?.informationDetail.join()
           : '',
       page: page,

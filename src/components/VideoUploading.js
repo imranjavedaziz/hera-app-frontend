@@ -1,9 +1,7 @@
 // VIDEO UPLOADING COMPONENT
 import React from 'react';
 import {
-  ActivityIndicator,
   Image,
-  ImageBackground,
   Text,
   TouchableOpacity,
   View,
@@ -13,16 +11,12 @@ import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
-import {MaterialIndicator} from 'react-native-indicators';
-import {Colors} from '../constants';
+import FastImage from 'react-native-fast-image';
 
 const VideoUploading = props => {
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
-      <ImageBackground style={props?.style}>
-        {props?.video?.loading && (
-          <MaterialIndicator color={Colors.COLOR_A3C6C4} />
-        )}
+      <FastImage style={props?.style}>
         {props?.video?.file_url !== '' ? (
           <>
             <TouchableWithoutFeedback>
@@ -69,7 +63,7 @@ const VideoUploading = props => {
             </View>
           </>
         )}
-      </ImageBackground>
+      </FastImage>
     </TouchableOpacity>
   );
 };

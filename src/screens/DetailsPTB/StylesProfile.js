@@ -21,7 +21,7 @@ export default {
   },
   profileImg: {
     width: Value.CONSTANT_VALUE_20,
-    height: Value.CONSTANT_VALUE_20,
+    height: Value.CONSTANT_VALUE_25,
     resizeMode: Alignment.CONTAIN,
   },
   ValidPwd: {
@@ -35,6 +35,9 @@ export default {
   },
   tmc1: {
     fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   flex: {
     flex: Value.CONSTANT_VALUE_1,
@@ -49,6 +52,10 @@ export default {
   tmc: {
     flexDirection: Alignment.ROW,
   },
+  rowContainer: {
+    alignSelf: Alignment.CENTER,
+    paddingRight: Value.CONSTANT_VALUE_7,
+  },
   tmcLink: {
     fontWeight: Alignment.BOLD,
     textDecorationLine: Alignment.UNDERLINE,
@@ -57,9 +64,11 @@ export default {
     fontWeight: Alignment.BOLD,
     alignSelf: Alignment.CENTER,
     textDecorationLine: Alignment.UNDERLINE,
-    fontSize: Value.CONSTANT_VALUE_15,
+    fontSize: Value.CONSTANT_VALUE_16,
     marginTop: Value.CONSTANT_VALUE_20,
     marginBottom: Value.CONSTANT_VALUE_60,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
   },
   modalView: {
     height: Value.CONSTANT_VALUE_230,
