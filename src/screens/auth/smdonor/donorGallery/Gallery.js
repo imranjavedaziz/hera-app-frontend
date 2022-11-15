@@ -287,6 +287,7 @@ const Gallery = () => {
     setOpen(true);
     setIsVideo(true);
   };
+  console.log(video, 'video')
   return (
     <>
       <Container

@@ -24,7 +24,7 @@ import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {smRoles, Routes, Fonts} from '../../../constants/Constants';
+import {smRoles, Routes} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
@@ -187,7 +187,7 @@ const SmRegister = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
         break;
-        case Strings.Subscription.Cancel:
+      case Strings.Subscription.Cancel:
         console.log('Cancel');
         break;
     }

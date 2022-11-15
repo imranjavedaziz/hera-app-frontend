@@ -11,7 +11,6 @@ import {CircleBtn} from '../../components/Header';
 import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
-import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
@@ -19,7 +18,6 @@ import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 
-import {Value} from '../../constants/FixedValues';
 const Login = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -69,6 +67,7 @@ const Login = props => {
       icon={Images.iconcross}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
+      style={styles.headerIcon}
     />
   );
   const onSubmit = data => {
@@ -120,13 +119,13 @@ const Login = props => {
     <Container
       scroller={false}
       showHeader={true}
+      fixedHeader={true}
+      profileLoad={true}
       headerComp={headerComp}
       headerEnd={true}
       style={styles.margin}>
-      <ScrollView
-        style={{marginTop: Value.CONSTANT_VALUE_80}}
-        showsVerticalScrollIndicator={false}>
-        <View style={globalStyle.mainContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
           <Controller
             control={control}
@@ -140,7 +139,6 @@ const Login = props => {
                 keyboardType="number-pad"
                 maxLength={14}
                 error={errors && errors.phone?.message}
-                // required={true}
               />
             )}
             name="phone"
