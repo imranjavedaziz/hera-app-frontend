@@ -10,7 +10,7 @@ import PtbProfileDetail from './PtbProfileDetail';
 import SmDonorDetail from './SmDonerDetail';
 import SetPreference from './SetPreference';
 import Support from './Support';
-
+import Chat from './Chat';
 const allReducers = combineReducers({
   Auth,
   loader,
@@ -23,6 +23,7 @@ const allReducers = combineReducers({
   PtbProfileDetail,
   SmDonorDetail,
   Support,
+  Chat
 });
 
 export default allReducers;

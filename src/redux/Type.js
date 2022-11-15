@@ -173,3 +173,10 @@ export const UPDATE_PROFILE_IMG_FAIL = 'UPDATE_PROFILE_IMG_FAIL';
 export const SEND_LIKE_PTB = 'SEND_LIKE_PTB';
 export const SEND_LIKE_PTB_SUCCESS = 'SEND_LIKE_PTB_SUCCESS';
 export const SEND_LIKE_PTB_FAIL = 'SEND_LIKE_PTB_FAIL';
+
+/**
+ * CHAT
+ */
+ export const PREPEND_CHAT = 'PREPEND_CHAT';
+ export const APPEND_CHAT = 'APPEND_CHAT';
+ export const EMPTY_CHAT = 'EMPTY_CHAT';

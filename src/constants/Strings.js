@@ -324,12 +324,10 @@ export default {
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
   },
-<<<<<<< .merge_file_1HXIGH
   Chat:{
     Chat:'CHAT',
     All_Conversations:'All Conversations'
-  }
-=======
+  },
   Sensory: {
     AS_PER_SEARCH:
       'As per the search criteria you have set, a series of surrogate mother, sperm donor or egg donor will be shown',
@@ -338,5 +336,4 @@ export default {
     SELECT_CROSS:
       'Select cross to reject the profile & go to the next profile.',
   },
->>>>>>> .merge_file_k1na8W
 };
