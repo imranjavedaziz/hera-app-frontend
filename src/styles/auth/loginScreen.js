@@ -20,7 +20,6 @@ export default {
   },
   loginBtn: {
     height: 80,
-    width: 195,
     marginTop: Value.CONSTANT_VALUE_50,
     marginBottom: Value.CONSTANT_VALUE_20,
   },

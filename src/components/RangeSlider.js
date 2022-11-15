@@ -27,10 +27,10 @@ export default RangeSlider;
 
 const styles = StyleSheet.create({
   thumb: {
-    height: Value.CONSTANT_VALUE_35,
-    width: Value.CONSTANT_VALUE_35,
+    width: Value.CONSTANT_VALUE_30,
+    height: Value.CONSTANT_VALUE_30,
     borderRadius: Value.CONSTANT_VALUE_40,
     borderColor: Colors.PURE_WHITE,
-    borderWidth: Value.CONSTANT_VALUE_4,
+    borderWidth: Value.CONSTANT_VALUE_2,
   },
 });

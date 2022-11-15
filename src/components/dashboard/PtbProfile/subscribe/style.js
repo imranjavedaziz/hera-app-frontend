@@ -27,9 +27,8 @@ export default {
     color: Colors.BLACK,
   },
   innerText: {
-    textAlign: Alignment.JUSTIFY,
     paddingHorizontal: Value.CONSTANT_VALUE_25,
-    fontSize: Value.CONSTANT_VALUE_15,
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansLight,
     marginTop: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,

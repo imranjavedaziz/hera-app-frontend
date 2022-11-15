@@ -58,7 +58,6 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
-
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const unsubscribe = navigation.addListener('focus', () => {
@@ -274,7 +273,6 @@ const SmDashboard = ({route}) => {
       );
     }
   };
-
   const renderFooterCell = () => {
     if (loadMore && cards.length > 0) {
       return (
