@@ -129,12 +129,16 @@ const Profile = props => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      'Cancel',
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -188,6 +192,7 @@ const Profile = props => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
+    console.log('reqData', reqData);
   };
   useEffect(() => {
     return navigation.addListener('focus', () => {
@@ -345,6 +350,7 @@ const Profile = props => {
                   onChangeText={v => onChange(v)}
                   required={true}
                   secureTextEntry={true}
+                  error={errors && errors.confirm_password?.message}
                   containerStyle={{
                     marginBottom: Value.CONSTANT_VALUE_5,
                   }}
@@ -395,14 +401,13 @@ const Profile = props => {
                 onChangeText={v => onChange(v)}
                 required={true}
                 secureTextEntry={true}
-                error={errors && errors.confirm_password?.message}
                 containerStyle={styles.flex}
               />
             )}
             name={FormKey.confirm_password}
           />
           <View style={styles.tmc}>
-            <View style={{alignSelf: Alignment.CENTER}}>
+            <View style={styles.rowContainer}>
               {check ? (
                 <Pressable
                   onPress={() => {

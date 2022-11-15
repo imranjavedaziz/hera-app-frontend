@@ -249,12 +249,16 @@ const Gallery = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         !isVideo ? openCamera(1, cb) : selectVideo(1);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -276,7 +280,7 @@ const Gallery = () => {
       icon={Images.iconBack}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
-      style={styles.header}
+      style={style.header}
     />
   );
   const openBottomVideoSheet = () => {

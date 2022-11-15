@@ -235,7 +235,7 @@ const PtbDashboard = props => {
           code={item?.user?.username}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
-          image={{ uri: item?.user?.profile_pic }}
+          image={{uri: item?.user?.profile_pic}}
           fadeAnim={fadeAnim}
           isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
@@ -296,18 +296,13 @@ const PtbDashboard = props => {
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
-                    showSecondCard={true}
+                    showSecondCard={false}
                     stackSize={2}
                   />
                 </View>
               </ImageBackground>
             </View>
-            <View
-              style={
-                Platform.OS === 'ios'
-                  ? styles.iosInnerContainer
-                  : styles.innerContainer
-              }>
+            <View style={styles.iosInnerContainer}>
               <TouchableOpacity
                 onPress={() => {
                   setIsVisibleLogo(true);
@@ -358,7 +353,9 @@ const PtbDashboard = props => {
       </Container>
       {modalVisible && (
         <CustomModal>
-          <SensoryCharacteristics  onPress={() => setModalVisible(!modalVisible)}/>
+          <SensoryCharacteristics
+            onPress={() => setModalVisible(!modalVisible)}
+          />
         </CustomModal>
       )}
     </>

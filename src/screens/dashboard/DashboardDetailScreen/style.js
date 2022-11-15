@@ -18,13 +18,13 @@ export default {
   bioContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
   },
+  innerContainer: {marginRight: 30},
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,
     paddingHorizontal: Value.CONSTANT_VALUE_25,
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
-    width: Value.CONSTANT_VALUE_210,
   },
   nativePlace: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -36,9 +36,6 @@ export default {
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
-  },
-  innerContainer: {
-    width: Value.CONSTANT_VALUE_210,
   },
   hairContainer: {
     flexDirection: Alignment.ROW,
@@ -56,9 +53,9 @@ export default {
   },
   eyeColorContainer: {
     backgroundColor: Colors.RGBA_229_172_177,
-    width: scaleWidth(Value?.CONSTANT_VALUE_124),
     justifyContent: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+    width: Value.CONSTANT_VALUE_120,
   },
   eyeColorText: {
     paddingVertical: Value.CONSTANT_VALUE_5,
@@ -73,7 +70,7 @@ export default {
   imageDemo2: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
     width: scaleWidth(Value.CONSTANT_VALUE_318),
-    height: 199,
+    height: Value.CONSTANT_VALUE_199,
   },
   Description: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_53),
@@ -106,8 +103,16 @@ export default {
   textbtn1: {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
-    letterSpacing: 3.62,
+    letterSpacing: Value.CONSTANT_VALUE_FRAC3_62,
     color: Colors.BLACK,
+  },
+  textbtn2: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansBold,
+    letterSpacing: Value.CONSTANT_VALUE_FRAC3_62,
+    color: Colors.BLACK,
+    marginLeft: 12,
+    alignItems: Alignment.CENTER,
   },
   heartIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_50),
@@ -135,12 +140,11 @@ export default {
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
-    marginBottom: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_70),
   },
   crossIcon: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     width: scaleWidth(Value.CONSTANT_VALUE_211),
-    justifyContent: Alignment.SPACE_BETWEEN,
   },
 };

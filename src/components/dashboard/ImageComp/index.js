@@ -1,15 +1,9 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  Image,
-  Animated,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, Image, Animated, TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
 
 const FadeInView = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -30,30 +24,25 @@ const FadeInView = props => {
     </Animated.View>
   );
 };
-const ImageComp = (
-  {
-    locationText,
-    code,
-    donerAge,
-    mapIcon,
-    has_happen,
-    image,
-    isVisibleLogo,
-    category,
-    activeOpacity,
-
-    onPress,
-  },
-  props,
-) => {
+const ImageComp = ({
+  locationText,
+  code,
+  donerAge,
+  mapIcon,
+  has_happen,
+  image,
+  isVisibleLogo,
+  category,
+  activeOpacity,
+  onPress,
+}) => {
   return (
-    <View style={styles.upperContainer}>
+    <View style={[styles.upperContainer]}>
       <View style={styles.mainContainer}>
         <TouchableOpacity activeOpacity={activeOpacity} onPress={onPress}>
-          <ImageBackground
+          <FastImage
             source={image}
-            style={styles.bgImage}
-            imageStyle={styles.imageStyle}
+            style={[styles.bgImage, styles.imageStyle]}
             resizeMode="cover">
             <LinearGradient
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
@@ -85,7 +74,7 @@ const ImageComp = (
                 </View>
               </View>
             </LinearGradient>
-          </ImageBackground>
+          </FastImage>
         </TouchableOpacity>
       </View>
     </View>
