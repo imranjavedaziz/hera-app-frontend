@@ -262,7 +262,7 @@ const CreateGallery = () => {
   } else {
     del.push(`ids[]=${gallery_data?.doner_video_gallery?.id}`);
   }
-  const deleteImg = () => {
+  const deleteImg = (val) => {
     if (selVideo) {
       dispatch(showAppLoader());
       dispatch(deleteGallery(del.join('&')));
@@ -376,7 +376,7 @@ const CreateGallery = () => {
                   {img.uri && selVideo === false ? (
                     <TouchableOpacity
                       onPress={() => {
-                        handelDel(img.id, false);
+                        handelDel(img.id);
                       }}
                       style={{}}>
                       <Image

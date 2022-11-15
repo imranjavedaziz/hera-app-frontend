@@ -1,7 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {width} from '../../../utils/responsive';
+import {scaleWidth, width} from '../../../utils/responsive';
 
 export default {
   profileImgContainner: {
@@ -106,7 +106,7 @@ export default {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    width: 320,
+    width: width,
   },
   video: {
     position: 'absolute',
@@ -129,4 +129,5 @@ export default {
   resize: {
     resizeMode: Alignment.COVER,
   },
+  header: {marginLeft: scaleWidth(20)},
 };
