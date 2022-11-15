@@ -324,9 +324,12 @@ export default {
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
   },
-  Chat:{
-    Chat:'CHAT',
-    All_Conversations:'All Conversations'
+  Chat: {
+    Chat: 'CHAT',
+    All_Conversations: 'All Conversations',
+    WHAT_DO_YO: 'What do you think of this match?',
+    NOT_GOOD: 'Not good',
+    GOING_WELL:"Going well"
   },
   Sensory: {
     AS_PER_SEARCH:

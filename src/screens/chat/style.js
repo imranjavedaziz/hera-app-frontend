@@ -8,8 +8,7 @@ export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop:30
-    
+    marginTop: 30,
   },
   header: {marginTop: px(10)},
   Inbox: {
@@ -75,5 +74,34 @@ export default {
     marginTop: 40,
     marginHorizontal: 20,
   },
+  thumbContain: color => ({
+    height: 41,
+    width: 132,
+    borderWidth: 1,
+    borderColor: color,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
+  }),
+  thumbImg: {height: 15, width: 14},
+  thumbInnerContain: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 15,
+  },
+  matchTxt: {
+    paddingTop: 20,
+    textAlign: 'center',
+    fontSize: 16,
+    lineHeight: 21,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  thumbTxt: {
+    paddingLeft: 12,
+    fontSize: 15,
+    fontFamily: Fonts.OpenSansRegular,
+    lineHeight: 21,
+    color: Colors.COLOR_535858,
+  },
 };
-

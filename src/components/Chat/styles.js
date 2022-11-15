@@ -62,5 +62,13 @@ export default {
     borderRadius: px(Value.CONSTANT_VALUE_30),
     marginTop: px(Value.CONSTANT_VALUE_8),
   },
-  timeView:{flex:.2,alignItems: Alignment.FLEXEND}
+  timeView:{flex:.2,alignItems: Alignment.FLEXEND},
+  heartIcon:{
+    height: Value.CONSTANT_VALUE_23,
+    width: Value.CONSTANT_VALUE_25,
+    position: Alignment.ABSOLUTE,
+    bottom: -2,
+    right: -5,
+  },
+  contain:{flex: 0.8, flexDirection: 'row'}
 };
