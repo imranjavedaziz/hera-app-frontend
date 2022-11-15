@@ -3,6 +3,7 @@ export default {
   CLEAR: 'transparent',
   BLACK: '#353a3a',
   LABEL_BLACK: '#302f2f',
+  GRAY: '#9e9e9e',
   RED: '#FF0000',
   BACKGROUND: '#F6F5EF',
   LITE_BG: '#e9e8db',
@@ -43,4 +44,5 @@ export default {
   SHEETCOLOR: '#ECECEC',
   MIDDLE_SHEET: '#E1E1E1',
   TEXT_SHEET: '#28282A',
+  TIME_COLOR: '#ada99f',
 };

@@ -109,7 +109,7 @@ const Login = props => {
     reset({phone: '', password: getValues('password')});
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
-    for (var i = 0; i < value.length; i++) {
+    for (let i = 0; i < value.length; i++) {
       if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
         a = a + value[i];
       }
@@ -123,7 +123,9 @@ const Login = props => {
       headerComp={headerComp}
       headerEnd={true}
       style={styles.margin}>
-      <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}}>
+      <ScrollView
+        style={{marginTop: Value.CONSTANT_VALUE_80}}
+        showsVerticalScrollIndicator={false}>
         <View style={globalStyle.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
           <Controller
@@ -156,15 +158,10 @@ const Login = props => {
                 endComponent={() => (
                   <TouchableOpacity
                     onPress={() => setShow(!show)}
-                    style={{
-                      paddingHorizontal: 10,
-                      paddingTop: 5,
-                      paddingBottom: 1,
-                    }}>
+                    style={styles.psswrdInput}>
                     <Image
                       source={show ? Images.eye2 : Images.eye}
-                      style={{height: show ? 15 : 9, width: show ? 15 : 15.2}}
-                    />
+                      style={{height: show ? 15 : 9, width: show ? 15 : 15.2}}  />
                   </TouchableOpacity>
                 )}
               />

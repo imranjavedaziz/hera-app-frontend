@@ -8,6 +8,8 @@ import styles from './styles';
 
 import CustomPicker from './CustomPicker/CustomPicker';
 import {Fonts} from '../../constants/Constants';
+import {Alignment} from '../../constants';
+import {Value} from '../../constants/FixedValues';
 
 const Dropdown = ({
   label,
@@ -50,14 +52,28 @@ const Dropdown = ({
               </View>
               <Image
                 source={Images.arrowDown}
-                style={[styles.left, {top: value && 19}]}
+                style={
+                  value
+                    ? {
+                        position: Alignment.ABSOLUTE,
+                        right: Value.CONSTANT_VALUE_0,
+                        bottom: Value.CONSTANT_VALUE_10,
+                        zIndex: Value.CONSTANT_VALUE_2,
+                      }
+                    : {
+                        position: Alignment.ABSOLUTE,
+                        right: Value.CONSTANT_VALUE_0,
+                        bottom: Value.CONSTANT_VALUE_0,
+                        zIndex: Value.CONSTANT_VALUE_2,
+                      }
+                }
               />
               {value && (
                 <Text style={styles.buttonTextStyle}>{value?.name}</Text>
               )}
               <View
                 style={[
-                  styles.linebelow,
+                  value ? styles.linebelowFloat : styles.linebelow,
                   {borderBottomColor: error ? 'red' : Colors.BORDER_LINE},
                 ]}
               />

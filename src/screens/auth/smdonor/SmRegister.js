@@ -187,12 +187,16 @@ const SmRegister = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
         break;
+        case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -319,6 +323,7 @@ const SmRegister = () => {
                 onChangeText={v => onChange(v)}
                 error={errors && errors.dob?.message}
                 required={true}
+                endComponentPress={() => setShow(true)}
                 endComponent={() => (
                   <TouchableOpacity onPress={() => setShow(true)}>
                     <Image source={Images.calendar} />
@@ -425,9 +430,7 @@ const SmRegister = () => {
           </View>
           <View style={styles.starContainer}>
             <Text style={styles.starColor}>*</Text>
-            <Text style={{fontFamily: Fonts.OpenSansItalic}}>
-              {Strings.profile.desc}
-            </Text>
+            <Text style={styles.descText}>{Strings.profile.desc}</Text>
           </View>
           <Button
             label={Strings.sm_register.Btn}

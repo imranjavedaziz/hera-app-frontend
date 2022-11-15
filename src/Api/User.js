@@ -7,9 +7,7 @@ import {
   hideAppLoader,
   showAppToast,
 } from '../redux/actions/loader';
-import {
-  getUserGallery,
-} from '../redux/actions/CreateGallery';
+import {getUserGallery} from '../redux/actions/CreateGallery';
 const User = () => {
   const dispatch = useDispatch();
   const createGallery = (data, setLoading) => {
@@ -20,11 +18,10 @@ const User = () => {
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then(async response => {
+      .then(response => {
         console.log('response', response.data.data);
         dispatch(getUserGallery());
-        await dispatch(showAppToast(false, response.data.message));
-      
+        // await dispatch(showAppToast(false, response.data.message));
         setLoading(false);
       })
       .finally(e => {

@@ -26,4 +26,5 @@ export default {
   HIDDEN: 'hidden',
   CONTAIN: 'contain',
   JUSTIFY: 'justify',
+  SOLID: 'solid',
 };

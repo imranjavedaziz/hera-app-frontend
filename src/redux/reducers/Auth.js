@@ -49,6 +49,7 @@ const initState = {
     updated_at: '',
     username: '',
   },
+  login: false,
   basic: {
     bio: '',
     created_at: '',
@@ -146,6 +147,7 @@ export default (state = initState, action) => {
         token: access_token,
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
+        login: true,
       };
     }
 
@@ -332,6 +334,7 @@ export default (state = initState, action) => {
         log_in_data: action?.data?.data?.data,
         user: action?.data?.data?.data,
         token: access_token,
+        login: true,
       };
     }
     /**
