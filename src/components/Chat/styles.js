@@ -22,30 +22,35 @@ export default {
   innerContainer: {
     flexDirection: Alignment.ROW,
     marginTop: px(Value.CONSTANT_VALUE_36),
+    flex:1,
+    justifyContent:'space-between'
   },
   description: {
-    marginLeft: px(Value.CONSTANT_VALUE_12),
+   marginLeft: px(Value.CONSTANT_VALUE_12),
     justifyContent: Alignment.CENTER,
+    flex:1
   },
   userName: {
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_16),
-    lineHeight: px(Value.CONSTANT_VALUE_21),
-    letterSpacing: 0,
     color: Colors.BLACK,
+  fontWeight: Alignment.BOLD,
+
   },
   msg: {
     fontFamily: Fonts.OpenSansRegular,
-    width: px(Value.CONSTANT_VALUE_217),
     fontSize: px(Value.CONSTANT_VALUE_14),
     color: Colors.BLACK_0,
+
+    fontWeight: Alignment.BOLD,
   },
   time: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_13),
     lineHeight: px(Value.CONSTANT_VALUE_21),
-    letterSpacing: 0,
     color: Colors.TIME_COLOR,
+    textAlign: "right",
+   
   },
   recentmsg: {
     backgroundColor: Colors.GREEN,
@@ -55,8 +60,7 @@ export default {
     borderWidth: px(Value.CONSTANT_VALUE_1),
     borderColor: Colors.WHITE,
     borderRadius: px(Value.CONSTANT_VALUE_30),
-    justifyContent: Alignment.FLEXEND,
     marginTop: px(Value.CONSTANT_VALUE_8),
-    marginLeft: 40,
   },
+  timeView:{flex:.2,alignItems: Alignment.FLEXEND}
 };

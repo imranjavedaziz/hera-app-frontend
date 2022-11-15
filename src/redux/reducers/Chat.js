@@ -6,6 +6,7 @@ const initState = {
 };
 
 export default (state = initState, { type = '', payload = null } = {}) => {
+  console.log(payload,'payload')
     switch (type) {
         case PREPEND_CHAT:
           return {
@@ -16,7 +17,7 @@ export default (state = initState, { type = '', payload = null } = {}) => {
         case APPEND_CHAT:
           return {
             ...state,
-            chats: [ ...state.chats, payload ],
+            chats: payload,
             matchedUsers: [ ...state.matchedUsers, payload.user_id ],
           };
           case EMPTY_CHAT:

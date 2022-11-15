@@ -17,7 +17,7 @@ const environment = {
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
   },
 };
-export const {bucket, api_url} = environment.dev;
+export const {bucket, api_url} = environment.qa;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -177,6 +177,7 @@ export const Routes = {
   Chat_Request: 'Chat_Request',
   Chat_Listing: 'Chat_Listing',
   ChatList: 'ChatList',
+  ChatDetail:'ChatDetail'
 };
 export const Static = {
   countries: [

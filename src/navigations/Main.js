@@ -30,8 +30,9 @@ import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Support from '../screens/Support/Support';
 import PushNotificationExample from '../screens/Example';
 import Chat_Request from '../screens/Chat_Request_PTB';
-import Chat_Listing from '../screens/Chat/Chat_Listing';
-import ChatList from '../screens/chat/ChatList';
+import Chat_Listing from '../screens/chat/ChatListing';
+import ChatDetail from '../screens/chat/ChatDetail'
+
 
 const Stack = createStackNavigator();
 const Main = () => {
@@ -159,11 +160,7 @@ const Main = () => {
           component={Subscription}
           options={{headerShown: false}}
         /> */}
-              <Stack.Screen
-          name={Routes.ChatList}
-          component={ChatList}
-          options={{headerShown: false}}
-        />
+            
         <Stack.Screen
           name={Routes.PushNotificationExample}
           component={PushNotificationExample}
@@ -179,6 +176,12 @@ const Main = () => {
           component={Chat_Listing}
           options={{headerShown: false}}
         />
+         <Stack.Screen
+          name={Routes.ChatDetail}
+          component={ChatDetail}
+          options={{headerShown: false}}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

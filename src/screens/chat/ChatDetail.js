@@ -1,371 +1,170 @@
-import React, { useState, useEffect, useCallback, useContext, useRef } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Alert, Platform, Image } from 'react-native';
-
-import { GiftedChat } from 'react-native-gifted-chat';
-import DocumentPicker from 'react-native-document-picker';
-import { launchImageLibrary } from 'react-native-image-picker';
-import Video from 'react-native-video';
-import VideoPlayer from 'react-native-video-controls';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from "uuid";
-
-import Context from '../context';
-
-import imageIcon from '../images/image.png';
-
-const Chat = (props) => {
-  const { navigation } = props;
-
-  const userOnlineListenerId = useRef(uuidv4());
-
-  const { cometChat, selectedConversation, user } = useContext(Context);
-
+import React, {useState, useEffect, useCallback} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity, Image,StatusBar,SafeAreaView} from 'react-native';
+import {GiftedChat} from 'react-native-gifted-chat';
+import FirebaseDB from '../../utils/FirebaseDB'
+import {IconHeader} from '../../components/Header';
+import {Images, Strings,Colors} from '../../constants';
+import {useNavigation} from '@react-navigation/native';
+// import Images from '../constants/Images';
+import styles from './style'
+import {Container} from '../../components';
+const ChatDetail = (props) => {
+  console.log(props.route.params.item,'item::::::::::')
+  const navigation = useNavigation();
   const [messages, setMessages] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  useEffect(() => {
-    if (selectedConversation) {
-      // get list of messages.
-      loadMessages();
-      // listen for messages.
-      listenForMessages();
-      // listen for online users.
-      listenForOnlineUsers();
-    }
-    return () => {
-      if (selectedConversation) {
-        const conversationId = selectedConversation && selectedConversation.guid ? selectedConversation.guid : selectedConversation.uid ? selectedConversation.uid : null;
-        if (conversationId) {
-          cometChat.removeMessageListener();
-        }
-        setMessages(() => []);
-        cometChat.removeUserListener(userOnlineListenerId);
-      }
-    }
-  }, [selectedConversation]);
-
-  useEffect(() => {
-    if (selectedFile && selectedFile.name && selectedFile.uri) {
-      sendMediaMessageCometChat();
-    }
-  }, [selectedFile]);
-
-  const isValidMessage = (message) => {
-    return message &&
-      message.id &&
-      message.sentAt &&
-      message.sender &&
-      message.sender.uid &&
-      message.sender.name &&
-      message.sender.avatar &&
-      message.category &&
-      message.category === 'message'
-  };
-
-  const transformSingleMessage = (message) => {
-    if (isValidMessage(message)) {
-      let transformedMessage = {
-        _id: message.id ? message.id : uuidv4(),
-        createdAt: new Date(message.sentAt * 1000),
-        user: {
-          _id: message.sender.uid,
-          name: message.sender.name,
-          avatar: message.sender.avatar,
-        },
-      }
-      if (message.text) {
-        transformedMessage.text = message.text;
-      }
-      if (message.data && message.data.url) {
-        if (message.type && message.type === 'video') {
-          transformedMessage.video = message.data.url;
-        } else {
-          transformedMessage.image = message.data.url;
-        }
-      }
-      return transformedMessage;
-    }
-    return message;
-  };
-
-  const transformMessages = (messages) => {
-    if (messages && messages.length !== 0) {
-      const transformedMessages = [];
-      for (const message of messages) {
-        if (isValidMessage(message)) {
-          transformedMessages.push(transformSingleMessage(message));
-        }
-      }
-      return transformedMessages.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      });;
-    }
-    return [];
-  };
-
-  const renderChatHeaderTitle = (onlineUser) => {
-    if (onlineUser && onlineUser.name) {
-      return (
-        <View style={styles.chatHeaderTitleContainer}>
-          <Text style={styles.chatHeaderTitle}>{onlineUser.name}</Text>
-          {onlineUser.status && <Text style={[styles.chatHeaderTitle, styles.chatHeaderStatus]}> - {onlineUser.status}</Text>}
-        </View>
-      );
-    }
-    return <Text style={styles.chatHeaderTitle}>Chat</Text>;
-  };
-
-  const listenForOnlineUsers = () => {
-    cometChat.addUserListener(
-      userOnlineListenerId,
-      new cometChat.UserListener({
-        onUserOnline: onlineUser => {
-          if (onlineUser && onlineUser.uid === selectedConversation.uid) {
-            navigation.setOptions({
-              headerTitle: () => renderChatHeaderTitle(onlineUser),
-            })
-          }
-        },
-        onUserOffline: offlineUser => {
-          if (offlineUser && offlineUser.uid === selectedConversation.uid) {
-            navigation.setOptions({
-              headerTitle: () => renderChatHeaderTitle(offlineUser),
-            })
-          }
-        }
-      })
+  const [loading,setLoading]= useState(false)
+  const [db, setDB] = useState({ messages: [], loading: true });
+  const renderActions = (message) => {
+    return (
+      <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
+        <TouchableOpacity style={styles.select} onPress={()=>onSend(message)}>
+          <Text style={{color:'red'}}>send data</Text>
+          {/* <Image source={Images.iconChat} style={{width: 20, height: 20}} /> */}
+        </TouchableOpacity>
+      </View>
     );
   };
-
-  /**
-   * listen for messages
-   */
-  const listenForMessages = () => {
-    const conversationId = selectedConversation && selectedConversation.guid ? selectedConversation.guid : selectedConversation.uid ? selectedConversation.uid : null;
-    if (conversationId) {
-      cometChat.addMessageListener(
-        conversationId,
-        new cometChat.MessageListener({
-          onTextMessageReceived: (message) => {
-            // set state.
-            setMessages(previousMessages => GiftedChat.append(previousMessages, [transformSingleMessage(message)]))
-          },
-          onMediaMessageReceived: mediaMessage => {
-            // Handle media message
-            // set state.
-            setMessages(previousMessages => GiftedChat.append(previousMessages, [transformSingleMessage(mediaMessage)]))
-          },
-        })
-      );
-    }
-  }
-
-  const loadMessages = () => {
-    const limit = 50;
-    const messageRequestBuilder = new cometChat.MessagesRequestBuilder().setLimit(limit)
-    if (selectedConversation.contactType === 1) {
-      messageRequestBuilder.setGUID(selectedConversation.guid);
-    } else if (selectedConversation.contactType === 0) {
-      messageRequestBuilder.setUID(selectedConversation.uid);
-    }
-    const messagesRequest = messageRequestBuilder
-      .setCategories(["message"])
-      .build();
-    messagesRequest
-      .fetchPrevious()
-      .then((messages) => {
-        setMessages(() => transformMessages(messages));
-      })
-      .catch((error) => { });
-  };
-
-  const sendMediaMessageCometChat = () => {
-    const receiverID = getReceiverId();
-    const receiverType = getReceiverType();
-    const messageType = selectedFile && selectedFile.type && selectedFile.type.includes('video') ? cometChat.MESSAGE_TYPE.VIDEO : cometChat.MESSAGE_TYPE.FILE;
-
-    if (receiverID && receiverType) {
-      const mediaMessage = new cometChat.MediaMessage(
-        receiverID,
-        selectedFile,
-        messageType,
-        receiverType
-      );
-
-      cometChat.sendMediaMessage(mediaMessage).then(
-        message => {
-          // Message sent successfully.
-          const transformedSingleMessage = transformSingleMessage(message);
-          setMessages(previousMessages => GiftedChat.append(previousMessages, [transformedSingleMessage]))
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
         },
-        error => {
-          // Handle exception.
-        }
-      );
-    }
-  };
-
-  const getReceiverId = () => {
-    if (selectedConversation && selectedConversation.guid) {
-      return selectedConversation.guid;
-    }
-    if (selectedConversation && selectedConversation.uid) {
-      return selectedConversation.uid;
-    }
-    return null;
-  };
-
-  const getReceiverType = () => {
-    if (selectedConversation && selectedConversation.guid) {
-      return cometChat.RECEIVER_TYPE.GROUP;
-    }
-    return cometChat.RECEIVER_TYPE.USER;
-  };
-
-  const sendMessageCometChat = (messages) => {
-    if (messages && messages.length !== 0) {
-      const receiverID = getReceiverId();
-      const receiverType = getReceiverType();
-      if (receiverID && receiverType) {
-        const messageText = messages[0].text;
-        const textMessage = new cometChat.TextMessage(
-          receiverID,
-          messageText,
-          receiverType
-        );
-        cometChat.sendMessage(textMessage).then(
-          message => {
-            setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-          },
-          error => {
-          }
-        );
-      }
-    }
-  };
-
-  const onSend = useCallback((messages = []) => {
-    sendMessageCometChat(messages);
+      },
+    ]);
   }, []);
 
-  const getFileName = (fileName, type) => {
-    if (Platform.OS === 'android' && type === 'photo') {
-      return 'Camera_001.jpeg';
-    } else if (Platform.OS === 'android' && type.includes('video')) {
-      return 'Camera_001.mov'
-    }
-    return fileName;
-  }
-
-  const handleSelectFile = () => {
-    const options = {
-      mediaType: 'mixed'
+  useEffect(async () => {
+    const now = Date.now().toString();
+    const user = {
+      user_id: props.route.params.item.senderId,
+      name: props.route.params.item.senderName,
+      image: props.route.params.item.senderImage,
     };
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        return null;
-      } else if (response.assets && response.assets.length !== 0) {
-        const uri = response.assets[0].uri;
-        const fileName = response.assets[0].fileName;
-        const type = response.assets[0].type;
-        if (uri && fileName) {
-          const file = {
-            name: getFileName(fileName, type),
-            uri: Platform.OS === 'android' ? uri : uri.replace('file://', ''),
-            type: type || 'video/quicktime'
-          };
-          setSelectedFile(() => file);
+    const receiver = {
+      user_id:props.route.params.item.recieverId,
+      name:props.route.params.item.recieverName,
+      image:props.route.params.item.recieverImage,
+    };
+    let fireDB = new FirebaseDB(user, receiver);
+    await fireDB.setTotalSize();
+    await fireDB.initMessages();
+    fireDB.lastIdInSnapshot = now;
+    console.log(fireDB,'fireDB')
+    setDB(fireDB);
+    let onChildAdd = fireDB.reference
+      .orderByKey()
+      .startAt(now)
+      .on("child_added", async (snapshot, _previousChildKey) => {
+        const messageItem = fireDB.parseMessages(snapshot);
+        if (parseInt(snapshot.key) > parseInt(fireDB.lastIdInSnapshot)) {
+          setLoading(true);
+          fireDB.lastKey = snapshot.key;
+          fireDB.prependMessage(messageItem);
+          await fireDB.readSingle(messageItem);
+          setLoading(false);
+          fireDB.lastIdInSnapshot = snapshot.key;
         }
-      }
-    });
-  };
+      });
+   
+        return () => {
+          setDB({ messages: [], loading: false });
+          fireDB.reference.off("child_added", onChildAdd);
+          db.reference.off("child_added", onChildAdd);
+          fireDB = null;
+        };
 
-  const renderActions = () => {
-    return (<View style={{ flexDirection: 'row', paddingBottom: 12 }}>
-      <TouchableOpacity style={styles.select} onPress={handleSelectFile}>
-        <Image source={imageIcon} style={{ width: 24, height: 24 }} />
-      </TouchableOpacity>
-    </View>);
-  };
+  }, [props.route.params.item.recieverId]);
 
-  const getSource = (message) => {
-    if (message && message.currentMessage) {
-      return message.currentMessage.audio ? message.currentMessage.audio : message.currentMessage.video ? message.currentMessage.video : null;
+  const onSend = (messages = '') => {
+    // console.log(messages,'messages')
+
+    if (messages[0].text !== "") {
+      db.sendMessage(messages[0].text)
+        .then(() => {
+          Keyboard.dismiss();
+          // setDB(previousMessages =>
+          //   GiftedChat.append(previousMessages, messages),
+          // );
+        })
+        .catch((e) => {
+          // topToast(e.message);
+        });
     }
-    return null;
+   
   }
 
-  const renderVideo = (message) => {
-    const source = getSource(message);
-    if (source) {
-      return (
-        <View style={styles.videoContainer} key={message.currentMessage._id}>
-          {Platform.OS === 'ios' ? <Video
-            style={styles.videoElement}
-            shouldPlay
-            height={156}
-            width={242}
-            muted={true}
-            source={{ uri: source }}
-            allowsExternalPlayback={false}></Video> : <VideoPlayer
-            style={styles.videoElement}
-            source={{ uri: source }}
-          />}
-        </View>
-      );
-    }
-    return <></>;
-  };
+ 
 
+  const customSystemMessage = props => {
+    console.log(props.currentMessage,'props')
+    return (
+      <View style={styles.chatContainer}>
+        <Text style={styles.chatText}>
+         {props.currentMessage.text}
+        </Text>
+      </View>
+    );
+  };
+  const headerComp = () => (
+    <IconHeader
+      leftIcon={Images.circleIconBack}
+      leftPress={() => navigation.goBack()}
+      style={styles.header}
+    />
+  );
   return (
     <>
-      <View style={{ backgroundColor: '#fff', flex: 1 }}>
-        <GiftedChat
-          scrollToBottom
-          messages={messages}
-          onSend={messages => onSend(messages)}
-          user={{
-            _id: user.uid,
-            name: user.name,
-            avatar: user.avatar,
-          }}
-          renderActions={renderActions}
-          renderMessageVideo={renderVideo}
-        />
+     <StatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.BACKGROUND}
+        animated={true}
+        hidden={false}
+      />
+      <SafeAreaView />
+      <View>
+        <View style={styles.outerContainer}>
+          <View style={{flex: 0.8}}>
+            {/* <Image source={Images.BACK_ICON} style={{height: 15, width: 14}} /> */}
+          </View>
+          <View style={styles.topContainer}>
+            <View style={styles.avatar}>
+            <Image source={{uri:props.route.params.item.recieverImage}} style={styles.avatar} /> 
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text style={styles.titleText}>{props.route.params.item.recieverName}</Text>
+              <Text style={styles.descText}>#SD5882</Text>
+            </View>
+          </View>
+          <View />
+        </View>
+        <View style={styles.border} />
       </View>
-    </>
-  )
+     
+<GiftedChat
+messages={db?.messages}
+onSend={messages => onSend(messages)}
+// renderSend={(message)=>renderActions(message)}
+renderBubble={customSystemMessage}
+scrollToBottom
+user={{
+  _id: props.route.params.item.senderId,
+name: props.route.params.item.senderName,
+avatar: props.route.params.item.senderImage,
+}}
+containerStyle={styles.mainContainerDetail}
+renderAvatar={() => null}
+/>
+</>
+  );
 };
-const styles = StyleSheet.create({
-  select: {
-    paddingLeft: 8
-  },
-  videoContainer: {
-    position: 'relative',
-    height: 156,
-    width: 250
-  },
-  videoElement: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    height: 150,
-    width: 242,
-    borderRadius: 20,
-    margin: 4,
-  },
-  chatHeaderTitleContainer: {
-    flexDirection: 'row'
-  },
-  chatHeaderTitle: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  chatHeaderStatus: {
-    textTransform: 'capitalize'
-  }
-});
 
-export default Chat;
+
+export default ChatDetail;
+
+
