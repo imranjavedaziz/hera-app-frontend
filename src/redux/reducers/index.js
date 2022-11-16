@@ -11,6 +11,7 @@ import SmDonorDetail from './SmDonerDetail';
 import SetPreference from './SetPreference';
 import Support from './Support';
 import Profile_Match from './Profile_Match';
+import Chat from './Chat';
 
 const allReducers = combineReducers({
   Auth,
@@ -25,6 +26,7 @@ const allReducers = combineReducers({
   SmDonorDetail,
   Support,
   Profile_Match,
+  Chat
 });
 
 export default allReducers;
