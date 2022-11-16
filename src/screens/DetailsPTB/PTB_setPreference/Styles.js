@@ -18,6 +18,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     marginBottom: Value.CONSTANT_VALUE_17,
     fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   required: {
     color: Colors.RED,
@@ -50,7 +51,8 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
-    color: Colors.COLOR_535858,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   lookingDonor: {
     marginLeft: Value.CONSTANT_VALUE_10,

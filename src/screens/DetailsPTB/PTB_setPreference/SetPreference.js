@@ -428,7 +428,7 @@ const SetPreference = ({route, navigation}) => {
                                   : Fonts.OpenSansRegular,
                                 color: isSelected(value, item.id.toString())
                                   ? Colors.WHITE
-                                  : null,
+                                  : Colors.BLACK_0,
                               },
                             ]}>
                             {item.name}
@@ -477,7 +477,7 @@ const SetPreference = ({route, navigation}) => {
                                 : Fonts.OpenSansRegular,
                               color: isSelected(value, item.id.toString())
                                 ? Colors.WHITE
-                                : null,
+                                : Colors.BLACK_0,
                             },
                           ]}>
                           {item.name}

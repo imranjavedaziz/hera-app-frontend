@@ -167,7 +167,7 @@ const SmDashboard = ({route}) => {
       // dispatch,
     ]),
   );
-
+console.log(get_donor_dashboard_res, 'get_donor_dashboard_res')
   const _getDonorDashboard = (page, value) => {
     let payload = {
       keyword: value ? value : '',

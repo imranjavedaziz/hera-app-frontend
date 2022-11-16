@@ -46,5 +46,6 @@ export default {
     fontSize: Value.CONSTANT_VALUE_24,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_8,
   },
 };

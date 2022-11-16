@@ -43,7 +43,7 @@ export default {
   },
   unfloated: {
     top: Value.CONSTANT_VALUE_24,
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_16,
   },
   input: {
     minHeight: Value.CONSTANT_VALUE_40,

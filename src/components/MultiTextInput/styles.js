@@ -33,7 +33,8 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
     textAlignVertical: 'top',
-    marginTop: px(5),
+    paddingVertical: px(14),
+    paddingHorizontal: px(18),
     // textAlign: 'justify',
   },
   label: {

@@ -78,9 +78,10 @@ export default {
   footerBtn: {
     fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
-    fontFamily: Fonts.OpenSansRegular,
-    ...global.underlineText,
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: 'underline',
     fontWeight: 'bold',
+    // ...global.underlineText,
   },
   widthText: {width: Value.CONSTANT_VALUE_212},
 };
