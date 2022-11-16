@@ -425,7 +425,7 @@ const Profile = props => {
                 </Pressable>
               )}
             </View>
-            <View style={{marginLeft: Value.CONSTANT_VALUE_5}}>
+            <View>
               <Text style={styles.tmc1}>
                 {Strings.profile.tmc1}
                 <Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text>

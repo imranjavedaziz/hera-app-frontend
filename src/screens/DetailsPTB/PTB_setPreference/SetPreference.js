@@ -199,7 +199,6 @@ const SetPreference = ({route, navigation}) => {
       )}
     </>
   );
-
   return (
     <>
       <Container
