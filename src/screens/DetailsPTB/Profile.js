@@ -178,7 +178,10 @@ const Profile = props => {
     const reqData = new FormData();
     reqData.append(FormKey.role_id, FormKey.parent_to_be_role_id);
     reqData.append(FormKey.first_name, data.first_name);
-    reqData.append(FormKey.middle_name, data.middle_name);
+    reqData.append(
+      FormKey.middle_name,
+      data.middle_name ? data.middle_name : '',
+    );
     reqData.append(FormKey.last_name, data.last_name);
     reqData.append(FormKey.dob, moment(date).format('DD-MM-YYYY'));
     reqData.append(FormKey.email, data.email);
