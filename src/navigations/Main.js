@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, {useContext, useEffect} from 'react';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
 import {useSelector} from 'react-redux';
@@ -30,8 +30,10 @@ import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Support from '../screens/Support/Support';
 import PushNotificationExample from '../screens/Example';
 import Chat_Request from '../screens/Chat_Request_PTB';
-import Chat_Listing from '../screens/Chat/Chat_Listing';
+import Chat_Listing from '../screens/Chat/ChatListing';
+import ChatDetail from '../screens/Chat/ChatDetail';
 
+export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
 const Main = () => {
   const auth = useSelector(state => state.Auth.user);
@@ -40,8 +42,11 @@ const Main = () => {
       RNBootSplash.hide();
     }
   }, [auth]);
+
   return (
-    <NavigationContainer onReady={() => RNBootSplash.hide()}>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
         initialRouteName={getRoute(
           auth?.access_token,
@@ -153,11 +158,12 @@ const Main = () => {
           component={StateList}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
           options={{headerShown: false}}
-        />
+        /> */}
+
         <Stack.Screen
           name={Routes.PushNotificationExample}
           component={PushNotificationExample}
@@ -171,6 +177,11 @@ const Main = () => {
         <Stack.Screen
           name={Routes.Chat_Listing}
           component={Chat_Listing}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.ChatDetail}
+          component={ChatDetail}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

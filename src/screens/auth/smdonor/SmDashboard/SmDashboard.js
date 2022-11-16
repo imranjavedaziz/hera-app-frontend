@@ -86,24 +86,28 @@ const SmDashboard = ({route}) => {
   useEffect(() => {
     //For foreground
     PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function (token) {
+        console.log('TOKEN:', token);
+      },
+
+      // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
-        console.log('============NOTIFICATION===============:', notification);
-        const notificationData = notification;
-        if (!_.isEmpty(notificationData)) {
-          if (notificationData.foreground === true) {
+        if (notification.userInteraction === true) {
+          if (notification.priority === 'high') {
             navigation.navigate('PushNotificationExample');
           }
         }
-        // if (!notificationData) {
-        //   navigation.navigate(Routes.PushNotificationExample);
-        // }
-        // setInitialRoute('BottomTabStack');
-        // process the notification
-
-        // (required) Called when a remote is received or opened, or local notification is opened
+        console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
-      // iOS only
+      onAction: function (notification) {
+        console.log('ACTION:', notification.action);
+        console.log('NOTIFICATION:', notification);
+      },
+      onRegistrationError: function (err) {
+        console.error(err.message, err);
+      },
       permissions: {
         alert: true,
         badge: true,
@@ -112,8 +116,6 @@ const SmDashboard = ({route}) => {
       popInitialNotification: true,
       requestPermissions: true,
     });
-
-    // Assume a message-notification contains a "type" property in the data payload of the screen to open
     messaging().onNotificationOpenedApp(remoteMessage => {
       console.log(
         '***Notification caused app to open from background state***',
@@ -167,7 +169,6 @@ const SmDashboard = ({route}) => {
       // dispatch,
     ]),
   );
-  console.log(get_donor_dashboard_res, 'get_donor_dashboard_res');
   const _getDonorDashboard = (page, value) => {
     let payload = {
       keyword: value ? value : '',
@@ -255,6 +256,7 @@ const SmDashboard = ({route}) => {
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
       rightPress={() => navigation.navigate(Routes.Chat_Listing)}
+      // rightPress={() => navigation.navigate(Routes.ChatList)}
       style={styles.headerIcon}
       ApiImage={true}
     />

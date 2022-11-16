@@ -29,12 +29,7 @@ import {
   getUserGallery,
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
-
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
@@ -81,7 +76,6 @@ const CreateGallery = () => {
     gallery_data,
     delete_gallery_success,
     delete_gallery_loading,
-    delete_gallery__error_msg,
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());

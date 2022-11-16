@@ -1,7 +1,7 @@
-import { scaleHeight, scaleWidth, px } from '../../utils/responsive';
-import { Value } from '../../constants/FixedValues';
+import {scaleHeight, scaleWidth, px} from '../../utils/responsive';
+import {Value} from '../../constants/FixedValues';
 import Alignment from '../../constants/Alignment';
-import { Fonts } from '../../constants/Constants';
+import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 
 export default {
@@ -17,8 +17,8 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.COLOR_535858,
     width: px(156),
-    paddingLeft:scaleWidth(10),
-    marginLeft:scaleWidth(15)
+    paddingLeft: scaleWidth(10),
+    marginLeft: scaleWidth(15),
   },
   title: {
     color: Colors.COLOR_535858,
@@ -27,7 +27,7 @@ export default {
     textAlign: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
     paddingTop: px(32),
-    paddingBottom: px(32)
+    paddingBottom: px(32),
   },
   btnContainer: {
     width: px(236),
@@ -36,8 +36,12 @@ export default {
     height: scaleHeight(80),
     justifyContent: 'center',
     alignSelf: 'center',
-    marginBottom:scaleHeight(25)
+    marginBottom: scaleHeight(25),
   },
-  btnText: { textAlign: 'center' },
-  crossIcon: { position: "absolute", top: 15, right: 20, height: 20, width: 20 }
+  btnText: {
+    textAlign: 'center',
+    color: Colors.COLOR_535858,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansBold,
+  },
 };

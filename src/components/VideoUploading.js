@@ -12,6 +12,7 @@ import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
+import {Alignment} from '../constants';
 
 const VideoUploading = props => {
   return (
@@ -38,8 +39,8 @@ const VideoUploading = props => {
                 style={props?.videoStyle}
                 controls
                 audioOnly
-                resizeMode="cover"
                 ref={props?.videoRef}
+                resizeMode={Alignment.COVER}
                 onLoad={() => {
                   props?.videoRef?.current?.seek(3);
                   props?.videoRef?.current?.setNativeProps({
@@ -52,6 +53,19 @@ const VideoUploading = props => {
                 }}
               />
             </View>
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => props?.handelDel(props?.video?.id, true)}
+                style={styles.videoSel}>
+                <Image
+                  source={
+                    props?.remove?.includes(props?.video?.id)
+                      ? Images.iconRadiosel
+                      : Images.iconRadiounsel
+                  }
+                />
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
           </>
         ) : (
           <>

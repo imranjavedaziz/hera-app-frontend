@@ -42,6 +42,7 @@ import messaging from '@react-native-firebase/messaging';
 
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import {scaleWidth} from '../../../../utils/responsive';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -87,24 +88,28 @@ const PtbDashboard = props => {
   useEffect(() => {
     //For foreground
     PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function (token) {
+        console.log('TOKEN:', token);
+      },
+
+      // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
-        console.log('============NOTIFICATION===============:', notification);
-        const notificationData = notification;
-        if (!_.isEmpty(notificationData) && login === true) {
-          if (notificationData.foreground === true) {
+        if (notification.userInteraction === true) {
+          if (notification.priority === 'high') {
             navigation.navigate('PushNotificationExample');
           }
         }
-        // if (!notificationData) {
-        //   navigation.navigate(Routes.PushNotificationExample);
-        // }
-        // setInitialRoute('BottomTabStack');
-        // process the notification
-
-        // (required) Called when a remote is received or opened, or local notification is opened
+        console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
-      // iOS only
+      onAction: function (notification) {
+        console.log('ACTION:', notification.action);
+        console.log('NOTIFICATION:', notification);
+      },
+      onRegistrationError: function (err) {
+        console.error(err.message, err);
+      },
       permissions: {
         alert: true,
         badge: true,
@@ -113,8 +118,6 @@ const PtbDashboard = props => {
       popInitialNotification: true,
       requestPermissions: true,
     });
-
-    // Assume a message-notification contains a "type" property in the data payload of the screen to open
     messaging().onNotificationOpenedApp(remoteMessage => {
       console.log(
         '***Notification caused app to open from background state***',
@@ -122,7 +125,7 @@ const PtbDashboard = props => {
       );
       const {notification, messageId} = remoteMessage;
       console.log(messageId);
-      if (!_.isEmpty(notification) && login === true) {
+      if (!_.isEmpty(notification)) {
         navigation.navigate('PushNotificationExample');
       }
     });
@@ -260,9 +263,12 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      rightPress={() => logoutScreen()}
+      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
       style={styles.headerIcon}
       ApiImage={true}
+      rightPrevIcon={Images.I_BUTTON}
+      rightImg={{marginRight: scaleWidth(18)}}
+      rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
 
