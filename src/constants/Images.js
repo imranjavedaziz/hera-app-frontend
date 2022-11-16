@@ -71,6 +71,7 @@ export default {
   BABY_MOTHER: require('../assets/icons/babyMother/babyMother.png'),
   CROSS: require('../assets/icons/cross/cross.png'),
   HEART: require('../assets/icons/heart/heart.png'),
+  I_BUTTON: require('../assets/icons/iButton/iButton.png'),
   THUMB_DOWN: require('../assets/icons/thumbDown/thumbDown.png'),
   THUMB_UP: require('../assets/icons/thumbUp/thumbUp.png'),
   ICON_SEND: require('../assets/icons/iconsend/iconsend.png'),

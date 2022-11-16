@@ -77,6 +77,9 @@ export const IconHeader = ({
   profileView,
   profileImg,
   ApiImage = false,
+  rightPrevPress,
+  rightPrevIcon,
+  rightImg,
   ...otherProps
 }) => (
   <>
@@ -110,14 +113,28 @@ export const IconHeader = ({
       </TouchableOpacity>
     )}
 
-    <TouchableOpacity
-      style={styles.circle}
-      onPress={rightPress}
-      {...otherProps}
-      accessible={true}
-      accessibilityRole="button">
-      <Image accessible={false} source={rightIcon} style={styles.img} />
-    </TouchableOpacity>
+    <View style={{flexDirection: Alignment.ROW}}>
+      <TouchableOpacity
+        style={styles.circle}
+        onPress={rightPrevPress}
+        {...otherProps}
+        accessible={true}
+        accessibilityRole="button">
+        <Image
+          accessible={false}
+          source={rightPrevIcon}
+          style={[styles.img, rightImg]}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.circle}
+        onPress={rightPress}
+        {...otherProps}
+        accessible={true}
+        accessibilityRole="button">
+        <Image accessible={false} source={rightIcon} style={styles.img} />
+      </TouchableOpacity>
+    </View>
   </>
 );
 const Header = ({end = false, children}) => {
