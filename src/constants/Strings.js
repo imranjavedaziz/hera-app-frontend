@@ -104,7 +104,7 @@ export default {
     ModalSubheader: 'If you cancel now, your progress will be lost.',
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
-    tmc1: "By continuing, you agree to HERA's ",
+    tmc1: " By continuing, you agree to HERA's ",
     tmc2: 'Terms of use',
     tmc3: 'Privacy Policy',
     desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',

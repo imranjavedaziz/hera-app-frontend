@@ -429,7 +429,7 @@ const Profile = props => {
               <Text style={styles.tmc1}>
                 {Strings.profile.tmc1}
                 <Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text>
-                {'\n'}and{' '}
+                {'\n'} and{' '}
                 <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
               </Text>
             </View>

@@ -268,7 +268,7 @@ console.log(get_donor_dashboard_res, 'get_donor_dashboard_res')
     if (!loaderState.loading) {
       return (
         <View>
-          <Text>No RESULT FOUND</Text>
+          <Text>NO RESULT FOUND</Text>
         </View>
       );
     }

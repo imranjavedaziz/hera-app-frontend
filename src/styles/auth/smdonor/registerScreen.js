@@ -35,8 +35,8 @@ export default {
     marginTop: Value.CONSTANT_VALUE_20,
   },
   imgView: {
-    width: Value.CONSTANT_VALUE_140,
-    height: Value.CONSTANT_VALUE_140,
+    width: Value.CONSTANT_VALUE_135,
+    height: Value.CONSTANT_VALUE_135,
     borderRadius: Value.CONSTANT_VALUE_70,
     backgroundColor: Colors.GREEN,
     alignItems: Alignment.CENTER,
@@ -83,7 +83,7 @@ export default {
     flexDirection: Alignment.ROW,
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_30,
   },
   checkboxLabel: {
     fontSize: Value.CONSTANT_VALUE_13,

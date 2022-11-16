@@ -208,6 +208,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                  containerStyle={{marginTop:10}}
                     label={Strings.inqueryForm.Name}
                     value={value}
                     autoCorrect={false}
@@ -222,6 +223,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange}}) => (
                   <Dropdown
+                  containerStyle={{marginTop:10}}
                     label={Strings.inqueryForm.USER_TYPE}
                     data={userTypeData?.data}
                     onSelect={selectedItem => {
@@ -238,6 +240,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                  containerStyle={{marginTop:10}}
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -251,6 +254,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                  containerStyle={{marginTop:10}}
                     label={Strings.inqueryForm.MobileNumber}
                     value={phone}
                     keyboardType="numeric"

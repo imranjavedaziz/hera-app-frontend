@@ -2,7 +2,7 @@ import {Colors, Alignment} from '../../constants';
 import global from '../global';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
-import {dynamicSize, px} from '../../utils/responsive';
+import {dynamicSize} from '../../utils/responsive';
 
 export default {
   mainContainer: {
