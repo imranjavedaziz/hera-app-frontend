@@ -1,6 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
+import { dynamicSize, px } from '../../../utils/responsive';
 
 export default {
   title: {
@@ -8,7 +9,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.LEFT,
     width: Prencentage.PRECENTAGE_100,
-    marginBottom: Value.CONSTANT_VALUE_20,
+    marginBottom: Value.CONSTANT_VALUE_15,
   },
   radioContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -150,5 +151,9 @@ export default {
     fontFamily: Fonts.OpenSansItalic,
     color: Colors.BLACK_KEY,
     fontSize: Value.CONSTANT_VALUE_14,
+  },
+  headerIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingHorizontal: px(Value.CONSTANT_VALUE_5),
   },
 };

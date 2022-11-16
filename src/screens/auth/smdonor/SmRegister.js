@@ -176,6 +176,7 @@ const SmRegister = () => {
       icon={Images.iconcross}
       onPress={() => navigation.navigate(Routes.Profile, {isRouteData})}
       accessibilityLabel="Left arrow Button, Press to go back"
+      style={styles.headerIcon}
     />
   );
   // console.log('reqData', reqData)
@@ -203,7 +204,6 @@ const SmRegister = () => {
     }, 300);
   };
 
-  
   const openIosSheet = () => {
     openActionSheet();
     askCameraPermission();
@@ -219,6 +219,7 @@ const SmRegister = () => {
         scroller={true}
         showHeader={true}
         headerEnd={true}
+        profileLoad={true}
         headerComp={headerComp}>
         <View style={globalStyle.mainContainer}>
           <Text style={[globalStyle.screenTitle, styles.title]}>

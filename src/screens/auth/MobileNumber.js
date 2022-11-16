@@ -57,7 +57,7 @@ const MobileNumber = () => {
   // send otp
   const onSubmit = data => {
     const payload = {
-      country_code: '+91',
+      country_code: '+1',
       phone_no: data.phone,
     };
     setIsRouteData(payload);
@@ -141,7 +141,7 @@ const MobileNumber = () => {
         <View style={styles.inputRow}>
           <FloatingLabelInput
             label={Strings.mobile.Code}
-            value="+91"
+            value="+1"
             disabled={true}
             editable={false}
             containerStyle={styles.contryCodeContainer}
