@@ -110,6 +110,6 @@ export default {
     paddingBottom: Value.CONSTANT_VALUE_150,
   },
   loaderContainer: {
-    marginTop: Value.CONSTANT_VALUE_15, 
+    marginTop: Value.CONSTANT_VALUE_15,
   },
 };

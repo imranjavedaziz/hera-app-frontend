@@ -5,10 +5,9 @@ import {Fonts} from '../../constants/Constants';
 
 export default {
   container: {
-    paddingTop: Value.CONSTANT_VALUE_18,
+    paddingTop: Value.CONSTANT_VALUE_20,
     flex: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
-    marginVertical: Value.CONSTANT_VALUE_15,
   },
   bottom: {bottom: 10},
   label: {
@@ -43,7 +42,7 @@ export default {
   },
   unfloated: {
     top: Value.CONSTANT_VALUE_24,
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_16,
   },
   input: {
     minHeight: Value.CONSTANT_VALUE_40,
@@ -97,7 +96,7 @@ export default {
     textAlign: Alignment.LEFT,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_16,
     marginHorizontal: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
   },
@@ -105,6 +104,11 @@ export default {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
     justifyContent: 'center',
     top: Value.CONSTANT_VALUE_17,
+  },
+  linebelowFloat: {
+    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    justifyContent: 'center',
+    top: Value.CONSTANT_VALUE_6,
   },
   red: {color: 'red'},
   left: {left: '90%'},

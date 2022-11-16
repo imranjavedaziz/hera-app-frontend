@@ -292,18 +292,13 @@ const PtbDashboard = props => {
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
-                    showSecondCard={true}
+                    showSecondCard={false}
                     stackSize={2}
                   />
                 </View>
               </ImageBackground>
             </View>
-            <View
-              style={
-                Platform.OS === 'ios'
-                  ? styles.iosInnerContainer
-                  : styles.innerContainer
-              }>
+            <View style={styles.iosInnerContainer}>
               <TouchableOpacity
                 onPress={() => {
                   setIsVisibleLogo(true);

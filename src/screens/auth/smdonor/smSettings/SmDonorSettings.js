@@ -44,12 +44,16 @@ const SmDonorSettings = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();

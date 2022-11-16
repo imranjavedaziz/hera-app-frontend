@@ -24,9 +24,9 @@ export default {
     height: Value.CONSTANT_VALUE_30,
   },
   radioLabel: {
-    marginLeft: Value.CONSTANT_VALUE_10,
+    marginLeft: Value.CONSTANT_VALUE_16,
     fontSize: Value.CONSTANT_VALUE_23,
-    color: Colors.BLACK,
+    color: Colors.BLACK_KEY,
     fontFamily: Fonts.OpenSansBold,
   },
   imgContainer: {
@@ -89,18 +89,21 @@ export default {
     fontSize: Value.CONSTANT_VALUE_13,
     marginLeft: Value.CONSTANT_VALUE_10,
     flex: Value.CONSTANT_VALUE_1,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
   },
   checkboxTitle: {
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
+    fontWeight: Alignment.BOLD,
+    textDecorationLine: Alignment.UNDERLINE,
   },
   parentBtn: {
     fontWeight: Alignment.BOLD,
     alignSelf: Alignment.CENTER,
     textDecorationLine: Alignment.UNDERLINE,
-    fontSize: Value.CONSTANT_VALUE_15,
+    fontSize: Value.CONSTANT_VALUE_16,
     marginTop: Value.CONSTANT_VALUE_20,
     marginBottom: Value.CONSTANT_VALUE_60,
+    color: Colors.BLACK,
   },
   imgPickerContainer: {
     width: Prencentage.PRECENTAGE_100,
@@ -120,10 +123,10 @@ export default {
     color: Colors.BLACK,
   },
   ImageText: {
-    // alignItems: Alignment.FLEX_START,
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.LABEL_BLACK,
+    color: Colors.DARKBLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   Btn: {
     height: Value.CONSTANT_VALUE_80,
@@ -142,5 +145,10 @@ export default {
   },
   starColor: {
     color: Colors.RED,
+  },
+  descText: {
+    fontFamily: Fonts.OpenSansItalic,
+    color: Colors.BLACK_KEY,
+    fontSize: Value.CONSTANT_VALUE_14,
   },
 };

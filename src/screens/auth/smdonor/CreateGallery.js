@@ -262,7 +262,7 @@ const CreateGallery = () => {
   } else {
     del.push(`ids[]=${gallery_data?.doner_video_gallery?.id}`);
   }
-  const deleteImg = () => {
+  const deleteImg = (val) => {
     if (selVideo) {
       dispatch(showAppLoader());
       dispatch(deleteGallery(del.join('&')));
@@ -297,12 +297,16 @@ const CreateGallery = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         !isVideo ? openCamera(1, cb) : selectVideo(1);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -372,7 +376,7 @@ const CreateGallery = () => {
                   {img.uri && selVideo === false ? (
                     <TouchableOpacity
                       onPress={() => {
-                        handelDel(img.id, false);
+                        handelDel(img.id);
                       }}
                       style={{}}>
                       <Image

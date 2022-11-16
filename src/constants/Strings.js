@@ -13,7 +13,7 @@ export const ValidationMessages = {
   INVALID_LAST_NAME: 'Please enter a valid Last Name',
   PASSWORD: 'Please Set the Password',
   CONFIRM_PASSWORD: 'Please enter Confirm Password',
-  ADD_PROFILE_PHOTO: 'Please add Profile Photo',
+  ADD_PROFILE_PHOTO: 'Please upload a display picture',
   DOB: 'Please enter your Date of Birth',
   ENTER_DOB: 'Please enter your DOB',
   ENTER_GENDER: 'Please select your Gender',

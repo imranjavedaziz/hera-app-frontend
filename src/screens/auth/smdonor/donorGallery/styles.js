@@ -9,10 +9,10 @@ export default {
     alignItems: Alignment.CENTER,
   },
   header: {
-    marginLeft: 30,
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
   containerStyle: {
-    marginHorizontal: 0,
+    marginHorizontal: Value.CONSTANT_VALUE_0,
   },
   subTitle: {
     marginVertical: Value.CONSTANT_VALUE_8,

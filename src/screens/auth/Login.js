@@ -11,7 +11,6 @@ import {CircleBtn} from '../../components/Header';
 import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
-import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
@@ -19,7 +18,6 @@ import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 
-import {Value} from '../../constants/FixedValues';
 const Login = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -69,6 +67,7 @@ const Login = props => {
       icon={Images.iconcross}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
+      style={styles.headerIcon}
     />
   );
   const onSubmit = data => {
@@ -109,7 +108,7 @@ const Login = props => {
     reset({phone: '', password: getValues('password')});
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
-    for (var i = 0; i < value.length; i++) {
+    for (let i = 0; i < value.length; i++) {
       if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
         a = a + value[i];
       }
@@ -120,11 +119,13 @@ const Login = props => {
     <Container
       scroller={false}
       showHeader={true}
+      fixedHeader={true}
+      profileLoad={true}
       headerComp={headerComp}
       headerEnd={true}
       style={styles.margin}>
-      <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}}>
-        <View style={globalStyle.mainContainer}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
           <Controller
             control={control}
@@ -138,7 +139,6 @@ const Login = props => {
                 keyboardType="number-pad"
                 maxLength={14}
                 error={errors && errors.phone?.message}
-                // required={true}
               />
             )}
             name="phone"
@@ -147,6 +147,7 @@ const Login = props => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.login.Password}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -156,15 +157,10 @@ const Login = props => {
                 endComponent={() => (
                   <TouchableOpacity
                     onPress={() => setShow(!show)}
-                    style={{
-                      paddingHorizontal: 10,
-                      paddingTop: 5,
-                      paddingBottom: 1,
-                    }}>
+                    style={styles.psswrdInput}>
                     <Image
                       source={show ? Images.eye2 : Images.eye}
-                      style={{height: show ? 15 : 9, width: show ? 15 : 15}}
-                    />
+                      style={{height: show ? 15 : 9, width: show ? 15 : 15.2}}  />
                   </TouchableOpacity>
                 )}
               />

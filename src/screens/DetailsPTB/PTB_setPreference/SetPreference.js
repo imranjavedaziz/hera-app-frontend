@@ -31,13 +31,12 @@ import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
 import {logOut} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
-
 import {
   SetPreferenceRes,
   SavePreference,
 } from '../../../redux/actions/SetPreference';
-import {scaleWidth} from '../../../utils/responsive';
 import {BottomSheetComp} from '../../../components';
+
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -72,7 +71,6 @@ const SetPreference = ({route, navigation}) => {
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
-  console.log(EditPreferences, 'EditPreferences');
   const {
     set_preference_success,
     set_preference_loading,
@@ -106,7 +104,6 @@ const SetPreference = ({route, navigation}) => {
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
       dispatch(showAppLoader());
-      console.log(save_preference_success, 'save_preference_success');
       if (save_preference_success) {
         dispatch(hideAppLoader());
         navigation.navigate(Routes.PtbDashboard);
@@ -123,12 +120,8 @@ const SetPreference = ({route, navigation}) => {
       const e = errors;
       const messages = [];
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-      const msg = messages.join('\n').trim();
-      if (msg) {
-        dispatch(showAppToast(true, msg));
-      }
     }
-  }, [errors, isValid]);
+  }, [errors, isValid, dispatch]);
 
   const onSubmit = data => {
     let value = {
@@ -206,7 +199,6 @@ const SetPreference = ({route, navigation}) => {
       )}
     </>
   );
-
   return (
     <>
       <Container
@@ -218,10 +210,7 @@ const SetPreference = ({route, navigation}) => {
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }
-        style={{
-          paddingBottom: Value.CONSTANT_VALUE_50,
-          marginHorizontal: scaleWidth(35),
-        }}>
+        style={styles.containerView}>
         <View style={styles.mainContainer}>
           {EditPreferences === true ? (
             <Text style={globalStyle.screenTitle}>
@@ -235,16 +224,14 @@ const SetPreference = ({route, navigation}) => {
           <View
             accessible={true}
             accessibilityLabel={`${Strings.preference.filter}`}>
-            <Text
-              style={globalStyle.screenSubTitle}
-              numberOfLines={2}
-              accessible={false}>
+            <Text style={globalStyle.screenSubTitle} accessible={false}>
               {Strings.preference.SearchPrioritize}
             </Text>
           </View>
           <View style={styles.lookingFor}>
             <Text style={styles.lookingForText}>
               {Strings.preference.lookingFor}
+              <Text style={styles.chipsRequiredText}>*</Text>
             </Text>
             <Controller
               control={control}
@@ -339,10 +326,10 @@ const SetPreference = ({route, navigation}) => {
                                 {
                                   color: isSelected(value, item.name)
                                     ? Colors.WHITE
-                                    : null,
-                                  fontWeight: isSelected(value, item.name)
-                                    ? Alignment.BOLD
-                                    : null,
+                                    : Colors.BLACK_0,
+                                  fontFamily: isSelected(value, item.name)
+                                    ? Fonts.OpenSansBold
+                                    : Fonts.OpenSansRegular,
                                 },
                               ]}>
                               {item.name} {Strings.preference.yrs}
@@ -362,7 +349,7 @@ const SetPreference = ({route, navigation}) => {
                   {Strings.preference.Height}
                   <Text style={styles.heightText}>*</Text>
                 </Text>
-                <Text style={{fontWeight: Alignment.BOLD}}>
+                <Text style={styles.heightTextView}>
                   <Text>
                     {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
                   </Text>
@@ -401,10 +388,7 @@ const SetPreference = ({route, navigation}) => {
               )}
               name={FormKey.race}
             />
-            <Text style={styles.chipText}>
-              {Strings.preference.HairColor}
-              <Text style={styles.chipsRequiredText}>*</Text>
-            </Text>
+            <Text style={styles.chipText}>{Strings.preference.HairColor}</Text>
             <Controller
               control={control}
               render={({field: {onChange, value = ''}}) => (
@@ -443,7 +427,7 @@ const SetPreference = ({route, navigation}) => {
                                   : Fonts.OpenSansRegular,
                                 color: isSelected(value, item.id.toString())
                                   ? Colors.WHITE
-                                  : null,
+                                  : Colors.BLACK_0,
                               },
                             ]}>
                             {item.name}
@@ -455,10 +439,7 @@ const SetPreference = ({route, navigation}) => {
               )}
               name={FormKey.hair}
             />
-            <Text style={styles.chipText}>
-              {Strings.preference.EyeColor}
-              <Text style={styles.chipsRequiredText}>*</Text>
-            </Text>
+            <Text style={styles.chipText}>{Strings.preference.EyeColor}</Text>
           </View>
           <Controller
             control={control}
@@ -495,7 +476,7 @@ const SetPreference = ({route, navigation}) => {
                                 : Fonts.OpenSansRegular,
                               color: isSelected(value, item.id.toString())
                                 ? Colors.WHITE
-                                : null,
+                                : Colors.BLACK_0,
                             },
                           ]}>
                           {item.name}

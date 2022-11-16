@@ -24,7 +24,7 @@ import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {smRoles, Routes, Fonts} from '../../../constants/Constants';
+import {smRoles, Routes} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
@@ -178,7 +178,7 @@ const SmRegister = () => {
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
-
+  // console.log('reqData', reqData)
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
@@ -187,12 +187,16 @@ const SmRegister = () => {
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
         break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
     }
   };
   const openActionSheet = () => {
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -276,6 +280,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.FirstName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -289,6 +294,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.MiddleName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -301,6 +307,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.LastName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -314,6 +321,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.DOB}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -335,6 +343,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -349,6 +358,7 @@ const SmRegister = () => {
             render={({field: {onChange, value}}) => (
               <View style={styles.error}>
                 <FloatingLabelInput
+                  containerStyle={{marginTop: 10}}
                   label={Strings.sm_register.Password}
                   value={value}
                   onChangeText={v => onChange(v)}
@@ -426,9 +436,7 @@ const SmRegister = () => {
           </View>
           <View style={styles.starContainer}>
             <Text style={styles.starColor}>*</Text>
-            <Text style={{fontFamily: Fonts.OpenSansItalic}}>
-              {Strings.profile.desc}
-            </Text>
+            <Text style={styles.descText}>{Strings.profile.desc}</Text>
           </View>
           <Button
             label={Strings.sm_register.Btn}

@@ -58,7 +58,6 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
-
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const unsubscribe = navigation.addListener('focus', () => {
@@ -168,12 +167,12 @@ const SmDashboard = ({route}) => {
       // dispatch,
     ]),
   );
-
+console.log(get_donor_dashboard_res, 'get_donor_dashboard_res')
   const _getDonorDashboard = (page, value) => {
     let payload = {
       keyword: value ? value : '',
       state_ids:
-        route.params?.informationDetail != undefined
+        route.params?.informationDetail !== undefined
           ? route.params?.informationDetail.join()
           : '',
       page: page,
@@ -275,7 +274,6 @@ const SmDashboard = ({route}) => {
       );
     }
   };
-
   const renderFooterCell = () => {
     if (loadMore && cards.length > 0) {
       return (

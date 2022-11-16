@@ -52,6 +52,7 @@ const Container = props => {
     children,
     scroller = true,
     showHeader = false,
+    profileLoad = false,
     headerEnd = false,
     headerComp = null,
     style = {},
@@ -69,7 +70,37 @@ const Container = props => {
         animated={true}
         hidden={false}
       />
-      <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
+      {profileLoad === false ? (
+        <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
+          <KeyboardAvoidingView
+            style={styles.flexMain}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            {fixedHeader === true ? (
+              <>
+                <Header end={headerEnd}>{headerComp()}</Header>
+                <Scroller
+                  enabled={scroller}
+                  style={style}
+                  mainStyle={mainStyle}
+                  fixedHeader={fixedHeader}
+                  showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+                  {children}
+                </Scroller>
+              </>
+            ) : (
+              <Scroller
+                enabled={scroller}
+                style={style}
+                mainStyle={mainStyle}
+                fixedHeader={fixedHeader}
+                showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+                {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
+                {children}
+              </Scroller>
+            )}
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      ) : (
         <KeyboardAvoidingView
           style={styles.flexMain}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -97,7 +128,7 @@ const Container = props => {
             </Scroller>
           )}
         </KeyboardAvoidingView>
-      </SafeAreaView>
+      )}
     </>
   );
 };

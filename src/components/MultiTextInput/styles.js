@@ -17,11 +17,11 @@ export default {
     flexDirection: 'row',
   },
   border: {
-    borderWidth: px(1),
+    borderWidth: px(2),
     borderColor: Colors.BORDER_LINE,
     paddingHorizontal: px(6),
     width: px(310),
-    height: px(121),
+    height: px(161),
   },
   description: {
     fontSize: px(14),
@@ -33,7 +33,9 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
     textAlignVertical: 'top',
-    marginTop: px(5),
+    paddingVertical: px(14),
+    paddingHorizontal: px(18),
+    // textAlign: 'justify',
   },
   label: {
     zIndex: -1,

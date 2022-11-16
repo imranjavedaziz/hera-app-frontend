@@ -7,6 +7,7 @@ export default {
     flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
+    paddingHorizontal: 14,
   },
   title: {
     color: Colors.BLACK,
@@ -20,6 +21,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_23,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_8,
   },
   textArea: {
     borderWidth: Value.CONSTANT_VALUE_1,
