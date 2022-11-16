@@ -190,6 +190,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
+              containerStyle={{marginTop: 10}}
                 label={Strings.sm_set_attributes.Race}
                 data={attributeData?.race}
                 onSelect={selectedItem => {
@@ -205,6 +206,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
+              containerStyle={{marginTop: 10}}
                 label={Strings.sm_set_attributes.MotherEthnicity}
                 data={attributeData?.ethnicity}
                 onSelect={selectedItem => {
@@ -220,6 +222,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
+              containerStyle={{marginTop: 10}}
                 label={Strings.sm_set_attributes.FatheEthnicity}
                 data={attributeData?.ethnicity}
                 onSelect={selectedItem => {
@@ -235,6 +238,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
+              containerStyle={{marginTop: 10}}
                 label={Strings.sm_set_attributes.Weight}
                 data={attributeData?.weight}
                 onSelect={selectedItem => {
@@ -256,6 +260,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
+              containerStyle={{marginTop: 10}}
                 label={Strings.sm_set_attributes.EyeColor}
                 data={attributeData?.eye_colour}
                 onSelect={selectedItem => {
@@ -271,6 +276,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
+              containerStyle={{marginTop: 10}}
                 label={Strings.preference.HairColor}
                 data={attributeData?.hair_colour}
                 onSelect={selectedItem => {
@@ -286,6 +292,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange}}) => (
               <Dropdown
+              containerStyle={{marginTop: 10}}
                 label={Strings.sm_set_attributes.Education}
                 data={attributeData?.education}
                 onSelect={selectedItem => {

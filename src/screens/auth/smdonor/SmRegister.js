@@ -178,7 +178,7 @@ const SmRegister = () => {
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
-// console.log('reqData', reqData)
+  // console.log('reqData', reqData)
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
@@ -280,6 +280,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.FirstName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -293,6 +294,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.MiddleName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -305,6 +307,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.LastName}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -318,6 +321,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.sm_register.DOB}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -339,6 +343,7 @@ const SmRegister = () => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.profile.EmailAddress}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -353,6 +358,7 @@ const SmRegister = () => {
             render={({field: {onChange, value}}) => (
               <View style={styles.error}>
                 <FloatingLabelInput
+                  containerStyle={{marginTop: 10}}
                   label={Strings.sm_register.Password}
                   value={value}
                   onChangeText={v => onChange(v)}
