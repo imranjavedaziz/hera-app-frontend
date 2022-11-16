@@ -178,7 +178,7 @@ const SmRegister = () => {
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
-
+// console.log('reqData', reqData)
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
