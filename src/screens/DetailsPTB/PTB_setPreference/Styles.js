@@ -12,7 +12,7 @@ export default {
   fixedheaderStyle: {marginRight: Value.CONSTANT_VALUE_20},
   lookingFor: {
     width: '100%',
-    marginTop: Value.CONSTANT_VALUE_50,
+    marginTop: Value.CONSTANT_VALUE_40,
   },
   lookingForText: {
     fontFamily: Fonts.OpenSansRegular,
@@ -33,7 +33,7 @@ export default {
   },
   containerView: {
     marginBottom: -40,
-    marginHorizontal: scaleWidth(35),
+    marginHorizontal: scaleWidth(37),
   },
   label: {
     position: Alignment.ABSOLUTE,
@@ -81,7 +81,7 @@ export default {
   chipText: {
     fontSize: Value.CONSTANT_VALUE_14,
     // marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_35),
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
     fontFamily: Fonts.OpenSansRegular,
   },

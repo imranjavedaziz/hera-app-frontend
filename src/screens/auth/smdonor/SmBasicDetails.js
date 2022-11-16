@@ -254,6 +254,7 @@ const SmBasicDetails = () => {
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
                 label={Strings.sm_basic.Zip}
+                containerStyle={{marginTop: 10}}
                 value={value}
                 onChangeText={v => onChange(v)}
                 error={errors && errors.zipcode?.message}
@@ -270,6 +271,7 @@ const SmBasicDetails = () => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.SexualOrientation}
+                containerStyle={{marginTop: 10}}
                 data={profileRes?.sexual_orientation}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
@@ -285,6 +287,7 @@ const SmBasicDetails = () => {
             render={({field: {onChange}}) => (
               <Dropdown
                 label={Strings.sm_basic.RelationshipStatus}
+                containerStyle={{marginTop: 10}}
                 data={profileRes?.relationship_status}
                 onSelect={selectedItem => {
                   onChange(selectedItem.id);
@@ -300,6 +303,7 @@ const SmBasicDetails = () => {
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
                 label={Strings.sm_basic.Occupation}
+                containerStyle={{marginTop: 10}}
                 value={value}
                 onChangeText={v => onChange(v)}
                 error={errors && errors.occupation?.message}
