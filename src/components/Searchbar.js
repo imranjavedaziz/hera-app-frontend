@@ -74,7 +74,6 @@ export default Searchbar;
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: Alignment.ROW,
-    justifyContent: Alignment.FLEXEND,
   },
   searchBar: {
     flex: Value.CONSTANT_VALUE_1,
