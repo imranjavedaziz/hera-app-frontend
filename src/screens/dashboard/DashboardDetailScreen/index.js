@@ -130,7 +130,7 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
-  console.log('get_sm_donor_res', get_sm_donor_loading);
+
   return (
     <>
       <Container

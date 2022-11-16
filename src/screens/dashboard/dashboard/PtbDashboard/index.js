@@ -300,7 +300,12 @@ const PtbDashboard = props => {
                 </View>
               </ImageBackground>
             </View>
-            <View style={styles.iosInnerContainer}>
+            <View
+              style={
+                Platform.OS === 'ios'
+                  ? styles.iosInnerContainer
+                  : styles.androidInnerContainer
+              }>
               <TouchableOpacity
                 onPress={() => {
                   setIsVisibleLogo(true);

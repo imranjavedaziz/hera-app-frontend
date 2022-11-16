@@ -60,13 +60,12 @@ export default {
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
   },
   stateItemContainer: {
     flexDirection: 'row',
-    width: 334,
     justifyContent: 'space-between',
     alignItems: 'center',
+    flex: 1,
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
@@ -85,6 +84,7 @@ export default {
   imgSel: {
     alignSelf: 'center',
     tintColor: Colors.GREEN,
+    alignItems: 'flex-end',
   },
   iconFont: {
     fontFamily: Fonts.OpenSansBold,
