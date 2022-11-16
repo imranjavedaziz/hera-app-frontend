@@ -203,6 +203,7 @@ const SmRegister = () => {
     }, 300);
   };
 
+  
   const openIosSheet = () => {
     openActionSheet();
     askCameraPermission();
