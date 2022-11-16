@@ -21,7 +21,6 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NotificationContextManager>
           <Main />
-
           <Loader />
           <Toast />
         </NotificationContextManager>

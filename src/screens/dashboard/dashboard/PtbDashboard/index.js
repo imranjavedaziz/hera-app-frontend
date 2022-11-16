@@ -261,7 +261,7 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      rightPress={() => logoutScreen()}
+      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
       style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}

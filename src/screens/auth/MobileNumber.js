@@ -141,7 +141,7 @@ const MobileNumber = () => {
         <View style={styles.inputRow}>
           <FloatingLabelInput
             label={Strings.mobile.Code}
-            value="+1"
+            value="+91"
             disabled={true}
             editable={false}
             containerStyle={styles.contryCodeContainer}

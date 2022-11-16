@@ -13,6 +13,7 @@ import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
 
+
 const VideoUploading = props => {
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
@@ -25,8 +26,8 @@ const VideoUploading = props => {
                 style={props?.videoStyle}
                 controls
                 audioOnly
-                resizeMode="cover"
                 ref={props?.videoRef}
+                resizeMode={Alignment.COVER}
                 onLoad={() => {
                   props?.videoRef?.current?.seek(3);
                   props?.videoRef?.current?.setNativeProps({

@@ -147,6 +147,7 @@ const Login = props => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
+                containerStyle={{marginTop: 10}}
                 label={Strings.login.Password}
                 value={value}
                 onChangeText={v => onChange(v)}
