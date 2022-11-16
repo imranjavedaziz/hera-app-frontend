@@ -29,6 +29,7 @@ import {
   getUserGallery,
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
+
 import {
   hideAppLoader,
   showAppLoader,
@@ -39,6 +40,8 @@ import {updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
 import {BottomSheetComp} from '../../../components';
+import FastImage from 'react-native-fast-image';
+import RNSDWebImage from 'react-native-sdwebimage';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -82,7 +85,7 @@ const CreateGallery = () => {
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
-  }, []);
+  }, [dispatch]);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -94,6 +97,7 @@ const CreateGallery = () => {
               ? gallery_data?.doner_video_gallery?.file_url
               : '',
             loading: false,
+            id: gallery_data?.doner_video_gallery?.id,
           });
           dispatch(hideAppLoader());
         } else {
@@ -106,31 +110,21 @@ const CreateGallery = () => {
 
   useFocusEffect(
     useCallback(() => {
-      if (loadRef.current && !delete_gallery_loading) {
+      if (loadingGalleryRef.current && !delete_gallery_loading) {
         dispatch(showAppLoader());
         if (delete_gallery_success) {
-          dispatch(hideAppLoader());
           dispatch(getUserGallery());
+          dispatch(hideAppLoader());
         } else {
           dispatch(hideAppLoader());
-          showAppToast(true, delete_gallery__error_msg);
         }
       }
-      loadRef.current = delete_gallery_loading;
-    }, [delete_gallery_success, delete_gallery_loading]),
+      loadingGalleryRef.current = delete_gallery_loading;
+    }, [delete_gallery_success, delete_gallery_loading, dispatch]),
   );
 
   const cb = image => {
     setOpen(false);
-    setGallery(oldImg => {
-      return oldImg.map((img, i) => {
-        if (i === gIndex) {
-          return {id: i, uri: image.path, loading: true};
-        }
-        return img;
-      });
-    });
-    images.push({uri: image.path});
     const setLoading = loading => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
@@ -206,18 +200,18 @@ const CreateGallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
       gallery_data?.doner_photo_gallery.map((item, i) => {
-        return item.file_url;
+        return item;
       });
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
-          return {id: i, uri: url[i], loading: false};
+          return {id: url[i]?.id, uri: url[i]?.file_url, loading: false};
         }
         return {id: i, uri: '', loading: false};
       });
     });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({uri: url[i]});
+      images.push({uri: url[i]?.file_url});
     }
     if (url?.length === undefined) {
       setGIndex(0);
@@ -226,55 +220,30 @@ const CreateGallery = () => {
     setGIndex(url?.length);
   };
   function handelDel(index) {
-    if (isVideo) {
-      setSelVideo(!selVideo);
-      setDel(true);
-      if (selVideo === false) {
-        setRmvVideoCount(1);
-      } else {
-        setRmvVideoCount(0);
-      }
-      return;
-    } else if (isVideo === false) {
-      setDel(true);
-      let pushArr = remove;
-      let isExist = pushArr.findIndex(val => val === index);
-      if (isExist === -1) {
-        pushArr.push(index);
-        setRmvImgCount(rmvImgCount + 1);
-      } else {
-        pushArr.splice(isExist, 1);
-        setRmvImgCount(rmvImgCount - 1);
-      }
-      setRemove(pushArr);
+    setDel(true);
+    let pushArr = remove;
+    let isExist = pushArr.findIndex(val => val === index);
+    if (isExist === -1) {
+      pushArr.push(index);
+      setRmvImgCount(rmvImgCount + 1);
+    } else {
+      pushArr.splice(isExist, 1);
+      setRmvImgCount(rmvImgCount - 1);
     }
+    setRemove(pushArr);
   }
-  remove.sort();
-  let del = [];
-  let iterator = 0;
-  if (remove.length) {
-    gallery_data?.doner_photo_gallery?.map((item, index) => {
-      if (index === remove[iterator]) {
-        del.push(`ids[]=${item.id}`);
-        iterator++;
-      }
-    });
-  } else {
-    del.push(`ids[]=${gallery_data?.doner_video_gallery?.id}`);
-  }
-  const deleteImg = () => {
+  const deleteImg = selVideo => {
     if (selVideo) {
-      dispatch(showAppLoader());
-      dispatch(deleteGallery(del.join('&')));
-      dispatch(getUserGallery());
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
       return;
     } else {
+      let payload = {
+        ids: remove?.join(),
+      };
       dispatch(showAppLoader());
-      dispatch(deleteGallery(del.join('&')));
-      dispatch(getUserGallery());
+      dispatch(deleteGallery(payload));
       setDel(false);
       setRmvImgCount(0);
       setRemove([]);
@@ -312,17 +281,18 @@ const CreateGallery = () => {
       actionSheet.current.show();
     }, 300);
   };
-  const iosVideoSheet = () => {
-    setIsVideo(true);
-    openActionSheet();
-  };
   const iosPhotoSheet = () => {
     setIsVideo(false);
+    openActionSheet();
+  };
+  const iosVideoSheet = () => {
+    setIsVideo(true);
     openActionSheet();
   };
   const bottomSheetVideo = () => {
     Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();
   };
+
   return (
     <>
       <Container
@@ -368,20 +338,23 @@ const CreateGallery = () => {
                 key={img.id}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
-                <ImageBackground
+                <FastImage
                   key={img.id}
-                  style={styles.galleryImgView}
-                  imageStyle={styles.resize}
-                  source={img.uri ? {uri: img.uri} : null}>
-                  {img.uri && selVideo === false ? (
+                  style={[styles.galleryImgView, styles.imageStyling]}
+                  source={{
+                    uri: img.uri,
+                    priority: FastImage.priority.normal,
+                    cache: FastImage.cacheControl.immutable,
+                  }}>
+                  {img.uri ? (
                     <TouchableOpacity
                       onPress={() => {
-                        handelDel(img.id, false);
+                        handelDel(img.id);
                       }}
                       style={{}}>
-                      <Image
+                      <RNSDWebImage
                         source={
-                          remove.includes(img.id) === true
+                          remove.includes(img.id)
                             ? Images.iconRadiosel
                             : Images.iconRadiounsel
                         }
@@ -393,12 +366,16 @@ const CreateGallery = () => {
                     <TouchableOpacity
                       onPress={() => {
                         Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
-                      }}>
-                      <Image source={Images.camera} style={styles.camIcon} />
+                      }}
+                      style={{}}>
+                      <RNSDWebImage
+                        source={Images.camera}
+                        style={styles.camIcon}
+                      />
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
-                </ImageBackground>
+                </FastImage>
               </TouchableOpacity>
             ))}
           </View>
@@ -421,7 +398,6 @@ const CreateGallery = () => {
             rmvImgCount={rmvImgCount}
             remove={remove}
           />
-
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
               {rmvVideoCount > 0 && (

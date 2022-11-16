@@ -27,7 +27,7 @@ const VideoUploading = props => {
                   source={
                     props?.remove?.includes(props?.video?.id)
                       ? Images.iconRadiosel
-                      : Images.iconRadiounsel
+                      : Images.iconWhite
                   }
                 />
               </TouchableOpacity>

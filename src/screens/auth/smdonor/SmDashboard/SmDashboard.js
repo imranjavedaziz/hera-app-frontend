@@ -167,7 +167,7 @@ const SmDashboard = ({route}) => {
       // dispatch,
     ]),
   );
-console.log(get_donor_dashboard_res, 'get_donor_dashboard_res')
+  console.log(get_donor_dashboard_res, 'get_donor_dashboard_res');
   const _getDonorDashboard = (page, value) => {
     let payload = {
       keyword: value ? value : '',
@@ -303,7 +303,7 @@ console.log(get_donor_dashboard_res, 'get_donor_dashboard_res')
               {Strings.landing.Like_Match_Connect}
             </Text>
             <View
-              style={[globalStyle.screenSubTitle, styles.subTitle]}
+              style={styles.subTitle}
               accessible={true}
               accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
               <Text

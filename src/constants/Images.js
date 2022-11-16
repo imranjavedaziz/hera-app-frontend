@@ -71,4 +71,5 @@ export default {
   BABY_MOTHER: require('../assets/icons/babyMother/babyMother.png'),
   CROSS: require('../assets/icons/cross/cross.png'),
   HEART: require('../assets/icons/heart/heart.png'),
+  iconWhite: require('../assets/icons/iconWhite.png'),
 };

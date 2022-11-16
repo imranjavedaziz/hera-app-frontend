@@ -6,7 +6,7 @@ import Alignment from '../../../../constants/Alignment';
 export default {
   mainContainer: {},
   conatiner: {
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_10,
   },
   profileImgContainner: {
     borderWidth: Value.CONSTANT_VALUE_2,
@@ -96,10 +96,11 @@ export default {
     flexDirection: 'row',
   },
   gradient: {
+    borderRadius: Value.CONSTANT_VALUE_20,
+    justifyContent: Alignment.CENTER,
     width: '100%',
     height: '100%',
-    opacity: 0.2,
-    borderRadius: Value.CONSTANT_VALUE_18,
+    opacity: 0.8,
   },
   iconHead: {
     position: 'absolute',

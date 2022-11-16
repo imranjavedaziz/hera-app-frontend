@@ -143,7 +143,7 @@ const SmRegister = () => {
     }
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
-    console.log(data);
+    console.log(data, 'data');
     console.log('FILE', file);
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
@@ -156,7 +156,10 @@ const SmRegister = () => {
     const reqData = new FormData();
     reqData.append('role_id', data.role);
     reqData.append('first_name', data.first_name);
-    reqData.append('middle_name', data.middle_name);
+    reqData.append(
+      'middle_name',
+      data.middle_name !== undefined ? data.middle_name : '',
+    );
     reqData.append('last_name', data.last_name);
     reqData.append('dob', moment(date).format('DD-MM-YYYY'));
     reqData.append('email', data.email);
@@ -168,6 +171,7 @@ const SmRegister = () => {
       type: file.mime,
       uri: file.path,
     });
+    console.log(reqData, 'reqData');
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
   };

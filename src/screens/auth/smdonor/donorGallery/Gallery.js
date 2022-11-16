@@ -323,7 +323,7 @@ const Gallery = () => {
                         source={
                           remove.includes(img.id)
                             ? Images.iconRadiosel
-                            : Images.iconRadiounsel
+                            : Images.iconWhite
                         }
                         style={styles.selectIcon}
                       />
