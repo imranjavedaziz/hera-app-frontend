@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, {useContext, useEffect} from 'react';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
 import {useSelector} from 'react-redux';
@@ -32,6 +32,7 @@ import PushNotificationExample from '../screens/Example';
 import Chat_Request from '../screens/Chat_Request_PTB';
 import Chat_Listing from '../screens/Chat/Chat_Listing';
 
+export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
 const Main = () => {
   const auth = useSelector(state => state.Auth.user);
@@ -40,8 +41,11 @@ const Main = () => {
       RNBootSplash.hide();
     }
   }, [auth]);
+
   return (
-    <NavigationContainer onReady={() => RNBootSplash.hide()}>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
         initialRouteName={getRoute(
           auth?.access_token,
