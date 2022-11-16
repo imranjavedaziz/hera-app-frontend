@@ -45,4 +45,5 @@ export default {
   MIDDLE_SHEET: '#E1E1E1',
   TEXT_SHEET: '#28282A',
   TIME_COLOR: '#ada99f',
+  BLACK_01:'#79715d'
 };

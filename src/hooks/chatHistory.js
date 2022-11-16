@@ -10,11 +10,11 @@ const chatHistory = ()=>{
     const {log_in_data} = useSelector(state => state.Auth);
 
     console.log(log_in_data.id,'log_in_data::::::')
-    console.log(`local/Users/${log_in_data?.id}`,'local/Users/${log_in_data?.id}')
+    console.log(`dev/Users/${log_in_data?.id}`,'local/Users/${log_in_data?.id}')
     const [ user, setUser ] = useState();
     const dispatch = useDispatch();
     const fetchChats = ()=>{
-        database().ref(`local/Users/${log_in_data?.id}`).once('value')
+        database().ref(`dev/Users/${log_in_data?.id}`).once('value')
         .then(async snapshot=>{
             // await dispatch(empty());
             snapshot.forEach(async (childSnapshot,key)=>{

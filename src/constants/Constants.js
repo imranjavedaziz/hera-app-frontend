@@ -177,7 +177,8 @@ export const Routes = {
   Chat_Request: 'Chat_Request',
   Chat_Listing: 'Chat_Listing',
   ChatList: 'ChatList',
-  ChatDetail:'ChatDetail'
+  ChatDetail:'ChatDetail',
+  ChatEmpty:'ChatEmpty'
 };
 export const Static = {
   countries: [

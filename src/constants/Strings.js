@@ -329,7 +329,9 @@ export default {
     All_Conversations: 'All Conversations',
     WHAT_DO_YO: 'What do you think of this match?',
     NOT_GOOD: 'Not good',
-    GOING_WELL:"Going well"
+    GOING_WELL:"Going well",
+    NOT_FOUND_MATCH_YET:'Seems like you have not found any match yet.',
+    YOUR_SUBSCRIPTION_EXPIRED:'Your subscription has expired. Please subscribe now.'
   },
   Sensory: {
     AS_PER_SEARCH:

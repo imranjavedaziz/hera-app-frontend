@@ -8,27 +8,23 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
-import {isTabletMode} from 'react-native-device-info';
 import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
+import ChatEmpty from '../../components/Chat/ChatEmpty';
 const ChatListing = () => {
   const navigation = useNavigation();
-  // const auth = useSelector((state) => state.auth.user);
   const chats = useSelector(state => state.Chat.chats);
-  // const matchedUsers = useSelector((state) => state.chat.matchedUsers);
-  const [matches, setMatches] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-  // const chatData = chatHistory(auth.user);
+  const [refreshing, setRefreshing] = useState(true);
   const chatData = chatHistory();
-  const [searched, setSearched] = useState('');
   const fetchData = useCallback(() => {
     chatData.update();
+    setLoader(false)
     // matchedList(setRefreshing, setMatches);
   }, []);
-
+  const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
 
-  console.log(log_in_data.id, 'log_in_data::::::');
+  console.log(log_in_data.role_id, 'log_in_data::::::');
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchData();
@@ -48,11 +44,14 @@ const ChatListing = () => {
     return (
       <Chat_listing_Comp
         image={item?.recieverImage}
-        name={item?.recieverName}
+        name={log_in_data.role_id===2?`#${item?.recieverUserName}`:item?.recieverName}
         onPress={() => navigation.navigate(Routes.ChatDetail, {item: item})}
         message={item?.message}
+        read={item?.read}
         time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
         latest={true}
+        match={item?.match_request?.status}
+        
       />
     );
   };
@@ -62,19 +61,29 @@ const ChatListing = () => {
       scroller={false}
       showHeader={true}
       headerComp={headerComp}
-      safeAreViewStyle={{backgroundColor: Colors.BACKGROUND}}>
-      <View style={{flex: 1, marginTop: 25}}>
-        <View style={styles.mainContainer}>
-          <Text style={styles.Inbox}>{Strings.INBOX}</Text>
-          <Text style={styles.Match}>{Strings.All_Matches}</Text>
-        </View>
-
-        <FlatList
-          data={chats}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderChatList}
-        />
-      </View>
+      safeAreViewStyle={{backgroundColor: Colors.BACKGROUND}}
+      >
+          {
+            loader===false&&
+            <>
+            {
+              chats&&chats?.length>0?
+              <View style={{flex: 1, marginTop: 25}}>
+            <View style={styles.mainContainer}>
+              <Text style={styles.Inbox}>{log_in_data.role_id===2?Strings.INBOX:Strings.Chat.Chat}</Text>
+              <Text style={styles.Match}>{log_in_data.role_id===2?Strings.All_Matches:Strings.Chat.All_Conversations}</Text>
+            </View>
+    
+            <FlatList
+              data={chats}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderChatList}
+            />
+          </View>:
+          <ChatEmpty/>
+            }
+            </>
+          }
     </Container>
   );
 };

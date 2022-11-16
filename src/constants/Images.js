@@ -76,4 +76,6 @@ export default {
   ICON_SEND: require('../assets/icons/iconsend/iconsend.png'),
   ICON_GREEN_HEART: require('../assets/icons/icongreenheart/icongreenheart.png'),
   WARNING_RED: require('../assets/icons/warningRed/warning.png'),
+  BIG_HEART_GREEN:  require('../assets/icons/icongreenbigheartnew/icongreenbigheartnew.png'),
+  BACK_PLAN_ARROW: require('../assets/icons/backPlanArrow/backPlanArrow.png'),
 };

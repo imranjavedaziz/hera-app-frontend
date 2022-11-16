@@ -41,8 +41,12 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_14),
     color: Colors.BLACK_0,
-
     fontWeight: Alignment.BOLD,
+  },
+  msgRead:{
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: px(Value.CONSTANT_VALUE_14),
+    color: Colors.BLACK_01
   },
   time: {
     fontFamily: Fonts.OpenSansRegular,
@@ -70,5 +74,21 @@ export default {
     bottom: -2,
     right: -5,
   },
-  contain:{flex: 0.8, flexDirection: 'row'}
+  contain:{flex: 0.8, flexDirection: 'row'},
+  seemsLikeYouHave:{
+    width: 290,
+    height: 64,
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 23,
+    fontWeight: "bold",
+    fontStyle: "normal",
+    letterSpacing: 0,
+    textAlign: "center",
+    color: "#353a3a",
+    marginTop:20
+  },
+  heartImage:{
+    width: 183.4,
+    height: 169,
+  }
 };

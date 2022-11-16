@@ -103,5 +103,5 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     lineHeight: 21,
     color: Colors.COLOR_535858,
-  },
+  }
 };

@@ -34,6 +34,7 @@ import Chat_Listing from '../screens/chat/ChatListing';
 import ChatDetail from '../screens/chat/ChatDetail'
 
 
+
 const Stack = createStackNavigator();
 const Main = () => {
   const auth = useSelector(state => state.Auth.user);
@@ -181,6 +182,7 @@ const Main = () => {
           component={ChatDetail}
           options={{headerShown: false}}
         />
+                
         
       </Stack.Navigator>
     </NavigationContainer>
