@@ -176,6 +176,9 @@ export const Routes = {
   PushNotificationExample: 'PushNotificationExample',
   Chat_Request: 'Chat_Request',
   Chat_Listing: 'Chat_Listing',
+  ChatList: 'ChatList',
+  ChatDetail:'ChatDetail',
+  ChatEmpty:'ChatEmpty'
 };
 export const Static = {
   countries: [

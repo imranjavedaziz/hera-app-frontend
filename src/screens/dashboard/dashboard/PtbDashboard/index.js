@@ -42,6 +42,7 @@ import messaging from '@react-native-firebase/messaging';
 
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import {scaleWidth} from '../../../../utils/responsive';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -262,9 +263,12 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      rightPress={() => logoutScreen()}
+      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
       style={styles.headerIcon}
       ApiImage={true}
+      rightPrevIcon={Images.I_BUTTON}
+      rightImg={{marginRight: scaleWidth(18)}}
+      rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
 

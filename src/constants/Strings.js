@@ -324,6 +324,15 @@ export default {
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
   },
+  Chat: {
+    Chat: 'CHAT',
+    All_Conversations: 'All Conversations',
+    WHAT_DO_YO: 'What do you think of this match?',
+    NOT_GOOD: 'Not good',
+    GOING_WELL:"Going well",
+    NOT_FOUND_MATCH_YET:'Seems like you have not found any match yet.',
+    YOUR_SUBSCRIPTION_EXPIRED:'Your subscription has expired. Please subscribe now.'
+  },
   Sensory: {
     AS_PER_SEARCH:
       'As per the search criteria you have set, a series of surrogate mother, sperm donor or egg donor will be shown',
