@@ -35,10 +35,10 @@ export default {
     fontSize: px(Value.CONSTANT_VALUE_13),
   },
   chatContainer: {
-    backgroundColor: Colors.WHITE,
+    // backgroundColor: Colors.WHITE,
     padding: 5,
-        borderRadius: 10,
-        flex: 1,
+        // borderRadius: 10,
+        // flex: 1,
     // width: '70%',
     // marginVertical: 5,
     // flexDirection:'row'
