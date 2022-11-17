@@ -41,10 +41,9 @@ const ChatListing = () => {
     />
   );
   const renderChatList = ({item}) => {
-    console.log(item.currentRole, ':::::::::::;item');
     return (
       <Chat_listing_Comp
-        currentRole={item.currentRole}
+        currentRole={item?.currentRole}
         image={item?.recieverImage}
         name={
           log_in_data?.role_id === 2
@@ -65,7 +64,7 @@ const ChatListing = () => {
     <Container
       mainStyle={true}
       scroller={false}
-      showHeader={true}
+      showHeader={true}x
       headerComp={headerComp}
       safeAreViewStyle={{backgroundColor: Colors.BACKGROUND}}>
       {loader === false && (

@@ -55,7 +55,6 @@ export default class FirebaseDB {
         const createdAt = new Date(time)
         return {
             _id: snapshot.key+'-'+1,
-
             text,
            createdAt: createdAt,
            from,
@@ -186,7 +185,20 @@ export default class FirebaseDB {
      }
            
     }
-
+    async updateFeedback(){
+        const referenceUser = database().ref(`/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
+        const referenceSender = database().ref(`/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);
+        console.log(referenceSender,'referenceSender')
+     try{
+     
+        await referenceUser.update({
+            feedback_status:1,
+        });
+     }catch(e){
+        console.log(e,)
+     }
+           
+    }
     async updateHistory(lastMsg){
         const referenceUser = database().ref(`/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
         const referenceSender = database().ref(`/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);

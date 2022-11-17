@@ -16,6 +16,9 @@ const Chat_listing_Comp = props => {
     currentRole,
     roleId,
   } = props;
+  console.log(currentRole,'currentRole')
+  console.log(roleId,'roleId::::::')
+  console.log(message,'message:::::::')
   return (
     <>
       {currentRole !== 1 && roleId === 2 &&
@@ -34,11 +37,18 @@ const Chat_listing_Comp = props => {
             </View>
             <View style={styles.description}>
               <Text style={styles.userName}>{name}</Text>
-              <Text
-                numberOfLines={2}
-                style={read === 0 ? styles.msg : styles.msgRead}>
-                {message !== '' ? message :currentRole !== 1 ? "Hey! It's a Match":''}
-              </Text>
+              {
+            currentRole !== 1 ?
+            <Text
+            numberOfLines={2}
+            style={read === 0 ? styles.msg : styles.msgRead}>
+             {message !== '' ? message :'Hey, It’s a match!'}
+          </Text>:<Text
+            numberOfLines={2}
+            style={read === 0 ? styles.msg : styles.msgRead}>
+             {message !== '' ? message :''}
+          </Text>
+          }
             </View>
           </View>
           <View style={styles.timeView}>
@@ -64,11 +74,19 @@ const Chat_listing_Comp = props => {
         </View>
         <View style={styles.description}>
           <Text style={styles.userName}>{name}</Text>
-          <Text
+          {
+            currentRole !== 1 ?
+            <Text
             numberOfLines={2}
             style={read === 0 ? styles.msg : styles.msgRead}>
-            {message !== '' ? message : "Hey! It's a Match"}
+             {message !== '' ? message :'Hey, It’s a match!'}
+          </Text>:<Text
+            numberOfLines={2}
+            style={read === 0 ? styles.msg : styles.msgRead}>
+             {message !== '' ? message :''}
           </Text>
+          }
+         
         </View>
       </View>
       <View style={styles.timeView}>

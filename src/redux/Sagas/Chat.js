@@ -7,11 +7,13 @@ import {takeLatest, put} from 'redux-saga/effects';
 import {HttpStatus} from '../../constants/Constants';
 import {chatFeedback} from '../../Api/Chat'
 //GetFeedback
-function* getFeedback() {
+function* getFeedback(data) {
+  console.log(data,'data')
   try {
-    const result = yield chatFeedback();
+    const result = yield chatFeedback(data.payload);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      yield put({type: FEEDBACK_CHAT_SUCCESS, data: result});
+      console.log(result.data.message,'result:::::::')
+      yield put({type: FEEDBACK_CHAT_SUCCESS, data: result.data.message});
     } else {
       yield put({type: FEEDBACK_CHAT_FAIL, data: {msg: result.data.message}});
     }
