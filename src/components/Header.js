@@ -1,10 +1,11 @@
 // Header
 import React from 'react';
-import {View, TouchableOpacity, Image, Platform} from 'react-native';
+import {View, TouchableOpacity, Image, Platform, Text} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {dynamicSize} from '../utils/responsive';
+import { Fonts } from '../constants/Constants';
 
 const styles = {
   container: {
@@ -58,6 +59,12 @@ const styles = {
   androidIconCon: {
     marginRight: dynamicSize(Value.CONSTANT_VALUE_290),
   },
+  headerText: {
+    textDecorationLine: Alignment.UNDERLINE,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_16,
+  }
 };
 export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
   <TouchableOpacity
@@ -80,6 +87,8 @@ export const IconHeader = ({
   rightPrevPress,
   rightPrevIcon,
   rightImg,
+  txt,
+  txtPress,
   ...otherProps
 }) => (
   <>
@@ -125,6 +134,10 @@ export const IconHeader = ({
           source={rightPrevIcon}
           style={[styles.img, rightImg]}
         />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={txtPress}>
+        <Text style={styles.headerText}>{txt}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.circle}

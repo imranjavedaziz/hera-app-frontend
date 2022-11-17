@@ -329,9 +329,10 @@ export default {
     All_Conversations: 'All Conversations',
     WHAT_DO_YO: 'What do you think of this match?',
     NOT_GOOD: 'Not good',
-    GOING_WELL:"Going well",
-    NOT_FOUND_MATCH_YET:'Seems like you have not found any match yet.',
-    YOUR_SUBSCRIPTION_EXPIRED:'Your subscription has expired. Please subscribe now.'
+    GOING_WELL: 'Going well',
+    NOT_FOUND_MATCH_YET: 'Seems like you have not found any match yet.',
+    YOUR_SUBSCRIPTION_EXPIRED:
+      'Your subscription has expired. Please subscribe now.',
   },
   Sensory: {
     AS_PER_SEARCH:
@@ -342,6 +343,12 @@ export default {
       'Select cross to reject the profile & go to the next profile.',
     ABOUT: 'About this Page',
     OKAY_GOT_IT: 'OKAY, GOT IT!',
+    WHY_SUBSCRIBE: 'Why Subscribe?',
+    HERA_HASTWO:
+      'HERA has 2 subscription models for you. You can select any plan to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile. Please note: Subscribed users have a daily limit of 5 swipes.',
+    FIND_THE_PERFECT: 'Find the Perfect Match',
+    FIND_YOUR_MATCH:
+      'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
   },
 
   //Static

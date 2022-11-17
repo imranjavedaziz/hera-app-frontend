@@ -79,4 +79,5 @@ export default {
   WARNING_RED: require('../assets/icons/warningRed/warning.png'),
   BIG_HEART_GREEN:  require('../assets/icons/icongreenbigheartnew/icongreenbigheartnew.png'),
   BACK_PLAN_ARROW: require('../assets/icons/backPlanArrow/backPlanArrow.png'),
+  SERCHING: require('../assets/icons/searching/searching.png'),
 };

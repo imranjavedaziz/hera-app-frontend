@@ -29,6 +29,16 @@ export default {
     paddingTop: px(32),
     paddingBottom: px(32),
   },
+  hasTwo: {
+    color: Colors.COLOR_535858,
+    fontSize: Value.CONSTANT_VALUE_23,
+    alignSelf: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    textAlign: Alignment.CENTER,
+    paddingTop: px(13),
+    paddingBottom: px(32),
+    paddingHorizontal: px(48),
+  },
   btnContainer: {
     width: px(236),
     backgroundColor: Colors.GREEN,
@@ -43,5 +53,14 @@ export default {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
+  },
+
+  logo: {
+    width: Value.CONSTANT_VALUE_200,
+    height: Value.CONSTANT_VALUE_120,
+    resizeMode: Alignment.CONTAIN,
+    flex: Value.CONSTANT_VALUE_0,
+    marginTop: Value.CONSTANT_VALUE_20,
+    alignSelf:"center",
   },
 };

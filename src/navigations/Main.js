@@ -30,8 +30,8 @@ import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Support from '../screens/Support/Support';
 import PushNotificationExample from '../screens/Example';
 import Chat_Request from '../screens/Chat_Request_PTB';
-import Chat_Listing from '../screens/chat/ChatListing';
-import ChatDetail from '../screens/chat/ChatDetail'
+import Chat_Listing from '../screens/Chat/ChatListing';
+import ChatDetail from '../screens/Chat/ChatDetail'
 
 
 
@@ -160,11 +160,11 @@ const Main = () => {
           component={StateList}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
           options={{headerShown: false}}
-        /> */}
+        />
             
         <Stack.Screen
           name={Routes.PushNotificationExample}
