@@ -20,7 +20,7 @@ const environment = {
     chat: '',
   },
 };
-export const {bucket, api_url, chat} = environment.qa;
+export const {bucket, api_url} = environment.dev;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -766,13 +766,13 @@ export const Static = {
 };
 
 export const creditProductsIds = Platform.select({
-  ios: ['Hera_001_1m'],
-  android: ['Hera_001_1m'],
+  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly'],
+  android: ['com.CreditRich.Monthl'],
 });
 
 export const productsIds = Platform.select({
-  ios: ['Hera_001_1m'],
-  android: ['Hera_001_1m'],
+  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly'],
+  android: ['com.CreditRich.Monthl'],
 });
 
 export const SUBSCRIPTION_PLAN = [

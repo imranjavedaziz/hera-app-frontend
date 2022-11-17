@@ -7,7 +7,7 @@ import {
   SUBSCRIPTION_PLAN_FAIL,
   SUBSCRIPTION_STATUS,
   SUBSCRIPTION_STATUS_SUCCESS,
-  SUBSCRIPTION_STATUS_FAIL
+  SUBSCRIPTION_STATUS_FAIL,
 } from '../Type';
 
 const initState = {
@@ -26,14 +26,13 @@ const initState = {
   subscription_status_loading: false,
   subscription_status_error_msg: '',
   subscription_status_res: '',
-
 };
 
 export default (state = initState, action) => {
   console.log('action.?.message', action.data?.data?.message);
   switch (action.type) {
     /**
-     * CREATE_SUBSCRIPTION 
+     * CREATE_SUBSCRIPTION
      */
     case CREATE_SUBSCRIPTION:
       return {
@@ -42,7 +41,6 @@ export default (state = initState, action) => {
         create_subscription_loading: true,
         create_subscription_error_msg: '',
         create_subscription_res: action.data,
-
       };
     case CREATE_SUBSCRIPTION_SUCCESS:
       return {
@@ -61,7 +59,7 @@ export default (state = initState, action) => {
         create_subscription_res: action?.data?.data,
       };
     /**
-      * GET SUBSCRIPTION PLAN
+     * GET SUBSCRIPTION PLAN
      */
     case SUBSCRIPTION_PLAN: {
       return {
@@ -69,19 +67,10 @@ export default (state = initState, action) => {
         subscription_plan_success: false,
         subscription_plan_loading: true,
         subscription_plan_error_msg: '',
-        subscription_plan_res: action.data,
+        subscription_plan_res: '',
       };
     }
     case SUBSCRIPTION_PLAN_SUCCESS: {
-      return {
-        ...state,
-        subscription_plan_success: false,
-        subscription_plan_loading: false,
-        subscription_plan_error_msg: action.data.msg,
-        subscription_plan_res: {},
-      };
-    }
-    case SUBSCRIPTION_PLAN_FAIL: {
       return {
         ...state,
         subscription_plan_success: true,
@@ -90,8 +79,17 @@ export default (state = initState, action) => {
         subscription_plan_res: action?.data?.data,
       };
     }
+    case SUBSCRIPTION_PLAN_FAIL: {
+      return {
+        ...state,
+        subscription_plan_success: false,
+        subscription_plan_loading: false,
+        subscription_plan_error_msg: action?.data?.msg,
+        subscription_plan_res: {},
+      };
+    }
     /**
-      * GET SUBSCRIPTION STATUS
+     * GET SUBSCRIPTION STATUS
      */
     case SUBSCRIPTION_STATUS: {
       return {
@@ -105,16 +103,16 @@ export default (state = initState, action) => {
     case SUBSCRIPTION_STATUS_SUCCESS: {
       return {
         ...state,
-        subscription_status_success: false,
+        subscription_status_success: true,
         subscription_status_loading: false,
         subscription_status_error_msg: action.data.msg,
-        subscription_status_res: {},
+        subscription_status_res: action?.data?.data,
       };
     }
     case SUBSCRIPTION_STATUS_FAIL: {
       return {
         ...state,
-        subscription_status_success: true,
+        subscription_status_success: false,
         subscription_status_loading: false,
         subscription_status_error_msg: '',
         subscription_status_res: action?.data?.data,
