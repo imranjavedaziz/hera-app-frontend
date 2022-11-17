@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useCallback,useRef} from 'react';
 import {
   View,
   Text,
@@ -11,12 +11,11 @@ import {
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
 import {Images, Strings, Colors} from '../../constants';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation,useFocusEffect} from '@react-navigation/native';
 import styles from './styles';
-import {useDispatch} from 'react-redux';
-import {showAppToast} from '../../redux/actions/loader';
+import {useDispatch, useSelector} from 'react-redux';
+import {showAppToast,showAppLoader, hideAppLoader} from '../../redux/actions/loader';
 import {chatFeedback} from '../../redux/actions/Chat';
-import {useSelector} from 'react-redux';
 import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 const ChatDetail = props => {
@@ -26,6 +25,13 @@ const ChatDetail = props => {
   const [textData, setTextData] = useState('');
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data} = useSelector(state => state.Auth);
+  const loadingRef = useRef(false);
+  const {
+    feedback_data,
+    feedback_success,
+    feedback_loading,
+  } = useSelector(state => state.Chat);
+
   const dispatch = useDispatch();
   const renderActions = message => {
     return (
@@ -138,6 +144,22 @@ const ChatDetail = props => {
     };
     dispatch(chatFeedback(data));
   };
+  useFocusEffect(
+
+    useCallback(() => {
+      if (loadingRef.current && !feedback_loading) {
+        dispatch(showAppLoader());
+        if (feedback_success) {
+          dispatch(hideAppLoader());
+          setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
+        }
+        if (get_ptb_dashboard_error_msg) {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingRef.current = feedback_loading;
+    }, [feedback_success, feedback_loading]),
+  );
   return (
     <>
       <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
@@ -200,7 +222,7 @@ const ChatDetail = props => {
               </View>
               <View style={styles.border} />
             </View>
-            {showFeedback && props?.route?.params?.item?.currentRole !== 1&& (
+            {showFeedback && props?.route?.params?.item?.currentRole !== 1&& props?.route?.params?.item?.feedback_status===0&& (
               <View
                 style={{
                   height: 117,
@@ -258,7 +280,7 @@ const ChatDetail = props => {
                 midTitle={Strings.Chat.PARENT_TO_BE_CONVERSATION}
               />
             )}
-            {log_in_data?.role_id === 2 || props?.route?.params?.item?.currentRole === 1 &&(
+            {(log_in_data?.role_id === 2) &&(
               <GiftedChat
                 messages={db?.messages}
                 onSend={messages => onSend(messages)}
@@ -279,6 +301,28 @@ const ChatDetail = props => {
                 }}
               />
             )}
+    {(props?.route?.params?.item?.currentRole === 1) &&(
+              <GiftedChat
+                messages={db?.messages}
+                onSend={messages => onSend(messages)}
+                renderSend={message => renderActions(message)}
+                renderBubble={customSystemMessage}
+                scrollToBottom
+                onInputTextChanged={() => setText()}
+                text={textData}
+                user={{
+                  _id: props.route.params.item.senderId,
+                  name: props.route.params.item.senderName,
+                  avatar: props.route.params.item.senderImage,
+                }}
+                containerStyle={styles.mainContainerDetail}
+                renderAvatar={() => null}
+                textInputProps={{
+                  autoCorrect: false,
+                }}
+              />
+            )}
+
             {db?.messages.length > 0 && log_in_data?.role_id !== 2 && props?.route?.params?.item?.currentRole !== 1 && (
               <GiftedChat
                 messages={db?.messages}

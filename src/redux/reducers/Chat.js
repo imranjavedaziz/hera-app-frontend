@@ -47,7 +47,7 @@ export default (state = initState, {type = '', payload = null} = {}) => {
     case FEEDBACK_CHAT_SUCCESS:
       return {
         ...state,
-        feedback_data: action.data.data.data,
+        feedback_data: payload.data.data.data,
         feedback_success: true,
         feedback_loading: false,
       };
