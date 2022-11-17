@@ -8,8 +8,9 @@ export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    marginTop: 30,
   },
-  header: {marginTop: px(10), marginLeft: px(30)},
+  header: {marginTop: px(10)},
   Inbox: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: px(Value.CONSTANT_VALUE_11),
