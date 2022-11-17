@@ -7,20 +7,20 @@ const environment = {
   dev: {
     bucket: '',
     api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',
-    chat:'dev'
+    chat: 'dev',
   },
   qa: {
     bucket: '',
     api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
-    chat:'qa'
+    chat: 'qa',
   },
   stage: {
     bucket: '',
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
-    chat:''
+    chat: '',
   },
 };
-export const {bucket, api_url,chat} = environment.qa;
+export const {bucket, api_url, chat} = environment.qa;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -88,6 +88,9 @@ export const FormKey = {
   mobileNumber: 'mobileNumber',
   message: 'message',
   parent_to_be_role_id: 2,
+};
+export const ConstantsCode = {
+  Country_CODE: '+1',
 };
 
 export const smRoles = [
@@ -180,8 +183,8 @@ export const Routes = {
   Chat_Request: 'Chat_Request',
   Chat_Listing: 'Chat_Listing',
   ChatList: 'ChatList',
-  ChatDetail:'ChatDetail',
-  ChatEmpty:'ChatEmpty'
+  ChatDetail: 'ChatDetail',
+  ChatEmpty: 'ChatEmpty',
 };
 export const Static = {
   countries: [
