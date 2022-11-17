@@ -7,17 +7,20 @@ const environment = {
   dev: {
     bucket: '',
     api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',
+    chat: 'dev',
   },
   qa: {
     bucket: '',
     api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
+    chat: 'qa',
   },
   stage: {
     bucket: '',
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
+    chat: '',
   },
 };
-export const {bucket, api_url} = environment.qa;
+export const {bucket, api_url} = environment.dev;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -85,6 +88,9 @@ export const FormKey = {
   mobileNumber: 'mobileNumber',
   message: 'message',
   parent_to_be_role_id: 2,
+};
+export const ConstantsCode = {
+  Country_CODE: '+1',
 };
 
 export const smRoles = [
@@ -177,8 +183,8 @@ export const Routes = {
   Chat_Request: 'Chat_Request',
   Chat_Listing: 'Chat_Listing',
   ChatList: 'ChatList',
-  ChatDetail:'ChatDetail',
-  ChatEmpty:'ChatEmpty'
+  ChatDetail: 'ChatDetail',
+  ChatEmpty: 'ChatEmpty',
 };
 export const Static = {
   countries: [
@@ -760,13 +766,13 @@ export const Static = {
 };
 
 export const creditProductsIds = Platform.select({
-  ios: ['Hera_001_1m'],
-  android: ['Hera_001_1m'],
+  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly'],
+  android: ['com.CreditRich.Monthl'],
 });
 
 export const productsIds = Platform.select({
-  ios: ['Hera_001_1m'],
-  android: ['Hera_001_1m'],
+  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly'],
+  android: ['com.CreditRich.Monthl'],
 });
 
 export const SUBSCRIPTION_PLAN = [

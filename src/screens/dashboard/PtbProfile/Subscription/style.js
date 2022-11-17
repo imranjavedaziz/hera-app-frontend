@@ -19,7 +19,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_25,
     marginTop: Value.CONSTANT_VALUE_20,
   },
-  header: {justifyContent: Alignment.FLEXEND},
+
   headerText: {
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
