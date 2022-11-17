@@ -2,6 +2,7 @@ import Alignment from '../../../../constants/Alignment';
 import {
   dynamicSize,
   normalizeFont,
+  px,
   scaleHeight,
   scaleWidth,
 } from '../../../../utils/responsive';
@@ -26,6 +27,13 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
+  },
+  androidInnerContainer: {
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    paddingHorizontal: dynamicSize(10),
+    marginTop: px(Value.CONSTANT_VALUE_38),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),

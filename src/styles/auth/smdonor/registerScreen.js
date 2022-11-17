@@ -3,6 +3,7 @@ import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import { dynamicSize, px } from '../../../utils/responsive';
 
+
 export default {
   title: {
     fontSize: Value.CONSTANT_VALUE_11,

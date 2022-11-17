@@ -179,7 +179,7 @@ const SmDashboard = ({route}) => {
       page: page,
       limit: 10,
     };
-    console.log(payload, 'payload::::::');
+
     dispatch(getDonorDashboard(payload));
   };
 
