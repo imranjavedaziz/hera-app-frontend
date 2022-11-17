@@ -17,6 +17,7 @@ import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
+import {ConstantsCode} from '../../constants/Constants';
 
 const Login = props => {
   const navigation = useNavigation();
@@ -72,7 +73,7 @@ const Login = props => {
   );
   const onSubmit = data => {
     const payload = {
-      country_code: '+91',
+      country_code: ConstantsCode.Country_CODE,
       phone_no: data.phone,
       password: data.password,
     };
@@ -160,7 +161,8 @@ const Login = props => {
                     style={styles.psswrdInput}>
                     <Image
                       source={show ? Images.eye2 : Images.eye}
-                      style={{height: show ? 15 : 9, width: show ? 15 : 15.2}}  />
+                      style={{height: show ? 15 : 9, width: show ? 15 : 15.2}}
+                    />
                   </TouchableOpacity>
                 )}
               />
