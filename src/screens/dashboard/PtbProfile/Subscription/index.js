@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import Container from '../../../../components/Container';
@@ -12,13 +13,11 @@ import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useNavigation,} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import {SUBSCRIPTION_PLAN} from '../../../../constants/Constants';
 import {useSelector, useDispatch} from 'react-redux';
-import {SUBSCRIPTION_PLAN_SUCCESS} from '../../../../redux/Type';
 import {
   createSubscription,
   getSubscriptionPlan,
@@ -27,8 +26,7 @@ import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import { IconHeader } from '../../../../components/Header';
-import { scaleWidth } from '../../../../utils/responsive';
+import {IconHeader} from '../../../../components/Header';
 
 const Subscription = () => {
   const navigation = useNavigation();
@@ -69,17 +67,13 @@ const Subscription = () => {
 
   const headerComp = () => (
     <IconHeader
-    leftIcon={Images.I_BUTTON}
-    leftPress={() => setModal(!modal)}
-    style={styles.headerIcon}
-    txt={Strings.Subscription.Later}
-    txtPress={() => navigation.goBack()}
-  />
+      leftIcon={Images.I_BUTTON}
+      leftPress={() => setModal(!modal)}
+      style={styles.headerIcon}
+      txt={Strings.Subscription.Later}
+      txtPress={() => navigation.goBack()}
+    />
   );
-
-  const onSubsribe = () => {
-    console.log('presss');
-  };
 
   const selectCheckHandler = item => {
     if (selectCheckBox === item) {
@@ -99,6 +93,7 @@ const Subscription = () => {
         setCallApi(true);
         if (receipt) {
           try {
+            purchaseAPI(purchase);
             await RNIap.finishTransaction({purchase, isConsumable: true});
             if (Platform.OS === 'ios') {
               console.log('LINE NO 90 PURCHAASE', purchase);
@@ -125,31 +120,14 @@ const Subscription = () => {
       }
     };
   }, []);
-  const purchaseAPI = (result, item, type, status) => {
-    if (type === 'credit') {
-      let payload = {
-        amount: item?.combo_price,
-        cash_combo: item?.id,
-        status: status,
-        data: result,
-      };
-      dispatch(createSubscription(payload));
-    }
+  const purchaseAPI = item => {
+    let payload = {
+      device_type: Platform.OS === 'android' ? 'android' : 'ios',
+      product_id: item?.productId,
+      purchase_token: 'abcd',
+    };
+    dispatch(createSubscription(payload));
   };
-  const callUseEffect = () => {
-    if (isCallApi) {
-      console.log(
-        'purchase item???167',
-        purchaseItem,
-        'Type???',
-        purchaseType,
-        'purchaseReceipt???',
-        purchasereceipt,
-      );
-      purchaseAPI(purchasereceipt, purchaseItem, purchaseType, 'success');
-    }
-  };
-
   React.useEffect(async () => {
     IAPService.initializeConnection();
     const allProducts = await IAPService.getIAPProducts();
@@ -177,9 +155,9 @@ const Subscription = () => {
     try {
       await RNIap.requestPurchase({sku})
         .then(async result => {
-          console.log('IAP req sub android', result);
-          setPurchaseItem(item);
-          setPurchaseType(type);
+          console.log('ANDROID LINE 185', result, 'Itemm', item, 'Type', type);
+          // setPurchaseItem(item);
+          // setPurchaseType(type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
@@ -195,18 +173,11 @@ const Subscription = () => {
     try {
       await RNIap.requestSubscription({sku})
         .then(async result => {
-          console.log(
-            'IAP req sub RESULT 185',
-            result,
-            'Itemm??',
-            item,
-            'Type???',
-            type,
-          );
+          console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
           //  This is for API SUCCESS
-          purchaseAPI(result, item, type, 'success');
-          setPurchaseItem(item);
-          setPurchaseType(type);
+          // purchaseAPI(result, item, type, 'success');
+          // setPurchaseItem(item);
+          // setPurchaseType(type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
@@ -223,9 +194,7 @@ const Subscription = () => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}
-        mainStyle={true}
-        
-        >
+        mainStyle={true}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.mainContainer}>
             <Image source={Images.LOGO} style={styles.logo} />
