@@ -22,7 +22,7 @@ import styles from '../../styles/auth/smdonor/basicDetailsScreen';
 import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import Dropdown from '../../components/inputs/Dropdown';
 import Button from '../../components/Button';
-import {FormKey} from '../../constants/Constants';
+import {ConstantsCode, FormKey} from '../../constants/Constants';
 import {SupportForm, UserType} from '../../redux/actions/support';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -143,7 +143,7 @@ export default function Support() {
     const payload = {
       name: data.name,
       email: data.email,
-      country_code: '+91',
+      country_code: ConstantsCode.Country_CODE,
       phone_no: data.phone_no,
       enquiring_as: data.user_type.id,
       message: data.message,
@@ -208,7 +208,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
-                  containerStyle={{marginTop:10}}
+                    containerStyle={{marginTop: 10}}
                     label={Strings.inqueryForm.Name}
                     value={value}
                     autoCorrect={false}
@@ -223,7 +223,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange}}) => (
                   <Dropdown
-                  containerStyle={{marginTop:10}}
+                    containerStyle={{marginTop: 10}}
                     label={Strings.inqueryForm.USER_TYPE}
                     data={userTypeData?.data}
                     onSelect={selectedItem => {
@@ -240,7 +240,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
-                  containerStyle={{marginTop:10}}
+                    containerStyle={{marginTop: 10}}
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -254,7 +254,7 @@ export default function Support() {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
-                  containerStyle={{marginTop:10}}
+                    containerStyle={{marginTop: 10}}
                     label={Strings.inqueryForm.MobileNumber}
                     value={phone}
                     keyboardType="numeric"

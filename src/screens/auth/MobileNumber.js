@@ -16,7 +16,7 @@ import styles from '../../styles/auth/mobileNumberScreen';
 import {mobileNumber} from '../../redux/actions/Auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
-import {Routes} from '../../constants/Constants';
+import {ConstantsCode, Routes} from '../../constants/Constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -57,7 +57,7 @@ const MobileNumber = () => {
   // send otp
   const onSubmit = data => {
     const payload = {
-      country_code: '+1',
+      country_code: ConstantsCode.Country_CODE,
       phone_no: data.phone,
     };
     setIsRouteData(payload);
