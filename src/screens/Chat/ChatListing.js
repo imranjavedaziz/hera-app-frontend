@@ -24,7 +24,7 @@ const ChatListing = () => {
   const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
 
-  console.log(log_in_data.role_id, 'log_in_data::::::');
+  console.log(log_in_data?.role_id, 'log_in_data?.role_id::::::');
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchData();
@@ -41,15 +41,18 @@ const ChatListing = () => {
     />
   );
   const renderChatList = ({item, index}) => {
+    console.log(item.currentRole,':::::::::::;item')
     return (
       <Chat_listing_Comp
+      currentRole={item.currentRole}
         image={item?.recieverImage}
-        name={log_in_data.role_id===2?`#${item?.recieverUserName}`:item?.recieverName}
+        name={log_in_data?.role_id===2?`#${item?.recieverUserName}`:item?.recieverName}
         onPress={() => navigation.navigate(Routes.ChatDetail, {item: item})}
         message={item?.message}
         read={item?.read}
         time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
         latest={true}
+        roleId={log_in_data?.role_id}
         match={item?.match_request?.status}
         
       />
