@@ -180,7 +180,7 @@ const Profile = props => {
     reqData.append(FormKey.first_name, data.first_name);
     reqData.append(
       FormKey.middle_name,
-      data.middle_name ? data.middle_name : '',
+      data.middle_name !== undefined ? data.middle_name : '',
     );
     reqData.append(FormKey.last_name, data.last_name);
     reqData.append(FormKey.dob, moment(date).format('DD-MM-YYYY'));

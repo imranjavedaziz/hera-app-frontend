@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     fontSize: Value.CONSTANT_VALUE_16,
     marginLeft: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
   },
   searchBarContainer: {
     backgroundColor: Colors.WHITE,

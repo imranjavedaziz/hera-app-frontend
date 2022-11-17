@@ -25,6 +25,7 @@ export default {
     color: Colors.BLACK,
     marginTop: px(Value.CONSTANT_VALUE_8),
   },
+  
 
   chatText: {
     paddingVertical: 10,

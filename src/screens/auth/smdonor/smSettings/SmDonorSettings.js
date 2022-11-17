@@ -16,6 +16,7 @@ import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../../components';
+import ProfileImage from '../../../../components/dashboard/PtbProfile/ProfileImage';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -73,15 +74,13 @@ const SmDonorSettings = () => {
   };
   useEffect(() => {
     const reqData = new FormData();
-    {
-      file !== null &&
-        reqData.append('file', {
-          name: 'name',
-          type: file.mime,
-          uri: file.path,
-        });
-      dispatch(updateProfileImg(reqData));
-    }
+    file !== null &&
+      reqData.append('file', {
+        name: 'name',
+        type: file.mime,
+        uri: file.path,
+      });
+    dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
 
   const logoutScreen = () => {
@@ -97,80 +96,68 @@ const SmDonorSettings = () => {
         headerComp={headerComp}
         headerEnd={false}>
         <View style={Styles.headerContainer}>
-          <View style={[Styles.profileImgContainner]}>
-            <Image
-              style={Styles.profileImg}
-              source={{
-                uri: profileImg,
-              }}
-            />
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
-              }}>
-              <View style={[Styles.camBtn, Styles.camSelectedBtn]}>
-                <Image source={Images.camera} style={Styles.camImg} />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Text
-          style={[globalStyle.screenTitle, Styles.tittle, Styles.textColor]}>
-          {Strings.smSetting.profile}
-        </Text>
-        <Text style={Styles.usernameText}>{userName}</Text>
-        <View style={Styles.highlightContainer}>
-          <View style={Styles.flexRow}>
-            <Image source={Images.preferences} />
-            <Text style={Styles.text}>{Strings.smSetting.EditAttribute}</Text>
-          </View>
-          <View style={Styles.dot} />
-        </View>
-        <TouchableOpacity
-          style={Styles.contain}
-          onPress={() => navigation.navigate(Routes.donorGallery)}>
-          <Image source={Images.galleryimage} />
-          <Text style={[Styles.text, Styles.extraTxt]}>
-            {Strings.smSetting.Gallery}
-          </Text>
-        </TouchableOpacity>
-        <View style={Styles.highlightContainer}>
-          <View style={Styles.flexRow}>
-            <Image source={Images.person} />
-            <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
-          </View>
-          <View style={Styles.dot} />
-        </View>
-        <View style={Styles.contain}>
-          <Image source={Images.setting2} />
-          <Text style={[Styles.text, Styles.extraTxt]}>
-            {Strings.smSetting.Settings}
-          </Text>
-        </View>
-        <TouchableOpacity
-          style={Styles.contain}
-          onPress={() => {
-            navigation.navigate(Routes.Support);
-          }}>
-          <Image source={Images.writing} />
-          <Text style={Styles.text}>{Strings.smSetting.Inquiry}</Text>
-        </TouchableOpacity>
-        <View style={Styles.contain}>
-          <Image source={Images.information} />
-          <Text style={[Styles.text, Styles.extraTxt]}>
-            {Strings.smSetting.AboutUs}
-          </Text>
-        </View>
-        <View style={Styles.BtnContainer}>
-          <Button
-            style={Styles.Btn}
-            label={Strings.smSetting.Btn}
-            color={Colors.PINK}
-            onPress={() => logoutScreen()}
+          <ProfileImage
+            Heading={Strings.smSetting.ptbProfile}
+            onPressImg={() => {
+              Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
+            }}
+            Name={first_name}
+            LastName={last_name}
+            source={{
+              uri: profileImg,
+            }}
           />
-          <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
+          <View style={Styles.highlightContainer}>
+            <View style={Styles.flexRow}>
+              <Image source={Images.preferences} />
+              <Text style={Styles.text}>{Strings.smSetting.EditAttribute}</Text>
+            </View>
+            <View style={Styles.dot} />
+          </View>
+          <TouchableOpacity
+            style={Styles.contain}
+            onPress={() => navigation.navigate(Routes.donorGallery)}>
+            <Image source={Images.galleryimage} />
+            <Text style={[Styles.text, Styles.extraTxt]}>
+              {Strings.smSetting.Gallery}
+            </Text>
+          </TouchableOpacity>
+          <View style={Styles.highlightContainer}>
+            <View style={Styles.flexRow}>
+              <Image source={Images.person} />
+              <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
+            </View>
+            <View style={Styles.dot} />
+          </View>
+          <View style={Styles.contain}>
+            <Image source={Images.setting2} />
+            <Text style={[Styles.text, Styles.extraTxt]}>
+              {Strings.smSetting.Settings}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={Styles.contain}
+            onPress={() => {
+              navigation.navigate(Routes.Support);
+            }}>
+            <Image source={Images.writing} />
+            <Text style={Styles.text}>{Strings.smSetting.Inquiry}</Text>
+          </TouchableOpacity>
+          <View style={Styles.contain}>
+            <Image source={Images.information} />
+            <Text style={[Styles.text, Styles.extraTxt]}>
+              {Strings.smSetting.AboutUs}
+            </Text>
+          </View>
+          <View style={Styles.BtnContainer}>
+            <Button
+              style={Styles.Btn}
+              label={Strings.smSetting.Btn}
+              color={Colors.BTNCOLR}
+              onPress={() => logoutScreen()}
+            />
+            <Text style={Styles.greyText}>{Strings.smSetting.AppVersion}</Text>
+          </View>
         </View>
       </Container>
       <ActionSheet
