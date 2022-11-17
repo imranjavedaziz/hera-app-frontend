@@ -1,7 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import { dynamicSize, px } from '../../../utils/responsive';
+import {dynamicSize, px} from '../../../utils/responsive';
 
 export default {
   title: {
