@@ -24,6 +24,7 @@ import { watchSmDonorDetail } from './SmDonerDetail';
 import { watchSupportForm, watchUserType } from './Support';
 import { watchpProfileMatchResponse, watchProfileMatch } from './Profile_Match';
 import { watchCreateSubscription, watchSubscriptionPlan, watchSubscriptionStatus } from './Subscription';
+import { watchGetFeedback } from './Chat';
 
 
 export default function* rootSaga() {
@@ -56,5 +57,6 @@ export default function* rootSaga() {
     fork(watchCreateSubscription),
     fork(watchSubscriptionPlan),
     fork(watchSubscriptionStatus),
+    fork(watchGetFeedback)
   ]);
 }

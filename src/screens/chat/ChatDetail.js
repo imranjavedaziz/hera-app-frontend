@@ -108,7 +108,6 @@ const ChatDetail = props => {
         style={[
           {
             flex: 0,
-            width: '80%',
             marginLeft: 30,
             flexDirection: 'row',
             marginBottom: 30,
@@ -173,7 +172,7 @@ const ChatDetail = props => {
                   <>
                     <View style={styles.avatar}>
                       <Image
-                        source={{uri: props.route.params.item.recieverImage}}
+                        source={ props?.route?.params?.item?.currentRole === 1?Images.ADMIN_ICON:{uri: props.route.params.item.recieverImage}}
                         style={styles.avatar}
                       />
                     </View>
@@ -201,7 +200,7 @@ const ChatDetail = props => {
               </View>
               <View style={styles.border} />
             </View>
-            {showFeedback && (
+            {showFeedback && props?.route?.params?.item?.currentRole !== 1&& (
               <View
                 style={{
                   height: 117,
@@ -252,14 +251,14 @@ const ChatDetail = props => {
                 />
               </View>
             )}
-            {log_in_data?.role_id !== 2 && db?.messages.length === 0 && (
+            {log_in_data?.role_id !== 2 && db?.messages.length === 0 &&  props?.route?.params?.item?.currentRole !== 1&& (
               <EmptySmDonor
                 image={Images.conversation2}
                 title={Strings.Chat.YOU_MATCHED}
                 midTitle={Strings.Chat.PARENT_TO_BE_CONVERSATION}
               />
             )}
-            {log_in_data?.role_id === 2 && (
+            {log_in_data?.role_id === 2 || props?.route?.params?.item?.currentRole === 1 &&(
               <GiftedChat
                 messages={db?.messages}
                 onSend={messages => onSend(messages)}
@@ -280,7 +279,7 @@ const ChatDetail = props => {
                 }}
               />
             )}
-            {db?.messages.length > 0 && log_in_data?.role_id !== 2 && (
+            {db?.messages.length > 0 && log_in_data?.role_id !== 2 && props?.route?.params?.item?.currentRole !== 1 && (
               <GiftedChat
                 messages={db?.messages}
                 onSend={messages => onSend(messages)}

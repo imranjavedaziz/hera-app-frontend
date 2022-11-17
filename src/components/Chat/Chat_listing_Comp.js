@@ -37,7 +37,7 @@ const Chat_listing_Comp = props => {
               <Text
                 numberOfLines={2}
                 style={read === 0 ? styles.msg : styles.msgRead}>
-                {message !== '' ? message : "Hey! It's a Match"}
+                {message !== '' ? message :currentRole !== 1 ? "Hey! It's a Match":''}
               </Text>
             </View>
           </View>
@@ -54,7 +54,7 @@ const Chat_listing_Comp = props => {
       onPress={() => onPress()}>
       <View style={styles.contain}>
         <View style={styles.ImgView}>
-          <FastImage style={styles.userImg} source={{uri: image}} />
+          <FastImage style={styles.userImg} source={currentRole === 1 ?Images.ADMIN_ICON:{uri: image}} />
           {match === 2 && (
             <FastImage
               style={styles.heartIcon}
