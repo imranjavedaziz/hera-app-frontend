@@ -279,6 +279,7 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
+                  containerStyle={{marginTop: 10}}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
                   onSelect={(selectedItem, index) => {
@@ -377,6 +378,7 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
+                  containerStyle={{marginTop: 10}}
                   label={Strings.preference.Race}
                   data={preferencesData?.race}
                   onSelect={(selectedItem, index) => {
