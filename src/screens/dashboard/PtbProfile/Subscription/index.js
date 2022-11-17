@@ -89,42 +89,42 @@ const Subscription = () => {
     }
   };
 
-  // React.useEffect(() => {
-  //   console.log('LINE NO 88 RECeIPT');
-  //   purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
-  //     async purchase => {
-  //       const receipt = purchase.transactionReceipt;
-  //       console.log('LINE NO 88 RECeIPT', receipt);
-  //       setPurchaseReceipt(purchase);
-  //       setCallApi(true);
-  //       if (receipt) {
-  //         try {
-  //           await RNIap.finishTransaction({purchase, isConsumable: true});
-  //           if (Platform.OS === 'ios') {
-  //             console.log('LINE NO 90 PURCHAASE', purchase);
-  //           } else if (Platform.OS === 'android') {
-  //             await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
-  //           }
-  //         } catch (ackErr) {
-  //           console.log('ERROR LINE NO 101', ackErr);
-  //         }
-  //       }
-  //     },
-  //   );
-  //   purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
-  //     console.log('ERROR LINE NO 101', error);
-  //   });
-  //   return () => {
-  //     if (purchaseUpdateSubscription) {
-  //       purchaseUpdateSubscription.remove();
-  //       purchaseUpdateSubscription = null;
-  //     }
-  //     if (purchaseErrorSubscription) {
-  //       purchaseErrorSubscription.remove();
-  //       purchaseErrorSubscription = null;
-  //     }
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    console.log('LINE NO 88 RECeIPT');
+    purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
+      async purchase => {
+        const receipt = purchase.transactionReceipt;
+        console.log('LINE NO 88 RECeIPT', receipt);
+        setPurchaseReceipt(purchase);
+        setCallApi(true);
+        if (receipt) {
+          try {
+            await RNIap.finishTransaction({purchase, isConsumable: true});
+            if (Platform.OS === 'ios') {
+              console.log('LINE NO 90 PURCHAASE', purchase);
+            } else if (Platform.OS === 'android') {
+              await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+            }
+          } catch (ackErr) {
+            console.log('ERROR LINE NO 101', ackErr);
+          }
+        }
+      },
+    );
+    purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
+      console.log('ERROR LINE NO 101', error);
+    });
+    return () => {
+      if (purchaseUpdateSubscription) {
+        purchaseUpdateSubscription.remove();
+        purchaseUpdateSubscription = null;
+      }
+      if (purchaseErrorSubscription) {
+        purchaseErrorSubscription.remove();
+        purchaseErrorSubscription = null;
+      }
+    };
+  }, []);
   const purchaseAPI = (result, item, type, status) => {
     if (type === 'credit') {
       let payload = {
@@ -150,14 +150,14 @@ const Subscription = () => {
     }
   };
 
-  // React.useEffect(async () => {
-  //   IAPService.initializeConnection();
-  //   const allProducts = await IAPService.getIAPProducts();
-  //   console.log('ALL PRODUCT ID LINE NO 58', allProducts);
-  //   return () => {
-  //     IAPService.endIAPConnection();
-  //   };
-  // }, []);
+  React.useEffect(async () => {
+    IAPService.initializeConnection();
+    const allProducts = await IAPService.getIAPProducts();
+    console.log('ALL PRODUCT ID LINE NO 58', allProducts);
+    return () => {
+      IAPService.endIAPConnection();
+    };
+  }, []);
 
   const subscribePlan = (item, type) => {
     if (Platform.OS === 'ios') {
