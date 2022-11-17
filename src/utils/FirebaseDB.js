@@ -3,7 +3,7 @@ import database from '@react-native-firebase/database';
 import moment from 'moment';
 // import sendNotification from './sendNotification';
 // import { environment } from '../redux/Constants';
-
+import {chat} from '../constants/Constants';
 const SIZE = 10;
 const createChatId = (id1,id2)=>{
     if(parseInt(id1)>parseInt(id2)){
@@ -36,7 +36,7 @@ export default class FirebaseDB {
         this.endReached = false;
         this.messages = [];
         this.onChildAdd = null;
-        const ref = database().ref('dev'+'/Messages/'+this.chatId);
+        const ref = database().ref(`${chat}`+'/Messages/'+this.chatId);
         this.reference = ref;
     }
 
@@ -97,7 +97,7 @@ export default class FirebaseDB {
 
     async sendMessage(msg){
         const timestampRow = Date.now();
-        const referenceDb = database().ref('dev'+'/Messages/'+this.chatId+"/"+timestampRow);
+        const referenceDb = database().ref(`${chat}`+'/Messages/'+this.chatId+"/"+timestampRow);
     
         const sendData = {
             text: msg,
@@ -153,7 +153,7 @@ export default class FirebaseDB {
 
     async readMessage(id,data){
         const timestamp = (new Date()).toString();
-        const ref = database().ref('dev'+'/Messages/'+this.chatId+'/'+id);
+        const ref = database().ref(`${chat}`+'/Messages/'+this.chatId+'/'+id);
         const snap = await ref.once('value');
         if(snap.val()!==null && data.user_id!==this.user.user_id){
             ref.update({
@@ -172,8 +172,8 @@ export default class FirebaseDB {
         }
     }
     async readAll(){
-        const referenceUser = database().ref(`/dev/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
-        const referenceSender = database().ref(`/dev/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);
+        const referenceUser = database().ref(`/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
+        const referenceSender = database().ref(`/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);
      try{
         await referenceUser.update({
             read:1,
@@ -188,8 +188,8 @@ export default class FirebaseDB {
     }
 
     async updateHistory(lastMsg){
-        const referenceUser = database().ref(`/dev/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
-        const referenceSender = database().ref(`/dev/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);
+        const referenceUser = database().ref(`/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
+        const referenceSender = database().ref(`/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);
     
      
             await referenceUser.update({
@@ -210,7 +210,7 @@ export default class FirebaseDB {
     async readAt(id,setLoading){
         setLoading(true);
         const rowId = id.split('-')[0];
-        const ref = database().ref('dev'+'/Messages/'+this.chatId+'/'+rowId);
+        const ref = database().ref(`${chat}`+'/Messages/'+this.chatId+'/'+rowId);
         try{
             const snap = await ref.once('value');
             const msgIndex = this.messages.findIndex((msg)=>msg._id===id);

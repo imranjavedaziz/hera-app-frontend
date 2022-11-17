@@ -66,7 +66,7 @@ export default {
     borderRadius: px(Value.CONSTANT_VALUE_30),
     marginTop: px(Value.CONSTANT_VALUE_8),
   },
-  timeView:{flex:.2,alignItems: Alignment.FLEXEND},
+  timeView:{flex:.4,alignItems: Alignment.FLEXEND},
   heartIcon:{
     height: Value.CONSTANT_VALUE_23,
     width: Value.CONSTANT_VALUE_25,
@@ -90,5 +90,14 @@ export default {
   heartImage:{
     width: 183.4,
     height: 169,
-  }
+  },
+  chatText:{
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: px(Value.CONSTANT_VALUE_18),
+    // fontWeight: Alignment.BOLD,
+    textAlign: "center",
+    color: "#747474",
+    width: 282,
+  },
+  chatImage:{width: 160, height: 160,marginBottom:27}
 };

@@ -331,7 +331,11 @@ export default {
     NOT_GOOD: 'Not good',
     GOING_WELL:"Going well",
     NOT_FOUND_MATCH_YET:'Seems like you have not found any match yet.',
-    YOUR_SUBSCRIPTION_EXPIRED:'Your subscription has expired. Please subscribe now.'
+    YOUR_SUBSCRIPTION_EXPIRED:'Your subscription has expired. Please subscribe now.',
+    YOU_MATCHED:'You Matched!',
+    PARENT_TO_BE_CONVERSATION:' Parent To Be will start the conversation.',
+    START_CONVERSATION:'Start a conversation!',
+    INACTIVE_USER:'Inactive User'
   },
   Sensory: {
     AS_PER_SEARCH:
