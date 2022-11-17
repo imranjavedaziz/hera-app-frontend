@@ -80,7 +80,7 @@ export default {
   },
   chipText: {
     fontSize: Value.CONSTANT_VALUE_14,
-    // marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
+    color: Colors.BLACK_0,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_35),
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
     fontFamily: Fonts.OpenSansRegular,
@@ -112,10 +112,12 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     marginTop: Value.CONSTANT_VALUE_25,
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK_0,
   },
   heightTextInner: {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK_0,
   },
   ageRangeChip: {
     height: Value.CONSTANT_VALUE_41,

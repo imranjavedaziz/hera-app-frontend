@@ -8,6 +8,12 @@ export default {
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_15,
   },
+  troubleKeyRow: {
+    marginTop: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  leftIcon: {marginLeft: Value.CONSTANT_VALUE_20},
   marginStyle: {marginHorizontal: Value.CONSTANT_VALUE_10},
   redColor: {color: Colors.RED},
   trouble: {
