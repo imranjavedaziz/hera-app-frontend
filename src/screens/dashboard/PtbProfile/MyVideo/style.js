@@ -8,8 +8,8 @@ export default {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_10),
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingHorizontal: Value.CONSTANT_VALUE_25,
   },
   headingContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_16),

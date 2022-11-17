@@ -271,7 +271,7 @@ const SmDashboard = ({route}) => {
     if (!loaderState.loading) {
       return (
         <View>
-          <Text>No RESULT FOUND</Text>
+          <Text>NO RESULT FOUND</Text>
         </View>
       );
     }

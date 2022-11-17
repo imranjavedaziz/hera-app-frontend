@@ -55,7 +55,9 @@ export default function MultiTextInput({
             testID="form-input"
             onFocus={handleFocus}
             onBlur={handleBlur}
-            blurOnSubmit
+            blurOnSubmit={false}
+            keyboardType="name-phone-pad"
+            // returnKeyType='next'
             {...textInputProps}
           />
           {error && <Text style={styles.errMessage}>{error}</Text>}

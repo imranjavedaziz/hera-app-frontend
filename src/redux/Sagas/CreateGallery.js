@@ -29,8 +29,6 @@ export function* watchGetUserGallery() {
 
 //DeleteGallery
 function* deleteUserGallery(payload) {
-  console.log(payload.data,'payload.data:::::::')
-  
   try {
     const result = yield deleteGalleryApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
