@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
-import styles from './style';
+import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';

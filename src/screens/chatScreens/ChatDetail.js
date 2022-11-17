@@ -12,7 +12,7 @@ import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
 import {Images, Strings, Colors} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
-import styles from './style';
+import styles from './styles';
 import {useDispatch} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
 import {chatFeedback} from '../../redux/actions/Chat';
