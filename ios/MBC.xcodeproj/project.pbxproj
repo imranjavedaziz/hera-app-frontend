@@ -633,7 +633,11 @@
 					"-ObjC",
 					"-lc++",
 				);
+<<<<<<< HEAD
+				PRODUCT_BUNDLE_IDENTIFIER = com.makingBabyConnetionDev;
+=======
 				PRODUCT_BUNDLE_IDENTIFIER = com.CreditRich;
+>>>>>>> 4cfa19b0e786b32e69696da5db6d688d15184907
 				PRODUCT_NAME = MBC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -664,7 +668,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.CreditRich;
+				PRODUCT_BUNDLE_IDENTIFIER = com.makingBabyConnetionDev;
 				PRODUCT_NAME = MBC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

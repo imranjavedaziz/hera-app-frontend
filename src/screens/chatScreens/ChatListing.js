@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
-import styles from './style';
+import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
@@ -18,7 +18,7 @@ const ChatListing = () => {
   const chatData = chatHistory();
   const fetchData = useCallback(() => {
     chatData.update();
-    setLoader(false)
+    setLoader(false);
     // matchedList(setRefreshing, setMatches);
   }, []);
   const [loader, setLoader] = useState(true);
@@ -40,13 +40,16 @@ const ChatListing = () => {
       style={styles.header}
     />
   );
-  const renderChatList = ({item, index}) => {
-    console.log(item.currentRole,':::::::::::;item')
+  const renderChatList = ({item}) => {
     return (
       <Chat_listing_Comp
-      currentRole={item.currentRole}
+        currentRole={item?.currentRole}
         image={item?.recieverImage}
-        name={log_in_data?.role_id===2?`#${item?.recieverUserName}`:item?.recieverName}
+        name={
+          log_in_data?.role_id === 2
+            ? `#${item?.recieverUserName}`
+            : item?.recieverName
+        }
         onPress={() => navigation.navigate(Routes.ChatDetail, {item: item})}
         message={item?.message}
         read={item?.read}
@@ -54,7 +57,6 @@ const ChatListing = () => {
         latest={true}
         roleId={log_in_data?.role_id}
         match={item?.match_request?.status}
-        
       />
     );
   };
@@ -62,31 +64,39 @@ const ChatListing = () => {
     <Container
       mainStyle={true}
       scroller={false}
-      showHeader={true}
+      showHeader={true}x
       headerComp={headerComp}
-      safeAreViewStyle={{backgroundColor: Colors.BACKGROUND}}
-      >
-          {
-            loader===false&&
-            <>
-            {
-              chats&&chats?.length>0?
-              <View style={{flex: 1, marginTop: 25}}>
-            <View style={styles.mainContainer}>
-              <Text style={styles.Inbox}>{log_in_data.role_id===2?Strings.INBOX:Strings.Chat.Chat}</Text>
-              <Text style={styles.Match}>{log_in_data.role_id===2?Strings.All_Matches:Strings.Chat.All_Conversations}</Text>
+      safeAreViewStyle={{backgroundColor: Colors.BACKGROUND}}>
+      {loader === false && (
+        <>
+          {chats && chats?.length > 0 ? (
+            <View style={{flex: 1, marginTop: 25}}>
+              <View style={styles.mainContainer}>
+                <Text style={styles.Inbox}>
+                  {log_in_data.role_id === 2
+                    ? Strings.INBOX
+                    : Strings.Chat.Chat}
+                </Text>
+                <Text style={styles.Match}>
+                  {log_in_data.role_id === 2
+                    ? Strings.All_Matches
+                    : Strings.Chat.All_Conversations}
+                </Text>
+              </View>
+
+              <FlatList
+                data={chats}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderChatList}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+              />
             </View>
-    
-            <FlatList
-              data={chats}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderChatList}
-            />
-          </View>:
-          <ChatEmpty/>
-            }
-            </>
-          }
+          ) : (
+            <ChatEmpty />
+          )}
+        </>
+      )}
     </Container>
   );
 };
