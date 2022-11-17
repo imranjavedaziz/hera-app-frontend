@@ -8,7 +8,7 @@ export default {
   container: {
     flexDirection: Alignment.ROW,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_30),
-    marginLeft: 30,
+    marginLeft: 35,
     width: 322,
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
@@ -36,5 +36,6 @@ export default {
     borderRadius: px(Value.CONSTANT_VALUE_30),
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
+    marginRight: 10,
   },
 };

@@ -53,17 +53,15 @@ const Searchbar = props => {
             </TouchableOpacity>
           )}
         </View>
-        <View style={styles.mapView}>
-          <TouchableOpacity
-            style={styles.pinIcon}
-            onPress={() =>
-              navigation.navigate(Routes.stateList, {
-                selectedStateList: props?.selectedStates,
-              })
-            }>
-            <Image source={Images.pin} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.mapView}
+          onPress={() =>
+            navigation.navigate(Routes.stateList, {
+              selectedStateList: props?.selectedStates,
+            })
+          }>
+          <Image source={Images.pin} />
+        </TouchableOpacity>
       </View>
     </>
   );
@@ -82,6 +80,7 @@ const styles = StyleSheet.create({
     fontSize: Value.CONSTANT_VALUE_16,
     marginLeft: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
   },
   searchBarContainer: {
     backgroundColor: Colors.WHITE,
@@ -110,9 +109,14 @@ const styles = StyleSheet.create({
   pinIcon: {
     marginRight: Value.CONSTANT_VALUE_15,
     alignSelf: Alignment.CENTER,
-    backgroundColor: Colors.WHITE,
     alignItems: Alignment.CENTER,
     marginLeft: Value.CONSTANT_VALUE_15,
+    width: Value.CONSTANT_VALUE_51,
+    height: Value.CONSTANT_VALUE_50,
+    opacity: 0.8,
+    borderRadius: Value.CONSTANT_VALUE_8,
+    backgroundColor: Colors.WHITE,
+    justifyContent: Alignment.CENTER,
   },
   mapView: {
     width: Value.CONSTANT_VALUE_51,

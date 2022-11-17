@@ -10,7 +10,7 @@ import ChatImagComp from '../../components/Chat_Request_Ptb/ChatImagComp';
 import User_detail from '../../components/Chat_Request_Ptb/User_detail';
 import LikeProfileDetail from '../../components/Chat_Request_Ptb/LikeProfileDetail';
 
-const Chat_Resquest = () => {
+const Chat_Resquest = props => {
   const navigation = useNavigation();
   const headerComp = () => (
     <IconHeader
@@ -26,8 +26,11 @@ const Chat_Resquest = () => {
       showHeader={true}
       headerComp={headerComp}>
       <View style={styles.mainContainer}>
-        <ChatImagComp source={Images.DASHBOARD_IMG} />
-        <User_detail Name={Strings.Meryl_Anderson} Type={Strings.Type} />
+        <ChatImagComp source={props.route.params.item.recieverImage} />
+        <User_detail
+          Name={props.route.params.item.recieverName}
+          Type={Strings.Type}
+        />
         <LikeProfileDetail
           likeProfile={Strings.Liked_your_profile}
           Start_Converstation={Strings.Start_Converstation}

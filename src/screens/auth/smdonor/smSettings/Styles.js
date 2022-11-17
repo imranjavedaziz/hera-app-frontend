@@ -2,19 +2,12 @@ import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import {Fonts} from '../../../../constants/Constants';
+import {px} from '../../../../utils/responsive';
 
 export default {
   headerContainer: {
-    alignSelf: 'center',
-    shadowColor: 'rgba(0,0,0,0.17)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 1,
-    elevation: 1,
-    shadowRadius: 34,
-    borderRadius:100,
+    flex: Value.CONSTANT_VALUE_1,
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   usernameText: {
     fontSize: Value.CONSTANT_VALUE_24,
@@ -79,10 +72,16 @@ export default {
     color: Colors.BLACK,
   },
   dot: {
-    height: Value.CONSTANT_VALUE_12,
-    width: Value.CONSTANT_VALUE_12,
-    borderRadius: Value.CONSTANT_VALUE_6,
     backgroundColor: Colors.GREEN,
+    width: px(Value.CONSTANT_VALUE_12),
+    height: px(Value.CONSTANT_VALUE_12),
+    borderStyle: Alignment.SOLID,
+    borderWidth: px(Value.CONSTANT_VALUE_1),
+    borderColor: Colors.WHITE,
+    borderRadius: px(Value.CONSTANT_VALUE_30),
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.CENTER,
+    marginRight: 10,
   },
   contain: {
     flexDirection: Alignment.ROW,

@@ -6,7 +6,7 @@ import Alignment from '../../../../constants/Alignment';
 export default {
   mainContainer: {},
   conatiner: {
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_10,
   },
   profileImgContainner: {
     borderWidth: Value.CONSTANT_VALUE_2,
@@ -60,13 +60,12 @@ export default {
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
   },
   stateItemContainer: {
     flexDirection: 'row',
-    width: 334,
     justifyContent: 'space-between',
     alignItems: 'center',
+    flex: 1,
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
@@ -85,6 +84,7 @@ export default {
   imgSel: {
     alignSelf: 'center',
     tintColor: Colors.GREEN,
+    alignItems: 'flex-end',
   },
   iconFont: {
     fontFamily: Fonts.OpenSansBold,
@@ -96,10 +96,11 @@ export default {
     flexDirection: 'row',
   },
   gradient: {
+    borderRadius: Value.CONSTANT_VALUE_20,
+    justifyContent: Alignment.CENTER,
     width: '100%',
     height: '100%',
-    opacity: 0.2,
-    borderRadius: Value.CONSTANT_VALUE_18,
+    opacity: 0.8,
   },
   iconHead: {
     position: 'absolute',

@@ -1,6 +1,8 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
+import { dynamicSize, px } from '../../../utils/responsive';
+
 
 export default {
   title: {
@@ -8,7 +10,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.LEFT,
     width: Prencentage.PRECENTAGE_100,
-    marginBottom: Value.CONSTANT_VALUE_20,
+    marginBottom: Value.CONSTANT_VALUE_15,
   },
   radioContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -35,8 +37,8 @@ export default {
     marginTop: Value.CONSTANT_VALUE_20,
   },
   imgView: {
-    width: Value.CONSTANT_VALUE_140,
-    height: Value.CONSTANT_VALUE_140,
+    width: Value.CONSTANT_VALUE_135,
+    height: Value.CONSTANT_VALUE_135,
     borderRadius: Value.CONSTANT_VALUE_70,
     backgroundColor: Colors.GREEN,
     alignItems: Alignment.CENTER,
@@ -83,7 +85,7 @@ export default {
     flexDirection: Alignment.ROW,
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_30,
   },
   checkboxLabel: {
     fontSize: Value.CONSTANT_VALUE_13,
@@ -150,5 +152,9 @@ export default {
     fontFamily: Fonts.OpenSansItalic,
     color: Colors.BLACK_KEY,
     fontSize: Value.CONSTANT_VALUE_14,
+  },
+  headerIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingHorizontal: px(Value.CONSTANT_VALUE_5),
   },
 };

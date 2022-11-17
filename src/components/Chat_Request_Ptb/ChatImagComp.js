@@ -5,7 +5,7 @@ import styles from './style';
 const ChatImagComp = ({source}) => {
   return (
     <View style={styles.ImageView}>
-      <Image style={styles.ImageStyle} source={source} />
+      <Image style={styles.ImageStyle} source={{uri:source}} />
     </View>
   );
 };

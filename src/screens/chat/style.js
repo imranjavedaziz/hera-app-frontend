@@ -25,6 +25,7 @@ export default {
     color: Colors.BLACK,
     marginTop: px(Value.CONSTANT_VALUE_8),
   },
+  
 
   chatText: {
     paddingVertical: 10,
@@ -34,9 +35,13 @@ export default {
     fontSize: px(Value.CONSTANT_VALUE_13),
   },
   chatContainer: {
-    backgroundColor: Colors.GREEN,
-    width: '70%',
-    marginVertical: 5,
+    backgroundColor: Colors.WHITE,
+    padding: 5,
+        borderRadius: 10,
+        flex: 1,
+    // width: '70%',
+    // marginVertical: 5,
+    // flexDirection:'row'
   },
   mainContainerDetail: {
     backgroundColor: 'white',
@@ -91,7 +96,7 @@ export default {
     marginTop: 15,
   },
   matchTxt: {
-    paddingTop: 20,
+    // paddingTop: 20,
     textAlign: 'center',
     fontSize: 16,
     lineHeight: 21,
@@ -103,5 +108,14 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     lineHeight: 21,
     color: Colors.COLOR_535858,
-  }
+  },
+  smDonorEmptyView: {
+    position: 'absolute',
+    justifyContent: 'flex-end',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    height: '80%',
+  },
+  crossImage:{width:30,height:30}
 };

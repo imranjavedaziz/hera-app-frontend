@@ -169,7 +169,6 @@ const SmDashboard = ({route}) => {
       // dispatch,
     ]),
   );
-
   const _getDonorDashboard = (page, value) => {
     let payload = {
       keyword: value ? value : '',
@@ -180,7 +179,7 @@ const SmDashboard = ({route}) => {
       page: page,
       limit: 10,
     };
-    console.log(payload, 'payload::::::');
+
     dispatch(getDonorDashboard(payload));
   };
 
@@ -271,7 +270,7 @@ const SmDashboard = ({route}) => {
     if (!loaderState.loading) {
       return (
         <View>
-          <Text>No RESULT FOUND</Text>
+          <Text>NO RESULT FOUND</Text>
         </View>
       );
     }
@@ -306,7 +305,7 @@ const SmDashboard = ({route}) => {
               {Strings.landing.Like_Match_Connect}
             </Text>
             <View
-              style={[globalStyle.screenSubTitle, styles.subTitle]}
+              style={styles.subTitle}
               accessible={true}
               accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
               <Text

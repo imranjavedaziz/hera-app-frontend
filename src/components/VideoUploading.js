@@ -12,7 +12,7 @@ import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
-
+import {Alignment} from '../constants';
 
 const VideoUploading = props => {
   return (
@@ -20,6 +20,19 @@ const VideoUploading = props => {
       <FastImage style={props?.style}>
         {props?.video?.file_url !== '' ? (
           <>
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => props?.handelDel(props?.video?.id, true)}
+                style={styles.videoSel}>
+                <Image
+                  source={
+                    props?.remove?.includes(props?.video?.id)
+                      ? Images.iconRadiosel
+                      : Images.iconWhite
+                  }
+                />
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
             <View style={props?.imageOverlay}>
               <Video
                 source={{uri: `${props?.video?.file_url}`}}
@@ -43,8 +56,7 @@ const VideoUploading = props => {
             <TouchableWithoutFeedback>
               <TouchableOpacity
                 onPress={() => props?.handelDel(props?.video?.id, true)}
-                style={styles.videoSel}
-                >
+                style={styles.videoSel}>
                 <Image
                   source={
                     props?.remove?.includes(props?.video?.id)

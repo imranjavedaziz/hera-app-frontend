@@ -58,7 +58,7 @@ export default {
   },
   p1: {
     textAlign: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_5,
+    marginTop: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
@@ -71,6 +71,8 @@ export default {
     height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_259,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
+    marginTop: 46,
+    marginBottom: 67,
   },
   subTitle: {
     marginBottom: Value.CONSTANT_VALUE_20,

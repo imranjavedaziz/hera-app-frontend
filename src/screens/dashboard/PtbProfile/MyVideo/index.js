@@ -203,6 +203,7 @@ const MyVideo = () => {
         scroller={true}
         showHeader={true}
         fixedHeader={true}
+        profileLoad={true}
         showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>

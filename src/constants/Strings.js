@@ -104,7 +104,7 @@ export default {
     ModalSubheader: 'If you cancel now, your progress will be lost.',
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
-    tmc1: "By continuing, you agree to HERA's ",
+    tmc1: " By continuing, you agree to HERA's ",
     tmc2: 'Terms of use',
     tmc3: 'Privacy Policy',
     desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',
@@ -329,10 +329,13 @@ export default {
     All_Conversations: 'All Conversations',
     WHAT_DO_YO: 'What do you think of this match?',
     NOT_GOOD: 'Not good',
-    GOING_WELL: 'Going well',
-    NOT_FOUND_MATCH_YET: 'Seems like you have not found any match yet.',
-    YOUR_SUBSCRIPTION_EXPIRED:
-      'Your subscription has expired. Please subscribe now.',
+    GOING_WELL:"Going well",
+    NOT_FOUND_MATCH_YET:'Seems like you have not found any match yet.',
+    YOUR_SUBSCRIPTION_EXPIRED:'Your subscription has expired. Please subscribe now.',
+    YOU_MATCHED:'You Matched!',
+    PARENT_TO_BE_CONVERSATION:' Parent To Be will start the conversation.',
+    START_CONVERSATION:'Start a conversation!',
+    INACTIVE_USER:'Inactive User'
   },
   Sensory: {
     AS_PER_SEARCH:

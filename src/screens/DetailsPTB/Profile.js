@@ -180,7 +180,7 @@ const Profile = props => {
     reqData.append(FormKey.first_name, data.first_name);
     reqData.append(
       FormKey.middle_name,
-      data.middle_name ? data.middle_name : '',
+      data.middle_name !== undefined ? data.middle_name : '',
     );
     reqData.append(FormKey.last_name, data.last_name);
     reqData.append(FormKey.dob, moment(date).format('DD-MM-YYYY'));
@@ -432,7 +432,7 @@ const Profile = props => {
               <Text style={styles.tmc1}>
                 {Strings.profile.tmc1}
                 <Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text>
-                {'\n'}and{' '}
+                {'\n'} and{' '}
                 <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
               </Text>
             </View>

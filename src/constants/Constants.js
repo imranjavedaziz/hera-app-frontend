@@ -7,14 +7,17 @@ const environment = {
   dev: {
     bucket: '',
     api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',
+    chat: 'dev',
   },
   qa: {
     bucket: '',
     api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
+    chat: 'qa',
   },
   stage: {
     bucket: '',
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
+    chat: '',
   },
 };
 export const {bucket, api_url} = environment.dev;
@@ -85,6 +88,9 @@ export const FormKey = {
   mobileNumber: 'mobileNumber',
   message: 'message',
   parent_to_be_role_id: 2,
+};
+export const ConstantsCode = {
+  Country_CODE: '+1',
 };
 
 export const smRoles = [

@@ -2,6 +2,7 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
+import {px} from '../../utils/responsive';
 
 export default {
   imgContainer: {
@@ -54,10 +55,14 @@ export default {
   },
   rowContainer: {
     alignSelf: Alignment.CENTER,
-    paddingRight: Value.CONSTANT_VALUE_7,
+    paddingRight: px(Value.CONSTANT_VALUE_5),
+    justifyContent: 'space-between',
   },
   tmcLink: {
-    fontWeight: Alignment.BOLD,
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
     textDecorationLine: Alignment.UNDERLINE,
   },
   smRegister: {
