@@ -56,7 +56,7 @@ const PtbDashboard = props => {
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
-  const loadingMatchRef = useRef();
+  const loadingMatchRef = useRef(false);
   const {fcmToken} = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const login = useSelector(state => state.Auth);

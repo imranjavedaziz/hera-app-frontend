@@ -29,7 +29,6 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
-    marginTop: Value.CONSTANT_VALUE_45,
   },
   underlineText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_18),

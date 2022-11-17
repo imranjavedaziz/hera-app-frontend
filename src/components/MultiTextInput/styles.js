@@ -20,7 +20,7 @@ export default {
     borderWidth: px(2),
     borderColor: Colors.BORDER_LINE,
     paddingHorizontal: px(6),
-    width: px(310),
+    width: px(300),
     height: px(161),
   },
   description: {
@@ -38,12 +38,11 @@ export default {
     // textAlign: 'justify',
   },
   label: {
-    zIndex: -1,
-    marginBottom: px(13),
+    marginBottom: px(14),
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK_KEY,
-    marginLeft: px(5),
+    marginLeft: px(1),
   },
   red: {color: Colors.RED},
   focusBorder: {

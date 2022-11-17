@@ -621,7 +621,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 56S2A4N4D3;
+				DEVELOPMENT_TEAM = CSR5Q9RLHS;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MBC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -633,7 +633,11 @@
 					"-ObjC",
 					"-lc++",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.makingBabyConnetionDev;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.CreditRich;
+>>>>>>> 4cfa19b0e786b32e69696da5db6d688d15184907
 				PRODUCT_NAME = MBC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

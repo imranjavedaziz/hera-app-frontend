@@ -30,7 +30,11 @@ function* ptbRegister(payload) {
     } else {
       yield put({
         type: AUTH_REGISTER_FAIL,
-        data: {msg: result.email?.join('\n')},
+        data: {
+          msg: result.email?.join('\n')
+            ? result.email?.join('\n')
+            : result.phone_no?.join('\n'),
+        },
       });
     }
   } catch (err) {

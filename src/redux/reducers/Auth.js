@@ -112,7 +112,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  // console.log(action.data, 'loginDtaa');
   switch (action.type) {
     /**
      * SignIn
@@ -310,7 +309,6 @@ export default (state = initState, action) => {
         register_user_error_msg: '',
         user: {},
         log_in_data: action?.data?.data?.data,
-        registerUser: action?.data?.data?.data,
       };
     }
     case AUTH_REGISTER_FAIL: {

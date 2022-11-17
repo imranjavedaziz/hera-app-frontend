@@ -40,7 +40,7 @@ const Dropdown = ({
                 <Text
                   style={[
                     styles.IOSlabel,
-                    value ? styles.IOSfloated : styles.unfloated,
+                    value ? styles.IOSfloated : styles.unIosfloated,
                   ]}
                   accessible={true}
                   accessibilityLabel={label}>
@@ -97,7 +97,11 @@ const Dropdown = ({
         ) : (
           <>
             <Text
-              style={[styles.label, value ? styles.floated : styles.unfloated]}
+              style={[
+                styles.label,
+                {bottom: 14},
+                value ? styles.floated : styles.unfloated,
+              ]}
               accessible={true}
               accessibilityLabel={label}>
               {label}

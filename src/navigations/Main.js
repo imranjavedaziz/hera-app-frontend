@@ -30,11 +30,11 @@ import StateList from '../screens/auth/smdonor/SmDashboard/StateList';
 import Support from '../screens/Support/Support';
 import PushNotificationExample from '../screens/Example';
 import Chat_Request from '../screens/Chat_Request_PTB';
-import Chat_Listing from '../screens/chatScreens/ChatListing';
-import ChatDetail from '../screens/chatScreens/ChatDetail';
-
+import Chat_Listing from '../screens/Chat/ChatListing';
+import ChatDetail from '../screens/Chat/ChatDetail'
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
+
 const Main = () => {
   const auth = useSelector(state => state.Auth.user);
   useEffect(() => {
@@ -158,12 +158,11 @@ const Main = () => {
           component={StateList}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
           options={{headerShown: false}}
-        /> */}
-
+        />
         <Stack.Screen
           name={Routes.PushNotificationExample}
           component={PushNotificationExample}

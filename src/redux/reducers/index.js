@@ -12,6 +12,7 @@ import SetPreference from './SetPreference';
 import Support from './Support';
 import Profile_Match from './Profile_Match';
 import Chat from './Chat';
+import Subscription from './Subscription';
 
 const allReducers = combineReducers({
   Auth,
@@ -26,7 +27,8 @@ const allReducers = combineReducers({
   SmDonorDetail,
   Support,
   Profile_Match,
-  Chat
+  Chat,
+  Subscription
 });
 
 export default allReducers;

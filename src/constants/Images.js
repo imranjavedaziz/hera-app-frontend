@@ -81,4 +81,5 @@ export default {
   BIG_HEART_GREEN:  require('../assets/icons/icongreenbigheartnew/icongreenbigheartnew.png'),
   BACK_PLAN_ARROW: require('../assets/icons/backPlanArrow/backPlanArrow.png'),
   ADMIN_ICON: require('../assets/icons/adminLogo/adminLogo.png'),
+  SERCHING: require('../assets/icons/searching/searching.png'),
 };

@@ -37,7 +37,7 @@ export function* watchCreateSubscription() {
 function* SubscriptionPlan(payload) {
   try {
     const result = yield subscriptionPlanApi(payload.data);
-    console.log('LINE NO 37 SAGA SUBSCRIPTION PLAN', result);
+    console.log('LINE NO 37 SAGA SUBSCRIPTION PLAN');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({ type: SUBSCRIPTION_PLAN_SUCCESS, data: result });
     } else {
