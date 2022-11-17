@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     height: Prencentage.PRECENTAGE_100,
     textAlignVertical: Alignment.CENTER,
+    color: Colors.hypenColor,
   },
 });
 const OtpInputs = ({onChange, isValid = true}) => {

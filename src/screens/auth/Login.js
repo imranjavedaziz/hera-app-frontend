@@ -12,7 +12,11 @@ import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
 import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
 import Strings from '../../constants/Strings';
-import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
@@ -58,6 +62,7 @@ const Login = props => {
         );
       }
       if (log_in_error_msg) {
+        dispatch(showAppToast(true, log_in_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -84,6 +89,7 @@ const Login = props => {
 
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;
+
     if (deleting) {
       return value;
     }

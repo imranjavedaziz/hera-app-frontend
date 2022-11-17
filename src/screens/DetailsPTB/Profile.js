@@ -223,7 +223,6 @@ const Profile = props => {
             {Strings.profile.makeAccountFor}
           </Text>
           <View
-            style={styles.subTitle}
             accessible={true}
             accessibilityLabel={`${Strings.profile.parentToBe}`}>
             <Text
@@ -255,7 +254,14 @@ const Profile = props => {
                         ? openIosSheet()
                         : openAndroidSheet();
                     }}>
-                    <Image source={Images.camera} style={styles.profileImg} />
+                    <Image
+                      source={Images.camera}
+                      style={
+                        userImage
+                          ? styles.profileUploadedStyle
+                          : styles.profileImg
+                      }
+                    />
                   </TouchableOpacity>
                 </ImageBackground>
               </TouchableOpacity>

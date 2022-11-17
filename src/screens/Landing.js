@@ -67,7 +67,6 @@ const Landing = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <StatusBar hidden={Platform.OS === 'android'} animated={true} />
     </View>
   );
 };

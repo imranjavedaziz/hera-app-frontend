@@ -11,10 +11,10 @@ export default {
     width: Prencentage.PRECENTAGE_100,
     ...Platform.select({
       android: {
-        height: Prencentage.PRECENTAGE_35,
+        height: 296,
       },
       ios: {
-        height: Prencentage.PRECENTAGE_40,
+        height: 300,
       },
     }),
     backgroundColor: Colors.BACKGROUND,
@@ -46,12 +46,12 @@ export default {
     flex: Value.CONSTANT_VALUE_0,
   },
   title: {
+    textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_23,
     color: Colors.BLACK,
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_20,
-    fontFamily: Fonts.OpenSansRegular,
-    fontWeight: 'bold',
+    fontFamily: Fonts.OpenSansBold,
   },
   btnContainer: {
     alignItems: Alignment.CENTER,
