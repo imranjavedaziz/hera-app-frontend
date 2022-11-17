@@ -16,7 +16,7 @@ export default {
   BACKGROUNDGRAY: ' #131313',
   BUTTONCOLOR: '#979797',
   SMALLBUTTON: '#d2d2d0',
-  BLACK_0: '#000000',
+  BLACK_0: 'rgb(0,0,0)',
   SEARCH_BOX: 'rgb(255,255,255)',
   BORDER_LINE: 'rgba(52,52,52,0.15)',
   dANGER: '#f34444',

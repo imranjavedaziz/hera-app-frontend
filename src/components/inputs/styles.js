@@ -40,8 +40,12 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK_KEY,
   },
-  unfloated: {
+  unIosfloated: {
     top: Value.CONSTANT_VALUE_24,
+    fontSize: Value.CONSTANT_VALUE_16,
+  },
+  unfloated: {
+    marginTop: Value.CONSTANT_VALUE_30,
     fontSize: Value.CONSTANT_VALUE_16,
   },
   input: {
