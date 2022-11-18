@@ -1,7 +1,7 @@
 import {Alignment, Colors} from '../../constants';
 import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {px} from '../../utils/responsive';
+import {height, px} from '../../utils/responsive';
 
 export default {
   userImg: {
@@ -19,6 +19,10 @@ export default {
     borderColor: Colors.GREEN,
     borderRadius: px(Value.CONSTANT_VALUE_60),
   },
+  unReadImgView:{
+    width: px(Value.CONSTANT_VALUE_66),
+    height: px(Value.CONSTANT_VALUE_66),
+  },
   innerContainer: {
     flexDirection: Alignment.ROW,
     marginTop: px(Value.CONSTANT_VALUE_36),
@@ -27,8 +31,10 @@ export default {
   },
   description: {
    marginLeft: px(Value.CONSTANT_VALUE_12),
-    justifyContent: Alignment.CENTER,
-    flex:1
+    // justifyContent: Alignment.CENTER,
+    flex:1,
+    alignItems:'flex-start',
+    // backgroundColor:'red'
   },
   userName: {
     fontFamily: Fonts.OpenSansRegular,
