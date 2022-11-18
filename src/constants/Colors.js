@@ -48,4 +48,5 @@ export default {
   TIME_COLOR: '#ada99f',
   BTNCOLR: '#f18c92',
   BLACK_01: '#79715d',
+  hypenColor: '#1b1b1b',
 };

@@ -1,6 +1,6 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Text, TextInput, Platform, TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../constants';
 import styles from './styles';
 
@@ -29,7 +29,11 @@ const FloatingLabelInput = props => {
           style={[
             styles.label,
             isFocused || textInputProps.value || fixed
-              ? styles.floated
+              ? Platform.OS === 'ios'
+                ? styles.iosFloatingText
+                : styles.floated
+              : Platform.OS === 'ios'
+              ? styles.unIosfloatedText
               : styles.unfloated,
             messageStyle && styles.floatedmessage,
           ]}

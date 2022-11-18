@@ -9,11 +9,8 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
   },
-  subTitle: {
-    marginVertical: Value.CONSTANT_VALUE_8,
-  },
   profileContainer: {
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_25,
   },
   imgBack: {
     borderRadius: Value.CONSTANT_VALUE_70,
@@ -21,9 +18,13 @@ export default {
     resizeMode: Alignment.COVER,
   },
   profileImg: {
-    width: Value.CONSTANT_VALUE_20,
+    width: Value.CONSTANT_VALUE_31,
     height: Value.CONSTANT_VALUE_25,
     resizeMode: Alignment.CONTAIN,
+  },
+  profileUploadedStyle: {
+    height: Value.CONSTANT_VALUE_14,
+    width: Value.CONSTANT_VALUE_17,
   },
   ValidPwd: {
     marginLeft: Value.CONSTANT_VALUE_5,
@@ -113,6 +114,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.LABEL_BLACK,
+    marginTop: Value.CONSTANT_VALUE_10,
   },
   uploadBackground: {
     width: Value.CONSTANT_VALUE_35,
@@ -123,8 +125,8 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   background: {
-    width: Value.CONSTANT_VALUE_140,
-    height: Value.CONSTANT_VALUE_140,
+    width: Value.CONSTANT_VALUE_138,
+    height: Value.CONSTANT_VALUE_138,
     borderRadius: Value.CONSTANT_VALUE_70,
     backgroundColor: Colors.GREEN,
     alignItems: Alignment.CENTER,

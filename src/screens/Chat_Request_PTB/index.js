@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState,useRef} from 'react';
 import {View, Text, Image, TouchableOpacity, Platform} from 'react-native';
 import {Container} from '../../components';
 import {IconHeader} from '../../components/Header';
@@ -9,9 +9,58 @@ import {Value} from '../../constants/FixedValues';
 import ChatImagComp from '../../components/Chat_Request_Ptb/ChatImagComp';
 import User_detail from '../../components/Chat_Request_Ptb/User_detail';
 import LikeProfileDetail from '../../components/Chat_Request_Ptb/LikeProfileDetail';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {profileMatch} from '../../redux/actions/Profile_Match';
+import {
+  showAppLoader,
+  hideAppLoader,
+  showAppToast,
+} from '../../redux/actions/loader';
+import {Routes} from '../../constants/Constants';
 const Chat_Resquest = props => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const loadingMatchRef = useRef(false);
+  const {
+    profile_match_success,
+    profile_match_loading,
+    profile_match_error_msg,
+  } = useSelector(state => state.Profile_Match);
+
+  useEffect(() => {
+    if (loadingMatchRef.current && !profile_match_loading) {
+      dispatch(showAppLoader());
+      if (profile_match_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, profile_match_error_msg));
+        navigation.navigate(Routes.PtbDashboard);
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingMatchRef.current = profile_match_loading;
+  }, [
+    profile_match_success,
+    profile_match_loading,
+    profile_match_error_msg,
+    dispatch,
+    navigation,
+  ]);
+
+  const onPressLike = () => {
+    const payload = {
+      to_user_id: props?.route?.params?.item?.recieverId,
+      status: 1,
+    };
+    dispatch(profileMatch(payload));
+  };
+  const onPressDislike = () => {
+    const payload = {
+      to_user_id: props?.route?.params?.item?.recieverId,
+      status: 3,
+    };
+    dispatch(profileMatch(payload));
+  };
   const headerComp = () => (
     <IconHeader
       rightIcon={Images.iconcross}
@@ -38,7 +87,7 @@ const Chat_Resquest = props => {
         <View style={styles.heartIconContainer}>
           <TouchableOpacity
             onPress={() => {
-              console.log('liked');
+              onPressLike()
             }}
             style={styles.btn(Colors.GREEN)}
             accessibilityRole={'button'}
@@ -57,7 +106,7 @@ const Chat_Resquest = props => {
         <View style={styles.crossIconContainer}>
           <TouchableOpacity
             onPress={() => {
-              console.log('disLiked');
+              onPressDislike()
             }}
             style={styles.btn(Colors.RED)}
             accessibilityRole={'button'}

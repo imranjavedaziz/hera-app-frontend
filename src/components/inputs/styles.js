@@ -22,6 +22,12 @@ export default {
     color: Colors.LABEL_BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
+  iosFloatingText: {
+    top: Value.CONSTANT_VALUE_5,
+
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_KEY,
+  },
   IOSfloated: {
     top: Value.CONSTANT_VALUE_10,
 
@@ -41,7 +47,11 @@ export default {
     color: Colors.BLACK_KEY,
   },
   unIosfloated: {
-    top: Value.CONSTANT_VALUE_24,
+    top: Value.CONSTANT_VALUE_14,
+    fontSize: Value.CONSTANT_VALUE_16,
+  },
+  unIosfloatedText: {
+    top: Value.CONSTANT_VALUE_22,
     fontSize: Value.CONSTANT_VALUE_16,
   },
   unfloated: {
@@ -50,7 +60,7 @@ export default {
   },
   input: {
     minHeight: Value.CONSTANT_VALUE_40,
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
     borderBottomWidth: Value.CONSTANT_VALUE_FRAC115,
     paddingBottom: Value.CONSTANT_VALUE_10,

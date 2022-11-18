@@ -137,7 +137,8 @@ const DashboardDetailScreen = () => {
         mainStyle={true}
         scroller={true}
         showHeader={true}
-        headerComp={headerComp}>
+        headerComp={headerComp}
+        style={{marginHorizontal: 0}}>
         {get_sm_donor_loading === false ? (
           <View style={styles.mainContainer}>
             <DetailComp
@@ -187,23 +188,21 @@ const DashboardDetailScreen = () => {
                 </Text>
               </ImageBackground>
             </View>
-            <View style={styles.innerContainer}>
-              <View style={styles.nativeMainContainer}>
-                {smDetailRes?.location?.name ? (
-                  <View style={styles.nativePlace}>
-                    <Text style={global?.tagText}>
-                      {smDetailRes?.location?.name}
-                    </Text>
-                  </View>
-                ) : null}
-                {smDetailRes?.doner_attribute?.race ? (
-                  <View style={styles.fatherPlace}>
-                    <Text style={global?.tagText}>
-                      {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
-                    </Text>
-                  </View>
-                ) : null}
-              </View>
+            <View style={styles.nativeMainContainer}>
+              {smDetailRes?.location?.name ? (
+                <View style={styles.nativePlace}>
+                  <Text style={global?.tagText}>
+                    {smDetailRes?.location?.name}
+                  </Text>
+                </View>
+              ) : null}
+              {smDetailRes?.doner_attribute?.race ? (
+                <View style={styles.fatherPlace}>
+                  <Text style={global?.tagText}>
+                    {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                  </Text>
+                </View>
+              ) : null}
             </View>
             <View style={styles.nativeMainContainer}>
               {smDetailRes?.doner_attribute?.hair_colour && (

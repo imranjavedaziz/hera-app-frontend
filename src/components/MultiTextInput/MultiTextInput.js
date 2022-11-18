@@ -41,6 +41,7 @@ export default function MultiTextInput({
           <TextInput
             style={[
               styles.input,
+              isFocused && {paddingVertical: 0},
               isFocused ? styles.focusBorder : styles.blurBorder,
               error ? styles.red : null,
               inputStyle,
