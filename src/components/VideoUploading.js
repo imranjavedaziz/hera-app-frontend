@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
@@ -42,7 +43,7 @@ const VideoUploading = props => {
                 ref={props?.videoRef}
                 resizeMode={Alignment.COVER}
                 onLoad={() => {
-                  props?.videoRef?.current?.seek(3);
+                  props?.videoRef?.current?.seek(0);
                   props?.videoRef?.current?.setNativeProps({
                     paused: true,
                   });
@@ -52,6 +53,9 @@ const VideoUploading = props => {
                   props?.onEnd();
                 }}
               />
+              {!props?.isPlaying && Platform.OS === 'android' && (
+                <Image source={Images.playButton} style={styles.playIcon} />
+              )}
             </View>
             <TouchableWithoutFeedback>
               <TouchableOpacity

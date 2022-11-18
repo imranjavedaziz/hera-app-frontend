@@ -13,7 +13,7 @@ import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import {useNavigation,} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
@@ -28,7 +28,7 @@ import SensorySubscription from '../../../../components/SensoryCharacteristics/S
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import {IconHeader} from '../../../../components/Header';
 
-const Subscription = () => {
+const Subscription = props => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
@@ -45,9 +45,10 @@ const Subscription = () => {
   const {
     subscription_plan_success,
     subscription_plan_loading,
-    subscription_plan_error_msg,
     subscription_plan_res,
   } = useSelector(state => state.Subscription);
+  const {create_subscription_success, create_subscription_loading} =
+    useSelector(state => state.Subscription);
 
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
@@ -64,6 +65,20 @@ const Subscription = () => {
     }
     loadingRef.current = subscription_plan_loading;
   }, [subscription_plan_success, subscription_plan_loading]);
+
+  React.useEffect(() => {
+    if (loadingRef.current && !create_subscription_loading) {
+      dispatch(showAppLoader());
+      if (create_subscription_success) {
+        console.log("create_subscription_success",create_subscription_success); 
+        setSelectCheckBox(null);
+        dispatch(hideAppLoader());
+        props.navigation.goBack();
+      }
+      dispatch(hideAppLoader());
+    }
+    loadingRef.current = create_subscription_loading;
+  }, [create_subscription_success, create_subscription_loading]);
 
   const headerComp = () => (
     <IconHeader
@@ -121,11 +136,13 @@ const Subscription = () => {
     };
   }, []);
   const purchaseAPI = item => {
+    console.log("LINE NO 139",item);
     let payload = {
       device_type: Platform.OS === 'android' ? 'android' : 'ios',
       product_id: item?.productId,
-      purchase_token: 'abcd',
+      purchase_token: item?.transactionReceipt,
     };
+    console.log("LINE NO 144 PAYLOAD",payload);
     dispatch(createSubscription(payload));
   };
   React.useEffect(async () => {
@@ -156,8 +173,6 @@ const Subscription = () => {
       await RNIap.requestPurchase({sku})
         .then(async result => {
           console.log('ANDROID LINE 185', result, 'Itemm', item, 'Type', type);
-          // setPurchaseItem(item);
-          // setPurchaseType(type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
@@ -174,10 +189,6 @@ const Subscription = () => {
       await RNIap.requestSubscription({sku})
         .then(async result => {
           console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
-          //  This is for API SUCCESS
-          // purchaseAPI(result, item, type, 'success');
-          // setPurchaseItem(item);
-          // setPurchaseType(type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
@@ -187,7 +198,7 @@ const Subscription = () => {
       console.warn(`err ${error.code}`, error.message);
     }
   };
-
+  console.log("LINE NO 200",subscriptionPlan?.data);
   return (
     <>
       <Container
