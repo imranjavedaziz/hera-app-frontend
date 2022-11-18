@@ -4,7 +4,7 @@ import moment from 'moment';
 // import sendNotification from './sendNotification';
 // import { environment } from '../redux/Constants';
 import {chat} from '../constants/Constants';
-const SIZE = 10;
+const SIZE = 200;
 const createChatId = (id1,id2)=>{
     if(parseInt(id1)>parseInt(id2)){
         return `${id1}-${id2}`;
@@ -46,7 +46,9 @@ export default class FirebaseDB {
     }
 
     appendMessage(msg){
+     
         const index = this.messages.findIndex(m=>m._id===msg._id);
+        console.log(index,'indexappendMessage')
         if(index===-1)this.messages = [ ...this.messages, msg ];
     }
 
@@ -54,7 +56,7 @@ export default class FirebaseDB {
         const { time, text, from} = snapshot.val();
         const createdAt = new Date(time)
         return {
-            _id: snapshot.key+'-'+1,
+            _id: snapshot.key,
             text,
            createdAt: createdAt,
            from,
@@ -77,7 +79,9 @@ export default class FirebaseDB {
 
     async initMessages(){
         this.loading = true;
-        const snapshot = await this.reference.orderByKey().limitToLast(SIZE).once('value');
+        console.log('initMessages')
+        const snapshot = await this.reference.orderByChild('time').limitToLast(SIZE).once('value');
+        // var messageCollection = database.ref(env+'/Messages/'+chatNode).orderByChild('time');
         var keys = Object.keys(snapshot.val()||{});
         this.firstKey = keys[0];
         this.loading = false;
@@ -115,38 +119,41 @@ export default class FirebaseDB {
     }
 
     loadEarlier(cb){
-        if(this.endReached || this.loading)return;
+
         this.loading = true;
         cb(true);
-        this.reference.orderByKey().endAt(this.firstKey===undefined?Date.now().toString():this.firstKey).limitToLast(SIZE).once('value')
-        .then(async snapshot=>{
+
+       
+        // this.reference.endAt(this.firstKey===undefined?this.messages[this.messages.length-1]._id:this.firstKey).limitToLast(SIZE).once('value')
+        this.reference.orderByChild('time').limitToLast(SIZE).endAt('1668778382413').once('value').then(async snapshot=>{
+            // alert('hi')
+            console.log(snapshot.val(),'snapshotmload earlier')
+            this.firstKey = Object.keys(snapshot.val())[0]
+            console.log( this.firstKey,' this.firstKey')
             this.loading = false;
-            const ordered = Object.keys(snapshot.val()).sort((a,b)=>b-a).reduce(
-                (obj, key) => {
-                    obj[key] = snapshot.val()[key];
-                    return obj;
-                },
-                {}
-            );
-            const keys = (Object.keys(ordered||{}));
-            const snapValues = (Object.values(ordered||{}));
-            if(snapValues.length<SIZE)this.endReached = true;
-            snapValues.map(async (childSnapshot,index)=>{
-                if(parseInt(keys[index])<parseInt(this.firstKey)){
-                    const { time, text, from } = childSnapshot;
-                    const createdAt = moment.unix(time, "YYYYMMDD").fromNow();
-                    let messageItem = {
-                        _id: keys[index],
-                         text,
-                        createdAt: createdAt,
-                        from,
-                    };
-                    this.appendMessage(messageItem);
-                    // await this.readSingle(messageItem);
-                }
-            })
+            const keys = (Object.keys(snapshot.val()||{}));
+            if(snapshot.length<SIZE)this.endReached = true;
+          
+            // Object.values(snapshot.val()).map(async (childSnapshot,index)=>{
+            //     // console.log(childSnapshot,'childSnapshot')
+            //     // if(parseInt(keys[index])<parseInt(this.firstKey)){
+            //         const { time, text, from } = childSnapshot;
+            //         const createdAt = new Date(time)
+            //         console.log(keys[index],'keys[index]')
+            //         let messageItem = {
+            //             _id: keys[index],
+            //              text,
+            //             createdAt: createdAt,
+            //             from,
+            //         };
+            //         console.log(messageItem,'messageItem earlier')
+            //         this.appendMessage(messageItem);
+            //         // await this.readSingle(messageItem);
+            //     // }
+            // })
+            // this.firstKey = this.messages[this.messages.length-1]._id
             cb(false);
-            this.firstKey = keys[keys.length-1];
+          
         })
     }
 

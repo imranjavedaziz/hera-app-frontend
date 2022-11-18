@@ -20,12 +20,15 @@ import {
 import {chatFeedback,pushNotification} from '../../redux/actions/Chat';
 import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
+import moment from 'moment';
 let fireDB
 let onChildAdd
 const ChatDetail = props => {
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
+  const[loading,setLoading]=useState(true)
+  const[loadEarlier,setLoadEarlier]=useState(true)
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data} = useSelector(state => state.Auth);
   const loadingRef = useRef(false);
@@ -48,7 +51,7 @@ const ChatDetail = props => {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     }
 
-    const now = Date.now().toString();
+    const now = Date.now()
     const user = {
       user_id: props?.route?.params?.item?.senderId,
       name: props?.route?.params?.item?.senderName,
@@ -66,20 +69,28 @@ const ChatDetail = props => {
     fireDB.lastIdInSnapshot = now;
     console.log(fireDB, 'fireDB');
     setDB(fireDB);
-     onChildAdd = fireDB.reference
-      .orderByKey()
-      .startAt(now)
-      .on('child_added', async (snapshot, _previousChildKey) => {
-        const messageItem = fireDB.parseMessages(snapshot);
-        console.log(messageItem, 'messageItem');
-        if (parseInt(snapshot.key) > parseInt(fireDB.lastIdInSnapshot)) {
-          fireDB.lastKey = snapshot.key;
-          fireDB.prependMessage(messageItem);
-          await fireDB.readAll();
-          fireDB.lastIdInSnapshot = snapshot.key;
-        }
-      });
-  }, [props?.route?.params?.item?.recieverId]);
+   
+      onChildAdd = fireDB.reference
+      //  .orderByKey()
+        // .startAt(now)
+        .on('child_added', async (snapshot, _previousChildKey) => {
+          setLoading(true)
+          const messageItem = fireDB.parseMessages(snapshot);
+
+          console.log(messageItem, 'messageItem');
+          console.log(snapshot,'snapshot.key')
+          console.log(fireDB.lastIdInSnapshot,'fireDB.lastIdInSnapshot')
+          if (messageItem.createdAt > now) {
+            fireDB.lastKey = snapshot.key;
+            fireDB.prependMessage(messageItem);
+            await fireDB.readAll();
+            fireDB.lastIdInSnapshot = snapshot.key;
+            setLoading(false)
+          }
+        });
+  
+   
+  }, []);
 
   useEffect(async() => {
     const unsubscribe =  () => {
@@ -121,6 +132,7 @@ const ChatDetail = props => {
   const customSystemMessage = item => {
     console.log(item.currentMessage, 'item');
     return (
+      <>
       <View
         style={[
           item.currentMessage.from === props?.route?.params?.item?.senderId
@@ -146,11 +158,22 @@ const ChatDetail = props => {
             />
           </View>
         )}
+       
 
         <View style={styles.chatContainer}>
           <Text style={styles.chatText}>{item.currentMessage.text}</Text>
         </View>
+       
       </View>
+      {/* <View style={{flex:1,backgroundColor:'red'}}>
+      <Text style={{
+  fontFamily: "OpenSans",
+  fontSize: 13,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  color: "#ada99f"}}>{moment(item.currentMessage.createdAt).format('h:mm:ss a')}</Text>
+  </View> */}
+      </>
     );
   };
   const setText = text => setTextData(text);
@@ -330,6 +353,17 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
+            // loadEarlier={loadEarlier}
+            // onLoadEarlier={()=>db.loadEarlier(setLoading)}
+            // isLoadingEarlier={loading}
+            // onLoadEarlier={()=>alert('hi')}
+          //   listViewProps={{
+          //     scrollEventThrottle: 400,
+          //     onScroll: ({ nativeEvent }) => {
+          //       db.loadEarlier(setLoading)
+          //       // setLoadEarlier(false)
+          //     }
+          // }}
           />
         )}
         {props?.route?.params?.item?.currentRole === 1 && (
@@ -351,6 +385,17 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
+            // isLoadingEarlier={loading}
+            // loadEarlier={loadEarlier}
+            // onLoadEarlier={()=>db.loadEarlier(setLoading)}
+            // onLoadEarlier={()=>alert('hi')}
+          //   listViewProps={{
+          //     scrollEventThrottle: 400,
+          //     onScroll: ({ nativeEvent }) => {
+          //       db.loadEarlier(setLoading)
+          //       setLoadEarlier(false)
+          //     }
+          // }}
           />
         )}
 
@@ -375,7 +420,18 @@ const ChatDetail = props => {
               textInputProps={{
                 autoCorrect: false,
               }}
-              messagesContainerStyle={{backgroundColor: 'red'}}
+              // loadEarlier={loadEarlier}
+            
+              // isLoadingEarlier={loading}
+
+             
+              // listViewProps={{
+              //     scrollEventThrottle: 400,
+              //     onScroll: ({ nativeEvent }) => {
+              //       db.loadEarlier(setLoading,setLoadEarlier)
+              //       setLoadEarlier(false)
+              //     }
+              // }}
             />
           )}
       </View>
