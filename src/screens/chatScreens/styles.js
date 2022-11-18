@@ -66,7 +66,7 @@ export default {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_14,
   },
-  topContainer: {flexDirection: 'row', alignItems: 'center', flex: 2},
+  topContainer: {flexDirection: 'row', alignItems: 'flex-start', flex: 2,justifyContent:'flex-start'},
   avatar: {
     width: Value.CONSTANT_VALUE_35,
     height: Value.CONSTANT_VALUE_35,

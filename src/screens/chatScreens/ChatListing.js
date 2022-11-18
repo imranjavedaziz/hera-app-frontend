@@ -41,8 +41,12 @@ const ChatListing = () => {
     />
   );
   const renderChatList = ({item}) => {
+    console.log(item,'item')
     return (
-      <Chat_listing_Comp
+      <>
+      {
+        item!==null &&
+        <Chat_listing_Comp
         currentRole={item?.currentRole}
         image={item?.recieverImage}
         name={
@@ -58,8 +62,11 @@ const ChatListing = () => {
         roleId={log_in_data?.role_id}
         match={item?.match_request?.status}
       />
+      }
+     </>
     );
   };
+  console.log(loader,'loader')
   return (
     <Container
       mainStyle={true}
