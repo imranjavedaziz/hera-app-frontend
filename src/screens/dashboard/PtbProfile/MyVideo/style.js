@@ -6,6 +6,7 @@ import Colors from '../../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
