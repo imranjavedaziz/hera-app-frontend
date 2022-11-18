@@ -13,8 +13,8 @@ const styles = {
     position: Alignment.ABSOLUTE,
     top: height / Value.CONSTANT_VALUE_2 - Value.CONSTANT_VALUE_35,
     left: width / Value.CONSTANT_VALUE_2 - Value.CONSTANT_VALUE_35,
-    width: Value.CONSTANT_VALUE_60,
-    height: Value.CONSTANT_VALUE_60,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     borderRadius: Value.CONSTANT_VALUE_35,
@@ -27,7 +27,7 @@ const Loader = () => {
   if (loaderState.loading) {
     return (
       <View style={styles.container}>
-        <MaterialIndicator color={Colors.COLOR_A3C6C4} />
+        <MaterialIndicator color={Colors.COLOR_A3C6C4} size={25} />
       </View>
     );
   }
