@@ -89,6 +89,7 @@ export const IconHeader = ({
   rightImg,
   txt,
   txtPress,
+  chat,
   ...otherProps
 }) => (
   <>
@@ -145,6 +146,20 @@ export const IconHeader = ({
         {...otherProps}
         accessible={true}
         accessibilityRole="button">
+          {
+             chat===true &&
+             <View style={{ width: 12,
+              height: 12,
+              backgroundColor: "#ff4544",
+              borderRadius:6,
+              position:'absolute',
+              right:0,
+              zIndex:9999,
+              borderStyle: "solid",
+              borderWidth: 1,
+              top:5,
+              borderColor: "#ffffff"}}></View>
+          }
         <Image accessible={false} source={rightIcon} style={styles.img} />
       </TouchableOpacity>
     </View>

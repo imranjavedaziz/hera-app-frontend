@@ -255,6 +255,7 @@ const SmDashboard = ({route}) => {
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
+      chat={true}
       rightPress={() => navigation.navigate(Routes.Chat_Listing)}
       // rightPress={() => navigation.navigate(Routes.ChatList)}
       style={styles.headerIcon}
