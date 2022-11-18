@@ -62,7 +62,6 @@ const Login = props => {
         );
       }
       if (log_in_error_msg) {
-        dispatch(showAppToast(true, log_in_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -89,7 +88,6 @@ const Login = props => {
 
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;
-
     if (deleting) {
       return value;
     }
