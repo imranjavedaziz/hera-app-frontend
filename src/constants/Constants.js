@@ -21,7 +21,6 @@ const environment = {
   },
 };
 export const {bucket, api_url, chat} = environment.stage;
-
 export const awsOptions = {
   keyPrefix: 'user/',
   bucket,
