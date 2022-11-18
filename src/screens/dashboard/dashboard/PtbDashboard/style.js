@@ -12,7 +12,7 @@ import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    paddingTop: Value.CONSTANT_VALUE_40,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -43,7 +43,10 @@ export default {
   iconImage: {
     justifyContent: Alignment.CENTER,
   },
-  mainImageContainer: {alignItems: Alignment.CENTER, justifyContent: 'center'},
+  mainImageContainer: {
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+  },
   ImageSize: {
     height: scaleHeight(445),
     width: scaleWidth(340),
