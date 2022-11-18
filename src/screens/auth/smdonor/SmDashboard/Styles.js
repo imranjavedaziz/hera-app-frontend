@@ -2,11 +2,12 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
+import {dynamicSize, width} from '../../../../utils/responsive';
 
 export default {
   mainContainer: {},
   conatiner: {
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   profileImgContainner: {
     borderWidth: Value.CONSTANT_VALUE_2,
@@ -22,8 +23,7 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: Value.CONSTANT_VALUE_167,
-    // opacity: 0.85,
+    width: (width - 65) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
@@ -31,19 +31,19 @@ export default {
     left: Value.CONSTANT_VALUE_18,
   },
   profileName: {
-    fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_20,
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansSemibold,
     color: Colors.WHITE,
     marginBottom: Value.CONSTANT_VALUE_5,
   },
   locationText: {
     fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_11,
-    letterSpacing: Value.CONSTANT_VALUE_2,
-    color: Colors.PARA,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
+    color: Colors.WHITE,
     fontFamily: Fonts.OpenSansBold,
     marginLeft: Value.CONSTANT_VALUE_8,
+    opacity: 0.75,
   },
   profileFooter: {
     flexDirection: Alignment.ROW,
@@ -54,9 +54,7 @@ export default {
     paddingTop: Value.CONSTANT_VALUE_10,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
-  search: {
-    paddingBottom: Value.CONSTANT_VALUE_10,
-  },
+  search: {},
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',

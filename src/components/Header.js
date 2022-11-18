@@ -5,7 +5,7 @@ import Colors from '../constants/Colors';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {dynamicSize} from '../utils/responsive';
-import { Fonts } from '../constants/Constants';
+import {Fonts} from '../constants/Constants';
 
 const styles = {
   container: {
@@ -64,7 +64,7 @@ const styles = {
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
-  }
+  },
 };
 export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
   <TouchableOpacity
@@ -122,7 +122,7 @@ export const IconHeader = ({
       </TouchableOpacity>
     )}
 
-    <View style={{flexDirection: Alignment.ROW}}>
+    <View style={{flexDirection: Alignment.ROW, alignItems: Alignment.CENTER}}>
       <TouchableOpacity
         style={styles.circle}
         onPress={rightPrevPress}
@@ -135,8 +135,7 @@ export const IconHeader = ({
           style={[styles.img, rightImg]}
         />
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={txtPress}>
+      <TouchableOpacity onPress={txtPress}>
         <Text style={styles.headerText}>{txt}</Text>
       </TouchableOpacity>
       <TouchableOpacity

@@ -61,7 +61,16 @@ const SmDashboard = ({route}) => {
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const unsubscribe = navigation.addListener('focus', () => {
-    _getDonorDashboard(1, '');
+    let payload = {
+      keyword: search ? search : '',
+      state_ids:
+        route.params?.informationDetail !== undefined
+          ? route.params?.informationDetail.join()
+          : '',
+      page: page,
+      limit: 10,
+    };
+    dispatch(getDonorDashboard(payload));
   });
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
@@ -94,9 +103,7 @@ const SmDashboard = ({route}) => {
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
-          if (notification.priority === 'high') {
-            navigation.navigate('PushNotificationExample');
-          }
+          navigation.navigate('PushNotificationExample');
         }
         console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -132,7 +139,7 @@ const SmDashboard = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
-      _getDonorDashboard(1, '');
+      _getDonorDashboard(1, search);
       return () => {
         unsubscribe();
       };
@@ -166,7 +173,7 @@ const SmDashboard = ({route}) => {
       get_donor_dashboard_loading,
       get_donor_dashboard_res,
       get_donor_dashboard_error_msg,
-      // dispatch,
+      dispatch,
     ]),
   );
   const _getDonorDashboard = (page, value) => {
@@ -185,11 +192,13 @@ const SmDashboard = ({route}) => {
 
   const onSearch = value => {
     if (value === '' && value.length < 3) {
+      dispatch(showAppLoader());
       _getDonorDashboard(1, '');
       setSearch('');
       setSearching(false);
       return;
     }
+    dispatch(showAppLoader());
     _getDonorDashboard(1, value);
     setSearching(true);
     setSearch(value);
@@ -205,7 +214,17 @@ const SmDashboard = ({route}) => {
   const onClear = () => {
     setSearching(false);
     setSearch('');
-    _getDonorDashboard(1, '');
+    dispatch(showAppLoader());
+    let payload = {
+      keyword: '',
+      state_ids:
+        route.params?.informationDetail !== undefined
+          ? route.params?.informationDetail.join()
+          : '',
+      page: page,
+      limit: 10,
+    };
+    dispatch(getDonorDashboard(payload));
   };
   const renderProfile = ({item, index}) => {
     return (
@@ -296,7 +315,7 @@ const SmDashboard = ({route}) => {
       style={{
         paddingTop: searching
           ? Value.CONSTANT_VALUE_10
-          : Value.CONSTANT_VALUE_60,
+          : Value.CONSTANT_VALUE_55,
       }}>
       <View style={globalStyle.mainContainer}>
         {search === '' ? (

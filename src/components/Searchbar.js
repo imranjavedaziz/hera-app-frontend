@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   mapView: {
     width: Value.CONSTANT_VALUE_51,
     height: Value.CONSTANT_VALUE_50,
-    opacity: 0.8,
     borderRadius: Value.CONSTANT_VALUE_8,
     marginLeft: Value.CONSTANT_VALUE_6,
     backgroundColor: Colors.WHITE,

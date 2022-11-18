@@ -20,7 +20,7 @@ const environment = {
     chat: '',
   },
 };
-export const {bucket, api_url} = environment.dev;
+export const {bucket, api_url} = environment.qa;
 
 export const awsOptions = {
   keyPrefix: 'user/',
