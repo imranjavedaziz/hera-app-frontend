@@ -25,10 +25,7 @@ export default {
     elevation: Value.CONSTANT_VALUE_5,
   },
   bgImage: {
-    height:
-      Platform.OS === 'ios'
-        ? dynamicSize(Value.CONSTANT_VALUE_395)
-        : dynamicSize(Value.CONSTANT_VALUE_250),
+    height: Value.CONSTANT_VALUE_395,
     width: dynamicSize(Value.CONSTANT_VALUE_250),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
