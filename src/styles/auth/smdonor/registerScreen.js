@@ -70,6 +70,7 @@ export default {
   pwdInputContainer: {
     marginVertical: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_5,
+    marginTop: 10,
   },
   pwdErrContainer: {flexDirection: Alignment.ROW, alignItems: Alignment.CENTER},
   pwdErrText: {
