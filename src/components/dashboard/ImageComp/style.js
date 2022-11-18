@@ -3,17 +3,18 @@ import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
 import {dynamicSize} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
+import {Platform} from 'react-native';
 
 export default {
   upperContainer: {
     alignItems: Alignment.CENTER,
-    bottom: Value.CONSTANT_VALUE_20,
-    right: Value.CONSTANT_VALUE_15,
+    bottom: dynamicSize(Value.CONSTANT_VALUE_20),
+    right: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    bottom: Value.CONSTANT_VALUE_5,
+    bottom: dynamicSize(Value.CONSTANT_VALUE_5),
     shadowColor: 'rgba(0, 0, 0, 0.09)',
     shadowOffset: {
       width: Value.CONSTANT_VALUE_0,
@@ -24,7 +25,10 @@ export default {
     elevation: Value.CONSTANT_VALUE_5,
   },
   bgImage: {
-    height: dynamicSize(Value.CONSTANT_VALUE_395),
+    height:
+      Platform.OS === 'ios'
+        ? dynamicSize(Value.CONSTANT_VALUE_395)
+        : dynamicSize(Value.CONSTANT_VALUE_250),
     width: dynamicSize(Value.CONSTANT_VALUE_250),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -39,7 +43,7 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   imageStyle: {
-    borderRadius: Value.CONSTANT_VALUE_20,
+    borderRadius: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -74,7 +78,7 @@ export default {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     width: dynamicSize(Value.CONSTANT_VALUE_250),
     height: dynamicSize(Value.CONSTANT_VALUE_395),
-    borderRadius: Value.CONSTANT_VALUE_20,
+    borderRadius: dynamicSize(Value.CONSTANT_VALUE_20),
     justifyContent: Alignment.CENTER,
   },
 };

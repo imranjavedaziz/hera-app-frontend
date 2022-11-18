@@ -14,12 +14,20 @@ import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
 import {Alignment, Colors} from '../constants';
 import {MaterialIndicator} from 'react-native-indicators';
+import {Value} from '../constants/FixedValues';
 
 const VideoUploading = props => {
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       {props?.video?.loading && (
-        <MaterialIndicator color={Colors.COLOR_A3C6C4} />
+        <MaterialIndicator
+          color={Colors.COLOR_A3C6C4}
+          style={{
+            width: Value.CONSTANT_VALUE_50,
+            height: Value.CONSTANT_VALUE_50,
+          }}
+          size={25}
+        />
       )}
       <FastImage style={props?.style}>
         {props?.video?.file_url !== '' ? (
