@@ -1,8 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import { dynamicSize, px } from '../../../utils/responsive';
-
+import {dynamicSize, px} from '../../../utils/responsive';
 
 export default {
   title: {
@@ -11,6 +10,7 @@ export default {
     textAlign: Alignment.LEFT,
     width: Prencentage.PRECENTAGE_100,
     marginBottom: Value.CONSTANT_VALUE_15,
+    marginTop: Value.CONSTANT_VALUE_60,
   },
   radioContainer: {
     flex: Value.CONSTANT_VALUE_1,
