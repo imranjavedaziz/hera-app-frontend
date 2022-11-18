@@ -17,9 +17,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   showAppToast,
 } from '../../redux/actions/loader';
-import {chatFeedback} from '../../redux/actions/Chat';
+import {chatFeedback,pushNotification} from '../../redux/actions/Chat';
 import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
+let fireDB
+let onChildAdd
 const ChatDetail = props => {
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
@@ -57,14 +59,14 @@ const ChatDetail = props => {
       name: props?.route?.params?.item?.recieverName,
       image: props?.route?.params?.item?.recieverImage,
     };
-    let fireDB = new FirebaseDB(user, receiver);
+   fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
     await fireDB.readAll();
     fireDB.lastIdInSnapshot = now;
     console.log(fireDB, 'fireDB');
     setDB(fireDB);
-    let onChildAdd = fireDB.reference
+     onChildAdd = fireDB.reference
       .orderByKey()
       .startAt(now)
       .on('child_added', async (snapshot, _previousChildKey) => {
@@ -77,14 +79,18 @@ const ChatDetail = props => {
           fireDB.lastIdInSnapshot = snapshot.key;
         }
       });
-    async function cleanUp() {
-      setDB({messages: [], loading: false});
-      fireDB.reference.off('child_added', onChildAdd);
-      db.reference.off('child_added', onChildAdd);
-      fireDB = null;
-    }
-    return cleanUp;
   }, [props?.route?.params?.item?.recieverId]);
+
+  useEffect(async() => {
+    const unsubscribe =  () => {
+      setDB({ messages: [], loading: false });
+      fireDB.reference.off("child_added", onChildAdd);
+      db.reference.off("child_added", onChildAdd);
+      fireDB = null;
+    };
+    return () => unsubscribe();
+  }, []);
+
 
   const onSend = (messages = '') => {
     console.log(messages.text, 'messages');
@@ -94,6 +100,13 @@ const ChatDetail = props => {
       if (messages.text !== '') {
         db.sendMessage(messages.text)
           .then(() => {
+            let data ={
+              "user_id": props?.route?.params?.item?.senderId,
+              "title": `${props?.route?.params?.item?.senderName} sent you a message`,
+              "message": messages.text
+            }
+            console.log(data,'data')
+            dispatch(pushNotification(data))
             setTextData('');
 
             Keyboard.dismiss();

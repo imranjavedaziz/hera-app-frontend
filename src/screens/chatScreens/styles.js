@@ -8,9 +8,8 @@ export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop: 30,
   },
-  header: {marginTop: px(10)},
+  header: {marginTop: px(10), marginLeft: px(30)},
   Inbox: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: px(Value.CONSTANT_VALUE_11),
@@ -66,7 +65,7 @@ export default {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_14,
   },
-  topContainer: {flexDirection: 'row', alignItems: 'center', flex: 2},
+  topContainer: {flexDirection: 'row', alignItems: 'flex-start', flex: 2,justifyContent:'flex-start'},
   avatar: {
     width: Value.CONSTANT_VALUE_35,
     height: Value.CONSTANT_VALUE_35,
