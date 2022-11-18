@@ -96,9 +96,7 @@ const PtbDashboard = props => {
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
-          if (notification.priority === 'high') {
-            navigation.navigate('PushNotificationExample');
-          }
+          navigation.navigate('PushNotificationExample');
         }
         console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -249,10 +247,6 @@ const PtbDashboard = props => {
       </>
     );
   }
-  const logoutScreen = () => {
-    dispatch(logOut());
-    navigation.navigate(Routes.Landing);
-  };
 
   const headerComp = () => (
     <IconHeader

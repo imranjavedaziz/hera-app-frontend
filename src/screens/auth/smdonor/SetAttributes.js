@@ -167,6 +167,7 @@ const SetAttributes = ({route}) => {
             control={control}
             render={({field: {onChange, value}}) => (
               <Dropdown
+                containerStyle={{marginTop: 30}}
                 label={Strings.sm_set_attributes.Height}
                 data={attributeData?.height}
                 onSelect={selectedItem => {
@@ -308,6 +309,8 @@ const SetAttributes = ({route}) => {
             style={{
               height: Value.CONSTANT_VALUE_80,
               width: Value.CONSTANT_VALUE_197,
+              marginTop: Value.CONSTANT_VALUE_46,
+              marginBottom: Value.CONSTANT_VALUE_50,
             }}
             label={Strings.sm_set_attributes.Btn}
             onPress={handleSubmit(onSubmit)}
