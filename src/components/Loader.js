@@ -6,7 +6,6 @@ import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {MaterialIndicator} from 'react-native-indicators';
-
 const {width, height} = Dimensions.get('window');
 const styles = {
   container: {
