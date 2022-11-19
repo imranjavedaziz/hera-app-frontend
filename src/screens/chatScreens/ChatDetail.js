@@ -14,21 +14,18 @@ import {Images, Strings, Colors} from '../../constants';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  showAppToast,
-} from '../../redux/actions/loader';
-import {chatFeedback,pushNotification} from '../../redux/actions/Chat';
+import {showAppToast} from '../../redux/actions/loader';
+import {chatFeedback, pushNotification} from '../../redux/actions/Chat';
 import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 import moment from 'moment';
-let fireDB
-let onChildAdd
+let fireDB;
+let onChildAdd;
 const ChatDetail = props => {
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
-  const[loading,setLoading]=useState(true)
-  const[loadEarlier,setLoadEarlier]=useState(true)
+  const [loading, setLoading] = useState(true);
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data} = useSelector(state => state.Auth);
   const loadingRef = useRef(false);
@@ -51,7 +48,7 @@ const ChatDetail = props => {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     }
 
-    const now = Date.now()
+    const now = Date.now();
     const user = {
       user_id: props?.route?.params?.item?.senderId,
       name: props?.route?.params?.item?.senderName,
@@ -62,62 +59,52 @@ const ChatDetail = props => {
       name: props?.route?.params?.item?.recieverName,
       image: props?.route?.params?.item?.recieverImage,
     };
-   fireDB = new FirebaseDB(user, receiver);
+    fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
     await fireDB.readAll();
     fireDB.lastIdInSnapshot = now;
-    console.log(fireDB, 'fireDB');
     setDB(fireDB);
-   
-      onChildAdd = fireDB.reference
-      //  .orderByKey()
-        // .startAt(now)
-        .on('child_added', async (snapshot, _previousChildKey) => {
-          setLoading(true)
-          const messageItem = fireDB.parseMessages(snapshot);
-
-          console.log(messageItem, 'messageItem');
-          console.log(snapshot,'snapshot.key')
-          console.log(fireDB.lastIdInSnapshot,'fireDB.lastIdInSnapshot')
-          if (messageItem.createdAt > now) {
-            fireDB.lastKey = snapshot.key;
-            fireDB.prependMessage(messageItem);
-            await fireDB.readAll();
-            fireDB.lastIdInSnapshot = snapshot.key;
-            setLoading(false)
-          }
-        });
-  
-   
+    onChildAdd = fireDB.reference.on(
+      'child_added',
+      async (snapshot, _previousChildKey) => {
+        setLoading(true);
+        const messageItem = fireDB.parseMessages(snapshot);
+        if (messageItem.createdAt > now) {
+          fireDB.lastKey = snapshot.key;
+          fireDB.prependMessage(messageItem);
+          await fireDB.readAll();
+          fireDB.lastIdInSnapshot = snapshot.key;
+          setLoading(false);
+        }
+      },
+    );
   }, []);
 
-  useEffect(async() => {
-    const unsubscribe =  () => {
-      setDB({ messages: [], loading: false });
-      fireDB.reference.off("child_added", onChildAdd);
-      db.reference.off("child_added", onChildAdd);
+  useEffect(async () => {
+    const unsubscribe = () => {
+      setDB({messages: [], loading: false});
+      fireDB.reference.off('child_added', onChildAdd);
+      db.reference.off('child_added', onChildAdd);
       fireDB = null;
     };
     return () => unsubscribe();
   }, []);
 
-
   const onSend = (messages = '') => {
-    console.log(messages.text, 'messages');
     if (props.route.params.item.senderSubscription === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     } else {
       if (messages.text !== '') {
         db.sendMessage(messages.text)
           .then(() => {
-            let data ={
-              "user_id": props?.route?.params?.item?.senderId,
-              "title": `${props?.route?.params?.item?.senderName} sent you a message`,
-              "message": messages.text
-            }
-            console.log(data,'data')
-            dispatch(pushNotification(data))
+            let data = {
+              user_id: props?.route?.params?.item?.senderId,
+              title: `${props?.route?.params?.item?.senderName} sent you a message`,
+              message: messages.text,
+            };
+            console.log(data, 'data');
+            dispatch(pushNotification(data));
             setTextData('');
 
             Keyboard.dismiss();
@@ -130,50 +117,54 @@ const ChatDetail = props => {
   };
 
   const customSystemMessage = item => {
-    console.log(item.currentMessage, 'item');
     return (
-      <>
-      <View
-        style={[
-          item.currentMessage.from === props?.route?.params?.item?.senderId
-            ? {
-                alignSelf: 'flex-end',
-                flexDirection: 'row',
-                marginBottom: 10,
-                backgroundColor: Colors.WHITE,
-              }
-            : {
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                alignSelf: 'flex-end',
-                marginBottom: 10,
-                backgroundColor: Colors.GREEN,
-              },
-        ]}>
-        {props.route.params.item.recieverSubscription === 0 && (
-          <View style={{justifyContent: 'flex-end'}}>
-            <Image
-              source={Images.warning}
-              style={{tintColor: '#ff4544', right: 5}}
-            />
+      <View style={{flex: 1, marginBottom: 4}}>
+        <View>
+          <View>
+            <View
+              style={[
+                item.currentMessage.from ===
+                props?.route?.params?.item?.senderId
+                  ? styles.senderID
+                  : styles.receiverID,
+              ]}>
+              {props.route.params.item.recieverSubscription === 0 &&
+                db?.messages[0]._id === item.currentMessage._id && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      alignSelf: 'flex-end',
+                      marginLeft: -30,
+                    }}>
+                    <Image
+                      source={Images.warning}
+                      style={{tintColor: '#ff4544'}}
+                    />
+                  </View>
+                )}
+              <View style={styles.chatContainer}>
+                <Text style={styles.chatText}>{item.currentMessage.text}</Text>
+              </View>
+            </View>
           </View>
-        )}
-       
 
-        <View style={styles.chatContainer}>
-          <Text style={styles.chatText}>{item.currentMessage.text}</Text>
+          <View
+            style={
+              item.currentMessage.from === props?.route?.params?.item?.senderId
+                ? {alignSelf: 'flex-end', marginTop: 4, marginRight: 20}
+                : {alignSelf: 'flex-start', marginTop: 4}
+            }>
+            <Text
+              style={{
+                fontFamily: 'OpenSans',
+                fontSize: 13,
+                color: '#ada99f',
+              }}>
+              {moment(item.currentMessage.createdAt).format('h:mm a')}
+            </Text>
+          </View>
         </View>
-       
       </View>
-      {/* <View style={{flex:1,backgroundColor:'red'}}>
-      <Text style={{
-  fontFamily: "OpenSans",
-  fontSize: 13,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  color: "#ada99f"}}>{moment(item.currentMessage.createdAt).format('h:mm:ss a')}</Text>
-  </View> */}
-      </>
     );
   };
   const setText = text => setTextData(text);
@@ -190,7 +181,6 @@ const ChatDetail = props => {
     useCallback(async () => {
       if (loadingRef.current && !feedback_loading) {
         if (feedback_success) {
-          console.log(feedback_data, 'feedback_data');
           dispatch(showAppToast(false, feedback_data));
           setShowFeedback(false);
           const user = {
@@ -210,7 +200,20 @@ const ChatDetail = props => {
       loadingRef.current = feedback_loading;
     }, [feedback_success, feedback_loading]),
   );
-  console.log(props?.route?.params?.item?.feedback_status,' props?.route?.params?.item?.feedback_status')
+  const navigateDetailScreen=()=>{
+    if(props?.route?.params?.item?.match_request?.status===1){
+      navigation.navigate(Routes.Chat_Request, {
+        item: props.route.params.item,
+      })
+    }else if(log_in_data?.role_id === 2){
+      navigation.navigate(Routes.DashboardDetailScreen ,{userid: props?.route?.params?.item?.recieverId})
+
+    }else{
+      navigation.navigate(Routes.ProfileDetails, {userid: props?.route?.params?.item?.recieverId})
+
+      
+    }
+  }
   return (
     <>
       <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
@@ -238,9 +241,7 @@ const ChatDetail = props => {
                 props?.route?.params?.item?.currentRole === 1 ? true : false
               }
               onPress={() =>
-                navigation.navigate(Routes.Chat_Request, {
-                  item: props.route.params.item,
-                })
+                navigateDetailScreen()
               }>
               <>
                 <View style={styles.avatar}>
@@ -278,7 +279,8 @@ const ChatDetail = props => {
         </View>
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
-          props?.route?.params?.item?.feedback_status === 0 && 50<=db?.messages.length >=20&&(
+          props?.route?.params?.item?.feedback_status === 0 &&
+          db?.messages.length >= 50 >= 20 && (
             <View
               style={{
                 height: 117,
@@ -357,13 +359,13 @@ const ChatDetail = props => {
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
             // isLoadingEarlier={loading}
             // onLoadEarlier={()=>alert('hi')}
-          //   listViewProps={{
-          //     scrollEventThrottle: 400,
-          //     onScroll: ({ nativeEvent }) => {
-          //       db.loadEarlier(setLoading)
-          //       // setLoadEarlier(false)
-          //     }
-          // }}
+            //   listViewProps={{
+            //     scrollEventThrottle: 400,
+            //     onScroll: ({ nativeEvent }) => {
+            //       db.loadEarlier(setLoading)
+            //       // setLoadEarlier(false)
+            //     }
+            // }}
           />
         )}
         {props?.route?.params?.item?.currentRole === 1 && (
@@ -385,17 +387,18 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
+
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
             // onLoadEarlier={()=>alert('hi')}
-          //   listViewProps={{
-          //     scrollEventThrottle: 400,
-          //     onScroll: ({ nativeEvent }) => {
-          //       db.loadEarlier(setLoading)
-          //       setLoadEarlier(false)
-          //     }
-          // }}
+            //   listViewProps={{
+            //     scrollEventThrottle: 400,
+            //     onScroll: ({ nativeEvent }) => {
+            //       db.loadEarlier(setLoading)
+            //       setLoadEarlier(false)
+            //     }
+            // }}
           />
         )}
 
@@ -421,10 +424,9 @@ const ChatDetail = props => {
                 autoCorrect: false,
               }}
               // loadEarlier={loadEarlier}
-            
+
               // isLoadingEarlier={loading}
 
-             
               // listViewProps={{
               //     scrollEventThrottle: 400,
               //     onScroll: ({ nativeEvent }) => {
