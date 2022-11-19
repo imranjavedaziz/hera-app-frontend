@@ -36,7 +36,7 @@ const ChatListing = () => {
     return (
       <>
       {
-        item!==null &&
+        item!==null && item?.match_request?.status ===2&&
         <Chat_listing_Comp
         currentRole={item?.currentRole}
         image={item?.recieverImage}

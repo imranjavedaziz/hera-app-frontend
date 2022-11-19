@@ -181,7 +181,6 @@ const ChatDetail = props => {
     useCallback(async () => {
       if (loadingRef.current && !feedback_loading) {
         if (feedback_success) {
-          console.log(feedback_data, 'feedback_data');
           dispatch(showAppToast(false, feedback_data));
           setShowFeedback(false);
           const user = {
@@ -201,6 +200,20 @@ const ChatDetail = props => {
       loadingRef.current = feedback_loading;
     }, [feedback_success, feedback_loading]),
   );
+  const navigateDetailScreen=()=>{
+    if(props?.route?.params?.item?.match_request?.status===1){
+      navigation.navigate(Routes.Chat_Request, {
+        item: props.route.params.item,
+      })
+    }else if(log_in_data?.role_id === 2){
+      navigation.navigate(Routes.DashboardDetailScreen ,{userid: props?.route?.params?.item?.recieverId})
+
+    }else{
+      navigation.navigate(Routes.ProfileDetails, {userid: props?.route?.params?.item?.recieverId})
+
+      
+    }
+  }
   return (
     <>
       <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
@@ -228,9 +241,7 @@ const ChatDetail = props => {
                 props?.route?.params?.item?.currentRole === 1 ? true : false
               }
               onPress={() =>
-                navigation.navigate(Routes.Chat_Request, {
-                  item: props.route.params.item,
-                })
+                navigateDetailScreen()
               }>
               <>
                 <View style={styles.avatar}>
@@ -412,7 +423,6 @@ const ChatDetail = props => {
               textInputProps={{
                 autoCorrect: false,
               }}
-              messagesContainerStyle={{backgroundColor: 'red'}}
               // loadEarlier={loadEarlier}
 
               // isLoadingEarlier={loading}
