@@ -19,20 +19,12 @@ const ChatListing = () => {
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
-    // matchedList(setRefreshing, setMatches);
   }, []);
   const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
-
-  console.log(log_in_data?.role_id, 'log_in_data?.role_id::::::');
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchData();
-  }, []);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  console.log(chats, 'chats::::::::::::');
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -41,11 +33,10 @@ const ChatListing = () => {
     />
   );
   const renderChatList = ({item}) => {
-    console.log(item,'item')
     return (
       <>
       {
-        item!==null && item?.match_request?.status === 2&&
+        item!==null &&
         <Chat_listing_Comp
         currentRole={item?.currentRole}
         image={item?.recieverImage}
@@ -66,7 +57,6 @@ const ChatListing = () => {
      </>
     );
   };
-  console.log(loader,'loader')
   return (
     <Container
       mainStyle={true}

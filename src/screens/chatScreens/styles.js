@@ -25,7 +25,6 @@ export default {
     color: Colors.BLACK,
     marginTop: px(Value.CONSTANT_VALUE_8),
   },
-  
 
   chatText: {
     paddingVertical: 10,
@@ -35,13 +34,18 @@ export default {
     fontSize: px(Value.CONSTANT_VALUE_13),
   },
   chatContainer: {
-    // backgroundColor: Colors.WHITE,
     padding: 5,
-        // borderRadius: 10,
-        // flex: 1,
-    // width: '70%',
-    // marginVertical: 5,
-    // flexDirection:'row'
+  },
+  senderID: {
+    alignSelf: Alignment.FLEXEND,
+    flexDirection: Alignment.ROW,
+    backgroundColor: Colors.WHITE,
+    marginRight: 20,
+  },
+  receiverID: {
+    flexDirection: Alignment.ROW,
+    alignSelf: Alignment.FLEX_START,
+    backgroundColor: Colors.GREEN,
   },
   mainContainerDetail: {
     backgroundColor: 'white',
@@ -66,7 +70,12 @@ export default {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_14,
   },
-  topContainer: {flexDirection: 'row', alignItems: 'flex-start', flex: 2,justifyContent:'flex-start'},
+  topContainer: {
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.FLEX_START,
+    flex: 2,
+    justifyContent: Alignment.FLEX_START,
+  },
   avatar: {
     width: Value.CONSTANT_VALUE_35,
     height: Value.CONSTANT_VALUE_35,
@@ -74,8 +83,8 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_35 / 2,
   },
   outerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection:  Alignment.ROW,
+    alignItems:  Alignment.CENTER,
     marginTop: 40,
     marginHorizontal: 20,
   },
@@ -84,20 +93,19 @@ export default {
     width: 132,
     borderWidth: 1,
     borderColor: color,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.CENTER,
+    alignItems:  Alignment.CENTER,
     borderRadius: 6,
   }),
   thumbImg: {height: 15, width: 14},
   thumbInnerContain: {
-    flexDirection: 'row',
+    flexDirection: Alignment.ROW,
     justifyContent: 'space-evenly',
     marginTop: 15,
   },
   matchTxt: {
-    // paddingTop: 20,
-    textAlign: 'center',
+    textAlign:  Alignment.CENTER,
     fontSize: 16,
     lineHeight: 21,
     fontFamily: Fonts.OpenSansBold,
@@ -111,11 +119,11 @@ export default {
   },
   smDonorEmptyView: {
     position: 'absolute',
-    justifyContent: 'flex-end',
+    justifyContent: Alignment.FLEX_START,
     bottom: 0,
     right: 0,
     left: 0,
     height: '80%',
   },
-  crossImage:{width:30,height:30}
+  crossImage: {width: 30, height: 30},
 };

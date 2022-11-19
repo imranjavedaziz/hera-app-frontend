@@ -17,10 +17,10 @@ const environment = {
   stage: {
     bucket: '',
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
-    chat: '',
+    chat: 'stage',
   },
 };
-export const {bucket, api_url,chat} = environment.qa;
+export const {bucket, api_url,chat} = environment.stage;
 
 export const awsOptions = {
   keyPrefix: 'user/',
