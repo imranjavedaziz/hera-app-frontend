@@ -6,11 +6,15 @@ import Colors from '../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    marginTop: Value.CONSTANT_VALUE_45,
+    marginTop: Value.CONSTANT_VALUE_105,
+    paddingHorizontal: 40,
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
-    paddingHorizontal: Value.CONSTANT_VALUE_25,
+    marginLeft: 30,
+  },
+  imgView: {
+    alignItems: Alignment.CENTER,
   },
   buttoncontainer: {
     alignItems: Alignment.CENTER,

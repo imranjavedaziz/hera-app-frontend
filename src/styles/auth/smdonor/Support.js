@@ -7,7 +7,8 @@ export default {
     flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
-    paddingHorizontal: 14,
+    paddingHorizontal: 40,
+    marginTop: Value.CONSTANT_VALUE_105,
   },
   title: {
     color: Colors.BLACK,

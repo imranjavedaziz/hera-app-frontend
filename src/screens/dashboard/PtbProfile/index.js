@@ -1,6 +1,6 @@
-import {View, Text, TouchableOpacity, Platform} from 'react-native';
+import {View, Text, TouchableOpacity, Platform, ScrollView} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
-import {IconHeader} from '../../../components/Header';
+import Header, {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import Container from '../../../components/Container';
 import styles from './style';
@@ -95,107 +95,106 @@ const PtbProfile = () => {
   };
   return (
     <>
-      <Container
-        mainStyle={true}
-        scroller={true}
-        fixedHeader={true}
-        showHeader={true}
-        style={styles.containerStyle}
-        showsVerticalScrollIndicator={true}
-        profileLoad={true}
-        headerComp={headerComp}>
-        <View style={styles.mainContainer}>
-          <ProfileImage
-            Heading={Strings.smSetting.ptbProfile}
-            onPressImg={() => {
-              Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
-            }}
-            Name={first_name}
-            LastName={last_name}
-            source={{
-              uri: profileImg,
-            }}
-          />
-          <Subscribe
-            Icon={Images.STAR}
-            MainText={Strings.subscribe.Subscribe_Now}
-            InnerText={Strings.subscribe.Plans}
-          />
-          <PtbAccount
-            leftIcon={Images.preferences}
-            title={Strings.smSetting.EditPreferences}
-            BlueDot
-            onPress={() =>
-              navigation.navigate('SetPreference', {EditPreferences: true})
-            }
-          />
-          <PtbAccount
-            leftIcon={Images.video}
-            title={Strings.smSetting.AddVideo}
-            BlueDot
-            onPress={() => navigation.navigate(Routes.MyVideo)}
-          />
-          <PtbAccount
-            leftIcon={Images.person}
-            BlueDot
-            title={Strings.smSetting.EditProfile}
-          />
-          <PtbAccount
-            leftIcon={Images.setting2}
-            title={Strings.smSetting.Settings}
-          />
-          <PtbAccount
-            leftIcon={Images.writing}
-            title={Strings.smSetting.Inquiry}
-            onPress={() => navigation.navigate('Support')}
-          />
-          <PtbAccount
-            leftIcon={Images.information}
-            title={Strings.smSetting.AboutUs}
-          />
-          <View style={styles.buttoncontainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => logoutScreen()}>
-              <Text style={styles.buttonText}>{Strings.smSetting.Btn}</Text>
-            </TouchableOpacity>
-            <Text style={styles.AppVersion}>
-              {Strings.smSetting.AppVersion}
-            </Text>
-          </View>
-        </View>
-        <ActionSheet
-          ref={actionSheet}
-          options={threeOption}
-          destructiveButtonIndex={2}
-          cancelButtonIndex={2}
-          onPress={index => {
-            handleThreeOption(threeOption[index]);
-          }}
-        />
-        <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
-          <View style={styles.imgPickerContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                openCamera(0, cb);
-              }}
-              style={[styles.pickerBtn, styles.pickerBtnBorder]}>
-              <Text style={styles.pickerBtnLabel}>
-                {Strings.sm_create_gallery.bottomSheetCamera}
+      <View style={styles.flex}>
+        <Header end={false}>{headerComp()}</Header>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.mainContainer}>
+            <View style={styles.imgView}>
+              <ProfileImage
+                Heading={Strings.smSetting.ptbProfile}
+                onPressImg={() => {
+                  Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
+                }}
+                Name={first_name}
+                LastName={last_name}
+                source={{
+                  uri: profileImg,
+                }}
+              />
+            </View>
+            <View>
+              <Subscribe
+                Icon={Images.STAR}
+                MainText={Strings.subscribe.Subscribe_Now}
+                InnerText={Strings.subscribe.Plans}
+              />
+              <PtbAccount
+                leftIcon={Images.preferences}
+                title={Strings.smSetting.EditPreferences}
+                BlueDot
+                onPress={() =>
+                  navigation.navigate('SetPreference', {EditPreferences: true})
+                }
+              />
+              <PtbAccount
+                leftIcon={Images.video}
+                title={Strings.smSetting.AddVideo}
+                BlueDot
+                onPress={() => navigation.navigate(Routes.MyVideo)}
+              />
+              <PtbAccount
+                leftIcon={Images.person}
+                BlueDot
+                title={Strings.smSetting.EditProfile}
+              />
+              <PtbAccount
+                leftIcon={Images.setting2}
+                title={Strings.smSetting.Settings}
+              />
+              <PtbAccount
+                leftIcon={Images.writing}
+                title={Strings.smSetting.Inquiry}
+                onPress={() => navigation.navigate('Support')}
+              />
+              <PtbAccount
+                leftIcon={Images.information}
+                title={Strings.smSetting.AboutUs}
+              />
+            </View>
+            <View style={styles.buttoncontainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => logoutScreen()}>
+                <Text style={styles.buttonText}>{Strings.smSetting.Btn}</Text>
+              </TouchableOpacity>
+              <Text style={styles.AppVersion}>
+                {Strings.smSetting.AppVersion}
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                openCamera(1, cb);
-              }}
-              style={styles.pickerBtn}>
-              <Text style={styles.pickerBtnLabel}>
-                {Strings.sm_create_gallery.bottomSheetGallery}
-              </Text>
-            </TouchableOpacity>
+            </View>
           </View>
-        </BottomSheetComp>
-      </Container>
+          <ActionSheet
+            ref={actionSheet}
+            options={threeOption}
+            destructiveButtonIndex={2}
+            cancelButtonIndex={2}
+            onPress={index => {
+              handleThreeOption(threeOption[index]);
+            }}
+          />
+          <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
+            <View style={styles.imgPickerContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  openCamera(0, cb);
+                }}
+                style={[styles.pickerBtn, styles.pickerBtnBorder]}>
+                <Text style={styles.pickerBtnLabel}>
+                  {Strings.sm_create_gallery.bottomSheetCamera}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  openCamera(1, cb);
+                }}
+                style={styles.pickerBtn}>
+                <Text style={styles.pickerBtnLabel}>
+                  {Strings.sm_create_gallery.bottomSheetGallery}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </BottomSheetComp>
+        </ScrollView>
+      </View>
     </>
   );
 };

@@ -7,10 +7,11 @@ import {dynamicSize} from '../../utils/responsive';
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
-    alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
     marginTop: 110,
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
+  flex: {flex: Value.CONSTANT_VALUE_1},
   logo: {
     width: Value.CONSTANT_VALUE_200,
     height: Value.CONSTANT_VALUE_120,
@@ -19,7 +20,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_30,
     alignSelf: Alignment.CENTER,
   },
-  margin: {marginHorizontal: Value.CONSTANT_VALUE_35},
+  margin: {marginHorizontal: 0},
   underlineBtn: {
     ...global.underlineText,
     color: Colors.BLACK,
@@ -33,7 +34,7 @@ export default {
   },
   btnMargin: {marginVertical: Value.CONSTANT_VALUE_20},
   psswrdInput: {
-    left: Value.CONSTANT_VALUE_8,
+    alignSelf: 'center',
     paddingTop: Value.CONSTANT_VALUE_5,
     paddingBottom: Value.CONSTANT_VALUE_1,
   },

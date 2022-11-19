@@ -1,6 +1,6 @@
 // MobileNumber
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -9,7 +9,7 @@ import Button from '../../components/Button';
 import Images from '../../constants/Images';
 import {CircleBtn} from '../../components/Header';
 import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
-import globalStyle from '../../styles/global';
+
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
@@ -17,6 +17,7 @@ import {mobileNumber} from '../../redux/actions/Auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {ConstantsCode, Routes} from '../../constants/Constants';
+import {InputLabel} from '../../components';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -73,6 +74,7 @@ const MobileNumber = () => {
     />
   );
   const normalizeInput = (value, previousValue) => {
+    console.log(value, previousValue);
     const deleting = previousValue && previousValue.length > value.length;
     if (deleting) {
       return value;
@@ -108,75 +110,63 @@ const MobileNumber = () => {
     setValue('phone', a);
   };
   return (
-    <Container
-      scroller={true}
-      showHeader={true}
-      headerComp={headerComp}
-      headerEnd={true}>
+    <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
       <View
         style={{
-          flex: 1,
-          alignItems: 'center',
+          justifyContent: 'flex-start',
         }}>
-        <Text style={globalStyle.screenTitle}>
-          {Strings.mobile.AccountVerification}
-        </Text>
+        <CircleBtn
+          icon={Images.iconcross}
+          Fixedstyle={{marginTop: 54, alignItems: 'flex-end', marginRight: 20}}
+          onPress={navigation.goBack}
+          accessibilityLabel="Cross Button, Go back"
+        />
         <View
-          style={{marginVertical: 8, flex: 1}}
-          accessible={true}
-          accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
-          <Text
-            style={globalStyle.screenSubTitle}
-            numberOfLines={2}
-            accessible={false}>
-            {Strings.mobile.BeforProceed}
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 16,
+          }}>
+          <Text style={styles.screenTitle}>
+            {Strings.mobile.AccountVerification}
           </Text>
-          <Text
-            style={globalStyle.screenSubTitle}
-            accessible={false}
-            numberOfLines={1}>
-            {Strings.mobile.VerifyNumber}
-          </Text>
+          <Text style={styles.mainTitle}>{Strings.mobile.mainTitle}</Text>
         </View>
         <View style={styles.inputRow}>
-          <FloatingLabelInput
-            label={Strings.mobile.Code}
-            value="+1"
-            disabled={true}
-            editable={false}
-            containerStyle={styles.contryCodeContainer}
-            inputStyle={styles.countryCodeInput}
-          />
+          <InputLabel Code={true} label={Strings.mobile.Code} />
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.mobile.MobileNumber}
+              <InputLabel
                 value={phone}
+                number={true}
+                label={Strings.mobile.MobileNumber}
+                error={errors && errors.phone?.message}
                 onChangeText={v => {
                   handelChange(v);
                 }}
-                keyboardType="number-pad"
                 maxLength={14}
-                error={errors && errors.phone?.message}
-                containerStyle={{
-                  flex: 1,
-                }}
-                fixed={true}
+                keyboardType="number-pad"
               />
             )}
             name="phone"
           />
         </View>
-        <View style={{marginTop: 280}}>
-          <Button
-            style={styles.Btn}
-            label={Strings.mobile.VERIFY}
-            onPress={handleSubmit(onSubmit)}
-          />
-        </View>
       </View>
-    </Container>
+      <View
+        style={{
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          marginTop: 48,
+          marginBottom: 148,
+        }}>
+        <Button
+          style={styles.Btn}
+          label={Strings.mobile.VERIFY}
+          onPress={handleSubmit(onSubmit)}
+        />
+      </View>
+    </ScrollView>
   );
 };
 export default MobileNumber;

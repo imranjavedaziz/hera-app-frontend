@@ -49,4 +49,5 @@ export default {
   BTNCOLR: '#f18c92',
   BLACK_01: '#79715d',
   hypenColor: '#1b1b1b',
+  textPLace: 'rgb(166 161 150)',
 };
