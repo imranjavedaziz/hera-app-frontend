@@ -26,7 +26,7 @@ const Chat_listing_Comp = props => {
           style={styles.innerContainer}
           onPress={() => onPress()}>
           <View style={styles.contain}>
-            <View style={match===2||read === 0 ?styles.ImgView:styles.unReadImgView}>
+            <View style={match===2||read === 0 && currentRole ===1 ?styles.ImgView:styles.unReadImgView}>
               <FastImage style={styles.userImg} source={{uri: image}} />
               {match === 2 && (
                 <FastImage
@@ -63,15 +63,18 @@ const Chat_listing_Comp = props => {
       style={styles.innerContainer}
       onPress={() => onPress()}>
       <View style={styles.contain}>
-      <View style={match===2||read === 0 ?styles.ImgView:styles.unReadImgView}>
+ 
+          <View style={currentRole !==1 &&match===2||read === 0 ?styles.ImgView:styles.unReadImgView}>
           <FastImage style={styles.userImg} source={currentRole === 1 ?Images.ADMIN_ICON:{uri: image}} />
-          {match === 2 && (
+          {match === 2 && currentRole !==1 && (
             <FastImage
               style={styles.heartIcon}
               source={Images.ICON_GREEN_HEART}
             />
           )}
         </View>
+   
+     
         <View style={styles.description}>
           <Text style={styles.userName}>{name}</Text>
           {
