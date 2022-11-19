@@ -126,4 +126,24 @@ export default {
   },
   red: {color: 'red'},
   left: {left: '90%'},
+  //CHanges
+  firstName: {
+    fontFamily: 'OpenSans',
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#000000',
+  },
+  firstNameCopy: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 16,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: Colors.BLACK_0,
+    top: 30,
+  },
 };

@@ -8,6 +8,8 @@ export default {
   imgContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_105,
+    marginBottom: 4,
   },
   profileContainer: {
     marginTop: Value.CONSTANT_VALUE_25,
@@ -160,7 +162,7 @@ export default {
     color: Colors.BLACK,
   },
   fullWidth: {
-    width: '100%',
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
   userImg: {
     position: Alignment.ABSOLUTE,
@@ -174,5 +176,8 @@ export default {
   footText: {
     marginTop: Value.CONSTANT_VALUE_20,
     marginBottom: Value.CONSTANT_VALUE_60,
+  },
+  innerView: {
+    justifyContent: Alignment.FLEX_START,
   },
 };

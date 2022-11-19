@@ -7,7 +7,8 @@ import {px} from '../../../../utils/responsive';
 export default {
   headerContainer: {
     flex: Value.CONSTANT_VALUE_1,
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_90,
+    paddingHorizontal: 30,
   },
   usernameText: {
     fontSize: Value.CONSTANT_VALUE_24,

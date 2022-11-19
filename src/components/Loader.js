@@ -11,8 +11,8 @@ const {width, height} = Dimensions.get('window');
 const styles = {
   container: {
     position: Alignment.ABSOLUTE,
-    top: height / Value.CONSTANT_VALUE_2 - Value.CONSTANT_VALUE_35,
-    left: width / Value.CONSTANT_VALUE_2 - Value.CONSTANT_VALUE_35,
+    top: height / Value.CONSTANT_VALUE_2,
+    left: width / Value.CONSTANT_VALUE_2,
     width: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_50,
     alignItems: Alignment.CENTER,

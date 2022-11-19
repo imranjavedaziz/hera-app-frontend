@@ -4,6 +4,7 @@ import {Fonts} from '../../../constants/Constants';
 import {scaleWidth, normalizeFont} from '../../../utils/responsive';
 
 export default {
+  flex: {flex: Value.CONSTANT_VALUE_1},
   radioBtn: {
     flex: Value.CONSTANT_VALUE_0,
     flexDirection: Alignment.ROW,
@@ -12,7 +13,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp: {marginHorizontal: 40},
+  mainComp: {marginHorizontal: 40, marginTop: 108},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
@@ -51,7 +52,10 @@ export default {
     paddingVertical: Value.CONSTANT_VALUE_0,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
   },
-  fixedheaderStyle: {marginRight: Value.CONSTANT_VALUE_20},
+  fixedheaderStyle: {
+    marginRight: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_54,
+  },
   paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,

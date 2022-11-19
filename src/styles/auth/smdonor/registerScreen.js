@@ -1,9 +1,8 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {dynamicSize, px} from '../../../utils/responsive';
-
 export default {
+  main: {paddingHorizontal: 40, marginTop: Value.CONSTANT_VALUE_54},
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
@@ -137,6 +136,7 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_0,
     paddingVertical: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_36,
+    alignItems: 'center',
   },
   error: {
     width: '100%',
@@ -155,7 +155,8 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
-    paddingHorizontal: px(Value.CONSTANT_VALUE_5),
+    paddingTop: Value.CONSTANT_VALUE_54,
+    marginRight: Value.CONSTANT_VALUE_20,
   },
+  align: {alignItems: 'center'},
 };

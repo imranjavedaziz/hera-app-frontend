@@ -86,6 +86,7 @@ export default {
     Code: 'Code',
     MobileNumber: 'Mobile Number',
     VERIFY: 'VERIFY',
+    mainTitle: 'Before we proceed,\n please verify your number',
   },
   profile: {
     makeAccountFor: 'Make Account For',

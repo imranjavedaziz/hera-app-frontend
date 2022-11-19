@@ -4,6 +4,7 @@ import Chat_listing_Comp from './Chat/Chat_listing_Comp';
 import Container from './Container';
 import FloatingLabelInput from './FloatingLabelInput';
 import Header from './Header';
+import InputLabel from './Inputlabels/InputLabel';
 import Loader from './Loader';
 import MultiTextInput from './MultiTextInput/MultiTextInput';
 import OtpInputs from './OtpInputs';
@@ -26,4 +27,5 @@ export {
   VideoUploading,
   MultiTextInput,
   Chat_listing_Comp,
+  InputLabel,
 };

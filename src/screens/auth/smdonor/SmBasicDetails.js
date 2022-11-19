@@ -8,18 +8,18 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
-import {CircleBtn} from '../../../components/Header';
+import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
-import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
+import FloatingLabelInput from '../../../components/FloatingLabelInput';
 import {Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
@@ -147,7 +147,7 @@ const SmBasicDetails = () => {
     <>
       <CircleBtn
         icon={Images.iconSettings}
-        Fixedstyle={{marginRight: 20}}
+        Fixedstyle={{marginRight: 20, marginTop: 54}}
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}
@@ -196,173 +196,168 @@ const SmBasicDetails = () => {
 
   return (
     <>
-      <Container
-        scroller={true}
-        showHeader={true}
-        headerEnd={true}
-        headerComp={headerComp}
-        style={{marginHorizontal: 0}}
-        safeAreViewStyle={
-          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
-        }>
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          resetScrollToCoords={{x: 0, y: 10}}
-          keyboardOpeningTime={0}
-          scrollEnabled={true}
-          extraHeight={180}
-          showsVerticalScrollIndicator={false}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.mainComp}>
-              <View style={globalStyle.mainContainer}>
-                <Text style={globalStyle.screenTitle}>
-                  {Strings.sm_basic.Title}
-                </Text>
-                <Text
-                  style={[
-                    globalStyle.screenSubTitle,
-                    {marginBottom: Value.CONSTANT_VALUE_45},
-                  ]}>
-                  {Strings.sm_basic.Subtitle}
-                </Text>
-                <Text
-                  style={styles.label}
-                  accessible={true}
-                  accessibilityLabel={'Gender'}>
-                  Gender
-                  <Text style={[{color: 'red'}]}>*</Text>
-                </Text>
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <View style={styles.radioContainer}>
-                      {profileRes?.gender.map(gender => (
-                        <TouchableOpacity
-                          style={styles.radioBtn}
-                          key={gender.id}
-                          onPress={() => onChange(gender.id)}>
-                          <Image
-                            style={styles.radioImg}
-                            source={
-                              value === gender.id
-                                ? Images.iconRadiosel
-                                : Images.iconRadiounsel
-                            }
-                          />
-                          <Text style={styles.radioLabel}>{gender.name}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  )}
-                  name="gender_id"
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Dropdown
-                      containerStyle={{marginTop: 10}}
-                      label={Strings.sm_basic.State}
-                      data={stateRes}
-                      onSelect={selectedItem => {
-                        onChange(selectedItem.id);
-                      }}
-                      required={true}
-                      error={errors && errors.state_id?.message}
-                    />
-                  )}
-                  name="state_id"
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <FloatingLabelInput
-                      label={Strings.sm_basic.Zip}
-                      containerStyle={
-                        Platform.OS === 'ios' ? {marginTop: 12} : {marginTop: 2}
-                      }
-                      value={value}
-                      onChangeText={v => onChange(v)}
-                      error={errors && errors.zipcode?.message}
-                      required={true}
-                      keyboardType="number-pad"
-                      maxLength={6}
-                      lineColor={isOpen}
-                    />
-                  )}
-                  name="zipcode"
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Dropdown
+      <View style={styles.flex}>
+        <Header end={true}>{headerComp()}</Header>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <KeyboardAwareScrollView
+            keyboardShouldPersistTaps="handled"
+            resetScrollToCoords={{x: 0, y: 10}}
+            keyboardOpeningTime={0}
+            scrollEnabled={true}
+            extraHeight={180}
+            showsVerticalScrollIndicator={false}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View style={styles.mainComp}>
+                <View>
+                  <Text style={globalStyle.screenTitle}>
+                    {Strings.sm_basic.Title}
+                  </Text>
+                  <Text
+                    style={[
+                      globalStyle.screenSubTitle,
+                      {marginBottom: Value.CONSTANT_VALUE_45},
+                    ]}>
+                    {Strings.sm_basic.Subtitle}
+                  </Text>
+                  <Text
+                    style={styles.label}
+                    accessible={true}
+                    accessibilityLabel={'Gender'}>
+                    Gender
+                    <Text style={[{color: 'red'}]}>*</Text>
+                  </Text>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <View style={styles.radioContainer}>
+                        {profileRes?.gender.map(gender => (
+                          <TouchableOpacity
+                            style={styles.radioBtn}
+                            key={gender.id}
+                            onPress={() => onChange(gender.id)}>
+                            <Image
+                              style={styles.radioImg}
+                              source={
+                                value === gender.id
+                                  ? Images.iconRadiosel
+                                  : Images.iconRadiounsel
+                              }
+                            />
+                            <Text style={styles.radioLabel}>{gender.name}</Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    )}
+                    name="gender_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <Dropdown
+                        containerStyle={{marginTop: 10}}
+                        label={Strings.sm_basic.State}
+                        data={stateRes}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        error={errors && errors.state_id?.message}
+                      />
+                    )}
+                    name="state_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <FloatingLabelInput
+                        containerStyle={{marginTop: 0}}
+                        label={Strings.sm_basic.Zip}
+                        value={value}
+                        onChangeText={v => onChange(v)}
+                        error={errors && errors.zipcode?.message}
+                        required={true}
+                        keyboardType="number-pad"
+                        maxLength={6}
+                        lineColor={isOpen}
+                      />
+                    )}
+                    name="zipcode"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                      containerStyle={{marginTop: 10}} 
                       label={Strings.sm_basic.SexualOrientation}
-                      containerStyle={{marginTop: 8}}
-                      data={profileRes?.sexual_orientation}
-                      onSelect={selectedItem => {
-                        onChange(selectedItem.id);
-                      }}
-                      required={true}
-                      error={errors && errors.sexual_orientations_id?.message}
+                        data={profileRes?.sexual_orientation}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        error={errors && errors.sexual_orientations_id?.message}
+                      />
+                    )}
+                    name="sexual_orientations_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                        containerStyle={{marginTop: 10}}
+                        label={Strings.sm_basic.RelationshipStatus}
+                        data={profileRes?.relationship_status}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        error={errors && errors.relationship_status_id?.message}
+                      />
+                    )}
+                    name="relationship_status_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <FloatingLabelInput
+                        containerStyle={{marginTop: 10}}
+                        label={Strings.sm_basic.Occupation}
+                        value={value}
+                        onChangeText={v => onChange(v)}
+                        error={errors && errors.occupation?.message}
+                        lineColor={isOpen}
+                      />
+                    )}
+                    name="occupation"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <MultiTextInput
+                        title={Strings.sm_basic.Bio}
+                        required={true}
+                        value={value}
+                        maxLength={250}
+                        onChangeText={v => {
+                          onChange(v);
+                        }}
+                        error={errors && errors.bio?.message}
+                      />
+                    )}
+                    name="bio"
+                  />
+                  <View style={{alignItems: 'center'}}>
+                    <Button
+                      style={styles.Btn}
+                      label={Strings.sm_basic.Btn}
+                      onPress={handleSubmit(onSubmit)}
                     />
-                  )}
-                  name="sexual_orientations_id"
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange}}) => (
-                    <Dropdown
-                      label={Strings.sm_basic.RelationshipStatus}
-                      containerStyle={{marginTop: 10}}
-                      data={profileRes?.relationship_status}
-                      onSelect={selectedItem => {
-                        onChange(selectedItem.id);
-                      }}
-                      required={true}
-                      error={errors && errors.relationship_status_id?.message}
-                    />
-                  )}
-                  name="relationship_status_id"
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <FloatingLabelInput
-                      label={Strings.sm_basic.Occupation}
-                      containerStyle={{marginTop: 8, marginBottom: 10}}
-                      value={value}
-                      onChangeText={v => onChange(v)}
-                      error={errors && errors.occupation?.message}
-                      lineColor={isOpen}
-                    />
-                  )}
-                  name="occupation"
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <MultiTextInput
-                      title={Strings.sm_basic.Bio}
-                      required={true}
-                      value={value}
-                      maxLength={250}
-                      onChangeText={v => {
-                        onChange(v);
-                      }}
-                      error={errors && errors.bio?.message}
-                    />
-                  )}
-                  name="bio"
-                />
-                <Button
-                  style={styles.Btn}
-                  label={Strings.sm_basic.Btn}
-                  onPress={handleSubmit(onSubmit)}
-                />
+                  </View>
+                </View>
               </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
-      </Container>
+            </TouchableWithoutFeedback>
+          </KeyboardAwareScrollView>
+        </ScrollView>
+      </View>
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
         lineStyle={globalStyle.lineStyle}
