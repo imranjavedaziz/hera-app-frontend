@@ -29,7 +29,7 @@ const ChatListing = () => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => navigation.goBack()}
-      style={styles.header}
+      style={{marginTop: 10}}
     />
   );
   const renderChatList = ({item}) => {
@@ -61,7 +61,7 @@ const ChatListing = () => {
     <Container
       mainStyle={true}
       scroller={false}
-      showHeader={true}x
+      showHeader={true}
       headerComp={headerComp}
       safeAreViewStyle={{backgroundColor: Colors.BACKGROUND}}>
       {loader === false && (
