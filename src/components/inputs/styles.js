@@ -46,16 +46,16 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK_KEY,
   },
-  unfloated: {
-    marginTop: 30,
-    fontSize: Value.CONSTANT_VALUE_16,
-  },
   unIosfloated: {
     top: Value.CONSTANT_VALUE_14,
     fontSize: Value.CONSTANT_VALUE_16,
   },
   unIosfloatedText: {
     top: Value.CONSTANT_VALUE_22,
+    fontSize: Value.CONSTANT_VALUE_16,
+  },
+  unfloated: {
+    marginTop: Value.CONSTANT_VALUE_30,
     fontSize: Value.CONSTANT_VALUE_16,
   },
   input: {

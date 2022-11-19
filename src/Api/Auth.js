@@ -2,6 +2,7 @@ import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 
 export const loginInApi = data => {
+  console.log(ApiPath.login, data, 'ApiPath.login, data');
   return axiosRequest.post(ApiPath.login, data);
 };
 export const deviceRegisterApi = data => {

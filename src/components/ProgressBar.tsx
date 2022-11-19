@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Slider from '@react-native-community/slider';
+import {Value} from '../constants/FixedValues';
+import Colors from '../constants/Colors';
 
 interface Props {
   currentTime: number;
@@ -30,9 +32,9 @@ export const ProgressBar: React.FC<Props> = ({
         onValueChange={handleOnSlide}
         onSlidingStart={onSlideStart}
         onSlidingComplete={onSlideComplete}
-        minimumTrackTintColor={'#F44336'}
-        maximumTrackTintColor={'#FFFFFF'}
-        thumbTintColor={'#F44336'}
+        minimumTrackTintColor={Colors.RED}
+        maximumTrackTintColor={Colors.WHITE}
+        thumbTintColor={Colors.RED}
       />
       <View style={styles.timeWrapper}>
         <Text style={styles.timeLeft}>{position}</Text>
@@ -42,11 +44,14 @@ export const ProgressBar: React.FC<Props> = ({
   );
 
   function getMinutesFromSeconds(time: number) {
-    const minutes = time >= 60 ? Math.floor(time / 60) : 0;
-    const seconds = Math.floor(time - minutes * 60);
+    const minutes =
+      time >= Value.CONSTANT_VALUE_60
+        ? Math.floor(time / Value.CONSTANT_VALUE_60)
+        : 0;
+    const seconds = Math.floor(time - minutes * Value.CONSTANT_VALUE_60);
 
-    return `${minutes >= 10 ? minutes : '0' + minutes}:${
-      seconds >= 10 ? seconds : '0' + seconds
+    return `${minutes >= Value.CONSTANT_VALUE_10 ? minutes : '0' + minutes}:${
+      seconds >= Value.CONSTANT_VALUE_10 ? seconds : '0' + seconds
     }`;
   }
 

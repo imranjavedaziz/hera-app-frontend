@@ -6,17 +6,30 @@ import {
   TouchableOpacity,
   View,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
-import {Alignment} from '../constants';
+import {Alignment, Colors} from '../constants';
+import {MaterialIndicator} from 'react-native-indicators';
+import {Value} from '../constants/FixedValues';
 
 const VideoUploading = props => {
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
+      {props?.video?.loading && (
+        <MaterialIndicator
+          color={Colors.COLOR_A3C6C4}
+          style={{
+            width: Value.CONSTANT_VALUE_50,
+            height: Value.CONSTANT_VALUE_50,
+          }}
+          size={25}
+        />
+      )}
       <FastImage style={props?.style}>
         {props?.video?.file_url !== '' ? (
           <>
@@ -42,7 +55,7 @@ const VideoUploading = props => {
                 ref={props?.videoRef}
                 resizeMode={Alignment.COVER}
                 onLoad={() => {
-                  props?.videoRef?.current?.seek(3);
+                  props?.videoRef?.current?.seek(0);
                   props?.videoRef?.current?.setNativeProps({
                     paused: true,
                   });
@@ -52,6 +65,9 @@ const VideoUploading = props => {
                   props?.onEnd();
                 }}
               />
+              {!props?.isPlaying && Platform.OS === 'android' && (
+                <Image source={Images.playButton} style={styles.playIcon} />
+              )}
             </View>
             <TouchableWithoutFeedback>
               <TouchableOpacity

@@ -5,38 +5,33 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import {SUBSCRIPTION_PLAN} from '../../../../constants/Constants';
-import {useSelector, useDispatch} from 'react-redux';
-import {SUBSCRIPTION_PLAN_SUCCESS} from '../../../../redux/Type';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   createSubscription,
   getSubscriptionPlan,
 } from '../../../../redux/actions/Subsctiption';
-import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import { IconHeader } from '../../../../components/Header';
-import { scaleWidth } from '../../../../utils/responsive';
 
-const Subscription = () => {
+const Subscription = props => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
-  const [purchaseItem, setPurchaseItem] = React.useState(null);
-  const [purchaseType, setPurchaseType] = React.useState(null);
-  const [isCallApi, setCallApi] = React.useState(false);
   const [purchasereceipt, setPurchaseReceipt] = React.useState(null);
   const IAPService = InAPPPurchase.getInstance();
   let purchaseUpdateSubscription = null;
@@ -47,9 +42,10 @@ const Subscription = () => {
   const {
     subscription_plan_success,
     subscription_plan_loading,
-    subscription_plan_error_msg,
     subscription_plan_res,
   } = useSelector(state => state.Subscription);
+  const { create_subscription_success, create_subscription_loading } =
+    useSelector(state => state.Subscription);
 
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
@@ -67,19 +63,29 @@ const Subscription = () => {
     loadingRef.current = subscription_plan_loading;
   }, [subscription_plan_success, subscription_plan_loading]);
 
+  React.useEffect(() => {
+    if (loadingRef.current && !create_subscription_loading) {
+      dispatch(showAppLoader());
+      if (create_subscription_success) {
+        console.log("create_subscription_success", create_subscription_success);
+        setSelectCheckBox(null);
+        dispatch(hideAppLoader());
+        props.navigation.goBack();
+      }
+      dispatch(hideAppLoader());
+    }
+    loadingRef.current = create_subscription_loading;
+  }, [create_subscription_success, create_subscription_loading]);
+
   const headerComp = () => (
     <IconHeader
-    leftIcon={Images.I_BUTTON}
-    leftPress={() => setModal(!modal)}
-    style={styles.headerIcon}
-    txt={Strings.Subscription.Later}
-    txtPress={() => navigation.goBack()}
-  />
+      leftIcon={Images.I_BUTTON}
+      leftPress={() => setModal(!modal)}
+      style={styles.headerIcon}
+      txt={Strings.Subscription.Later}
+      txtPress={() => navigation.goBack()}
+    />
   );
-
-  const onSubsribe = () => {
-    console.log('presss');
-  };
 
   const selectCheckHandler = item => {
     if (selectCheckBox === item) {
@@ -96,10 +102,10 @@ const Subscription = () => {
         const receipt = purchase.transactionReceipt;
         console.log('LINE NO 88 RECeIPT', receipt);
         setPurchaseReceipt(purchase);
-        setCallApi(true);
         if (receipt) {
           try {
-            await RNIap.finishTransaction({purchase, isConsumable: true});
+            purchaseAPI(purchase);
+            await RNIap.finishTransaction({ purchase, isConsumable: true });
             if (Platform.OS === 'ios') {
               console.log('LINE NO 90 PURCHAASE', purchase);
             } else if (Platform.OS === 'android') {
@@ -125,31 +131,16 @@ const Subscription = () => {
       }
     };
   }, []);
-  const purchaseAPI = (result, item, type, status) => {
-    if (type === 'credit') {
-      let payload = {
-        amount: item?.combo_price,
-        cash_combo: item?.id,
-        status: status,
-        data: result,
-      };
-      dispatch(createSubscription(payload));
-    }
+  const purchaseAPI = item => {
+    console.log("LINE NO 139", item);
+    let payload = {
+      device_type: Platform.OS === 'android' ? 'android' : 'ios',
+      product_id: item?.productId,
+      purchase_token: item?.transactionReceipt,
+    };
+    console.log("LINE NO 144 PAYLOAD", payload);
+    dispatch(createSubscription(payload));
   };
-  const callUseEffect = () => {
-    if (isCallApi) {
-      console.log(
-        'purchase item???167',
-        purchaseItem,
-        'Type???',
-        purchaseType,
-        'purchaseReceipt???',
-        purchasereceipt,
-      );
-      purchaseAPI(purchasereceipt, purchaseItem, purchaseType, 'success');
-    }
-  };
-
   React.useEffect(async () => {
     IAPService.initializeConnection();
     const allProducts = await IAPService.getIAPProducts();
@@ -175,11 +166,9 @@ const Subscription = () => {
   const requestSubscriptionAndroid = async (sku, item, type) => {
     console.log('IAP req android', sku);
     try {
-      await RNIap.requestPurchase({sku})
+      await RNIap.requestPurchase({ sku })
         .then(async result => {
-          console.log('IAP req sub android', result);
-          setPurchaseItem(item);
-          setPurchaseType(type);
+          console.log('ANDROID LINE 185', result, 'Itemm', item, 'Type', type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
@@ -190,23 +179,10 @@ const Subscription = () => {
     }
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
-    setPurchaseItem(item);
-    setPurchaseType(type);
     try {
-      await RNIap.requestSubscription({sku})
+      await RNIap.requestSubscription({ sku })
         .then(async result => {
-          console.log(
-            'IAP req sub RESULT 185',
-            result,
-            'Itemm??',
-            item,
-            'Type???',
-            type,
-          );
-          //  This is for API SUCCESS
-          purchaseAPI(result, item, type, 'success');
-          setPurchaseItem(item);
-          setPurchaseType(type);
+          console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
@@ -216,16 +192,14 @@ const Subscription = () => {
       console.warn(`err ${error.code}`, error.message);
     }
   };
-
+  console.log("LINE NO 200", subscriptionPlan?.data);
   return (
     <>
       <Container
         scroller={false}
         showHeader={true}
         headerComp={headerComp}
-        mainStyle={true}
-        
-        >
+        mainStyle={true}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.mainContainer}>
             <Image source={Images.LOGO} style={styles.logo} />
@@ -261,9 +235,9 @@ const Subscription = () => {
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>
-                  <Text style={{color: 'red'}}>*</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
                   {Strings.Subscription.BySubs}
-                  <TouchableOpacity style={{top: 2}}>
+                  <TouchableOpacity style={{ top: 2 }}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.TermsServices}
                     </Text>

@@ -21,7 +21,6 @@ import {Routes} from '../../../../constants/Constants';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from './Styles';
 const StateList = props => {
-  console.log('>>>>>>>props>>>>', props);
   const {selectedStateList} = props.route.params;
   const navigation = useNavigation();
   const loadingRef = useRef(false);
@@ -78,6 +77,7 @@ const StateList = props => {
     setAllState(data);
   };
   useEffect(() => {
+    dispatch(showAppLoader());
     dispatch(getStates());
   }, [dispatch]);
   const onSearch = value => {

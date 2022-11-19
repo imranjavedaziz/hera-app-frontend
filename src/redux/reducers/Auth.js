@@ -174,7 +174,7 @@ export default (state = initState, action) => {
         ...state,
         device_info_success: true,
         device_info_loading: false,
-        device_info_error_msg: action.data.msg,
+        device_info_error_msg: '',
         device_info: action?.data?.data?.data,
       };
     }

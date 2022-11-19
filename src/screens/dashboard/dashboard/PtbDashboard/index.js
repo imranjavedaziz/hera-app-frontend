@@ -96,9 +96,7 @@ const PtbDashboard = props => {
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
-          if (notification.priority === 'high') {
-            navigation.navigate('PushNotificationExample');
-          }
+          navigation.navigate('PushNotificationExample');
         }
         console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -149,8 +147,7 @@ const PtbDashboard = props => {
         if (get_ptb_dashboard_success) {
           dispatch(hideAppLoader());
           setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
-        }
-        if (get_ptb_dashboard_error_msg) {
+        } else {
           dispatch(hideAppLoader());
         }
       }
@@ -249,10 +246,6 @@ const PtbDashboard = props => {
       </>
     );
   }
-  const logoutScreen = () => {
-    dispatch(logOut());
-    navigation.navigate(Routes.Landing);
-  };
 
   const headerComp = () => (
     <IconHeader
@@ -349,7 +342,7 @@ const PtbDashboard = props => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        {empty === true ? (
+        {empty === true || _.isEmpty(ptbDashboardRes) ? (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
             <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>

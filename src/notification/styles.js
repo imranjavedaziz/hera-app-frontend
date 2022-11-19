@@ -1,5 +1,5 @@
-export default{
-      chatText: {
+export default {
+  chatText: {
     paddingVertical: Value.CONSTANT_VALUE_10,
     paddingHorizontal: Value.CONSTANT_VALUE_24,
     fontFamily: Fonts.OpenSansBold,
@@ -34,7 +34,7 @@ export default{
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_14,
   },
-  topContainer: {flexDirection: 'row', alignItems: 'center', flex: 2},
+  topContainer: { flexDirection: 'row', alignItems: 'center', flex: 2 },
   avatar: {
     width: Value.CONSTANT_VALUE_35,
     height: Value.CONSTANT_VALUE_35,

@@ -1,12 +1,11 @@
-import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import { Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import React from 'react';
 import Strings from '../../constants/Strings';
 import styles from './styles';
-import {SENSORY_ARR} from '../../constants/Constants';
-import Images from '../../constants/Images';
+import { SENSORY_ARR } from '../../constants/Constants';
 
 const SensoryCharacteristics = props => {
-  const {onPress} = props;
+  const { onPress } = props;
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}>

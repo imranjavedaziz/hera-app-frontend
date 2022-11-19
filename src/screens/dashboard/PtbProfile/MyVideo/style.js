@@ -6,6 +6,7 @@ import Colors from '../../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
@@ -66,8 +67,8 @@ export default {
   },
   playIcon: {
     position: Alignment.ABSOLUTE,
-    left: width / Value.CONSTANT_VALUE_3,
-    top: Value.CONSTANT_VALUE_70,
+    alignSelf:Alignment.CENTER,
+    top: 180/2,
   },
   videoSel: {
     position: Alignment.ABSOLUTE,
