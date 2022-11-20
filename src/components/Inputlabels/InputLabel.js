@@ -1,22 +1,16 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
-import {Text, TextInput, Platform, TouchableOpacity, View} from 'react-native';
-import {Colors, Strings} from '../../constants';
-import {ConstantsCode, Fonts} from '../../constants/Constants';
-import {Value} from '../../constants/FixedValues';
+import {Text, TextInput, View} from 'react-native';
+import {Colors} from '../../constants';
+import {ConstantsCode} from '../../constants/Constants';
 import styles from './styles';
 
 const InputLabel = props => {
   const [isFocused, setFocused] = useState(false);
   const {
-    messageStyle = false,
     label,
-    containerStyle = {},
-    fixed = false,
-    endComponent = null,
     required = false,
     error = '',
-    inputStyle = {},
     labelsINput = false,
     maxLength,
     lineColor,
@@ -42,7 +36,7 @@ const InputLabel = props => {
       )}
       {number && (
         <>
-          <View style={{height: 50, flex: 1, marginLeft: 17.3}}>
+          <View style={styles.numberView}>
             <Text style={styles.NumberText}>{label}</Text>
             <TextInput
               editable={true}
@@ -64,7 +58,7 @@ const InputLabel = props => {
       )}
       {labelsINput && (
         <>
-          <View style={{flex: 1, marginTop: 30}}>
+          <View style={styles.labelView}>
             <Text
               style={
                 isFocused || textInputProps.value

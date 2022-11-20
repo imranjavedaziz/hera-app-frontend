@@ -264,11 +264,6 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
-
-  const logoutScreen = () => {
-    dispatch(logOut());
-    navigation.navigate(Routes.Landing);
-  };
   const headerComp = () => (
     <IconHeader
       leftIcon={{uri: profileImg}}

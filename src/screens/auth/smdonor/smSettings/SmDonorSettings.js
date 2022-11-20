@@ -7,12 +7,10 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
-import Container from '../../../../components/Container';
 import Header, {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
 import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
@@ -25,7 +23,6 @@ import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../../components';
 import ProfileImage from '../../../../components/dashboard/PtbProfile/ProfileImage';
 import {Alignment} from '../../../../constants';
-import {Value} from '../../../../constants/FixedValues';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -33,7 +30,6 @@ const SmDonorSettings = () => {
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
-  const userName = `${first_name} ${last_name}`;
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [threeOption, setThreeOption] = useState([]);
@@ -107,7 +103,6 @@ const SmDonorSettings = () => {
             <View
               style={{
                 alignItems: Alignment.CENTER,
-                // marginBottom: Value.CONSTANT_VALUE_90,
               }}>
               <ProfileImage
                 smProfile={true}

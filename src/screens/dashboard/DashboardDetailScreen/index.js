@@ -16,7 +16,6 @@ import BioComponent from '../../../components/dashboard/DetailScreen/BioComponen
 import styles from './style';
 import Strings from '../../../constants/Strings';
 import {Value} from '../../../constants/FixedValues';
-
 import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
@@ -32,6 +31,7 @@ import {profileMatch} from '../../../redux/actions/Profile_Match';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
 import {height} from '../../../utils/responsive';
+import {Alignment} from '../../../constants';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -293,8 +293,8 @@ const DashboardDetailScreen = () => {
           <MaterialIndicator
             color={Colors.COLOR_A3C6C4}
             style={{
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: Alignment.CENTER,
+              alignItems: Alignment.CENTER,
               marginTop: height / 2,
             }}
           />

@@ -9,7 +9,7 @@ export default {
   LITE_BG: '#e9e8db',
   GREEN: '#98c9c3',
   SKY_BLUE: '#4fc3f1',
-  INPUT_BORDER: '#e6e4dc',
+  INPUT_BORDER: '#e4e2d8',
   PARA: '#9a9689',
   LIGHT_PINK: '#f3dfde',
   BACKGROUND_COLOR: 'rgb(248,248,248)',

@@ -11,6 +11,7 @@ export default {
     marginTop: Value.CONSTANT_VALUE_105,
     marginBottom: 4,
   },
+  flex: {flex: 1},
   profileContainer: {
     marginTop: Value.CONSTANT_VALUE_25,
   },
@@ -43,14 +44,10 @@ export default {
     color: Colors.BLACK,
     lineHeight: Value.CONSTANT_VALUE_21,
   },
-  flex: {
-    flex: Value.CONSTANT_VALUE_1,
-  },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_52,
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   tmc: {

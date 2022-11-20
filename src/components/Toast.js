@@ -84,8 +84,9 @@ const Toast = () => {
                 source={icon}
                 style={{
                   alignItems: Alignment.CENTER,
-                  justifyContent: Alignment.FLEX_START,
-                  alignSelf: Alignment.CENTER,
+                  justifyContent: Alignment.CENTER,
+                  height: Value.CONSTANT_VALUE_20,
+                  width: Value.CONSTANT_VALUE_20,
                 }}
               />
               <Text style={styles.text}>{toastState.toastText}</Text>

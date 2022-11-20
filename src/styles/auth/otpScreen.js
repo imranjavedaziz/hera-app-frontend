@@ -13,7 +13,7 @@ export default {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  leftIcon: {marginLeft: Value.CONSTANT_VALUE_20},
+  leftIcon: {marginLeft: Value.CONSTANT_VALUE_20, marginTop:54},
   marginStyle: {marginHorizontal: Value.CONSTANT_VALUE_10},
   redColor: {color: Colors.RED},
   trouble: {
