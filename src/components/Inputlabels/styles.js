@@ -1,5 +1,5 @@
 import Colors from '../../constants/Colors';
-import {Prencentage, Value} from '../../constants/FixedValues';
+import {Value} from '../../constants/FixedValues';
 import Alignment from '../../constants/Alignment';
 import {Fonts} from '../../constants/Constants';
 
@@ -16,6 +16,8 @@ export default {
     bottom: -25,
     right: 40,
   },
+  labelView: {flex: Value.CONSTANT_VALUE_1, marginTop: Value.CONSTANT_VALUE_30},
+  numberView: {height: 50, flex: 1, marginLeft: 17.3},
   codeText: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 14,

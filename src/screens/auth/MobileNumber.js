@@ -1,15 +1,12 @@
 // MobileNumber
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, ScrollView, TextInput} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Container from '../../components/Container';
 import Button from '../../components/Button';
 import Images from '../../constants/Images';
-import {CircleBtn} from '../../components/Header';
-import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
-
+import Header, {CircleBtn} from '../../components/Header';
 import Strings from '../../constants/Strings';
 import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
@@ -18,6 +15,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {InputLabel} from '../../components';
+import {Value} from '../../constants/FixedValues';
+import {Alignment} from '../../constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -69,6 +68,11 @@ const MobileNumber = () => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
+      Fixedstyle={{
+        marginTop: Value.CONSTANT_VALUE_54,
+        alignItems: Alignment.FLEXEND,
+        marginRight: Value.CONSTANT_VALUE_20,
+      }}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
     />
@@ -110,63 +114,62 @@ const MobileNumber = () => {
     setValue('phone', a);
   };
   return (
-    <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-      <View
-        style={{
-          justifyContent: 'flex-start',
-        }}>
-        <CircleBtn
-          icon={Images.iconcross}
-          Fixedstyle={{marginTop: 54, alignItems: 'flex-end', marginRight: 20}}
-          onPress={navigation.goBack}
-          accessibilityLabel="Cross Button, Go back"
-        />
+    <>
+      <Header end={true}>{headerComp()}</Header>
+      <ScrollView
+        style={{flex: Value.CONSTANT_VALUE_1}}
+        showsVerticalScrollIndicator={false}>
         <View
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 16,
+            justifyContent: Alignment.FLEX_START,
           }}>
-          <Text style={styles.screenTitle}>
-            {Strings.mobile.AccountVerification}
-          </Text>
-          <Text style={styles.mainTitle}>{Strings.mobile.mainTitle}</Text>
+          <View
+            style={{
+              alignItems: Alignment.CENTER,
+              justifyContent: Alignment.CENTER,
+              marginTop: Value.CONSTANT_VALUE_104,
+            }}>
+            <Text style={styles.screenTitle}>
+              {Strings.mobile.AccountVerification}
+            </Text>
+            <Text style={styles.mainTitle}>{Strings.mobile.mainTitle}</Text>
+          </View>
+          <View style={styles.inputRow}>
+            <InputLabel Code={true} label={Strings.mobile.Code} />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <InputLabel
+                  value={phone}
+                  number={true}
+                  label={Strings.mobile.MobileNumber}
+                  error={errors && errors.phone?.message}
+                  onChangeText={v => {
+                    handelChange(v);
+                  }}
+                  maxLength={14}
+                  keyboardType="number-pad"
+                />
+              )}
+              name="phone"
+            />
+          </View>
         </View>
-        <View style={styles.inputRow}>
-          <InputLabel Code={true} label={Strings.mobile.Code} />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <InputLabel
-                value={phone}
-                number={true}
-                label={Strings.mobile.MobileNumber}
-                error={errors && errors.phone?.message}
-                onChangeText={v => {
-                  handelChange(v);
-                }}
-                maxLength={14}
-                keyboardType="number-pad"
-              />
-            )}
-            name="phone"
+        <View
+          style={{
+            justifyContent: Alignment.FLEX_START,
+            alignItems: Alignment.CENTER,
+            marginTop: Value.CONSTANT_VALUE_48,
+            marginBottom: Value.CONSTANT_VALUE_148,
+          }}>
+          <Button
+            style={styles.Btn}
+            label={Strings.mobile.VERIFY}
+            onPress={handleSubmit(onSubmit)}
           />
         </View>
-      </View>
-      <View
-        style={{
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          marginTop: 48,
-          marginBottom: 148,
-        }}>
-        <Button
-          style={styles.Btn}
-          label={Strings.mobile.VERIFY}
-          onPress={handleSubmit(onSubmit)}
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 export default MobileNumber;

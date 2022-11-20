@@ -5,7 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useDispatch, useSelector} from 'react-redux';
-
 import Images from '../../constants/Images';
 import Header, {CircleBtn} from '../../components/Header';
 import FloatingLabelInput from '../../components/FloatingLabelInput';

@@ -143,8 +143,6 @@ const SmRegister = () => {
     }
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
-    console.log(data, 'data');
-    console.log('FILE', file);
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
@@ -171,7 +169,6 @@ const SmRegister = () => {
       type: file.mime,
       uri: file.path,
     });
-    console.log(reqData, 'reqData');
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
   };
@@ -183,7 +180,6 @@ const SmRegister = () => {
       style={styles.headerIcon}
     />
   );
-  // console.log('reqData', reqData)
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
@@ -219,7 +215,7 @@ const SmRegister = () => {
 
   return (
     <>
-      <View style={{flex: 1}}>
+      <View style={{flex: Value.CONSTANT_VALUE_1}}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.main}>
@@ -280,7 +276,6 @@ const SmRegister = () => {
                 </Text>
               </View>
             </View>
-
             <Controller
               control={control}
               render={({ field: { onChange, value } }) => (
@@ -487,7 +482,7 @@ const SmRegister = () => {
         mode={'date'}
         onConfirm={selectedDate => {
           setShow(false);
-          setValue('dob', moment(selectedDate).format('MMM DD, YYYY'));
+          setValue('dob', moment(selectedDate).format('M DD, YYYY'));
           setDate(selectedDate);
         }}
         onCancel={() => {

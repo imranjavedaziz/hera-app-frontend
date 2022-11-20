@@ -3,7 +3,6 @@ import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
 import {dynamicSize} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
-import {Platform} from 'react-native';
 
 export default {
   upperContainer: {
