@@ -67,7 +67,7 @@ const Toast = () => {
     if (toastState.showToast) {
       setTimeout(hideToast, 5000);
     }
-  }, [toastState.showToast,]);
+  }, [toastState.showToast]);
   if (toastState.showToast) {
     return (
       <View style={[styles.container, {backgroundColor}]}>
@@ -80,7 +80,14 @@ const Toast = () => {
         <SafeAreaView style={styles.safe}>
           <Pressable style={styles.safe} onPress={hideToast}>
             <View style={styles.row}>
-              <Image source={icon} />
+              <Image
+                source={icon}
+                style={{
+                  alignItems: Alignment.CENTER,
+                  justifyContent: Alignment.FLEX_START,
+                  alignSelf: Alignment.CENTER,
+                }}
+              />
               <Text style={styles.text}>{toastState.toastText}</Text>
             </View>
             <View style={styles.bar} />

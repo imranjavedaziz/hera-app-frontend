@@ -1,15 +1,16 @@
 // Dropdown
-import React, { useState } from 'react';
-import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Colors from '../../constants/Colors';
 import Images from '../../constants/Images';
 import styles from './styles';
 
 import CustomPicker from './CustomPicker/CustomPicker';
-import { Fonts } from '../../constants/Constants';
-import { Alignment } from '../../constants';
-import { Value } from '../../constants/FixedValues';
+import {Fonts} from '../../constants/Constants';
+import {Alignment} from '../../constants';
+import {Value} from '../../constants/FixedValues';
+import {useNavigation} from '@react-navigation/native';
 
 const Dropdown = ({
   label,
@@ -18,14 +19,19 @@ const Dropdown = ({
   containerStyle = {},
   required = false,
   error = '',
-
   OnPressLabel,
   donePress,
   cancelPress,
   ...dropdownProps
 }) => {
+  const navigation = useNavigation();
   const [value, setValue] = useState(null);
   const [isVisible, setVisibility] = useState(false);
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      setValue('');
+    });
+  }, [navigation, setValue]);
   const STYLE_ONE = {
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_0,
