@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -23,7 +23,7 @@ import FloatingLabelInput from '../../../components/FloatingLabelInput';
 import {Routes} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
@@ -35,10 +35,10 @@ import {
   getProfileSetterDetail,
   saveBasicDetail,
 } from '../../../redux/actions/Register';
-import { useNavigation } from '@react-navigation/native';
-import { logOut, updateRegStep } from '../../../redux/actions/Auth';
-import { BottomSheetComp, MultiTextInput } from '../../../components';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {useNavigation} from '@react-navigation/native';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {BottomSheetComp, MultiTextInput} from '../../../components';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -74,7 +74,7 @@ const SmBasicDetails = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
@@ -287,8 +287,8 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Dropdown
-                      containerStyle={{marginTop: 10}} 
-                      label={Strings.sm_basic.SexualOrientation}
+                        containerStyle={{marginTop: 10}}
+                        label={Strings.sm_basic.SexualOrientation}
                         data={profileRes?.sexual_orientation}
                         onSelect={selectedItem => {
                           onChange(selectedItem.id);
