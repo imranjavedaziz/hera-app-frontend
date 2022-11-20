@@ -1,9 +1,8 @@
 // CreateGallery
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Text,
   View,
-  ImageBackground,
   Image,
   TouchableOpacity,
   ActivityIndicator,
@@ -11,30 +10,30 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import openCamera from '../../../utils/openCamera';
-import {Routes} from '../../../constants/Constants';
+import { Routes } from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import sty from '../../auth/smdonor/donorGallery/styles';
 import User from '../../../Api/User';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   getUserGallery,
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import { hideAppLoader, showAppLoader } from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
-import {updateRegStep} from '../../../redux/actions/Auth';
+import { updateRegStep } from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
-import {BottomSheetComp} from '../../../components';
+import { BottomSheetComp } from '../../../components';
 import FastImage from 'react-native-fast-image';
 import RNSDWebImage from 'react-native-sdwebimage';
 const CreateGallery = () => {
@@ -47,18 +46,17 @@ const CreateGallery = () => {
   let actionSheet = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [gallery, setGallery] = useState([
-    {id: 0, uri: '', loading: false},
-    {id: 1, uri: '', loading: false},
-    {id: 2, uri: '', loading: false},
-    {id: 3, uri: '', loading: false},
-    {id: 4, uri: '', loading: false},
-    {id: 5, uri: '', loading: false},
+    { id: 0, uri: '', loading: false },
+    { id: 1, uri: '', loading: false },
+    { id: 2, uri: '', loading: false },
+    { id: 3, uri: '', loading: false },
+    { id: 4, uri: '', loading: false },
+    { id: 5, uri: '', loading: false },
   ]);
   const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const loadingGalleryRef = useRef(false);
-  const loadRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({file_url: '', loading: false});
+  const [video, setVideo] = useState({ file_url: '', loading: false });
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
@@ -123,7 +121,7 @@ const CreateGallery = () => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
           if (i === gIndex) {
-            return {id: i, uri: img.uri, loading};
+            return { id: i, uri: img.uri, loading };
           }
           return img;
         });
@@ -142,10 +140,10 @@ const CreateGallery = () => {
   const selectVideo = index => {
     videoPicker(index).then(v => {
       if (v?.path) {
-        setVideo({file_url: v.path, loading: false});
+        setVideo({ file_url: v.path, loading: false });
         setOpen(false);
       } else {
-        setVideo({file_url: '', loading: false});
+        setVideo({ file_url: '', loading: false });
         setOpen(false);
       }
 
@@ -157,7 +155,7 @@ const CreateGallery = () => {
         uri: v.path,
       });
       userService.createGallery(reqData, loading =>
-        setVideo(old => ({...old, loading})),
+        setVideo(old => ({ ...old, loading })),
       );
     });
   };
@@ -199,13 +197,13 @@ const CreateGallery = () => {
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
-          return {id: url[i]?.id, uri: url[i]?.file_url, loading: false};
+          return { id: url[i]?.id, uri: url[i]?.file_url, loading: false };
         }
-        return {id: i, uri: '', loading: false};
+        return { id: i, uri: '', loading: false };
       });
     });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({uri: url[i]?.file_url});
+      images.push({ uri: url[i]?.file_url });
     }
     if (url?.length === undefined) {
       setGIndex(0);
@@ -231,7 +229,6 @@ const CreateGallery = () => {
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
-      return;
     } else {
       let payload = {
         ids: remove?.join(),
@@ -243,9 +240,7 @@ const CreateGallery = () => {
       setRemove([]);
     }
   };
-  const headerComp = () => {
-    <></>;
-  };
+  const headerComp = () => <View />;
 
   const openBottomVideoSheet = () => {
     setOpen(true);
@@ -286,6 +281,9 @@ const CreateGallery = () => {
   const bottomSheetVideo = () => {
     Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();
   };
+  const IMG_CONDI = remove.includes(img.id)
+    ? Images.iconRadiosel
+    : Images.iconRadiounsel
 
   return (
     <>
@@ -296,7 +294,7 @@ const CreateGallery = () => {
         style={styles.zeromargin}>
         <View style={globalStyle.mainContainer}>
           <View style={styles.profileImgContainner}>
-            <Image source={{uri: profileImg}} style={styles.profileImg} />
+            <Image source={{ uri: profileImg }} style={styles.profileImg} />
           </View>
           <Text style={[globalStyle.screenTitle, styles.title]}>
             {Strings.sm_create_gallery.Title}
@@ -347,11 +345,7 @@ const CreateGallery = () => {
                       }}
                       style={{}}>
                       <RNSDWebImage
-                        source={
-                          remove.includes(img.id)
-                            ? Images.iconRadiosel
-                            : Images.iconRadiounsel
-                        }
+                        source={IMG_CONDI}
                         style={styles.selectIcon}
                       />
                     </TouchableOpacity>

@@ -1,10 +1,10 @@
-import {Colors, Alignment} from '../../../constants';
-import {Value, Prencentage} from '../../../constants/FixedValues';
-import {Fonts} from '../../../constants/Constants';
-import {scaleWidth, normalizeFont} from '../../../utils/responsive';
+import { Colors, Alignment, } from '../../../constants';
+import { Value, Prencentage } from '../../../constants/FixedValues';
+import { Fonts } from '../../../constants/Constants';
+import { scaleWidth, normalizeFont } from '../../../utils/responsive';
 
 export default {
-  flex: {flex: Value.CONSTANT_VALUE_1},
+  flex: { flex: Value.CONSTANT_VALUE_1 },
   radioBtn: {
     flex: Value.CONSTANT_VALUE_0,
     flexDirection: Alignment.ROW,
@@ -13,7 +13,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp: {marginHorizontal: 40, marginTop: 108},
+  mainComp: { marginTop: 108, marginHorizontal: 40, },
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
@@ -27,8 +27,8 @@ export default {
   },
   radioContainer: {
     flexDirection: Alignment.ROW,
-    width: Prencentage.PRECENTAGE_100,
     justifyContent: Alignment.SPACE_BETWEEN,
+    width: Prencentage.PRECENTAGE_100,
   },
   textArea: {
     borderWidth: Value.CONSTANT_VALUE_1,
@@ -44,7 +44,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     width: Prencentage.PRECENTAGE_100,
     textAlign: Alignment.LEFT,
-    marginBottom: 10,
+    marginBottom: Value.CONSTANT_VALUE_10,
   },
   Btn: {
     height: Value.CONSTANT_VALUE_80,
@@ -56,7 +56,7 @@ export default {
     marginRight: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_54,
   },
-  paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
+  paddingTop: { paddingTop: Value.CONSTANT_VALUE_57 },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,

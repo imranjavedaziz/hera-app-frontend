@@ -1,12 +1,11 @@
-import {Platform} from 'react-native';
-import {Value, Prencentage} from '../constants/FixedValues';
-import {Alignment, Colors} from '../constants';
-import global from './global';
-import {Fonts} from '../constants/Constants';
-import {dynamicSize} from '../utils/responsive';
+import { Platform } from 'react-native';
+import { Value, Prencentage } from '../constants/FixedValues';
+import { Alignment, Colors } from '../constants';
+import { Fonts } from '../constants/Constants';
+import { dynamicSize } from '../utils/responsive';
 
 export default {
-  flex: {flex: Value.CONSTANT_VALUE_1},
+  flex: { flex: Value.CONSTANT_VALUE_1 },
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
     ...Platform.select({
@@ -83,5 +82,5 @@ export default {
     fontWeight: 'bold',
     // ...global.underlineText,
   },
-  widthText: {width: Value.CONSTANT_VALUE_212},
+  widthText: { width: Value.CONSTANT_VALUE_212 },
 };
