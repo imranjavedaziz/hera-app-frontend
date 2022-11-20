@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,10 @@ import {
   SafeAreaView,
   Pressable,
 } from 'react-native';
-import {GiftedChat} from 'react-native-gifted-chat';
+import { GiftedChat } from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
-import {Images, Strings, Colors} from '../../constants';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import { Images, Strings, Colors } from '../../constants';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
@@ -29,16 +29,16 @@ const ChatDetail = props => {
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data} = useSelector(state => state.Auth);
   const loadingRef = useRef(false);
-  const {feedback_data, feedback_success, feedback_loading} = useSelector(
+  const { feedback_data, feedback_success, feedback_loading } = useSelector(
     state => state.Chat,
   );
 
   const dispatch = useDispatch();
   const renderActions = message => {
     return (
-      <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
+      <View style={{ flexDirection: 'row', paddingBottom: 10, paddingRight: 10 }}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
-          <Image source={Images.ICON_SEND} style={{width: 30, height: 30}} />
+          <Image source={Images.ICON_SEND} style={{ width: 30, height: 30 }} />
         </TouchableOpacity>
       </View>
     );
@@ -110,7 +110,7 @@ const ChatDetail = props => {
             Keyboard.dismiss();
           })
           .catch(e => {
-            // topToast(e.message);
+            console.log(e.message);
           });
       }
     }
@@ -216,7 +216,7 @@ const ChatDetail = props => {
   }
   return (
     <>
-      <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
+      <View style={{ flex: 1, backgroundColor: Colors.BACKGROUND }}>
         <StatusBar
           barStyle="dark-content"
           backgroundColor={Colors.BACKGROUND}
@@ -224,14 +224,13 @@ const ChatDetail = props => {
           hidden={false}
         />
         <SafeAreaView />
-
         <View>
           <View style={styles.outerContainer}>
-            <View style={{flex: 0.8, zIndex: 9999}}>
+            <View style={{ flex: 0.8, zIndex: 9999 }}>
               <Pressable onPress={() => props.navigation.goBack()}>
                 <Image
                   source={Images.BACK_PLAN_ARROW}
-                  style={{width: 14.7, height: 12.6}}
+                  style={{ width: 14.7, height: 12.6 }}
                 />
               </Pressable>
             </View>
@@ -249,12 +248,12 @@ const ChatDetail = props => {
                     source={
                       props?.route?.params?.item?.currentRole === 1
                         ? Images.ADMIN_ICON
-                        : {uri: props.route.params.item.recieverImage}
+                        : { uri: props.route.params.item.recieverImage }
                     }
                     style={styles.avatar}
                   />
                 </View>
-                <View style={{marginLeft: 10}}>
+                <View style={{ marginLeft: 10 }}>
                   {props.route.params.item.recieverSubscription === 0 ? (
                     <Text style={styles.titleText}>
                       {Strings.Chat.INACTIVE_USER}
@@ -299,7 +298,6 @@ const ChatDetail = props => {
                 onPress={() => feedback(0, 1)}>
                 <Image source={Images.iconcross} style={styles.crossImage} />
               </TouchableOpacity>
-
               <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
               <View style={styles.thumbInnerContain}>
                 <TouchableOpacity
@@ -317,7 +315,6 @@ const ChatDetail = props => {
               </View>
             </View>
           )}
-
         {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
           <View style={styles.smDonorEmptyView}>
             <EmptySmDonor
@@ -387,7 +384,6 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
-
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -401,7 +397,6 @@ const ChatDetail = props => {
             // }}
           />
         )}
-
         {db?.messages.length > 0 &&
           log_in_data?.role_id !== 2 &&
           props?.route?.params?.item?.currentRole !== 1 && (
@@ -424,9 +419,7 @@ const ChatDetail = props => {
                 autoCorrect: false,
               }}
               // loadEarlier={loadEarlier}
-
               // isLoadingEarlier={loading}
-
               // listViewProps={{
               //     scrollEventThrottle: 400,
               //     onScroll: ({ nativeEvent }) => {

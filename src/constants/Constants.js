@@ -20,7 +20,8 @@ const environment = {
     chat: 'stage',
   },
 };
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, api_url, chat} = environment.dev;
+
 export const awsOptions = {
   keyPrefix: 'user/',
   bucket,

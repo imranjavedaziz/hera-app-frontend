@@ -21,28 +21,28 @@ import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
-import {IconHeader} from '../../../../components/Header';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {getRoleType} from '../../../../utils/other';
-import {useDispatch, useSelector} from 'react-redux';
-import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
-import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
-import {deviceRegister, logOut} from '../../../../redux/actions/Auth';
-import {Routes} from '../../../../constants/Constants';
-import {deviceHandler} from '../../../../utils/commonFunction';
-import {MaterialIndicator} from 'react-native-indicators';
+import { IconHeader } from '../../../../components/Header';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { getRoleType } from '../../../../utils/other';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPtbDashboard } from '../../../../redux/actions/PtbDashboard';
+import { showAppLoader, hideAppLoader } from '../../../../redux/actions/loader';
+import { deviceRegister } from '../../../../redux/actions/Auth';
+import { Routes } from '../../../../constants/Constants';
+import { deviceHandler } from '../../../../utils/commonFunction';
+import { MaterialIndicator } from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
 import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import DeviceInfo from 'react-native-device-info';
-import {NotificationContext} from '../../../../context/NotificationContextManager';
-import {profileMatch} from '../../../../redux/actions/Profile_Match';
+import { NotificationContext } from '../../../../context/NotificationContextManager';
+import { profileMatch } from '../../../../redux/actions/Profile_Match';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {scaleWidth} from '../../../../utils/responsive';
+import { scaleWidth } from '../../../../utils/responsive';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -57,9 +57,8 @@ const PtbDashboard = props => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-  const {fcmToken} = useContext(NotificationContext);
+  const { fcmToken } = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
-  const login = useSelector(state => state.Auth);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -121,7 +120,7 @@ const PtbDashboard = props => {
         '***Notification caused app to open from background state***',
         remoteMessage,
       );
-      const {notification, messageId} = remoteMessage;
+      const { notification, messageId } = remoteMessage;
       console.log(messageId);
       if (!_.isEmpty(notification)) {
         navigation.navigate('PushNotificationExample');
@@ -132,7 +131,6 @@ const PtbDashboard = props => {
   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
-    get_ptb_dashboard_error_msg,
     get_ptb_dashboard_res,
   } = useSelector(state => state.PtbDashboard);
   const {
@@ -231,7 +229,7 @@ const PtbDashboard = props => {
           code={item?.user?.username}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
-          image={{uri: item?.user?.profile_pic}}
+          image={{ uri: item?.user?.profile_pic }}
           fadeAnim={fadeAnim}
           isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
@@ -261,12 +259,15 @@ const PtbDashboard = props => {
       style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}
-      rightImg={{marginRight: scaleWidth(18)}}
+      rightImg={{ marginRight: scaleWidth(18) }}
       rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
 
   const dashboardShow = () => {
+    const STYLE = Platform.OS === 'ios'
+      ? styles.iosInnerContainer
+      : styles.androidInnerContainer
     return (
       <>
         {get_ptb_dashboard_res?.data?.data?.data.length > 0 ? (
@@ -299,11 +300,7 @@ const PtbDashboard = props => {
               </ImageBackground>
             </View>
             <View
-              style={
-                Platform.OS === 'ios'
-                  ? styles.iosInnerContainer
-                  : styles.androidInnerContainer
-              }>
+              style={STYLE}>
               <TouchableOpacity
                 onPress={() => {
                   setIsVisibleLogo(true);

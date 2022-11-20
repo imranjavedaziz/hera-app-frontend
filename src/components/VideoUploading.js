@@ -13,11 +13,14 @@ import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
-import {Alignment, Colors} from '../constants';
-import {MaterialIndicator} from 'react-native-indicators';
-import {Value} from '../constants/FixedValues';
+import { Alignment, Colors } from '../constants';
+import { MaterialIndicator } from 'react-native-indicators';
+import { Value } from '../constants/FixedValues';
 
 const VideoUploading = props => {
+  const IMG_CONDI = props?.remove?.includes(props?.video?.id)
+    ? Images.iconRadiosel
+    : Images.iconWhite
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       {props?.video?.loading && (
@@ -38,17 +41,13 @@ const VideoUploading = props => {
                 onPress={() => props?.handelDel(props?.video?.id, true)}
                 style={styles.videoSel}>
                 <Image
-                  source={
-                    props?.remove?.includes(props?.video?.id)
-                      ? Images.iconRadiosel
-                      : Images.iconWhite
-                  }
+                  source={IMG_CONDI}
                 />
               </TouchableOpacity>
             </TouchableWithoutFeedback>
             <View style={props?.imageOverlay}>
               <Video
-                source={{uri: `${props?.video?.file_url}`}}
+                source={{ uri: `${props?.video?.file_url}` }}
                 style={props?.videoStyle}
                 controls
                 audioOnly
@@ -98,4 +97,4 @@ const VideoUploading = props => {
   );
 };
 
-export default VideoUploading;
+export default React.memo(VideoUploading);

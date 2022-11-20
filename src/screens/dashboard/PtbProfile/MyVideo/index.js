@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   Text,
@@ -7,18 +8,16 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Images from '../../../../constants/Images';
-import {IconHeader} from '../../../../components/Header';
+import { IconHeader } from '../../../../components/Header';
 import Container from '../../../../components/Container';
 import styles from './style';
 import Strings from '../../../../constants/Strings';
 import videoPicker from '../../../../utils/videoPicker';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
-import {useDispatch, useSelector} from 'react-redux';
-import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { showAppLoader, hideAppLoader } from '../../../../redux/actions/loader';
 import {
   deleteGallery,
   getUserGallery,
@@ -26,10 +25,10 @@ import {
 import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../../components';
+import { BottomSheetComp } from '../../../../components';
 
 const MyVideo = () => {
-  const [video, setVideo] = useState({file_url: '', loading: false});
+  const [video, setVideo] = useState({ file_url: '', loading: false });
   const [isOpen, setOpen] = useState(false);
   const [isLoader, setLoader] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -107,10 +106,10 @@ const MyVideo = () => {
   const selectVideo = index => {
     videoPicker(index).then(v => {
       if (v?.path) {
-        setVideo({file_url: v.path, loading: false});
+        setVideo({ file_url: v.path, loading: false });
         setOpen(false);
       } else {
-        setVideo({file_url: '', loading: false});
+        setVideo({ file_url: '', loading: false });
         setOpen(false);
       }
 
@@ -122,7 +121,7 @@ const MyVideo = () => {
         uri: v.path,
       });
       userService.createGallery(reqData, loading =>
-        setVideo(old => ({...old, loading})),
+        setVideo(old => ({ ...old, loading })),
       );
     });
   };
@@ -320,4 +319,4 @@ const MyVideo = () => {
   );
 };
 
-export default MyVideo;
+export default React.memo(MyVideo);

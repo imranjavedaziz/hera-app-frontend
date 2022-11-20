@@ -1,8 +1,8 @@
-import {Fonts} from '../../../../constants/Constants';
+import { Fonts } from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
-import {Value} from '../../../../constants/FixedValues';
+import { Value } from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {dynamicSize, width} from '../../../../utils/responsive';
+import { width } from '../../../../utils/responsive';
 
 export default {
   mainContainer: {},
@@ -53,9 +53,9 @@ export default {
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_10,
   },
-  title: {marginBottom: Value.CONSTANT_VALUE_8},
+  title: { marginBottom: Value.CONSTANT_VALUE_8 },
   search: {},
-  subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
+  subTitle: { marginBottom: Value.CONSTANT_VALUE_32 },
   stateItem: {
     flexDirection: 'row',
   },
@@ -89,7 +89,7 @@ export default {
     textDecorationLine: 'underline',
     color: Colors.BLACK,
   },
-  stateSubtitle: {marginBottom: Value.CONSTANT_VALUE_15},
+  stateSubtitle: { marginBottom: Value.CONSTANT_VALUE_15 },
   flexRow: {
     flexDirection: 'row',
   },

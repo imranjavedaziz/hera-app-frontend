@@ -1,6 +1,7 @@
-import {Colors, Alignment} from '../../../constants';
-import {Value, Prencentage} from '../../../constants/FixedValues';
-import {Fonts} from '../../../constants/Constants';
+import { Colors, Alignment } from '../../../constants';
+import { Value, Prencentage } from '../../../constants/FixedValues';
+import { Fonts } from '../../../constants/Constants';
+
 export default {
   main: {paddingHorizontal: 40, marginTop: Value.CONSTANT_VALUE_54},
   title: {
@@ -71,7 +72,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_5,
     marginTop: 10,
   },
-  pwdErrContainer: {flexDirection: Alignment.ROW, alignItems: Alignment.CENTER},
+  pwdErrContainer: { flexDirection: Alignment.ROW, alignItems: Alignment.CENTER },
   pwdErrText: {
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,

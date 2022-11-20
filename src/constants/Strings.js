@@ -330,13 +330,14 @@ export default {
     All_Conversations: 'All Conversations',
     WHAT_DO_YO: 'What do you think of this match?',
     NOT_GOOD: 'Not good',
-    GOING_WELL:"Going well",
-    NOT_FOUND_MATCH_YET:'Seems like you have not found any match yet.',
-    YOUR_SUBSCRIPTION_EXPIRED:'Your subscription has expired. Please subscribe now.',
-    YOU_MATCHED:'You Matched!',
-    PARENT_TO_BE_CONVERSATION:' Parent To Be will start the conversation.',
-    START_CONVERSATION:'Start a conversation!',
-    INACTIVE_USER:'Inactive User'
+    GOING_WELL: "Going well",
+    NOT_FOUND_MATCH_YET: 'Seems like you have not found any match yet.',
+    YOUR_SUBSCRIPTION_EXPIRED: 'Your subscription has expired. Please subscribe now.',
+    YOU_MATCHED: 'You Matched!',
+    PARENT_TO_BE_CONVERSATION: ' Parent To Be will start the conversation.',
+    START_CONVERSATION: 'Start a conversation!',
+    INACTIVE_USER: 'Inactive User',
+    HEY_ITS_MATCH: "Hey, It’s a match!"
   },
   Sensory: {
     AS_PER_SEARCH:
