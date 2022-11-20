@@ -8,12 +8,11 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     borderRadius: Value.CONSTANT_VALUE_9,
-    width: dynamicSize(Value.CONSTANT_VALUE_322),
+    width: dynamicSize(Value.CONSTANT_VALUE_320),
     height: dynamicSize(Value.CONSTANT_VALUE_104),
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     backgroundColor: Colors.SEARCH_BOX,
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_15),
-    marginTop: Value.CONSTANT_VALUE_30,
   },
   // Value.CONSTANT_VALUE_325
   innerView: {

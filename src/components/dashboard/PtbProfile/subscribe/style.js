@@ -10,9 +10,7 @@ export default {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderRadius: Value.CONSTANT_VALUE_11,
     borderColor: Colors.PINK,
-    marginLeft: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_30,
-    marginRight: Value.CONSTANT_VALUE_20,
     backgroundColor: Colors.SEARCH_BOX,
   },
   row: {

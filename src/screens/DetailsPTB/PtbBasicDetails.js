@@ -11,7 +11,7 @@ import {CircleBtn} from '../../components/Header';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {smBasicSchema} from '../../constants/schemas';
-import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
+import FloatingLabelInput from '../../components/FloatingLabelInput';
 import {genders, Static, Routes} from '../../constants/Constants';
 import Dropdown from '../../components/inputs/Dropdown';
 import styles from '../../styles/auth/smdonor/basicDetailsScreen';

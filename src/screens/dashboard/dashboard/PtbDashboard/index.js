@@ -131,7 +131,6 @@ const PtbDashboard = props => {
   const {
     get_ptb_dashboard_success,
     get_ptb_dashboard_loading,
-    get_ptb_dashboard_error_msg,
     get_ptb_dashboard_res,
   } = useSelector(state => state.PtbDashboard);
   const {
@@ -146,8 +145,7 @@ const PtbDashboard = props => {
         if (get_ptb_dashboard_success) {
           dispatch(hideAppLoader());
           setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
-        }
-        if (get_ptb_dashboard_error_msg) {
+        } else {
           dispatch(hideAppLoader());
         }
       }
@@ -341,7 +339,7 @@ const PtbDashboard = props => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        {empty === true ? (
+        {empty === true || _.isEmpty(ptbDashboardRes) ? (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
             <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>

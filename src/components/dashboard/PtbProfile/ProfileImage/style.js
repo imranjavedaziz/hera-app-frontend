@@ -5,6 +5,21 @@ import {Value} from '../../../../constants/FixedValues';
 import Colors from '../../../../constants/Colors';
 
 export default {
+  smmainContainer: {
+    alignItems: Alignment.CENTER,
+    shadowColor: 'rgba(0,0,0,0.23)',
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 1,
+    elevation: 1,
+    shadowRadius: 25,
+    borderRadius: dynamicSize(90),
+    width: 95,
+    height: 95,
+    backgroundColor: '#93c0ba',
+  },
   mainContainer: {
     alignItems: Alignment.CENTER,
     shadowColor: 'rgba(0,0,0,0.23)',
@@ -15,12 +30,17 @@ export default {
     shadowOpacity: 1,
     elevation: 1,
     shadowRadius: 25,
+    borderRadius: dynamicSize(90),
+    width: 95,
+    height: 95,
   },
   Image: {
     height: Value.CONSTANT_VALUE_86,
     width: Value.CONSTANT_VALUE_86,
+    marginTop: 4,
     borderRadius: dynamicSize(90),
     borderColor: Colors.WHITE,
+    borderWidth: 1,
   },
   cameraContainer: {
     height: Value.CONSTANT_VALUE_30,
@@ -41,6 +61,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: Value.CONSTANT_VALUE_2_84,
     color: Colors.BLACK,
+    marginTop: 29,
   },
   Name: {
     fontSize: Value.CONSTANT_VALUE_24,

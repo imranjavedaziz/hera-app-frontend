@@ -65,6 +65,19 @@ const styles = {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
   },
+  blankContainer: {
+    width: Value.CONSTANT_VALUE_12,
+    height: Value.CONSTANT_VALUE_12,
+    backgroundColor: Colors.COLOR_RED,
+    borderRadius: Value.CONSTANT_VALUE_6,
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_0,
+    zIndex: 9999,
+    borderStyle: Alignment.SOLID,
+    borderWidth: Value.CONSTANT_VALUE_1,
+    top: Value.CONSTANT_VALUE_5,
+    borderColor: Colors.WHITE,
+  }
 };
 export const CircleBtn = ({ icon, onPress, Fixedstyle, ...otherProps }) => (
   <TouchableOpacity
@@ -76,22 +89,23 @@ export const CircleBtn = ({ icon, onPress, Fixedstyle, ...otherProps }) => (
     <Image accessible={false} source={icon} style={styles.img} />
   </TouchableOpacity>
 );
-export const IconHeader = ({
-  rightIcon,
-  leftIcon,
-  leftPress,
-  rightPress,
-  profileView,
-  profileImg,
-  ApiImage = false,
-  rightPrevPress,
-  rightPrevIcon,
-  rightImg,
-  txt,
-  txtPress,
-  chat,
-  ...otherProps
-}) => {
+export const IconHeader = (props) => {
+  const {
+    rightIcon,
+    leftIcon,
+    leftPress,
+    rightPress,
+    profileView,
+    profileImg,
+    ApiImage = false,
+    rightPrevPress,
+    rightPrevIcon,
+    rightImg,
+    txt,
+    txtPress,
+    chat,
+    ...otherProps
+  } = props;
   const STYLE_ONE = Platform.OS === 'ios'
     ? styles.profileIconConatiner
     : styles.androidIconCon
@@ -121,7 +135,6 @@ export const IconHeader = ({
         )}
       </TouchableOpacity>
     )}
-
     <View style={{ flexDirection: Alignment.ROW, alignItems: Alignment.CENTER }}>
       <TouchableOpacity
         style={styles.circle}
@@ -144,22 +157,9 @@ export const IconHeader = ({
         {...otherProps}
         accessible={true}
         accessibilityRole="button">
-        {
-          chat === true &&
-          <View style={{
-            width: 12,
-            height: 12,
-            backgroundColor: "#ff4544",
-            borderRadius: 6,
-            position: 'absolute',
-            right: 0,
-            zIndex: 9999,
-            borderStyle: "solid",
-            borderWidth: 1,
-            top: 5,
-            borderColor: "#ffffff"
-          }}></View>
-        }
+        {chat === true && (
+          <View style={styles.blankContainer} />
+        )}
         <Image accessible={false} source={rightIcon} style={styles.img} />
       </TouchableOpacity>
     </View>
@@ -185,4 +185,4 @@ export const ProfileIcon = () => (
   </View>
 );
 
-export default Header;
+export default React.memo(Header);

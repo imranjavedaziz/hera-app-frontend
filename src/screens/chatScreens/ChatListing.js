@@ -11,31 +11,33 @@ import { FlatList } from 'react-native-gesture-handler';
 import moment from 'moment';
 import { Routes } from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
-
 const ChatListing = () => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
   const chatData = chatHistory();
-  const [loader, setLoader] = useState(true);
-  const { log_in_data } = useSelector(state => state.Auth);
-
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
   }, []);
-
+  const [loader, setLoader] = useState(true);
+  const { log_in_data } = useSelector(state => state.Auth);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => navigation.goBack()}
-      style={styles.header}
+      style={{ marginTop: 10 }}
     />
   );
 
+  const ROLL_ID_2 = log_in_data.role_id === 2
+    ? Strings.All_Matches
+    : Strings.Chat.All_Conversations
+  const ROLL_ID_INBOX = log_in_data.role_id === 2
+    ? Strings.INBOX
+    : Strings.Chat.Chat
   const renderChatList = ({ item }) => {
     return (
       <>
@@ -61,17 +63,11 @@ const ChatListing = () => {
       </>
     );
   };
-  const ROLL_ID_2 = log_in_data.role_id === 2
-    ? Strings.All_Matches
-    : Strings.Chat.All_Conversations
-  const ROLL_ID_INBOX = log_in_data.role_id === 2
-    ? Strings.INBOX
-    : Strings.Chat.Chat
   return (
     <Container
       mainStyle={true}
       scroller={false}
-      showHeader={true} x
+      showHeader={true}
       headerComp={headerComp}
       safeAreViewStyle={{ backgroundColor: Colors.BACKGROUND }}>
       {loader === false && (
@@ -79,12 +75,8 @@ const ChatListing = () => {
           {chats && chats?.length > 0 ? (
             <View style={{ flex: 1, marginTop: 25 }}>
               <View style={styles.mainContainer}>
-                <Text style={styles.Inbox}>
-                  {ROLL_ID_INBOX}
-                </Text>
-                <Text style={styles.Match}>
-                  {ROLL_ID_2}
-                </Text>
+                <Text style={styles.Inbox}> {ROLL_ID_INBOX}</Text>
+                <Text style={styles.Match}>{ROLL_ID_2}</Text>
               </View>
               <FlatList
                 data={chats}
@@ -102,4 +94,5 @@ const ChatListing = () => {
     </Container>
   );
 };
-export default React.memo(ChatListing);
+
+export default ChatListing;

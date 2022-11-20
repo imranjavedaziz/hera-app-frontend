@@ -36,6 +36,8 @@ const Searchbar = props => {
           }>
           <Image style={styles.searchImage} source={Images.search} />
           <TextInput
+            returnKeyType="go"
+            returnKeyLabel="Go"
             style={styles.searchBar}
             onChangeText={props.onChangeText}
             value={props.value}

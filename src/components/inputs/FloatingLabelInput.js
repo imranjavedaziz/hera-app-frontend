@@ -40,7 +40,9 @@ const FloatingLabelInput = props => {
           accessible={true}
           accessibilityLabel={label}>
           {label}
-          {required && <Text style={[styles.label, { color: 'red' }]}>*</Text>}
+          {required && (
+            <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
+          )}
         </Text>
         {endComponent ? (
           <TouchableOpacity onPress={endComponentPress}>
@@ -48,8 +50,8 @@ const FloatingLabelInput = props => {
               style={[
                 styles.input,
                 isFocused ? styles.focusBorder : styles.blurBorder,
-                lineColor && { borderColor: Colors.LIGHT_BLACK47 },
-                error ? { borderColor: 'red' } : null,
+                lineColor && {borderColor: Colors.LIGHT_BLACK47},
+                error && {borderColor: Colors.RED},
                 inputStyle,
               ]}
               maxLength={maxLength}

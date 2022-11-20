@@ -19,7 +19,6 @@ const Chat_listing_Comp = props => {
   const styleMatchOne = message !== '' ? message : Strings.Chat.HEY_ITS_MATCH;
   const styleMatchTwo = message !== '' ? message : '';
   const styleMatchThree = read === 0 ? styles.msg : styles.msgRead;
-
   return (
     <>
       {currentRole !== 1 && roleId === 2 &&
@@ -27,7 +26,7 @@ const Chat_listing_Comp = props => {
           style={styles.innerContainer}
           onPress={() => onPress()}>
           <View style={styles.contain}>
-            <View style={match === 2 || read === 0 ? styles.ImgView : styles.unReadImgView}>
+            <View style={match === 2 || read === 0 && currentRole === 1 ? styles.ImgView : styles.unReadImgView}>
               <FastImage style={styles.userImg} source={{ uri: image }} />
               {match === 2 && (
                 <FastImage
@@ -42,11 +41,11 @@ const Chat_listing_Comp = props => {
                 currentRole !== 1 ?
                   <Text
                     numberOfLines={2}
-                    style={read === 0 ? styles.msg : styles.msgRead}>
+                    style={styleMatchThree}>
                     {styleMatchOne}
                   </Text> : <Text
                     numberOfLines={2}
-                    style={read === 0 ? styles.msg : styles.msgRead}>
+                    style={styleMatchThree}>
                     {styleMatchTwo}
                   </Text>
               }
@@ -64,9 +63,10 @@ const Chat_listing_Comp = props => {
           style={styles.innerContainer}
           onPress={() => onPress()}>
           <View style={styles.contain}>
-            <View style={match === 2 || read === 0 ? styles.ImgView : styles.unReadImgView}>
+
+            <View style={currentRole !== 1 && match === 2 || read === 0 ? styles.ImgView : styles.unReadImgView}>
               <FastImage style={styles.userImg} source={currentRole === 1 ? Images.ADMIN_ICON : { uri: image }} />
-              {match === 2 && (
+              {match === 2 && currentRole !== 1 && (
                 <FastImage
                   style={styles.heartIcon}
                   source={Images.ICON_GREEN_HEART}
@@ -79,12 +79,12 @@ const Chat_listing_Comp = props => {
                 currentRole !== 1 ?
                   <Text
                     numberOfLines={2}
-                    style={styleMatchThree}>
-                    {styleMatchOne}
+                    style={read === 0 ? styles.msg : styles.msgRead}>
+                    {message !== '' ? message : 'Hey, It’s a match!'}
                   </Text> : <Text
                     numberOfLines={2}
-                    style={styleMatchThree}>
-                    {styleMatchTwo}
+                    style={read === 0 ? styles.msg : styles.msgRead}>
+                    {message !== '' ? message : ''}
                   </Text>
               }
             </View>

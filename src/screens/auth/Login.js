@@ -5,23 +5,20 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useDispatch, useSelector} from 'react-redux';
-import Container from '../../components/Container';
+
 import Images from '../../constants/Images';
-import {CircleBtn} from '../../components/Header';
-import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
+import Header, {CircleBtn} from '../../components/Header';
+import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
 import Strings from '../../constants/Strings';
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../redux/actions/loader';
+import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode} from '../../constants/Constants';
+import {Alignment} from '../../constants';
 
 const Login = props => {
   const navigation = useNavigation();
@@ -62,7 +59,6 @@ const Login = props => {
         );
       }
       if (log_in_error_msg) {
-        dispatch(showAppToast(true, log_in_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -89,7 +85,6 @@ const Login = props => {
 
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;
-
     if (deleting) {
       return value;
     }
@@ -123,14 +118,8 @@ const Login = props => {
     setValue('phone', a);
   };
   return (
-    <Container
-      scroller={false}
-      showHeader={true}
-      fixedHeader={true}
-      profileLoad={true}
-      headerComp={headerComp}
-      headerEnd={true}
-      style={styles.margin}>
+    <View style={styles.flex}>
+      <Header end={true}>{headerComp()}</Header>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
@@ -154,7 +143,6 @@ const Login = props => {
             control={control}
             render={({field: {onChange, value}}) => (
               <FloatingLabelInput
-                containerStyle={{marginTop: 10}}
                 label={Strings.login.Password}
                 value={value}
                 onChangeText={v => onChange(v)}
@@ -175,23 +163,25 @@ const Login = props => {
             )}
             name="password"
           />
-          <Button
-            label={Strings.login.LOG_IN}
-            style={styles.loginBtn}
-            onPress={handleSubmit(onSubmit)}
-          />
-          <TouchableOpacity
-            style={styles.btnMargin}
-            accessible={true}
-            accessibilityRole="button"
-            accessibilityLabel={Strings.login.ForgotPassword}>
-            <Text style={styles.underlineBtn} accessible={false}>
-              {Strings.login.ForgotPassword}
-            </Text>
-          </TouchableOpacity>
+          <View style={{alignItems: Alignment.CENTER}}>
+            <Button
+              label={Strings.login.LOG_IN}
+              style={styles.loginBtn}
+              onPress={handleSubmit(onSubmit)}
+            />
+            <TouchableOpacity
+              style={styles.btnMargin}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={Strings.login.ForgotPassword}>
+              <Text style={styles.underlineBtn} accessible={false}>
+                {Strings.login.ForgotPassword}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
-    </Container>
+    </View>
   );
 };
 export default Login;
