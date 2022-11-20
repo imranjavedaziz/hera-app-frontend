@@ -1,5 +1,5 @@
 // SmRegister
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -12,33 +12,23 @@ import {
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import { useForm, Controller } from 'react-hook-form';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { yupResolver } from '@hookform/resolvers/yup';
-import Container from '../../../components/Container';
+import {useForm, Controller} from 'react-hook-form';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {yupResolver} from '@hookform/resolvers/yup';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
-<<<<<<< HEAD
-import { CircleBtn } from '../../../components/Header';
-=======
 import Header, {CircleBtn} from '../../../components/Header';
->>>>>>> 257922328551d0c66ba556611ad73b8481bb76c8
 import globalStyle from '../../../styles/global';
-import Strings, { ValidationMessages } from '../../../constants/Strings';
-import { smRegisterSchema, Regx } from '../../../constants/schemas';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
+import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
-<<<<<<< HEAD
-import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import { smRoles, Routes } from '../../../constants/Constants';
-=======
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
 import {smRoles, Routes} from '../../../constants/Constants';
->>>>>>> 257922328551d0c66ba556611ad73b8481bb76c8
 import openCamera from '../../../utils/openCamera';
-import { askCameraPermission } from '../../../utils/permissionManager';
+import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import updateRegStep from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
@@ -46,8 +36,8 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import { ptbRegister } from '../../../redux/actions/Register';
-import { BottomSheetComp } from '../../../components';
+import {ptbRegister} from '../../../redux/actions/Register';
+import {BottomSheetComp} from '../../../components';
 
 const validationType = {
   LEN: 'LEN',
@@ -67,7 +57,7 @@ const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
-  { type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK },
+  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 const validatePassword = (value, type) => {
   if (value) {
@@ -105,13 +95,13 @@ const SmRegister = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: {errors, isValid},
     setValue,
   } = useForm({
     resolver: yupResolver(smRegisterSchema),
   });
   const {
-    params: { isRouteData },
+    params: {isRouteData},
   } = useRoute();
   const cb = image => {
     setOpen(false);
@@ -188,7 +178,7 @@ const SmRegister = () => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => navigation.navigate(Routes.Profile, { isRouteData })}
+      onPress={() => navigation.navigate(Routes.Profile, {isRouteData})}
       accessibilityLabel="Left arrow Button, Press to go back"
       style={styles.headerIcon}
     />
@@ -229,23 +219,6 @@ const SmRegister = () => {
 
   return (
     <>
-<<<<<<< HEAD
-      <Container
-        scroller={true}
-        showHeader={true}
-        headerEnd={true}
-        profileLoad={true}
-        headerComp={headerComp}>
-        <View style={globalStyle.mainContainer}>
-          <Text style={[globalStyle.screenTitle, styles.title]}>
-            {Strings.sm_register.Title}
-          </Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <>
-                {smRoles.map(role => (
-=======
       <View style={{flex: 1}}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -286,7 +259,6 @@ const SmRegister = () => {
                   source={userImage ? {uri: userImage} : null}
                   style={styles.imgView}
                   imageStyle={styles.img}>
->>>>>>> 257922328551d0c66ba556611ad73b8481bb76c8
                   <TouchableOpacity
                     style={[
                       styles.camBtn,
@@ -299,39 +271,6 @@ const SmRegister = () => {
                     }}>
                     <Image source={Images.camera} style={styles.camImg} />
                   </TouchableOpacity>
-<<<<<<< HEAD
-                ))}
-              </>
-            )}
-            name="role"
-          />
-          <View style={styles.imgContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
-              }}>
-              <ImageBackground
-                source={userImage ? { uri: userImage } : null}
-                style={styles.imgView}
-                imageStyle={styles.img}>
-                <TouchableOpacity
-                  style={[
-                    styles.camBtn,
-                    userImage ? styles.camSelectedBtn : null,
-                  ]}
-                  onPress={() => {
-                    Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
-                  }}>
-                  <Image source={Images.camera} style={styles.camImg} />
-                </TouchableOpacity>
-              </ImageBackground>
-            </TouchableOpacity>
-            <View style={{ marginVertical: Value.CONSTANT_VALUE_10 }}>
-              <Text style={styles.ImageText}>
-                {Strings.sm_register.uploadImage}
-                <Text style={{ color: Colors.RED }}>*</Text>
-              </Text>
-=======
                 </ImageBackground>
               </TouchableOpacity>
               <View style={{marginTop: Value.CONSTANT_VALUE_10}}>
@@ -340,100 +279,13 @@ const SmRegister = () => {
                   <Text style={{color: Colors.RED}}>*</Text>
                 </Text>
               </View>
->>>>>>> 257922328551d0c66ba556611ad73b8481bb76c8
             </View>
 
-<<<<<<< HEAD
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FloatingLabelInput
-                containerStyle={{ marginTop: 10 }}
-                label={Strings.sm_register.FirstName}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.first_name?.message}
-                required={true}
-              />
-            )}
-            name="first_name"
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FloatingLabelInput
-                containerStyle={{ marginTop: 10 }}
-                label={Strings.sm_register.MiddleName}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.middle_name?.message}
-              />
-            )}
-            name="middle_name"
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FloatingLabelInput
-                containerStyle={{ marginTop: 10 }}
-                label={Strings.sm_register.LastName}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.last_name?.message}
-                required={true}
-              />
-            )}
-            name="last_name"
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FloatingLabelInput
-                containerStyle={{ marginTop: 10 }}
-                label={Strings.sm_register.DOB}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.dob?.message}
-                required={true}
-                endComponentPress={() => setShow(true)}
-                endComponent={() => (
-                  <TouchableOpacity onPress={() => setShow(true)}>
-                    <Image source={Images.calendar} />
-                  </TouchableOpacity>
-                )}
-                editable={false}
-                onPressIn={() => setShow(true)}
-              />
-            )}
-            name="dob"
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FloatingLabelInput
-                containerStyle={{ marginTop: 10 }}
-                label={Strings.profile.EmailAddress}
-                value={value}
-                onChangeText={v => onChange(v)}
-                required={true}
-                error={errors && errors.email?.message}
-              />
-            )}
-            name="email"
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <View style={styles.error}>
-                <FloatingLabelInput
-                  label={Strings.sm_register.Password}
-=======
             <Controller
               control={control}
               render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.FirstName}
->>>>>>> 257922328551d0c66ba556611ad73b8481bb76c8
                   value={value}
                   onChangeText={v => onChange(v)}
                   error={errors && errors.first_name?.message}
@@ -521,32 +373,6 @@ const SmRegister = () => {
                           {
                             color: validatePassword(value, msg.type),
                           },
-<<<<<<< HEAD
-                        ]}
-                        source={
-                          validatePassword(value, msg.type) === Colors.BLACK
-                            ? Images.path
-                            : Images.warning
-                        }
-                      />
-                    )}
-                  </View>
-                ))}
-              </View>
-            )}
-            name="password"
-          />
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FloatingLabelInput
-                label={Strings.sm_register.Confirm}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.confirm_password?.message}
-                required={true}
-                secureTextEntry={true}
-=======
                         ]}>
                         {msg.msg}
                       </Text>
@@ -617,7 +443,6 @@ const SmRegister = () => {
                 label={Strings.sm_register.Btn}
                 onPress={handleSubmit(onSubmit)}
                 style={styles.Btn}
->>>>>>> 257922328551d0c66ba556611ad73b8481bb76c8
               />
             </View>
             <Pressable
@@ -627,24 +452,8 @@ const SmRegister = () => {
               <Text style={styles.parentBtn}>Register as Parent To Be</Text>
             </Pressable>
           </View>
-<<<<<<< HEAD
-          <Button
-            label={Strings.sm_register.Btn}
-            onPress={handleSubmit(onSubmit)}
-            style={styles.Btn}
-          />
-          <Pressable
-            onPress={() => {
-              navigation.navigate(Routes.Profile, { isRouteData });
-            }}>
-            <Text style={styles.parentBtn}>Register as Parent To Be</Text>
-          </Pressable>
-        </View>
-      </Container>
-=======
         </ScrollView>
       </View>
->>>>>>> 257922328551d0c66ba556611ad73b8481bb76c8
       <ActionSheet
         ref={actionSheet}
         options={threeOption}
