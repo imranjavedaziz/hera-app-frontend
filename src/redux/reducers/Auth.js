@@ -137,7 +137,7 @@ export default (state = initState, action) => {
       };
     }
     case AUTH_LOG_IN_SUCCESS: {
-      const {access_token} = action.data.data.data;
+      const { access_token } = action.data.data.data;
       return {
         ...state,
         user: action?.data?.data?.data,
@@ -322,7 +322,7 @@ export default (state = initState, action) => {
       };
     }
     case AUTH_REGISTER_SUCCESS: {
-      const {access_token} = action.data.data.data;
+      const { access_token } = action.data.data.data;
       return {
         ...state,
         register_user_success: true,
