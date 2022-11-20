@@ -10,7 +10,7 @@ export default {
     marginBottom: px(Value.CONSTANT_VALUE_20),
   },
   row: {
-    paddingTop: Value.CONSTANT_VALUE_18,
+    paddingTop: Value.CONSTANT_VALUE_30,
     flex: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
     // marginVertical: Value.CONSTANT_VALUE_15,

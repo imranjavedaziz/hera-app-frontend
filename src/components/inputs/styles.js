@@ -4,11 +4,11 @@ import Alignment from '../../constants/Alignment';
 import {Fonts} from '../../constants/Constants';
 
 export default {
-  container: {
-    paddingTop: Value.CONSTANT_VALUE_20,
-    flex: Value.CONSTANT_VALUE_0,
-    width: Prencentage.PRECENTAGE_100,
-  },
+  // container: {
+  //   paddingTop: Value.CONSTANT_VALUE_20,
+  //   flex: Value.CONSTANT_VALUE_0,
+  //   width: Prencentage.PRECENTAGE_100,
+  // },
   bottom: {bottom: 10},
   label: {
     position: Alignment.ABSOLUTE,
@@ -18,21 +18,20 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   marginBottom: {marginBottom: 10},
-  IOSlabel: {
-    color: Colors.LABEL_BLACK,
-    fontFamily: Fonts.OpenSansRegular,
-  },
+
   iosFloatingText: {
     top: Value.CONSTANT_VALUE_5,
-
     fontSize: Value.CONSTANT_VALUE_14,
     color: Colors.BLACK_KEY,
   },
-  IOSfloated: {
-    top: Value.CONSTANT_VALUE_10,
 
+  IOSfloated: {
+    fontFamily: Fonts.OpenSansRegular,
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#000000',
+    top: Value.CONSTANT_VALUE_8,
     fontSize: Value.CONSTANT_VALUE_14,
-    color: Colors.BLACK_KEY,
   },
   floated: {
     top: Value.CONSTANT_VALUE_0,
@@ -47,8 +46,14 @@ export default {
     color: Colors.BLACK_KEY,
   },
   unIosfloated: {
-    top: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_16,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: Colors.BLACK_0,
+    top: 22,
   },
   unIosfloatedText: {
     top: Value.CONSTANT_VALUE_22,
@@ -115,12 +120,12 @@ export default {
     width: Prencentage.PRECENTAGE_100,
   },
   linebelow: {
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomWidth: Value.CONSTANT_VALUE_2,
     justifyContent: 'center',
     top: Value.CONSTANT_VALUE_17,
   },
   linebelowFloat: {
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomWidth: Value.CONSTANT_VALUE_2,
     justifyContent: 'center',
     top: Value.CONSTANT_VALUE_6,
   },

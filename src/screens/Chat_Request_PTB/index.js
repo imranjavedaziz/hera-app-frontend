@@ -1,22 +1,22 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, Image, TouchableOpacity, } from 'react-native';
-import { Container } from '../../components';
-import { IconHeader } from '../../components/Header';
-import { Colors, Images, Strings } from '../../constants';
+import React, {useEffect, useRef} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {Container} from '../../components';
+import {IconHeader} from '../../components/Header';
+import {Colors, Images, Strings} from '../../constants';
 import styles from './style';
-import { useNavigation } from '@react-navigation/native';
-import { Value } from '../../constants/FixedValues';
+import {useNavigation} from '@react-navigation/native';
+import {Value} from '../../constants/FixedValues';
 import ChatImagComp from '../../components/Chat_Request_Ptb/ChatImagComp';
 import User_detail from '../../components/Chat_Request_Ptb/User_detail';
 import LikeProfileDetail from '../../components/Chat_Request_Ptb/LikeProfileDetail';
-import { useDispatch, useSelector } from 'react-redux';
-import { profileMatch } from '../../redux/actions/Profile_Match';
+import {useDispatch, useSelector} from 'react-redux';
+import {profileMatch} from '../../redux/actions/Profile_Match';
 import {
   showAppLoader,
   hideAppLoader,
   showAppToast,
 } from '../../redux/actions/loader';
-import { Routes } from '../../constants/Constants';
+import {Routes} from '../../constants/Constants';
 const Chat_Resquest = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ const Chat_Resquest = props => {
         <View style={styles.heartIconContainer}>
           <TouchableOpacity
             onPress={() => {
-              onPressLike()
+              onPressLike();
             }}
             style={styles.btn(Colors.GREEN)}
             accessibilityRole={'button'}
@@ -106,7 +106,7 @@ const Chat_Resquest = props => {
         <View style={styles.crossIconContainer}>
           <TouchableOpacity
             onPress={() => {
-              onPressDislike()
+              onPressDislike();
             }}
             style={styles.btn(Colors.RED)}
             accessibilityRole={'button'}

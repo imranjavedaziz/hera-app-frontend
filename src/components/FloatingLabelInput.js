@@ -1,6 +1,6 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View, Platform} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
@@ -8,10 +8,12 @@ import {Fonts} from '../constants/Constants';
 
 const styles = {
   focusBorder: {
-    borderBottomColor: Colors.BLUE,
+    borderBottomColor: Colors.SKY_BLUE,
+    borderBottomWidth: 2,
   },
   blurBorder: {
     borderBottomColor: Colors.INPUT_BORDER,
+    borderBottomWidth: 2,
   },
   endComponent: {
     position: Alignment.ABSOLUTE,
@@ -32,32 +34,27 @@ const styles = {
   //Change
 
   firstName: {
-    fontFamily: 'OpenSans',
+    fontFamily: Fonts.OpenSansRegular,
     fontSize: 14,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
     lineHeight: 21,
     letterSpacing: 0,
     color: '#000000',
-    marginTop: 10,
+    top: 8,
   },
   firstNameCopy: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 16,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
     lineHeight: 21,
     letterSpacing: 0,
     color: Colors.BLACK_0,
-    top: 30,
+    top: 32,
   },
   InputTextField: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: 16,
-    lineHeight: 21,
     letterSpacing: 0,
     color: '#353a3a',
-    borderBottomWidth: 2,
+    top: 2,
     minHeight: 40,
   },
 };
@@ -66,7 +63,6 @@ const FloatingLabelInput = props => {
   const {
     label,
     containerStyle = {},
-    fixed = false,
     endComponent = null,
     required = false,
     error = '',
@@ -100,7 +96,6 @@ const FloatingLabelInput = props => {
               style={[
                 styles.InputTextField,
                 isFocused ? styles.focusBorder : styles.blurBorder,
-                lineColor && {borderColor: Colors.LIGHT_BLACK47},
                 error ? {borderColor: Colors.RED} : null,
               ]}
               onFocus={handleFocus}
