@@ -1,13 +1,12 @@
 // User
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 import {
   showAppLoader,
   hideAppLoader,
-  showAppToast,
 } from '../redux/actions/loader';
-import {getUserGallery} from '../redux/actions/CreateGallery';
+import { getUserGallery } from '../redux/actions/CreateGallery';
 const User = () => {
   const dispatch = useDispatch();
   const createGallery = (data, setLoading) => {
@@ -21,7 +20,6 @@ const User = () => {
       .then(response => {
         console.log('response', response.data.data);
         dispatch(getUserGallery());
-        // await dispatch(showAppToast(false, response.data.message));
         setLoading(false);
       })
       .finally(e => {

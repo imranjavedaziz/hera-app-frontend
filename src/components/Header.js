@@ -1,11 +1,11 @@
 // Header
 import React from 'react';
-import {View, TouchableOpacity, Image, Platform, Text} from 'react-native';
+import { View, TouchableOpacity, Image, Platform, Text } from 'react-native';
 import Colors from '../constants/Colors';
-import {Value, Prencentage} from '../constants/FixedValues';
+import { Value, Prencentage } from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
-import {dynamicSize} from '../utils/responsive';
-import {Fonts} from '../constants/Constants';
+import { dynamicSize } from '../utils/responsive';
+import { Fonts } from '../constants/Constants';
 
 const styles = {
   container: {
@@ -66,7 +66,7 @@ const styles = {
     fontSize: Value.CONSTANT_VALUE_16,
   },
 };
-export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
+export const CircleBtn = ({ icon, onPress, Fixedstyle, ...otherProps }) => (
   <TouchableOpacity
     style={[styles.circle, Fixedstyle]}
     onPress={onPress}
@@ -91,19 +91,18 @@ export const IconHeader = ({
   txtPress,
   chat,
   ...otherProps
-}) => (
-  <>
+}) => {
+  const STYLE_ONE = Platform.OS === 'ios'
+    ? styles.profileIconConatiner
+    : styles.androidIconCon
+  return <>
     {profileView ? (
       <TouchableOpacity
-        style={
-          Platform.OS === 'ios'
-            ? styles.profileIconConatiner
-            : styles.androidIconCon
-        }
+        style={STYLE_ONE}
         onPress={leftPress}>
         <View
           style={[styles.circle, styles.start, styles.profileImgContainner]}>
-          <Image source={{uri: profileImg}} style={styles.profileImg} />
+          <Image source={{ uri: profileImg }} style={styles.profileImg} />
         </View>
       </TouchableOpacity>
     ) : (
@@ -123,7 +122,7 @@ export const IconHeader = ({
       </TouchableOpacity>
     )}
 
-    <View style={{flexDirection: Alignment.ROW, alignItems: Alignment.CENTER}}>
+    <View style={{ flexDirection: Alignment.ROW, alignItems: Alignment.CENTER }}>
       <TouchableOpacity
         style={styles.circle}
         onPress={rightPrevPress}
@@ -145,26 +144,28 @@ export const IconHeader = ({
         {...otherProps}
         accessible={true}
         accessibilityRole="button">
-          {
-             chat===true &&
-             <View style={{ width: 12,
-              height: 12,
-              backgroundColor: "#ff4544",
-              borderRadius:6,
-              position:'absolute',
-              right:0,
-              zIndex:9999,
-              borderStyle: "solid",
-              borderWidth: 1,
-              top:5,
-              borderColor: "#ffffff"}}></View>
-          }
+        {
+          chat === true &&
+          <View style={{
+            width: 12,
+            height: 12,
+            backgroundColor: "#ff4544",
+            borderRadius: 6,
+            position: 'absolute',
+            right: 0,
+            zIndex: 9999,
+            borderStyle: "solid",
+            borderWidth: 1,
+            top: 5,
+            borderColor: "#ffffff"
+          }}></View>
+        }
         <Image accessible={false} source={rightIcon} style={styles.img} />
       </TouchableOpacity>
     </View>
   </>
-);
-const Header = ({end = false, children}) => {
+};
+const Header = ({ end = false, children }) => {
   return (
     <View style={[styles.container, end ? styles.end : styles.start]}>
       {children}

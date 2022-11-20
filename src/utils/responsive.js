@@ -34,8 +34,7 @@ export const scaleWidth = w => Math.round(w * ScaleWidth);
 export const dynamicSize = size => K * size;
 export function px(size) {
   if (typeof size === 'number') {
-    const newSize = size * scale;
-    return newSize;
+    return size * scale;
   } else {
     return size;
   }

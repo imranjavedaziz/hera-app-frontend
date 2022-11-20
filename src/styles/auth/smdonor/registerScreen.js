@@ -1,7 +1,7 @@
-import {Colors, Alignment} from '../../../constants';
-import {Value, Prencentage} from '../../../constants/FixedValues';
-import {Fonts} from '../../../constants/Constants';
-import {dynamicSize, px} from '../../../utils/responsive';
+import { Colors, Alignment } from '../../../constants';
+import { Value, Prencentage } from '../../../constants/FixedValues';
+import { Fonts } from '../../../constants/Constants';
+import { dynamicSize, px } from '../../../utils/responsive';
 
 export default {
   title: {
@@ -70,8 +70,9 @@ export default {
   pwdInputContainer: {
     marginVertical: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_5,
+    marginTop: 10
   },
-  pwdErrContainer: {flexDirection: Alignment.ROW, alignItems: Alignment.CENTER},
+  pwdErrContainer: { flexDirection: Alignment.ROW, alignItems: Alignment.CENTER },
   pwdErrText: {
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,

@@ -1,15 +1,15 @@
 // Dropdown
-import React, {useState} from 'react';
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
+import React, { useState } from 'react';
+import { Image, Platform, Text, TouchableOpacity, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Colors from '../../constants/Colors';
 import Images from '../../constants/Images';
 import styles from './styles';
 
 import CustomPicker from './CustomPicker/CustomPicker';
-import {Fonts} from '../../constants/Constants';
-import {Alignment} from '../../constants';
-import {Value} from '../../constants/FixedValues';
+import { Fonts } from '../../constants/Constants';
+import { Alignment } from '../../constants';
+import { Value } from '../../constants/FixedValues';
 
 const Dropdown = ({
   label,
@@ -26,10 +26,21 @@ const Dropdown = ({
 }) => {
   const [value, setValue] = useState(null);
   const [isVisible, setVisibility] = useState(false);
-
+  const STYLE_ONE = {
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_0,
+    bottom: Value.CONSTANT_VALUE_10,
+    zIndex: Value.CONSTANT_VALUE_2,
+  }
+  const STYLE_TWO = {
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_0,
+    bottom: Value.CONSTANT_VALUE_0,
+    zIndex: Value.CONSTANT_VALUE_2,
+  }
   return (
-    <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
-      <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
+    <View style={[styles.container, containerStyle, { paddingTop: 0 }]}>
+      <View style={[styles.container, { marginVertical: 0 }, containerStyle]}>
         {Platform.OS === 'ios' ? (
           <View style={styles.bottom}>
             <TouchableOpacity
@@ -52,21 +63,7 @@ const Dropdown = ({
               </View>
               <Image
                 source={Images.arrowDown}
-                style={
-                  value
-                    ? {
-                        position: Alignment.ABSOLUTE,
-                        right: Value.CONSTANT_VALUE_0,
-                        bottom: Value.CONSTANT_VALUE_10,
-                        zIndex: Value.CONSTANT_VALUE_2,
-                      }
-                    : {
-                        position: Alignment.ABSOLUTE,
-                        right: Value.CONSTANT_VALUE_0,
-                        bottom: Value.CONSTANT_VALUE_0,
-                        zIndex: Value.CONSTANT_VALUE_2,
-                      }
-                }
+                style={value ? STYLE_ONE : STYLE_TWO}
               />
               {value && (
                 <Text style={styles.buttonTextStyle}>{value?.name}</Text>
@@ -74,7 +71,7 @@ const Dropdown = ({
               <View
                 style={[
                   value ? styles.linebelowFloat : styles.linebelow,
-                  {borderBottomColor: error ? 'red' : Colors.BORDER_LINE},
+                  { borderBottomColor: error ? 'red' : Colors.BORDER_LINE },
                 ]}
               />
             </TouchableOpacity>
@@ -99,14 +96,14 @@ const Dropdown = ({
             <Text
               style={[
                 styles.label,
-                {bottom: 14},
+                { bottom: 14 },
                 value ? styles.floated : styles.unfloated,
               ]}
               accessible={true}
               accessibilityLabel={label}>
               {label}
               {required && (
-                <Text style={[styles.label, {color: 'red'}]}>*</Text>
+                <Text style={[styles.label, { color: 'red' }]}>*</Text>
               )}
             </Text>
             <SelectDropdown
@@ -124,7 +121,7 @@ const Dropdown = ({
               }}
               rowStyle={styles.rowStyle}
               rowTextStyle={styles.rowTextStyle}
-              selectedRowTextStyle={{fontFamily: Fonts.OpenSansBold}}
+              selectedRowTextStyle={{ fontFamily: Fonts.OpenSansBold }}
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,

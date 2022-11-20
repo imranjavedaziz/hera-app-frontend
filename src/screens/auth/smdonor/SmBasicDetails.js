@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -9,21 +9,21 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
-import {useDispatch, useSelector} from 'react-redux';
-import {yupResolver} from '@hookform/resolvers/yup';
+import { useForm, Controller } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
-import {CircleBtn} from '../../../components/Header';
+import { CircleBtn } from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
-import {smBasicSchema} from '../../../constants/schemas';
+import { smBasicSchema } from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/inputs/FloatingLabelInput';
-import {Routes} from '../../../constants/Constants';
+import { Routes } from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
-import {Value} from '../../../constants/FixedValues';
+import { Value } from '../../../constants/FixedValues';
 import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
@@ -35,10 +35,10 @@ import {
   getProfileSetterDetail,
   saveBasicDetail,
 } from '../../../redux/actions/Register';
-import {useNavigation} from '@react-navigation/native';
-import {logOut, updateRegStep} from '../../../redux/actions/Auth';
-import {BottomSheetComp, MultiTextInput} from '../../../components';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { useNavigation } from '@react-navigation/native';
+import { logOut, updateRegStep } from '../../../redux/actions/Auth';
+import { BottomSheetComp, MultiTextInput } from '../../../components';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -74,7 +74,7 @@ const SmBasicDetails = () => {
   const {
     handleSubmit,
     control,
-    formState: {errors, isValid},
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
@@ -147,7 +147,7 @@ const SmBasicDetails = () => {
     <>
       <CircleBtn
         icon={Images.iconSettings}
-        Fixedstyle={{marginRight: 20}}
+        Fixedstyle={{ marginRight: 20 }}
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}
@@ -201,13 +201,13 @@ const SmBasicDetails = () => {
         showHeader={true}
         headerEnd={true}
         headerComp={headerComp}
-        style={{marginHorizontal: 0}}
+        style={{ marginHorizontal: 0 }}
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
-          resetScrollToCoords={{x: 0, y: 10}}
+          resetScrollToCoords={{ x: 0, y: 10 }}
           keyboardOpeningTime={0}
           scrollEnabled={true}
           extraHeight={180}
@@ -221,7 +221,7 @@ const SmBasicDetails = () => {
                 <Text
                   style={[
                     globalStyle.screenSubTitle,
-                    {marginBottom: Value.CONSTANT_VALUE_45},
+                    { marginBottom: Value.CONSTANT_VALUE_45 },
                   ]}>
                   {Strings.sm_basic.Subtitle}
                 </Text>
@@ -230,11 +230,11 @@ const SmBasicDetails = () => {
                   accessible={true}
                   accessibilityLabel={'Gender'}>
                   Gender
-                  <Text style={[{color: 'red'}]}>*</Text>
+                  <Text style={[{ color: 'red' }]}>*</Text>
                 </Text>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <View style={styles.radioContainer}>
                       {profileRes?.gender.map(gender => (
                         <TouchableOpacity
@@ -258,9 +258,9 @@ const SmBasicDetails = () => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <Dropdown
-                      containerStyle={{marginTop: 10}}
+                      containerStyle={{ marginTop: 10 }}
                       label={Strings.sm_basic.State}
                       data={stateRes}
                       onSelect={selectedItem => {
@@ -274,11 +274,11 @@ const SmBasicDetails = () => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.sm_basic.Zip}
                       containerStyle={
-                        Platform.OS === 'ios' ? {marginTop: 12} : {marginTop: 2}
+                        Platform.OS === 'ios' ? { marginTop: 12 } : { marginTop: 2 }
                       }
                       value={value}
                       onChangeText={v => onChange(v)}
@@ -293,10 +293,10 @@ const SmBasicDetails = () => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Dropdown
                       label={Strings.sm_basic.SexualOrientation}
-                      containerStyle={{marginTop: 8}}
+                      containerStyle={{ marginTop: 8 }}
                       data={profileRes?.sexual_orientation}
                       onSelect={selectedItem => {
                         onChange(selectedItem.id);
@@ -309,10 +309,10 @@ const SmBasicDetails = () => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange}}) => (
+                  render={({ field: { onChange } }) => (
                     <Dropdown
                       label={Strings.sm_basic.RelationshipStatus}
-                      containerStyle={{marginTop: 10}}
+                      containerStyle={{ marginTop: 10 }}
                       data={profileRes?.relationship_status}
                       onSelect={selectedItem => {
                         onChange(selectedItem.id);
@@ -325,10 +325,10 @@ const SmBasicDetails = () => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.sm_basic.Occupation}
-                      containerStyle={{marginTop: 8, marginBottom: 10}}
+                      containerStyle={{ marginTop: 8, marginBottom: 10 }}
                       value={value}
                       onChangeText={v => onChange(v)}
                       error={errors && errors.occupation?.message}
@@ -339,7 +339,7 @@ const SmBasicDetails = () => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <MultiTextInput
                       title={Strings.sm_basic.Bio}
                       required={true}
@@ -391,4 +391,4 @@ const SmBasicDetails = () => {
     </>
   );
 };
-export default SmBasicDetails;
+export default React.memo(SmBasicDetails);

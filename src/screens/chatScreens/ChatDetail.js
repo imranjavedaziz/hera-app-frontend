@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,40 +8,39 @@ import {
   SafeAreaView,
   Pressable,
 } from 'react-native';
-import {GiftedChat} from 'react-native-gifted-chat';
+import { GiftedChat } from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
-import {Images, Strings, Colors} from '../../constants';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import { Images, Strings, Colors } from '../../constants';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import styles from './styles';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   showAppToast,
 } from '../../redux/actions/loader';
-import {chatFeedback,pushNotification} from '../../redux/actions/Chat';
-import {Routes} from '../../constants/Constants/';
+import { chatFeedback, pushNotification } from '../../redux/actions/Chat';
+import { Routes } from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
-import moment from 'moment';
 let fireDB
 let onChildAdd
 const ChatDetail = props => {
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
-  const[loading,setLoading]=useState(true)
-  const[loadEarlier,setLoadEarlier]=useState(true)
-  const [db, setDB] = useState({messages: [], loading: true});
-  const {log_in_data} = useSelector(state => state.Auth);
+  const [loading, setLoading] = useState(true)
+  const [loadEarlier, setLoadEarlier] = useState(true)
+  const [db, setDB] = useState({ messages: [], loading: true });
+  const { log_in_data } = useSelector(state => state.Auth);
   const loadingRef = useRef(false);
-  const {feedback_data, feedback_success, feedback_loading} = useSelector(
+  const { feedback_data, feedback_success, feedback_loading } = useSelector(
     state => state.Chat,
   );
 
   const dispatch = useDispatch();
   const renderActions = message => {
     return (
-      <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
+      <View style={{ flexDirection: 'row', paddingBottom: 10, paddingRight: 10 }}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
-          <Image source={Images.ICON_SEND} style={{width: 30, height: 30}} />
+          <Image source={Images.ICON_SEND} style={{ width: 30, height: 30 }} />
         </TouchableOpacity>
       </View>
     );
@@ -62,38 +61,38 @@ const ChatDetail = props => {
       name: props?.route?.params?.item?.recieverName,
       image: props?.route?.params?.item?.recieverImage,
     };
-   fireDB = new FirebaseDB(user, receiver);
+    fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
     await fireDB.readAll();
     fireDB.lastIdInSnapshot = now;
     console.log(fireDB, 'fireDB');
     setDB(fireDB);
-   
-      onChildAdd = fireDB.reference
-      //  .orderByKey()
-        // .startAt(now)
-        .on('child_added', async (snapshot, _previousChildKey) => {
-          setLoading(true)
-          const messageItem = fireDB.parseMessages(snapshot);
 
-          console.log(messageItem, 'messageItem');
-          console.log(snapshot,'snapshot.key')
-          console.log(fireDB.lastIdInSnapshot,'fireDB.lastIdInSnapshot')
-          if (messageItem.createdAt > now) {
-            fireDB.lastKey = snapshot.key;
-            fireDB.prependMessage(messageItem);
-            await fireDB.readAll();
-            fireDB.lastIdInSnapshot = snapshot.key;
-            setLoading(false)
-          }
-        });
-  
-   
+    onChildAdd = fireDB.reference
+      //  .orderByKey()
+      // .startAt(now)
+      .on('child_added', async (snapshot, _previousChildKey) => {
+        setLoading(true)
+        const messageItem = fireDB.parseMessages(snapshot);
+
+        console.log(messageItem, 'messageItem');
+        console.log(snapshot, 'snapshot.key')
+        console.log(fireDB.lastIdInSnapshot, 'fireDB.lastIdInSnapshot')
+        if (messageItem.createdAt > now) {
+          fireDB.lastKey = snapshot.key;
+          fireDB.prependMessage(messageItem);
+          await fireDB.readAll();
+          fireDB.lastIdInSnapshot = snapshot.key;
+          setLoading(false)
+        }
+      });
+
+
   }, []);
 
-  useEffect(async() => {
-    const unsubscribe =  () => {
+  useEffect(async () => {
+    const unsubscribe = () => {
       setDB({ messages: [], loading: false });
       fireDB.reference.off("child_added", onChildAdd);
       db.reference.off("child_added", onChildAdd);
@@ -101,7 +100,6 @@ const ChatDetail = props => {
     };
     return () => unsubscribe();
   }, []);
-
 
   const onSend = (messages = '') => {
     console.log(messages.text, 'messages');
@@ -111,19 +109,19 @@ const ChatDetail = props => {
       if (messages.text !== '') {
         db.sendMessage(messages.text)
           .then(() => {
-            let data ={
+            let data = {
               "user_id": props?.route?.params?.item?.senderId,
               "title": `${props?.route?.params?.item?.senderName} sent you a message`,
               "message": messages.text
             }
-            console.log(data,'data')
+            console.log(data, 'data')
             dispatch(pushNotification(data))
             setTextData('');
 
             Keyboard.dismiss();
           })
           .catch(e => {
-            // topToast(e.message);
+            console.log(e.message);
           });
       }
     }
@@ -133,39 +131,36 @@ const ChatDetail = props => {
     console.log(item.currentMessage, 'item');
     return (
       <>
-      <View
-        style={[
-          item.currentMessage.from === props?.route?.params?.item?.senderId
-            ? {
+        <View
+          style={[
+            item.currentMessage.from === props?.route?.params?.item?.senderId
+              ? {
                 alignSelf: 'flex-end',
                 flexDirection: 'row',
                 marginBottom: 10,
                 backgroundColor: Colors.WHITE,
               }
-            : {
+              : {
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
                 alignSelf: 'flex-end',
                 marginBottom: 10,
                 backgroundColor: Colors.GREEN,
               },
-        ]}>
-        {props.route.params.item.recieverSubscription === 0 && (
-          <View style={{justifyContent: 'flex-end'}}>
-            <Image
-              source={Images.warning}
-              style={{tintColor: '#ff4544', right: 5}}
-            />
+          ]}>
+          {props.route.params.item.recieverSubscription === 0 && (
+            <View style={{ justifyContent: 'flex-end' }}>
+              <Image
+                source={Images.warning}
+                style={{ tintColor: '#ff4544', right: 5 }}
+              />
+            </View>
+          )}
+          <View style={styles.chatContainer}>
+            <Text style={styles.chatText}>{item.currentMessage.text}</Text>
           </View>
-        )}
-       
-
-        <View style={styles.chatContainer}>
-          <Text style={styles.chatText}>{item.currentMessage.text}</Text>
         </View>
-       
-      </View>
-      {/* <View style={{flex:1,backgroundColor:'red'}}>
+        {/* <View style={{flex:1,backgroundColor:'red'}}>
       <Text style={{
   fontFamily: "OpenSans",
   fontSize: 13,
@@ -210,10 +205,9 @@ const ChatDetail = props => {
       loadingRef.current = feedback_loading;
     }, [feedback_success, feedback_loading]),
   );
-  console.log(props?.route?.params?.item?.feedback_status,' props?.route?.params?.item?.feedback_status')
   return (
     <>
-      <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
+      <View style={{ flex: 1, backgroundColor: Colors.BACKGROUND }}>
         <StatusBar
           barStyle="dark-content"
           backgroundColor={Colors.BACKGROUND}
@@ -221,14 +215,13 @@ const ChatDetail = props => {
           hidden={false}
         />
         <SafeAreaView />
-
         <View>
           <View style={styles.outerContainer}>
-            <View style={{flex: 0.8, zIndex: 9999}}>
+            <View style={{ flex: 0.8, zIndex: 9999 }}>
               <Pressable onPress={() => props.navigation.goBack()}>
                 <Image
                   source={Images.BACK_PLAN_ARROW}
-                  style={{width: 14.7, height: 12.6}}
+                  style={{ width: 14.7, height: 12.6 }}
                 />
               </Pressable>
             </View>
@@ -248,12 +241,12 @@ const ChatDetail = props => {
                     source={
                       props?.route?.params?.item?.currentRole === 1
                         ? Images.ADMIN_ICON
-                        : {uri: props.route.params.item.recieverImage}
+                        : { uri: props.route.params.item.recieverImage }
                     }
                     style={styles.avatar}
                   />
                 </View>
-                <View style={{marginLeft: 10}}>
+                <View style={{ marginLeft: 10 }}>
                   {props.route.params.item.recieverSubscription === 0 ? (
                     <Text style={styles.titleText}>
                       {Strings.Chat.INACTIVE_USER}
@@ -278,7 +271,7 @@ const ChatDetail = props => {
         </View>
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
-          props?.route?.params?.item?.feedback_status === 0 && 50<=db?.messages.length >=20&&(
+          props?.route?.params?.item?.feedback_status === 0 && 50 <= db?.messages.length >= 20 && (
             <View
               style={{
                 height: 117,
@@ -297,7 +290,6 @@ const ChatDetail = props => {
                 onPress={() => feedback(0, 1)}>
                 <Image source={Images.iconcross} style={styles.crossImage} />
               </TouchableOpacity>
-
               <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
               <View style={styles.thumbInnerContain}>
                 <TouchableOpacity
@@ -315,7 +307,6 @@ const ChatDetail = props => {
               </View>
             </View>
           )}
-
         {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
           <View style={styles.smDonorEmptyView}>
             <EmptySmDonor
@@ -353,10 +344,10 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
-            // loadEarlier={loadEarlier}
-            // onLoadEarlier={()=>db.loadEarlier(setLoading)}
-            // isLoadingEarlier={loading}
-            // onLoadEarlier={()=>alert('hi')}
+          // loadEarlier={loadEarlier}
+          // onLoadEarlier={()=>db.loadEarlier(setLoading)}
+          // isLoadingEarlier={loading}
+          // onLoadEarlier={()=>alert('hi')}
           //   listViewProps={{
           //     scrollEventThrottle: 400,
           //     onScroll: ({ nativeEvent }) => {
@@ -385,10 +376,10 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
-            // isLoadingEarlier={loading}
-            // loadEarlier={loadEarlier}
-            // onLoadEarlier={()=>db.loadEarlier(setLoading)}
-            // onLoadEarlier={()=>alert('hi')}
+          // isLoadingEarlier={loading}
+          // loadEarlier={loadEarlier}
+          // onLoadEarlier={()=>db.loadEarlier(setLoading)}
+          // onLoadEarlier={()=>alert('hi')}
           //   listViewProps={{
           //     scrollEventThrottle: 400,
           //     onScroll: ({ nativeEvent }) => {
@@ -398,7 +389,6 @@ const ChatDetail = props => {
           // }}
           />
         )}
-
         {db?.messages.length > 0 &&
           log_in_data?.role_id !== 2 &&
           props?.route?.params?.item?.currentRole !== 1 && (
@@ -420,18 +410,15 @@ const ChatDetail = props => {
               textInputProps={{
                 autoCorrect: false,
               }}
-              // loadEarlier={loadEarlier}
-            
-              // isLoadingEarlier={loading}
-
-             
-              // listViewProps={{
-              //     scrollEventThrottle: 400,
-              //     onScroll: ({ nativeEvent }) => {
-              //       db.loadEarlier(setLoading,setLoadEarlier)
-              //       setLoadEarlier(false)
-              //     }
-              // }}
+            // loadEarlier={loadEarlier}
+            // isLoadingEarlier={loading}
+            // listViewProps={{
+            //     scrollEventThrottle: 400,
+            //     onScroll: ({ nativeEvent }) => {
+            //       db.loadEarlier(setLoading,setLoadEarlier)
+            //       setLoadEarlier(false)
+            //     }
+            // }}
             />
           )}
       </View>
