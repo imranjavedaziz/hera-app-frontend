@@ -32,6 +32,7 @@ const SetAttributes = ({route}) => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: {errors},
   } = useForm({
     resolver: yupResolver(smSetAttributesSchema),
@@ -54,6 +55,12 @@ const SetAttributes = ({route}) => {
   } = useSelector(state => state.SetAttribute);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef(false);
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      reset();
+    });
+  }, [navigation, reset]);
+
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !set_attribute_loading) {
@@ -61,8 +68,7 @@ const SetAttributes = ({route}) => {
       if (set_attribute_success) {
         dispatch(hideAppLoader());
         setAttributeData(set_attribute_res);
-      }
-      if (set_attribute_error_msg) {
+      } else {
         dispatch(hideAppLoader());
       }
     }
@@ -317,7 +323,6 @@ const SetAttributes = ({route}) => {
           />
         </View>
       </Container>
-
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
         lineStyle={globalStyle.lineStyle}

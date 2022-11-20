@@ -1,5 +1,5 @@
 // SmRegister
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -12,23 +12,23 @@ import {
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import { useForm, Controller } from 'react-hook-form';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useForm, Controller} from 'react-hook-form';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {yupResolver} from '@hookform/resolvers/yup';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
-import Header, { CircleBtn } from '../../../components/Header';
+import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
-import Strings, { ValidationMessages } from '../../../constants/Strings';
-import { smRegisterSchema, Regx } from '../../../constants/schemas';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
+import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
-import { smRoles, Routes } from '../../../constants/Constants';
+import {smRoles, Routes} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
-import { askCameraPermission } from '../../../utils/permissionManager';
+import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import updateRegStep from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
@@ -36,8 +36,8 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import { ptbRegister } from '../../../redux/actions/Register';
-import { BottomSheetComp } from '../../../components';
+import {ptbRegister} from '../../../redux/actions/Register';
+import {BottomSheetComp} from '../../../components';
 
 const validationType = {
   LEN: 'LEN',
@@ -57,7 +57,7 @@ const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
-  { type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK },
+  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 const validatePassword = (value, type) => {
   if (value) {
@@ -95,13 +95,13 @@ const SmRegister = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: {errors, isValid},
     setValue,
   } = useForm({
     resolver: yupResolver(smRegisterSchema),
   });
   const {
-    params: { isRouteData },
+    params: {isRouteData},
   } = useRoute();
   const cb = image => {
     setOpen(false);
@@ -178,7 +178,7 @@ const SmRegister = () => {
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => navigation.navigate(Routes.Profile, { isRouteData })}
+      onPress={() => navigation.navigate(Routes.Profile, {isRouteData})}
       accessibilityLabel="Left arrow Button, Press to go back"
       style={styles.headerIcon}
     />
@@ -219,7 +219,7 @@ const SmRegister = () => {
 
   return (
     <>
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.main}>
