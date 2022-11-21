@@ -206,7 +206,6 @@ const ChatDetail = props => {
         item: props.route.params.item,
       })
     }else if(log_in_data?.role_id === 2){
-      console.log(props?.route?.params?.item?.recieverId,'props?.route?.params?.item?.recieverId')
       navigation.navigate(Routes.DashboardDetailScreen ,{userId: props?.route?.params?.item?.recieverId})
 
     }else{
@@ -215,6 +214,7 @@ const ChatDetail = props => {
       
     }
   }
+  console.log(db?.messages.length,'db?.messages.length')
   return (
     <>
       <View style={{ flex: 1, backgroundColor: Colors.BACKGROUND }}>
@@ -228,12 +228,12 @@ const ChatDetail = props => {
         <View>
           <View style={styles.outerContainer}>
             <View style={{ flex: 0.8, zIndex: 9999 }}>
-              <Pressable onPress={() => props.navigation.goBack()}>
+              <TouchableOpacity hitSlop={{top: 20, bottom: 20, left: 10, right: 10}} onPress={() => props.navigation.goBack()}>
                 <Image
                   source={Images.BACK_PLAN_ARROW}
                   style={{ width: 14.7, height: 12.6 }}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <TouchableOpacity
               style={styles.topContainer}
@@ -280,7 +280,7 @@ const ChatDetail = props => {
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
           props?.route?.params?.item?.feedback_status === 0 &&
-          db?.messages.length >= 50 >= 20 && (
+          db?.messages.length >=20 && 50>= db?.messages.length &&(
             <View
               style={{
                 height: 117,

@@ -72,7 +72,7 @@ const ChatListing = () => {
       safeAreViewStyle={{ backgroundColor: Colors.BACKGROUND }}>
       {loader === false && (
         <>
-          {chats && chats?.length > 0 ? (
+          {chats && chats?.length > 0  ? (
             <View style={{ flex: 1, marginTop: 25 }}>
               <View style={styles.mainContainer}>
                 <Text style={styles.Inbox}> {ROLL_ID_INBOX}</Text>

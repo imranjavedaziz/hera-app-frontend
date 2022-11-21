@@ -160,7 +160,6 @@ export default class FirebaseDB {
         }
     }
     async readSingle(msg) {
-        console.log(msg, 'msg:::::::::::::::')
         if (msg.sender_id === this.sender.user_id && !msg.isRead) {
             await this.readMessage(msg._id.split('-')[0], msg);
             await this.readAll()
@@ -183,7 +182,6 @@ export default class FirebaseDB {
     async updateFeedback() {
         const referenceUser = database().ref(`/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
         const referenceSender = database().ref(`/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);
-        console.log(referenceSender, 'referenceSender')
         try {
             await referenceUser.update({
                 feedback_status: 1,
@@ -202,11 +200,6 @@ export default class FirebaseDB {
             message: lastMsg,
         });
     }
-    // sendMsgNotification(tokens,msg){
-    //     tokens.fcm_tokens.forEach(async token=>{
-    //         await sendNotification(this.user.name,msg,token,{user_id: this.user.user_id,name: this.user.name,image: {uri:this.user.image}, path: 'msg'});
-    //     })
-    // }
     async readAt(id, setLoading) {
         setLoading(true);
         const rowId = id.split('-')[0];
