@@ -21,6 +21,10 @@ const VideoUploading = props => {
   const IMG_CONDI = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
     : Images.iconWhite
+
+  const IMG_CONDITWO = props?.remove?.includes(props?.video?.id)
+    ? Images.iconRadiosel
+    : Images.iconRadiounsel
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       {props?.video?.loading && (
@@ -73,11 +77,7 @@ const VideoUploading = props => {
                 onPress={() => props?.handelDel(props?.video?.id, true)}
                 style={styles.videoSel}>
                 <Image
-                  source={
-                    props?.remove?.includes(props?.video?.id)
-                      ? Images.iconRadiosel
-                      : Images.iconRadiounsel
-                  }
+                  source={IMG_CONDITWO}
                 />
               </TouchableOpacity>
             </TouchableWithoutFeedback>

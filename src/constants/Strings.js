@@ -64,16 +64,18 @@ export const ValidationMessages = {
   DISCARD_INQUIRY: 'Discard Inquiry',
   REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
 };
+const LIKE_CONST = 'Like, Match & Connect!'
+const MOBILE_CONST = 'Mobile Number'
 export default {
   landing: {
     LOG_IN: ' LOG IN  ',
     REGISTER: 'REGISTER',
-    Like_Match_Connect: 'Like, Match & Connect!',
+    Like_Match_Connect: LIKE_CONST,
     AboutUs: 'About Us',
     InquiryForm: 'Support',
   },
   login: {
-    MobileNumber: 'Mobile Number',
+    MobileNumber: MOBILE_CONST,
     Password: 'Password',
     LOG_IN: 'LOG IN',
     ForgotPassword: 'Forgot Your Password?',
@@ -84,7 +86,7 @@ export default {
     BeforProceed: 'Before we proceed,',
     VerifyNumber: 'please verify your number',
     Code: 'Code',
-    MobileNumber: 'Mobile Number',
+    MobileNumber: MOBILE_CONST,
     VERIFY: 'VERIFY',
     mainTitle: 'Before we proceed,\n please verify your number',
   },
@@ -206,7 +208,7 @@ export default {
     Log_Out: 'Log Out',
   },
   dashboard: {
-    Title: 'Like, Match & Connect!',
+    Title: LIKE_CONST,
     Subtitle: 'Your match might just\n be a click away!',
     locationText: 'U S A',
     code: '#SD5882',
@@ -218,7 +220,7 @@ export default {
     Para2: 'May be try again later or change your\n settings.',
   },
   sm_dashboard: {
-    Title: 'Like, Match & Connect!',
+    Title: LIKE_CONST,
     Subtitle1: 'Your match might just',
     Subtitle2: 'be a click away!',
   },
@@ -295,7 +297,7 @@ export default {
     Name: 'Name',
     // EmailAddress: 'Email Address',
     USER_TYPE: 'User Type',
-    MobileNumber: 'Mobile Number',
+    MobileNumber: MOBILE_CONST,
     Message: 'Message',
     SendInquiry: 'SEND INQUIRY',
     Title: 'SUPPORT',

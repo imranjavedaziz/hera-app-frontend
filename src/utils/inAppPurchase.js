@@ -33,7 +33,7 @@ class InAPPPurchase {
   };
   getIAPProducts = async () => {
     try {
-      const products = await getSubscriptions({ skus: productsIds }); 
+      const products = await getSubscriptions({ skus: productsIds });
       console.log("IAP FILE LINE NO 37 PREMIUM PRODUCTS ", products);
       return products;
     } catch (err) {

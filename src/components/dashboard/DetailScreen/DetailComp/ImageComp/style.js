@@ -1,13 +1,12 @@
 import Alignment from '../../../../../constants/Alignment';
 import {
   dynamicSize,
-  normalizeFont,
   scaleHeight,
   scaleWidth,
 } from '../../../../../utils/responsive';
-import {Fonts} from '../../../../../constants/Constants';
+import { Fonts } from '../../../../../constants/Constants';
 import Colors from '../../../../../constants/Colors';
-import {FontSize, Value} from '../../../../../constants/FixedValues';
+import { FontSize, Value } from '../../../../../constants/FixedValues';
 
 export default {
   mainContainer: {
