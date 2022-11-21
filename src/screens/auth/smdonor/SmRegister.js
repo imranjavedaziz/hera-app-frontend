@@ -220,6 +220,7 @@ const SmRegister = () => {
   const validateDateofBirth = () => {
     const formatedDate = moment(date).format('YYYY/MM/DD');
     const selectedAge = calculateBirthYear(formatedDate);
+    console.log('LINE NUMBER 222', selectedAge, 'DONAR TYPE', donrType);
     if (date !== "") {
       return ValidationMessages.DOB;
     }
