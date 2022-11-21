@@ -1,14 +1,13 @@
 import Alignment from '../../../constants/Alignment';
 import Colors from '../../../constants/Colors';
-import {Fonts} from '../../../constants/Constants';
-import {Value} from '../../../constants/FixedValues';
+import { Fonts } from '../../../constants/Constants';
+import { Value } from '../../../constants/FixedValues';
 import {
   dynamicSize,
   normalizeFont,
   scaleHeight,
   scaleWidth,
 } from '../../../utils/responsive';
-
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),

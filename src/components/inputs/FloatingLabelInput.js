@@ -22,19 +22,19 @@ const FloatingLabelInput = props => {
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
+
+  const IOS_CON_ONE =
+    Platform.OS === 'ios' ? styles.iosFloatingText : styles.floated;
+  const IOS_CON =
+    Platform.OS === 'ios' ? styles.unIosfloatedText : styles.unfloated;
+
   return (
     <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
       <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
         <Text
           style={[
             styles.label,
-            isFocused || textInputProps.value || fixed
-              ? Platform.OS === 'ios'
-                ? styles.iosFloatingText
-                : styles.floated
-              : Platform.OS === 'ios'
-              ? styles.unIosfloatedText
-              : styles.unfloated,
+            isFocused || textInputProps.value || fixed ? IOS_CON_ONE : IOS_CON,
             messageStyle && styles.floatedmessage,
           ]}
           accessible={true}
@@ -85,4 +85,4 @@ const FloatingLabelInput = props => {
     </View>
   );
 };
-export default FloatingLabelInput;
+export default React.memo(FloatingLabelInput);

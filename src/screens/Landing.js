@@ -3,7 +3,6 @@ import React, {useEffect} from 'react';
 import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Button from '../components/Button';
-import Container from '../components/Container';
 import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
 import Strings from '../constants/Strings';
@@ -63,4 +62,4 @@ const Landing = () => {
     </View>
   );
 };
-export default Landing;
+export default React.memo(Landing);

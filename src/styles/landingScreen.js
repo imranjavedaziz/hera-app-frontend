@@ -2,7 +2,6 @@ import {Platform} from 'react-native';
 import {Value, Prencentage} from '../constants/FixedValues';
 import {Alignment, Colors} from '../constants';
 import {Fonts} from '../constants/Constants';
-import {dynamicSize} from '../utils/responsive';
 
 export default {
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
