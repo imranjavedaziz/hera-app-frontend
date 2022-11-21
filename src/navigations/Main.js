@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
-import { useSelector } from 'react-redux';
-import { Routes } from '../constants/Constants';
+import {useSelector} from 'react-redux';
+import {Routes} from '../constants/Constants';
 import getRoute from '../utils/getRoute';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
@@ -31,7 +31,7 @@ import Support from '../screens/Support/Support';
 import PushNotificationExample from '../screens/Example';
 import Chat_Request from '../screens/Chat_Request_PTB';
 import Chat_Listing from '../screens/chatScreens/ChatListing';
-import ChatDetail from '../screens/chatScreens/ChatDetail'
+import ChatDetail from '../screens/chatScreens/ChatDetail';
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
 
@@ -56,132 +56,132 @@ const Main = () => {
         <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.ProfileDetails}
           component={ProfileDetails}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.Landing}
           component={Landing}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.Login}
           component={Login}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.MobileNumber}
           component={MobileNumber}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.Profile}
           component={Profile}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.PtbBasicDetails}
           component={PtbBasicDetails}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.SetPreference}
           component={SetPreference}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.OTP}
           component={OTP}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.SmRegister}
           component={SmRegister}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.SmBasicDetails}
           component={SmBasicDetails}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.SetAttributes}
           component={SetAttributes}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.CreateGallery}
           component={CreateGallery}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.PtbDashboard}
           component={PtbDashboard}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.DashboardDetailScreen}
           component={DashboardDetailScreen}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.PtbProfile}
           component={PtbProfile}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.MyVideo}
           component={MyVideo}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.SmSetting}
           component={SmDonorSettings}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.donorGallery}
           component={DonorGallery}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.Support}
           component={Support}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.stateList}
           component={StateList}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.Subscription}
           component={Subscription}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.PushNotificationExample}
           component={PushNotificationExample}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.Chat_Request}
           component={Chat_Request}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.Chat_Listing}
           component={Chat_Listing}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={Routes.ChatDetail}
           component={ChatDetail}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

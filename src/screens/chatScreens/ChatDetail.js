@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
-  Pressable,
+  Keyboard,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -99,14 +99,14 @@ const ChatDetail = props => {
         db.sendMessage(messages.text)
           .then(() => {
             let data = {
-              user_id: props?.route?.params?.item?.senderId,
+              sender_id: props?.route?.params?.item?.senderId,
               title: `${props?.route?.params?.item?.senderName} sent you a message`,
               message: messages.text,
+              receiver_id: props?.route?.params?.item?.recieverId,
             };
             console.log(data, 'data');
             dispatch(pushNotification(data));
             setTextData('');
-
             Keyboard.dismiss();
           })
           .catch(e => {
