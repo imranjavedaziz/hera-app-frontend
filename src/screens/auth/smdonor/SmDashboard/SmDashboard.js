@@ -104,6 +104,8 @@ const SmDashboard = ({route}) => {
             navigation.navigate(Routes.Chat_Request, {
               user: JSON.parse(notification?.data?.user),
             });
+          } else {
+            navigation.navigate(Routes.PushNotificationExample);
           }
         }
         console.log('NOTIFICATION:', notification);
