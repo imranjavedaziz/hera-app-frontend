@@ -1,7 +1,7 @@
 // FloatingLabelInput
-import React, { useState } from 'react';
-import { Text, TextInput, Platform, TouchableOpacity, View } from 'react-native';
-import { Colors } from '../../constants';
+import React, {useState} from 'react';
+import {Text, TextInput, Platform, TouchableOpacity, View} from 'react-native';
+import {Colors} from '../../constants';
 import styles from './styles';
 
 const FloatingLabelInput = props => {
@@ -23,8 +23,8 @@ const FloatingLabelInput = props => {
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
   return (
-    <View style={[styles.container, containerStyle, { paddingTop: 0 }]}>
-      <View style={[styles.container, { marginVertical: 0 }, containerStyle]}>
+    <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
+      <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
         <Text
           style={[
             styles.label,
@@ -33,8 +33,8 @@ const FloatingLabelInput = props => {
                 ? styles.iosFloatingText
                 : styles.floated
               : Platform.OS === 'ios'
-                ? styles.unIosfloatedText
-                : styles.unfloated,
+              ? styles.unIosfloatedText
+              : styles.unfloated,
             messageStyle && styles.floatedmessage,
           ]}
           accessible={true}
@@ -66,8 +66,8 @@ const FloatingLabelInput = props => {
             style={[
               styles.input,
               isFocused ? styles.focusBorder : styles.blurBorder,
-              lineColor && { borderColor: Colors.LIGHT_BLACK47 },
-              error ? { borderColor: 'red' } : null,
+              lineColor && {borderColor: Colors.LIGHT_BLACK47},
+              error ? {borderColor: 'red'} : null,
               inputStyle,
             ]}
             maxLength={maxLength}

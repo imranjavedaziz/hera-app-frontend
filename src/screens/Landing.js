@@ -1,13 +1,6 @@
 // Landing
 import React, {useEffect} from 'react';
-import {
-  View,
-  Image,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Button from '../components/Button';
 import Container from '../components/Container';

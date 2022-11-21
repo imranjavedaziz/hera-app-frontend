@@ -2,7 +2,6 @@ import {View, Text, TouchableOpacity, Platform, ScrollView} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
-import Container from '../../../components/Container';
 import styles from './style';
 import {useNavigation} from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';

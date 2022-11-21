@@ -7,7 +7,6 @@ import {
   normalizeFont,
   scaleHeight,
   scaleWidth,
-  width,
 } from '../../../utils/responsive';
 
 export default {
