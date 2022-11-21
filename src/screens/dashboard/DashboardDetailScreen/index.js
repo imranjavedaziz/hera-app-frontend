@@ -130,7 +130,7 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
-
+  console.log(smDetailRes, 'smDetailRes:::::');
   return (
     <>
       <Container
@@ -252,42 +252,45 @@ const DashboardDetailScreen = () => {
                 />
               </View>
             )}
-
-            <View style={styles.heartIconContainer}>
-              <TouchableOpacity
-                onPress={onPressLike}
-                style={styles.btn(Colors.GREEN)}
-                accessibilityRole={'button'}
-                accessible={true}>
-                <View style={styles.heartIcon}>
-                  <Image source={Images.HEARTH_ICON} />
-                  <Text
-                    style={styles.textbtn1}
-                    accessible={false}
-                    numberOfLines={Value.CONSTANT_VALUE_1}>
-                    {Strings.donorPofile.like_this_profile}
-                  </Text>
+            {smDetailRes?.profile_match_request?.status !== 2 && (
+              <>
+                <View style={styles.heartIconContainer}>
+                  <TouchableOpacity
+                    onPress={onPressLike}
+                    style={styles.btn(Colors.GREEN)}
+                    accessibilityRole={'button'}
+                    accessible={true}>
+                    <View style={styles.heartIcon}>
+                      <Image source={Images.HEARTH_ICON} />
+                      <Text
+                        style={styles.textbtn1}
+                        accessible={false}
+                        numberOfLines={Value.CONSTANT_VALUE_1}>
+                        {Strings.donorPofile.like_this_profile}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
 
-            <View style={styles.crossIconContainer}>
-              <TouchableOpacity
-                onPress={onPressDislike}
-                style={styles.btn(Colors.RED)}
-                accessibilityRole={'button'}
-                accessible={true}>
-                <View style={styles.crossIcon}>
-                  <Image source={Images.RED_CROSS_ICON} />
-                  <Text
-                    style={styles.textbtn2}
-                    accessible={false}
-                    numberOfLines={Value.CONSTANT_VALUE_1}>
-                    {Strings.donorPofile.Not_interested}
-                  </Text>
+                <View style={styles.crossIconContainer}>
+                  <TouchableOpacity
+                    onPress={onPressDislike}
+                    style={styles.btn(Colors.RED)}
+                    accessibilityRole={'button'}
+                    accessible={true}>
+                    <View style={styles.crossIcon}>
+                      <Image source={Images.RED_CROSS_ICON} />
+                      <Text
+                        style={styles.textbtn2}
+                        accessible={false}
+                        numberOfLines={Value.CONSTANT_VALUE_1}>
+                        {Strings.donorPofile.Not_interested}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
+              </>
+            )}
           </View>
         ) : (
           <MaterialIndicator
