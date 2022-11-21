@@ -38,6 +38,7 @@ import {
 } from '../../../redux/actions/loader';
 import {ptbRegister} from '../../../redux/actions/Register';
 import {BottomSheetComp} from '../../../components';
+import {calculateBirthYear} from '../../../utils/calculateBirthYear';
 
 const validationType = {
   LEN: 'LEN',
@@ -86,11 +87,14 @@ const SmRegister = () => {
   const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
   const [isOpen, setOpen] = useState(false);
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [userImage, setUserImage] = useState('');
   const [file, setFile] = useState(null);
   const [check, setCheck] = useState(true);
   const [threeOption, setThreeOption] = useState([]);
+  const [donrType, setDonarType] = useState('');
+  const [checking, setChecking] = useState('');
+
   let actionSheet = useRef();
   const {
     handleSubmit,
@@ -213,6 +217,26 @@ const SmRegister = () => {
     askCameraPermission();
   };
 
+  const validateDateofBirth = () => {
+    const formatedDate = moment(date).format('YYYY/MM/DD');
+    const selectedAge = calculateBirthYear(formatedDate);
+    if (date !== "") {
+      return ValidationMessages.DOB;
+    }
+    if (donrType == 3) {
+      console.log('LINE NUMBER 225', selectedAge);
+      if (selectedAge < 21 || selectedAge >= 45)
+        return Strings.sm_register.Surrogate_Mother_error;
+    }
+    if (donrType == 4) {
+      if (selectedAge < 18 || selectedAge >= 40)
+        return Strings.sm_register.Egg_Donar_error;
+    }
+    if (donrType == 5) {
+      if (selectedAge < 18 && selectedAge >= 40)
+        return Strings.sm_register.Sperm_Donar_error;
+    }
+  };
   return (
     <>
       <View style={{flex: Value.CONSTANT_VALUE_1}}>
@@ -224,13 +248,16 @@ const SmRegister = () => {
             </Text>
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <>
                   {smRoles.map(role => (
                     <TouchableOpacity
                       style={styles.radioContainer}
                       key={role.id}
-                      onPress={() => onChange(role.id)}>
+                      onPress={() => {
+                        onChange(role.id);
+                        setDonarType(role.id);
+                      }}>
                       <Image
                         style={styles.radio}
                         source={
@@ -252,7 +279,7 @@ const SmRegister = () => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}>
                 <ImageBackground
-                  source={userImage ? { uri: userImage } : null}
+                  source={userImage ? {uri: userImage} : null}
                   style={styles.imgView}
                   imageStyle={styles.img}>
                   <TouchableOpacity
@@ -269,16 +296,16 @@ const SmRegister = () => {
                   </TouchableOpacity>
                 </ImageBackground>
               </TouchableOpacity>
-              <View style={{ marginTop: Value.CONSTANT_VALUE_10 }}>
+              <View style={{marginTop: Value.CONSTANT_VALUE_10}}>
                 <Text style={styles.ImageText}>
                   {Strings.sm_register.uploadImage}
-                  <Text style={{ color: Colors.RED }}>*</Text>
+                  <Text style={{color: Colors.RED}}>*</Text>
                 </Text>
               </View>
             </View>
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.FirstName}
                   value={value}
@@ -291,7 +318,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.MiddleName}
                   value={value}
@@ -303,7 +330,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.LastName}
                   value={value}
@@ -316,12 +343,12 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.DOB}
                   value={value}
                   onChangeText={v => onChange(v)}
-                  error={errors && errors.dob?.message}
+                  error={validateDateofBirth()}
                   required={true}
                   endComponentPress={() => setShow(true)}
                   endComponent={() => (
@@ -337,7 +364,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.profile.EmailAddress}
                   value={value}
@@ -350,7 +377,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <View style={styles.error}>
                   <FloatingLabelInput
                     label={Strings.sm_register.Password}
@@ -394,9 +421,9 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
-                  containerStyle={{ marginTop: 10 }}
+                  containerStyle={{marginTop: 10}}
                   label={Strings.sm_register.Confirm}
                   value={value}
                   onChangeText={v => onChange(v)}
@@ -442,7 +469,7 @@ const SmRegister = () => {
             </View>
             <Pressable
               onPress={() => {
-                navigation.navigate(Routes.Profile, { isRouteData });
+                navigation.navigate(Routes.Profile, {isRouteData});
               }}>
               <Text style={styles.parentBtn}>Register as Parent To Be</Text>
             </Pressable>
