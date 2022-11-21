@@ -67,17 +67,15 @@ const SmDashboard = ({route}) => {
     }
   }, [navigation, route?.name]);
 
-  useEffect(()=>{
-    
+  useEffect(() => {
     navigation.addListener('focus', () => {
-      console.log(route,'route:::::')
-    dispatch(showAppLoader());
-    _getDonorDashboard(1, search);
-  })
-  },[route?.params])
+      console.log(route, 'route:::::');
+      dispatch(showAppLoader());
+      _getDonorDashboard(1, search);
+    });
+  }, [route?.params]);
   //Get device Info
   useEffect(() => {
-
     async function fetchDeviceInfo() {
       const deviceName = await DeviceInfo.getDeviceName();
       const _deviceInfo = {
@@ -102,7 +100,11 @@ const SmDashboard = ({route}) => {
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
-          navigation.navigate('PushNotificationExample');
+          if (notification.data.notify_type === 'profile') {
+            navigation.navigate(Routes.Chat_Request, {
+              user: JSON.parse(notification?.data?.user),
+            });
+          }
         }
         console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -165,7 +167,7 @@ const SmDashboard = ({route}) => {
     let payload = {
       keyword: value ? value : '',
       state_ids:
-      route?.params?.informationDetail?.join() !== undefined
+        route?.params?.informationDetail?.join() !== undefined
           ? route?.params?.informationDetail?.join()
           : '',
       page: page,
