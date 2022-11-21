@@ -17,7 +17,9 @@ import {
   showAppToast,
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
-const Chat_Resquest = props => {
+const Chat_Request = props => {
+  console.log(props?.route?.params?.user, 'dtaparamsas');
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
@@ -49,14 +51,18 @@ const Chat_Resquest = props => {
 
   const onPressLike = () => {
     const payload = {
-      to_user_id: props?.route?.params?.item?.recieverId,
+      to_user_id: props?.route?.params?.item?.recieverId
+        ? props?.route?.params?.item?.recieverId
+        : props?.route?.params?.user?.user_id,
       status: 1,
     };
     dispatch(profileMatch(payload));
   };
   const onPressDislike = () => {
     const payload = {
-      to_user_id: props?.route?.params?.item?.recieverId,
+      to_user_id: props?.route?.params?.item?.recieverId
+        ? props?.route?.params?.item?.recieverId
+        : props?.route?.params?.user?.user_id,
       status: 3,
     };
     dispatch(profileMatch(payload));
@@ -75,9 +81,19 @@ const Chat_Resquest = props => {
       showHeader={true}
       headerComp={headerComp}>
       <View style={styles.mainContainer}>
-        <ChatImagComp source={props.route.params.item.recieverImage} />
+        <ChatImagComp
+          source={
+            props?.route?.params?.item?.recieverImage
+              ? props?.route?.params?.item?.recieverImage
+              : props?.route?.params?.user?.profile_pic
+          }
+        />
         <User_detail
-          Name={props.route.params.item.recieverName}
+          Name={
+            props?.route?.params?.item?.recieverName
+              ? props?.route?.params?.item?.recieverName
+              : props?.route?.params?.user?.first_name
+          }
           Type={Strings.Type}
         />
         <LikeProfileDetail
@@ -130,4 +146,4 @@ const Chat_Resquest = props => {
   );
 };
 
-export default Chat_Resquest;
+export default Chat_Request;

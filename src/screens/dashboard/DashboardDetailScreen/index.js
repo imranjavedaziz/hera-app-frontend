@@ -6,19 +6,19 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, {useEffect, useRef, useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import Container from '../../../components/Container';
-import { IconHeader } from '../../../components/Header';
+import {IconHeader} from '../../../components/Header';
 import DetailComp from '../../../components/dashboard/DetailScreen/DetailComp/ImageComp';
 import BioComponent from '../../../components/dashboard/DetailScreen/BioComponent/ImageComp';
 import styles from './style';
 import Strings from '../../../constants/Strings';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
-import { SmDonerDetail } from '../../../redux/actions/SmDonerDetail';
-import { useDispatch, useSelector } from 'react-redux';
+import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   showAppLoader,
   hideAppLoader,
@@ -27,11 +27,11 @@ import {
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
-import { profileMatch } from '../../../redux/actions/Profile_Match';
-import { Routes } from '../../../constants/Constants';
-import { MaterialIndicator } from 'react-native-indicators';
-import { height } from '../../../utils/responsive';
-import { Alignment } from '../../../constants';
+import {profileMatch} from '../../../redux/actions/Profile_Match';
+import {Routes} from '../../../constants/Constants';
+import {MaterialIndicator} from 'react-native-indicators';
+import {height} from '../../../utils/responsive';
+import {Alignment} from '../../../constants';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -52,7 +52,7 @@ const DashboardDetailScreen = () => {
     profile_match_error_msg,
   } = useSelector(state => state.Profile_Match);
   const {
-    params: { userId },
+    params: {userId},
   } = useRoute();
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
@@ -123,7 +123,7 @@ const DashboardDetailScreen = () => {
         <TouchableOpacity>
           <RNSDWebImage
             resizeMode="cover"
-            source={{ uri: item?.item?.file_url }}
+            source={{uri: item?.item?.file_url}}
             style={styles.imageBox}
           />
         </TouchableOpacity>
@@ -138,14 +138,14 @@ const DashboardDetailScreen = () => {
         scroller={true}
         showHeader={true}
         headerComp={headerComp}
-        style={{ marginHorizontal: 0 }}>
+        style={{marginHorizontal: 0}}>
         {get_sm_donor_loading === false ? (
           <View style={styles.mainContainer}>
             <DetailComp
               Place={smDetailRes?.location?.name}
               Code={smDetailRes?.username}
               DonerType={smDetailRes?.role}
-              image={{ uri: smDetailRes?.profile_pic }}
+              image={{uri: smDetailRes?.profile_pic}}
             />
             <View style={styles.bioContainer}>
               {smDetailRes?.age && (
@@ -245,7 +245,7 @@ const DashboardDetailScreen = () => {
                 </Text>
                 <Video
                   controls={true}
-                  source={{ uri: smDetailRes?.doner_video_gallery?.file_url }}
+                  source={{uri: smDetailRes?.doner_video_gallery?.file_url}}
                   onError={err => console.log(err)}
                   style={styles.imageDemo2}
                   paused={true}

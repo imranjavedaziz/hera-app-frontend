@@ -82,7 +82,6 @@ const PTB_profile = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  console.log(stateRes,'stateRes:::::')
   return (
     <Container
       showHeader={true}
