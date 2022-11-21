@@ -17,7 +17,6 @@ const initState = {
   delete_gallery__error_msg: '',
 };
 export default (state = initState, action) => {
-  console.log(action.type, 'action.type');
   switch (action.type) {
     /**
      * Gallery

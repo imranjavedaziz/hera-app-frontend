@@ -69,7 +69,6 @@ const SmDashboard = ({route}) => {
 
   useEffect(() => {
     navigation.addListener('focus', () => {
-      console.log(route, 'route:::::');
       dispatch(showAppLoader());
       _getDonorDashboard(1, search);
     });
@@ -96,7 +95,6 @@ const SmDashboard = ({route}) => {
       onRegister: function (token) {
         console.log('TOKEN:', token);
       },
-
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
@@ -127,7 +125,7 @@ const SmDashboard = ({route}) => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      const {notification, messageId} = remoteMessage;
+      const {notification} = remoteMessage;
       if (!_.isEmpty(notification)) {
         navigation.navigate('PushNotificationExample');
       }

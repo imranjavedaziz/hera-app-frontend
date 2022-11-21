@@ -10,7 +10,7 @@ import ChatImagComp from '../../components/Chat_Request_Ptb/ChatImagComp';
 import User_detail from '../../components/Chat_Request_Ptb/User_detail';
 import LikeProfileDetail from '../../components/Chat_Request_Ptb/LikeProfileDetail';
 import {useDispatch, useSelector} from 'react-redux';
-import {profileMatch} from '../../redux/actions/Profile_Match';
+import {profileMatchResponse} from '../../redux/actions/Profile_Match';
 import {
   showAppLoader,
   hideAppLoader,
@@ -24,48 +24,56 @@ const Chat_Request = props => {
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
   const {
-    profile_match_success,
-    profile_match_loading,
-    profile_match_error_msg,
+    profile_match_response_success,
+    profile_match_response_loading,
+    profile_match_response_error_msg,
+    profile_match_response_res,
   } = useSelector(state => state.Profile_Match);
 
   useEffect(() => {
-    if (loadingMatchRef.current && !profile_match_loading) {
+    if (loadingMatchRef.current && !profile_match_response_loading) {
       dispatch(showAppLoader());
-      if (profile_match_success) {
+      if (profile_match_response_success) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(false, profile_match_error_msg));
-        navigation.navigate(Routes.PtbDashboard);
+        dispatch(showAppToast(false, profile_match_response_res));
+        // navigation.navigate(Routes.PtbDashboard);
       } else {
         dispatch(hideAppLoader());
       }
     }
-    loadingMatchRef.current = profile_match_loading;
+    loadingMatchRef.current = profile_match_response_loading;
   }, [
-    profile_match_success,
-    profile_match_loading,
-    profile_match_error_msg,
-    dispatch,
-    navigation,
+    profile_match_response_success,
+    profile_match_response_loading,
+    profile_match_response_error_msg,
+    profile_match_response_res,
   ]);
 
   const onPressLike = () => {
     const payload = {
-      to_user_id: props?.route?.params?.item?.recieverId
+      id: props?.route?.params?.item?.recieverId
         ? props?.route?.params?.item?.recieverId
-        : props?.route?.params?.user?.user_id,
-      status: 1,
+        : props?.route?.params?.user?.id,
+      status: 2,
     };
-    dispatch(profileMatch(payload));
+    dispatch(profileMatchResponse(payload));
   };
   const onPressDislike = () => {
     const payload = {
-      to_user_id: props?.route?.params?.item?.recieverId
+      id: props?.route?.params?.item?.recieverId
         ? props?.route?.params?.item?.recieverId
-        : props?.route?.params?.user?.user_id,
-      status: 3,
+        : props?.route?.params?.user?.id,
+      status: 4,
     };
-    dispatch(profileMatch(payload));
+    console.log(payload, 'payload');
+    dispatch(profileMatchResponse(payload));
+  };
+  const onNavigationDetail = () => {
+    navigation.navigate(Routes.ProfileDetails, {
+      userid: props?.route?.params?.user?.id
+        ? props?.route?.params?.user?.id
+        : props?.route?.params?.item?.recieverId,
+    });
   };
   const headerComp = () => (
     <IconHeader
@@ -92,7 +100,7 @@ const Chat_Request = props => {
           Name={
             props?.route?.params?.item?.recieverName
               ? props?.route?.params?.item?.recieverName
-              : props?.route?.params?.user?.first_name
+              : `${props?.route?.params?.user?.first_name} ${props?.route?.params?.user?.last_name}`
           }
           Type={Strings.Type}
         />
@@ -138,7 +146,7 @@ const Chat_Request = props => {
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => onNavigationDetail()}>
           <Text style={styles.SeeProfile}>See Profile</Text>
         </TouchableOpacity>
       </View>
