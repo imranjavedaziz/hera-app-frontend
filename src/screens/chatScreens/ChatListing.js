@@ -19,10 +19,7 @@ const ChatListing = () => {
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
-   let filterData= chats.filter((data)=>{
-return data?.match_request?.status === 2
-    })
-    setFilterChat(filterData)
+
   }, []);
   const [loader, setLoader] = useState(true);
   const { log_in_data } = useSelector(state => state.Auth);
@@ -78,14 +75,14 @@ return data?.match_request?.status === 2
       safeAreViewStyle={{ backgroundColor: Colors.BACKGROUND }}>
       {loader === false && (
         <>
-          {filterChat && filterChat?.length > 0  ? (
+          {chats && chats?.length > 0  ? (
             <View style={{ flex: 1, marginTop: 25 }}>
               <View style={styles.mainContainer}>
                 <Text style={styles.Inbox}> {ROLL_ID_INBOX}</Text>
                 <Text style={styles.Match}>{ROLL_ID_2}</Text>
               </View>
               <FlatList
-                data={filterChat}
+                data={chats}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderChatList}
                 showsVerticalScrollIndicator={false}
