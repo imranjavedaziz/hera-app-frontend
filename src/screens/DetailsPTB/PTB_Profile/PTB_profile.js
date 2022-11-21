@@ -82,6 +82,7 @@ const PTB_profile = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+  console.log(stateRes,'stateRes:::::')
   return (
     <Container
       showHeader={true}
@@ -166,7 +167,7 @@ const PTB_profile = () => {
               />
             </View>
           )}
-          {!liked && (
+          {!liked && stateRes?.profile_match_request?.status !== 2 &&(
             <Pressable
               style={styles.sendMsgBtn}
               onPress={() => {

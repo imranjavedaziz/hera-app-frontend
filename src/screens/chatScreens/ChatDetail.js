@@ -206,7 +206,8 @@ const ChatDetail = props => {
         item: props.route.params.item,
       })
     }else if(log_in_data?.role_id === 2){
-      navigation.navigate(Routes.DashboardDetailScreen ,{userid: props?.route?.params?.item?.recieverId})
+      console.log(props?.route?.params?.item?.recieverId,'props?.route?.params?.item?.recieverId')
+      navigation.navigate(Routes.DashboardDetailScreen ,{userId: props?.route?.params?.item?.recieverId})
 
     }else{
       navigation.navigate(Routes.ProfileDetails, {userid: props?.route?.params?.item?.recieverId})
