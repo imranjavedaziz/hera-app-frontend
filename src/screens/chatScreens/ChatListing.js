@@ -14,10 +14,15 @@ import ChatEmpty from '../../components/Chat/ChatEmpty';
 const ChatListing = () => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
+  const [filterChat,setFilterChat] = useState([])
   const chatData = chatHistory();
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
+   let filterData= chats.filter((data)=>{
+return data?.match_request?.status === 2
+    })
+    setFilterChat(filterData)
   }, []);
   const [loader, setLoader] = useState(true);
   const { log_in_data } = useSelector(state => state.Auth);
@@ -79,7 +84,7 @@ const ChatListing = () => {
                 <Text style={styles.Match}>{ROLL_ID_2}</Text>
               </View>
               <FlatList
-                data={chats}
+                data={filterChat}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderChatList}
                 showsVerticalScrollIndicator={false}
