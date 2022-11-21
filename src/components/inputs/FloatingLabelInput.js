@@ -1,7 +1,7 @@
 // FloatingLabelInput
-import React, { useState } from 'react';
-import { Text, TextInput, Platform, TouchableOpacity, View } from 'react-native';
-import { Colors } from '../../constants';
+import React, {useState} from 'react';
+import {Text, TextInput, Platform, TouchableOpacity, View} from 'react-native';
+import {Colors} from '../../constants';
 import styles from './styles';
 
 const FloatingLabelInput = props => {
@@ -23,29 +23,25 @@ const FloatingLabelInput = props => {
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
 
-  const IOS_CON_ONE = Platform.OS === 'ios'
-    ? styles.iosFloatingText
-    : styles.floated
-  const IOS_CON = Platform.OS === 'ios'
-    ? styles.unIosfloatedText
-    : styles.unfloated
+  const IOS_CON_ONE =
+    Platform.OS === 'ios' ? styles.iosFloatingText : styles.floated;
+  const IOS_CON =
+    Platform.OS === 'ios' ? styles.unIosfloatedText : styles.unfloated;
 
   return (
-    <View style={[styles.container, containerStyle, { paddingTop: 0 }]}>
-      <View style={[styles.container, { marginVertical: 0 }, containerStyle]}>
+    <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
+      <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
         <Text
           style={[
             styles.label,
-            isFocused || textInputProps.value || fixed
-              ? IOS_CON_ONE
-              : IOS_CON,
+            isFocused || textInputProps.value || fixed ? IOS_CON_ONE : IOS_CON,
             messageStyle && styles.floatedmessage,
           ]}
           accessible={true}
           accessibilityLabel={label}>
           {label}
           {required && (
-            <Text style={[styles.label, { color: Colors.RED }]}>*</Text>
+            <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
           )}
         </Text>
         {endComponent ? (
@@ -54,8 +50,8 @@ const FloatingLabelInput = props => {
               style={[
                 styles.input,
                 isFocused ? styles.focusBorder : styles.blurBorder,
-                lineColor && { borderColor: Colors.LIGHT_BLACK47 },
-                error && { borderColor: Colors.RED },
+                lineColor && {borderColor: Colors.LIGHT_BLACK47},
+                error && {borderColor: Colors.RED},
                 inputStyle,
               ]}
               maxLength={maxLength}
@@ -70,8 +66,8 @@ const FloatingLabelInput = props => {
             style={[
               styles.input,
               isFocused ? styles.focusBorder : styles.blurBorder,
-              lineColor && { borderColor: Colors.LIGHT_BLACK47 },
-              error ? { borderColor: 'red' } : null,
+              lineColor && {borderColor: Colors.LIGHT_BLACK47},
+              error ? {borderColor: 'red'} : null,
               inputStyle,
             ]}
             maxLength={maxLength}

@@ -224,7 +224,7 @@ const SmRegister = () => {
             </Text>
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <>
                   {smRoles.map(role => (
                     <TouchableOpacity
@@ -252,7 +252,7 @@ const SmRegister = () => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}>
                 <ImageBackground
-                  source={userImage ? { uri: userImage } : null}
+                  source={userImage ? {uri: userImage} : null}
                   style={styles.imgView}
                   imageStyle={styles.img}>
                   <TouchableOpacity
@@ -269,16 +269,16 @@ const SmRegister = () => {
                   </TouchableOpacity>
                 </ImageBackground>
               </TouchableOpacity>
-              <View style={{ marginTop: Value.CONSTANT_VALUE_10 }}>
+              <View style={{marginTop: Value.CONSTANT_VALUE_10}}>
                 <Text style={styles.ImageText}>
                   {Strings.sm_register.uploadImage}
-                  <Text style={{ color: Colors.RED }}>*</Text>
+                  <Text style={{color: Colors.RED}}>*</Text>
                 </Text>
               </View>
             </View>
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.FirstName}
                   value={value}
@@ -291,7 +291,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.MiddleName}
                   value={value}
@@ -303,7 +303,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.LastName}
                   value={value}
@@ -316,7 +316,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.sm_register.DOB}
                   value={value}
@@ -337,7 +337,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
                   label={Strings.profile.EmailAddress}
                   value={value}
@@ -350,7 +350,7 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <View style={styles.error}>
                   <FloatingLabelInput
                     label={Strings.sm_register.Password}
@@ -394,9 +394,9 @@ const SmRegister = () => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
-                  containerStyle={{ marginTop: 10 }}
+                  containerStyle={{marginTop: 10}}
                   label={Strings.sm_register.Confirm}
                   value={value}
                   onChangeText={v => onChange(v)}
@@ -442,7 +442,7 @@ const SmRegister = () => {
             </View>
             <Pressable
               onPress={() => {
-                navigation.navigate(Routes.Profile, { isRouteData });
+                navigation.navigate(Routes.Profile, {isRouteData});
               }}>
               <Text style={styles.parentBtn}>Register as Parent To Be</Text>
             </Pressable>
@@ -482,7 +482,7 @@ const SmRegister = () => {
         mode={'date'}
         onConfirm={selectedDate => {
           setShow(false);
-          setValue('dob', moment(selectedDate).format('M DD, YYYY'));
+          setValue('dob', moment(selectedDate).format('MMM DD, YYYY'));
           setDate(selectedDate);
         }}
         onCancel={() => {

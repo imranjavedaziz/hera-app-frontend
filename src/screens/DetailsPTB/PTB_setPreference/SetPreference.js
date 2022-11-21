@@ -6,35 +6,32 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
-import {
-  hideAppLoader,
-  showAppLoader,
-} from '../../../redux/actions/loader';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
-import { CircleBtn } from '../../../components/Header';
+import {CircleBtn} from '../../../components/Header';
 import Button from '../../../components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { setPreferenceSchema } from '../../../constants/schemas';
+import {useDispatch, useSelector} from 'react-redux';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import { Static, Routes, FormKey, Fonts } from '../../../constants/Constants';
-import { Value } from '../../../constants/FixedValues';
+import {Static, Routes, FormKey, Fonts} from '../../../constants/Constants';
+import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import { logOut } from '../../../redux/actions/Auth';
+import {logOut} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
   SavePreference,
 } from '../../../redux/actions/SetPreference';
-import { BottomSheetComp } from '../../../components';
+import {BottomSheetComp} from '../../../components';
 
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
@@ -52,7 +49,7 @@ const onValueSelect = (data, value = '') => {
 const isSelected = (data, value) => {
   return data.split(',').includes(value.toString());
 };
-const SetPreference = ({ route, navigation }) => {
+const SetPreference = ({route, navigation}) => {
   const [height, setHeight] = useState([58, 84]);
   const [isOpen, setOpen] = useState(false);
   const EditPreferences = route.params?.EditPreferences;
@@ -66,7 +63,7 @@ const SetPreference = ({ route, navigation }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
@@ -234,7 +231,7 @@ const SetPreference = ({ route, navigation }) => {
             </Text>
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <View style={{}}>
                   {preferencesData?.role?.length > 0 &&
                     preferencesData?.role.map(whom => (
@@ -244,7 +241,7 @@ const SetPreference = ({ route, navigation }) => {
                         activeOpacity={1}
                         onPress={() => onChange(whom.id)}>
                         <Image
-                          style={{ resizeMode: 'contain' }}
+                          style={{resizeMode: 'contain'}}
                           source={
                             value === whom.id
                               ? Images.iconRadiosel
@@ -260,7 +257,7 @@ const SetPreference = ({ route, navigation }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Dropdown
                   label={Strings.preference.Location}
                   data={Static.location}
@@ -276,9 +273,9 @@ const SetPreference = ({ route, navigation }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Dropdown
-                  containerStyle={{ marginTop: 8 }}
+                  containerStyle={{marginTop: 8}}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
                   onSelect={(selectedItem, index) => {
@@ -297,7 +294,7 @@ const SetPreference = ({ route, navigation }) => {
             </Text>
             <Controller
               control={control}
-              render={({ field: { onChange, value = '' } }) => (
+              render={({field: {onChange, value = ''}}) => (
                 <View style={styles.ageContainer}>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {ageRange.map((item, index) => {
@@ -343,7 +340,7 @@ const SetPreference = ({ route, navigation }) => {
               )}
               name={FormKey.age_range}
             />
-            <View style={{ marginTop: Value.CONSTANT_VALUE_25 }}>
+            <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
               <View style={styles.heightContainer}>
                 <Text style={styles.heightTextInner}>
                   {Strings.preference.Height}
@@ -360,7 +357,7 @@ const SetPreference = ({ route, navigation }) => {
               </View>
               <Controller
                 control={control}
-                render={({ field: { onChange } }) => (
+                render={({field: {onChange}}) => (
                   <Range
                     value={height}
                     setValue={setHeight}
@@ -375,9 +372,9 @@ const SetPreference = ({ route, navigation }) => {
             </View>
             <Controller
               control={control}
-              render={({ field: { onChange } }) => (
+              render={({field: {onChange}}) => (
                 <Dropdown
-                  containerStyle={{ marginTop: 10 }}
+                  containerStyle={{marginTop: 10}}
                   label={Strings.preference.Race}
                   data={preferencesData?.race}
                   onSelect={(selectedItem, index) => {
@@ -392,7 +389,7 @@ const SetPreference = ({ route, navigation }) => {
             <Text style={styles.chipText}>{Strings.preference.HairColor}</Text>
             <Controller
               control={control}
-              render={({ field: { onChange, value = '' } }) => (
+              render={({field: {onChange, value = ''}}) => (
                 <View style={styles.hairContainer}>
                   {preferencesData?.hair_colour?.length > 0 &&
                     preferencesData?.hair_colour.map((item, index) => (
@@ -444,7 +441,7 @@ const SetPreference = ({ route, navigation }) => {
           </View>
           <Controller
             control={control}
-            render={({ field: { onChange, value = '' } }) => (
+            render={({field: {onChange, value = ''}}) => (
               <View style={styles.eyeContainer}>
                 {preferencesData?.eye_colour?.length > 0 &&
                   preferencesData?.eye_colour.map((item, index) => (

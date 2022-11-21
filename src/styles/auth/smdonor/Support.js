@@ -5,7 +5,6 @@ import {Fonts} from '../../../constants/Constants';
 export default {
   mainContainer: {
     flex: 1,
-    alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
     paddingHorizontal: 40,
     marginTop: Value.CONSTANT_VALUE_105,

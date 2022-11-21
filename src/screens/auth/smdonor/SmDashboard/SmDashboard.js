@@ -28,7 +28,7 @@ import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import {deviceRegister,} from '../../../../redux/actions/Auth';
+import {deviceRegister} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
