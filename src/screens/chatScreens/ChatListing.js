@@ -68,6 +68,7 @@ return data?.match_request?.status === 2
       </>
     );
   };
+  console.log(filterChat,'filterChat')
   return (
     <Container
       mainStyle={true}
@@ -77,7 +78,7 @@ return data?.match_request?.status === 2
       safeAreViewStyle={{ backgroundColor: Colors.BACKGROUND }}>
       {loader === false && (
         <>
-          {chats && chats?.length > 0  ? (
+          {filterChat && filterChat?.length > 0  ? (
             <View style={{ flex: 1, marginTop: 25 }}>
               <View style={styles.mainContainer}>
                 <Text style={styles.Inbox}> {ROLL_ID_INBOX}</Text>
