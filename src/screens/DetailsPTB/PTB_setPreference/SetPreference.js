@@ -10,11 +10,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
 import {CircleBtn} from '../../../components/Header';
 import Button from '../../../components/Button';

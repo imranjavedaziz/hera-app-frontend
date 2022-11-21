@@ -47,6 +47,7 @@ const Subscription = props => {
   const {create_subscription_success, create_subscription_loading} =
     useSelector(state => state.Subscription);
 
+  console.log("purchasereceipt STATE LINE 50",purchasereceipt);
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);

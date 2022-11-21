@@ -1,16 +1,8 @@
 // Landing
 import React, {useEffect} from 'react';
-import {
-  View,
-  Image,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import {View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Button from '../components/Button';
-import Container from '../components/Container';
 import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
 import Strings from '../constants/Strings';
@@ -24,10 +16,10 @@ const Landing = () => {
   }, [navigation]);
   return (
     <View style={styles.flex}>
-      <View style={styles.bgContainer}>
-        <Image source={Images.LANDING_BG} style={styles.bgImg} />
-      </View>
-      <Container scroller={false}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.bgContainer}>
+          <Image source={Images.LANDING_BG} style={styles.bgImg} />
+        </View>
         <View style={styles.mainContainer}>
           <Image
             source={Images.LOGO}
@@ -49,7 +41,7 @@ const Landing = () => {
             />
           </View>
         </View>
-      </Container>
+      </ScrollView>
       <View style={styles.footer}>
         <TouchableOpacity
           accessible={true}
@@ -70,4 +62,4 @@ const Landing = () => {
     </View>
   );
 };
-export default Landing;
+export default React.memo(Landing);

@@ -19,7 +19,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {inqueryFormSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/smdonor/basicDetailsScreen';
-import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
+import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Dropdown from '../../components/inputs/Dropdown';
 import Button from '../../components/Button';
 import {ConstantsCode, FormKey} from '../../constants/Constants';
@@ -32,6 +32,8 @@ import {
 } from '../../redux/actions/loader';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {MultiTextInput} from '../../components';
+import {Alignment} from '../../constants';
+import {Value} from '../../constants/FixedValues';
 
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();
@@ -206,7 +208,7 @@ export default function Support() {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
-                      containerStyle={{marginTop: 10}}
+                      containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
                       label={Strings.inqueryForm.Name}
                       value={value}
                       autoCorrect={false}
@@ -221,7 +223,7 @@ export default function Support() {
                   control={control}
                   render={({field: {onChange}}) => (
                     <Dropdown
-                      containerStyle={{marginTop: 10}}
+                      containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
                       label={Strings.inqueryForm.USER_TYPE}
                       data={userTypeData?.data}
                       onSelect={selectedItem => {
@@ -233,12 +235,11 @@ export default function Support() {
                   )}
                   name={FormKey.user_type}
                 />
-
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
-                      containerStyle={{marginTop: 10}}
+                      containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
                       label={Strings.profile.EmailAddress}
                       value={value}
                       onChangeText={v => onChange(v)}
@@ -252,7 +253,7 @@ export default function Support() {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
-                      containerStyle={{marginTop: 10}}
+                      containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
                       label={Strings.inqueryForm.MobileNumber}
                       value={phone}
                       keyboardType="numeric"
@@ -282,11 +283,17 @@ export default function Support() {
                   )}
                   name={FormKey.message}
                 />
-                <Button
-                  label={Strings.inqueryForm.SendInquiry}
-                  onPress={handleSubmit(onSubmit)}
-                  style={styles.Btn}
-                />
+                <View
+                  style={{
+                    alignItems: Alignment.CENTER,
+                    marginBottom: Value.CONSTANT_VALUE_95,
+                  }}>
+                  <Button
+                    label={Strings.inqueryForm.SendInquiry}
+                    onPress={handleSubmit(onSubmit)}
+                    style={styles.Btn}
+                  />
+                </View>
               </View>
             </TouchableWithoutFeedback>
           </KeyboardAwareScrollView>

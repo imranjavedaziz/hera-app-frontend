@@ -15,8 +15,8 @@ export default {
   },
   row: {
     flexDirection: Alignment.ROW,
-    paddingHorizontal: Value.CONSTANT_VALUE_25,
-    marginTop: Value.CONSTANT_VALUE_22,
+    marginLeft: Value.CONSTANT_VALUE_25,
+    marginTop: Value.CONSTANT_VALUE_17,
     alignItems: Alignment.CENTER,
   },
   mainText: {
@@ -26,10 +26,12 @@ export default {
     color: Colors.BLACK,
   },
   innerText: {
-    paddingHorizontal: Value.CONSTANT_VALUE_25,
+    marginLeft: Value.CONSTANT_VALUE_25,
+    marginRight: Value.CONSTANT_VALUE_25,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansLight,
     marginTop: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
+    textAlign: Alignment.LEFT,
   },
 };

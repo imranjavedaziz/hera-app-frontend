@@ -13,7 +13,6 @@ import {
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Container from '../../components/Container';
 import Button from '../../components/Button';
 import Images from '../../constants/Images';
 import Header, {CircleBtn} from '../../components/Header';

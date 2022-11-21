@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,10 @@ import {
   SafeAreaView,
   Pressable,
 } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
-import { Images, Strings, Colors } from '../../constants';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import {Images, Strings, Colors} from '../../constants';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {showAppToast} from '../../redux/actions/loader';
@@ -29,16 +29,16 @@ const ChatDetail = props => {
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data} = useSelector(state => state.Auth);
   const loadingRef = useRef(false);
-  const { feedback_data, feedback_success, feedback_loading } = useSelector(
+  const {feedback_data, feedback_success, feedback_loading} = useSelector(
     state => state.Chat,
   );
 
   const dispatch = useDispatch();
   const renderActions = message => {
     return (
-      <View style={{ flexDirection: 'row', paddingBottom: 10, paddingRight: 10 }}>
+      <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
-          <Image source={Images.ICON_SEND} style={{ width: 30, height: 30 }} />
+          <Image source={Images.ICON_SEND} style={{width: 30, height: 30}} />
         </TouchableOpacity>
       </View>
     );
@@ -200,18 +200,19 @@ const ChatDetail = props => {
       loadingRef.current = feedback_loading;
     }, [feedback_success, feedback_loading]),
   );
-  const navigateDetailScreen=()=>{
-    if(props?.route?.params?.item?.match_request?.status===1){
+  const navigateDetailScreen = () => {
+    if (props?.route?.params?.item?.match_request?.status === 1) {
       navigation.navigate(Routes.Chat_Request, {
         item: props.route.params.item,
-      })
-    }else if(log_in_data?.role_id === 2){
-      navigation.navigate(Routes.DashboardDetailScreen ,{userId: props?.route?.params?.item?.recieverId})
-
-    }else{
-      navigation.navigate(Routes.ProfileDetails, {userid: props?.route?.params?.item?.recieverId})
-
-      
+      });
+    } else if (log_in_data?.role_id === 2) {
+      navigation.navigate(Routes.DashboardDetailScreen, {
+        userId: props?.route?.params?.item?.recieverId,
+      });
+    } else {
+      navigation.navigate(Routes.ProfileDetails, {
+        userid: props?.route?.params?.item?.recieverId,
+      });
     }
   }
   console.log(db?.messages.length,'db?.messages.length')
@@ -237,7 +238,7 @@ const ChatDetail = props => {
 }
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: Colors.BACKGROUND }}>
+      <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
         <StatusBar
           barStyle="dark-content"
           backgroundColor={Colors.BACKGROUND}
@@ -247,11 +248,13 @@ const ChatDetail = props => {
         <SafeAreaView />
         <View>
           <View style={styles.outerContainer}>
-            <View style={{ flex: 0.8, zIndex: 9999 }}>
-              <TouchableOpacity hitSlop={{top: 20, bottom: 20, left: 10, right: 10}} onPress={() => props.navigation.goBack()}>
+            <View style={{flex: 0.8, zIndex: 9999}}>
+              <TouchableOpacity
+                hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
+                onPress={() => props.navigation.goBack()}>
                 <Image
                   source={Images.BACK_PLAN_ARROW}
-                  style={{ width: 14.7, height: 12.6 }}
+                  style={{width: 14.7, height: 12.6}}
                 />
               </TouchableOpacity>
             </View>
@@ -260,21 +263,19 @@ const ChatDetail = props => {
               disabled={
                 props?.route?.params?.item?.currentRole === 1 ? true : false
               }
-              onPress={() =>
-                navigateDetailScreen()
-              }>
+              onPress={() => navigateDetailScreen()}>
               <>
                 <View style={styles.avatar}>
                   <Image
                     source={
                       props?.route?.params?.item?.currentRole === 1
                         ? Images.ADMIN_ICON
-                        : { uri: props.route.params.item.recieverImage }
+                        : {uri: props.route.params.item.recieverImage}
                     }
                     style={styles.avatar}
                   />
                 </View>
-                <View style={{ marginLeft: 10 }}>
+                <View style={{marginLeft: 10}}>
                   {props.route.params.item.recieverSubscription === 0 ? (
                     <Text style={styles.titleText}>
                       {Strings.Chat.INACTIVE_USER}
@@ -300,7 +301,8 @@ const ChatDetail = props => {
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
           props?.route?.params?.item?.feedback_status === 0 &&
-          db?.messages.length >=20 && 50>= db?.messages.length &&(
+          db?.messages.length >= 20 &&
+          50 >= db?.messages.length && (
             <View
               style={{
                 height: 117,

@@ -1,22 +1,20 @@
-import {View, Text, TouchableOpacity, Platform, ScrollView} from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import Header, {IconHeader} from '../../../components/Header';
+import { View, Text, TouchableOpacity, Platform, ScrollView } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import Header, { IconHeader } from '../../../components/Header';
 import Images from '../../../constants/Images';
-import Container from '../../../components/Container';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
 import Strings from '../../../constants/Strings';
 import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
-import {useDispatch, useSelector} from 'react-redux';
-import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
-import {Routes} from '../../../constants/Constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut, updateProfileImg } from '../../../redux/actions/Auth';
+import { Routes } from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
-import {askCameraPermission} from '../../../utils/permissionManager';
+import { askCameraPermission } from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../components';
-
+import { BottomSheetComp } from '../../../components';
 const PtbProfile = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
@@ -75,7 +73,7 @@ const PtbProfile = () => {
 
   console.log('file', file);
   useEffect(() => {
-    return navigation.addListener('focus', () => {});
+    return navigation.addListener('focus', () => { });
   }, [navigation]);
   useEffect(() => {
     const reqData = new FormData();
@@ -123,7 +121,7 @@ const PtbProfile = () => {
                 title={Strings.smSetting.EditPreferences}
                 BlueDot
                 onPress={() =>
-                  navigation.navigate('SetPreference', {EditPreferences: true})
+                  navigation.navigate('SetPreference', { EditPreferences: true })
                 }
               />
               <PtbAccount
@@ -198,5 +196,4 @@ const PtbProfile = () => {
     </>
   );
 };
-
-export default PtbProfile;
+export default React.memo(PtbProfile);

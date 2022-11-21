@@ -189,20 +189,20 @@ const DashboardDetailScreen = () => {
               </ImageBackground>
             </View>
             <View style={styles.nativeMainContainer}>
-              {smDetailRes?.location?.name ? (
+              {smDetailRes?.location?.name && (
                 <View style={styles.nativePlace}>
                   <Text style={global?.tagText}>
                     {smDetailRes?.location?.name}
                   </Text>
                 </View>
-              ) : null}
-              {smDetailRes?.doner_attribute?.race ? (
+              )}
+              {smDetailRes?.doner_attribute?.race && (
                 <View style={styles.fatherPlace}>
                   <Text style={global?.tagText}>
                     {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
                   </Text>
                 </View>
-              ) : null}
+              )}
             </View>
             <View style={styles.nativeMainContainer}>
               {smDetailRes?.doner_attribute?.hair_colour && (
