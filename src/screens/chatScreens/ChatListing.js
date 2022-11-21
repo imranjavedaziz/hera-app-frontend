@@ -14,7 +14,6 @@ import ChatEmpty from '../../components/Chat/ChatEmpty';
 const ChatListing = () => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
-  const [filterChat,setFilterChat] = useState([])
   const chatData = chatHistory();
   const fetchData = useCallback(() => {
     chatData.update();
@@ -65,7 +64,6 @@ const ChatListing = () => {
       </>
     );
   };
-  console.log(filterChat,'filterChat')
   return (
     <Container
       mainStyle={true}
