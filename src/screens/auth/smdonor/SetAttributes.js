@@ -1,12 +1,11 @@
 // SetAttributes
 import React, {useEffect, useRef, useState} from 'react';
-import {Text, View, TouchableOpacity, Platform} from 'react-native';
+import {Text, View, TouchableOpacity, Platform, ScrollView} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Container from '../../../components/Container';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
-import {CircleBtn} from '../../../components/Header';
+import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
@@ -20,6 +19,7 @@ import {Routes} from '../../../constants/Constants';
 import {useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
+import {Alignment} from '../../../constants';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -135,6 +135,10 @@ const SetAttributes = ({route}) => {
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}
+        Fixedstyle={{
+          marginTop: Value.CONSTANT_VALUE_54,
+          marginRight: Value.CONSTANT_VALUE_20,
+        }}
       />
       <ActionSheet
         ref={actionSheet}
@@ -155,174 +159,186 @@ const SetAttributes = ({route}) => {
 
   return (
     <>
-      <Container
-        showHeader={true}
-        headerEnd={true}
-        headerComp={headerComp}
-        safeAreViewStyle={
+      <View
+        style={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }>
-        <View style={globalStyle.mainContainer}>
-          <Text style={globalStyle.screenTitle}>
-            {Strings.sm_set_attributes.Title}
-          </Text>
-          <Text style={[globalStyle.screenSubTitle]}>
-            {Strings.sm_set_attributes.Subtitle}
-          </Text>
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 30}}
-                label={Strings.sm_set_attributes.Height}
-                data={attributeData?.height}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.height_id?.message}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return `${parseInt(selectedItem.name / 12)} ft ${
-                    selectedItem.name % 12
-                  } in`;
-                }}
-                rowTextForSelection={(item, index) => {
-                  return `${parseInt(item.name / 12)} ft ${item.name % 12} in`;
-                }}
-              />
-            )}
-            name="height_id"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 10}}
-                label={Strings.sm_set_attributes.Race}
-                data={attributeData?.race}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.race_id?.message}
-              />
-            )}
-            name="race_id"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 10}}
-                label={Strings.sm_set_attributes.MotherEthnicity}
-                data={attributeData?.ethnicity}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.mother_ethnicity_id?.message}
-              />
-            )}
-            name="mother_ethnicity_id"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 10}}
-                label={Strings.sm_set_attributes.FatheEthnicity}
-                data={attributeData?.ethnicity}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.father_ethnicity_id?.message}
-              />
-            )}
-            name="father_ethnicity_id"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 10}}
-                label={Strings.sm_set_attributes.Weight}
-                data={attributeData?.weight}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.weight_id?.message}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem.name + ' pounds';
-                }}
-                rowTextForSelection={(item, index) => {
-                  return item.name + ' pounds';
-                }}
-              />
-            )}
-            name="weight_id"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 10}}
-                label={Strings.sm_set_attributes.EyeColor}
-                data={attributeData?.eye_colour}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.eye_colour_id?.message}
-              />
-            )}
-            name="eye_colour_id"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 10}}
-                label={Strings.preference.HairColor}
-                data={attributeData?.hair_colour}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.hair_colour_id?.message}
-              />
-            )}
-            name="hair_colour_id"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange}}) => (
-              <Dropdown
-                containerStyle={{marginTop: 10}}
-                label={Strings.sm_set_attributes.Education}
-                data={attributeData?.education}
-                onSelect={selectedItem => {
-                  onChange(selectedItem.id);
-                }}
-                required={true}
-                error={errors && errors.education_id?.message}
-              />
-            )}
-            name="education_id"
-          />
-          <Button
+        <Header end={true}>{headerComp()}</Header>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View
             style={{
-              height: Value.CONSTANT_VALUE_80,
-              width: Value.CONSTANT_VALUE_197,
-              marginTop: Value.CONSTANT_VALUE_46,
-              marginBottom: Value.CONSTANT_VALUE_50,
-            }}
-            label={Strings.sm_set_attributes.Btn}
-            onPress={handleSubmit(onSubmit)}
-          />
-        </View>
-      </Container>
+              paddingHorizontal: Value.CONSTANT_VALUE_40,
+              marginTop: Value.CONSTANT_VALUE_105,
+            }}>
+            <Text style={globalStyle.screenTitle}>
+              {Strings.sm_set_attributes.Title}
+            </Text>
+            <Text style={[globalStyle.screenSubTitle]}>
+              {Strings.sm_set_attributes.Subtitle}
+            </Text>
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
+                  label={Strings.sm_set_attributes.Height}
+                  data={attributeData?.height}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.height_id?.message}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return `${parseInt(selectedItem.name / 12)} ft ${
+                      selectedItem.name % 12
+                    } in`;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return `${parseInt(item.name / 12)} ft ${
+                      item.name % 12
+                    } in`;
+                  }}
+                />
+              )}
+              name="height_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                  label={Strings.sm_set_attributes.Race}
+                  data={attributeData?.race}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.race_id?.message}
+                />
+              )}
+              name="race_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                  label={Strings.sm_set_attributes.MotherEthnicity}
+                  data={attributeData?.ethnicity}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.mother_ethnicity_id?.message}
+                />
+              )}
+              name="mother_ethnicity_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                  label={Strings.sm_set_attributes.FatheEthnicity}
+                  data={attributeData?.ethnicity}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.father_ethnicity_id?.message}
+                />
+              )}
+              name="father_ethnicity_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                  label={Strings.sm_set_attributes.Weight}
+                  data={attributeData?.weight}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.weight_id?.message}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem.name + ' pounds';
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item.name + ' pounds';
+                  }}
+                />
+              )}
+              name="weight_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                  label={Strings.sm_set_attributes.EyeColor}
+                  data={attributeData?.eye_colour}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.eye_colour_id?.message}
+                />
+              )}
+              name="eye_colour_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                  label={Strings.preference.HairColor}
+                  data={attributeData?.hair_colour}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.hair_colour_id?.message}
+                />
+              )}
+              name="hair_colour_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange}}) => (
+                <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                  label={Strings.sm_set_attributes.Education}
+                  data={attributeData?.education}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.education_id?.message}
+                />
+              )}
+              name="education_id"
+            />
+            <View
+              style={{
+                alignItems: Alignment.CENTER,
+                justifyContent: Alignment.CENTER,
+              }}>
+              <Button
+                style={{
+                  height: Value.CONSTANT_VALUE_80,
+                  width: Value.CONSTANT_VALUE_197,
+                  marginTop: Value.CONSTANT_VALUE_46,
+                  marginBottom: Value.CONSTANT_VALUE_50,
+                }}
+                label={Strings.sm_set_attributes.Btn}
+                onPress={handleSubmit(onSubmit)}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </View>
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
         lineStyle={globalStyle.lineStyle}

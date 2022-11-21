@@ -5,7 +5,7 @@ import {Fonts} from '../constants/Constants';
 import {dynamicSize} from '../utils/responsive';
 
 export default {
-  flex: {flex: Value.CONSTANT_VALUE_1},
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
     ...Platform.select({
@@ -16,27 +16,17 @@ export default {
         height: 300,
       },
     }),
-    backgroundColor: Colors.BACKGROUND,
   },
   bgImg: {
     width: Prencentage.PRECENTAGE_100,
     resizeMode: 'cover',
-    bottom: Value.CONSTANT_VALUE_0,
     position: 'absolute',
   },
   mainContainer: {
+    marginTop: 30,
     flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
-    ...Platform.select({
-      android: {
-        paddingBottom: Value.CONSTANT_VALUE_0,
-      },
-      ios: {
-        paddingBottom: Value.CONSTANT_VALUE_0,
-      },
-    }),
-    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
   },
   logo: {
     width: Value.CONSTANT_VALUE_200,
@@ -56,6 +46,7 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_10,
+    marginBottom: Value.CONSTANT_VALUE_150,
   },
   footer: {
     flex: 0,
