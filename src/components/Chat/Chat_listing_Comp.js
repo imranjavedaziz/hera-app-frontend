@@ -19,6 +19,8 @@ const Chat_listing_Comp = props => {
   const styleMatchOne = message !== '' ? message : Strings.Chat.HEY_ITS_MATCH;
   const styleMatchTwo = message !== '' ? message : '';
   const styleMatchThree = read === 0 ? styles.msg : styles.msgRead;
+  const smMatch = match === 1 && message ==='' ?Strings.Chat.PARENT_TO_BE_SEND_REQUEST: message
+  console.log(match,'match:::::')
   return (
     <>
       {currentRole !== 1 && roleId === 2 && (
@@ -87,13 +89,13 @@ const Chat_listing_Comp = props => {
                 <Text
                   numberOfLines={2}
                   style={read === 0 ? styles.msg : styles.msgRead}>
-                  {message !== '' ? message : 'Hey, It’s a match!'}
+                     {smMatch}
                 </Text>
               ) : (
                 <Text
                   numberOfLines={2}
                   style={read === 0 ? styles.msg : styles.msgRead}>
-                  {message !== '' ? message : ''}
+                   {styleMatchTwo}
                 </Text>
               )}
             </View>

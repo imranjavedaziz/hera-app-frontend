@@ -44,7 +44,6 @@ export default class FirebaseDB {
 
     appendMessage(msg) {
         const index = this.messages.findIndex(m => m._id === msg._id);
-        console.log(index, 'indexappendMessage')
         if (index === -1) this.messages = [...this.messages, msg];
     }
 
@@ -88,9 +87,7 @@ export default class FirebaseDB {
                 this.lastKey = childSnapshot.key;
             }
             this.prependMessage(messageItem);
-            // await this.readSingle(messageItem);
         });
-        // await this.readAll();
     }
 
     async sendMessage(msg) {
@@ -106,44 +103,44 @@ export default class FirebaseDB {
                 .then(async () => {
                     resolve();
                     this.updateHistory(msg);
-                    // if(matches[this.sender.user_id]!==undefined)this.sendMsgNotification(matches[this.sender.user_id],msg);
                 })
                 .catch(e => reject(e))
         });
     }
 
     loadEarlier(cb) {
+        console.log('hjfdhcj')
         this.loading = true;
         cb(true);
         // this.reference.endAt(this.firstKey===undefined?this.messages[this.messages.length-1]._id:this.firstKey).limitToLast(SIZE).once('value')
-        this.reference.orderByChild('time').limitToLast(SIZE).endAt('1668778382413').once('value').then(async snapshot => {
-            // alert('hi')
-            console.log(snapshot.val(), 'snapshotmload earlier')
-            this.firstKey = Object.keys(snapshot.val())[0]
-            console.log(this.firstKey, ' this.firstKey')
-            this.loading = false;
-            const keys = (Object.keys(snapshot.val() || {}));
-            if (snapshot.length < SIZE) this.endReached = true;
-            // Object.values(snapshot.val()).map(async (childSnapshot,index)=>{
-            //     // console.log(childSnapshot,'childSnapshot')
-            //     // if(parseInt(keys[index])<parseInt(this.firstKey)){
-            //         const { time, text, from } = childSnapshot;
-            //         const createdAt = new Date(time)
-            //         console.log(keys[index],'keys[index]')
-            //         let messageItem = {
-            //             _id: keys[index],
-            //              text,
-            //             createdAt: createdAt,
-            //             from,
-            //         };
-            //         console.log(messageItem,'messageItem earlier')
-            //         this.appendMessage(messageItem);
-            //         // await this.readSingle(messageItem);
-            //     // }
-            // })
-            // this.firstKey = this.messages[this.messages.length-1]._id
+        // this.reference.orderByChild('time').limitToLast(SIZE).endAt('1669065270994').once('value').then(async snapshot => {
+        //     // alert('hi')
+        //     console.log(snapshot.val(), 'snapshotmload earlier')
+        //     this.firstKey = Object.keys(snapshot.val())[0]
+        //     console.log(this.firstKey, ' this.firstKey')
+        //     this.loading = false;
+        //     const keys = (Object.keys(snapshot.val() || {}));
+        //     if (snapshot.length < SIZE) this.endReached = true;
+        //     Object.values(snapshot.val()).map(async (childSnapshot,index)=>{
+        //         // console.log(childSnapshot,'childSnapshot')
+        //         // if(parseInt(keys[index])<parseInt(this.firstKey)){
+        //             const { time, text, from } = childSnapshot;
+        //             const createdAt = new Date(time)
+        //             console.log(keys[index],'keys[index]')
+        //             let messageItem = {
+        //                 _id: keys[index],
+        //                  text,
+        //                 createdAt: createdAt,
+        //                 from,
+        //             };
+        //             console.log(messageItem,'messageItem earlier')
+        //             this.appendMessage(messageItem);
+        //             // await this.readSingle(messageItem);
+        //         // }
+        //     })
+        //     this.firstKey = this.messages[0]._id
             cb(false);
-        })
+        // })
     }
 
     async readMessage(id, data) {
@@ -181,7 +178,6 @@ export default class FirebaseDB {
     }
     async updateFeedback() {
         const referenceUser = database().ref(`/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`);
-        const referenceSender = database().ref(`/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`);
         try {
             await referenceUser.update({
                 feedback_status: 1,
