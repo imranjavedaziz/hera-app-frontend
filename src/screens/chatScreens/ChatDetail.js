@@ -215,6 +215,26 @@ const ChatDetail = props => {
     }
   }
   console.log(db?.messages.length,'db?.messages.length')
+  function getRoleData(roleId) {
+    switch (true) {
+        case (roleId == '2'): 
+            role = 'Parent-To-Be';
+            break;
+        case (roleId == '3'):
+            role = 'Surrogate Mother';
+            break;
+        case (roleId == '4'):
+            role = 'Egg Donor';
+            break;
+        case (roleId == '5'):
+            role = 'Sperm Donor';
+            break;
+        default:
+        role = 'Parent-To-Be';
+        break;
+    }
+    return role;
+}
   return (
     <>
       <View style={{ flex: 1, backgroundColor: Colors.BACKGROUND }}>
@@ -262,10 +282,10 @@ const ChatDetail = props => {
                   ) : (
                     <>
                       <Text style={styles.titleText}>
-                        {props.route.params.item.recieverName}
+                      {props?.route?.params?.item?.currentRole === 2 ?props.route.params.item.recieverName:getRoleData(props?.route?.params?.item?.currentRole)}
                       </Text>
                       <Text style={styles.descText}>
-                        {log_in_data?.role_id === 2 &&
+                        {props?.route?.params?.item?.currentRole === 2 ?getRoleData(props?.route?.params?.item?.currentRole):
                           `#${props?.route?.params?.item?.recieverUserName}`}
                       </Text>
                     </>

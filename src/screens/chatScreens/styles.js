@@ -42,8 +42,9 @@ export default {
     marginRight: 20,
   },
   receiverID: {
-    flexDirection: Alignment.ROW,
+    // flexDirection: Alignment.ROW,
     alignSelf: Alignment.FLEX_START,
+    flex:1,
     backgroundColor: Colors.GREEN,
   },
   mainContainerDetail: {
