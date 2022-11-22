@@ -19,7 +19,8 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
-const PTB_profile = () => {
+
+const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
@@ -71,6 +72,7 @@ const PTB_profile = () => {
   const {
     params: {userid},
   } = useRoute();
+
   useEffect(() => {
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
@@ -82,6 +84,13 @@ const PTB_profile = () => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+  const onPressDislike = () => {
+    const payload = {
+      to_user_id: userid,
+      status: 3,
+    };
+    dispatch(sendLikePtb(payload));
+  };
   return (
     <Container
       showHeader={true}
@@ -166,7 +175,7 @@ const PTB_profile = () => {
               />
             </View>
           )}
-          {!liked && stateRes?.profile_match_request?.status !== 2 &&(
+          {!liked && stateRes?.profile_match_request?.status !== 2 && (
             <Pressable
               style={styles.sendMsgBtn}
               onPress={() => {
@@ -185,6 +194,22 @@ const PTB_profile = () => {
               <Text style={styles.sendMsgText}>
                 {' '}
                 {Strings.PTB_Profile.send_request}
+              </Text>
+            </Pressable>
+          )}
+          {props?.route?.params?.seeAll && (
+            <Pressable
+              style={styles.sendMsgBtnDis}
+              onPress={() => {
+                onPressDislike();
+                setTimeout(() => {
+                  navigation.navigate(Routes.SmDashboard);
+                }, 1000);
+              }}>
+              <Image source={Images.RED_CROSS_ICON} />
+              <Text style={styles.sendMsgText}>
+                {' '}
+                {Strings.donorPofile.Not_interested}
               </Text>
             </Pressable>
           )}

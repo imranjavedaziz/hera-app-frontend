@@ -60,7 +60,7 @@ const SmDashboard = ({route}) => {
   const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
-
+  const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
@@ -69,7 +69,6 @@ const SmDashboard = ({route}) => {
 
   useEffect(() => {
     navigation.addListener('focus', () => {
-      console.log(route, 'route:::::');
       dispatch(showAppLoader());
       _getDonorDashboard(1, search);
     });
@@ -96,16 +95,28 @@ const SmDashboard = ({route}) => {
       onRegister: function (token) {
         console.log('TOKEN:', token);
       },
-
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
             navigation.navigate(Routes.Chat_Request, {
-              user: JSON.parse(notification?.data?.user),
+              user: JSON.parse(notification?.data?.receiver_user),
             });
-          } else {
-            navigation.navigate(Routes.PushNotificationExample);
+          }
+
+          if (notification.data.notify_type === 'chat') {
+            navigation.navigate(Routes.ChatDetail, {
+              item: notification?.data,
+            });
+            setMsgRead(false);
+          }
+        }
+        if (notification.userInteraction === false) {
+          if (notification.data.notify_type === 'chat') {
+            setMsgRead(true);
+          }
+          if (notification.data.notify_type === 'profile') {
+            setMsgRead(true);
           }
         }
         console.log('NOTIFICATION:', notification);
@@ -127,7 +138,7 @@ const SmDashboard = ({route}) => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      const {notification, messageId} = remoteMessage;
+      const {notification} = remoteMessage;
       if (!_.isEmpty(notification)) {
         navigation.navigate('PushNotificationExample');
       }
@@ -253,17 +264,21 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
+
   const headerComp = () => (
     <IconHeader
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      chat={true}
-      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
+      chat={msgRead === true ? true : false}
+      rightPress={() =>
+        navigation.navigate(Routes.Chat_Listing, {smChat: true})
+      }
       style={styles.headerIcon}
       ApiImage={true}
     />
   );
+
   const onRefresh = () => {
     setRefreshing(true);
     _getDonorDashboard(1, search);

@@ -59,6 +59,7 @@ const PtbDashboard = props => {
   const loadingMatchRef = useRef(false);
   const {fcmToken} = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -69,6 +70,7 @@ const PtbDashboard = props => {
       dispatch(getPtbDashboard());
     }, [dispatch]),
   );
+ 
   //Get device Info
   useEffect(() => {
     async function fetchDeviceInfo() {
@@ -91,11 +93,29 @@ const PtbDashboard = props => {
       onRegister: function (token) {
         console.log('TOKEN:', token);
       },
-
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
-          navigation.navigate('PushNotificationExample');
+          if (notification.data.notify_type === 'profile') {
+            navigation.navigate(Routes.Chat_Request, {
+              user: JSON.parse(notification?.data?.receiver_user),
+            });
+          }
+
+          if (notification.data.notify_type === 'chat') {
+            navigation.navigate(Routes.ChatDetail, {
+              item: notification?.data,
+            });
+            setMsgRead(false);
+          }
+        }
+        if (notification.userInteraction === false) {
+          if (notification.data.notify_type === 'chat') {
+            setMsgRead(true);
+          }
+          if (notification.data.notify_type === 'profile') {
+            setMsgRead(true);
+          }
         }
         console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -116,12 +136,7 @@ const PtbDashboard = props => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log(
-        '***Notification caused app to open from background state***',
-        remoteMessage,
-      );
-      const {notification, messageId} = remoteMessage;
-      console.log(messageId);
+      const {notification} = remoteMessage;
       if (!_.isEmpty(notification)) {
         navigation.navigate('PushNotificationExample');
       }
@@ -244,7 +259,7 @@ const PtbDashboard = props => {
       </>
     );
   }
-
+  console.log(props?.route?.params?.notRead, 'notnotReadRead');
   const headerComp = () => (
     <IconHeader
       leftIcon={{
@@ -254,8 +269,10 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      chat={true}
-      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
+      chat={msgRead === true ? true : false}
+      rightPress={() =>
+        navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
+      }
       style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}
