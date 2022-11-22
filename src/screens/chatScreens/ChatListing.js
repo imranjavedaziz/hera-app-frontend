@@ -43,7 +43,7 @@ const ChatListing = props => {
   const renderChatList = ({item}) => {
     return (
       <>
-        {item !== null && item?.match_request?.status && (
+        {item !== null && item?.match_request?.status === 2 && (
           <Chat_listing_Comp
             currentRole={item?.currentRole}
             image={item?.recieverImage}
@@ -61,13 +61,33 @@ const ChatListing = props => {
             match={item?.match_request?.status}
           />
         )}
+        {item !== null &&
+          item?.match_request?.status === 1 &&
+          log_in_data.role_id !== 2 && (
+            <Chat_listing_Comp
+              currentRole={item?.currentRole}
+              image={item?.recieverImage}
+              name={
+                log_in_data?.role_id === 2
+                  ? `#${item?.recieverUserName}`
+                  : item?.recieverName
+              }
+              onPress={() =>
+                navigation.navigate(Routes.ChatDetail, {item: item})
+              }
+              message={item?.message}
+              read={item?.read}
+              time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+              latest={true}
+              roleId={log_in_data?.role_id}
+              match={item?.match_request?.status}
+            />
+          )}
       </>
     );
   };
-  console.log(chats);
   useEffect(() => {
     let obj = chats.find(o => {
-      console.log(o.read, 'hi');
       o.read === 0 ? setNotRead(false) : setNotRead(true);
     });
     return obj;
@@ -83,7 +103,7 @@ const ChatListing = props => {
       {loader === false && (
         <>
           {chats && chats?.length > 0 ? (
-            <View style={{flex: 1, marginTop: 25}}>
+            <View style={{flex: 1, marginTop: 60}}>
               <View style={styles.mainContainer}>
                 <Text style={styles.Inbox}> {ROLL_ID_INBOX}</Text>
                 <Text style={styles.Match}>{ROLL_ID_2}</Text>
