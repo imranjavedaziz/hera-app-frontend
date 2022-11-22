@@ -37,7 +37,7 @@ export default {
     color: '#ada99f',
   },
   chatContainer: {
-    paddingVertical: 12,
+    paddingVertical:12,
     paddingHorizontal: 24,
     maxWidth:250
   },
@@ -46,12 +46,15 @@ export default {
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.WHITE,
     alignItems:Alignment.CENTER,
+    marginRight:20,
+    justifyContent:'center',
   },
   receiverID: {
     alignSelf: Alignment.FLEX_START,
     flexDirection: Alignment.ROW,
-    marginLeft:0,
+    justifyContent:'center',
     alignItems:Alignment.CENTER,
+    marginLeft:10,
     backgroundColor: Colors.GREEN,
   },
   mainContainerDetail: {

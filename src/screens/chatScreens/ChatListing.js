@@ -32,6 +32,7 @@ const ChatListing = () => {
     />
   );
 
+
   const ROLL_ID_2 =
     log_in_data.role_id === 2
       ? Strings.All_Matches
@@ -41,8 +42,27 @@ const ChatListing = () => {
   const renderChatList = ({item}) => {
     return (
       <>
-        {(item !== null && item?.match_request?.status === 2) ||
-          (item?.match_request?.status === 1 && (
+        {item !== null && item?.match_request?.status === 2 && (
+          <Chat_listing_Comp
+            currentRole={item?.currentRole}
+            image={item?.recieverImage}
+            name={
+              log_in_data?.role_id === 2
+                ? `#${item?.recieverUserName}`
+                : item?.recieverName
+            }
+            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item})}
+            message={item?.message}
+            read={item?.read}
+            time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+            latest={true}
+            roleId={log_in_data?.role_id}
+            match={item?.match_request?.status}
+          />
+        )}
+        {item !== null &&
+          item?.match_request?.status === 1 &&
+          log_in_data.role_id !== 2 &&(
             <Chat_listing_Comp
               currentRole={item?.currentRole}
               image={item?.recieverImage}
@@ -61,10 +81,11 @@ const ChatListing = () => {
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
             />
-          ))}
+          )}
       </>
     );
   };
+  console.log(chats,'chats')
   return (
     <Container
       mainStyle={true}
