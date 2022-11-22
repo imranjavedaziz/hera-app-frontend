@@ -23,7 +23,7 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: (width - 65) / 2,
+    width: (width - 70) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
