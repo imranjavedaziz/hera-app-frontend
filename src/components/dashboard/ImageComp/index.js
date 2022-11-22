@@ -1,5 +1,5 @@
-import {View, Text, Image, Animated, TouchableOpacity} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import { View, Text, Image, Animated, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
 import LinearGradient from 'react-native-linear-gradient';
@@ -36,6 +36,9 @@ const ImageComp = ({
   activeOpacity,
   onPress,
 }) => {
+  const IMG_CONDI = has_happen === 'liked'
+    ? Images.iconbigheart
+    : Images.iconbigcross
   return (
     <View style={[styles.upperContainer]}>
       <View style={styles.mainContainer}>
@@ -47,18 +50,14 @@ const ImageComp = ({
             <LinearGradient
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={styles.linearGradient}
-              start={{x: 0.0, y: 0.28}}
-              end={{x: 0.011, y: 1.15}}>
+              start={{ x: 0.0, y: 0.28 }}
+              end={{ x: 0.011, y: 1.15 }}>
               <View style={styles.iconContainer}>
                 {isVisibleLogo === true ? (
                   <FadeInView>
                     <Image
                       style={styles.iconImage}
-                      source={
-                        has_happen === 'liked'
-                          ? Images.iconbigheart
-                          : Images.iconbigcross
-                      }
+                      source={IMG_CONDI}
                     />
                   </FadeInView>
                 ) : null}

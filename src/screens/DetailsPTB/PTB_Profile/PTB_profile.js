@@ -71,6 +71,7 @@ const PTB_profile = () => {
   const {
     params: {userid},
   } = useRoute();
+
   useEffect(() => {
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
@@ -166,7 +167,7 @@ const PTB_profile = () => {
               />
             </View>
           )}
-          {!liked && (
+          {!liked && stateRes?.profile_match_request?.status !== 2 && (
             <Pressable
               style={styles.sendMsgBtn}
               onPress={() => {

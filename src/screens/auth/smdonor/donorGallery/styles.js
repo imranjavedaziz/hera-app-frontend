@@ -74,34 +74,34 @@ export default {
     borderColor: Colors.RED,
   },
   modalHeader: {
-    lineHeight: Value.CONSTANT_VALUE_21,
     fontWeight: Alignment.BOLD,
     fontFamily: Fonts.OpenSansRegular,
+    lineHeight: Value.CONSTANT_VALUE_21,
     paddingBottom: Value.CONSTANT_VALUE_5,
   },
   modalSubHeader: {
     textAlign: Alignment.CENTER,
-    lineHeight: Value.CONSTANT_VALUE_18,
     marginTop: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansRegular,
+    lineHeight: Value.CONSTANT_VALUE_18,
   },
   modalOption1: {
     color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_16,
-    paddingBottom: Value.CONSTANT_VALUE_10,
     marginVertical: Value.CONSTANT_VALUE_27,
-    letterSpacing: Value.CONSTANT_VALUE_1,
+    paddingBottom: Value.CONSTANT_VALUE_10,
     fontFamily: Fonts.OpenSansBold,
+    letterSpacing: Value.CONSTANT_VALUE_1,
   },
   modalOption2: {
-    fontSize: Value.CONSTANT_VALUE_16,
     fontWeight: Alignment.BOLD,
-    letterSpacing: Value.CONSTANT_VALUE_1,
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
+    letterSpacing: Value.CONSTANT_VALUE_1,
   },
   ImageText: {
-    fontSize: Value.CONSTANT_VALUE_18,
     fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_18,
     color: Colors.LABEL_BLACK,
   },
   uploadBackground: {
@@ -114,16 +114,16 @@ export default {
   },
   background: {
     width: Value.CONSTANT_VALUE_140,
-    height: Value.CONSTANT_VALUE_140,
     borderRadius: Value.CONSTANT_VALUE_70,
-    backgroundColor: Colors.GREEN,
-    alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
+    backgroundColor: Colors.GREEN,
+    height: Value.CONSTANT_VALUE_140,
+    alignItems: Alignment.CENTER,
   },
   Btn: {
     height: Value.CONSTANT_VALUE_80,
-    width: Value.CONSTANT_VALUE_197,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
+    width: Value.CONSTANT_VALUE_197,
     paddingVertical: Value.CONSTANT_VALUE_0,
   },
   BtnContainer: {
@@ -131,21 +131,21 @@ export default {
     alignItems: Alignment.CENTER,
   },
   imgPickerContainer: {
-    width: '100%',
     paddingHorizontal: Value.CONSTANT_VALUE_20,
+    width: '100%',
     paddingVertical: Value.CONSTANT_VALUE_10,
   },
   pickerBtn: {
     paddingVertical: Value.CONSTANT_VALUE_20,
   },
   pickerBtnBorder: {
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
     borderBottomColor: Colors.BORDER_LINE,
+    borderBottomWidth: Value.CONSTANT_VALUE_1,
   },
   pickerBtnLabel: {
     fontSize: Value.CONSTANT_VALUE_16,
-    fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   imageStyling: {
     resizeMode: Alignment.COVER,

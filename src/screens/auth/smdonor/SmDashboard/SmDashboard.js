@@ -28,7 +28,7 @@ import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import {deviceRegister, logOut} from '../../../../redux/actions/Auth';
+import {deviceRegister} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
@@ -60,23 +60,19 @@ const SmDashboard = ({route}) => {
   const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
-  const unsubscribe = navigation.addListener('focus', () => {
-    let payload = {
-      keyword: search ? search : '',
-      state_ids:
-        route.params?.informationDetail !== undefined
-          ? route.params?.informationDetail.join()
-          : '',
-      page: page,
-      limit: 10,
-    };
-    dispatch(getDonorDashboard(payload));
-  });
+
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
     }
   }, [navigation, route?.name]);
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      dispatch(showAppLoader());
+      _getDonorDashboard(1, search);
+    });
+  }, [route?.params]);
   //Get device Info
   useEffect(() => {
     async function fetchDeviceInfo() {
@@ -99,11 +95,16 @@ const SmDashboard = ({route}) => {
       onRegister: function (token) {
         console.log('TOKEN:', token);
       },
-
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
-          navigation.navigate('PushNotificationExample');
+          if (notification.data.notify_type === 'profile') {
+            navigation.navigate(Routes.Chat_Request, {
+              user: JSON.parse(notification?.data?.user),
+            });
+          } else {
+            navigation.navigate(Routes.PushNotificationExample);
+          }
         }
         console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -124,27 +125,13 @@ const SmDashboard = ({route}) => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log(
-        '***Notification caused app to open from background state***',
-        remoteMessage,
-      );
-      const {notification, messageId} = remoteMessage;
-      console.log(messageId);
+      const {notification} = remoteMessage;
       if (!_.isEmpty(notification)) {
         navigation.navigate('PushNotificationExample');
       }
     });
   }, [fcmToken, navigation]);
 
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(showAppLoader());
-      _getDonorDashboard(1, search);
-      return () => {
-        unsubscribe();
-      };
-    }, []),
-  );
   //  DONOR DASHBOARD CARD
   useFocusEffect(
     useCallback(() => {
@@ -180,8 +167,8 @@ const SmDashboard = ({route}) => {
     let payload = {
       keyword: value ? value : '',
       state_ids:
-        route.params?.informationDetail !== undefined
-          ? route.params?.informationDetail.join()
+        route?.params?.informationDetail?.join() !== undefined
+          ? route?.params?.informationDetail?.join()
           : '',
       page: page,
       limit: 10,
@@ -218,8 +205,8 @@ const SmDashboard = ({route}) => {
     let payload = {
       keyword: '',
       state_ids:
-        route.params?.informationDetail !== undefined
-          ? route.params?.informationDetail.join()
+        route?.params?.informationDetail !== undefined
+          ? route?.params?.informationDetail.join()
           : '',
       page: page,
       limit: 10,
@@ -344,7 +331,7 @@ const SmDashboard = ({route}) => {
               onChangeText={onSearch}
               editing={search === ''}
               onClear={onClear}
-              selectedStates={route.params?.informationDetail}
+              selectedStates={route?.params?.informationDetail}
             />
           </View>
           <View>

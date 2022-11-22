@@ -7,7 +7,7 @@ import {
   FEEDBACK_CHAT_FAIL,
   PUSH_NOTIFICATION,
   PUSH_NOTIFICATION_SUCCESS,
-  PUSH_NOTIFICATION_FAIL
+  PUSH_NOTIFICATION_FAIL,
 } from '../Type';
 
 const initState = {
@@ -32,7 +32,6 @@ export default (state = initState, action) => {
       return {
         ...state,
         chats: action.payload,
-        
       };
     case EMPTY_CHAT:
       return {
