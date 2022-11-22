@@ -34,7 +34,7 @@ const Chat_Request = props => {
       if (profile_match_response_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, profile_match_response_res));
-        // navigation.navigate(Routes.PtbDashboard);
+      
       } else {
         dispatch(hideAppLoader());
       }
@@ -49,28 +49,24 @@ const Chat_Request = props => {
 
   const onPressLike = () => {
     const payload = {
-      id: props?.route?.params?.item?.recieverId
-        ? props?.route?.params?.item?.recieverId
-        : props?.route?.params?.user?.id,
+      id:  props?.route?.params?.user?.id,
       status: 2,
     };
     dispatch(profileMatchResponse(payload));
+    navigation.navigate(Routes.ChatDetail,{item: props?.route?.params?.item})
   };
   const onPressDislike = () => {
     const payload = {
-      id: props?.route?.params?.item?.recieverId
-        ? props?.route?.params?.item?.recieverId
-        : props?.route?.params?.user?.id,
+      id: props?.route?.params?.user?.id,
       status: 4,
     };
     console.log(payload, 'payload');
     dispatch(profileMatchResponse(payload));
+    navigation.navigate(Routes.ChatList)
   };
   const onNavigationDetail = () => {
     navigation.navigate(Routes.ProfileDetails, {
-      userid: props?.route?.params?.user?.id
-        ? props?.route?.params?.user?.id
-        : props?.route?.params?.item?.recieverId,
+      userid: props?.route?.params?.item?.recieverId,
       seeAll: true,
     });
   };

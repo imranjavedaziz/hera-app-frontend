@@ -321,7 +321,7 @@ const ChatDetail = props => {
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
           props?.route?.params?.item?.feedback_status !== 1 &&
-          db?.messages.length >= 20 &&
+          db?.messages.length >= 20 && log_in_data?.role_id === 2 &&
           db?.messages.length <= 50 && (
             <View
               style={{
@@ -436,6 +436,8 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
+         
+            // messagesContainerStyle={{backgroundColor:'green',height:'100%',justifyContent:'flex-start'}}
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -470,6 +472,7 @@ const ChatDetail = props => {
               textInputProps={{
                 autoCorrect: false,
               }}
+
               // loadEarlier={loadEarlier}
               // isLoadingEarlier={loading}
               // listViewProps={{

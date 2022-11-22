@@ -74,7 +74,9 @@ const ChatListing = props => {
                   : item?.recieverName
               }
               onPress={() =>
-                navigation.navigate(Routes.ChatDetail, {item: item})
+                item?.match_request?.status === 1?  navigation.navigate(Routes.Chat_Request, {
+                  user: item?.match_request,item:item
+                }): navigation.navigate(Routes.ChatDetail, {item: item})
               }
               message={item?.message}
               read={item?.read}
