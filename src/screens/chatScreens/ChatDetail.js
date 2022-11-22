@@ -105,7 +105,6 @@ const ChatDetail = props => {
               message: messages.text,
               receiver_id: props?.route?.params?.item?.recieverId,
             };
-            console.log(data, 'data');
             dispatch(pushNotification(data));
             setTextData('');
             Keyboard.dismiss();
