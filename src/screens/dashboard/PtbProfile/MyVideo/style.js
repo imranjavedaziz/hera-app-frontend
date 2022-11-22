@@ -1,6 +1,6 @@
 import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, width} from '../../../../utils/responsive';
+import {dynamicSize, height, width} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 export default {
@@ -55,6 +55,7 @@ export default {
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
   },
+  
   imageOverlayWrapper: {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
@@ -131,4 +132,14 @@ export default {
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
   },
+  videoCover:{
+    alignItems:"center",
+    justifyContent:"center",
+    position:"absolute",
+    left:0,
+    right:0,
+    bottom:0,
+    backgroundColor:"transparent",
+    height:'100%'
+  }
 };
