@@ -65,6 +65,8 @@ const Gallery = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
+  const [counter, setCounter] = useState(0)
+
   const videoRef = useRef();
   const {
     gallery_success,
@@ -364,6 +366,8 @@ const Gallery = () => {
             handelDel={handelDel}
             rmvImgCount={rmvImgCount}
             remove={remove}
+            counter={counter}
+
           />
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
