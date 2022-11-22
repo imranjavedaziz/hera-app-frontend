@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:976287230857:ios:0f83792ef760bc245e8f58</string>
+	<string>1:976287230857:ios:66c50cd411660fe35e8f58</string>
 	<key>DATABASE_URL</key>
 	<string>https://making-baby-connection-default-rtdb.firebaseio.com</string>
 </dict>
