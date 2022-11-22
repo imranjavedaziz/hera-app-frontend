@@ -29,6 +29,7 @@ const ChatDetail = props => {
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data} = useSelector(state => state.Auth);
   const loadingRef = useRef(false);
+  const [sendFeedback, setSendFeedback] = useState('');
   const {feedback_data, feedback_success, feedback_loading} = useSelector(
     state => state.Chat,
   );
@@ -152,7 +153,7 @@ const ChatDetail = props => {
             style={
               item.currentMessage.from === props?.route?.params?.item?.senderId
                 ? {alignSelf: 'flex-end', marginTop: 4, marginRight: 20}
-                : {alignSelf: 'flex-start', marginTop: 4}
+                : {alignSelf: 'flex-start', marginTop: 4, marginLeft: 10}
             }>
             <Text
               style={{
@@ -194,7 +195,7 @@ const ChatDetail = props => {
             image: props?.route?.params?.item?.recieverImage,
           };
           let fireDB = new FirebaseDB(user, receiver);
-          await fireDB.updateFeedback();
+          await fireDB.updateFeedback(sendFeedback);
         }
       }
       loadingRef.current = feedback_loading;
@@ -214,28 +215,32 @@ const ChatDetail = props => {
         userid: props?.route?.params?.item?.recieverId,
       });
     }
-  }
-  console.log(db?.messages.length,'db?.messages.length')
+  };
+  console.log(db?.messages.length, 'db?.messages.length');
   function getRoleData(roleId) {
     switch (true) {
-        case (roleId == '2'): 
-            role = 'Parent-To-Be';
-            break;
-        case (roleId == '3'):
-            role = 'Surrogate Mother';
-            break;
-        case (roleId == '4'):
-            role = 'Egg Donor';
-            break;
-        case (roleId == '5'):
-            role = 'Sperm Donor';
-            break;
-        default:
+      case roleId == '2':
+        role = 'Parent-To-Be';
+        break;
+      case roleId == '3':
+        role = 'Surrogate Mother';
+        break;
+      case roleId == '4':
+        role = 'Egg Donor';
+        break;
+      case roleId == '5':
+        role = 'Sperm Donor';
+        break;
+      default:
         role = 'Parent-To-Be';
         break;
     }
     return role;
-}
+  }
+  console.log(
+    props?.route?.params?.item?.currentRole,
+    'props?.route?.params?.item?.currentRole',
+  );
   return (
     <>
       <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
@@ -282,13 +287,29 @@ const ChatDetail = props => {
                     </Text>
                   ) : (
                     <>
-                      <Text style={styles.titleText}>
-                      {props?.route?.params?.item?.currentRole === 2 ?props.route.params.item.recieverName:getRoleData(props?.route?.params?.item?.currentRole)}
-                      </Text>
-                      <Text style={styles.descText}>
-                        {props?.route?.params?.item?.currentRole === 2 ?getRoleData(props?.route?.params?.item?.currentRole):
-                          `#${props?.route?.params?.item?.recieverUserName}`}
-                      </Text>
+                      {props?.route?.params?.item?.currentRole === 1 && (
+                        <Text style={styles.titleText}>
+                          {props.route.params.item.recieverName}
+                        </Text>
+                      )}
+                      {props?.route?.params?.item?.currentRole !== 1 && (
+                        <>
+                          <Text style={styles.titleText}>
+                            {props?.route?.params?.item?.currentRole === 2
+                              ? props.route.params.item.recieverName
+                              : getRoleData(
+                                  props?.route?.params?.item?.currentRole,
+                                )}
+                          </Text>
+                          <Text style={styles.descText}>
+                            {props?.route?.params?.item?.currentRole === 2
+                              ? getRoleData(
+                                  props?.route?.params?.item?.currentRole,
+                                )
+                              : `#${props?.route?.params?.item?.recieverUserName}`}
+                          </Text>
+                        </>
+                      )}
                     </>
                   )}
                 </View>
@@ -300,9 +321,9 @@ const ChatDetail = props => {
         </View>
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
-          props?.route?.params?.item?.feedback_status === 0 &&
+          props?.route?.params?.item?.feedback_status !== 1 &&
           db?.messages.length >= 20 &&
-          50 >= db?.messages.length && (
+          db?.messages.length <= 50 && (
             <View
               style={{
                 height: 117,
@@ -318,20 +339,29 @@ const ChatDetail = props => {
                   top: 8,
                   alignSelf: 'flex-end',
                 }}
-                onPress={() => feedback(0, 1)}>
+                onPress={() => {
+                  setSendFeedback(2);
+                  feedback(0, 1);
+                }}>
                 <Image source={Images.iconcross} style={styles.crossImage} />
               </TouchableOpacity>
               <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
               <View style={styles.thumbInnerContain}>
                 <TouchableOpacity
                   style={[styles.thumbContain(Colors.RED)]}
-                  onPress={() => feedback(0, 0)}>
+                  onPress={() => {
+                    setSendFeedback(1);
+                    feedback(0, 0);
+                  }}>
                   <Image source={Images.THUMB_DOWN} style={styles.thumbImg} />
                   <Text style={styles.thumbTxt}>{Strings.Chat.NOT_GOOD}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.thumbContain(Colors.GREEN)}
-                  onPress={() => feedback(1, 0)}>
+                  onPress={() => {
+                    setSendFeedback(1);
+                    feedback(1, 0);
+                  }}>
                   <Image source={Images.THUMB_UP} style={styles.thumbImg} />
                   <Text style={styles.thumbTxt}>{Strings.Chat.GOING_WELL}</Text>
                 </TouchableOpacity>
@@ -371,7 +401,7 @@ const ChatDetail = props => {
               avatar: props?.route?.params?.item?.senderImage,
             }}
             containerStyle={styles.mainContainerDetail}
-            renderAvatar={() => null}
+            renderAvatar={null}
             textInputProps={{
               autoCorrect: false,
             }}
@@ -403,7 +433,7 @@ const ChatDetail = props => {
               avatar: props?.route?.params?.item?.senderImage,
             }}
             containerStyle={styles.mainContainerDetail}
-            renderAvatar={() => null}
+            renderAvatar={null}
             textInputProps={{
               autoCorrect: false,
             }}
@@ -437,7 +467,7 @@ const ChatDetail = props => {
                 avatar: props?.route?.params?.item?.senderImage,
               }}
               containerStyle={styles.mainContainerDetail}
-              renderAvatar={() => null}
+              renderAvatar={null}
               textInputProps={{
                 autoCorrect: false,
               }}

@@ -266,6 +266,7 @@ export default {
   },
   search_Bar: {
     search: 'Search',
+    write_message:'Write a message'
   },
   smSetting: {
     profile: 'Profile',
@@ -339,7 +340,8 @@ export default {
     PARENT_TO_BE_CONVERSATION: ' Parent To Be will start the conversation.',
     START_CONVERSATION: 'Start a conversation!',
     INACTIVE_USER: 'Inactive User',
-    HEY_ITS_MATCH: "Hey, It’s a match!"
+    HEY_ITS_MATCH: "Hey, It’s a match!",
+    PARENT_TO_BE_SEND_REQUEST:'A Parent To Be sent you a request'
   },
   Sensory: {
     AS_PER_SEARCH:
