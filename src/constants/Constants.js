@@ -766,13 +766,13 @@ export const Static = {
 };
 
 export const creditProductsIds = Platform.select({
-  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly'],
-  android: ['com.CreditRich.Monthl'],
+  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly',"Hera_001_1m"],
+  android: ['com.CreditRich.Monthl',"Hera_001_1m","Hera_002_2m"],
 });
 
 export const productsIds = Platform.select({
-  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly'],
-  android: ['com.CreditRich.Monthl'],
+  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly',"Hera_001_1m"],
+  android: ['com.CreditRich.Monthl',"Hera_001_1m","Hera_002_2m"],
 });
 
 export const SUBSCRIPTION_PLAN = [
