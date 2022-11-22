@@ -70,7 +70,7 @@ const PtbDashboard = props => {
       dispatch(getPtbDashboard());
     }, [dispatch]),
   );
- 
+
   //Get device Info
   useEffect(() => {
     async function fetchDeviceInfo() {
@@ -101,7 +101,6 @@ const PtbDashboard = props => {
               user: JSON.parse(notification?.data?.receiver_user),
             });
           }
-
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
@@ -137,8 +136,27 @@ const PtbDashboard = props => {
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
       const {notification} = remoteMessage;
-      if (!_.isEmpty(notification)) {
-        navigation.navigate('PushNotificationExample');
+      console.log(notification, 'Reenotification');
+      if (notification.userInteraction === true) {
+        if (notification.data.notify_type === 'profile') {
+          navigation.navigate(Routes.Chat_Request, {
+            user: JSON.parse(notification?.data?.receiver_user),
+          });
+        }
+        if (notification.data.notify_type === 'chat') {
+          navigation.navigate(Routes.ChatDetail, {
+            item: notification?.data,
+          });
+          setMsgRead(false);
+        }
+      }
+      if (notification.userInteraction === false) {
+        if (notification.data.notify_type === 'chat') {
+          setMsgRead(true);
+        }
+        if (notification.data.notify_type === 'profile') {
+          setMsgRead(true);
+        }
       }
     });
   }, [fcmToken, navigation]);
