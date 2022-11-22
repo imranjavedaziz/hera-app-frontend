@@ -44,20 +44,36 @@ const ChatDetail = props => {
     );
   };
   useEffect(async () => {
-    if (props.route.params.item.senderSubscription === 0) {
+    if (
+      props.route.params?.item?.senderSubscription
+        ? props.route?.params?.item?.senderSubscription === 0
+        : props.route?.params?.sender_user?.subscription_status !== 0
+    ) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     }
 
     const now = Date.now();
     const user = {
-      user_id: props?.route?.params?.item?.senderId,
-      name: props?.route?.params?.item?.senderName,
-      image: props?.route?.params?.item?.senderImage,
+      user_id: props?.route?.params?.item?.senderId
+        ? props?.route?.params?.item?.senderId
+        : props?.route?.params?.sender_user?.id,
+      name: props?.route?.params?.item?.senderName
+        ? props?.route?.params?.item?.senderName
+        : `${props?.route?.params?.sender_user?.first_name} ${props?.route?.params?.sender_user?.middle_name} ${props?.route?.params?.sender_user?.last_name}`,
+      image: props?.route?.params?.item?.senderImage
+        ? props?.route?.params?.item?.senderImage
+        : props?.route?.params?.sender_user?.profile_pic,
     };
     const receiver = {
-      user_id: props?.route?.params?.item?.recieverId,
-      name: props?.route?.params?.item?.recieverName,
-      image: props?.route?.params?.item?.recieverImage,
+      user_id: props?.route?.params?.item?.recieverId
+        ? props?.route?.params?.item?.recieverId
+        : props?.route?.params?.receiver_user?.id,
+      name: props?.route?.params?.item?.recieverName
+        ? props?.route?.params?.item?.recieverName
+        : `${props?.route?.params?.receiver_user?.first_name} ${props?.route?.params?.receiver_user?.middle_name} ${props?.route?.params?.receiver_user?.last_name}`,
+      image: props?.route?.params?.item?.recieverImage
+        ? props?.route?.params?.item?.recieverImage
+        : props?.route?.params?.receiver_user?.profile_pic,
     };
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
@@ -92,17 +108,27 @@ const ChatDetail = props => {
   }, []);
 
   const onSend = (messages = '') => {
-    if (props.route.params.item.senderSubscription === 0) {
+    if (
+      props?.route?.params?.item?.senderSubscription
+        ? props?.route?.params?.item?.senderSubscription === 0
+        : props.route?.params?.sender_user?.subscription_status !== 0
+    ) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     } else {
       if (messages.text !== '') {
         db.sendMessage(messages.text)
           .then(() => {
             let data = {
-              sender_id: props?.route?.params?.item?.senderId,
-              title: `${props?.route?.params?.item?.senderName} sent you a message`,
+              sender_id: props?.route?.params?.item?.senderId
+                ? props?.route?.params?.item?.senderId
+                : props?.route?.params?.sender_user?.id,
+              title: props?.route?.params?.item?.senderName
+                ? `${props?.route?.params?.item?.senderName} sent you a message`
+                : `${props?.route?.params?.sender_user?.first_name} ${props?.route?.params?.sender_user?.middle_name} ${props?.route?.params?.sender_user?.last_name} sent you a message`,
               message: messages.text,
-              receiver_id: props?.route?.params?.item?.recieverId,
+              receiver_id: props?.route?.params?.item?.recieverId
+                ? props?.route?.params?.item?.recieverId
+                : props?.route?.params?.receiver_user?.id,
             };
             console.log(data, 'data');
             dispatch(pushNotification(data));
@@ -124,24 +150,29 @@ const ChatDetail = props => {
             <View
               style={[
                 item.currentMessage.from ===
-                props?.route?.params?.item?.senderId
+                  props?.route?.params?.sender_user?.id ||
+                item.currentMessage.from ===
+                  props?.route?.params?.item?.senderId
                   ? styles.senderID
                   : styles.receiverID,
               ]}>
-              {props.route.params.item.recieverSubscription === 0 &&
-                db?.messages[0]._id === item.currentMessage._id && (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      alignSelf: 'flex-end',
-                      marginLeft: -30,
-                    }}>
-                    <Image
-                      source={Images.warning}
-                      style={{tintColor: '#ff4544'}}
-                    />
-                  </View>
-                )}
+              {props?.route?.params?.item?.recieverSubscription
+                ? props.route.params.item.recieverSubscription === 0
+                : props?.route?.params?.receiver_user?.subscription_status !==
+                    0 &&
+                  db?.messages[0]._id === item.currentMessage._id && (
+                    <View
+                      style={{
+                        position: 'absolute',
+                        alignSelf: 'flex-end',
+                        marginLeft: -30,
+                      }}>
+                      <Image
+                        source={Images.warning}
+                        style={{tintColor: '#ff4544'}}
+                      />
+                    </View>
+                  )}
               <View style={styles.chatContainer}>
                 <Text style={styles.chatText}>{item.currentMessage.text}</Text>
               </View>
@@ -151,6 +182,8 @@ const ChatDetail = props => {
           <View
             style={
               item.currentMessage.from === props?.route?.params?.item?.senderId
+                ? props?.route?.params?.item?.senderId
+                : props?.route?.params?.sender_user?.id
                 ? {alignSelf: 'flex-end', marginTop: 4, marginRight: 20}
                 : {alignSelf: 'flex-start', marginTop: 4}
             }>
@@ -172,7 +205,9 @@ const ChatDetail = props => {
   const feedback = (like, isSkip) => {
     let data = {
       like: like,
-      recipient_id: props.route.params.item.recieverId,
+      recipient_id: props?.route?.params?.item?.recieverId
+        ? props?.route?.params?.item?.recieverId
+        : props?.route?.params?.receiver_user?.id,
       is_skip: isSkip,
     };
     dispatch(chatFeedback(data));
@@ -184,14 +219,26 @@ const ChatDetail = props => {
           dispatch(showAppToast(false, feedback_data));
           setShowFeedback(false);
           const user = {
-            user_id: props?.route?.params?.item?.senderId,
-            name: props?.route?.params?.item?.senderName,
-            image: props?.route?.params?.item?.senderImage,
+            user_id: props?.route?.params?.item?.senderId
+              ? props?.route?.params?.item?.senderId
+              : props?.route?.params?.sender_user?.id,
+            name: props?.route?.params?.item?.senderName
+              ? props?.route?.params?.item?.senderName
+              : `${props?.route?.params?.sender_user?.first_name} ${props?.route?.params?.sender_user?.middle_name} ${props?.route?.params?.sender_user?.last_name}`,
+            image: props?.route?.params?.item?.senderImage
+              ? props?.route?.params?.item?.senderImage
+              : props?.route?.params?.sender_user?.profile_pic,
           };
           const receiver = {
-            user_id: props?.route?.params?.item?.recieverId,
-            name: props?.route?.params?.item?.recieverName,
-            image: props?.route?.params?.item?.recieverImage,
+            user_id: props?.route?.params?.item?.recieverId
+              ? props?.route?.params?.item?.recieverId
+              : props?.route?.params?.receiver_user?.id,
+            name: props?.route?.params?.item?.recieverName
+              ? props?.route?.params?.item?.recieverName
+              : `${props?.route?.params?.receiver_user?.first_name} ${props?.route?.params?.receiver_user?.middle_name} ${props?.route?.params?.receiver_user?.last_name}`,
+            image: props?.route?.params?.item?.recieverImage
+              ? props?.route?.params?.item?.recieverImage
+              : props?.route?.params?.receiver_user?.profile_pic,
           };
           let fireDB = new FirebaseDB(user, receiver);
           await fireDB.updateFeedback();
@@ -200,6 +247,7 @@ const ChatDetail = props => {
       loadingRef.current = feedback_loading;
     }, [feedback_success, feedback_loading]),
   );
+  console.log(log_in_data?.role_id, 'og_in_data?.role_id');
   const navigateDetailScreen = () => {
     if (props?.route?.params?.item?.match_request?.status === 1) {
       navigation.navigate(Routes.Chat_Request, {
@@ -207,11 +255,15 @@ const ChatDetail = props => {
       });
     } else if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.DashboardDetailScreen, {
-        userId: props?.route?.params?.item?.recieverId,
+        userId: props?.route?.params?.item?.recieverId
+          ? props?.route?.params?.item?.recieverId
+          : props?.route?.params?.receiver_user?.id,
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
-        userid: props?.route?.params?.item?.recieverId,
+        userid: props?.route?.params?.item?.recieverId
+          ? props?.route?.params?.item?.recieverId
+          : props?.route?.params?.receiver_user?.id,
       });
     }
   };
@@ -250,24 +302,35 @@ const ChatDetail = props => {
                     source={
                       props?.route?.params?.item?.currentRole === 1
                         ? Images.ADMIN_ICON
-                        : {uri: props.route.params.item.recieverImage}
+                        : {
+                            uri: props?.route?.params?.item?.recieverImage
+                              ? props?.route?.params?.item?.recieverImage
+                              : props?.route?.params?.receiver_user
+                                  ?.profile_pic,
+                          }
                     }
                     style={styles.avatar}
                   />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  {props.route.params.item.recieverSubscription === 0 ? (
+                  {props?.route?.params?.item?.recieverSubscription ? (
+                    props?.route?.params?.item?.recieverSubscription === 0
+                  ) : props?.route?.params?.receiver_user?.id === 0 ? (
                     <Text style={styles.titleText}>
                       {Strings.Chat.INACTIVE_USER}
                     </Text>
                   ) : (
                     <>
                       <Text style={styles.titleText}>
-                        {props.route.params.item.recieverName}
+                        {props?.route?.params?.item?.recieverName
+                          ? props?.route?.params?.item?.recieverName
+                          : `${props?.route?.params?.receiver_user?.first_name} ${props?.route?.params?.receiver_user?.middle_name} ${props?.route?.params?.receiver_user?.last_name}`}
                       </Text>
                       <Text style={styles.descText}>
                         {log_in_data?.role_id === 2 &&
-                          `#${props?.route?.params?.item?.recieverUserName}`}
+                        props?.route?.params?.item?.recieverUserName
+                          ? `#${props?.route?.params?.item?.recieverUserName}`
+                          : `#${props?.route?.params?.receiver_user?.first_name} ${props?.route?.params?.receiver_user?.middle_name} ${props?.route?.params?.receiver_user?.last_name}`}
                       </Text>
                     </>
                   )}
@@ -279,45 +342,49 @@ const ChatDetail = props => {
           <View style={styles.border} />
         </View>
         {showFeedback &&
-          props?.route?.params?.item?.currentRole !== 1 &&
-          props?.route?.params?.item?.feedback_status === 0 &&
-          db?.messages.length >= 20 &&
-          50 >= db?.messages.length && (
-            <View
-              style={{
-                height: 117,
-                width: '100%',
-                backgroundColor: Colors.WHITE,
-                zIndex: 9999,
-              }}>
-              <TouchableOpacity
+        props?.route?.params?.item?.currentRole !== 1 &&
+        props?.route?.params?.item?.feedback_status
+          ? props?.route?.params?.item?.feedback_status === 0
+          : props?.route?.params?.feedback?.like === 0 &&
+            db?.messages.length >= 20 &&
+            50 >= db?.messages.length && (
+              <View
                 style={{
-                  right: 8,
-                  width: 30,
-                  height: 30,
-                  top: 8,
-                  alignSelf: 'flex-end',
-                }}
-                onPress={() => feedback(0, 1)}>
-                <Image source={Images.iconcross} style={styles.crossImage} />
-              </TouchableOpacity>
-              <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
-              <View style={styles.thumbInnerContain}>
+                  height: 117,
+                  width: '100%',
+                  backgroundColor: Colors.WHITE,
+                  zIndex: 9999,
+                }}>
                 <TouchableOpacity
-                  style={[styles.thumbContain(Colors.RED)]}
-                  onPress={() => feedback(0, 0)}>
-                  <Image source={Images.THUMB_DOWN} style={styles.thumbImg} />
-                  <Text style={styles.thumbTxt}>{Strings.Chat.NOT_GOOD}</Text>
+                  style={{
+                    right: 8,
+                    width: 30,
+                    height: 30,
+                    top: 8,
+                    alignSelf: 'flex-end',
+                  }}
+                  onPress={() => feedback(0, 1)}>
+                  <Image source={Images.iconcross} style={styles.crossImage} />
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.thumbContain(Colors.GREEN)}
-                  onPress={() => feedback(1, 0)}>
-                  <Image source={Images.THUMB_UP} style={styles.thumbImg} />
-                  <Text style={styles.thumbTxt}>{Strings.Chat.GOING_WELL}</Text>
-                </TouchableOpacity>
+                <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
+                <View style={styles.thumbInnerContain}>
+                  <TouchableOpacity
+                    style={[styles.thumbContain(Colors.RED)]}
+                    onPress={() => feedback(0, 0)}>
+                    <Image source={Images.THUMB_DOWN} style={styles.thumbImg} />
+                    <Text style={styles.thumbTxt}>{Strings.Chat.NOT_GOOD}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.thumbContain(Colors.GREEN)}
+                    onPress={() => feedback(1, 0)}>
+                    <Image source={Images.THUMB_UP} style={styles.thumbImg} />
+                    <Text style={styles.thumbTxt}>
+                      {Strings.Chat.GOING_WELL}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          )}
+            )}
         {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
           <View style={styles.smDonorEmptyView}>
             <EmptySmDonor
@@ -378,9 +445,15 @@ const ChatDetail = props => {
             onInputTextChanged={() => setText()}
             text={textData}
             user={{
-              _id: props?.route?.params?.item?.senderId,
-              name: props?.route?.params?.item?.senderName,
-              avatar: props?.route?.params?.item?.senderImage,
+              _id: props?.route?.params?.item?.senderId
+                ? props?.route?.params?.item?.senderId
+                : props?.route?.params?.sender_user?.id,
+              name: props?.route?.params?.item?.senderName
+                ? props?.route?.params?.item?.senderName
+                : `${props?.route?.params?.sender_user?.first_name} ${props?.route?.params?.sender_user?.middle_name} ${props?.route?.params?.sender_user?.last_name}`,
+              avatar: props?.route?.params?.item?.senderImage
+                ? props?.route?.params?.item?.senderImage
+                : props?.route?.params?.sender_user?.profile_pic,
             }}
             containerStyle={styles.mainContainerDetail}
             renderAvatar={() => null}
@@ -412,9 +485,15 @@ const ChatDetail = props => {
               onInputTextChanged={() => setText()}
               text={textData}
               user={{
-                _id: props?.route?.params?.item?.senderId,
-                name: props?.route?.params?.item?.senderName,
-                avatar: props?.route?.params?.item?.senderImage,
+                _id: props?.route?.params?.item?.senderId
+                  ? props?.route?.params?.item?.senderId
+                  : props?.route?.params?.sender_user?.id,
+                name: props?.route?.params?.item?.senderName
+                  ? props?.route?.params?.item?.senderName
+                  : `${props?.route?.params?.sender_user?.first_name} ${props?.route?.params?.sender_user?.middle_name} ${props?.route?.params?.sender_user?.last_name}`,
+                avatar: props?.route?.params?.item?.senderImage
+                  ? props?.route?.params?.item?.senderImage
+                  : props?.route?.params?.sender_user?.profile_pic,
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={() => null}
