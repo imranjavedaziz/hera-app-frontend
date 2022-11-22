@@ -105,7 +105,6 @@ const ChatDetail = props => {
               message: messages.text,
               receiver_id: props?.route?.params?.item?.recieverId,
             };
-            console.log(data, 'data');
             dispatch(pushNotification(data));
             setTextData('');
             Keyboard.dismiss();
@@ -217,7 +216,7 @@ const ChatDetail = props => {
     }
   };
   console.log(db?.messages.length, 'db?.messages.length');
-  function getRoleData(roleId, role) {
+  function getRoleData(roleId) {
     switch (true) {
       case roleId == '2':
         role = 'Parent-To-Be';

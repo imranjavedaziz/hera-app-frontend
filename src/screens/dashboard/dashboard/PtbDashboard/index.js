@@ -104,11 +104,7 @@ const PtbDashboard = props => {
 
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
-              item: JSON.parse(notification?.data?.item),
-              // sender_user: JSON.parse(notification?.data?.receiver_user),
-              // receiver_user: JSON.parse(notification?.data?.sender_user),
-              // profile_match: JSON.parse(notification?.data?.profile_match),
-              // feedback: JSON.parse(notification?.data?.feedback),
+              item: notification?.data,
             });
             setMsgRead(false);
           }

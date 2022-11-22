@@ -46,6 +46,7 @@ const ChatListing = props => {
         {item !== null && item?.match_request?.status === 2 && (
           <Chat_listing_Comp
             currentRole={item?.currentRole}
+            chatStart={item?.chat_start}
             image={item?.recieverImage}
             name={
               log_in_data?.role_id === 2
@@ -81,6 +82,7 @@ const ChatListing = props => {
               latest={true}
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
+              chatStart={item?.chat_start}
             />
           )}
       </>
