@@ -321,7 +321,7 @@ const ChatDetail = props => {
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
           props?.route?.params?.item?.feedback_status !== 1 &&
-          db?.messages.length >= 20 &&
+          db?.messages.length >= 20 && log_in_data?.role_id === 2 &&
           db?.messages.length <= 50 && (
             <View
               style={{
