@@ -103,7 +103,6 @@ const SmDashboard = ({route}) => {
               user: JSON.parse(notification?.data?.receiver_user),
             });
           }
-
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
@@ -119,12 +118,12 @@ const SmDashboard = ({route}) => {
             setMsgRead(true);
           }
         }
-        console.log('NOTIFICATION:', notification);
+        console.log('NOTIFICATION2nd:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
       onAction: function (notification) {
         console.log('ACTION:', notification.action);
-        console.log('NOTIFICATION:', notification);
+        console.log('NOTIFICATION3rd:', notification);
       },
       onRegistrationError: function (err) {
         console.error(err.message, err);
@@ -139,8 +138,26 @@ const SmDashboard = ({route}) => {
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
       const {notification} = remoteMessage;
-      if (!_.isEmpty(notification)) {
-        navigation.navigate('PushNotificationExample');
+      if (notification.userInteraction === true) {
+        if (notification.data.notify_type === 'profile') {
+          navigation.navigate(Routes.Chat_Request, {
+            user: JSON.parse(notification?.data?.receiver_user),
+          });
+        }
+        if (notification.data.notify_type === 'chat') {
+          navigation.navigate(Routes.ChatDetail, {
+            item: notification?.data,
+          });
+          setMsgRead(false);
+        }
+      }
+      if (notification.userInteraction === false) {
+        if (notification.data.notify_type === 'chat') {
+          setMsgRead(true);
+        }
+        if (notification.data.notify_type === 'profile') {
+          setMsgRead(true);
+        }
       }
     });
   }, [fcmToken, navigation]);
