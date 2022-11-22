@@ -436,6 +436,8 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
+         
+            // messagesContainerStyle={{backgroundColor:'green',height:'100%',justifyContent:'flex-start'}}
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -470,6 +472,7 @@ const ChatDetail = props => {
               textInputProps={{
                 autoCorrect: false,
               }}
+
               // loadEarlier={loadEarlier}
               // isLoadingEarlier={loading}
               // listViewProps={{

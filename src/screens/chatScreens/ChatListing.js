@@ -41,7 +41,6 @@ const ChatListing = props => {
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
   const renderChatList = ({item}) => {
-    console.log(item,'item::::::')
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (
@@ -76,7 +75,7 @@ const ChatListing = props => {
               }
               onPress={() =>
                 item?.match_request?.status === 1?  navigation.navigate(Routes.Chat_Request, {
-                  item: item,
+                  user: item?.match_request,item:item
                 }): navigation.navigate(Routes.ChatDetail, {item: item})
               }
               message={item?.message}
