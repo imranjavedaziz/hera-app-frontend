@@ -349,7 +349,7 @@ const SmRegister = () => {
                   label={Strings.sm_register.DOB}
                   value={value}
                   onChangeText={v => onChange(v)}
-                  error={validateDateofBirth()}
+                  error={errors && errors.dob?.message}
                   required={true}
                   endComponentPress={() => setShow(true)}
                   endComponent={() => (
