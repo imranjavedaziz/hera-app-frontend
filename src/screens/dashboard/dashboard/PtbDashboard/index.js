@@ -26,7 +26,11 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {getRoleType} from '../../../../utils/other';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
-import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {
+  showAppLoader,
+  hideAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 import {deviceRegister} from '../../../../redux/actions/Auth';
 import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
@@ -70,21 +74,17 @@ const PtbDashboard = props => {
       dispatch(getPtbDashboard());
     }, [dispatch]),
   );
-
+  console.log(fcmToken, 'fcmTokenLat');
   //Get device Info
   useEffect(() => {
-    async function fetchDeviceInfo() {
-      const deviceName = await DeviceInfo.getDeviceName();
-      const _deviceInfo = {
-        device_id: DeviceInfo.getDeviceId(),
-        device_token: fcmToken,
-        device_type: Platform.OS,
-      };
-      console.log(deviceName, 'deviceName');
-      dispatch(deviceRegister(_deviceInfo));
-    }
-    fetchDeviceInfo();
-  }, [fcmToken]);
+    const _deviceInfo = {
+      device_id: DeviceInfo.getDeviceId(),
+      device_token: fcmToken,
+      device_type: Platform.OS,
+    };
+    console.log(_deviceInfo, 'deviceName');
+    dispatch(deviceRegister(_deviceInfo));
+  }, []);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -104,10 +104,12 @@ const PtbDashboard = props => {
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
+              chatPush: true,
             });
             setMsgRead(false);
           }
         }
+
         if (notification.userInteraction === false) {
           if (notification.data.notify_type === 'chat') {
             setMsgRead(true);
@@ -159,7 +161,7 @@ const PtbDashboard = props => {
         }
       }
     });
-  }, [fcmToken, navigation]);
+  }, []);
 
   const {
     get_ptb_dashboard_success,
@@ -191,6 +193,7 @@ const PtbDashboard = props => {
         dispatch(showAppLoader());
         if (profile_match_success) {
           dispatch(hideAppLoader());
+          dispatch(showAppToast(false, profile_match_error_msg));
         }
         if (profile_match_error_msg) {
           dispatch(hideAppLoader());
@@ -277,7 +280,7 @@ const PtbDashboard = props => {
       </>
     );
   }
-  console.log(props?.route?.params?.notRead, 'notnotReadRead');
+
   const headerComp = () => (
     <IconHeader
       leftIcon={{
@@ -287,7 +290,11 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      chat={msgRead === true ? true : false}
+      chat={
+        msgRead === true || props?.route?.params?.msgRead === true
+          ? true
+          : false
+      }
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
       }

@@ -26,10 +26,24 @@ const ChatListing = props => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
 
+  const NavigateFunc = () => {
+    if (props?.route?.params?.smChat === true) {
+      navigation.navigate(Routes.SmDashboard, {
+        msgRead: notRead,
+      });
+    }
+    if (props?.route?.params?.ptbChat === true) {
+      navigation.navigate(Routes.PtbDashboard, {
+        msgRead: notRead,
+      });
+    } else {
+      navigation.goBack();
+    }
+  };
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      leftPress={() => navigation.goBack()}
+      leftPress={() => NavigateFunc()}
       style={{marginTop: 10}}
     />
   );
@@ -74,9 +88,12 @@ const ChatListing = props => {
                   : item?.recieverName
               }
               onPress={() =>
-                item?.match_request?.status === 1?  navigation.navigate(Routes.Chat_Request, {
-                  user: item?.match_request,item:item
-                }): navigation.navigate(Routes.ChatDetail, {item: item})
+                item?.match_request?.status === 1
+                  ? navigation.navigate(Routes.Chat_Request, {
+                      user: item?.match_request,
+                      item: item,
+                    })
+                  : navigation.navigate(Routes.ChatDetail, {item: item})
               }
               message={item?.message}
               read={item?.read}
@@ -92,7 +109,7 @@ const ChatListing = props => {
   };
   useEffect(() => {
     let obj = chats.find(o => {
-      o.read === 0 ? setNotRead(false) : setNotRead(true);
+      o.read === 0 ? setNotRead(true) : setNotRead(false);
     });
     return obj;
   }, []);

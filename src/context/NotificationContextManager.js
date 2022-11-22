@@ -26,6 +26,7 @@ const NotificationContextManager = props => {
 
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
+    setFcmToken(fcmToken);
     console.log(fcmToken, 'old Token');
     if (fcmToken) {
       setFcmToken(fcmToken);
