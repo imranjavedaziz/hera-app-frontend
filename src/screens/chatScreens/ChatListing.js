@@ -11,7 +11,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
-const ChatListing = () => {
+const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
   const chatData = chatHistory();
@@ -20,10 +20,12 @@ const ChatListing = () => {
     setLoader(false);
   }, []);
   const [loader, setLoader] = useState(true);
+  const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
+
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -32,7 +34,6 @@ const ChatListing = () => {
     />
   );
 
-  console.log(chats,'chats')
   const ROLL_ID_2 =
     log_in_data.role_id === 2
       ? Strings.All_Matches
@@ -63,7 +64,7 @@ const ChatListing = () => {
         )}
         {item !== null &&
           item?.match_request?.status === 1 &&
-          log_in_data.role_id !== 2 &&(
+          log_in_data.role_id !== 2 && (
             <Chat_listing_Comp
               currentRole={item?.currentRole}
               image={item?.recieverImage}
@@ -87,7 +88,13 @@ const ChatListing = () => {
       </>
     );
   };
-  console.log(chats,'chats')
+  useEffect(() => {
+    let obj = chats.find(o => {
+      o.read === 0 ? setNotRead(false) : setNotRead(true);
+    });
+    return obj;
+  }, []);
+
   return (
     <Container
       mainStyle={true}

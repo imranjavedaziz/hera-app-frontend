@@ -100,7 +100,7 @@ const ChatDetail = props => {
         db.sendMessage(messages.text)
           .then(() => {
             let data = {
-              sender_id: props?.route?.params?.item?.senderId,
+              // sender_id: props?.route?.params?.item?.senderId,
               title: `${props?.route?.params?.item?.senderName} sent you a message`,
               message: messages.text,
               receiver_id: props?.route?.params?.item?.recieverId,

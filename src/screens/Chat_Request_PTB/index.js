@@ -18,8 +18,6 @@ import {
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 const Chat_Request = props => {
-  console.log(props?.route?.params?.user, 'dtaparamsas');
-
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
@@ -73,6 +71,7 @@ const Chat_Request = props => {
       userid: props?.route?.params?.user?.id
         ? props?.route?.params?.user?.id
         : props?.route?.params?.item?.recieverId,
+      seeAll: true,
     });
   };
   const headerComp = () => (
