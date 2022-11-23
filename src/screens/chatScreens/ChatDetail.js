@@ -249,7 +249,7 @@ const ChatDetail = props => {
         <SafeAreaView />
         <View style={{position:'absolute',flex:1,right:0,left:0,marginTop:30,zIndex:1}}>
           <View style={styles.outerContainer}>
-            <View style={{flex:1,zIndex: 1}}>
+            <View style={{flex:1,zIndex: 9999}}>
               <TouchableOpacity
                 hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
                 onPress={() => {props.route.params.isComingFrom===true?props.navigation.navigate(Routes.Chat_Listing):props.navigation.goBack()}}>
@@ -326,7 +326,9 @@ const ChatDetail = props => {
                 height: 117,
                 width: '100%',
                 backgroundColor: Colors.WHITE,
-                zIndex: 9999,
+                zIndex: 1,
+                top:150,
+                position:'absolute'
               }}>
               <TouchableOpacity
                 style={{
@@ -365,7 +367,7 @@ const ChatDetail = props => {
                 </TouchableOpacity>
               </View>
             </View>
-          )}
+          )} 
         {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
           <View style={styles.smDonorEmptyView}>
             <EmptySmDonor

@@ -55,6 +55,7 @@ const ChatListing = props => {
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
   const renderChatList = ({item}) => {
+    console.log(item,'item')
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (
@@ -107,6 +108,7 @@ const ChatListing = props => {
       </>
     );
   };
+  // coonsole.log(chats,'chats')
   return (
     <Container
       mainStyle={true}
