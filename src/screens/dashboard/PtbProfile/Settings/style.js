@@ -18,12 +18,12 @@ export default {
   Settings: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_11),
-    letterSpacing: 2.84,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
   innerHeading: {
-    marginTop: Value.CONSTANT_VALUE_8,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
     alignItems: Alignment.CENTER,
   },
   account: {
@@ -34,19 +34,18 @@ export default {
     color: Colors.BLACK,
   },
   line: {
-    width: 344,
-    height: 1,
-    borderWidth: 2,
-    borderColor: '#e4e2d8',
-    marginTop: 24,
+    width: dynamicSize(Value.CONSTANT_VALUE_344),
+    borderWidth: dynamicSize(Value.CONSTANT_VALUE_2),
+    borderColor: Colors.INPUT_BORDER,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_24),
   },
   changePsswrd: {
-    marginTop: 45,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
   },
   deactivate: {
-    marginTop: 25,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
   },
   delete: {
-    marginTop: 28,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_28),
   },
 };
