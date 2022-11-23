@@ -153,6 +153,12 @@ export default {
     Confirm: 'Confirm Password',
     Title: 'Make account for',
     Btn: 'Register',
+    Surrogate_Mother_error:
+      "You are not eligible to register as a Surrogate Mother because you don't fall in the age bracket of 21-45 years.",
+    Egg_Donar_error:
+      "You are not eligible to register as a Egg Donor because you don't fall in the age bracket of 18-40 years.",
+    Sperm_Donar_error:
+      "You are not eligible to register as a Sperm Donor because you don't fall in the age bracket of 18-40 years.",
   },
   sm_basic: {
     Title: 'Basic Details',
@@ -333,9 +339,10 @@ export default {
     All_Conversations: 'All Conversations',
     WHAT_DO_YO: 'What do you think of this match?',
     NOT_GOOD: 'Not good',
-    GOING_WELL: "Going well",
+    GOING_WELL: 'Going well',
     NOT_FOUND_MATCH_YET: 'Seems like you have not found any match yet.',
-    YOUR_SUBSCRIPTION_EXPIRED: 'Your subscription has expired. Please subscribe now.',
+    YOUR_SUBSCRIPTION_EXPIRED:
+      'Your subscription has expired. Please subscribe now.',
     YOU_MATCHED: 'You Matched!',
     PARENT_TO_BE_CONVERSATION: ' Parent To Be will start the conversation.',
     START_CONVERSATION: 'Start a conversation!',

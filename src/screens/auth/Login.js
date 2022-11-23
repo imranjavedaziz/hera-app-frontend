@@ -48,14 +48,19 @@ const Login = props => {
       dispatch(showAppLoader());
       if (log_in_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(
-          getRoute(
-            log_in_data.access_token,
-            log_in_data.role_id,
-            log_in_data.registration_step,
-          ),
-          payloadData,
-        );
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: getRoute(
+                log_in_data.access_token,
+                log_in_data.role_id,
+                log_in_data.registration_step,
+              ),
+              params: {payloadData},
+            },
+          ],
+        });
       }
       if (log_in_error_msg) {
         dispatch(hideAppLoader());

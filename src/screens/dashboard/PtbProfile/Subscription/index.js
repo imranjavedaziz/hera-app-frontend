@@ -265,4 +265,4 @@ const Subscription = props => {
   );
 };
 
-export default Subscription;
+export default React.memo(Subscription);
