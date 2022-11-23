@@ -236,7 +236,7 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(db?.messages.length, 'db?.messages.length');
+
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
