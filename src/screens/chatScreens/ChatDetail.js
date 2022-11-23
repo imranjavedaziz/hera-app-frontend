@@ -63,6 +63,7 @@ const ChatDetail = props => {
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
+    await fireDB.readMessage();
     fireDB.lastIdInSnapshot = now;
     setDB(fireDB);
     onChildAdd = fireDB.reference.on(
@@ -167,7 +168,6 @@ const ChatDetail = props => {
       </View>
     );
   };
-  const setText = text => setTextData(text);
 
   const feedback = (like, isSkip) => {
     let data = {
@@ -236,6 +236,7 @@ const ChatDetail = props => {
     }
     return role;
   }
+  console.log(db?.messages.length, 'db?.messages.length');
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
@@ -253,6 +254,7 @@ const ChatDetail = props => {
           left: 0,
           marginTop: 30,
           zIndex: 1,
+          backgroundColor: Colors.BACKGROUND,
         }}>
         <View style={styles.outerContainer}>
           <View style={{flex: 1, zIndex: 9999}}>
@@ -330,7 +332,7 @@ const ChatDetail = props => {
       {showFeedback &&
         props?.route?.params?.item?.currentRole !== 1 &&
         props?.route?.params?.item?.feedback_status !== 1 &&
-        db?.messages.length >= 20 &&
+        (db?.messages.length === 20 || db?.messages.length >= 30) &&
         log_in_data?.role_id === 2 &&
         db?.messages.length <= 50 && (
           <View

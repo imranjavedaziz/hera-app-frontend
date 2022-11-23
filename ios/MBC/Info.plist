@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>App needs Microphone Access Permission for testing</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -43,6 +41,8 @@
 	<string>Using for profile picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be used to find nearby services.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>App needs Microphone Access Permission for testing</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Allow Hera to access photos, media and file on your device.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

@@ -41,6 +41,7 @@ const MyVideo = () => {
   const loadingGalleryRef = useRef(false);
   const navigation = useNavigation();
   const videoRef = useRef();
+  const [counter, setCounter] = useState(0)
 
   const {
     gallery_success,
@@ -139,6 +140,7 @@ const MyVideo = () => {
       Platform.OS === 'ios' ? iosVideoSheet() : setOpen(true);
     } else {
       setIsPlaying(!isPlaying);
+      setCounter(counter + 1)
     }
   };
   const deleteVideo = () => {
@@ -234,6 +236,7 @@ const MyVideo = () => {
               video={video}
               handelDel={handelDel}
               remove={remove}
+              counter={counter}
             />
           )}
           {video?.file_url !== '' && (
