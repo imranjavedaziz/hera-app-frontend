@@ -311,7 +311,7 @@ const PtbDashboard = props => {
       }}
       rightIcon={Images.iconChat}
       chat={
-        msgRead === true || props?.route?.params?.msgRead === true
+        msgRead === true || props?.route?.params?.msgRead === false
           ? true
           : false
       }

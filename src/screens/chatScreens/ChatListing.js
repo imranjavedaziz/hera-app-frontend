@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import { View, Text, RefreshControl } from "react-native";
+import {View, Text, RefreshControl} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
@@ -23,14 +23,19 @@ const ChatListing = props => {
     setLoader(false);
     setRefreshing(false);
   }, []);
-  
+
   const [loader, setLoader] = useState(true);
   const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-console.log(chats,'chats')
+  useEffect(() => {
+    let obj = chats.find(o => {
+      o.read === 0 ? setNotRead(false) : setNotRead(true);
+    });
+    return obj;
+  }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
@@ -49,15 +54,13 @@ console.log(chats,'chats')
       style={{marginTop: 10}}
     />
   );
-  useEffect(()=>{  
+  useEffect(() => {
     database()
-    .ref(`${chat}/Users/${log_in_data?.id}`)
-    .on('value',
-      async (snapshot, _previousChildKey) => {
+      .ref(`${chat}/Users/${log_in_data?.id}`)
+      .on('value', async (snapshot, _previousChildKey) => {
         fetchData();
-      },
-    );
-  },[])
+      });
+  }, []);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchData();
@@ -69,9 +72,7 @@ console.log(chats,'chats')
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
   const renderChatList = ({item}) => {
-    console.log(item?.time,'item?.time')
-let time = new Date(item?.time)
-
+    let time = new Date(item?.time);
 
     return (
       <>
@@ -93,7 +94,9 @@ let time = new Date(item?.time)
             }
             message={item?.message}
             read={item?.read}
-            time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
+            time={
+              item?.time !== undefined && moment(time, 'YYYYMMDD').fromNow()
+            }
             latest={true}
             roleId={log_in_data?.role_id}
             match={item?.match_request?.status}
@@ -120,7 +123,9 @@ let time = new Date(item?.time)
               }
               message={item?.message}
               read={item?.read}
-              time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
+              time={
+                item?.time !== undefined && moment(time, 'YYYYMMDD').fromNow()
+              }
               latest={true}
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
@@ -130,7 +135,7 @@ let time = new Date(item?.time)
       </>
     );
   };
-  // coonsole.log(chats,'chats')
+
   return (
     <Container
       mainStyle={true}
@@ -153,7 +158,10 @@ let time = new Date(item?.time)
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
                 }
               />
             </View>

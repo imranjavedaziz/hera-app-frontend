@@ -310,7 +310,7 @@ const SmDashboard = ({route}) => {
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      chat={msgRead === true || route?.params?.msgRead === true ? true : false}
+      chat={msgRead === true || route?.params?.msgRead === false ? true : false}
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {smChat: true})
       }
