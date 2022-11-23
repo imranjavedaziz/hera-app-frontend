@@ -2,7 +2,6 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
-import {px} from '../../utils/responsive';
 
 export default {
   imgContainer: {
@@ -43,6 +42,8 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     lineHeight: Value.CONSTANT_VALUE_21,
+    width: Value.CONSTANT_VALUE_306,
+    right: Value.CONSTANT_VALUE_8,
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
@@ -54,9 +55,9 @@ export default {
     flexDirection: Alignment.ROW,
   },
   rowContainer: {
-    alignSelf: Alignment.CENTER,
-    paddingRight: px(Value.CONSTANT_VALUE_5),
-    justifyContent: 'space-between',
+    alignItems: Alignment.CENTER,
+    right: Value.CONSTANT_VALUE_10,
+    justifyContent: Alignment.CENTER,
   },
   tmcLink: {
     fontSize: Value.CONSTANT_VALUE_13,

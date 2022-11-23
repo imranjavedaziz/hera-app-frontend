@@ -30,7 +30,7 @@ import Colors from '../../../constants/Colors';
 import {profileMatch} from '../../../redux/actions/Profile_Match';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {height} from '../../../utils/responsive';
+import {dynamicSize, height} from '../../../utils/responsive';
 import {Alignment} from '../../../constants';
 
 const DashboardDetailScreen = () => {
@@ -130,15 +130,13 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
-  console.log(smDetailRes, 'smDetailRes:::::');
   return (
     <>
       <Container
         mainStyle={true}
         scroller={true}
         showHeader={true}
-        headerComp={headerComp}
-        style={{marginHorizontal: 0}}>
+        headerComp={headerComp}>
         {get_sm_donor_loading === false ? (
           <View style={styles.mainContainer}>
             <DetailComp
@@ -188,38 +186,98 @@ const DashboardDetailScreen = () => {
                 </Text>
               </ImageBackground>
             </View>
-            <View style={styles.nativeMainContainer}>
-              {smDetailRes?.location?.name && (
-                <View style={styles.nativePlace}>
-                  <Text style={global?.tagText}>
+            {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`
+              .length < 20 ? (
+              <View style={styles.nativeMainContainer}>
+                {smDetailRes?.location?.name && (
+                  <View style={styles.nativePlace}>
+                    <Text style={global?.tagText}>
+                      {smDetailRes?.location?.name}
+                    </Text>
+                  </View>
+                )}
+                {smDetailRes?.doner_attribute?.race && (
+                  <View style={styles.fatherPlace}>
+                    <Text style={global?.tagText}>
+                      {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            ) : (
+              <View style={styles.nativeLong}>
+                {smDetailRes?.location?.name && (
+                  <Text
+                    style={[
+                      global?.tagText,
+                      {
+                        backgroundColor: Colors.RGBA_229_172_177,
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                      },
+                    ]}>
                     {smDetailRes?.location?.name}
                   </Text>
-                </View>
-              )}
-              {smDetailRes?.doner_attribute?.race && (
-                <View style={styles.fatherPlace}>
-                  <Text style={global?.tagText}>
+                )}
+                {smDetailRes?.doner_attribute?.race && (
+                  <Text
+                    style={[
+                      global?.tagText,
+                      {
+                        backgroundColor: Colors.RGBA_229_172_177,
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                      },
+                    ]}>
                     {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
                   </Text>
-                </View>
-              )}
-            </View>
-            <View style={styles.nativeMainContainer}>
-              {smDetailRes?.doner_attribute?.hair_colour && (
-                <View style={styles.motherPlace}>
-                  <Text style={global?.tagText}>
+                )}
+              </View>
+            )}
+            {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`
+              .length < 20 ? (
+              <View style={styles.nativeMainContainer}>
+                {smDetailRes?.doner_attribute?.hair_colour && (
+                  <View style={styles.motherPlace}>
+                    <Text style={global?.tagText}>
+                      {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+                    </Text>
+                  </View>
+                )}
+                {smDetailRes?.doner_attribute?.race && (
+                  <View style={styles.hairColor}>
+                    <Text style={global?.tagText}>
+                      {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            ) : (
+              <View style={styles.nativeLong}>
+                {smDetailRes?.doner_attribute?.hair_colour && (
+                  <Text
+                    style={[
+                      global?.tagText,
+                      {
+                        backgroundColor: Colors.RGBA_229_172_177,
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                      },
+                    ]}>
                     {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
                   </Text>
-                </View>
-              )}
-              {smDetailRes?.doner_attribute?.race && (
-                <View style={styles.hairColor}>
-                  <Text style={global?.tagText}>
+                )}
+                {smDetailRes?.doner_attribute?.race && (
+                  <Text
+                    style={[
+                      global?.tagText,
+                      {
+                        backgroundColor: Colors.RGBA_229_172_177,
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                      },
+                    ]}>
                     {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
                   </Text>
-                </View>
-              )}
-            </View>
+                )}
+              </View>
+            )}
             {smDetailRes?.doner_attribute?.eye_colour && (
               <View style={styles.eyeColorContainer}>
                 <Text style={global?.tagText}>

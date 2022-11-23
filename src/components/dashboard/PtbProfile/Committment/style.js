@@ -14,7 +14,6 @@ export default {
     backgroundColor: Colors.SEARCH_BOX,
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_15),
   },
-  // Value.CONSTANT_VALUE_325
   innerView: {
     paddingVertical: Value.CONSTANT_VALUE_22,
   },

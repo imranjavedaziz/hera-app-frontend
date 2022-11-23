@@ -32,6 +32,9 @@ import PushNotificationExample from '../screens/Example';
 import Chat_Request from '../screens/Chat_Request_PTB';
 import Chat_Listing from '../screens/chatScreens/ChatListing';
 import ChatDetail from '../screens/chatScreens/ChatDetail';
+import Settings from '../screens/dashboard/PtbProfile/Settings';
+import ChangePassword from '../screens/dashboard/PtbProfile/ChangePassword';
+
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
 
@@ -181,6 +184,16 @@ const Main = () => {
         <Stack.Screen
           name={Routes.ChatDetail}
           component={ChatDetail}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.Settings}
+          component={Settings}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.ChangePassword}
+          component={ChangePassword}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

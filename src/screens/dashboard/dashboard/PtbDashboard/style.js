@@ -46,6 +46,7 @@ export default {
   mainImageContainer: {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
+    bottom: Value.CONSTANT_VALUE_2_34,
   },
   ImageSize: {
     height: scaleHeight(445),
@@ -79,11 +80,11 @@ export default {
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),
     width: scaleWidth(Value.CONSTANT_VALUE_125),
-    right: 5,
+    right: Value.CONSTANT_VALUE_5,
   },
   dislikeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),
     width: scaleWidth(Value.CONSTANT_VALUE_125),
-    left: 5,
+    left: Value.CONSTANT_VALUE_5,
   },
 };
