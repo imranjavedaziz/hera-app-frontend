@@ -6,7 +6,9 @@ export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     backgroundColor: Colors.BACKGROUND_WHOLE,
-    // backgroundColor: 'red',
+  },
+  flex: {
+    flex: 1,
   },
   header: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_54),
@@ -43,19 +45,32 @@ export default {
   innerContainer: {
     marginTop: Value.CONSTANT_VALUE_35,
     paddingHorizontal: Value.CONSTANT_VALUE_40,
-    // backgroundColor: 'yellow',
   },
   psswrdInput: {
     alignSelf: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_5,
     paddingBottom: Value.CONSTANT_VALUE_1,
   },
+  buttonContainer: {
+    alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_46,
+  },
   Btn: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
-    // marginTop: 26,
-    // marginBottom: 78,
+  },
+  passwordCheck: {
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+  },
+  fullWidth: {
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
+  },
+  ValidPwd: {
+    marginLeft: Value.CONSTANT_VALUE_5,
+    maxWidth: Value.CONSTANT_VALUE_13,
+    resizeMode: Alignment.CONTAIN,
   },
 };

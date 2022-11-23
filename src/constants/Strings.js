@@ -394,6 +394,6 @@ export default {
     SET_A: 'Set a new password',
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
-    Confirm_Password: 'Confirm Password*',
+    Confirm_Password: 'Confirm Password',
   },
 };
