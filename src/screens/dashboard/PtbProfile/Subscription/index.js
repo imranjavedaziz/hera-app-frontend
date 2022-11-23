@@ -215,7 +215,7 @@ const Subscription = props => {
                 <Commitment
                   key={index}
                   MainText={`$${item?.price}/${item?.interval}`}
-                  Months={`${item.interval} Commitment`}
+                  Months={item.description}
                   Icon={
                     selectCheckBox?.id === item?.id
                       ? Images.iconRadiosel
