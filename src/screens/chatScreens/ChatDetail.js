@@ -241,7 +241,7 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(db?.messages.length, 'db?.messages.length');
+
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
@@ -308,16 +308,14 @@ const ChatDetail = props => {
                     {props?.route?.params?.item?.currentRole !== 1 && (
                       <>
                         <Text style={styles.titleText}>
-                          {props?.route?.params?.item?.currentRole === 2 ||
-                          props?.route?.params?.item?.chatPush !== true
+                          {props?.route?.params?.item?.currentRole === 2
                             ? props?.route?.params?.item?.recieverName
                             : getRoleData(
                                 props?.route?.params?.item?.currentRole,
                               )}
                         </Text>
                         <Text style={styles.descText}>
-                          {props?.route?.params?.item?.currentRole === 2 ||
-                          props?.route?.params?.item?.chatPush !== true
+                          {props?.route?.params?.item?.currentRole === 2
                             ? getRoleData(
                                 props?.route?.params?.item?.currentRole,
                               )
