@@ -63,7 +63,6 @@ const ChatDetail = props => {
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
-    await fireDB.readAll();
     fireDB.lastIdInSnapshot = now;
     setDB(fireDB);
     onChildAdd = fireDB.reference.on(
@@ -93,21 +92,23 @@ const ChatDetail = props => {
   }, []);
 
   const onSend = (messages = '') => {
+
     if (props.route.params.item.senderSubscription === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     } else {
+      setTextData('');
       if (messages.text !== '') {
         db.sendMessage(messages.text)
           .then(() => {
             let data = {
-              sender_id: props?.route?.params?.item?.senderId,
-              title: `${props?.route?.params?.item?.senderName} sent you a message`,
+              title:
+                props?.route?.params?.item?.currentRole === 2
+                  ? `${props?.route?.params?.item?.senderUserName} sent you a message`
+                  : `${props?.route?.params?.item?.senderName} sent you a message`,
               message: messages.text,
               receiver_id: props?.route?.params?.item?.recieverId,
             };
             dispatch(pushNotification(data));
-            setTextData('');
-            Keyboard.dismiss();
           })
           .catch(e => {
             console.log(e.message);
@@ -215,8 +216,8 @@ const ChatDetail = props => {
       });
     }
   };
-  console.log(db?.messages.length, 'db?.messages.length');
-  function getRoleData(roleId) {
+
+  function getRoleData(roleId, role) {
     switch (true) {
       case roleId == '2':
         role = 'Parent-To-Be';
@@ -236,12 +237,8 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(
-    props?.route?.params?.item?.currentRole,
-    'props?.route?.params?.item?.currentRole',
-  );
   return (
-    <>
+
       <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
         <StatusBar
           barStyle="dark-content"
@@ -250,12 +247,12 @@ const ChatDetail = props => {
           hidden={false}
         />
         <SafeAreaView />
-        <View>
+        <View style={{position:'absolute',flex:1,right:0,left:0,marginTop:30,zIndex:1}}>
           <View style={styles.outerContainer}>
-            <View style={{flex: 0.8, zIndex: 9999}}>
+            <View style={{flex:1,zIndex: 1}}>
               <TouchableOpacity
                 hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
-                onPress={() => props.navigation.goBack()}>
+                onPress={() => {props.route.params.isComingFrom===true?props.navigation.navigate(Routes.Chat_Listing):props.navigation.goBack()}}>
                 <Image
                   source={Images.BACK_PLAN_ARROW}
                   style={{width: 14.7, height: 12.6}}
@@ -280,7 +277,7 @@ const ChatDetail = props => {
                   />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  {props.route.params.item.recieverSubscription === 0 ? (
+                  {props?.route?.params?.item?.recieverSubscription === 0 ? (
                     <Text style={styles.titleText}>
                       {Strings.Chat.INACTIVE_USER}
                     </Text>
@@ -295,7 +292,7 @@ const ChatDetail = props => {
                         <>
                           <Text style={styles.titleText}>
                             {props?.route?.params?.item?.currentRole === 2
-                              ? props.route.params.item.recieverName
+                              ? props?.route?.params?.item?.recieverName
                               : getRoleData(
                                   props?.route?.params?.item?.currentRole,
                                 )}
@@ -322,6 +319,7 @@ const ChatDetail = props => {
           props?.route?.params?.item?.currentRole !== 1 &&
           props?.route?.params?.item?.feedback_status !== 1 &&
           db?.messages.length >= 20 &&
+          log_in_data?.role_id === 2 &&
           db?.messages.length <= 50 && (
             <View
               style={{
@@ -338,6 +336,7 @@ const ChatDetail = props => {
                   top: 8,
                   alignSelf: 'flex-end',
                 }}
+                disabled={db?.messages.length>=50&&true }
                 onPress={() => {
                   setSendFeedback(2);
                   feedback(0, 1);
@@ -386,13 +385,14 @@ const ChatDetail = props => {
             />
           )}
         {log_in_data?.role_id === 2 && (
+          <View style={{flex:1,marginBottom:30,marginTop:30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message => renderActions(message)}
             renderBubble={customSystemMessage}
             scrollToBottom
-            onInputTextChanged={() => setText()}
+            onInputTextChanged={(text) => setTextData(text)}
             text={textData}
             user={{
               _id: props?.route?.params?.item?.senderId,
@@ -416,15 +416,17 @@ const ChatDetail = props => {
             //     }
             // }}
           />
+          </View>
         )}
         {props?.route?.params?.item?.currentRole === 1 && (
+          <View style={{flex:1,marginBottom:30,marginTop:30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message => renderActions(message)}
             renderBubble={customSystemMessage}
             scrollToBottom
-            onInputTextChanged={() => setText()}
+            onInputTextChanged={(text) => setTextData(text)}
             text={textData}
             user={{
               _id: props?.route?.params?.item?.senderId,
@@ -433,9 +435,21 @@ const ChatDetail = props => {
             }}
             containerStyle={styles.mainContainerDetail}
             renderAvatar={null}
-            textInputProps={{
-              autoCorrect: false,
-            }}
+            // textInputProps={{
+            //   autoCorrect: false,
+            // }}
+            // renderAvatarOnTop={false}
+            // disableComposer={true}
+          //  messagesContainerStyle={{backgroundColor:'green',height:'100%',marginTop:0,paddingTop:0}}
+          //  listViewProps={{
+          //   contentContainerStyle: {
+          //     flex: 1,
+          //     justifyContent: 'flex-start',
+          //   },
+          // }}
+          // alignTop={true}
+          // showUserAvatar={false}
+          // renderCustomView={null}
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -447,18 +461,22 @@ const ChatDetail = props => {
             //       setLoadEarlier(false)
             //     }
             // }}
+          
+          
           />
+            </View>
         )}
         {db?.messages.length > 0 &&
           log_in_data?.role_id !== 2 &&
           props?.route?.params?.item?.currentRole !== 1 && (
+            <View style={{flex:1,marginBottom:30,marginTop:30}}>
             <GiftedChat
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message => renderActions(message)}
               renderBubble={customSystemMessage}
               scrollToBottom
-              onInputTextChanged={() => setText()}
+              onInputTextChanged={(text) => setTextData(text)}
               text={textData}
               user={{
                 _id: props?.route?.params?.item?.senderId,
@@ -470,6 +488,7 @@ const ChatDetail = props => {
               textInputProps={{
                 autoCorrect: false,
               }}
+
               // loadEarlier={loadEarlier}
               // isLoadingEarlier={loading}
               // listViewProps={{
@@ -480,9 +499,10 @@ const ChatDetail = props => {
               //     }
               // }}
             />
+            </View>
           )}
       </View>
-    </>
+   
   );
 };
 

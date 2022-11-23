@@ -18,8 +18,7 @@ import {
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 const Chat_Request = props => {
-  console.log(props?.route?.params?.user, 'dtaparamsas');
-
+  console.log(props?.route?.params?.user,':::::user')
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
@@ -28,6 +27,7 @@ const Chat_Request = props => {
     profile_match_response_loading,
     profile_match_response_error_msg,
     profile_match_response_res,
+    profile_match_data_status,
   } = useSelector(state => state.Profile_Match);
 
   useEffect(() => {
@@ -36,7 +36,12 @@ const Chat_Request = props => {
       if (profile_match_response_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, profile_match_response_res));
-        // navigation.navigate(Routes.PtbDashboard);
+        if(profile_match_data_status.status===2){
+          navigation.navigate(Routes.ChatDetail,{item: props?.route?.params?.item,isComingFrom:true})
+        }else{
+          navigation.navigate(Routes.Chat_Listing)
+        }
+      
       } else {
         dispatch(hideAppLoader());
       }
@@ -51,28 +56,25 @@ const Chat_Request = props => {
 
   const onPressLike = () => {
     const payload = {
-      id: props?.route?.params?.item?.recieverId
-        ? props?.route?.params?.item?.recieverId
-        : props?.route?.params?.user?.id,
+      id:  props?.route?.params?.user?.id,
       status: 2,
     };
     dispatch(profileMatchResponse(payload));
+
   };
   const onPressDislike = () => {
     const payload = {
-      id: props?.route?.params?.item?.recieverId
-        ? props?.route?.params?.item?.recieverId
-        : props?.route?.params?.user?.id,
+      id: props?.route?.params?.user?.id,
       status: 4,
     };
     console.log(payload, 'payload');
     dispatch(profileMatchResponse(payload));
+   
   };
   const onNavigationDetail = () => {
     navigation.navigate(Routes.ProfileDetails, {
-      userid: props?.route?.params?.user?.id
-        ? props?.route?.params?.user?.id
-        : props?.route?.params?.item?.recieverId,
+      userid: props?.route?.params?.item?.recieverId,
+      seeAll: true,
     });
   };
   const headerComp = () => (

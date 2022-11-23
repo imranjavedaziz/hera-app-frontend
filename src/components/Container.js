@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Header from './Header';
-import { Value } from '../constants/FixedValues';
+import {Value} from '../constants/FixedValues';
 
 const styles = {
   container: {
@@ -18,8 +18,8 @@ const styles = {
     marginHorizontal: Value.CONSTANT_VALUE_25,
     marginTop: Value.CONSTANT_VALUE_8,
   },
-  safearea: { flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND },
-  flexMain: { flex: Value.CONSTANT_VALUE_1 },
+  safearea: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
+  flexMain: {flex: Value.CONSTANT_VALUE_1},
   paddingTop: {
     paddingTop: Value.CONSTANT_VALUE_57,
   },
@@ -72,9 +72,7 @@ const Container = props => {
       />
       {profileLoad === false ? (
         <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
-          <KeyboardAvoidingView
-            style={styles.flexMain}
-            behavior={PADDING_CON}>
+          <KeyboardAvoidingView style={styles.flexMain} behavior={PADDING_CON}>
             {fixedHeader === true ? (
               <>
                 <Header end={headerEnd}>{headerComp()}</Header>
@@ -101,9 +99,7 @@ const Container = props => {
           </KeyboardAvoidingView>
         </SafeAreaView>
       ) : (
-        <KeyboardAvoidingView
-          style={styles.flexMain}
-          behavior={PADDING_CON}>
+        <KeyboardAvoidingView style={styles.flexMain} behavior={PADDING_CON}>
           {fixedHeader === true ? (
             <>
               <Header end={headerEnd}>{headerComp()}</Header>

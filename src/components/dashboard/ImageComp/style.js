@@ -7,7 +7,7 @@ import {Fonts} from '../../../constants/Constants';
 export default {
   upperContainer: {
     alignItems: Alignment.CENTER,
-    bottom: dynamicSize(Value.CONSTANT_VALUE_20),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
     right: dynamicSize(Value.CONSTANT_VALUE_15),
   },
   mainContainer: {

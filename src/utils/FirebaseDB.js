@@ -136,6 +136,8 @@ export default class FirebaseDB {
         .then(async () => {
           resolve();
           this.updateHistory(msg);
+
+
         })
         .catch(e => reject(e));
     });
@@ -181,7 +183,7 @@ export default class FirebaseDB {
         read: 1,
       });
       await referenceSender.update({
-        message: 0,
+        read: 0,
       });
     } catch (e) {
       console.log(e);
@@ -208,9 +210,11 @@ export default class FirebaseDB {
     );
     await referenceUser.update({
       message: lastMsg,
+      chat_start:1
     });
     await referenceSender.update({
       message: lastMsg,
+      chat_start:1
     });
   }
   async readAt(id, setLoading) {

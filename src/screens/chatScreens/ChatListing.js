@@ -11,7 +11,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
-const ChatListing = () => {
+const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
   const chatData = chatHistory();
@@ -20,19 +20,34 @@ const ChatListing = () => {
     setLoader(false);
   }, []);
   const [loader, setLoader] = useState(true);
+  const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
+
+  const NavigateFunc = () => {
+    if (props?.route?.params?.smChat === true) {
+      navigation.navigate(Routes.SmDashboard, {
+        msgRead: notRead,
+      });
+    }
+    if (props?.route?.params?.ptbChat === true) {
+      navigation.navigate(Routes.PtbDashboard, {
+        msgRead: notRead,
+      });
+    } else {
+      navigation.goBack();
+    }
+  };
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      leftPress={() => navigation.goBack()}
+      leftPress={() => NavigateFunc()}
       style={{marginTop: 10}}
     />
   );
 
-  console.log(chats,'chats')
   const ROLL_ID_2 =
     log_in_data.role_id === 2
       ? Strings.All_Matches
@@ -52,7 +67,7 @@ const ChatListing = () => {
                 ? `#${item?.recieverUserName}`
                 : item?.recieverName
             }
-            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item})}
+            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item,isComingFrom:false})}
             message={item?.message}
             read={item?.read}
             time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
@@ -63,7 +78,7 @@ const ChatListing = () => {
         )}
         {item !== null &&
           item?.match_request?.status === 1 &&
-          log_in_data.role_id !== 2 &&(
+          log_in_data.role_id !== 2 && (
             <Chat_listing_Comp
               currentRole={item?.currentRole}
               image={item?.recieverImage}
@@ -73,7 +88,12 @@ const ChatListing = () => {
                   : item?.recieverName
               }
               onPress={() =>
-                navigation.navigate(Routes.ChatDetail, {item: item})
+                item?.match_request?.status === 1
+                  ? navigation.navigate(Routes.Chat_Request, {
+                      user: item?.match_request,
+                      item: item,
+                    })
+                  : navigation.navigate(Routes.ChatDetail, {item: item})
               }
               message={item?.message}
               read={item?.read}
@@ -87,7 +107,6 @@ const ChatListing = () => {
       </>
     );
   };
-  console.log(chats,'chats')
   return (
     <Container
       mainStyle={true}
