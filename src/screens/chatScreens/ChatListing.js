@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {View, Text} from 'react-native';
+import { View, Text, RefreshControl } from "react-native";
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
@@ -11,14 +11,19 @@ import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
+import {chat} from '../../constants/Constants';
+import database from '@react-native-firebase/database';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
+  const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
+    setRefreshing(false);
   }, []);
+  
   const [loader, setLoader] = useState(true);
   const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
@@ -44,7 +49,19 @@ const ChatListing = props => {
       style={{marginTop: 10}}
     />
   );
-
+  useEffect(()=>{  
+    database()
+    .ref(`${chat}/Users/${log_in_data?.id}`)
+    .on('value',
+      async (snapshot, _previousChildKey) => {
+        fetchData();
+      },
+    );
+  },[])
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData();
+  }, []);
   const ROLL_ID_2 =
     log_in_data.role_id === 2
       ? Strings.All_Matches
@@ -52,7 +69,10 @@ const ChatListing = props => {
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
   const renderChatList = ({item}) => {
-    console.log(item, 'item');
+    console.log(item?.time,'item?.time')
+let time = new Date(item?.time)
+
+
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (
@@ -73,7 +93,7 @@ const ChatListing = props => {
             }
             message={item?.message}
             read={item?.read}
-            time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+            time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
             latest={true}
             roleId={log_in_data?.role_id}
             match={item?.match_request?.status}
@@ -100,7 +120,7 @@ const ChatListing = props => {
               }
               message={item?.message}
               read={item?.read}
-              time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+              time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
               latest={true}
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
@@ -132,6 +152,9 @@ const ChatListing = props => {
                 renderItem={renderChatList}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
               />
             </View>
           ) : (
