@@ -30,7 +30,7 @@ const Chat_listing_Comp = props => {
           <View style={styles.contain}>
             <View
               style={
-                match === 2 || (read === 0 && currentRole === 1)
+                match === 2 || (read === 0 && currentRole === 1&&chatStart !==1)
                   ? styles.ImgView
                   : styles.unReadImgView
               }>
@@ -68,7 +68,7 @@ const Chat_listing_Comp = props => {
           <View style={styles.contain}>
             <View
               style={
-                (currentRole !== 1 && match === 2) || read === 0
+                (currentRole !== 1 && match === 2&&chatStart !==1) || read === 0
                   ? styles.ImgView
                   : styles.unReadImgView
               }>
@@ -76,7 +76,7 @@ const Chat_listing_Comp = props => {
                 style={styles.userImg}
                 source={currentRole === 1 ? Images.ADMIN_ICON : {uri: image}}
               />
-              {match === 2 && currentRole !== 1 && (
+              {match === 2 && currentRole !== 1 && chatStart !==1 && (
                 <FastImage
                   style={styles.heartIcon}
                   source={Images.ICON_GREEN_HEART}

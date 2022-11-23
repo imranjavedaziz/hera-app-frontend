@@ -67,7 +67,7 @@ const ChatListing = props => {
                 ? `#${item?.recieverUserName}`
                 : item?.recieverName
             }
-            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item})}
+            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item,isComingFrom:false})}
             message={item?.message}
             read={item?.read}
             time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
@@ -107,13 +107,6 @@ const ChatListing = props => {
       </>
     );
   };
-  useEffect(() => {
-    let obj = chats.find(o => {
-      o.read === 0 ? setNotRead(true) : setNotRead(false);
-    });
-    return obj;
-  }, []);
-
   return (
     <Container
       mainStyle={true}

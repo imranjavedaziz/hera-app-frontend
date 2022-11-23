@@ -106,6 +106,7 @@ const SmDashboard = ({route}) => {
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
+              isComingFrom:false,
               chatPush: true,
             });
             setMsgRead(false);
@@ -148,6 +149,7 @@ const SmDashboard = ({route}) => {
         if (notification.data.notify_type === 'chat') {
           navigation.navigate(Routes.ChatDetail, {
             item: notification?.data,
+            isComingFrom:false
           });
           setMsgRead(false);
         }
