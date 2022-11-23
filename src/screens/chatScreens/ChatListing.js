@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {View, Text} from 'react-native';
+import { View, Text, RefreshControl } from "react-native";
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
@@ -11,33 +11,35 @@ import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
+import {chat} from '../../constants/Constants';
+import database from '@react-native-firebase/database';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
+  const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
+    setRefreshing(false);
   }, []);
+  
   const [loader, setLoader] = useState(true);
   const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-
+console.log(chats,'chats')
   const NavigateFunc = () => {
-    if (props?.route?.params?.smChat === true) {
-      navigation.navigate(Routes.SmDashboard, {
-        msgRead: notRead,
-      });
-    }
-    if (props?.route?.params?.ptbChat === true) {
+    if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
         msgRead: notRead,
       });
     } else {
-      navigation.goBack();
+      navigation.navigate(Routes.SmDashboard, {
+        msgRead: notRead,
+      });
     }
   };
   const headerComp = () => (
@@ -47,7 +49,19 @@ const ChatListing = props => {
       style={{marginTop: 10}}
     />
   );
-
+  useEffect(()=>{  
+    database()
+    .ref(`${chat}/Users/${log_in_data?.id}`)
+    .on('value',
+      async (snapshot, _previousChildKey) => {
+        fetchData();
+      },
+    );
+  },[])
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData();
+  }, []);
   const ROLL_ID_2 =
     log_in_data.role_id === 2
       ? Strings.All_Matches
@@ -55,6 +69,10 @@ const ChatListing = props => {
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
   const renderChatList = ({item}) => {
+    console.log(item?.time,'item?.time')
+let time = new Date(item?.time)
+
+
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (
@@ -67,10 +85,15 @@ const ChatListing = props => {
                 ? `#${item?.recieverUserName}`
                 : item?.recieverName
             }
-            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item,isComingFrom:false})}
+            onPress={() =>
+              navigation.navigate(Routes.ChatDetail, {
+                item: item,
+                isComingFrom: false,
+              })
+            }
             message={item?.message}
             read={item?.read}
-            time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+            time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
             latest={true}
             roleId={log_in_data?.role_id}
             match={item?.match_request?.status}
@@ -97,7 +120,7 @@ const ChatListing = props => {
               }
               message={item?.message}
               read={item?.read}
-              time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+              time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
               latest={true}
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
@@ -107,6 +130,7 @@ const ChatListing = props => {
       </>
     );
   };
+  // coonsole.log(chats,'chats')
   return (
     <Container
       mainStyle={true}
@@ -128,6 +152,9 @@ const ChatListing = props => {
                 renderItem={renderChatList}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
               />
             </View>
           ) : (

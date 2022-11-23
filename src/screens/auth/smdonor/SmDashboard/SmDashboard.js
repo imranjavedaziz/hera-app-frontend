@@ -99,14 +99,24 @@ const SmDashboard = ({route}) => {
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
-            navigation.navigate(Routes.Chat_Request, {
-              user: JSON.parse(notification?.data?.receiver_user),
-            });
+            if (notification.data?.match_request?.status === 2) {
+              navigation.navigate(Routes.ChatDetail, {
+                item: notification?.data,
+                isComingFrom: false,
+                chatPush: true,
+              });
+            } else {
+              navigation.navigate(Routes.Chat_Request, {
+                item: notification?.data,
+                user: JSON.parse(notification.data?.match_request),
+                chatPush: true,
+              });
+            }
           }
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
-              isComingFrom:false,
+              isComingFrom: false,
               chatPush: true,
             });
             setMsgRead(false);
@@ -142,14 +152,24 @@ const SmDashboard = ({route}) => {
       const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'profile') {
-          navigation.navigate(Routes.Chat_Request, {
-            user: JSON.parse(notification?.data?.receiver_user),
-          });
+          if (notification.data?.match_request?.status === 2) {
+            navigation.navigate(Routes.ChatDetail, {
+              item: notification?.data,
+              isComingFrom: false,
+              chatPush: true,
+            });
+          } else {
+            navigation.navigate(Routes.Chat_Request, {
+              item: notification?.data,
+              user: JSON.parse(notification.data?.match_request),
+            });
+          }
         }
         if (notification.data.notify_type === 'chat') {
           navigation.navigate(Routes.ChatDetail, {
             item: notification?.data,
-            isComingFrom:false
+            isComingFrom: false,
+            chatPush: true,
           });
           setMsgRead(false);
         }
