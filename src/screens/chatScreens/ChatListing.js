@@ -30,7 +30,7 @@ const ChatListing = props => {
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-
+console.log(chats,'chats')
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {

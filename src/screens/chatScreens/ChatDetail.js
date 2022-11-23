@@ -98,7 +98,6 @@ const ChatDetail = props => {
   }, []);
 
   const onSend = (messages = '') => {
-
     if (props.route.params.item.senderSubscription === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     } else {
@@ -175,7 +174,6 @@ const ChatDetail = props => {
     );
   };
 
-
   const feedback = (like, isSkip) => {
     let data = {
       like: like,
@@ -243,165 +241,179 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(db?.messages.length,'db?.messages.length')
+  console.log(db?.messages.length, 'db?.messages.length');
   return (
-
-      <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor={Colors.BACKGROUND}
-          animated={true}
-          hidden={false}
-        />
-        <SafeAreaView />
-        <View style={{position:'absolute',flex:1,right:0,left:0,marginTop:30,zIndex: 1,backgroundColor: Colors.BACKGROUND }}>
-          <View style={styles.outerContainer}>
-            <View style={{flex:1,zIndex: 9999}}>
-              <TouchableOpacity
-                hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
-                onPress={() => {props.route.params.isComingFrom===true?props.navigation.navigate(Routes.Chat_Listing):props.navigation.goBack()}}>
-                <Image
-                  source={Images.BACK_PLAN_ARROW}
-                  style={{width: 14.7, height: 12.6}}
-                />
-              </TouchableOpacity>
-            </View>
+    <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.BACKGROUND}
+        animated={true}
+        hidden={false}
+      />
+      <SafeAreaView />
+      <View
+        style={{
+          position: 'absolute',
+          flex: 1,
+          right: 0,
+          left: 0,
+          marginTop: 30,
+          zIndex: 1,
+          backgroundColor: Colors.BACKGROUND,
+        }}>
+        <View style={styles.outerContainer}>
+          <View style={{flex: 1, zIndex: 9999}}>
             <TouchableOpacity
-              style={styles.topContainer}
-              disabled={
-                props?.route?.params?.item?.currentRole === 1 ? true : false
-              }
-              onPress={() => navigateDetailScreen()}>
-              <>
-                <View style={styles.avatar}>
-                  <Image
-                    source={
-                      props?.route?.params?.item?.currentRole === 1
-                        ? Images.ADMIN_ICON
-                        : {uri: props.route.params.item.recieverImage}
-                    }
-                    style={styles.avatar}
-                  />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  {props?.route?.params?.item?.recieverSubscription === 0 ? (
-                    <Text style={styles.titleText}>
-                      {Strings.Chat.INACTIVE_USER}
-                    </Text>
-                  ) : (
-                    <>
-                      {props?.route?.params?.item?.currentRole === 1 && (
-                        <Text style={styles.titleText}>
-                          {props.route.params.item.recieverName}
-                        </Text>
-                      )}
-                      {props?.route?.params?.item?.currentRole !== 1 && (
-                        <>
-                          <Text style={styles.titleText}>
-                            {props?.route?.params?.item?.currentRole === 2
-                              ? props?.route?.params?.item?.recieverName
-                              : getRoleData(
-                                  props?.route?.params?.item?.currentRole,
-                                )}
-                          </Text>
-                          <Text style={styles.descText}>
-                            {props?.route?.params?.item?.currentRole === 2
-                              ? getRoleData(
-                                  props?.route?.params?.item?.currentRole,
-                                )
-                              : `#${props?.route?.params?.item?.recieverUserName}`}
-                          </Text>
-                        </>
-                      )}
-                    </>
-                  )}
-                </View>
-              </>
-            </TouchableOpacity>
-            <View />
-          </View>
-          <View style={styles.border} />
-        </View>
-        {showFeedback &&
-          props?.route?.params?.item?.currentRole !== 1 &&
-          props?.route?.params?.item?.feedback_status !== 1 &&
-          (db?.messages.length === 20||db?.messages.length >= 30) &&
-          log_in_data?.role_id === 2 &&
-          db?.messages.length <= 50 && (
-            <View
-              style={{
-                height: 117,
-                width: '100%',
-                backgroundColor: Colors.WHITE,
-                zIndex: 1,
-                top:150,
-                position:'absolute'
+              hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
+              onPress={() => {
+                props.route.params.isComingFrom === true
+                  ? props.navigation.navigate(Routes.Chat_Listing)
+                  : props.navigation.goBack();
               }}>
-              <TouchableOpacity
-                style={{
-                  right: 8,
-                  width: 30,
-                  height: 30,
-                  top: 8,
-                  alignSelf: 'flex-end',
-                }}
-                disabled={db?.messages.length>=50&&true }
-                onPress={() => {
-                  setSendFeedback(2);
-                  feedback(0, 1);
-                }}>
-                <Image source={Images.iconcross} style={styles.crossImage} />
-              </TouchableOpacity>
-              <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
-              <View style={styles.thumbInnerContain}>
-                <TouchableOpacity
-                  style={[styles.thumbContain(Colors.RED)]}
-                  onPress={() => {
-                    setSendFeedback(1);
-                    feedback(0, 0);
-                  }}>
-                  <Image source={Images.THUMB_DOWN} style={styles.thumbImg} />
-                  <Text style={styles.thumbTxt}>{Strings.Chat.NOT_GOOD}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.thumbContain(Colors.GREEN)}
-                  onPress={() => {
-                    setSendFeedback(1);
-                    feedback(1, 0);
-                  }}>
-                  <Image source={Images.THUMB_UP} style={styles.thumbImg} />
-                  <Text style={styles.thumbTxt}>{Strings.Chat.GOING_WELL}</Text>
-                </TouchableOpacity>
+              <Image
+                source={Images.BACK_PLAN_ARROW}
+                style={{width: 14.7, height: 12.6}}
+              />
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={styles.topContainer}
+            disabled={
+              props?.route?.params?.item?.currentRole === 1 ? true : false
+            }
+            onPress={() => navigateDetailScreen()}>
+            <>
+              <View style={styles.avatar}>
+                <Image
+                  source={
+                    props?.route?.params?.item?.currentRole === 1
+                      ? Images.ADMIN_ICON
+                      : {uri: props.route.params.item.recieverImage}
+                  }
+                  style={styles.avatar}
+                />
               </View>
+              <View style={{marginLeft: 10}}>
+                {props?.route?.params?.item?.recieverSubscription === 0 ? (
+                  <Text style={styles.titleText}>
+                    {Strings.Chat.INACTIVE_USER}
+                  </Text>
+                ) : (
+                  <>
+                    {props?.route?.params?.item?.currentRole === 1 && (
+                      <Text style={styles.titleText}>
+                        {props.route.params.item.recieverName}
+                      </Text>
+                    )}
+                    {props?.route?.params?.item?.currentRole !== 1 && (
+                      <>
+                        <Text style={styles.titleText}>
+                          {props?.route?.params?.item?.currentRole === 2 ||
+                          props?.route?.params?.item?.chatPush !== true
+                            ? props?.route?.params?.item?.recieverName
+                            : getRoleData(
+                                props?.route?.params?.item?.currentRole,
+                              )}
+                        </Text>
+                        <Text style={styles.descText}>
+                          {props?.route?.params?.item?.currentRole === 2 ||
+                          props?.route?.params?.item?.chatPush !== true
+                            ? getRoleData(
+                                props?.route?.params?.item?.currentRole,
+                              )
+                            : `#${props?.route?.params?.item?.recieverUserName}`}
+                        </Text>
+                      </>
+                    )}
+                  </>
+                )}
+              </View>
+            </>
+          </TouchableOpacity>
+          <View />
+        </View>
+        <View style={styles.border} />
+      </View>
+      {showFeedback &&
+        props?.route?.params?.item?.currentRole !== 1 &&
+        props?.route?.params?.item?.feedback_status !== 1 &&
+        (db?.messages.length === 20 || db?.messages.length >= 30) &&
+        log_in_data?.role_id === 2 &&
+        db?.messages.length <= 50 && (
+          <View
+            style={{
+              height: 117,
+              width: '100%',
+              backgroundColor: Colors.WHITE,
+              zIndex: 1,
+              top: 150,
+              position: 'absolute',
+            }}>
+            <TouchableOpacity
+              style={{
+                right: 8,
+                width: 30,
+                height: 30,
+                top: 8,
+                alignSelf: 'flex-end',
+              }}
+              disabled={db?.messages.length >= 50 && true}
+              onPress={() => {
+                setSendFeedback(2);
+                feedback(0, 1);
+              }}>
+              <Image source={Images.iconcross} style={styles.crossImage} />
+            </TouchableOpacity>
+            <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
+            <View style={styles.thumbInnerContain}>
+              <TouchableOpacity
+                style={[styles.thumbContain(Colors.RED)]}
+                onPress={() => {
+                  setSendFeedback(1);
+                  feedback(0, 0);
+                }}>
+                <Image source={Images.THUMB_DOWN} style={styles.thumbImg} />
+                <Text style={styles.thumbTxt}>{Strings.Chat.NOT_GOOD}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.thumbContain(Colors.GREEN)}
+                onPress={() => {
+                  setSendFeedback(1);
+                  feedback(1, 0);
+                }}>
+                <Image source={Images.THUMB_UP} style={styles.thumbImg} />
+                <Text style={styles.thumbTxt}>{Strings.Chat.GOING_WELL}</Text>
+              </TouchableOpacity>
             </View>
-          )} 
-        {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
-          <View style={styles.smDonorEmptyView}>
-            <EmptySmDonor
-              image={Images.conversation2}
-              title={Strings.Chat.START_CONVERSATION}
-              midTitle=""
-            />
           </View>
         )}
-        {log_in_data?.role_id !== 2 &&
-          db?.messages.length === 0 &&
-          props?.route?.params?.item?.currentRole !== 1 && (
-            <EmptySmDonor
-              image={Images.conversation2}
-              title={Strings.Chat.YOU_MATCHED}
-              midTitle={Strings.Chat.PARENT_TO_BE_CONVERSATION}
-            />
-          )}
-        {log_in_data?.role_id === 2 && (
-          <View style={{flex:1,marginBottom:30,marginTop:30}}>
+      {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
+        <View style={styles.smDonorEmptyView}>
+          <EmptySmDonor
+            image={Images.conversation2}
+            title={Strings.Chat.START_CONVERSATION}
+            midTitle=""
+          />
+        </View>
+      )}
+      {log_in_data?.role_id !== 2 &&
+        db?.messages.length === 0 &&
+        props?.route?.params?.item?.currentRole !== 1 && (
+          <EmptySmDonor
+            image={Images.conversation2}
+            title={Strings.Chat.YOU_MATCHED}
+            midTitle={Strings.Chat.PARENT_TO_BE_CONVERSATION}
+          />
+        )}
+      {log_in_data?.role_id === 2 && (
+        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message => renderActions(message)}
             renderBubble={customSystemMessage}
             scrollToBottom
-            onInputTextChanged={(text) => setTextData(text)}
+            onInputTextChanged={text => setTextData(text)}
             text={textData}
             user={{
               _id: props?.route?.params?.item?.senderId,
@@ -425,17 +437,17 @@ const ChatDetail = props => {
             //     }
             // }}
           />
-          </View>
-        )}
-        {props?.route?.params?.item?.currentRole === 1 && (
-          <View style={{flex:1,marginBottom:30,marginTop:30}}>
+        </View>
+      )}
+      {props?.route?.params?.item?.currentRole === 1 && (
+        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message => renderActions(message)}
             renderBubble={customSystemMessage}
             scrollToBottom
-            onInputTextChanged={(text) => setTextData(text)}
+            onInputTextChanged={text => setTextData(text)}
             text={textData}
             user={{
               _id: props?.route?.params?.item?.senderId,
@@ -449,16 +461,16 @@ const ChatDetail = props => {
             // }}
             // renderAvatarOnTop={false}
             // disableComposer={true}
-          //  messagesContainerStyle={{backgroundColor:'green',height:'100%',marginTop:0,paddingTop:0}}
-          //  listViewProps={{
-          //   contentContainerStyle: {
-          //     flex: 1,
-          //     justifyContent: 'flex-start',
-          //   },
-          // }}
-          // alignTop={true}
-          // showUserAvatar={false}
-          // renderCustomView={null}
+            //  messagesContainerStyle={{backgroundColor:'green',height:'100%',marginTop:0,paddingTop:0}}
+            //  listViewProps={{
+            //   contentContainerStyle: {
+            //     flex: 1,
+            //     justifyContent: 'flex-start',
+            //   },
+            // }}
+            // alignTop={true}
+            // showUserAvatar={false}
+            // renderCustomView={null}
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -470,22 +482,20 @@ const ChatDetail = props => {
             //       setLoadEarlier(false)
             //     }
             // }}
-          
-          
           />
-            </View>
-        )}
-        {db?.messages.length > 0 &&
-          log_in_data?.role_id !== 2 &&
-          props?.route?.params?.item?.currentRole !== 1 && (
-            <View style={{flex:1,marginBottom:30,marginTop:30}}>
+        </View>
+      )}
+      {db?.messages.length > 0 &&
+        log_in_data?.role_id !== 2 &&
+        props?.route?.params?.item?.currentRole !== 1 && (
+          <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
             <GiftedChat
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message => renderActions(message)}
               renderBubble={customSystemMessage}
               scrollToBottom
-              onInputTextChanged={(text) => setTextData(text)}
+              onInputTextChanged={text => setTextData(text)}
               text={textData}
               user={{
                 _id: props?.route?.params?.item?.senderId,
@@ -508,10 +518,9 @@ const ChatDetail = props => {
               //     }
               // }}
             />
-            </View>
-          )}
-      </View>
-   
+          </View>
+        )}
+    </View>
   );
 };
 
