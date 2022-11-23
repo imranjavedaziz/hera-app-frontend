@@ -46,7 +46,7 @@ const Chat_listing_Comp = props => {
               )}
             </View>
             <View style={styles.description}>
-              <Text style={styles.userName}>{name}</Text>
+              <Text numberOfLines={1} style={styles.userName}>{name}</Text>
               {currentRole !== 1 ? (
                 <Text numberOfLines={2} style={styleMatchThree}>
                   {styleMatchOne}
@@ -90,7 +90,7 @@ const Chat_listing_Comp = props => {
               )}
             </View>
             <View style={styles.description}>
-              <Text style={styles.userName}>{name}</Text>
+              <Text numberOfLines={1} style={styles.userName}>{name}</Text>
               {currentRole !== 1 ? (
                 <Text
                   numberOfLines={2}
