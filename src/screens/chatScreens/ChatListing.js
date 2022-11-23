@@ -27,17 +27,14 @@ const ChatListing = props => {
   }, [navigation]);
 
   const NavigateFunc = () => {
-    if (props?.route?.params?.smChat === true) {
-      navigation.navigate(Routes.SmDashboard, {
-        msgRead: notRead,
-      });
-    }
-    if (props?.route?.params?.ptbChat === true) {
+    if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
         msgRead: notRead,
       });
     } else {
-      navigation.goBack();
+      navigation.navigate(Routes.SmDashboard, {
+        msgRead: notRead,
+      });
     }
   };
   const headerComp = () => (
@@ -55,7 +52,7 @@ const ChatListing = props => {
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
   const renderChatList = ({item}) => {
-    console.log(item,'item')
+    console.log(item, 'item');
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (
@@ -68,7 +65,12 @@ const ChatListing = props => {
                 ? `#${item?.recieverUserName}`
                 : item?.recieverName
             }
-            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item,isComingFrom:false})}
+            onPress={() =>
+              navigation.navigate(Routes.ChatDetail, {
+                item: item,
+                isComingFrom: false,
+              })
+            }
             message={item?.message}
             read={item?.read}
             time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
