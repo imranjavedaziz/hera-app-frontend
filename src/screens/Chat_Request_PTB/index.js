@@ -18,7 +18,7 @@ import {
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 const Chat_Request = props => {
-  console.log(props?.route?.params?.user,':::::user')
+  console.log(props?.route?.params?.user, ':::::user');
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
@@ -36,12 +36,14 @@ const Chat_Request = props => {
       if (profile_match_response_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, profile_match_response_res));
-        if(profile_match_data_status.status===2){
-          navigation.navigate(Routes.ChatDetail,{item: props?.route?.params?.item,isComingFrom:true})
-        }else{
-          navigation.navigate(Routes.Chat_Listing)
+        if (profile_match_data_status.status === 2) {
+          navigation.navigate(Routes.ChatDetail, {
+            item: props?.route?.params?.item,
+            isComingFrom: true,
+          });
+        } else {
+          navigation.navigate(Routes.Chat_Listing);
         }
-      
       } else {
         dispatch(hideAppLoader());
       }
@@ -56,11 +58,10 @@ const Chat_Request = props => {
 
   const onPressLike = () => {
     const payload = {
-      id:  props?.route?.params?.user?.id,
+      id: props?.route?.params?.user?.id,
       status: 2,
     };
     dispatch(profileMatchResponse(payload));
-
   };
   const onPressDislike = () => {
     const payload = {
@@ -69,7 +70,6 @@ const Chat_Request = props => {
     };
     console.log(payload, 'payload');
     dispatch(profileMatchResponse(payload));
-   
   };
   const onNavigationDetail = () => {
     navigation.navigate(Routes.ProfileDetails, {
@@ -91,19 +91,9 @@ const Chat_Request = props => {
       showHeader={true}
       headerComp={headerComp}>
       <View style={styles.mainContainer}>
-        <ChatImagComp
-          source={
-            props?.route?.params?.item?.recieverImage
-              ? props?.route?.params?.item?.recieverImage
-              : props?.route?.params?.user?.profile_pic
-          }
-        />
+        <ChatImagComp source={props?.route?.params?.item?.recieverImage} />
         <User_detail
-          Name={
-            props?.route?.params?.item?.recieverName
-              ? props?.route?.params?.item?.recieverName
-              : `${props?.route?.params?.user?.first_name} ${props?.route?.params?.user?.last_name}`
-          }
+          Name={props?.route?.params?.item?.recieverName}
           Type={Strings.Type}
         />
         <LikeProfileDetail
