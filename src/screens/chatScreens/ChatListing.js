@@ -68,10 +68,41 @@ console.log(chats,'chats')
       : Strings.Chat.All_Conversations;
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
+    function getChatDate(unixTimeStamp) {
+      let date = new Date(unixTimeStamp);
+      let dateForSec = new Date(unixTimeStamp * 1000);
+      let minutesForSec = dateForSec.getSeconds();
+      let today = new Date();
+      let formattedDate = dateFormate(date);
+      let todayDate = dateFormate(today);
+      let yesterdayDate = new Date(new Date().getTime());
+      yesterdayDate.setDate(new Date().getDate()-1);
+      let yesterday = dateFormate(yesterdayDate);
+      let month = today.toLocaleString('default', { month: 'short' });
+      let dateName = today.getDate();
+      let day
+      console.log(minutesForSec,'minutesForSec')
+      switch (true) {
+          case (formattedDate == todayDate): 
+              day = 'Today';
+              break;
+          case (formattedDate == yesterday):
+              day = 'Yesterday';
+              break;
+     
+          default:
+              day = month+' '+dateName;
+      }
+      return day;
+    }
+    function dateFormate(date) {
+      let year = date.getFullYear();
+      let month = date.getMonth();
+      let day = date.getDate();
+      let newDate = year + '-' + month + '-' + day;
+      return newDate;
+    }
   const renderChatList = ({item}) => {
-    console.log(item?.time,'item?.time')
-let time = new Date(item?.time)
-
 
     return (
       <>
@@ -93,7 +124,7 @@ let time = new Date(item?.time)
             }
             message={item?.message}
             read={item?.read}
-            time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
+            time={item?.time!==undefined&&getChatDate(item?.time)}
             latest={true}
             roleId={log_in_data?.role_id}
             match={item?.match_request?.status}
@@ -120,7 +151,7 @@ let time = new Date(item?.time)
               }
               message={item?.message}
               read={item?.read}
-              time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
+              time={item?.time!==undefined&&getChatDate(item?.time)}
               latest={true}
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
