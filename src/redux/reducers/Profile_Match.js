@@ -15,6 +15,7 @@ const initState = {
   profile_match_response_loading: false,
   profile_match_response_error_msg: '',
   profile_match_response_res: '',
+  profile_match_data_status:{}
 };
 
 export default (state = initState, action) => {
@@ -74,6 +75,7 @@ export default (state = initState, action) => {
         profile_match_response_loading: false,
         profile_match_response_error_msg: '',
         profile_match_response_res: action.data?.data?.message,
+        profile_match_data_status: action.data?.data?.data
       };
     }
     default:

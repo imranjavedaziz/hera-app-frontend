@@ -93,10 +93,11 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_35 / 2,
   },
   outerContainer: {
-    flexDirection:  Alignment.ROW,
+ flexDirection:  Alignment.ROW,
     alignItems:  Alignment.CENTER,
+    justifyContent:'space-between',
     marginTop: 40,
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
   },
   thumbContain: color => ({
     height: 41,

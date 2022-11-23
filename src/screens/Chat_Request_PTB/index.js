@@ -18,6 +18,7 @@ import {
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 const Chat_Request = props => {
+  console.log(props?.route?.params?.user,':::::user')
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
@@ -26,6 +27,7 @@ const Chat_Request = props => {
     profile_match_response_loading,
     profile_match_response_error_msg,
     profile_match_response_res,
+    profile_match_data_status,
   } = useSelector(state => state.Profile_Match);
 
   useEffect(() => {
@@ -34,6 +36,11 @@ const Chat_Request = props => {
       if (profile_match_response_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, profile_match_response_res));
+        if(profile_match_data_status.status===2){
+          navigation.navigate(Routes.ChatDetail,{item: props?.route?.params?.item,isComingFrom:true})
+        }else{
+          navigation.navigate(Routes.Chat_Listing)
+        }
       
       } else {
         dispatch(hideAppLoader());
@@ -53,7 +60,7 @@ const Chat_Request = props => {
       status: 2,
     };
     dispatch(profileMatchResponse(payload));
-    navigation.navigate(Routes.ChatDetail,{item: props?.route?.params?.item})
+
   };
   const onPressDislike = () => {
     const payload = {
@@ -62,7 +69,7 @@ const Chat_Request = props => {
     };
     console.log(payload, 'payload');
     dispatch(profileMatchResponse(payload));
-    navigation.navigate(Routes.ChatList)
+   
   };
   const onNavigationDetail = () => {
     navigation.navigate(Routes.ProfileDetails, {

@@ -104,6 +104,7 @@ const PtbDashboard = props => {
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
+              isComingFrom:false
             });
             setMsgRead(false);
           }
@@ -146,6 +147,7 @@ const PtbDashboard = props => {
         if (notification.data.notify_type === 'chat') {
           navigation.navigate(Routes.ChatDetail, {
             item: notification?.data,
+            isComingFrom:false
           });
           setMsgRead(false);
         }
