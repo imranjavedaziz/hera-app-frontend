@@ -201,6 +201,53 @@ export const inqueryFormSchema = yup.object().shape({
   message: yup.string().required(ValidationMessages.ENTER_Message),
 });
 
+export const changePasswordSchema = yup.object().shape({
+  current_password: yup
+    .string()
+    .required(ValidationMessages.COMMON_REQUIRED)
+    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .matches(Regx.SPECIAL_CHAR, {
+      excludeEmptyString: true,
+      message: null,
+    })
+    .matches(Regx.ALPHA_LOWER, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.ALPHA_CAP, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.NUM, {
+      excludeEmptyString: true,
+      message: '',
+    }),
+  set_a_new_psswrd: yup
+    .string()
+    .required(ValidationMessages.COMMON_REQUIRED)
+    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .matches(Regx.SPECIAL_CHAR, {
+      excludeEmptyString: true,
+      message: null,
+    })
+    .matches(Regx.ALPHA_LOWER, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.ALPHA_CAP, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.NUM, {
+      excludeEmptyString: true,
+      message: '',
+    }),
+  confirm_password: yup
+    .string()
+    .required(ValidationMessages.COMMON_REQUIRED)
+    .oneOf([yup.ref('set_password')], 'Your passwords do not match.'),
+});
+
 export const smSetAttributesSchema = yup.object().shape({
   height_id: yup.string().required(ValidationMessages.SELECT_HEIGHT),
   race_id: yup.string().required(ValidationMessages.SELECT_RACE),

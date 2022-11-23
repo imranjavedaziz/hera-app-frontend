@@ -185,6 +185,8 @@ export const Routes = {
   ChatList: 'ChatList',
   ChatDetail: 'ChatDetail',
   ChatEmpty: 'ChatEmpty',
+  Settings: 'Settings',
+  ChangePassword: 'ChangePassword',
 };
 export const Static = {
   countries: [

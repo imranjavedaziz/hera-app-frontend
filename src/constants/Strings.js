@@ -64,8 +64,8 @@ export const ValidationMessages = {
   DISCARD_INQUIRY: 'Discard Inquiry',
   REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
 };
-const LIKE_CONST = 'Like, Match & Connect!'
-const MOBILE_CONST = 'Mobile Number'
+const LIKE_CONST = 'Like, Match & Connect!';
+const MOBILE_CONST = 'Mobile Number';
 export default {
   landing: {
     LOG_IN: ' LOG IN  ',
@@ -272,7 +272,7 @@ export default {
   },
   search_Bar: {
     search: 'Search',
-    write_message:'Write a message'
+    write_message: 'Write a message',
   },
   smSetting: {
     profile: 'Profile',
@@ -347,8 +347,8 @@ export default {
     PARENT_TO_BE_CONVERSATION: ' Parent To Be will start the conversation.',
     START_CONVERSATION: 'Start a conversation!',
     INACTIVE_USER: 'Inactive User',
-    HEY_ITS_MATCH: "Hey, It’s a match!",
-    PARENT_TO_BE_SEND_REQUEST:'A Parent To Be sent you a request'
+    HEY_ITS_MATCH: 'Hey, It’s a match!',
+    PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
   },
   Sensory: {
     AS_PER_SEARCH:
@@ -377,4 +377,23 @@ export default {
     'Seems like a good match?\nLike and start a conversation!',
   All_Matches: 'All Matches',
   INBOX: 'INBOX',
+  // Settings
+  Settings: {
+    SETTINGS: 'SETTINGS',
+    Account_Settings: 'Account Settings',
+    Change_Password: 'Change Password',
+    Deactivate_Account: 'Deactivate Account',
+    Deactivate_Content:
+      'Temporarily deactivate your account, you can log in using the same credentials to activate your account again.',
+    Delete_Content:
+      'This will permanently delete your account, to use the application, you will need to sign up again.',
+    Delete_Account: 'Delete Account',
+  },
+  ChangePassword: {
+    CHANGE_PASSWORD: 'CHANGE PASSWORD',
+    SET_A: 'Set a new password',
+    Current_Password: 'Current Password',
+    Set_New_Password: 'Set New Password',
+    Confirm_Password: 'Confirm Password*',
+  },
 };

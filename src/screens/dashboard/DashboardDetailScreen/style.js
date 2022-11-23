@@ -1,7 +1,7 @@
 import Alignment from '../../../constants/Alignment';
 import Colors from '../../../constants/Colors';
-import { Fonts } from '../../../constants/Constants';
-import { Value } from '../../../constants/FixedValues';
+import {Fonts} from '../../../constants/Constants';
+import {Value} from '../../../constants/FixedValues';
 import {
   dynamicSize,
   normalizeFont,
@@ -24,6 +24,10 @@ export default {
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
+  },
+  nativeLong: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.FLEX_START,
   },
   nativePlace: {
     backgroundColor: Colors.RGBA_229_172_177,
