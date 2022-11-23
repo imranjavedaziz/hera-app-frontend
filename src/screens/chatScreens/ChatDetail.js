@@ -101,8 +101,10 @@ const ChatDetail = props => {
         db.sendMessage(messages.text)
           .then(() => {
             let data = {
-              sender_id: props?.route?.params?.item?.senderId,
-              title: `${props?.route?.params?.item?.senderName} sent you a message`,
+              title:
+                props?.route?.params?.item?.currentRole === 2
+                  ? `${props?.route?.params?.item?.senderUserName} sent you a message`
+                  : `${props?.route?.params?.item?.senderName} sent you a message`,
               message: messages.text,
               receiver_id: props?.route?.params?.item?.recieverId,
             };
@@ -214,8 +216,8 @@ const ChatDetail = props => {
       });
     }
   };
-  console.log(db?.messages.length, 'db?.messages.length');
-  function getRoleData(roleId) {
+
+  function getRoleData(roleId, role) {
     switch (true) {
       case roleId == '2':
         role = 'Parent-To-Be';
@@ -235,10 +237,6 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(
-    props?.route?.params?.item?.currentRole,
-    'props?.route?.params?.item?.currentRole',
-  );
   return (
 
       <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
@@ -279,7 +277,7 @@ const ChatDetail = props => {
                   />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  {props.route.params.item.recieverSubscription === 0 ? (
+                  {props?.route?.params?.item?.recieverSubscription === 0 ? (
                     <Text style={styles.titleText}>
                       {Strings.Chat.INACTIVE_USER}
                     </Text>
@@ -294,7 +292,7 @@ const ChatDetail = props => {
                         <>
                           <Text style={styles.titleText}>
                             {props?.route?.params?.item?.currentRole === 2
-                              ? props.route.params.item.recieverName
+                              ? props?.route?.params?.item?.recieverName
                               : getRoleData(
                                   props?.route?.params?.item?.currentRole,
                                 )}
@@ -320,7 +318,8 @@ const ChatDetail = props => {
         {showFeedback &&
           props?.route?.params?.item?.currentRole !== 1 &&
           props?.route?.params?.item?.feedback_status !== 1 &&
-          db?.messages.length >= 20 && log_in_data?.role_id === 2 &&
+          db?.messages.length >= 20 &&
+          log_in_data?.role_id === 2 &&
           db?.messages.length <= 50 && (
             <View
               style={{

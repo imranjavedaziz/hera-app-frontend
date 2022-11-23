@@ -106,7 +106,8 @@ const SmDashboard = ({route}) => {
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
-              isComingFrom:false
+              isComingFrom:false,
+              chatPush: true,
             });
             setMsgRead(false);
           }
@@ -289,7 +290,7 @@ const SmDashboard = ({route}) => {
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      chat={msgRead === true ? true : false}
+      chat={msgRead === true || route?.params?.msgRead === true ? true : false}
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {smChat: true})
       }
