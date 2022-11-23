@@ -60,7 +60,7 @@ const SmDashboard = ({route}) => {
   const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
-
+  const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
@@ -100,18 +100,32 @@ const SmDashboard = ({route}) => {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
             navigation.navigate(Routes.Chat_Request, {
-              user: JSON.parse(notification?.data?.user),
+              user: JSON.parse(notification?.data?.receiver_user),
             });
-          } else {
-            navigation.navigate(Routes.PushNotificationExample);
+          }
+          if (notification.data.notify_type === 'chat') {
+            navigation.navigate(Routes.ChatDetail, {
+              item: notification?.data,
+              isComingFrom:false,
+              chatPush: true,
+            });
+            setMsgRead(false);
           }
         }
-        console.log('NOTIFICATION:', notification);
+        if (notification.userInteraction === false) {
+          if (notification.data.notify_type === 'chat') {
+            setMsgRead(true);
+          }
+          if (notification.data.notify_type === 'profile') {
+            setMsgRead(true);
+          }
+        }
+        console.log('NOTIFICATION2nd:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
       onAction: function (notification) {
         console.log('ACTION:', notification.action);
-        console.log('NOTIFICATION:', notification);
+        console.log('NOTIFICATION3rd:', notification);
       },
       onRegistrationError: function (err) {
         console.error(err.message, err);
@@ -126,8 +140,27 @@ const SmDashboard = ({route}) => {
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
       const {notification} = remoteMessage;
-      if (!_.isEmpty(notification)) {
-        navigation.navigate('PushNotificationExample');
+      if (notification.userInteraction === true) {
+        if (notification.data.notify_type === 'profile') {
+          navigation.navigate(Routes.Chat_Request, {
+            user: JSON.parse(notification?.data?.receiver_user),
+          });
+        }
+        if (notification.data.notify_type === 'chat') {
+          navigation.navigate(Routes.ChatDetail, {
+            item: notification?.data,
+            isComingFrom:false
+          });
+          setMsgRead(false);
+        }
+      }
+      if (notification.userInteraction === false) {
+        if (notification.data.notify_type === 'chat') {
+          setMsgRead(true);
+        }
+        if (notification.data.notify_type === 'profile') {
+          setMsgRead(true);
+        }
       }
     });
   }, [fcmToken, navigation]);
@@ -251,17 +284,21 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
+
   const headerComp = () => (
     <IconHeader
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      chat={true}
-      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
+      chat={msgRead === true || route?.params?.msgRead === true ? true : false}
+      rightPress={() =>
+        navigation.navigate(Routes.Chat_Listing, {smChat: true})
+      }
       style={styles.headerIcon}
       ApiImage={true}
     />
   );
+
   const onRefresh = () => {
     setRefreshing(true);
     _getDonorDashboard(1, search);

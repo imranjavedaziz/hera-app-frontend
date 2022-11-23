@@ -26,7 +26,11 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {getRoleType} from '../../../../utils/other';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
-import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {
+  showAppLoader,
+  hideAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 import {deviceRegister} from '../../../../redux/actions/Auth';
 import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
@@ -59,6 +63,7 @@ const PtbDashboard = props => {
   const loadingMatchRef = useRef(false);
   const {fcmToken} = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -69,20 +74,17 @@ const PtbDashboard = props => {
       dispatch(getPtbDashboard());
     }, [dispatch]),
   );
+  console.log(fcmToken, 'fcmTokenLat');
   //Get device Info
   useEffect(() => {
-    async function fetchDeviceInfo() {
-      const deviceName = await DeviceInfo.getDeviceName();
-      const _deviceInfo = {
-        device_id: DeviceInfo.getDeviceId(),
-        device_token: fcmToken,
-        device_type: Platform.OS,
-      };
-      console.log(deviceName, 'deviceName');
-      dispatch(deviceRegister(_deviceInfo));
-    }
-    fetchDeviceInfo();
-  }, [fcmToken]);
+    const _deviceInfo = {
+      device_id: DeviceInfo.getDeviceId(),
+      device_token: fcmToken,
+      device_type: Platform.OS,
+    };
+    console.log(_deviceInfo, 'deviceName');
+    dispatch(deviceRegister(_deviceInfo));
+  }, []);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -91,11 +93,31 @@ const PtbDashboard = props => {
       onRegister: function (token) {
         console.log('TOKEN:', token);
       },
-
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
-          navigation.navigate('PushNotificationExample');
+          if (notification.data.notify_type === 'profile') {
+            navigation.navigate(Routes.Chat_Request, {
+              user: JSON.parse(notification?.data?.receiver_user),
+            });
+          }
+          if (notification.data.notify_type === 'chat') {
+            navigation.navigate(Routes.ChatDetail, {
+              item: notification?.data,
+              isComingFrom:false,
+              chatPush: true,
+            });
+            setMsgRead(false);
+          }
+        }
+
+        if (notification.userInteraction === false) {
+          if (notification.data.notify_type === 'chat') {
+            setMsgRead(true);
+          }
+          if (notification.data.notify_type === 'profile') {
+            setMsgRead(true);
+          }
         }
         console.log('NOTIFICATION:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -116,17 +138,32 @@ const PtbDashboard = props => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      console.log(
-        '***Notification caused app to open from background state***',
-        remoteMessage,
-      );
-      const {notification, messageId} = remoteMessage;
-      console.log(messageId);
-      if (!_.isEmpty(notification)) {
-        navigation.navigate('PushNotificationExample');
+      const {notification} = remoteMessage;
+      console.log(notification, 'Reenotification');
+      if (notification.userInteraction === true) {
+        if (notification.data.notify_type === 'profile') {
+          navigation.navigate(Routes.Chat_Request, {
+            user: JSON.parse(notification?.data?.receiver_user),
+          });
+        }
+        if (notification.data.notify_type === 'chat') {
+          navigation.navigate(Routes.ChatDetail, {
+            item: notification?.data,
+            isComingFrom:false
+          });
+          setMsgRead(false);
+        }
+      }
+      if (notification.userInteraction === false) {
+        if (notification.data.notify_type === 'chat') {
+          setMsgRead(true);
+        }
+        if (notification.data.notify_type === 'profile') {
+          setMsgRead(true);
+        }
       }
     });
-  }, [fcmToken, navigation]);
+  }, []);
 
   const {
     get_ptb_dashboard_success,
@@ -158,6 +195,7 @@ const PtbDashboard = props => {
         dispatch(showAppLoader());
         if (profile_match_success) {
           dispatch(hideAppLoader());
+          dispatch(showAppToast(false, profile_match_error_msg));
         }
         if (profile_match_error_msg) {
           dispatch(hideAppLoader());
@@ -254,8 +292,14 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      chat={true}
-      rightPress={() => navigation.navigate(Routes.Chat_Listing)}
+      chat={
+        msgRead === true || props?.route?.params?.msgRead === true
+          ? true
+          : false
+      }
+      rightPress={() =>
+        navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
+      }
       style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}

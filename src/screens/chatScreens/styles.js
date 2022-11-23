@@ -26,25 +26,35 @@ export default {
   },
 
   chatText: {
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.COLOR_535858,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
     fontSize: px(Value.CONSTANT_VALUE_13),
+    fontWeight:Alignment.BOLD
+  },
+  chatTime:{
+    fontFamily:Fonts.OpenSansRegular,
+    fontSize: px(Value.CONSTANT_VALUE_13),
+    color: '#ada99f',
   },
   chatContainer: {
-    padding: 5,
+    paddingVertical:12,
+    paddingHorizontal: 24,
+    maxWidth:250
   },
   senderID: {
     alignSelf: Alignment.FLEXEND,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.WHITE,
-    marginRight: 20,
+    alignItems:Alignment.CENTER,
+    marginRight:20,
+    justifyContent:'center',
   },
   receiverID: {
-    // flexDirection: Alignment.ROW,
     alignSelf: Alignment.FLEX_START,
-    flex:1,
+    flexDirection: Alignment.ROW,
+    justifyContent:'center',
+    alignItems:Alignment.CENTER,
+    marginLeft:10,
     backgroundColor: Colors.GREEN,
   },
   mainContainerDetail: {
@@ -83,10 +93,11 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_35 / 2,
   },
   outerContainer: {
-    flexDirection:  Alignment.ROW,
+ flexDirection:  Alignment.ROW,
     alignItems:  Alignment.CENTER,
+    justifyContent:'space-between',
     marginTop: 40,
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
   },
   thumbContain: color => ({
     height: 41,
@@ -118,7 +129,7 @@ export default {
     color: Colors.COLOR_535858,
   },
   smDonorEmptyView: {
-    position: 'absolute',
+    position: Alignment.ABSOLUTE,
     justifyContent: Alignment.FLEX_START,
     bottom: 0,
     right: 0,
@@ -126,4 +137,24 @@ export default {
     height: '80%',
   },
   crossImage: {width: 30, height: 30},
+  searchBar:{
+    marginHorizontal:20,
+   marginTop:10,
+    backgroundColor:'white',
+    width: 303,
+  },
+  messageSendTextInput:{
+    flexDirection: 'row',
+    marginBottom: 50,
+    marginHorizontal: 20,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'white',
+
+  },messageSend:{
+    alignSelf:Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    position: Alignment.ABSOLUTE,
+    right: 12,
+  }
 };
