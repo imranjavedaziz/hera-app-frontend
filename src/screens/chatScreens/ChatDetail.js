@@ -247,7 +247,7 @@ const ChatDetail = props => {
           hidden={false}
         />
         <SafeAreaView />
-        <View style={{position:'absolute',flex:1,right:0,left:0,marginTop:30,zIndex:1}}>
+        <View style={{position:'absolute',flex:1,right:0,left:0,marginTop:30,zIndex: 1,backgroundColor: Colors.BACKGROUND }}>
           <View style={styles.outerContainer}>
             <View style={{flex:1,zIndex: 9999}}>
               <TouchableOpacity
