@@ -34,6 +34,7 @@ import Chat_Listing from '../screens/chatScreens/ChatListing';
 import ChatDetail from '../screens/chatScreens/ChatDetail';
 import Settings from '../screens/dashboard/PtbProfile/Settings';
 import ChangePassword from '../screens/dashboard/PtbProfile/ChangePassword';
+import EditProfile from '../screens/dashboard/EditProfile/EditProfile';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -194,6 +195,11 @@ const Main = () => {
         <Stack.Screen
           name={Routes.ChangePassword}
           component={ChangePassword}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.EditProfile}
+          component={EditProfile}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

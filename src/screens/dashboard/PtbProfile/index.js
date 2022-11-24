@@ -29,7 +29,7 @@ const PtbProfile = () => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       style={styles.headerIcon}
-      leftPress={() => navigation.goBack()}
+      leftPress={() => navigation.navigate(Routes.PtbDashboard)}
     />
   );
 
@@ -134,6 +134,7 @@ const PtbProfile = () => {
                 leftIcon={Images.person}
                 BlueDot
                 title={Strings.smSetting.EditProfile}
+                onPress={() => navigation.navigate(Routes.EditProfile)}
               />
               <PtbAccount
                 leftIcon={Images.setting2}

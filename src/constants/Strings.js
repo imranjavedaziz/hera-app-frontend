@@ -111,6 +111,7 @@ export default {
     tmc2: 'Terms of use',
     tmc3: 'Privacy Policy',
     desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',
+    phone_no: 'Phone Number',
   },
   preference: {
     setPreference: 'Set Preference',
@@ -175,6 +176,7 @@ export default {
     RelationshipStatus: 'Relationship Status',
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
+    Save: 'SAVE',
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -395,5 +397,12 @@ export default {
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
     Confirm_Password: 'Confirm Password*',
+  },
+  //Edit Profile
+  EDITPROFILE: {
+    EDIT_PROFILE: 'EDIT PROFILE',
+    Profile_Title: 'Change your profile details',
+    DiscardEdit: 'Discard Edits',
+    DiscardEditDisc: 'If you cancel now, your edits will not be saved.',
   },
 };

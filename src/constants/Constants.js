@@ -187,6 +187,7 @@ export const Routes = {
   ChatEmpty: 'ChatEmpty',
   Settings: 'Settings',
   ChangePassword: 'ChangePassword',
+  EditProfile: 'EditProfile',
 };
 export const Static = {
   countries: [
@@ -768,13 +769,27 @@ export const Static = {
 };
 
 export const creditProductsIds = Platform.select({
-  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly',"com.HeraDev.Monthly","com.HeraDev.Yearly"],
-  android: ['com.CreditRich.Monthl',"com.HeraDev.Yearly","com.HeraDev.Monthly"],
+  ios: [
+    'com.CreditRich.Monthly',
+    'com.CreditRich.Yearly',
+    'com.HeraDev.Monthly',
+    'com.HeraDev.Yearly',
+  ],
+  android: [
+    'com.CreditRich.Monthl',
+    'com.HeraDev.Yearly',
+    'com.HeraDev.Monthly',
+  ],
 });
 
 export const productsIds = Platform.select({
-  ios: ['com.CreditRich.Monthly', 'com.CreditRich.Yearly',"com.HeraDev.Yearly","com.HeraDev.Monthly",],
-  android: ['com.CreditRich.Monthl',"Hera_002_2m","com.HeraDev.Yearly"],
+  ios: [
+    'com.CreditRich.Monthly',
+    'com.CreditRich.Yearly',
+    'com.HeraDev.Yearly',
+    'com.HeraDev.Monthly',
+  ],
+  android: ['com.CreditRich.Monthl', 'Hera_002_2m', 'com.HeraDev.Yearly'],
 });
 
 export const SUBSCRIPTION_PLAN = [
