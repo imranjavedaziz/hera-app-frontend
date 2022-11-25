@@ -8,7 +8,6 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
-import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
@@ -57,7 +56,7 @@ const ChatListing = props => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => NavigateFunc()}
-      style={{marginTop: 10}}
+      style={{ paddingTop: 5,}}
     />
   );
 

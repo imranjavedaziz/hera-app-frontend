@@ -241,6 +241,8 @@ const ChatDetail = props => {
     }
     return role;
   }
+  console.log(db?.messages.length,'db?.messages.length')
+  console.log(props?.route?.params?.item?.feedback_status,'props?.route?.params?.item?.feedback_status')
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
@@ -311,7 +313,7 @@ const ChatDetail = props => {
                     {parseInt(props?.route?.params?.item?.currentRole) !==
                       1 && (
                       <>
-                        <Text style={styles.titleText}>
+                        <Text numberOfLines={1} style={styles.titleText}>
                           {parseInt(props?.route?.params?.item?.currentRole) ===
                           2
                             ? props?.route?.params?.item?.recieverName
@@ -319,7 +321,7 @@ const ChatDetail = props => {
                                 props?.route?.params?.item?.currentRole,
                               )}
                         </Text>
-                        <Text style={styles.descText}>
+                        <Text numberOfLines={1}  style={styles.descText}>
                           {parseInt(props?.route?.params?.item?.currentRole) ===
                           2
                             ? getRoleData(
@@ -343,9 +345,9 @@ const ChatDetail = props => {
       {showFeedback &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
         parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
-        (db?.messages.length === 20 || db?.messages.length >= 30) &&
+        ((db?.messages?.length === 20) || (db?.messages?.length >= 30)) &&
         log_in_data?.role_id === 2 &&
-        db?.messages.length <= 50 && (
+       (
           <View
             style={{
               height: 117,
