@@ -41,4 +41,5 @@ export default {
   profile_match_request_response: 'profile-match-request-response',
   chat_feedback: 'chat-feedback',
   push_notification: 'send-push-notification',
+  delete_account: 'delete-account',
 };

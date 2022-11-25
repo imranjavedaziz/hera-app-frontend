@@ -86,7 +86,7 @@ export default function CustomPicker({
               </Text>
             </View>
             <Picker
-              selectedValue={selectedRecord?.id ?? selected?.id ?? 2}
+              selectedValue={selectedRecord?.id ?? selected?.id ?? 1}
               onValueChange={(_itemValue, itemIndex) => {
                 setSelectedRecord(data[itemIndex]);
               }}
