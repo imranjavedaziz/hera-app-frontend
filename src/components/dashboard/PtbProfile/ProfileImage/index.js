@@ -22,7 +22,7 @@ const ProfileImage = ({
           <Image source={Images.camera} style={styles.cameraIcon} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.Heading}>{Heading}</Text>
+      {/* <Text style={styles.Heading}>{Heading}</Text> */}
       <Text style={styles.Name}>
         {Name} {LastName}
       </Text>

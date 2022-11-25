@@ -175,6 +175,8 @@ const SmRegister = () => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
+    console.log('reqData',reqData);
+    dispatch(ptbRegister(reqData));
   };
   const headerComp = () => (
     <CircleBtn

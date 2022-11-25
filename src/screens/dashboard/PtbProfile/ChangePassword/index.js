@@ -28,6 +28,7 @@ const ChangePassword = () => {
   const navigation = useNavigation();
   const {
     control,
+    handleSubmit,
     formState: {errors},
   } = useForm({
     resolver: yupResolver(changePasswordSchema),
@@ -42,6 +43,12 @@ const ChangePassword = () => {
       </TouchableOpacity>
     </View>
   );
+
+  const onSubmit = () => {
+    // navigation.navigate('Settings');
+    console.log('HII');
+  };
+
   return (
     <>
       <Header end={true}>{headerComp()}</Header>
@@ -75,7 +82,7 @@ const ChangePassword = () => {
                           required={true}
                           secureTextEntry={!show}
                           minLength={8}
-                          error={errors && errors.password?.message}
+                          error={errors && errors.current_password?.message}
                           endComponent={() => (
                             <TouchableOpacity
                               onPress={() => setShow(!show)}
@@ -156,7 +163,7 @@ const ChangePassword = () => {
                           onChangeText={v => onChange(v)}
                           secureTextEntry={!show}
                           minLength={8}
-                          error={errors && errors.password?.message}
+                          error={errors && errors.confirm_password?.message}
                         />
                       )}
                       name="confirm password"
@@ -170,7 +177,9 @@ const ChangePassword = () => {
             <Button
               label={Strings.preference.Save}
               style={styles.Btn}
-              // onPress={handleSubmit(onSubmit)}
+              onPress={() => {
+                handleSubmit(onSubmit());
+              }}
             />
           </View>
         </View>

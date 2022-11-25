@@ -61,12 +61,11 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: Value.CONSTANT_VALUE_2_84,
     color: Colors.BLACK,
-    marginTop: 29,
   },
   Name: {
     fontSize: Value.CONSTANT_VALUE_24,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    marginTop: Value.CONSTANT_VALUE_8,
+    marginTop: Value.CONSTANT_VALUE_30,
   },
 };

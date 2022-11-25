@@ -79,7 +79,7 @@ const DeleteAccount = () => {
   };
 
   return (
-    <>
+    <View style={styles.upperContainer}>
       <Header end={true}>{headerComp()}</Header>
       <ScrollView showVerticalIndicatot={false}>
         <View style={styles.mainContainer}>
@@ -148,7 +148,7 @@ const DeleteAccount = () => {
           </View>
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 };
 

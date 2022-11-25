@@ -106,7 +106,6 @@ const SmDonorSettings = () => {
               }}>
               <ProfileImage
                 smProfile={true}
-                Heading={Strings.smSetting.ptbProfile}
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
@@ -141,12 +140,14 @@ const SmDonorSettings = () => {
               </View>
               <View style={Styles.dot} />
             </View>
-            <View style={Styles.contain}>
+            <TouchableOpacity
+              style={Styles.contain}
+              onPress={() => navigation.navigate(Routes.Settings)}>
               <Image source={Images.setting2} />
               <Text style={[Styles.text, Styles.extraTxt]}>
                 {Strings.smSetting.Settings}
               </Text>
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={Styles.contain}
               onPress={() => {

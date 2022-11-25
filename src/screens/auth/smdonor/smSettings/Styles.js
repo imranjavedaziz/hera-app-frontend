@@ -60,7 +60,7 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     width: '100%',
-    marginTop: Value.CONSTANT_VALUE_35,
+    marginTop: Value.CONSTANT_VALUE_40,
     justifyContent: Alignment.SPACE_BETWEEN,
   },
   text: {
