@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../../components/Container';
-import Button from '../../../../components/Button';
 import Images from '../../../../constants/Images';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
@@ -36,6 +35,7 @@ import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
 import {BottomSheetComp} from '../../../../components';
+import { Value } from '../../../../constants/FixedValues';
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -65,7 +65,7 @@ const Gallery = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-  const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
 
   const videoRef = useRef();
   const {
@@ -367,7 +367,6 @@ const Gallery = () => {
             rmvImgCount={rmvImgCount}
             remove={remove}
             counter={counter}
-
           />
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
@@ -391,11 +390,17 @@ const Gallery = () => {
               </TouchableOpacity>
             </View>
           ) : (
-            <Button
-              style={styles.btn}
-              label={Strings.sm_create_gallery.Btn}
-              onPress={() => navigation.navigate(Routes.SmDashboard)}
-            />
+            <TouchableOpacity
+              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
+              style={styles.dashboardBtn}
+              onPress={() => navigation.navigate(Routes.SmDashboard)}>
+              <Text
+                style={styles.buttonText}
+                accessible={false}
+                numberOfLines={Value.CONSTANT_VALUE_1}>
+                {Strings.sm_create_gallery.Btn}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       </Container>

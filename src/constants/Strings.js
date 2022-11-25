@@ -62,6 +62,9 @@ export const ValidationMessages = {
   CANCEL: 'Cancel',
   YES: 'YES',
   DISCARD_INQUIRY: 'Discard Inquiry',
+  DELETE_ACCOUNT: 'Delete Account?',
+  DELETE_TEXT:
+    'Once you delete, your data will be removed and cannot be retrieved later.',
   REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
 };
 const LIKE_CONST = 'Like, Match & Connect!';
@@ -195,10 +198,12 @@ export default {
     Subtitle3: 'about you!',
     maxUpload: 'This step is optional.',
     imagetype: 'Maximum 6 photos ',
-    Btn: 'Go to dashboard',
+    Btn: 'GO TO DASHBOARD',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",
     modalText: 'Yes, Remove',
+    deleteModal: 'Yes, Delete',
+    StayHera: 'Stay on HERA',
     modalText_2: 'Stay on Page',
     myGallery: 'My Gallery',
     bottomSheetCamera: 'Open Camera',
@@ -388,6 +393,9 @@ export default {
     Delete_Content:
       'This will permanently delete your account, to use the application, you will need to sign up again.',
     Delete_Account: 'Delete Account',
+    DELETE_MY_ACCOUNT: 'DELETE MY ACCOUNT',
+    Account_Verify: 'ACCOUNT VERIFICATION',
+    Enter_delete: 'Enter password to delete',
   },
   ChangePassword: {
     CHANGE_PASSWORD: 'CHANGE PASSWORD',
