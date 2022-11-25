@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import { View, Text, RefreshControl } from "react-native";
+import {View, Text, RefreshControl} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
@@ -8,11 +8,11 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
-import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
+import _ from 'lodash';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
@@ -23,14 +23,24 @@ const ChatListing = props => {
     setLoader(false);
     setRefreshing(false);
   }, []);
-  
+
   const [loader, setLoader] = useState(true);
   const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-console.log(chats,'chats')
+  useEffect(() => {
+    let obj = chats.find(o => {
+      o.read === 0 ? setNotRead(false) : setNotRead(true);
+    });
+    if (_.isEmpty(chats)) {
+      setNotRead(true);
+    } else {
+      setNotRead(false);
+    }
+    return obj;
+  }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
@@ -46,18 +56,17 @@ console.log(chats,'chats')
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => NavigateFunc()}
-      style={{marginTop: 10}}
+      style={{ paddingTop: 5,}}
     />
   );
-  useEffect(()=>{  
+
+  useEffect(() => {
     database()
-    .ref(`${chat}/Users/${log_in_data?.id}`)
-    .on('value',
-      async (snapshot, _previousChildKey) => {
+      .ref(`${chat}/Users/${log_in_data?.id}`)
+      .on('value', async (snapshot, _previousChildKey) => {
         fetchData();
-      },
-    );
-  },[])
+      });
+  }, []);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchData();
@@ -68,11 +77,41 @@ console.log(chats,'chats')
       : Strings.Chat.All_Conversations;
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
+  function getChatDate(unixTimeStamp) {
+    let date = new Date(unixTimeStamp);
+    let dateForSec = new Date(unixTimeStamp * 1000);
+    let minutesForSec = dateForSec.getSeconds();
+    let today = new Date();
+    let formattedDate = dateFormate(date);
+    let todayDate = dateFormate(today);
+    let yesterdayDate = new Date(new Date().getTime());
+    yesterdayDate.setDate(new Date().getDate() - 1);
+    let yesterday = dateFormate(yesterdayDate);
+    let month = today.toLocaleString('default', {month: 'short'});
+    let dateName = today.getDate();
+    let day;
+    console.log(minutesForSec, 'minutesForSec');
+    switch (true) {
+      case formattedDate == todayDate:
+        day = 'Today';
+        break;
+      case formattedDate == yesterday:
+        day = 'Yesterday';
+        break;
+
+      default:
+        day = month + ' ' + dateName;
+    }
+    return day;
+  }
+  function dateFormate(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = date.getDate();
+    let newDate = year + '-' + month + '-' + day;
+    return newDate;
+  }
   const renderChatList = ({item}) => {
-    console.log(item?.time,'item?.time')
-let time = new Date(item?.time)
-
-
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (
@@ -93,7 +132,7 @@ let time = new Date(item?.time)
             }
             message={item?.message}
             read={item?.read}
-            time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
+            time={item?.time !== undefined && getChatDate(item?.time)}
             latest={true}
             roleId={log_in_data?.role_id}
             match={item?.match_request?.status}
@@ -120,7 +159,7 @@ let time = new Date(item?.time)
               }
               message={item?.message}
               read={item?.read}
-              time={item?.time!==undefined&&moment(time, 'YYYYMMDD').fromNow()}
+              time={item?.time !== undefined && getChatDate(item?.time)}
               latest={true}
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
@@ -130,7 +169,7 @@ let time = new Date(item?.time)
       </>
     );
   };
-  // coonsole.log(chats,'chats')
+
   return (
     <Container
       mainStyle={true}
@@ -153,7 +192,10 @@ let time = new Date(item?.time)
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
                 }
               />
             </View>

@@ -110,4 +110,5 @@ export default {
   extraTxt: {
     marginLeft: 15,
   },
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
 };

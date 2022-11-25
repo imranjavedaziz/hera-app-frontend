@@ -187,6 +187,7 @@ export const Routes = {
   ChatEmpty: 'ChatEmpty',
   Settings: 'Settings',
   ChangePassword: 'ChangePassword',
+  EditProfile: 'EditProfile',
   DeleteAccount: 'DeleteAccount',
 };
 export const Static = {

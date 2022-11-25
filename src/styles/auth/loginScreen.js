@@ -11,7 +11,7 @@ export default {
     marginTop: 110,
     paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
-  flex: {flex: Value.CONSTANT_VALUE_1},
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   logo: {
     width: Value.CONSTANT_VALUE_200,
     height: Value.CONSTANT_VALUE_120,

@@ -99,7 +99,8 @@ const SmDashboard = ({route}) => {
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
-            if (notification.data?.match_request?.status === 2) {
+            const {status} = JSON.parse(notification.data?.match_request);
+            if (status === 2) {
               navigation.navigate(Routes.ChatDetail, {
                 item: notification?.data,
                 isComingFrom: false,
@@ -152,7 +153,8 @@ const SmDashboard = ({route}) => {
       const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'profile') {
-          if (notification.data?.match_request?.status === 2) {
+          const {status} = JSON.parse(notification.data?.match_request);
+          if (status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
               isComingFrom: false,
@@ -233,15 +235,15 @@ const SmDashboard = ({route}) => {
   const onSearch = value => {
     if (value === '' && value.length < 3) {
       dispatch(showAppLoader());
-      _getDonorDashboard(1, '');
       setSearch('');
       setSearching(false);
+      _getDonorDashboard(1, '');
       return;
     }
     dispatch(showAppLoader());
-    _getDonorDashboard(1, value);
-    setSearching(true);
     setSearch(value);
+    setSearching(true);
+    _getDonorDashboard(1, value);
   };
   const onEndReached = () => {
     if (lastPage > page) {
@@ -310,7 +312,7 @@ const SmDashboard = ({route}) => {
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      chat={msgRead === true || route?.params?.msgRead === true ? true : false}
+      chat={msgRead === true || route?.params?.msgRead === false ? true : false}
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {smChat: true})
       }
