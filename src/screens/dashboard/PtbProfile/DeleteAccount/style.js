@@ -24,7 +24,7 @@ export default {
     alignItems: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_105),
   },
-  changePassword: {
+  AccountVerify: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_11),
     letterSpacing: Value.CONSTANT_VALUE_2_84,
@@ -55,11 +55,21 @@ export default {
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_46,
   },
-  Btn: {
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
+  dashboardBtn: {
+    width: Value.CONSTANT_VALUE_255,
     height: Value.CONSTANT_VALUE_80,
-    width: Value.CONSTANT_VALUE_195,
+    borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: '#f1a6a9',
+    justifyContent: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_46,
+    marginBottom: Value.CONSTANT_VALUE_67,
+  },
+  buttonText: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    letterSpacing: Value.CONSTANT_VALUE_FRAC180,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
   },
   passwordCheck: {
     flexDirection: Alignment.ROW,
@@ -67,10 +77,5 @@ export default {
   },
   fullWidth: {
     paddingHorizontal: Value.CONSTANT_VALUE_40,
-  },
-  ValidPwd: {
-    marginLeft: Value.CONSTANT_VALUE_5,
-    maxWidth: Value.CONSTANT_VALUE_13,
-    resizeMode: Alignment.CONTAIN,
   },
 };
