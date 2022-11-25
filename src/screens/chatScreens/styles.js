@@ -8,6 +8,7 @@ export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    marginBottom:34
   },
   header: {marginTop: px(10), marginLeft: px(30)},
   Inbox: {
@@ -74,6 +75,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_16,
+    width:128
   },
   descText: {
     fontFamily: Fonts.OpenSansRegular,

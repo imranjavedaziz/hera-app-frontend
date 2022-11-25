@@ -7,26 +7,6 @@ const createChatId = (id1, id2) => {
   }
   return `${id2}-${id1}`;
 };
-const newArr = originalArr => {
-  let arr1 = [];
-  for (let i = 0; i < originalArr.length; i++) {
-    console.log(originalArr[i], 'originalArr[i]');
-    if (i > 0) {
-      if (
-        originalArr[i]?.createdAt?.toString()?.split('T')[0] !=
-        originalArr[i - 1]?.createdAt?.toString()?.split('T')[0]
-      ) {
-        arr1.push({
-          date: originalArr[i].createdAt,
-          _id: Math.random,
-        });
-      }
-    }
-    arr1.push(originalArr[i]);
-  }
-  console.log(arr1, 'arr1');
-  return arr1;
-};
 export default class FirebaseDB {
   reference;
   chatId = '';
