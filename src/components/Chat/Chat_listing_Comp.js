@@ -41,7 +41,7 @@ const Chat_listing_Comp = props => {
               {match === 2 && chatStart !== 1 && (
                 <FastImage
                   style={styles.heartIcon}
-                  source={Images.ICON_GREEN_HEART}
+                  source={Images.WHITE_GREEN_HEART}
                 />
               )}
             </View>
@@ -85,7 +85,7 @@ const Chat_listing_Comp = props => {
               {match === 2 && currentRole !== 1 && chatStart !== 1 && (
                 <FastImage
                   style={styles.heartIcon}
-                  source={Images.ICON_GREEN_HEART}
+                  source={Images.WHITE_GREEN_HEART}
                 />
               )}
             </View>
@@ -109,6 +109,7 @@ const Chat_listing_Comp = props => {
           <View style={styles.timeView}>
             <Text style={styles.time}>{time}</Text>
             {read === 0 && <View style={styles.recentmsg} />}
+            {read !== 0 && <View style={{marginTop:20}}/>}
           </View>
         </TouchableOpacity>
       )}

@@ -8,7 +8,6 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
-import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
@@ -30,12 +29,12 @@ const ChatListing = props => {
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  useEffect(() => {
-    let obj = chats.find(o => {
-      o.read === 0 ? setNotRead(false) : setNotRead(true);
-    });
-    return obj;
-  }, []);
+  // useEffect(() => {
+  //   let obj = chats.find(o => {
+  //     o.read === 0 ? setNotRead(false) : setNotRead(true);
+  //   });
+  //   return obj;
+  // }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
@@ -51,7 +50,7 @@ const ChatListing = props => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => NavigateFunc()}
-      style={{marginTop: 10}}
+      style={{ paddingTop: 5,}}
     />
   );
   useEffect(() => {

@@ -1,7 +1,7 @@
-import { Alignment, Colors } from '../../constants';
-import { Fonts } from '../../constants/Constants';
-import { Value } from '../../constants/FixedValues';
-import { px } from '../../utils/responsive';
+import {Alignment, Colors} from '../../constants';
+import {Fonts} from '../../constants/Constants';
+import {Value} from '../../constants/FixedValues';
+import {px} from '../../utils/responsive';
 
 export default {
   userImg: {
@@ -25,38 +25,42 @@ export default {
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
-    marginTop: px(Value.CONSTANT_VALUE_36),
+    marginBottom: px(Value.CONSTANT_VALUE_18),
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   description: {
     marginLeft: px(Value.CONSTANT_VALUE_12),
-    flex: 1,
+    width: px(Value.CONSTANT_VALUE_200),
     alignItems: 'flex-start',
   },
   userName: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: px(Value.CONSTANT_VALUE_16),
+    fontSize: px(Value.CONSTANT_VALUE_14),
     color: Colors.BLACK,
     fontWeight: Alignment.BOLD,
+
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#353a3a',
   },
   msg: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: px(Value.CONSTANT_VALUE_14),
+    fontSize: px(Value.CONSTANT_VALUE_12),
     color: Colors.BLACK_0,
     fontWeight: Alignment.BOLD,
   },
   msgRead: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: px(Value.CONSTANT_VALUE_14),
-    color: Colors.BLACK_01
+    fontSize: px(Value.CONSTANT_VALUE_12),
+    color: Colors.BLACK_01,
   },
   time: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_13),
     lineHeight: px(Value.CONSTANT_VALUE_21),
     color: Colors.TIME_COLOR,
-    textAlign: "right",
+    textAlign: 'right',
   },
   recentmsg: {
     backgroundColor: Colors.GREEN,
@@ -68,26 +72,28 @@ export default {
     borderRadius: px(Value.CONSTANT_VALUE_30),
     marginTop: px(Value.CONSTANT_VALUE_8),
   },
-  timeView: { flex: .5, alignItems: Alignment.FLEXEND },
-  heartIcon: {
-    height: Value.CONSTANT_VALUE_23,
-    width: Value.CONSTANT_VALUE_25,
-    position: Alignment.ABSOLUTE,
-    bottom: -2,
-    right: -5,
+  timeView: {
+    alignItems: Alignment.FLEXEND,
   },
-  contain: { flex: 0.8, flexDirection: 'row' },
+  heartIcon: {
+    height: Value.CONSTANT_VALUE_40,
+    width: Value.CONSTANT_VALUE_40,
+    position: Alignment.ABSOLUTE,
+    right: -13,
+    bottom: -12,
+  },
+  contain: {flexDirection: 'row'},
   seemsLikeYouHave: {
     width: 290,
     height: 64,
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 23,
-    fontWeight: "bold",
-    fontStyle: "normal",
+    fontWeight: 'bold',
+    fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: "center",
-    color: "#353a3a",
-    marginTop: 20
+    textAlign: 'center',
+    color: '#353a3a',
+    marginTop: 20,
   },
   heartImage: {
     width: 183.4,
@@ -96,10 +102,10 @@ export default {
   chatText: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_18),
-    textAlign: "center",
-    color: "#747474",
+    textAlign: 'center',
+    color: '#747474',
     width: 282,
   },
-  chatImage: { width: 160, height: 160, marginBottom: 27 },
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+  chatImage: {width: 160, height: 160, marginBottom: 27},
+  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
 };
