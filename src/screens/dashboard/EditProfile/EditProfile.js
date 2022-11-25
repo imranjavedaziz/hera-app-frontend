@@ -33,6 +33,11 @@ import {
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Dropdown from '../../../components/inputs/Dropdown';
+import {
+  getEditProfile,
+  updateEditProfile,
+} from '../../../redux/actions/Edit_profile';
+
 const EditProfile = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();

@@ -7,3 +7,4 @@ export * from './DonorDashboard';
 export * from './Support';
 export * from './Profile_Match';
 export * from './DeleteAccount';
+export * from './Edit_profile';
