@@ -110,7 +110,7 @@ export default {
   ageText: {
     marginVertical: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
-    marginTop: Value.CONSTANT_VALUE_25,
+    marginTop: Value.CONSTANT_VALUE_30,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK_0,
   },

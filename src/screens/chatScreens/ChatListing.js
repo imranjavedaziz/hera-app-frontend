@@ -12,6 +12,7 @@ import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
+import _ from 'lodash';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
@@ -29,12 +30,17 @@ const ChatListing = props => {
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  // useEffect(() => {
-  //   let obj = chats.find(o => {
-  //     o.read === 0 ? setNotRead(false) : setNotRead(true);
-  //   });
-  //   return obj;
-  // }, []);
+  useEffect(() => {
+    let obj = chats.find(o => {
+      o.read === 0 ? setNotRead(false) : setNotRead(true);
+    });
+    if (_.isEmpty(chats)) {
+      setNotRead(true);
+    } else {
+      setNotRead(false);
+    }
+    return obj;
+  }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
@@ -53,6 +59,7 @@ const ChatListing = props => {
       style={{ paddingTop: 5,}}
     />
   );
+
   useEffect(() => {
     database()
       .ref(`${chat}/Users/${log_in_data?.id}`)

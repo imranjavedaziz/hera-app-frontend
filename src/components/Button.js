@@ -20,7 +20,7 @@ const styles = {
   },
   text: {
     fontSize: Value.CONSTANT_VALUE_14,
-    lineHeight: Value.CONSTANT_VALUE_18,
+    lineHeight: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
     textAlign: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_0,

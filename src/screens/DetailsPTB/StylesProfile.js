@@ -10,7 +10,7 @@ export default {
     marginTop: Value.CONSTANT_VALUE_105,
     marginBottom: 4,
   },
-  flex: {flex: 1},
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   profileContainer: {
     marginTop: Value.CONSTANT_VALUE_25,
   },

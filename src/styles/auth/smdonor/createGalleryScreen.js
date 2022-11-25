@@ -1,7 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {scaleWidth, width} from '../../../utils/responsive';
+import {dynamicSize, scaleWidth, width} from '../../../utils/responsive';
 
 export default {
   profileImgContainner: {
@@ -68,11 +68,11 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   btn: {
-    height: Value.CONSTANT_VALUE_80,
-    width: Value.CONSTANT_VALUE_259,
-    paddingHorizontal: Value.CONSTANT_VALUE_0,
-    marginTop: 46,
-    marginBottom: 67,
+    height: dynamicSize(Value.CONSTANT_VALUE_80),
+    width: dynamicSize(Value.CONSTANT_VALUE_259),
+    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_0),
+    marginTop: Value.CONSTANT_VALUE_46,
+    marginBottom: Value.CONSTANT_VALUE_67,
   },
   subTitle: {
     marginBottom: Value.CONSTANT_VALUE_20,
@@ -132,4 +132,20 @@ export default {
     resizeMode: Alignment.COVER,
   },
   header: {marginLeft: scaleWidth(20)},
+  dashboardBtn: {
+    width: Value.CONSTANT_VALUE_259,
+    height: Value.CONSTANT_VALUE_80,
+    borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: Colors.COLOR_A3C6C4,
+    justifyContent: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_46,
+    marginBottom: Value.CONSTANT_VALUE_67,
+  },
+  buttonText: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    letterSpacing: Value.CONSTANT_VALUE_FRAC180,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+  },
 };

@@ -106,7 +106,7 @@ export default {
   buttonStyle: {
     width: Prencentage.PRECENTAGE_100,
     backgroundColor: Colors.CLEAR,
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
+    borderBottomWidth: Value.CONSTANT_VALUE_2,
     height: 'auto',
     minHeight: Value.CONSTANT_VALUE_40,
     paddingHorizontal: Value.CONSTANT_VALUE_0,

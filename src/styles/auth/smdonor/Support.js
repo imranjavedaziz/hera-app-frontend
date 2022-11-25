@@ -32,4 +32,5 @@ export default {
     textAlignVertical: 'top',
     borderColor: Colors.COLOR_228226216,
   },
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
 };

@@ -13,6 +13,7 @@ export default function MultiTextInput({
   title,
   required,
   blurOnSubmit,
+  containerStyle,
   error = '',
   inputStyle = {
     fontFamily: Fonts.OpenSansBold,
@@ -25,7 +26,7 @@ export default function MultiTextInput({
   const handleBlur = () => setFocused(false);
   return (
     <React.Fragment>
-      <>
+      <View style={containerStyle}>
         <View style={styles.row}>
           <Text style={styles.label}>
             {title}
@@ -63,7 +64,7 @@ export default function MultiTextInput({
           />
           {error && <Text style={styles.errMessage}>{error}</Text>}
         </View>
-      </>
+      </View>
     </React.Fragment>
   );
 }

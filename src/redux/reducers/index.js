@@ -13,6 +13,8 @@ import Support from './Support';
 import Profile_Match from './Profile_Match';
 import Chat from './Chat';
 import Subscription from './Subscription';
+import DeleteAccount from './DeleteAccount';
+
 
 const allReducers = combineReducers({
   Auth,
@@ -28,7 +30,8 @@ const allReducers = combineReducers({
   Support,
   Profile_Match,
   Chat,
-  Subscription
+  Subscription,
+  DeleteAccount,
 });
 
 export default allReducers;

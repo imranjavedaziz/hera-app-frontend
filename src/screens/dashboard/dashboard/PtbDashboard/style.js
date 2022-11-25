@@ -33,7 +33,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    marginTop: px(Value.CONSTANT_VALUE_38),
+    marginTop: px(Value.CONSTANT_VALUE_10),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),

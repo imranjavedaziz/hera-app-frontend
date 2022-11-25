@@ -221,7 +221,7 @@ const SmRegister = () => {
     const formatedDate = moment(date).format('YYYY/MM/DD');
     const selectedAge = calculateBirthYear(formatedDate);
     console.log('LINE NUMBER 222', selectedAge, 'DONAR TYPE', donrType);
-    if (date !== "") {
+    if (date !== '') {
       return ValidationMessages.DOB;
     }
     if (donrType == 3) {
@@ -240,7 +240,11 @@ const SmRegister = () => {
   };
   return (
     <>
-      <View style={{flex: Value.CONSTANT_VALUE_1}}>
+      <View
+        style={{
+          flex: Value.CONSTANT_VALUE_1,
+          backgroundColor: Colors.BACKGROUND,
+        }}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.main}>
