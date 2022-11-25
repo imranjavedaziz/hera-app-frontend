@@ -1,19 +1,15 @@
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, normalizeFont} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
 
 export default {
-  upperContainer: {
-    alignItems: Alignment.CENTER,
-    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
-    right: dynamicSize(Value.CONSTANT_VALUE_15),
-  },
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    bottom: dynamicSize(Value.CONSTANT_VALUE_5),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
+    right: dynamicSize(Value.CONSTANT_VALUE_15),
     shadowColor: 'rgba(0, 0, 0, 0.09)',
     shadowOffset: {
       width: Value.CONSTANT_VALUE_0,
@@ -56,7 +52,7 @@ export default {
     color: Colors.WHITE,
   },
   codeText: {
-    fontSize: Value.CONSTANT_VALUE_32,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_32),
     color: Colors.WHITE,
     Fonts: Fonts.OpenSansRegular,
   },

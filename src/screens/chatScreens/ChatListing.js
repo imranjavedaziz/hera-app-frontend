@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, RefreshControl} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
@@ -11,33 +11,46 @@ import {FlatList} from 'react-native-gesture-handler';
 import moment from 'moment';
 import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
+import {chat} from '../../constants/Constants';
+import database from '@react-native-firebase/database';
+import _ from 'lodash';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
+  const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
+    setRefreshing(false);
   }, []);
+
   const [loader, setLoader] = useState(true);
   const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-
-  const NavigateFunc = () => {
-    if (props?.route?.params?.smChat === true) {
-      navigation.navigate(Routes.SmDashboard, {
-        msgRead: notRead,
-      });
+  useEffect(() => {
+    let obj = chats.find(o => {
+      o.read === 0 ? setNotRead(false) : setNotRead(true);
+    });
+    if (_.isEmpty(chats)) {
+      setNotRead(true);
+    } else {
+      setNotRead(false);
     }
-    if (props?.route?.params?.ptbChat === true) {
+    return obj;
+  }, []);
+  const NavigateFunc = () => {
+    if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
         msgRead: notRead,
       });
     } else {
-      navigation.goBack();
+      navigation.navigate(Routes.SmDashboard, {
+        msgRead: notRead,
+      });
     }
   };
   const headerComp = () => (
@@ -48,12 +61,57 @@ const ChatListing = props => {
     />
   );
 
+  useEffect(() => {
+    database()
+      .ref(`${chat}/Users/${log_in_data?.id}`)
+      .on('value', async (snapshot, _previousChildKey) => {
+        fetchData();
+      });
+  }, []);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData();
+  }, []);
   const ROLL_ID_2 =
     log_in_data.role_id === 2
       ? Strings.All_Matches
       : Strings.Chat.All_Conversations;
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
+  function getChatDate(unixTimeStamp) {
+    let date = new Date(unixTimeStamp);
+    let dateForSec = new Date(unixTimeStamp * 1000);
+    let minutesForSec = dateForSec.getSeconds();
+    let today = new Date();
+    let formattedDate = dateFormate(date);
+    let todayDate = dateFormate(today);
+    let yesterdayDate = new Date(new Date().getTime());
+    yesterdayDate.setDate(new Date().getDate() - 1);
+    let yesterday = dateFormate(yesterdayDate);
+    let month = today.toLocaleString('default', {month: 'short'});
+    let dateName = today.getDate();
+    let day;
+    console.log(minutesForSec, 'minutesForSec');
+    switch (true) {
+      case formattedDate == todayDate:
+        day = 'Today';
+        break;
+      case formattedDate == yesterday:
+        day = 'Yesterday';
+        break;
+
+      default:
+        day = month + ' ' + dateName;
+    }
+    return day;
+  }
+  function dateFormate(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth();
+    let day = date.getDate();
+    let newDate = year + '-' + month + '-' + day;
+    return newDate;
+  }
   const renderChatList = ({item}) => {
     return (
       <>
@@ -67,10 +125,15 @@ const ChatListing = props => {
                 ? `#${item?.recieverUserName}`
                 : item?.recieverName
             }
-            onPress={() => navigation.navigate(Routes.ChatDetail, {item: item,isComingFrom:false})}
+            onPress={() =>
+              navigation.navigate(Routes.ChatDetail, {
+                item: item,
+                isComingFrom: false,
+              })
+            }
             message={item?.message}
             read={item?.read}
-            time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+            time={item?.time !== undefined && getChatDate(item?.time)}
             latest={true}
             roleId={log_in_data?.role_id}
             match={item?.match_request?.status}
@@ -97,7 +160,7 @@ const ChatListing = props => {
               }
               message={item?.message}
               read={item?.read}
-              time={moment.unix(item?.time, 'YYYYMMDD').fromNow()}
+              time={item?.time !== undefined && getChatDate(item?.time)}
               latest={true}
               roleId={log_in_data?.role_id}
               match={item?.match_request?.status}
@@ -107,6 +170,7 @@ const ChatListing = props => {
       </>
     );
   };
+
   return (
     <Container
       mainStyle={true}
@@ -128,6 +192,12 @@ const ChatListing = props => {
                 renderItem={renderChatList}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
               />
             </View>
           ) : (

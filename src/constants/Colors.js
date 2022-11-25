@@ -4,6 +4,7 @@ export default {
   BLACK: '#353a3a',
   LABEL_BLACK: '#302f2f',
   GRAY: '#9e9e9e',
+  GRAY2: '#999488',
   RED: '#FF0000',
   BACKGROUND: '#F6F5EF',
   LITE_BG: '#e9e8db',
@@ -28,7 +29,7 @@ export default {
   COLOR_5ABCEC: '#5ABCEC',
   COLOR_F18D93: '#F18D93',
   COLOR_F7F5F0: '#F7F5F0',
-  COLOR_A3C6C4: '#A3C6C4',
+  COLOR_A3C6C4: '#a3c6c4',
   COLOR_RED: '#ff4544',
   HIGHLIGHT_PINK: '#e5acb1d9',
   PINK: '#e5acb1',
@@ -49,6 +50,6 @@ export default {
   BTNCOLR: '#f18c92',
   BLACK_01: '#79715d',
   hypenColor: '#1b1b1b',
-  textPLace: 'rgb(166 161 150)',
-  
+  textPLace: 'rgb(166,161,150)',
+  BACKGROUND_WHOLE: 'rgb(247,245,240)',
 };

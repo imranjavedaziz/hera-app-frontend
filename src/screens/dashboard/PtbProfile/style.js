@@ -13,6 +13,7 @@ export default {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: 30,
   },
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   imgView: {
     alignItems: Alignment.CENTER,
   },

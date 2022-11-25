@@ -97,20 +97,30 @@ const PtbDashboard = props => {
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
-            navigation.navigate(Routes.Chat_Request, {
-              user: JSON.parse(notification?.data?.receiver_user),
-            });
+            const {status} = JSON.parse(notification.data?.match_request);
+            if (status === 2) {
+              navigation.navigate(Routes.ChatDetail, {
+                item: notification?.data,
+                isComingFrom: false,
+                chatPush: true,
+              });
+            } else {
+              navigation.navigate(Routes.Chat_Request, {
+                item: notification?.data,
+                user: JSON.parse(notification.data?.match_request),
+                chatPush: true,
+              });
+            }
           }
           if (notification.data.notify_type === 'chat') {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
-              isComingFrom:false,
+              isComingFrom: false,
               chatPush: true,
             });
             setMsgRead(false);
           }
         }
-
         if (notification.userInteraction === false) {
           if (notification.data.notify_type === 'chat') {
             setMsgRead(true);
@@ -119,12 +129,12 @@ const PtbDashboard = props => {
             setMsgRead(true);
           }
         }
-        console.log('NOTIFICATION:', notification);
+        console.log('NOTIFICATION2nd:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
       onAction: function (notification) {
         console.log('ACTION:', notification.action);
-        console.log('NOTIFICATION:', notification);
+        console.log('NOTIFICATION3rd:', notification);
       },
       onRegistrationError: function (err) {
         console.error(err.message, err);
@@ -139,17 +149,27 @@ const PtbDashboard = props => {
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
       const {notification} = remoteMessage;
-      console.log(notification, 'Reenotification');
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'profile') {
-          navigation.navigate(Routes.Chat_Request, {
-            user: JSON.parse(notification?.data?.receiver_user),
-          });
+          const {status} = JSON.parse(notification.data?.match_request);
+          if (status === 2) {
+            navigation.navigate(Routes.ChatDetail, {
+              item: notification?.data,
+              isComingFrom: false,
+              chatPush: true,
+            });
+          } else {
+            navigation.navigate(Routes.Chat_Request, {
+              item: notification?.data,
+              user: JSON.parse(notification.data?.match_request),
+            });
+          }
         }
         if (notification.data.notify_type === 'chat') {
           navigation.navigate(Routes.ChatDetail, {
             item: notification?.data,
-            isComingFrom:false
+            isComingFrom: false,
+            chatPush: true,
           });
           setMsgRead(false);
         }
@@ -163,7 +183,7 @@ const PtbDashboard = props => {
         }
       }
     });
-  }, []);
+  }, [fcmToken, navigation]);
 
   const {
     get_ptb_dashboard_success,
@@ -293,7 +313,7 @@ const PtbDashboard = props => {
       }}
       rightIcon={Images.iconChat}
       chat={
-        msgRead === true || props?.route?.params?.msgRead === true
+        msgRead === true || props?.route?.params?.msgRead === false
           ? true
           : false
       }

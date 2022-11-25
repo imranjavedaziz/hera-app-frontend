@@ -1,10 +1,10 @@
-import { Colors, Alignment, } from '../../../constants';
-import { Value, Prencentage } from '../../../constants/FixedValues';
-import { Fonts } from '../../../constants/Constants';
-import { scaleWidth, normalizeFont } from '../../../utils/responsive';
+import {Colors, Alignment} from '../../../constants';
+import {Value, Prencentage} from '../../../constants/FixedValues';
+import {Fonts} from '../../../constants/Constants';
+import {scaleWidth, normalizeFont} from '../../../utils/responsive';
 
 export default {
-  flex: { flex: Value.CONSTANT_VALUE_1 },
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   radioBtn: {
     flex: Value.CONSTANT_VALUE_0,
     flexDirection: Alignment.ROW,
@@ -13,7 +13,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp: { marginTop: 108, marginHorizontal: 40, },
+  mainComp: {marginTop: 108, marginHorizontal: 40},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
@@ -56,7 +56,7 @@ export default {
     marginRight: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_54,
   },
-  paddingTop: { paddingTop: Value.CONSTANT_VALUE_57 },
+  paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,

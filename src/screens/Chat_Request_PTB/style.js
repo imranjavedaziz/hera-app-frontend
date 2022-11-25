@@ -55,6 +55,6 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    marginTop: px(Value.CONSTANT_VALUE_40),
+    marginTop: px(Value.CONSTANT_VALUE_10),
   },
 };

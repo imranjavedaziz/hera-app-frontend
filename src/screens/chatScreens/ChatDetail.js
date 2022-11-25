@@ -45,26 +45,32 @@ const ChatDetail = props => {
     );
   };
   useEffect(async () => {
-    if (props.route.params.item.senderSubscription === 0) {
+    if (parseInt(props.route.params.item.senderSubscription) === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     }
 
     const now = Date.now();
     const user = {
-      user_id: props?.route?.params?.item?.senderId,
+      user_id: parseInt(props?.route?.params?.item?.senderId),
       name: props?.route?.params?.item?.senderName,
       image: props?.route?.params?.item?.senderImage,
     };
     const receiver = {
-      user_id: props?.route?.params?.item?.recieverId,
+      user_id: parseInt(props?.route?.params?.item?.recieverId),
       name: props?.route?.params?.item?.recieverName,
       image: props?.route?.params?.item?.recieverImage,
     };
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
+    console.log(fireDB.messages, 'fireDB.messages');
+    if (fireDB.messages.length > 1) {
+      await fireDB.readMessage();
+    }
+
     fireDB.lastIdInSnapshot = now;
     setDB(fireDB);
+
     onChildAdd = fireDB.reference.on(
       'child_added',
       async (snapshot, _previousChildKey) => {
@@ -92,8 +98,7 @@ const ChatDetail = props => {
   }, []);
 
   const onSend = (messages = '') => {
-
-    if (props.route.params.item.senderSubscription === 0) {
+    if (parseInt(props.route.params.item.senderSubscription) === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     } else {
       setTextData('');
@@ -102,11 +107,11 @@ const ChatDetail = props => {
           .then(() => {
             let data = {
               title:
-                props?.route?.params?.item?.currentRole === 2
+                parseInt(props?.route?.params?.item?.currentRole) === 2
                   ? `${props?.route?.params?.item?.senderUserName} sent you a message`
                   : `${props?.route?.params?.item?.senderName} sent you a message`,
               message: messages.text,
-              receiver_id: props?.route?.params?.item?.recieverId,
+              receiver_id: parseInt(props?.route?.params?.item?.recieverId),
             };
             dispatch(pushNotification(data));
           })
@@ -125,11 +130,11 @@ const ChatDetail = props => {
             <View
               style={[
                 item.currentMessage.from ===
-                props?.route?.params?.item?.senderId
+                parseInt(props?.route?.params?.item?.senderId)
                   ? styles.senderID
                   : styles.receiverID,
               ]}>
-              {props.route.params.item.recieverSubscription === 0 &&
+              {parseInt(props.route.params.item.recieverSubscription) === 0 &&
                 db?.messages[0]._id === item.currentMessage._id && (
                   <View
                     style={{
@@ -148,10 +153,10 @@ const ChatDetail = props => {
               </View>
             </View>
           </View>
-
           <View
             style={
-              item.currentMessage.from === props?.route?.params?.item?.senderId
+              item.currentMessage.from ===
+              parseInt(props?.route?.params?.item?.senderId)
                 ? {alignSelf: 'flex-end', marginTop: 4, marginRight: 20}
                 : {alignSelf: 'flex-start', marginTop: 4, marginLeft: 10}
             }>
@@ -168,12 +173,11 @@ const ChatDetail = props => {
       </View>
     );
   };
-  const setText = text => setTextData(text);
 
   const feedback = (like, isSkip) => {
     let data = {
       like: like,
-      recipient_id: props.route.params.item.recieverId,
+      recipient_id: parseInt(props.route.params.item.recieverId),
       is_skip: isSkip,
     };
     dispatch(chatFeedback(data));
@@ -185,12 +189,12 @@ const ChatDetail = props => {
           dispatch(showAppToast(false, feedback_data));
           setShowFeedback(false);
           const user = {
-            user_id: props?.route?.params?.item?.senderId,
+            user_id: parseInt(props?.route?.params?.item?.senderId),
             name: props?.route?.params?.item?.senderName,
             image: props?.route?.params?.item?.senderImage,
           };
           const receiver = {
-            user_id: props?.route?.params?.item?.recieverId,
+            user_id: parseInt(props?.route?.params?.item?.recieverId),
             name: props?.route?.params?.item?.recieverName,
             image: props?.route?.params?.item?.recieverImage,
           };
@@ -202,17 +206,17 @@ const ChatDetail = props => {
     }, [feedback_success, feedback_loading]),
   );
   const navigateDetailScreen = () => {
-    if (props?.route?.params?.item?.match_request?.status === 1) {
+    if (parseInt(props?.route?.params?.item?.match_request?.status) === 1) {
       navigation.navigate(Routes.Chat_Request, {
         item: props.route.params.item,
       });
     } else if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.DashboardDetailScreen, {
-        userId: props?.route?.params?.item?.recieverId,
+        userId: parseInt(props?.route?.params?.item?.recieverId),
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
-        userid: props?.route?.params?.item?.recieverId,
+        userid: parseInt(props?.route?.params?.item?.recieverId),
       });
     }
   };
@@ -238,164 +242,187 @@ const ChatDetail = props => {
     return role;
   }
   return (
-
-      <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor={Colors.BACKGROUND}
-          animated={true}
-          hidden={false}
-        />
-        <SafeAreaView />
-        <View style={{position:'absolute',flex:1,right:0,left:0,marginTop:30,zIndex:1}}>
-          <View style={styles.outerContainer}>
-            <View style={{flex:1,zIndex: 1}}>
-              <TouchableOpacity
-                hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
-                onPress={() => {props.route.params.isComingFrom===true?props.navigation.navigate(Routes.Chat_Listing):props.navigation.goBack()}}>
-                <Image
-                  source={Images.BACK_PLAN_ARROW}
-                  style={{width: 14.7, height: 12.6}}
-                />
-              </TouchableOpacity>
-            </View>
+    <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.BACKGROUND}
+        animated={true}
+        hidden={false}
+      />
+      <SafeAreaView />
+      <View
+        style={{
+          position: 'absolute',
+          flex: 1,
+          right: 0,
+          left: 0,
+          marginTop: 30,
+          zIndex: 1,
+          backgroundColor: Colors.BACKGROUND,
+        }}>
+        <View style={styles.outerContainer}>
+          <View style={{flex: 1, zIndex: 9999}}>
             <TouchableOpacity
-              style={styles.topContainer}
-              disabled={
-                props?.route?.params?.item?.currentRole === 1 ? true : false
-              }
-              onPress={() => navigateDetailScreen()}>
-              <>
-                <View style={styles.avatar}>
-                  <Image
-                    source={
-                      props?.route?.params?.item?.currentRole === 1
-                        ? Images.ADMIN_ICON
-                        : {uri: props.route.params.item.recieverImage}
-                    }
-                    style={styles.avatar}
-                  />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  {props?.route?.params?.item?.recieverSubscription === 0 ? (
-                    <Text style={styles.titleText}>
-                      {Strings.Chat.INACTIVE_USER}
-                    </Text>
-                  ) : (
-                    <>
-                      {props?.route?.params?.item?.currentRole === 1 && (
-                        <Text style={styles.titleText}>
-                          {props.route.params.item.recieverName}
-                        </Text>
-                      )}
-                      {props?.route?.params?.item?.currentRole !== 1 && (
-                        <>
-                          <Text style={styles.titleText}>
-                            {props?.route?.params?.item?.currentRole === 2
-                              ? props?.route?.params?.item?.recieverName
-                              : getRoleData(
-                                  props?.route?.params?.item?.currentRole,
-                                )}
-                          </Text>
-                          <Text style={styles.descText}>
-                            {props?.route?.params?.item?.currentRole === 2
-                              ? getRoleData(
-                                  props?.route?.params?.item?.currentRole,
-                                )
-                              : `#${props?.route?.params?.item?.recieverUserName}`}
-                          </Text>
-                        </>
-                      )}
-                    </>
-                  )}
-                </View>
-              </>
-            </TouchableOpacity>
-            <View />
-          </View>
-          <View style={styles.border} />
-        </View>
-        {showFeedback &&
-          props?.route?.params?.item?.currentRole !== 1 &&
-          props?.route?.params?.item?.feedback_status !== 1 &&
-          db?.messages.length >= 20 &&
-          log_in_data?.role_id === 2 &&
-          db?.messages.length <= 50 && (
-            <View
-              style={{
-                height: 117,
-                width: '100%',
-                backgroundColor: Colors.WHITE,
-                zIndex: 9999,
+              hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
+              onPress={() => {
+                props.route.params.isComingFrom === true
+                  ? props.navigation.navigate(Routes.Chat_Listing)
+                  : props.navigation.goBack();
               }}>
-              <TouchableOpacity
-                style={{
-                  right: 8,
-                  width: 30,
-                  height: 30,
-                  top: 8,
-                  alignSelf: 'flex-end',
-                }}
-                disabled={db?.messages.length>=50&&true }
-                onPress={() => {
-                  setSendFeedback(2);
-                  feedback(0, 1);
-                }}>
-                <Image source={Images.iconcross} style={styles.crossImage} />
-              </TouchableOpacity>
-              <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
-              <View style={styles.thumbInnerContain}>
-                <TouchableOpacity
-                  style={[styles.thumbContain(Colors.RED)]}
-                  onPress={() => {
-                    setSendFeedback(1);
-                    feedback(0, 0);
-                  }}>
-                  <Image source={Images.THUMB_DOWN} style={styles.thumbImg} />
-                  <Text style={styles.thumbTxt}>{Strings.Chat.NOT_GOOD}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.thumbContain(Colors.GREEN)}
-                  onPress={() => {
-                    setSendFeedback(1);
-                    feedback(1, 0);
-                  }}>
-                  <Image source={Images.THUMB_UP} style={styles.thumbImg} />
-                  <Text style={styles.thumbTxt}>{Strings.Chat.GOING_WELL}</Text>
-                </TouchableOpacity>
+              <Image
+                source={Images.BACK_PLAN_ARROW}
+                style={{width: 14.7, height: 12.6}}
+              />
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={styles.topContainer}
+            disabled={
+              parseInt(props?.route?.params?.item?.currentRole) === 1
+                ? true
+                : false
+            }
+            onPress={() => navigateDetailScreen()}>
+            <>
+              <View style={styles.avatar}>
+                <Image
+                  source={
+                    parseInt(props?.route?.params?.item?.currentRole) === 1
+                      ? Images.ADMIN_ICON
+                      : {uri: props.route.params.item.recieverImage}
+                  }
+                  style={styles.avatar}
+                />
               </View>
+              <View style={{marginLeft: 10}}>
+                {parseInt(props?.route?.params?.item?.recieverSubscription) ===
+                0 ? (
+                  <Text style={styles.titleText}>
+                    {Strings.Chat.INACTIVE_USER}
+                  </Text>
+                ) : (
+                  <>
+                    {parseInt(props?.route?.params?.item?.currentRole) ===
+                      1 && (
+                      <Text style={styles.titleText}>
+                        {props.route.params.item.recieverName}
+                      </Text>
+                    )}
+                    {parseInt(props?.route?.params?.item?.currentRole) !==
+                      1 && (
+                      <>
+                        <Text style={styles.titleText}>
+                          {parseInt(props?.route?.params?.item?.currentRole) ===
+                          2
+                            ? props?.route?.params?.item?.recieverName
+                            : getRoleData(
+                                props?.route?.params?.item?.currentRole,
+                              )}
+                        </Text>
+                        <Text style={styles.descText}>
+                          {parseInt(props?.route?.params?.item?.currentRole) ===
+                          2
+                            ? getRoleData(
+                                parseInt(
+                                  props?.route?.params?.item?.currentRole,
+                                ),
+                              )
+                            : `#${props?.route?.params?.item?.recieverUserName}`}
+                        </Text>
+                      </>
+                    )}
+                  </>
+                )}
+              </View>
+            </>
+          </TouchableOpacity>
+          <View />
+        </View>
+        <View style={styles.border} />
+      </View>
+      {showFeedback &&
+        parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
+        parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
+        (db?.messages.length === 20 || db?.messages.length >= 30) &&
+        log_in_data?.role_id === 2 &&
+        db?.messages.length <= 50 && (
+          <View
+            style={{
+              height: 117,
+              width: '100%',
+              backgroundColor: Colors.WHITE,
+              zIndex: 1,
+              top: 150,
+              position: 'absolute',
+            }}>
+            <TouchableOpacity
+              style={{
+                right: 8,
+                width: 30,
+                height: 30,
+                top: 8,
+                alignSelf: 'flex-end',
+              }}
+              disabled={db?.messages.length >= 50 && true}
+              onPress={() => {
+                setSendFeedback(2);
+                feedback(0, 1);
+              }}>
+              <Image source={Images.iconcross} style={styles.crossImage} />
+            </TouchableOpacity>
+            <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
+            <View style={styles.thumbInnerContain}>
+              <TouchableOpacity
+                style={[styles.thumbContain(Colors.RED)]}
+                onPress={() => {
+                  setSendFeedback(1);
+                  feedback(0, 0);
+                }}>
+                <Image source={Images.THUMB_DOWN} style={styles.thumbImg} />
+                <Text style={styles.thumbTxt}>{Strings.Chat.NOT_GOOD}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.thumbContain(Colors.GREEN)}
+                onPress={() => {
+                  setSendFeedback(1);
+                  feedback(1, 0);
+                }}>
+                <Image source={Images.THUMB_UP} style={styles.thumbImg} />
+                <Text style={styles.thumbTxt}>{Strings.Chat.GOING_WELL}</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
-          <View style={styles.smDonorEmptyView}>
-            <EmptySmDonor
-              image={Images.conversation2}
-              title={Strings.Chat.START_CONVERSATION}
-              midTitle=""
-            />
           </View>
         )}
-        {log_in_data?.role_id !== 2 &&
-          db?.messages.length === 0 &&
-          props?.route?.params?.item?.currentRole !== 1 && (
-            <EmptySmDonor
-              image={Images.conversation2}
-              title={Strings.Chat.YOU_MATCHED}
-              midTitle={Strings.Chat.PARENT_TO_BE_CONVERSATION}
-            />
-          )}
-        {log_in_data?.role_id === 2 && (
-          <View style={{flex:1,marginBottom:30,marginTop:30}}>
+      {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
+        <View style={styles.smDonorEmptyView}>
+          <EmptySmDonor
+            image={Images.conversation2}
+            title={Strings.Chat.START_CONVERSATION}
+            midTitle=""
+          />
+        </View>
+      )}
+      {log_in_data?.role_id !== 2 &&
+        db?.messages.length === 0 &&
+        parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
+          <EmptySmDonor
+            image={Images.conversation2}
+            title={Strings.Chat.YOU_MATCHED}
+            midTitle={Strings.Chat.PARENT_TO_BE_CONVERSATION}
+          />
+        )}
+      {log_in_data?.role_id === 2 && (
+        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message => renderActions(message)}
             renderBubble={customSystemMessage}
             scrollToBottom
-            onInputTextChanged={(text) => setTextData(text)}
+            onInputTextChanged={text => setTextData(text)}
             text={textData}
             user={{
-              _id: props?.route?.params?.item?.senderId,
+              _id: parseInt(props?.route?.params?.item?.senderId),
               name: props?.route?.params?.item?.senderName,
               avatar: props?.route?.params?.item?.senderImage,
             }}
@@ -416,20 +443,20 @@ const ChatDetail = props => {
             //     }
             // }}
           />
-          </View>
-        )}
-        {props?.route?.params?.item?.currentRole === 1 && (
-          <View style={{flex:1,marginBottom:30,marginTop:30}}>
+        </View>
+      )}
+      {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
+        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message => renderActions(message)}
             renderBubble={customSystemMessage}
             scrollToBottom
-            onInputTextChanged={(text) => setTextData(text)}
+            onInputTextChanged={text => setTextData(text)}
             text={textData}
             user={{
-              _id: props?.route?.params?.item?.senderId,
+              _id: parseInt(props?.route?.params?.item?.senderId),
               name: props?.route?.params?.item?.senderName,
               avatar: props?.route?.params?.item?.senderImage,
             }}
@@ -440,16 +467,16 @@ const ChatDetail = props => {
             // }}
             // renderAvatarOnTop={false}
             // disableComposer={true}
-          //  messagesContainerStyle={{backgroundColor:'green',height:'100%',marginTop:0,paddingTop:0}}
-          //  listViewProps={{
-          //   contentContainerStyle: {
-          //     flex: 1,
-          //     justifyContent: 'flex-start',
-          //   },
-          // }}
-          // alignTop={true}
-          // showUserAvatar={false}
-          // renderCustomView={null}
+            //  messagesContainerStyle={{backgroundColor:'green',height:'100%',marginTop:0,paddingTop:0}}
+            //  listViewProps={{
+            //   contentContainerStyle: {
+            //     flex: 1,
+            //     justifyContent: 'flex-start',
+            //   },
+            // }}
+            // alignTop={true}
+            // showUserAvatar={false}
+            // renderCustomView={null}
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -461,25 +488,23 @@ const ChatDetail = props => {
             //       setLoadEarlier(false)
             //     }
             // }}
-          
-          
           />
-            </View>
-        )}
-        {db?.messages.length > 0 &&
-          log_in_data?.role_id !== 2 &&
-          props?.route?.params?.item?.currentRole !== 1 && (
-            <View style={{flex:1,marginBottom:30,marginTop:30}}>
+        </View>
+      )}
+      {db?.messages.length > 0 &&
+        log_in_data?.role_id !== 2 &&
+        parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
+          <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
             <GiftedChat
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message => renderActions(message)}
               renderBubble={customSystemMessage}
               scrollToBottom
-              onInputTextChanged={(text) => setTextData(text)}
+              onInputTextChanged={text => setTextData(text)}
               text={textData}
               user={{
-                _id: props?.route?.params?.item?.senderId,
+                _id: parseInt(props?.route?.params?.item?.senderId),
                 name: props?.route?.params?.item?.senderName,
                 avatar: props?.route?.params?.item?.senderImage,
               }}
@@ -499,10 +524,9 @@ const ChatDetail = props => {
               //     }
               // }}
             />
-            </View>
-          )}
-      </View>
-   
+          </View>
+        )}
+    </View>
   );
 };
 

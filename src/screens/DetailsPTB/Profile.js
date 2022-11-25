@@ -92,7 +92,6 @@ const Profile = props => {
         dispatch(hideAppLoader());
         navigation.navigate(Routes.SmBasicDetails);
       } else {
-        dispatch(showAppToast(true, register_user_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -150,6 +149,7 @@ const Profile = props => {
     setTimeout(() => {
       actionSheet.current.show();
     }, 300);
+    askCameraPermission();
   };
 
   const cb = image => {
@@ -211,7 +211,6 @@ const Profile = props => {
   }, [navigation, reset]);
   const openIosSheet = () => {
     openActionSheet();
-    askCameraPermission();
   };
   const openAndroidSheet = () => {
     setOpen(true);

@@ -135,7 +135,7 @@ export default class FirebaseDB {
         .set(sendData)
         .then(async () => {
           resolve();
-          this.updateHistory(msg);
+          this.updateHistory(msg,timestampRow);
 
 
         })
@@ -150,25 +150,43 @@ export default class FirebaseDB {
     cb(false);
   }
 
-  async readMessage(id, data) {
-    const timestamp = new Date().toString();
-    const ref = database().ref(
-      `${chat}` + '/Messages/' + this.chatId + '/' + id,
-    );
-    const snap = await ref.once('value');
-    if (snap.val() !== null && data.user_id !== this.user.user_id) {
-      ref.update({
-        ...data,
-        message: data.text,
-        isRead: true,
-        readAt: timestamp,
-      });
-    }
-  }
+  // async readMessage(id, data) {
+  //   const timestamp = new Date()
+  //   const ref = database().ref(
+  //     `${chat}` + '/Messages/' + this.chatId + '/' + id,
+  //   );
+  //   const snap = await ref.once('value');
+  //   if (snap.val() !== null && data.user_id !== this.user.user_id) {
+  //     ref.update({
+  //       ...data,
+  //       message: data.text,
+  //       isRead: 0,
+  //       readAt: timestamp,
+  //     });
+  //   }
+  // }
   async readSingle(msg) {
     if (msg.sender_id === this.sender.user_id && !msg.isRead) {
       await this.readMessage(msg._id.split('-')[0], msg);
       await this.readAll();
+    }
+  }
+  async readMessage() {
+    const referenceUser = database().ref(
+      `/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`,
+    );
+    const referenceSender = database().ref(
+      `/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`,
+    );
+    try {
+      await referenceUser.update({
+        read: 1,
+      });
+      // await referenceSender.update({
+      //   read: 0,
+      // });
+    } catch (e) {
+      console.log(e);
     }
   }
   async readAll() {
@@ -201,7 +219,7 @@ export default class FirebaseDB {
       console.log(e);
     }
   }
-  async updateHistory(lastMsg) {
+  async updateHistory(lastMsg,timestampRow) {
     const referenceUser = database().ref(
       `/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`,
     );
@@ -210,11 +228,13 @@ export default class FirebaseDB {
     );
     await referenceUser.update({
       message: lastMsg,
-      chat_start:1
+      chat_start:1,
+      time: Date.now(),
     });
     await referenceSender.update({
       message: lastMsg,
-      chat_start:1
+      chat_start:1,
+      time: Date.now(),
     });
   }
   async readAt(id, setLoading) {

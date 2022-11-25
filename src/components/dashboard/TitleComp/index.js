@@ -3,9 +3,10 @@ import React from 'react';
 import styles from './style';
 
 const TitleComp = props => {
-  const {Title, Subtitle, Icon, isCenter, Midtitle, onPress} = props;
+  const {Title, Subtitle, Icon, isCenter, Midtitle, onPress, containerStyle} =
+    props;
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, containerStyle]}>
       <Text style={styles.screenTitle}>{Title}</Text>
       <Text style={styles.screenSubTitle} onPress={onPress}>
         {Subtitle}
