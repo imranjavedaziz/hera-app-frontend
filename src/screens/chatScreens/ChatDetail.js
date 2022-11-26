@@ -221,16 +221,16 @@ const ChatDetail = props => {
 
   function getRoleData(roleId, role) {
     switch (true) {
-      case roleId == '2':
+      case roleId === 2:
         role = 'Parent-To-Be';
         break;
-      case roleId == '3':
+      case roleId === 3:
         role = 'Surrogate Mother';
         break;
-      case roleId == '4':
+      case roleId === 4:
         role = 'Egg Donor';
         break;
-      case roleId == '5':
+      case roleId === 5:
         role = 'Sperm Donor';
         break;
       default:
