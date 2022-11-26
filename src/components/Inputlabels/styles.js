@@ -27,9 +27,12 @@ export default {
     color: '#000000',
   },
   codeInputText: {
-    borderBottomWidth: 2,
-    minHeight: 40,
-    fontSize: 16,
+    borderBottomWidth: Value.CONSTANT_VALUE_2,
+    minHeight: Value.CONSTANT_VALUE_40,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    color: Colors.textPLace,
   },
   focusBorder: {
     borderColor: Colors.SKY_BLUE,

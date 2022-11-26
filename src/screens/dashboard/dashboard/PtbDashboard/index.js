@@ -97,7 +97,8 @@ const PtbDashboard = props => {
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
-            if (notification.data?.match_request?.status === 2) {
+            const {status} = JSON.parse(notification.data?.match_request);
+            if (status === 2) {
               navigation.navigate(Routes.ChatDetail, {
                 item: notification?.data,
                 isComingFrom: false,
@@ -150,7 +151,8 @@ const PtbDashboard = props => {
       const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'profile') {
-          if (notification.data?.match_request?.status === 2) {
+          const {status} = JSON.parse(notification.data?.match_request);
+          if (status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
               isComingFrom: false,

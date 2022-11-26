@@ -16,7 +16,7 @@ import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {InputLabel} from '../../components';
 import {Value} from '../../constants/FixedValues';
-import {Alignment} from '../../constants';
+import {Alignment, Colors} from '../../constants';
 
 const MobileNumber = () => {
   const navigation = useNavigation();
@@ -114,7 +114,11 @@ const MobileNumber = () => {
     setValue('phone', a);
   };
   return (
-    <>
+    <View
+      style={{
+        flex: Value.CONSTANT_VALUE_1,
+        backgroundColor: Colors.BACKGROUND,
+      }}>
       <Header end={true}>{headerComp()}</Header>
       <ScrollView
         style={{flex: Value.CONSTANT_VALUE_1}}
@@ -169,7 +173,7 @@ const MobileNumber = () => {
           />
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 };
 export default MobileNumber;

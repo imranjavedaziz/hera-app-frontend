@@ -28,6 +28,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
+import {Colors} from '../../constants';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
@@ -106,7 +107,11 @@ const OTP = ({route}) => {
     />
   );
   return (
-    <View style={{flex: 1}}>
+    <View
+      style={{
+        flex: Value.CONSTANT_VALUE_1,
+        backgroundColor: Colors.BACKGROUND,
+      }}>
       <Header end={false}>{headerComp()}</Header>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAvoidingView

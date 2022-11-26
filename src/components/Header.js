@@ -1,11 +1,11 @@
 // Header
 import React from 'react';
-import { View, TouchableOpacity, Image, Platform, Text } from 'react-native';
+import {View, TouchableOpacity, Image, Platform, Text} from 'react-native';
 import Colors from '../constants/Colors';
-import { Value, Prencentage } from '../constants/FixedValues';
+import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
-import { dynamicSize } from '../utils/responsive';
-import { Fonts } from '../constants/Constants';
+import {dynamicSize} from '../utils/responsive';
+import {Fonts} from '../constants/Constants';
 
 const styles = {
   container: {
@@ -77,9 +77,9 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_1,
     top: Value.CONSTANT_VALUE_5,
     borderColor: Colors.WHITE,
-  }
+  },
 };
-export const CircleBtn = ({ icon, onPress, Fixedstyle, ...otherProps }) => (
+export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
   <TouchableOpacity
     style={[styles.circle, Fixedstyle]}
     onPress={onPress}
@@ -89,7 +89,7 @@ export const CircleBtn = ({ icon, onPress, Fixedstyle, ...otherProps }) => (
     <Image accessible={false} source={icon} style={styles.img} />
   </TouchableOpacity>
 );
-export const IconHeader = (props) => {
+export const IconHeader = props => {
   const {
     rightIcon,
     leftIcon,
@@ -106,66 +106,64 @@ export const IconHeader = (props) => {
     chat,
     ...otherProps
   } = props;
-  const STYLE_ONE = Platform.OS === 'ios'
-    ? styles.profileIconConatiner
-    : styles.androidIconCon
-  return <>
-    {profileView ? (
-      <TouchableOpacity
-        style={STYLE_ONE}
-        onPress={leftPress}>
-        <View
-          style={[styles.circle, styles.start, styles.profileImgContainner]}>
-          <Image source={{ uri: profileImg }} style={styles.profileImg} />
-        </View>
-      </TouchableOpacity>
-    ) : (
-      <TouchableOpacity
-        style={styles.circle}
-        onPress={leftPress}
-        {...otherProps}
-        accessible={true}
-        accessibilityRole="button">
-        {ApiImage ? (
-          <View style={[styles.profileImgContainner]}>
-            <Image source={leftIcon} style={styles.innerProfileimg} />
+  const STYLE_ONE =
+    Platform.OS === 'ios' ? styles.profileIconConatiner : styles.androidIconCon;
+  return (
+    <>
+      {profileView ? (
+        <TouchableOpacity style={STYLE_ONE} onPress={leftPress}>
+          <View
+            style={[styles.circle, styles.start, styles.profileImgContainner]}>
+            <Image source={{uri: profileImg}} style={styles.profileImg} />
           </View>
-        ) : (
-          <Image accessible={false} source={leftIcon} style={styles.img} />
-        )}
-      </TouchableOpacity>
-    )}
-    <View style={{ flexDirection: Alignment.ROW, alignItems: Alignment.CENTER }}>
-      <TouchableOpacity
-        style={styles.circle}
-        onPress={rightPrevPress}
-        {...otherProps}
-        accessible={true}
-        accessibilityRole="button">
-        <Image
-          accessible={false}
-          source={rightPrevIcon}
-          style={[styles.img, rightImg]}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={txtPress}>
-        <Text style={styles.headerText}>{txt}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.circle}
-        onPress={rightPress}
-        {...otherProps}
-        accessible={true}
-        accessibilityRole="button">
-        {chat === true && (
-          <View style={styles.blankContainer} />
-        )}
-        <Image accessible={false} source={rightIcon} style={styles.img} />
-      </TouchableOpacity>
-    </View>
-  </>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.circle}
+          onPress={leftPress}
+          {...otherProps}
+          accessible={true}
+          accessibilityRole="button">
+          {ApiImage ? (
+            <View style={[styles.profileImgContainner]}>
+              <Image source={leftIcon} style={styles.innerProfileimg} />
+            </View>
+          ) : (
+            <Image accessible={false} source={leftIcon} style={styles.img} />
+          )}
+        </TouchableOpacity>
+      )}
+      <View
+        style={{flexDirection: Alignment.ROW, alignItems: Alignment.CENTER}}>
+        <TouchableOpacity
+          style={styles.circle}
+          onPress={rightPrevPress}
+          {...otherProps}
+          accessible={true}
+          accessibilityRole="button">
+          <Image
+            accessible={false}
+            source={rightPrevIcon}
+            style={[styles.img, rightImg]}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={txtPress}>
+          <Text style={styles.headerText}>{txt}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.circle}
+          onPress={rightPress}
+          {...otherProps}
+          accessible={true}
+          accessibilityRole="button">
+          {chat === true && <View style={styles.blankContainer} />}
+          <Image accessible={false} source={rightIcon} style={styles.img} />
+        </TouchableOpacity>
+      </View>
+    </>
+  );
 };
-const Header = ({ end = false, children }) => {
+const Header = ({end = false, children}) => {
   return (
     <View style={[styles.container, end ? styles.end : styles.start]}>
       {children}

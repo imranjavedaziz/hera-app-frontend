@@ -37,6 +37,7 @@ import ImageView from 'react-native-image-viewing';
 import {BottomSheetComp} from '../../../components';
 import FastImage from 'react-native-fast-image';
 import RNSDWebImage from 'react-native-sdwebimage';
+import {Value} from '../../../constants/FixedValues';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -69,7 +70,7 @@ const CreateGallery = () => {
   const [remove, setRemove] = useState([]);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-  const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
   const {
     gallery_success,
     gallery_loading,
@@ -415,14 +416,20 @@ const CreateGallery = () => {
               </TouchableOpacity>
             </View>
           ) : (
-            <Button
-              style={styles.btn}
-              label={Strings.sm_create_gallery.Btn}
+            <TouchableOpacity
+              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
+              style={styles.dashboardBtn}
               onPress={() => {
                 dispatch(updateRegStep());
                 navigation.navigate(Routes.SmDashboard);
-              }}
-            />
+              }}>
+              <Text
+                style={styles.buttonText}
+                accessible={false}
+                numberOfLines={Value.CONSTANT_VALUE_1}>
+                {Strings.sm_create_gallery.Btn}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       </Container>

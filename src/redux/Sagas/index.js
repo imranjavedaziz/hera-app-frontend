@@ -1,4 +1,4 @@
-import { all, fork } from 'redux-saga/effects';
+import {all, fork} from 'redux-saga/effects';
 import {
   watchLogIn,
   watchMobileNumber,
@@ -14,18 +14,22 @@ import {
   watchGetProfileSetter,
 } from './Register';
 
-import { watchSavePreferenceRes, watchsetPreference } from './SetPreference';
-import { watchGetUserGallery, watchDeleteUserGallery } from './CreateGallery';
-import { watchGetPtbDashboard } from './PtbDashboard';
-import { watchSetAttribute, watchSaveAttributeRes } from './SetAttribute';
-import { watchGetDonorDashboard } from './DonorDashboard';
-import { watchGetPtbProfileDetail, watchsendLikePtb } from './PtbProfileDetail';
-import { watchSmDonorDetail } from './SmDonerDetail';
-import { watchSupportForm, watchUserType } from './Support';
-import { watchpProfileMatchResponse, watchProfileMatch } from './Profile_Match';
-import { watchCreateSubscription, watchSubscriptionPlan, watchSubscriptionStatus } from './Subscription';
-import { watchGetFeedback ,watchGetSendNotification} from './Chat';
-
+import {watchSavePreferenceRes, watchsetPreference} from './SetPreference';
+import {watchGetUserGallery, watchDeleteUserGallery} from './CreateGallery';
+import {watchGetPtbDashboard} from './PtbDashboard';
+import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
+import {watchGetDonorDashboard} from './DonorDashboard';
+import {watchGetPtbProfileDetail, watchsendLikePtb} from './PtbProfileDetail';
+import {watchSmDonorDetail} from './SmDonerDetail';
+import {watchSupportForm, watchUserType} from './Support';
+import {watchpProfileMatchResponse, watchProfileMatch} from './Profile_Match';
+import {
+  watchCreateSubscription,
+  watchSubscriptionPlan,
+  watchSubscriptionStatus,
+} from './Subscription';
+import {watchGetFeedback, watchGetSendNotification} from './Chat';
+import {watchDeleteAccount} from './DeleteAccount';
 
 export default function* rootSaga() {
   yield all([
@@ -58,6 +62,7 @@ export default function* rootSaga() {
     fork(watchSubscriptionPlan),
     fork(watchSubscriptionStatus),
     fork(watchGetFeedback),
-    fork(watchGetSendNotification)
+    fork(watchGetSendNotification),
+    fork(watchDeleteAccount),
   ]);
 }

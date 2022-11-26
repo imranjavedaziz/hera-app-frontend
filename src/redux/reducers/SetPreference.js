@@ -28,6 +28,7 @@ const initState = {
   save_preference_success: false,
   save_preference_loading: false,
   save_preference_error_msg: '',
+  save_preference_res: '',
 };
 
 export default (state = initState, action) => {
@@ -85,6 +86,7 @@ export default (state = initState, action) => {
         save_preference_success: true,
         save_preference_loading: false,
         save_preference_error_msg: '',
+        save_preference_res: action?.data?.data?.data,
       };
     }
     default:

@@ -170,7 +170,7 @@ const SetPreference = ({route, navigation}) => {
       {EditPreferences === true ? (
         <TouchableOpacity
           style={styles.header}
-          onPress={() => navigation.goBack()}>
+          onPress={() => navigation.navigate(Routes.PtbProfile)}>
           <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
         </TouchableOpacity>
       ) : (
@@ -259,6 +259,7 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
                   label={Strings.preference.Location}
                   data={Static.location}
                   onSelect={(selectedItem, index) => {
@@ -275,7 +276,7 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
-                  containerStyle={{marginTop: 8}}
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
                   onSelect={(selectedItem, index) => {
