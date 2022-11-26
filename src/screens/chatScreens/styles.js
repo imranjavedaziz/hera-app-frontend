@@ -40,7 +40,7 @@ export default {
   chatContainer: {
     paddingVertical:12,
     paddingHorizontal: 24,
-    maxWidth:250
+    maxWidth:302
   },
   senderID: {
     alignSelf: Alignment.FLEXEND,

@@ -433,6 +433,7 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
+            minComposerHeight={textData?.length>75?112:34}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
             // isLoadingEarlier={loading}
@@ -464,21 +465,14 @@ const ChatDetail = props => {
             }}
             containerStyle={styles.mainContainerDetail}
             renderAvatar={null}
-            // textInputProps={{
-            //   autoCorrect: false,
-            // }}
-            // renderAvatarOnTop={false}
-            // disableComposer={true}
-            //  messagesContainerStyle={{backgroundColor:'green',height:'100%',marginTop:0,paddingTop:0}}
-            //  listViewProps={{
-            //   contentContainerStyle: {
-            //     flex: 1,
-            //     justifyContent: 'flex-start',
-            //   },
-            // }}
-            // alignTop={true}
-            // showUserAvatar={false}
-            // renderCustomView={null}
+            minComposerHeight={textData?.length>75?112:34}
+          //   listViewProps={{
+          //     scrollEventThrottle: 400,
+          //     onScroll: ({ nativeEvent }) => {
+          //       db.loadEarlier(setLoading)
+          //       // setLoadEarlier(false)
+          //     }
+          // }}
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -512,8 +506,10 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
+              minComposerHeight={textData?.length>75?112:34}
               textInputProps={{
                 autoCorrect: false,
+
               }}
 
               // loadEarlier={loadEarlier}
@@ -521,8 +517,8 @@ const ChatDetail = props => {
               // listViewProps={{
               //     scrollEventThrottle: 400,
               //     onScroll: ({ nativeEvent }) => {
-              //       db.loadEarlier(setLoading,setLoadEarlier)
-              //       setLoadEarlier(false)
+              //       db.loadEarlier(setLoading)
+              //       // setLoadEarlier(false)
               //     }
               // }}
             />

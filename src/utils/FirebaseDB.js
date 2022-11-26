@@ -44,6 +44,7 @@ export default class FirebaseDB {
   }
 
   appendMessage(msg) {
+    console.log(msg,'msg::::::::')
     const index = this.messages.findIndex(m => m._id === msg._id);
     if (index === -1) {
       this.messages = [...this.messages, msg];
@@ -124,11 +125,49 @@ export default class FirebaseDB {
   }
 
   loadEarlier(cb) {
-    console.log('hjfdhcj');
     this.loading = true;
     cb(true);
-    cb(false);
-  }
+    this.reference.orderByChild('time').limitToLast(SIZE).endAt(this?.messages[this?.messages?.length-1]._id).once('value').then(async snapshot => {
+        // alert('hi')
+        console.log(snapshot.val(), 'snapshotmload earlier')
+        let childShot= Object.keys(snapshot.val())
+        console.log(childShot,'childShot')
+        // console.log(this.firstKey, ' this.firstKey')
+        // this.loading = false;
+        // const keys = (Object.keys(snapshot.val() || {}));
+        // if (snapshot.length < SIZE) this.endReached = true;
+        const ordered = Object.keys(snapshot.val()).reduce(
+          (obj, key) => {
+              obj[key] = snapshot.val()[key];
+              return obj;
+          },
+          {}
+      );
+      const keys = (Object.keys(ordered||{}));
+      const snapValues = (Object.values(ordered||{}));
+
+      snapValues.map(async (childSnapshot,index)=>{
+          console.log(childSnapshot,'childSnapshot')
+            // if(parseInt(keys[index])<parseInt(this.firstKey)){
+                const { time, text, from } = childSnapshot;
+                const createdAt = new Date(time)
+                // console.log(keys[index],'keys[index]')
+                let messageItem = {
+                    _id: keys[index],
+                     text,
+                    createdAt: time,
+                    from,
+                };
+                console.log(messageItem,'messageItem earlier')
+                this.appendMessage(messageItem);
+                // await this.readSingle(messageItem);
+            // }
+        })
+        // this.firstKey = this.messages[this.messages.length-1]._id
+        cb(false);
+    })
+}
+
 
   // async readMessage(id, data) {
   //   const timestamp = new Date()

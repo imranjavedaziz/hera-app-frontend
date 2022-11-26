@@ -31,7 +31,7 @@ export default {
   },
   description: {
     marginLeft: px(Value.CONSTANT_VALUE_12),
-    width: px(Value.CONSTANT_VALUE_200),
+    maxWidth: px(Value.CONSTANT_VALUE_190),
     alignItems: 'flex-start',
   },
   userName: {
