@@ -6,7 +6,6 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
-  Keyboard,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -63,7 +62,6 @@ const ChatDetail = props => {
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
-    console.log(fireDB.messages, 'fireDB.messages');
     if (fireDB.messages.length > 1) {
       await fireDB.readMessage();
     }
@@ -241,8 +239,11 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(db?.messages.length,'db?.messages.length')
-  console.log(props?.route?.params?.item?.feedback_status,'props?.route?.params?.item?.feedback_status')
+  console.log(db?.messages.length, 'db?.messages.length');
+  console.log(
+    props?.route?.params?.item?.feedback_status,
+    'props?.route?.params?.item?.feedback_status',
+  );
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
@@ -321,7 +322,7 @@ const ChatDetail = props => {
                                 props?.route?.params?.item?.currentRole,
                               )}
                         </Text>
-                        <Text numberOfLines={1}  style={styles.descText}>
+                        <Text numberOfLines={1} style={styles.descText}>
                           {parseInt(props?.route?.params?.item?.currentRole) ===
                           2
                             ? getRoleData(
@@ -345,9 +346,8 @@ const ChatDetail = props => {
       {showFeedback &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
         parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
-        ((db?.messages?.length === 20) || (db?.messages?.length >= 30)) &&
-        log_in_data?.role_id === 2 &&
-       (
+        (db?.messages?.length === 20 || db?.messages?.length >= 30) &&
+        log_in_data?.role_id === 2 && (
           <View
             style={{
               height: 117,
@@ -433,7 +433,7 @@ const ChatDetail = props => {
             textInputProps={{
               autoCorrect: false,
             }}
-            minComposerHeight={textData?.length>75?112:34}
+            minComposerHeight={textData?.length > 75 ? 112 : 34}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
             // isLoadingEarlier={loading}
@@ -465,14 +465,14 @@ const ChatDetail = props => {
             }}
             containerStyle={styles.mainContainerDetail}
             renderAvatar={null}
-            minComposerHeight={textData?.length>75?112:34}
-          //   listViewProps={{
-          //     scrollEventThrottle: 400,
-          //     onScroll: ({ nativeEvent }) => {
-          //       db.loadEarlier(setLoading)
-          //       // setLoadEarlier(false)
-          //     }
-          // }}
+            minComposerHeight={textData?.length > 75 ? 112 : 34}
+            //   listViewProps={{
+            //     scrollEventThrottle: 400,
+            //     onScroll: ({ nativeEvent }) => {
+            //       db.loadEarlier(setLoading)
+            //       // setLoadEarlier(false)
+            //     }
+            // }}
             // isLoadingEarlier={loading}
             // loadEarlier={loadEarlier}
             // onLoadEarlier={()=>db.loadEarlier(setLoading)}
@@ -506,10 +506,9 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              minComposerHeight={textData?.length>75?112:34}
+              minComposerHeight={textData?.length > 75 ? 112 : 34}
               textInputProps={{
                 autoCorrect: false,
-
               }}
 
               // loadEarlier={loadEarlier}

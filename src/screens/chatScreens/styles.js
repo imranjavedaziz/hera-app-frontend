@@ -8,7 +8,7 @@ export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginBottom:34
+    marginBottom: 34,
   },
   header: {marginTop: px(10), marginLeft: px(30)},
   Inbox: {
@@ -30,32 +30,32 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     fontSize: px(Value.CONSTANT_VALUE_13),
-    fontWeight:Alignment.BOLD
+    fontWeight: Alignment.BOLD,
   },
-  chatTime:{
-    fontFamily:Fonts.OpenSansRegular,
+  chatTime: {
+    fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_13),
     color: '#ada99f',
   },
   chatContainer: {
-    paddingVertical:12,
+    paddingVertical: 12,
     paddingHorizontal: 24,
-    maxWidth:302
+    maxWidth: 302,
   },
   senderID: {
     alignSelf: Alignment.FLEXEND,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.WHITE,
-    alignItems:Alignment.CENTER,
-    marginRight:20,
-    justifyContent:'center',
+    alignItems: Alignment.CENTER,
+    marginRight: 20,
+    justifyContent: 'center',
   },
   receiverID: {
     alignSelf: Alignment.FLEX_START,
     flexDirection: Alignment.ROW,
-    justifyContent:'center',
-    alignItems:Alignment.CENTER,
-    marginLeft:10,
+    justifyContent: 'center',
+    alignItems: Alignment.CENTER,
+    marginLeft: 10,
     backgroundColor: Colors.GREEN,
   },
   mainContainerDetail: {
@@ -75,7 +75,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_16,
-    width:128
+    width: 128,
   },
   descText: {
     fontFamily: Fonts.OpenSansRegular,
@@ -95,9 +95,9 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_35 / 2,
   },
   outerContainer: {
- flexDirection:  Alignment.ROW,
-    alignItems:  Alignment.CENTER,
-    justifyContent:'space-between',
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+    justifyContent: 'space-between',
     marginTop: 40,
     paddingHorizontal: 20,
   },
@@ -108,7 +108,7 @@ export default {
     borderColor: color,
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.CENTER,
-    alignItems:  Alignment.CENTER,
+    alignItems: Alignment.CENTER,
     borderRadius: 6,
   }),
   thumbImg: {height: 15, width: 14},
@@ -118,7 +118,7 @@ export default {
     marginTop: 15,
   },
   matchTxt: {
-    textAlign:  Alignment.CENTER,
+    textAlign: Alignment.CENTER,
     fontSize: 16,
     lineHeight: 21,
     fontFamily: Fonts.OpenSansBold,
@@ -139,24 +139,24 @@ export default {
     height: '80%',
   },
   crossImage: {width: 30, height: 30},
-  searchBar:{
-    marginHorizontal:20,
-   marginTop:10,
-    backgroundColor:'white',
+  searchBar: {
+    marginHorizontal: 20,
+    marginTop: 10,
+    backgroundColor: 'white',
     width: 303,
   },
-  messageSendTextInput:{
+  messageSendTextInput: {
     flexDirection: 'row',
     marginBottom: 50,
     marginHorizontal: 20,
     height: 48,
     borderRadius: 24,
     backgroundColor: 'white',
-
-  },messageSend:{
-    alignSelf:Alignment.CENTER,
+  },
+  messageSend: {
+    alignSelf: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     position: Alignment.ABSOLUTE,
     right: 12,
-  }
+  },
 };

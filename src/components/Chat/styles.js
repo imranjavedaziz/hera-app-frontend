@@ -27,7 +27,7 @@ export default {
     flexDirection: Alignment.ROW,
     marginBottom: px(Value.CONSTANT_VALUE_18),
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent:Alignment.SPACE_BETWEEN,
   },
   description: {
     marginLeft: px(Value.CONSTANT_VALUE_12),
@@ -39,10 +39,8 @@ export default {
     fontSize: px(Value.CONSTANT_VALUE_14),
     color: Colors.BLACK,
     fontWeight: Alignment.BOLD,
-
     lineHeight: 21,
-    letterSpacing: 0,
-    color: '#353a3a',
+    letterSpacing: 0
   },
   msg: {
     fontFamily: Fonts.OpenSansRegular,
@@ -88,10 +86,10 @@ export default {
     height: 64,
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 23,
-    fontWeight: 'bold',
+    fontWeight: Alignment.BOLD,
     fontStyle: 'normal',
     letterSpacing: 0,
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     color: '#353a3a',
     marginTop: 20,
   },
@@ -102,10 +100,10 @@ export default {
   chatText: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_18),
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     color: '#747474',
     width: 282,
   },
   chatImage: {width: 160, height: 160, marginBottom: 27},
-  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  container: {flex: 1, justifyContent: Alignment.CENTER, alignItems: Alignment.CENTER},
 };
