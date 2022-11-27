@@ -29,9 +29,10 @@ export default (state = initState, action) => {
         chats: [action.payload, ...state.chats],
       };
     case APPEND_CHAT:
+     let sortedData=action?.payload?.sort(function(a, b){return b?.time - a?.time});
       return {
         ...state,
-        chats: action.payload,
+        chats: sortedData,
       };
     case EMPTY_CHAT:
       return {
