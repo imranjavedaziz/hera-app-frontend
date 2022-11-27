@@ -44,5 +44,5 @@ export default {
   delete_account: 'delete-account',
   get_user_detail: 'get-user-profile',
   update_user_detail: 'update-profile',
-  message:'/Messages/'
+  message: '/Messages/',
 };
