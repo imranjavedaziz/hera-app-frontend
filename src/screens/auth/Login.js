@@ -90,7 +90,7 @@ const Login = props => {
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;
     if (deleting) {
-      return value;
+      return value.replace(/[^\w]/g, '');
     }
     if (!value) {
       return value;
