@@ -17,7 +17,7 @@ const ProfileImage = ({
         <Image style={styles.Image} source={source} />
         <TouchableOpacity
           style={styles.cameraContainer}
-          activeOpacity={0.5}
+          activeOpacity={1}
           onPress={onPressImg}>
           <Image source={Images.camera} style={styles.cameraIcon} />
         </TouchableOpacity>

@@ -60,7 +60,7 @@ export default (state = initState, action) => {
         update_user_detail_success: true,
         update_user_detail_loading: false,
         update_user_detail__error_msg: '',
-        update_user_detail_res: action.data.data.data,
+        update_user_detail_res: action.data?.data?.message,
       };
     case UPDATE_USER_DETAIL_FAIL:
       return {

@@ -105,7 +105,7 @@ const Profile = props => {
   ]);
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
-    return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
+    return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
   // Header Component
   const headerComp = () => (
@@ -116,7 +116,7 @@ const Profile = props => {
       }}
       Fixedstyle={{
         marginRight: Value.CONSTANT_VALUE_20,
-        top: Value.CONSTANT_VALUE_54,
+        marginTop: Value.CONSTANT_VALUE_44,
       }}
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
@@ -241,6 +241,7 @@ const Profile = props => {
                   {/* IMage Upload */}
                   <View style={styles.profileContainer}>
                     <TouchableOpacity
+                      activeOpacity={1}
                       onPress={() => {
                         Platform.OS === 'ios'
                           ? openIosSheet()
@@ -370,7 +371,6 @@ const Profile = props => {
                         required={true}
                         secureTextEntry={true}
                         containerStyle={{marginBottom: Value.CONSTANT_VALUE_10}}
-                        error={errors && errors.confirm_password?.message}
                       />
                       {pwdErrMsg.map(msg => (
                         <View style={styles.passwordCheck} key={msg.type}>
@@ -419,6 +419,7 @@ const Profile = props => {
                       required={true}
                       secureTextEntry={true}
                       containerStyle={{marginBottom: Value.CONSTANT_VALUE_40}}
+                      error={errors && errors.confirm_password?.message}
                     />
                   )}
                   name={FormKey.confirm_password}

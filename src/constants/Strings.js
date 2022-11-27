@@ -18,6 +18,7 @@ export const ValidationMessages = {
   ENTER_DOB: 'Please enter your DOB',
   ENTER_GENDER: 'Please select your Gender',
   ENTER_SEXUAL_ORIENTATION: 'Please select your Sexual Orientation',
+  ENTER_COUNTRY: 'Please select your Country',
   ENTER_RELATIONSHIP: 'Please select your Relationship Status',
   ENTER_STATE: 'Please select your State',
   ENTER_ZIP: 'Please enter your Zip Code',

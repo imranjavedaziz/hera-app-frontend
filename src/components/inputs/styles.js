@@ -4,11 +4,11 @@ import Alignment from '../../constants/Alignment';
 import {Fonts} from '../../constants/Constants';
 
 export default {
-  // container: {
-  //   paddingTop: Value.CONSTANT_VALUE_20,
-  //   flex: Value.CONSTANT_VALUE_0,
-  //   width: Prencentage.PRECENTAGE_100,
-  // },
+  container: {
+    marginTop: Value.CONSTANT_VALUE_30,
+    flex: Value.CONSTANT_VALUE_0,
+    width: Prencentage.PRECENTAGE_100,
+  },
   bottom: {bottom: 10},
   label: {
     position: Alignment.ABSOLUTE,

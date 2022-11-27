@@ -11,7 +11,7 @@ import {
   Modal,
   Alert,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Button,
   FloatingLabelInput,
@@ -19,26 +19,31 @@ import {
   MultiTextInput,
 } from '../../../components';
 import styles from './styles';
-import {useNavigation} from '@react-navigation/native';
-import {Routes, FormKey, Static} from '../../../constants/Constants';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {Routes} from '../../../constants/Constants';
 import {Alignment, Colors, Images, Strings} from '../../../constants';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {parentRegisterSchema} from '../../../constants/schemas';
+import {editProfileSchema} from '../../../constants/schemas';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getProfileSetterDetail,
   getStates,
 } from '../../../redux/actions/Register';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {
   getEditProfile,
   updateEditProfile,
 } from '../../../redux/actions/Edit_profile';
+import moment from 'moment';
 
-const EditProfile = () => {
+const EditProfile = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [profileRes, setProfileRes] = useState();
@@ -47,11 +52,18 @@ const EditProfile = () => {
   const [show, setShow] = useState(false);
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
+  const GetLoadingRef = useRef(false);
+  const UpdateLoadingRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
-  useEffect(() => {
-    dispatch(getStates());
-    dispatch(getProfileSetterDetail());
-  }, []);
+  const [phone, setPhone] = useState('');
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(showAppLoader());
+      dispatch(getStates());
+      dispatch(getProfileSetterDetail());
+      dispatch(getEditProfile());
+    }, [dispatch]),
+  );
   const {
     get_state_res,
     get_profile_setter_res,
@@ -62,7 +74,42 @@ const EditProfile = () => {
     get_state_loading,
     get_state_error_msg,
   } = useSelector(state => state.Register);
-  //   const user = useSelector(state => state.Auth.user);
+  const {
+    get_user_detail_res,
+    get_user_detail_success,
+    get_user_detail_loading,
+    get_user_detail_error,
+    update_user_detail_success,
+    update_user_detail_loading,
+    update_user_detail__error_msg,
+    update_user_detail_res,
+  } = useSelector(state => state.Edit_profile);
+  const {
+    handleSubmit,
+    control,
+    reset,
+    setValue,
+    formState: {errors},
+  } = useForm({
+    resolver: yupResolver(editProfileSchema),
+  });
+  // UPDATE DETAIL
+  useEffect(() => {
+    if (UpdateLoadingRef.current && !update_user_detail_loading) {
+      dispatch(showAppLoader());
+      if (update_user_detail_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, update_user_detail_res));
+        props.route?.params?.smProfile
+          ? navigation.navigate(Routes.SmSetting)
+          : navigation.navigate(Routes.PtbProfile);
+      }
+      if (update_user_detail__error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    UpdateLoadingRef.current = update_user_detail_loading;
+  }, [update_user_detail_success, update_user_detail_loading]);
 
   //GET STATE
   useEffect(() => {
@@ -70,41 +117,57 @@ const EditProfile = () => {
       dispatch(showAppLoader());
       if (get_state_success) {
         dispatch(hideAppLoader());
+
         setStateRes(get_state_res);
+        dispatch(hideAppLoader());
       }
       if (get_state_error_msg) {
         dispatch(hideAppLoader());
       }
     }
     loadingRef.current = get_state_loading;
-  }, [get_state_success, get_state_loading]);
+  }, [get_state_loading, get_state_success]);
+
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {
       dispatch(showAppLoader());
       if (get_profile_setter_success) {
-        // console.log("GETSETTER",get_profile_setter_res)
-        dispatch(hideAppLoader());
+        handelChange();
         setProfileRes(get_profile_setter_res);
+        dispatch(hideAppLoader());
       }
       if (get_profile_setter_error_msg) {
         dispatch(hideAppLoader());
       }
     }
     LoadingRef.current = get_profile_setter_loading;
-  }, [get_profile_setter_success, get_profile_setter_loading]);
+  }, [
+    get_profile_setter_loading,
+    get_profile_setter_success,
+    get_profile_setter_res,
+  ]);
+
+  //GET USER DETAIL
+  useEffect(() => {
+    if (GetLoadingRef.current && !get_user_detail_loading) {
+      dispatch(showAppLoader());
+      if (get_user_detail_success) {
+        handelChange();
+        dispatch(hideAppLoader());
+      }
+      if (get_user_detail_error) {
+        dispatch(hideAppLoader());
+      }
+    }
+    GetLoadingRef.current = get_user_detail_loading;
+  }, [get_user_detail_success, get_user_detail_loading]);
+
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
-    return date !== '' ? ` ${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
+    return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: {errors},
-  } = useForm({
-    resolver: yupResolver(parentRegisterSchema),
-  });
+
   const backAction = () => {
     Alert.alert(
       Strings.EDITPROFILE.DiscardEdit,
@@ -113,7 +176,9 @@ const EditProfile = () => {
         {
           text: Strings.profile.ModalOption1,
           onPress: () => {
-            navigation.navigate(Routes.PtbProfile);
+            props.route?.params?.smProfile
+              ? navigation.navigate(Routes.SmSetting)
+              : navigation.navigate(Routes.PtbProfile);
           },
         },
         {
@@ -133,7 +198,105 @@ const EditProfile = () => {
       <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
     </TouchableOpacity>
   );
-  const onSubmit = () => {};
+  const normalizeInput = (value, previousValue) => {
+    console.log(value, previousValue);
+    const deleting = previousValue && previousValue.length > value?.length;
+    if (deleting) {
+      return value;
+    }
+    if (!value) {
+      return value;
+    }
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+    if (!previousValue || value?.length > previousValue.length) {
+      if (cvLength < 4) {
+        return currentValue;
+      }
+      if (cvLength < 7) {
+        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
+      }
+      return `${currentValue.slice(0, 3)} ${currentValue.slice(
+        3,
+        6,
+      )} (${currentValue.slice(6, 10)})`;
+    }
+  };
+  const handelChange = async value => {
+    reset({phone: ''});
+
+    setPhone(prevstate =>
+      normalizeInput(get_user_detail_res.phone_no, prevstate),
+    );
+    let a = '';
+    for (var i = 0; i < get_user_detail_res.phone_no.length; i++) {
+      if (
+        get_user_detail_res.phone_no[i] !== ' ' &&
+        get_user_detail_res.phone_no[i] !== ')' &&
+        get_user_detail_res.phone_no[i] !== '('
+      ) {
+        a = a + get_user_detail_res.phone_no[i];
+      }
+    }
+    const sexual_orientations_id =
+      get_profile_setter_res?.sexual_orientation.find(obj => {
+        return (
+          obj.id === get_user_detail_res?.user_profile?.sexual_orientations_id
+        );
+      });
+    const relationship_status_id =
+      get_profile_setter_res?.relationship_status.find(obj => {
+        return (
+          obj.id === get_user_detail_res?.user_profile?.relationship_status_id
+        );
+      });
+    const state_id = get_state_res.find(obj => {
+      return obj.id === get_user_detail_res?.location?.state_id;
+    });
+    setValue('phone', a);
+    setValue('first_name', get_user_detail_res?.first_name);
+    setValue('middle_name', get_user_detail_res?.middle_name);
+    setValue('last_name', get_user_detail_res?.last_name);
+    setValue('email', get_user_detail_res?.email);
+    setValue('gender_id', get_user_detail_res?.user_profile.gender_id);
+    setValue('dob', moment(get_user_detail_res?.dob).format('MMM DD, YYYY'));
+    setValue('state_id', state_id);
+    setValue('zipcode', get_user_detail_res?.location.zipcode);
+    setValue(
+      'occupation',
+      get_user_detail_res?.user_profile?.occupation === null
+        ? ''
+        : get_user_detail_res?.user_profile?.occupation,
+    );
+    setValue('bio', get_user_detail_res?.user_profile.bio);
+    setValue('sexual_orientations_id', sexual_orientations_id);
+    setValue('relationship_status_id', relationship_status_id);
+  };
+  const onSubmit = data => {
+    dispatch(showAppLoader());
+    const payload = {
+      bio: data?.bio,
+      dob: data?.dob,
+      email: data?.email,
+      first_name: data.first_name,
+      gender_id: data.gender_id,
+      last_name: data?.last_name,
+      middle_name: data?.middle_name,
+      occupation: data?.occupation,
+      phone: data?.phone,
+      relationship_status_id: data?.relationship_status_id?.id
+        ? data?.relationship_status_id?.id
+        : data?.relationship_status_id,
+      sexual_orientations_id: data?.sexual_orientations_id?.id
+        ? data?.sexual_orientations_id?.id
+        : data?.sexual_orientations_id,
+      state_id: data?.state_id?.id ? data?.state_id?.id : data?.state_id,
+      zipcode: data?.zipcode,
+    };
+
+    console.log(data, 'data:neww:::::');
+    dispatch(updateEditProfile(payload));
+  };
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -162,7 +325,7 @@ const EditProfile = () => {
                     error={errors && errors.first_name?.message}
                   />
                 )}
-                name={FormKey.first_name}
+                name="first_name"
               />
               <Controller
                 control={control}
@@ -175,7 +338,7 @@ const EditProfile = () => {
                     error={errors && errors.middle_name?.message}
                   />
                 )}
-                name={FormKey.middle_name}
+                name="middle_name"
               />
               <Controller
                 control={control}
@@ -189,7 +352,7 @@ const EditProfile = () => {
                     error={errors && errors.last_name?.message}
                   />
                 )}
-                name={FormKey.last_name}
+                name="last_name"
               />
               <Controller
                 control={control}
@@ -200,26 +363,29 @@ const EditProfile = () => {
                     onChangeText={v => onChange(v)}
                     fontWeight={Alignment.BOLD}
                     required={true}
+                    editable={false}
                     error={errors && errors.email?.message}
                   />
                 )}
-                name={FormKey.email}
+                name="email"
               />
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
                     label={Strings.profile.phone_no}
-                    value={'+1 9696969696'}
+                    value={`+1 ${phone}`}
                     onChangeText={v => onChange(v)}
                     fontWeight={Alignment.BOLD}
                     required={true}
                     editable={false}
-                    error={errors && errors.phone_no?.phone_no}
+                    edited={false}
+                    error={errors && errors.phone?.message}
                   />
                 )}
-                name={FormKey.phone_no}
+                name="phone"
               />
+
               <Text style={styles.label}>
                 Gender
                 <Text style={[{color: Colors.RED}]}>*</Text>
@@ -256,7 +422,7 @@ const EditProfile = () => {
                     value={value}
                     onChangeText={v => onChange(v)}
                     endComponentPress={() => setShow(true)}
-                    error={errors && errors.date_of_birth?.message}
+                    error={errors && errors.dob?.message}
                     required={true}
                     endComponent={() => (
                       <TouchableOpacity onPress={() => setShow(true)}>
@@ -270,15 +436,15 @@ const EditProfile = () => {
                     onPressIn={() => setShow(true)}
                   />
                 )}
-                name={FormKey.date_of_birth}
+                name="dob"
               />
-              <Controller
+              {/* <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <Dropdown
-                    containerStyle={{marginTop: 30}}
+                    // newValue={value}
                     label={Strings.sm_basic.Country}
-                    data={Static.countries}
+                    data={stateRes}
                     onSelect={selectedItem => {
                       onChange(selectedItem);
                     }}
@@ -286,13 +452,13 @@ const EditProfile = () => {
                     error={errors && errors.country?.message}
                   />
                 )}
-                name="country"
-              />
+                name={FormKey.country}
+              /> */}
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <Dropdown
-                    containerStyle={{marginTop: 30}}
+                    defaultValue={value}
                     label={Strings.sm_basic.State}
                     data={stateRes}
                     onSelect={selectedItem => {
@@ -333,9 +499,25 @@ const EditProfile = () => {
               />
               <Controller
                 control={control}
-                render={({field: {onChange}}) => (
+                render={({field: {onChange, value}}) => (
                   <Dropdown
-                    containerStyle={{marginTop: 30}}
+                    defaultValue={value}
+                    label={Strings.sm_basic.RelationshipStatus}
+                    data={profileRes?.relationship_status}
+                    onSelect={selectedItem => {
+                      onChange(selectedItem.id);
+                    }}
+                    required={true}
+                    error={errors && errors.relationship_status_id?.message}
+                  />
+                )}
+                name="relationship_status_id"
+              />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <Dropdown
+                    defaultValue={value}
                     label={Strings.sm_basic.SexualOrientation}
                     data={profileRes?.sexual_orientation}
                     onSelect={selectedItem => {
@@ -378,7 +560,7 @@ const EditProfile = () => {
               mode={'date'}
               onConfirm={selectedDate => {
                 setShow(false);
-                setValue(FormKey.date_of_birth, getDate(selectedDate));
+                setValue('dob', getDate(selectedDate));
                 setDate(getDate(selectedDate));
               }}
               onCancel={() => {
@@ -407,7 +589,9 @@ const EditProfile = () => {
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
-                navigation.navigate(Routes.PtbProfile);
+                props.route?.params?.smProfile
+                  ? navigation.navigate(Routes.SmSetting)
+                  : navigation.navigate(Routes.PtbProfile);
               }}>
               <Text style={styles.modalOption1}>
                 {Strings.profile.ModalOption1}
