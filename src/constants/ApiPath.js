@@ -42,4 +42,6 @@ export default {
   chat_feedback: 'chat-feedback',
   push_notification: 'send-push-notification',
   delete_account: 'delete-account',
+  change_password: 'change-password',
+  resetPassword: 'reset-password',
 };

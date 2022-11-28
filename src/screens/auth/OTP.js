@@ -36,6 +36,7 @@ const OTP = ({route}) => {
   const {
     params: {isRouteData},
   } = useRoute();
+  const type = route.params.type;
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const navigation = useNavigation();
   const {
@@ -55,7 +56,7 @@ const OTP = ({route}) => {
       dispatch(showAppLoader());
       if (verify_otp_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.Profile, {isRouteData});
+        navigation.navigate(type===1?Routes.Profile:Routes.ChangePassword, {isRouteData,type});
       }
       if (verify_otp_error_msg) {
         dispatch(hideAppLoader());
@@ -123,7 +124,7 @@ const OTP = ({route}) => {
                 globalStyle.mainContainer,
                 {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_104},
               ]}>
-              <Text style={globalStyle.screenTitle}>{Strings.otp.title}</Text>
+              <Text style={globalStyle.screenTitle}>{type===1?Strings.otp.title:Strings.forgotPassword.forgot}</Text>
               <View
                 style={{}}
                 accessible={true}
