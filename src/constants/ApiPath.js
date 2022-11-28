@@ -44,4 +44,7 @@ export default {
   delete_account: 'delete-account',
   change_password: 'change-password',
   resetPassword: 'reset-password',
+  get_user_detail: 'get-user-profile',
+  update_user_detail: 'update-profile',
+  message: '/Messages/',
 };
