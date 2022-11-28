@@ -38,7 +38,6 @@ import {
 } from '../../../redux/actions/loader';
 import { ptbRegister } from '../../../redux/actions/Register';
 import { BottomSheetComp } from '../../../components';
-import { calculateBirthYear } from '../../../utils/calculateBirthYear';
 
 const validationType = {
   LEN: 'LEN',
@@ -92,8 +91,6 @@ const SmRegister = () => {
   const [file, setFile] = useState(null);
   const [check, setCheck] = useState(true);
   const [threeOption, setThreeOption] = useState([]);
-  const [donrType, setDonarType] = useState('');
-  const [checking, setChecking] = useState('');
 
   let actionSheet = useRef();
   const {
@@ -217,27 +214,6 @@ const SmRegister = () => {
     askCameraPermission();
   };
 
-  const validateDateofBirth = () => {
-    const formatedDate = moment(date).format('YYYY/MM/DD');
-    const selectedAge = calculateBirthYear(formatedDate);
-    console.log('LINE NUMBER 222', selectedAge, 'DONAR TYPE', donrType);
-    if (date !== '') {
-      return ValidationMessages.DOB;
-    }
-    if (donrType == 3) {
-      console.log('LINE NUMBER 225', selectedAge);
-      if (selectedAge < 21 || selectedAge >= 45)
-        return Strings.sm_register.Surrogate_Mother_error;
-    }
-    if (donrType == 4) {
-      if (selectedAge < 18 || selectedAge >= 40)
-        return Strings.sm_register.Egg_Donar_error;
-    }
-    if (donrType == 5) {
-      if (selectedAge < 18 && selectedAge >= 40)
-        return Strings.sm_register.Sperm_Donar_error;
-    }
-  };
   return (
     <>
       <View
@@ -261,7 +237,6 @@ const SmRegister = () => {
                       key={role.id}
                       onPress={() => {
                         onChange(role.id);
-                        setDonarType(role.id);
                       }}>
                       <Image
                         style={styles.radio}
