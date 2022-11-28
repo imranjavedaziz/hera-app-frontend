@@ -36,7 +36,6 @@ import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
-import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {MaterialIndicator} from 'react-native-indicators';
 import {Colors} from '../../../../constants';

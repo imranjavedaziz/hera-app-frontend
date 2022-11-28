@@ -1,8 +1,8 @@
 import * as yup from 'yup';
-import Strings, { ValidationMessages } from './Strings';
-import { Value } from './FixedValues';
+import Strings, {ValidationMessages} from './Strings';
+import {Value} from './FixedValues';
 import moment from 'moment';
-import { calculateBirthYear } from '../utils/calculateBirthYear';
+import {calculateBirthYear} from '../utils/calculateBirthYear';
 
 export const Regx = {
   MOBILE_REGEX: /^[0]?[1-9]\d{9,10}$/,
@@ -123,21 +123,25 @@ export const smRegisterSchema = yup.object().shape({
     .string()
     .required(ValidationMessages.DOB)
     .test('DOB', Strings.sm_register.Surrogate_Mother_error, (value, ctx) => {
-      const { parent } = ctx;
+      const {parent} = ctx;
       const formatedDate = moment(value).format('YYYY/MM/DD');
       const selectedAge = calculateBirthYear(formatedDate);
-      if (parent?.role == "3") {
-        if (selectedAge >= 21 && selectedAge <= 45)
-          return true
-      } else if (parent?.role == "4") {
-        if (selectedAge >= 18 && selectedAge <= 40)
-          return true
-      } else if (parent?.role == "5") {
-        console.log("LINE NO 138 ", parent.role, selectedAge);
-        if (selectedAge >= 18 && selectedAge <= 40)
-          return true
+      if (parent?.role == '3') {
+        if (selectedAge >= 21 && selectedAge <= 45) return true;
+      } else if (parent?.role == '4') {
+        if (selectedAge >= 18 && selectedAge <= 40) return true;
+      } else if (parent?.role == '5') {
+        console.log('LINE NO 138 ', parent.role, selectedAge);
+        if (selectedAge >= 18 && selectedAge <= 40) return true;
       }
-      return ctx.createError({ message: parent?.role == "3" ? Strings.sm_register.Surrogate_Mother_error : parent?.role == "4" ? Strings.sm_register.Egg_Donar_error : Strings.sm_register.Sperm_Donar_error });
+      return ctx.createError({
+        message:
+          parent?.role == '3'
+            ? Strings.sm_register.Surrogate_Mother_error
+            : parent?.role == '4'
+            ? Strings.sm_register.Egg_Donar_error
+            : Strings.sm_register.Sperm_Donar_error,
+      });
     }),
   email: yup
     .string()
@@ -219,7 +223,8 @@ export const inqueryFormSchema = yup.object().shape({
 export const changePasswordSchema = yup.object().shape({
   current_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    // .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.PASSWORD_REQUIRED)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
@@ -237,7 +242,7 @@ export const changePasswordSchema = yup.object().shape({
       excludeEmptyString: true,
       message: '',
     }),
-  set_a_new_psswrd: yup
+  new_password: yup
     .string()
     .required(ValidationMessages.COMMON_REQUIRED)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
@@ -260,7 +265,34 @@ export const changePasswordSchema = yup.object().shape({
   confirm_password: yup
     .string()
     .required(ValidationMessages.COMMON_REQUIRED)
-    .oneOf([yup.ref('set_password')], 'Your passwords do not match.'),
+    .oneOf([yup.ref('new_password'),null], 'Your passwords do not match.'),
+});
+
+export const forgetPasswordSchema = yup.object().shape({
+  new_password: yup
+    .string()
+    .required(ValidationMessages.COMMON_REQUIRED)
+    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .matches(Regx.SPECIAL_CHAR, {
+      excludeEmptyString: true,
+      message: null,
+    })
+    .matches(Regx.ALPHA_LOWER, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.ALPHA_CAP, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.NUM, {
+      excludeEmptyString: true,
+      message: '',
+    }),
+  confirm_password: yup
+    .string()
+    .required(ValidationMessages.COMMON_REQUIRED)
+    .oneOf([yup.ref('new_password'),null], 'Your passwords do not match.'),
 });
 
 export const smSetAttributesSchema = yup.object().shape({
@@ -276,4 +308,91 @@ export const smSetAttributesSchema = yup.object().shape({
   eye_colour_id: yup.string().required(ValidationMessages.SELECT_EYE),
   hair_colour_id: yup.string().required(ValidationMessages.SELECT_HAIR),
   education_id: yup.string().required(ValidationMessages.SELECT_EDUCATION),
+});
+export const editProfileSchema = yup.object().shape({
+  first_name: yup
+    .string()
+    .required(ValidationMessages.FIRST_NAME)
+    .max(30, ValidationMessages.MAX_FIRST_NAME)
+    .matches(Regx.FIRST_NAME, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_FIRST_NAME,
+    }),
+  middle_name: yup
+    .string()
+    .max(30, ValidationMessages.MAX_MIDDLE_NAME)
+    .nullable(),
+  last_name: yup
+    .string()
+    .required(ValidationMessages.LAST_NAME)
+    .max(30, ValidationMessages.MAX_LAST_NAME)
+    .matches(Regx.FIRST_NAME, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_LAST_NAME,
+    }),
+  dob: yup
+    .string()
+    .required(ValidationMessages.COMMON_REQUIRED)
+    .test('DOB', 'Invalid Date', value => {
+      return moment().diff(moment(value), 'years') >= 18;
+    }),
+  email: yup
+    .string()
+    .required(ValidationMessages.EMPTY_EMAIL)
+    .matches(Regx.EMAIL, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_EMAIL,
+    }),
+  gender_id: yup.string().required(ValidationMessages.ENTER_GENDER),
+  phone: yup
+    .string()
+    .required(ValidationMessages.MOBILE_REQUIRED)
+    .matches(Regx.MOBILE_REGEX, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    }),
+  zipcode: yup
+    .string()
+    .max(5, ValidationMessages.MAX_ZIP)
+    .required(ValidationMessages.ENTER_ZIP)
+    .min(5, ValidationMessages.MIN_ZIP),
+  occupation: yup.string(),
+  sexual_orientations_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup
+          .object()
+          .required(ValidationMessages.ENTER_SEXUAL_ORIENTATION); // schema for object
+      case 'string':
+        return yup
+          .string()
+          .required(ValidationMessages.ENTER_SEXUAL_ORIENTATION); // schema for string
+      default:
+        return yup
+          .mixed()
+          .required(ValidationMessages.ENTER_SEXUAL_ORIENTATION); // here you can decide what is the default
+    }
+  }),
+  relationship_status_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.ENTER_RELATIONSHIP); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.ENTER_RELATIONSHIP); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.ENTER_RELATIONSHIP); // here you can decide what is the default
+    }
+  }),
+  // country: yup.string().required(ValidationMessages.ENTER_COUNTRY),
+  state_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.ENTER_STATE); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.ENTER_STATE); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.ENTER_STATE); // here you can decide what is the default
+    }
+  }),
+  bio: yup.string().required(ValidationMessages.ENTER_BIO).max(250),
 });

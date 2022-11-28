@@ -73,13 +73,12 @@ const DeleteAccount = () => {
   }, [delete_account_loading, delete_account_success]);
 
   const onSubmit = () => {
-    console.log('data??????', password);
     dispatch(showAppLoader());
     dispatch(deleteAccount(password));
   };
 
   return (
-    <>
+    <View style={styles.upperContainer}>
       <Header end={true}>{headerComp()}</Header>
       <ScrollView showVerticalIndicatot={false}>
         <View style={styles.mainContainer}>
@@ -148,7 +147,7 @@ const DeleteAccount = () => {
           </View>
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 };
 

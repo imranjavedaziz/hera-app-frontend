@@ -15,6 +15,7 @@ const styles = {
     borderBottomColor: Colors.INPUT_BORDER,
     borderBottomWidth: 2,
   },
+  fade: {opacity: 0.4},
   endComponent: {
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_0,
@@ -66,6 +67,7 @@ const FloatingLabelInput = props => {
     endComponent = null,
     required = false,
     error = '',
+    edited,
     endComponentPress,
     lineColor = false,
     ...textInputProps
@@ -80,11 +82,12 @@ const FloatingLabelInput = props => {
       ]}>
       <View>
         <Text
-          style={
+          style={[
             isFocused || textInputProps.value
               ? styles.firstName
-              : styles.firstNameCopy
-          }
+              : styles.firstNameCopy,
+            edited === false && styles.fade,
+          ]}
           accessible={true}
           accessibilityLabel={label}>
           {label}
@@ -111,6 +114,7 @@ const FloatingLabelInput = props => {
               isFocused ? styles.focusBorder : styles.blurBorder,
               lineColor && {borderColor: Colors.LIGHT_BLACK47},
               error ? {borderColor: Colors.RED} : null,
+              edited === false && styles.fade,
             ]}
             onFocus={handleFocus}
             onBlur={handleBlur}

@@ -31,6 +31,7 @@ import {
 import {watchGetFeedback, watchGetSendNotification} from './Chat';
 import {watchDeleteAccount} from './DeleteAccount';
 import {watchVerifyMail,watchSendMailVerification} from './VerificationMail'
+import {watchGetEditProfile, watchUpdateEditProfile} from './Edit_profile';
 
 export default function* rootSaga() {
   yield all([
@@ -66,6 +67,8 @@ export default function* rootSaga() {
     fork(watchGetSendNotification),
     fork(watchDeleteAccount),
     fork(watchVerifyMail),
-    fork(watchSendMailVerification)
+    fork(watchSendMailVerification),
+    fork(watchGetEditProfile),
+    fork(watchUpdateEditProfile),
   ]);
 }

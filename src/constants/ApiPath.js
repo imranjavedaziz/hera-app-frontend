@@ -44,5 +44,10 @@ export default {
   delete_account: 'delete-account',
   message:'/Messages/',
   verifyEmail:'/v1/verify-email',
-  send_verification_mail:'/v1/send-verification-mail'
+  send_verification_mail:'/v1/send-verification-mail',
+  change_password: 'change-password',
+  resetPassword: 'reset-password',
+  get_user_detail: 'get-user-profile',
+  update_user_detail: 'update-profile',
+  message: '/Messages/',
 };

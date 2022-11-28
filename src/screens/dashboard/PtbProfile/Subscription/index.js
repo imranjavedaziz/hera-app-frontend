@@ -7,26 +7,26 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   createSubscription,
   getSubscriptionPlan,
 } from '../../../../redux/actions/Subsctiption';
-import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import {IconHeader} from '../../../../components/Header';
+import { IconHeader } from '../../../../components/Header';
 
 const Subscription = props => {
   const navigation = useNavigation();
@@ -44,17 +44,16 @@ const Subscription = props => {
     subscription_plan_loading,
     subscription_plan_res,
   } = useSelector(state => state.Subscription);
-  const {create_subscription_success, create_subscription_loading} =
+  const { create_subscription_success, create_subscription_loading } =
     useSelector(state => state.Subscription);
 
-  console.log("purchasereceipt STATE LINE 50",purchasereceipt);
+  console.log("purchasereceipt STATE LINE 50", purchasereceipt);
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
 
   React.useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
-      dispatch(showAppLoader());
       if (subscription_plan_success) {
         dispatch(hideAppLoader());
         setSubscriptionPlanRes(subscription_plan_res);
@@ -62,6 +61,7 @@ const Subscription = props => {
       dispatch(hideAppLoader());
     }
     loadingRef.current = subscription_plan_loading;
+    dispatch(hideAppLoader());
   }, [subscription_plan_success, subscription_plan_loading]);
 
   React.useEffect(() => {
@@ -106,7 +106,7 @@ const Subscription = props => {
         if (receipt) {
           try {
             purchaseAPI(purchase);
-            await RNIap.finishTransaction({purchase, isConsumable: true});
+            await RNIap.finishTransaction({ purchase, isConsumable: true });
             if (Platform.OS === 'ios') {
               console.log('LINE NO 90 PURCHAASE', purchase);
             } else if (Platform.OS === 'android') {
@@ -152,6 +152,7 @@ const Subscription = props => {
   }, []);
 
   const subscribePlan = (item, type) => {
+    dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
       console.log('LINE 139 PRINT', selectCheckBox);
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
@@ -167,7 +168,7 @@ const Subscription = props => {
   const requestSubscriptionAndroid = async (sku, item, type) => {
     console.log('IAP req android', sku);
     try {
-      await RNIap.requestPurchase({sku})
+      await RNIap.requestPurchase({ sku })
         .then(async result => {
           console.log('ANDROID LINE 185', result, 'Itemm', item, 'Type', type);
         })
@@ -181,13 +182,14 @@ const Subscription = props => {
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
     try {
-      await RNIap.requestSubscription({sku})
+      await RNIap.requestSubscription({ sku })
         .then(async result => {
           console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
           console.log(err?.message);
+          dispatch(hideAppLoader());
         });
     } catch (error) {
       console.warn(`err ${error.code}`, error.message);
@@ -236,9 +238,9 @@ const Subscription = props => {
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>
-                  <Text style={{color: 'red'}}>*</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
                   {Strings.Subscription.BySubs}
-                  <TouchableOpacity style={{top: 2}}>
+                  <TouchableOpacity style={{ top: 2 }}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.TermsServices}
                     </Text>

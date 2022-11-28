@@ -16,9 +16,10 @@ import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
-import {ConstantsCode} from '../../constants/Constants';
+import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 
+const type = 2;
 const Login = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -90,7 +91,7 @@ const Login = props => {
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;
     if (deleting) {
-      return value;
+      return value.replace(/[^\w]/g, '');
     }
     if (!value) {
       return value;
@@ -174,6 +175,7 @@ const Login = props => {
               onPress={handleSubmit(onSubmit)}
             />
             <TouchableOpacity
+              onPress={() => navigation.navigate(Routes.MobileNumber,{type})}
               style={styles.btnMargin}
               accessible={true}
               accessibilityRole="button"

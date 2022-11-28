@@ -254,7 +254,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <Dropdown
-                        containerStyle={{marginTop: 10}}
+                        containerStyle={{marginTop: 20}}
                         label={Strings.sm_basic.State}
                         data={stateRes}
                         onSelect={selectedItem => {
@@ -270,7 +270,6 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={{marginTop: 20}}
                         label={Strings.sm_basic.Zip}
                         value={value}
                         onChangeText={v => onChange(v)}
@@ -287,7 +286,6 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Dropdown
-                        containerStyle={{marginTop: 20}}
                         label={Strings.sm_basic.SexualOrientation}
                         data={profileRes?.sexual_orientation}
                         onSelect={selectedItem => {
@@ -303,7 +301,6 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Dropdown
-                        containerStyle={{marginTop: 20}}
                         label={Strings.sm_basic.RelationshipStatus}
                         data={profileRes?.relationship_status}
                         onSelect={selectedItem => {
@@ -319,7 +316,6 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={{marginTop: 20}}
                         label={Strings.sm_basic.Occupation}
                         value={value}
                         onChangeText={v => onChange(v)}
@@ -333,6 +329,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <MultiTextInput
+                        containerStyle={{marginTop: 30}}
                         title={Strings.sm_basic.Bio}
                         required={true}
                         value={value}

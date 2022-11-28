@@ -165,7 +165,7 @@ export default {
   userImg: {
     position: Alignment.ABSOLUTE,
     bottom: Value.CONSTANT_VALUE_0,
-    right: Value.CONSTANT_VALUE_20,
+    right: Value.CONSTANT_VALUE_10,
   },
   calender: {
     width: Value.CONSTANT_VALUE_16,
