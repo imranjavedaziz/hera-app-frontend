@@ -66,7 +66,6 @@ const DeleteAccount = () => {
       }
       if (delete_account__error_msg) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(true, delete_account__error_msg));
       }
     }
     loadingRef.current = delete_account_loading;

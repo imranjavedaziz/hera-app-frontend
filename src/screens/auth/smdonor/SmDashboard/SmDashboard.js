@@ -39,6 +39,7 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {MaterialIndicator} from 'react-native-indicators';
 import {Colors} from '../../../../constants';
+import {dynamicSize} from '../../../../utils/responsive';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -328,8 +329,9 @@ const SmDashboard = ({route}) => {
   const renderEmptyCell = () => {
     if (!loaderState.loading) {
       return (
-        <View>
-          <Text>NO RESULT FOUND</Text>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>{Strings.dashboard.noResult}</Text>
+          <Text style={styles.content}>{Strings.dashboard.emptyDashboard}</Text>
         </View>
       );
     }
@@ -339,8 +341,8 @@ const SmDashboard = ({route}) => {
       return (
         <View style={styles.loaderContainer}>
           <MaterialIndicator
-            size={Value.CONSTANT_VALUE_40}
             color={Colors.COLOR_A3C6C4}
+            size={dynamicSize(25)}
           />
         </View>
       );
@@ -354,7 +356,7 @@ const SmDashboard = ({route}) => {
       headerComp={headerComp}
       style={{
         paddingTop: searching
-          ? Value.CONSTANT_VALUE_10
+          ? Value.CONSTANT_VALUE_1
           : Value.CONSTANT_VALUE_55,
       }}>
       <View style={globalStyle.mainContainer}>

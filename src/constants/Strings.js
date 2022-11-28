@@ -236,6 +236,8 @@ export default {
     Para1:
       'We tried to find the best matches for you but seems like no one is around.',
     Para2: 'May be try again later or change your\n settings.',
+    noResult: 'No Results Found!',
+    emptyDashboard: 'Try using a different name or keyword',
   },
   sm_dashboard: {
     Title: LIKE_CONST,

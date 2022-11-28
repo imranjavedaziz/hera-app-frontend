@@ -147,15 +147,15 @@ const styles = StyleSheet.create({
   },
   clearText: {
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
     textDecorationLine: Alignment.UNDERLINE,
-    alignSelf: Alignment.CENTER,
-    fontSize: Value.CONSTANT_VALUE_16,
+    fontSize: 16,
+    letterSpacing: 0,
+    color: 'rgb(255,69,68)',
+    height: 22,
   },
   cancelbtn: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
     marginBottom: Value.CONSTANT_VALUE_25,
-    marginTop: Value.CONSTANT_VALUE_20,
   },
 });

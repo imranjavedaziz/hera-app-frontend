@@ -445,9 +445,17 @@ const Profile = props => {
                   <View>
                     <Text style={styles.tmc1}>
                       {Strings.profile.tmc1}
-                      <Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text>
+                      <TouchableOpacity>
+                        <Text style={styles.tmcLink}>
+                          {Strings.profile.tmc2}
+                        </Text>
+                      </TouchableOpacity>
                       {'\n'} and{' '}
-                      <Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text>
+                      <TouchableOpacity>
+                        <Text style={styles.tmcLink}>
+                          {Strings.profile.tmc3}
+                        </Text>
+                      </TouchableOpacity>
                     </Text>
                   </View>
                 </View>

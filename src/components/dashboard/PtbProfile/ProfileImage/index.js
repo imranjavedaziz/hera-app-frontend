@@ -4,7 +4,6 @@ import Images from '../../../../constants/Images';
 import styles from './style';
 
 const ProfileImage = ({
-  Heading,
   Name,
   source,
   LastName,
