@@ -64,6 +64,9 @@ export const ValidationMessages = {
   YES: 'YES',
   DISCARD_INQUIRY: 'Discard Inquiry',
   DELETE_ACCOUNT: 'Delete Account?',
+  Deactivate_Account: 'Deactivate Account?',
+  DEACTIVATE_TEXT:
+    'Once you deactivate, users will not be able to see your profile. You can always come back later to activate.',
   DELETE_TEXT:
     'Once you delete, your data will be removed and cannot be retrieved later.',
   REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
@@ -210,6 +213,7 @@ export default {
     modalsubTitle: "If you remove, it won't be visible on your profile.",
     modalText: 'Yes, Remove',
     deleteModal: 'Yes, Delete',
+    deactivateModal: 'Yes, Deactivate',
     StayHera: 'Stay on HERA',
     modalText_2: 'Stay on Page',
     myGallery: 'My Gallery',
@@ -396,15 +400,18 @@ export default {
     SETTINGS: 'SETTINGS',
     Account_Settings: 'Account Settings',
     Change_Password: 'Change Password',
-    Deactivate_Account: 'Deactivate Account',
+    DEACTIVATE_ACCOUNT: 'Deactivate Account',
     Deactivate_Content:
       'Temporarily deactivate your account, you can log in using the same credentials to activate your account again.',
     Delete_Content:
       'This will permanently delete your account, to use the application, you will need to sign up again.',
     Delete_Account: 'Delete Account',
     DELETE_MY_ACCOUNT: 'DELETE MY ACCOUNT',
+    DEACTIVATE_MY_ACCOUNT: 'DEACTIVATE MY ACCOUNT',
     Account_Verify: 'ACCOUNT VERIFICATION',
+    Deactivate_Account: 'DEACTIVATE ACCOUNT',
     Enter_delete: 'Enter password to delete',
+    Select_Reason: 'Select a Reason',
   },
   ChangePassword: {
     CHANGE_PASSWORD: 'CHANGE PASSWORD',
