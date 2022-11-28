@@ -1,5 +1,5 @@
 // Dropdown
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Colors from '../../constants/Colors';
@@ -10,10 +10,11 @@ import CustomPicker from './CustomPicker/CustomPicker';
 import {Fonts} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const Dropdown = ({
   label,
+  selectIndex,
   data,
   onSelect,
   containerStyle = {},
@@ -21,15 +22,27 @@ const Dropdown = ({
   error = '',
   OnPressLabel,
   donePress,
+  newValue,
   cancelPress,
+  defaultValue,
   ...dropdownProps
 }) => {
   const navigation = useNavigation();
   const [value, setValue] = useState(null);
   const [isVisible, setVisibility] = useState(false);
+  const [isCome, setCome] = useState(false);
+  useEffect(() => {
+    const previousValue = () => {
+      isCome &&
+        defaultValue !== undefined &&
+        setValue(Platform.OS === 'ios' ? defaultValue : defaultValue);
+    };
+    return previousValue();
+  }, [defaultValue, isCome]);
+  console.log(defaultValue, 'defaultValuedefaultValue');
   useEffect(() => {
     return navigation.addListener('focus', () => {
-      setValue('');
+      setCome(true);
     });
   }, [navigation, setValue]);
   const STYLE_ONE = {
@@ -44,6 +57,7 @@ const Dropdown = ({
     bottom: Value.CONSTANT_VALUE_0,
     zIndex: Value.CONSTANT_VALUE_2,
   };
+
   const STYLE_CONDITION = value ? STYLE_ONE : STYLE_TWO;
   return (
     <View
@@ -52,17 +66,13 @@ const Dropdown = ({
         containerStyle,
         {paddingTop: Value.CONSTANT_VALUE_0},
       ]}>
-      <View
-        style={[
-          styles.container,
-          {marginVertical: Value.CONSTANT_VALUE_0},
-          containerStyle,
-        ]}>
+      <View style={[{marginVertical: Value.CONSTANT_VALUE_0}, containerStyle]}>
         {Platform.OS === 'ios' ? (
           <View style={styles.bottom}>
             <TouchableOpacity
               onPress={() => {
                 setVisibility(true);
+                setCome(false);
               }}>
               <View style={styles.marginBottom}>
                 <Text
@@ -115,7 +125,9 @@ const Dropdown = ({
             </Text>
             <SelectDropdown
               data={data}
-              defaultButtonText={value}
+              defaultValue={value?.name}
+              selectIndex={selectIndex}
+              defaultButtonText={value?.name}
               onSelect={(selectedItem, index) => {
                 setValue(selectedItem);
                 onSelect(selectedItem, index);

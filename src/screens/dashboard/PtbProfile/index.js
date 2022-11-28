@@ -1,9 +1,9 @@
 import {View, Text, TouchableOpacity, Platform, ScrollView} from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
 import Strings from '../../../constants/Strings';
 import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
@@ -15,6 +15,9 @@ import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
+import {getEditProfile} from '../../../redux/actions/Edit_profile';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+
 const PtbProfile = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
@@ -22,9 +25,39 @@ const PtbProfile = () => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const dispatch = useDispatch();
-  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const [name, setName] = useState('');
+  const GetLoadingRef = useRef(false);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
+  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const {
+    get_user_detail_res,
+    get_user_detail_success,
+    get_user_detail_loading,
+    get_user_detail_error,
+  } = useSelector(state => state.Edit_profile);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(showAppLoader());
+      dispatch(getEditProfile());
+    }, [dispatch]),
+  );
+  //GET USER DETAIL
+  useFocusEffect(
+    useCallback(() => {
+      if (GetLoadingRef.current && !get_user_detail_loading) {
+        dispatch(showAppLoader());
+        if (get_user_detail_success) {
+          setName(get_user_detail_res);
+          dispatch(hideAppLoader());
+        }
+        if (get_user_detail_error) {
+          dispatch(hideAppLoader());
+        }
+      }
+      GetLoadingRef.current = get_user_detail_loading;
+    }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
+  );
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -32,7 +65,7 @@ const PtbProfile = () => {
       leftPress={() => navigation.navigate(Routes.PtbDashboard)}
     />
   );
-
+  console.log(get_user_detail_res, 'get_user_detail_res');
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
@@ -103,8 +136,12 @@ const PtbProfile = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={first_name}
-                LastName={last_name}
+                Name={
+                  name?.first_name === undefined ? first_name : name?.first_name
+                }
+                LastName={
+                  name?.last_name === undefined ? last_name : name?.last_name
+                }
                 source={{
                   uri: profileImg,
                 }}

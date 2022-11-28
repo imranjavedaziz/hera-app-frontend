@@ -9,7 +9,6 @@ export default {
     flex: Value.CONSTANT_VALUE_0,
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    paddingVertical: Value.CONSTANT_VALUE_10,
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
@@ -20,10 +19,12 @@ export default {
     height: scaleWidth(Value.CONSTANT_VALUE_25),
   },
   radioLabel: {
-    marginLeft: scaleWidth(Value.CONSTANT_VALUE_5),
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_18),
+    marginLeft: Value.CONSTANT_VALUE_10,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
+    lineHeight: 21,
+    letterSpacing: 0,
   },
   radioContainer: {
     flexDirection: Alignment.ROW,
@@ -44,7 +45,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     width: Prencentage.PRECENTAGE_100,
     textAlign: Alignment.LEFT,
-    marginBottom: Value.CONSTANT_VALUE_10,
+    marginBottom: Value.CONSTANT_VALUE_15,
   },
   Btn: {
     height: Value.CONSTANT_VALUE_80,
