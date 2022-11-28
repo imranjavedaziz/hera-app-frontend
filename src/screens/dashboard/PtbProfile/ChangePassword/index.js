@@ -29,7 +29,7 @@ import User from '../../../../Api/User';
 
 const ChangePassword = ({route}) => {
   const navigation = useNavigation();
-  const {type,...restParams} = route.params;
+  const {type} = route.params;
   const {
     register_user_success_data,
   } = useSelector(state => state.Auth);
@@ -43,7 +43,6 @@ const ChangePassword = ({route}) => {
   });
   const [show, setShow] = useState(false);
   const onSubmit = (data)=>{
-    console.log(data);
     if(type===1){
       changePassword(data);
     }
