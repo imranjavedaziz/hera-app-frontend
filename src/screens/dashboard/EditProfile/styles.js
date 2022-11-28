@@ -24,6 +24,12 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
+  inputRow: {
+    flexDirection: Alignment.ROW,
+    marginTop: Value.CONSTANT_VALUE_55,
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
+    justifyContent: 'flex-start',
+  },
   MainheadingStyle: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_11),

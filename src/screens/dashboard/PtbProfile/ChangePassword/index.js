@@ -36,8 +36,8 @@ const ChangePassword = ({route}) => {
   const {changePassword, resetPassword} = User();
   const {
     control,
+    handleSubmit,
     formState: {errors},
-    handleSubmit
   } = useForm({
     resolver: yupResolver(type===1?changePasswordSchema:forgetPasswordSchema),
   });
@@ -97,7 +97,7 @@ const ChangePassword = ({route}) => {
                           required={true}
                           secureTextEntry={!show}
                           minLength={8}
-                          error={errors && errors.password?.message}
+                          error={errors && errors.current_password?.message}
                           endComponent={() => (
                             <TouchableOpacity
                               onPress={() => setShow(!show)}

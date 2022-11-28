@@ -46,7 +46,9 @@ const Chat_listing_Comp = props => {
               )}
             </View>
             <View style={styles.description}>
-              <Text numberOfLines={1} style={styles.userName}>{name}</Text>
+              <Text numberOfLines={1} style={styles.userName}>
+                {name}
+              </Text>
               {currentRole !== 1 ? (
                 <Text numberOfLines={2} style={styleMatchThree}>
                   {styleMatchOne}
@@ -71,9 +73,7 @@ const Chat_listing_Comp = props => {
           <View style={styles.contain}>
             <View
               style={
-                (currentRole !== 1 &&
-                  match === 2 &&
-                  chatStart !== 1) ||
+                (currentRole !== 1 && match === 2 && chatStart !== 1) ||
                 read === 0
                   ? styles.ImgView
                   : styles.unReadImgView
@@ -90,7 +90,9 @@ const Chat_listing_Comp = props => {
               )}
             </View>
             <View style={styles.description}>
-              <Text numberOfLines={1} style={styles.userName}>{name}</Text>
+              <Text numberOfLines={1} style={styles.userName}>
+                {name}
+              </Text>
               {currentRole !== 1 ? (
                 <Text
                   numberOfLines={2}
@@ -109,7 +111,7 @@ const Chat_listing_Comp = props => {
           <View style={styles.timeView}>
             <Text style={styles.time}>{time}</Text>
             {read === 0 && <View style={styles.recentmsg} />}
-            {read !== 0 && <View style={{marginTop:20}}/>}
+            {read !== 0 && <View style={{marginTop: 20}} />}
           </View>
         </TouchableOpacity>
       )}
