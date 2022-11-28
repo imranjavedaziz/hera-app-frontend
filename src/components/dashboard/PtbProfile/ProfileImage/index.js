@@ -2,6 +2,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import Images from '../../../../constants/Images';
 import styles from './style';
+import {Alignment} from '../../../../constants';
 
 const ProfileImage = ({
   Heading,
@@ -12,9 +13,13 @@ const ProfileImage = ({
   smProfile,
 }) => {
   return (
-    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+    <View
+      style={{justifyContent: Alignment.CENTER, alignItems: Alignment.CENTER}}>
       <View style={smProfile ? styles.smmainContainer : styles.mainContainer}>
-        <Image style={styles.Image} source={source} />
+        <Image
+          style={smProfile ? styles.SmImage : styles.Image}
+          source={source}
+        />
         <TouchableOpacity
           style={styles.cameraContainer}
           activeOpacity={1}

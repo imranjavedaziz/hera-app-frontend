@@ -19,6 +19,9 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
+import {MaterialIndicator} from 'react-native-indicators';
+import {height} from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
@@ -97,7 +100,7 @@ const PTB_profile = props => {
       headerEnd={false}
       headerComp={headerComp}
       style={{}}>
-      {stateRes?.doner_video_gallery !== undefined && (
+      {get_ptb_profile_detail_loading === false ? (
         <>
           <View>
             <View style={styles.location}>
@@ -109,7 +112,7 @@ const PTB_profile = props => {
             <Text style={styles.profileName}>{stateRes?.first_name}</Text>
             <Text style={styles.profileName}>{stateRes?.last_name}</Text>
             <View style={styles.profileImg}>
-              <Image
+              <FastImage
                 style={styles.profileLogo}
                 source={{
                   uri: stateRes?.profile_pic,
@@ -214,6 +217,15 @@ const PTB_profile = props => {
             </Pressable>
           )}
         </>
+      ) : (
+        <MaterialIndicator
+          color="#a3c6c4"
+          style={{
+            justifyContent: Alignment.CENTER,
+            alignItems: Alignment.CENTER,
+            marginTop: height / 2.5,
+          }}
+        />
       )}
     </Container>
   );

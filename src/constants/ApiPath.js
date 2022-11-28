@@ -28,6 +28,7 @@ export default {
   register: 'register',
   profile_setter_data: 'profile-setter-data',
   preference_setter_data: 'preferences-setter-data',
+  get_preference: 'get-preferences',
   get_attributes: 'attributes-setter-data',
   ptb_profile_card: 'ptb-profile-card',
   ptb_profile_details: 'ptb-profile-details',

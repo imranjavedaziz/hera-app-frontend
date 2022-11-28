@@ -1,5 +1,5 @@
 // Dropdown
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Colors from '../../constants/Colors';
@@ -10,7 +10,7 @@ import CustomPicker from './CustomPicker/CustomPicker';
 import {Fonts} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Dropdown = ({
   label,
@@ -27,10 +27,13 @@ const Dropdown = ({
   defaultValue,
   ...dropdownProps
 }) => {
+  const [isFocused, setFocused] = useState(false);
   const navigation = useNavigation();
   const [value, setValue] = useState(null);
   const [isVisible, setVisibility] = useState(false);
   const [isCome, setCome] = useState(false);
+  const handleFocus = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
   useEffect(() => {
     const previousValue = () => {
       isCome &&
@@ -73,6 +76,7 @@ const Dropdown = ({
               onPress={() => {
                 setVisibility(true);
                 setCome(false);
+                setFocused(true);
               }}>
               <View style={styles.marginBottom}>
                 <Text
@@ -93,6 +97,7 @@ const Dropdown = ({
                 style={[
                   value ? styles.linebelowFloat : styles.linebelow,
                   {borderBottomColor: error ? Colors.RED : Colors.INPUT_BORDER},
+                  isFocused && {borderBottomColor: Colors.SKY_BLUE},
                 ]}
               />
             </TouchableOpacity>
@@ -100,16 +105,20 @@ const Dropdown = ({
               isVisible={isVisible}
               cancel={() => {
                 setVisibility(false);
+                setFocused(false);
               }}
               done={(selectedItem, index) => {
                 setVisibility(false);
                 onSelect(selectedItem);
                 setValue(selectedItem);
+                setFocused(false);
               }}
               data={data}
               selected={value}
               onValueChange={onSelect}
               selectedValue={value}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </View>
         ) : (
@@ -138,13 +147,15 @@ const Dropdown = ({
               rowTextForSelection={(item, index) => {
                 return item.name;
               }}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
               rowStyle={styles.rowStyle}
               rowTextStyle={styles.rowTextStyle}
               selectedRowTextStyle={{fontFamily: Fonts.OpenSansBold}}
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
-                borderColor: error ? 'red' : Colors.INPUT_BORDER,
+                borderColor: error ? Colors.RED : Colors.INPUT_BORDER,
               }}
               buttonTextStyle={{
                 ...styles.buttonTextStyle,

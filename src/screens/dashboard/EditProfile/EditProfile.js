@@ -42,6 +42,7 @@ import {
   updateEditProfile,
 } from '../../../redux/actions/Edit_profile';
 import moment from 'moment';
+import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -538,7 +539,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <MultiTextInput
-                    containerStyle={{marginTop: 30}}
+                    containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                     title={Strings.sm_basic.Bio}
                     required={true}
                     value={value}

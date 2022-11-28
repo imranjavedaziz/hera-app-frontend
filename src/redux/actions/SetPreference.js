@@ -1,4 +1,4 @@
-import {SET_PREFERENCE, SAVE_PREFERENCE} from '../Type';
+import {SET_PREFERENCE, SAVE_PREFERENCE, GET_PREFERENCE} from '../Type';
 
 export const SetPreferenceRes = () => {
   return {
@@ -11,5 +11,12 @@ export const SavePreference = payload => {
   return {
     type: SAVE_PREFERENCE,
     data: payload,
+  };
+};
+
+export const GetPreferenceRes = () => {
+  return {
+    type: GET_PREFERENCE,
+    data: {},
   };
 };

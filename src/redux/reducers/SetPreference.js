@@ -5,6 +5,9 @@ import {
   SAVE_PREFERENCE,
   SAVE_PREFERENCE_FAIL,
   SAVE_PREFERENCE_SUCCESS,
+  GET_PREFERENCE,
+  GET_PREFERENCE_FAIL,
+  GET_PREFERENCE_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -29,6 +32,11 @@ const initState = {
   save_preference_loading: false,
   save_preference_error_msg: '',
   save_preference_res: '',
+
+  get_preference_success: false,
+  get_preference_loading: false,
+  get_preference_error_msg: '',
+  get_preference_res: '',
 };
 
 export default (state = initState, action) => {
@@ -87,6 +95,34 @@ export default (state = initState, action) => {
         save_preference_loading: false,
         save_preference_error_msg: '',
         save_preference_res: action?.data?.data?.data,
+      };
+    }
+    // GET PREFERENCE
+    case GET_PREFERENCE: {
+      return {
+        ...state,
+        get_preference_success: false,
+        get_preference_loading: true,
+        get_preference_error_msg: '',
+        get_preference_res: '',
+      };
+    }
+    case GET_PREFERENCE_FAIL: {
+      return {
+        ...state,
+        get_preference_success: false,
+        get_preference_loading: false,
+        get_preference_error_msg: action.data.msg,
+        get_preference_res: '',
+      };
+    }
+    case GET_PREFERENCE_SUCCESS: {
+      return {
+        ...state,
+        get_preference_success: true,
+        get_preference_loading: false,
+        get_preference_error_msg: '',
+        get_preference_res: action?.data?.data?.data,
       };
     }
     default:
