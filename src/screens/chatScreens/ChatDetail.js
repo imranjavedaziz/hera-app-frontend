@@ -26,7 +26,8 @@ const ChatDetail = props => {
   const [textData, setTextData] = useState('');
   const [loading, setLoading] = useState(true);
   const [db, setDB] = useState({messages: [], loading: true});
-  const {log_in_data} = useSelector(state => state.Auth);
+  const {log_in_data, user} = useSelector(state => state.Auth);
+  const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
   const loadingRef = useRef(false);
   const [sendFeedback, setSendFeedback] = useState('');
   const {feedback_data, feedback_success, feedback_loading} = useSelector(
@@ -43,6 +44,13 @@ const ChatDetail = props => {
       </View>
     );
   };
+  useEffect(()=>{
+    if(subscriptionStatus && subscriptionStatus.data){
+      if(!subscriptionStatus.data.status){
+        dispatch(showAppToast(true,subscriptionStatus.data.is_trial?Strings.Subscription.TrailOver:Strings.Subscription.SubscriptionExpired));
+      }
+    }
+  },[subscriptionStatus])
   useEffect(async () => {
     if (parseInt(props.route.params.item.senderSubscription) === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
@@ -96,8 +104,9 @@ const ChatDetail = props => {
   }, []);
 
   const onSend = (messages = '') => {
-    if (parseInt(props.route.params.item.senderSubscription) === 0) {
+    if (parseInt(props.route.params.item.senderSubscription) === 0 || (!subscriptionStatus?.data?.status && user.role_id===2)) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
+      navigation.navigate(Routes.Subscription);
     } else {
       setTextData('');
       if (messages.text !== '') {
