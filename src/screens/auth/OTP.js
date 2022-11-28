@@ -56,7 +56,10 @@ const OTP = ({route}) => {
       dispatch(showAppLoader());
       if (verify_otp_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(type===1?Routes.Profile:Routes.ChangePassword, {isRouteData,type});
+        navigation.navigate(
+          type === 1 ? Routes.Profile : Routes.ChangePassword,
+          {isRouteData, type},
+        );
       }
       if (verify_otp_error_msg) {
         dispatch(hideAppLoader());
@@ -122,9 +125,11 @@ const OTP = ({route}) => {
             <View
               style={[
                 globalStyle.mainContainer,
-                {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_104},
+                {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_105},
               ]}>
-              <Text style={globalStyle.screenTitle}>{type===1?Strings.otp.title:Strings.forgotPassword.forgot}</Text>
+              <Text style={globalStyle.screenTitle}>
+                {type === 1 ? Strings.otp.title : Strings.forgotPassword.forgot}
+              </Text>
               <View
                 style={{}}
                 accessible={true}

@@ -13,10 +13,13 @@ export default {
   colorText: {color: Colors.BLACK},
   location: {
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_29,
     alignItems: Alignment.CENTER,
   },
   locationText: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    lineHeight: 21,
+    letterSpacing: 0,
     fontFamily: Fonts.OpenSansRegular,
     marginLeft: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
@@ -31,7 +34,7 @@ export default {
     flexDirection: Alignment.ROW_REVERSE,
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_3,
-    top: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_29,
   },
   profileType: {
     fontFamily: Fonts.OpenSansRegular,

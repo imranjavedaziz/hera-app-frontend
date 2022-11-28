@@ -33,9 +33,8 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
     textAlignVertical: 'top',
-    paddingVertical: px(14),
-    paddingHorizontal: px(18),
-    // textAlign: 'justify',
+    paddingVertical: Value.CONSTANT_VALUE_18,
+    paddingHorizontal: Value.CONSTANT_VALUE_18,
   },
   label: {
     marginBottom: px(14),
@@ -63,5 +62,5 @@ export default {
     bottom: -25,
     right: 5,
   },
-  bottom: {marginBottom: px(Value.CONSTANT_VALUE_30)},
+  bottom: {marginBottom: px(Value.CONSTANT_VALUE_30), borderColor: Colors.RED},
 };

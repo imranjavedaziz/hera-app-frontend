@@ -349,6 +349,7 @@ const Gallery = () => {
             ))}
           </View>
           <VideoUploading
+            apply={true}
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}

@@ -29,7 +29,7 @@ const VideoUploading = props => {
     : Images.iconRadiounsel;
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
-      {props?.video?.loading && (
+      {props?.apply === true && props?.video?.loading && (
         <MaterialIndicator
           color={Colors.COLOR_A3C6C4}
           style={{
@@ -42,13 +42,15 @@ const VideoUploading = props => {
       <FastImage style={props?.style}>
         {props?.video?.file_url !== '' ? (
           <>
-            <TouchableWithoutFeedback>
-              <TouchableOpacity
-                onPress={() => props?.handelDel(props?.video?.id, true)}
-                style={styles.videoSel}>
-                <Image source={IMG_CONDI} />
-              </TouchableOpacity>
-            </TouchableWithoutFeedback>
+            {props?.apply === true && (
+              <TouchableWithoutFeedback>
+                <TouchableOpacity
+                  onPress={() => props?.handelDel(props?.video?.id, true)}
+                  style={styles.videoSel}>
+                  <Image source={IMG_CONDI} />
+                </TouchableOpacity>
+              </TouchableWithoutFeedback>
+            )}
             <View style={props?.imageOverlay}>
               <Video
                 source={{uri: `${props?.video?.file_url}`}}
@@ -75,7 +77,6 @@ const VideoUploading = props => {
                 onVideoBuffer={() => {
                   setLoadingState(!loadingState);
                 }}
-                
               />
               {Platform.OS === 'android' &&
                 !props?.isPlaying &&
@@ -88,13 +89,15 @@ const VideoUploading = props => {
                 </View>
               )}
             </View>
-            <TouchableWithoutFeedback>
-              <TouchableOpacity
-                onPress={() => props?.handelDel(props?.video?.id, true)}
-                style={styles.videoSel}>
-                <Image source={IMG_CONDITWO} />
-              </TouchableOpacity>
-            </TouchableWithoutFeedback>
+            {props?.apply === true && (
+              <TouchableWithoutFeedback>
+                <TouchableOpacity
+                  onPress={() => props?.handelDel(props?.video?.id, true)}
+                  style={styles.videoSel}>
+                  <Image source={IMG_CONDITWO} />
+                </TouchableOpacity>
+              </TouchableWithoutFeedback>
+            )}
           </>
         ) : (
           <>
