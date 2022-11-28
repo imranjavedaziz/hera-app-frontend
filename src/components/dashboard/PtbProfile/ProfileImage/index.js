@@ -10,9 +10,10 @@ const ProfileImage = ({
   LastName,
   onPressImg,
   smProfile,
+  roleId,
 }) => {
   return (
-    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+    <View style={styles.upperContainer}>
       <View style={smProfile ? styles.smmainContainer : styles.mainContainer}>
         <Image style={styles.Image} source={source} />
         <TouchableOpacity
@@ -22,10 +23,10 @@ const ProfileImage = ({
           <Image source={Images.camera} style={styles.cameraIcon} />
         </TouchableOpacity>
       </View>
-      {/* <Text style={styles.Heading}>{Heading}</Text> */}
       <Text style={styles.Name}>
         {Name} {LastName}
       </Text>
+      <Text style={styles.roleId}>{roleId}</Text>
     </View>
   );
 };

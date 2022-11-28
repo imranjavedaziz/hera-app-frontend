@@ -39,8 +39,6 @@ export default {
     width: Value.CONSTANT_VALUE_86,
     marginTop: 4,
     borderRadius: dynamicSize(90),
-    // borderColor: Colors.WHITE,
-    // borderWidth: 1,
   },
   cameraContainer: {
     height: Value.CONSTANT_VALUE_30,
@@ -56,16 +54,22 @@ export default {
     height: Value.CONSTANT_VALUE_14,
     width: Value.CONSTANT_VALUE_17,
   },
-  Heading: {
+  roleId: {
     fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: Value.CONSTANT_VALUE_2_84,
     color: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_8,
+    textTransform: Alignment.UPPERCASE,
   },
   Name: {
     fontSize: Value.CONSTANT_VALUE_24,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    marginTop: Value.CONSTANT_VALUE_30,
+    marginTop: Value.CONSTANT_VALUE_26,
+  },
+  upperContainer: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
   },
 };

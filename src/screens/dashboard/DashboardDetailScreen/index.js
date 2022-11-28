@@ -358,6 +358,7 @@ const DashboardDetailScreen = () => {
               alignItems: Alignment.CENTER,
               marginTop: height / 2,
             }}
+            size={dynamicSize(25)}
           />
         )}
       </Container>

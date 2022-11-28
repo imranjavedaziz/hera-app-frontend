@@ -36,6 +36,8 @@ import Settings from '../screens/dashboard/PtbProfile/Settings';
 import ChangePassword from '../screens/dashboard/PtbProfile/ChangePassword';
 import EditProfile from '../screens/dashboard/EditProfile/EditProfile';
 import DeleteAccount from '../screens/dashboard/PtbProfile/DeleteAccount';
+import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
+
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -206,6 +208,11 @@ const Main = () => {
         <Stack.Screen
           name={Routes.DeleteAccount}
           component={DeleteAccount}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={Routes.DeactivateAccount}
+          component={DeactivateAccount}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
