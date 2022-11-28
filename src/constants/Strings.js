@@ -94,6 +94,10 @@ export default {
     VERIFY: 'VERIFY',
     mainTitle: 'Before we proceed,\n please verify your number',
   },
+  forgotPassword: {
+    forgot: 'Forgot Password?',
+    title: 'Enter your mobile number to\nreceive a verification code'
+  },
   profile: {
     makeAccountFor: 'Make Account For',
     parentToBe: 'Parent To Be',

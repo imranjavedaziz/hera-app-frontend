@@ -9,6 +9,7 @@ import Strings from '../constants/Strings';
 import {Routes} from '../constants/Constants';
 import {deviceHandler} from '../utils/commonFunction';
 
+const type = 1;
 const Landing = () => {
   const navigation = useNavigation();
   useEffect(() => {
@@ -37,7 +38,7 @@ const Landing = () => {
             <Button
               style={styles.widthText}
               label={Strings.landing.REGISTER}
-              onPress={() => navigation.navigate(Routes.MobileNumber)}
+              onPress={() => navigation.navigate(Routes.MobileNumber,{type})}
             />
           </View>
         </View>
