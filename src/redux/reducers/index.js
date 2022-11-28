@@ -14,7 +14,7 @@ import Profile_Match from './Profile_Match';
 import Chat from './Chat';
 import Subscription from './Subscription';
 import DeleteAccount from './DeleteAccount';
-
+import Edit_profile from './Edit_profile';
 
 const allReducers = combineReducers({
   Auth,
@@ -32,6 +32,7 @@ const allReducers = combineReducers({
   Chat,
   Subscription,
   DeleteAccount,
+  Edit_profile,
 });
 
 export default allReducers;

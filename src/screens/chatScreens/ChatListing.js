@@ -12,7 +12,7 @@ import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
-import _ from 'lodash';
+import moment from 'moment';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
@@ -30,17 +30,17 @@ const ChatListing = props => {
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  useEffect(() => {
-    let obj = chats.find(o => {
-      o.read === 0 ? setNotRead(false) : setNotRead(true);
-    });
-    if (_.isEmpty(chats)) {
-      setNotRead(true);
-    } else {
-      setNotRead(false);
-    }
-    return obj;
-  }, []);
+  // useEffect(() => {
+  //   let obj = chats.find(o => {
+  //     o.read === 0 ? setNotRead(false) : setNotRead(true);
+  //   });
+  //   if (_.isEmpty(chats)) {
+  //     setNotRead(true);
+  //   } else {
+  //     setNotRead(false);
+  //   }
+  //   return obj;
+  // }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
@@ -56,7 +56,7 @@ const ChatListing = props => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => NavigateFunc()}
-      style={{ paddingTop: 5,}}
+      style={{paddingTop: 5}}
     />
   );
 
@@ -78,6 +78,10 @@ const ChatListing = props => {
   const ROLL_ID_INBOX =
     log_in_data.role_id === 2 ? Strings.INBOX : Strings.Chat.Chat;
   function getChatDate(unixTimeStamp) {
+    const timeAgo = moment(unixTimeStamp).local().startOf('seconds').fromNow();
+    const timeAgoArray = timeAgo.split(' ');
+    const isString = timeAgoArray[1].match(/^[A-Za-z]+$/);
+    console.log(timeAgoArray[1], 'timeAgoArray', isString, 'isString');
     let date = new Date(unixTimeStamp);
     let dateForSec = new Date(unixTimeStamp * 1000);
     let minutesForSec = dateForSec.getSeconds();
@@ -92,6 +96,9 @@ const ChatListing = props => {
     let day;
     console.log(minutesForSec, 'minutesForSec');
     switch (true) {
+      case timeAgoArray[1] === 'few':
+        day = 'Just Now';
+        break;
       case formattedDate == todayDate:
         day = 'Today';
         break;
@@ -108,8 +115,8 @@ const ChatListing = props => {
     let year = date.getFullYear();
     let month = date.getMonth();
     let day = date.getDate();
-    let newDate = year + '-' + month + '-' + day;
-    return newDate;
+    return year + '-' + month + '-' + day;
+
   }
   const renderChatList = ({item}) => {
     return (

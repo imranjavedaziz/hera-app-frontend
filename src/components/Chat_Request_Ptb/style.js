@@ -34,7 +34,7 @@ export default {
   LikeProfile: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: px(Value.CONSTANT_VALUE_16),
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
   StartConversation: {

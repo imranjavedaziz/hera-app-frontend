@@ -39,8 +39,8 @@ export default {
     width: Value.CONSTANT_VALUE_86,
     marginTop: 4,
     borderRadius: dynamicSize(90),
-    borderColor: Colors.WHITE,
-    borderWidth: 1,
+    // borderColor: Colors.WHITE,
+    // borderWidth: 1,
   },
   cameraContainer: {
     height: Value.CONSTANT_VALUE_30,

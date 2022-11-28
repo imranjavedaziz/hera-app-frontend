@@ -6,11 +6,11 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import Header, {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
 import {useSelector, useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Strings from '../../../../constants/Strings';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
@@ -23,6 +23,8 @@ import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../../components';
 import ProfileImage from '../../../../components/dashboard/PtbProfile/ProfileImage';
 import {Alignment} from '../../../../constants';
+import {getEditProfile} from '../../../../redux/actions/Edit_profile';
+import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -32,8 +34,38 @@ const SmDonorSettings = () => {
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
+  const [name, setName] = useState('');
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
+  const GetLoadingRef = useRef(false);
+  const {
+    get_user_detail_res,
+    get_user_detail_success,
+    get_user_detail_loading,
+    get_user_detail_error,
+  } = useSelector(state => state.Edit_profile);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(showAppLoader());
+      dispatch(getEditProfile());
+    }, [dispatch]),
+  );
+  //GET USER DETAIL
+  useFocusEffect(
+    useCallback(() => {
+      if (GetLoadingRef.current && !get_user_detail_loading) {
+        dispatch(showAppLoader());
+        if (get_user_detail_success) {
+          setName(get_user_detail_res);
+          dispatch(hideAppLoader());
+        }
+        if (get_user_detail_error) {
+          dispatch(hideAppLoader());
+        }
+      }
+      GetLoadingRef.current = get_user_detail_loading;
+    }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
+  );
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -109,20 +141,24 @@ const SmDonorSettings = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={first_name}
-                LastName={last_name}
+                Name={
+                  name?.first_name === undefined ? first_name : name?.first_name
+                }
+                LastName={
+                  name?.last_name === undefined ? last_name : name?.last_name
+                }
                 source={{
                   uri: profileImg,
                 }}
               />
             </View>
             <View style={Styles.highlightContainer}>
-              <View style={Styles.flexRow}>
+              <TouchableOpacity style={Styles.flexRow}>
                 <Image source={Images.preferences} />
                 <Text style={Styles.text}>
                   {Strings.smSetting.EditAttribute}
                 </Text>
-              </View>
+              </TouchableOpacity>
               <View style={Styles.dot} />
             </View>
             <TouchableOpacity
@@ -134,10 +170,14 @@ const SmDonorSettings = () => {
               </Text>
             </TouchableOpacity>
             <View style={Styles.highlightContainer}>
-              <View style={Styles.flexRow}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(Routes.EditProfile, {smProfile: true});
+                }}
+                style={Styles.flexRow}>
                 <Image source={Images.person} />
                 <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
-              </View>
+              </TouchableOpacity>
               <View style={Styles.dot} />
             </View>
             <TouchableOpacity
