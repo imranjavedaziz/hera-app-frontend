@@ -34,6 +34,14 @@ export default {
     width: Value.CONSTANT_VALUE_86,
     height: Value.CONSTANT_VALUE_86,
   },
+  SmImage: {
+    height: Value.CONSTANT_VALUE_86,
+    width: Value.CONSTANT_VALUE_86,
+    marginTop: 4,
+    borderRadius: dynamicSize(90),
+    borderColor: Colors.WHITE,
+    borderWidth: 1,
+  },
   Image: {
     height: Value.CONSTANT_VALUE_86,
     width: Value.CONSTANT_VALUE_86,

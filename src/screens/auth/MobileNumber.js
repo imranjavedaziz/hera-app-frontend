@@ -18,12 +18,13 @@ import {InputLabel} from '../../components';
 import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
 
-const MobileNumber = () => {
+const MobileNumber = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const [isRouteData, setIsRouteData] = useState();
   const [phone, setPhone] = useState('');
+  const {type} = route.params;
   const {
     handleSubmit,
     control,
@@ -37,6 +38,7 @@ const MobileNumber = () => {
     mobile_number_success,
     mobile_number_loading,
     mobile_number_error_msg,
+    register_user_success_data,
   } = useSelector(state => state.Auth);
 
   // send otp res
@@ -45,7 +47,7 @@ const MobileNumber = () => {
       dispatch(showAppLoader());
       if (mobile_number_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.OTP, {isRouteData});
+        navigation.navigate(Routes.OTP, {isRouteData,type,register_user_success_data});
       }
       if (mobile_number_error_msg) {
         dispatch(hideAppLoader());
@@ -59,6 +61,7 @@ const MobileNumber = () => {
     const payload = {
       country_code: ConstantsCode.Country_CODE,
       phone_no: data.phone,
+      type
     };
     setIsRouteData(payload);
     dispatch(showAppLoader());
@@ -134,9 +137,9 @@ const MobileNumber = () => {
               marginTop: Value.CONSTANT_VALUE_104,
             }}>
             <Text style={styles.screenTitle}>
-              {Strings.mobile.AccountVerification}
+            {type===1?Strings.mobile.AccountVerification:Strings.forgotPassword.forgot}
             </Text>
-            <Text style={styles.mainTitle}>{Strings.mobile.mainTitle}</Text>
+            <Text style={styles.mainTitle}>{type===1?Strings.mobile.mainTitle:Strings.forgotPassword.title}</Text>
           </View>
           <View style={styles.inputRow}>
             <InputLabel Code={true} label={Strings.mobile.Code} />

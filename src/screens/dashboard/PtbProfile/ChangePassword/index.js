@@ -10,10 +10,11 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
-import Header from '../../../../components/Header';
+import { useSelector } from 'react-redux';
+import Header, {CircleBtn} from '../../../../components/Header';
 import styles from './style';
-import {Colors, Images, Strings} from '../../../../constants';
-import {useNavigation} from '@react-navigation/native';
+import {Colors, Images, Strings, Alignment} from '../../../../constants';
+import {useNavigation,StackActions} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Value} from '../../../../constants/FixedValues';
@@ -22,33 +23,64 @@ import {
   pwdErrMsg,
   Fonts,
 } from '../../../../constants/Constants';
-import {changePasswordSchema} from '../../../../constants/schemas';
+import {changePasswordSchema,forgetPasswordSchema} from '../../../../constants/schemas';
 import {Button, FloatingLabelInput} from '../../../../components';
-const ChangePassword = () => {
+import User from '../../../../Api/User';
+
+const ChangePassword = ({route}) => {
   const navigation = useNavigation();
+  const {type} = route.params;
+  const {
+    register_user_success_data,
+  } = useSelector(state => state.Auth);
+  const {changePassword, resetPassword} = User();
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
-    resolver: yupResolver(changePasswordSchema),
+    resolver: yupResolver(type===1?changePasswordSchema:forgetPasswordSchema),
   });
   const [show, setShow] = useState(false);
-  const headerComp = () => (
-    <View>
-      <TouchableOpacity
-        style={styles.header}
-        onPress={() => navigation.goBack()}>
-        <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  const onSubmit = () => {
-    // navigation.navigate('Settings');
-    console.log('HII');
-  };
-
+  const onSubmit = (data)=>{
+    if(type===1){
+      changePassword(data);
+    }
+    else{
+      const reqData = {
+        password: data.new_password,
+        confirm_password: data.confirm_password,
+        user_id: register_user_success_data.data.data.id
+      }
+      resetPassword(reqData);
+    }
+  }
+  const headerComp = () => {
+    if(type===2){
+      return  <CircleBtn
+        icon={Images.iconcross}
+        Fixedstyle={{
+          marginTop: Value.CONSTANT_VALUE_54,
+          alignItems: Alignment.FLEXEND,
+          marginRight: Value.CONSTANT_VALUE_20,
+        }}
+        onPress={()=>{
+          const popAction = StackActions.pop(Value.CONSTANT_VALUE_3);
+          navigation.dispatch(popAction);
+        }}
+        accessibilityLabel="Cross Button, Go back"
+      />
+    }
+    return (
+      <View>
+        <TouchableOpacity
+          style={styles.header}
+          onPress={navigation.goBack}>
+          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <>
       <Header end={true}>{headerComp()}</Header>
@@ -56,7 +88,7 @@ const ChangePassword = () => {
         <View style={styles.mainContainer}>
           <View style={styles.headingContainer}>
             <Text style={styles.changePassword}>
-              {Strings.ChangePassword.CHANGE_PASSWORD}
+              {type===1?Strings.ChangePassword.CHANGE_PASSWORD:Strings.forgotPassword.forgot}
             </Text>
           </View>
           <View style={styles.innerHeading}>
@@ -69,7 +101,7 @@ const ChangePassword = () => {
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.innerView}>
                   <View style={styles.fullWidth}>
-                    <Controller
+                    {type===1&&<Controller
                       control={control}
                       render={({field: {onChange, value}}) => (
                         <FloatingLabelInput
@@ -92,8 +124,8 @@ const ChangePassword = () => {
                           )}
                         />
                       )}
-                      name="current password"
-                    />
+                      name="current_password"
+                    />}
                     <Controller
                       control={control}
                       render={({field: {onChange, value}}) => (
@@ -108,7 +140,7 @@ const ChangePassword = () => {
                               marginBottom: Value.CONSTANT_VALUE_10,
                               marginTop: Value.CONSTANT_VALUE_30,
                             }}
-                            error={errors && errors.confirm_password?.message}
+                            error={errors && errors.new_password?.message}
                           />
                           {pwdErrMsg.map(msg => (
                             <View style={styles.passwordCheck} key={msg.type}>
@@ -148,7 +180,7 @@ const ChangePassword = () => {
                           ))}
                         </View>
                       )}
-                      name="Set New Password"
+                      name="new_password"
                     />
                     <Controller
                       control={control}
@@ -161,12 +193,12 @@ const ChangePassword = () => {
                             marginTop: Value.CONSTANT_VALUE_29,
                           }}
                           onChangeText={v => onChange(v)}
-                          secureTextEntry={!show}
+                          secureTextEntry={true}
                           minLength={8}
                           error={errors && errors.confirm_password?.message}
                         />
                       )}
-                      name="confirm password"
+                      name="confirm_password"
                     />
                   </View>
                 </View>
@@ -177,9 +209,7 @@ const ChangePassword = () => {
             <Button
               label={Strings.preference.Save}
               style={styles.Btn}
-              onPress={() => {
-                handleSubmit(onSubmit());
-              }}
+              onPress={handleSubmit(onSubmit)}
             />
           </View>
         </View>

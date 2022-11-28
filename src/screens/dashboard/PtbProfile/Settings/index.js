@@ -87,7 +87,7 @@ const Settings = () => {
             Heading={Strings.Settings.Change_Password}
             line
             onPress={() => {
-              navigation.navigate('ChangePassword');
+              navigation.navigate('ChangePassword',{type:1});
             }}
           />
           <View style={styles.deactivate}>

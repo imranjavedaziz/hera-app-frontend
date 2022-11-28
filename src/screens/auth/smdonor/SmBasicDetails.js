@@ -39,6 +39,7 @@ import {useNavigation} from '@react-navigation/native';
 import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Alignment, Colors} from '../../../constants';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -98,7 +99,6 @@ const SmBasicDetails = () => {
     if (LoadingRef.current && !get_profile_setter_loading) {
       dispatch(showAppLoader());
       if (get_profile_setter_success) {
-        // console.log("GETSETTER",get_profile_setter_res)
         dispatch(hideAppLoader());
         setProfileRes(get_profile_setter_res);
       }
@@ -224,7 +224,7 @@ console.log('get_profile_setter_res',get_profile_setter_res)
                     accessible={true}
                     accessibilityLabel={'Gender'}>
                     Gender
-                    <Text style={[{color: 'red'}]}>*</Text>
+                    <Text style={[{color: Colors.RED}]}>*</Text>
                   </Text>
                   <Controller
                     control={control}
@@ -342,7 +342,11 @@ console.log('get_profile_setter_res',get_profile_setter_res)
                     )}
                     name="bio"
                   />
-                  <View style={{alignItems: 'center'}}>
+                  <View
+                    style={{
+                      alignItems: Alignment.CENTER,
+                      marginTop: Value.CONSTANT_VALUE_46,
+                    }}>
                     <Button
                       style={styles.Btn}
                       label={Strings.sm_basic.Btn}

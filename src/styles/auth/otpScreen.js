@@ -13,9 +13,16 @@ export default {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  leftIcon: {marginLeft: Value.CONSTANT_VALUE_20, marginTop:54},
+  leftIcon: {marginLeft: Value.CONSTANT_VALUE_30, marginTop: 54},
   marginStyle: {marginHorizontal: Value.CONSTANT_VALUE_10},
-  redColor: {color: Colors.RED},
+  redColor: {
+    color: Colors.RED,
+    fontFamily: Fonts.OpenSansSemibold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: 21,
+    letterSpacing: 0,
+    top: 42,
+  },
   trouble: {
     fontSize: Value.CONSTANT_VALUE_16,
     lineHeight: Value.CONSTANT_VALUE_25,
@@ -36,6 +43,6 @@ export default {
   errMsg: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginVertical: Value.CONSTANT_VALUE_20,
+    // marginTop:50
   },
 };

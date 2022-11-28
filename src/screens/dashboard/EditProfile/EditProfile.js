@@ -42,6 +42,7 @@ import {
   updateEditProfile,
 } from '../../../redux/actions/Edit_profile';
 import moment from 'moment';
+import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -297,6 +298,9 @@ const EditProfile = props => {
     console.log(data, 'data:neww:::::');
     dispatch(updateEditProfile(payload));
   };
+  const onPressVerify = () => {
+    console.log('verifyEmail');
+  };
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -358,6 +362,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    verifyEmail={true}
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -365,6 +370,7 @@ const EditProfile = props => {
                     required={true}
                     editable={false}
                     error={errors && errors.email?.message}
+                    onPressVerify={onPressVerify}
                   />
                 )}
                 name="email"
@@ -533,7 +539,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <MultiTextInput
-                    containerStyle={{marginTop: 30}}
+                    containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                     title={Strings.sm_basic.Bio}
                     required={true}
                     value={value}

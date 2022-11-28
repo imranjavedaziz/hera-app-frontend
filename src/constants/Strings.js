@@ -97,6 +97,10 @@ export default {
     VERIFY: 'VERIFY',
     mainTitle: 'Before we proceed,\n please verify your number',
   },
+  forgotPassword: {
+    forgot: 'Forgot Password?',
+    title: 'Enter your mobile number to\nreceive a verification code'
+  },
   profile: {
     makeAccountFor: 'Make Account For',
     parentToBe: 'Parent To Be',
@@ -347,6 +351,8 @@ export default {
     Later: 'Later',
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
+    TrailOver: 'Your trial period is over. Please subscribe now to find new match.',
+    SubscriptionExpired: 'Your subscription has expired. Please renew your subscription now to find new match.',
   },
   Chat: {
     Chat: 'CHAT',
@@ -415,6 +421,7 @@ export default {
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
     Confirm_Password: 'Confirm Password',
+    PASSWORD_UPDATED: 'Your Password has been changed successfully.',
   },
   //Edit Profile
   EDITPROFILE: {

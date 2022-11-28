@@ -95,6 +95,7 @@ const initState = {
   log_out_loading: false,
   log_out_error_msg: '',
   register_user_success: false,
+  register_user_success_data: null,
   register_user_loading: false,
   register_user_error_msg: '',
   update_user_profile_img_success: false,
@@ -244,6 +245,7 @@ export default (state = initState, action) => {
         mobile_number_success: true,
         mobile_number_loading: false,
         mobile_number_error_msg: '',
+        register_user_success_data: action.data
       };
     }
     case AUTH_VERIFY_OTP: {
