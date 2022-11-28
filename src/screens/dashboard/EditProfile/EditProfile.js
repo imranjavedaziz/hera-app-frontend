@@ -297,6 +297,9 @@ const EditProfile = props => {
     console.log(data, 'data:neww:::::');
     dispatch(updateEditProfile(payload));
   };
+  const onPressVerify = () => {
+    console.log('verifyEmail');
+  };
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -358,6 +361,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    verifyEmail={true}
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -365,6 +369,7 @@ const EditProfile = props => {
                     required={true}
                     editable={false}
                     error={errors && errors.email?.message}
+                    onPressVerify={onPressVerify}
                   />
                 )}
                 name="email"
