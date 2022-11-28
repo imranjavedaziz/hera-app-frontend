@@ -73,7 +73,6 @@ const DeleteAccount = () => {
   }, [delete_account_loading, delete_account_success]);
 
   const onSubmit = () => {
-    console.log('data??????', password);
     dispatch(showAppLoader());
     dispatch(deleteAccount(password));
   };
