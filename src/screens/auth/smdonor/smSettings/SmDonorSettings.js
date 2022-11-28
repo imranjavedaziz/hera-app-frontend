@@ -179,7 +179,7 @@ const SmDonorSettings = () => {
                 <Image source={Images.person} />
                 <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
               </TouchableOpacity>
-              <View style={Styles.dot} />
+              {name?.email_verified === 0 && <View style={Styles.dot} />}
             </View>
             <View style={Styles.contain}>
               <Image source={Images.setting2} />
