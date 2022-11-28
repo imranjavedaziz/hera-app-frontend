@@ -444,22 +444,6 @@ const EditProfile = props => {
                 )}
                 name="dob"
               />
-              {/* <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Dropdown
-                    // newValue={value}
-                    label={Strings.sm_basic.Country}
-                    data={stateRes}
-                    onSelect={selectedItem => {
-                      onChange(selectedItem);
-                    }}
-                    required={true}
-                    error={errors && errors.country?.message}
-                  />
-                )}
-                name={FormKey.country}
-              /> */}
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
