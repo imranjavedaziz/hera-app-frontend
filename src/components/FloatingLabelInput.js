@@ -5,6 +5,7 @@ import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {Fonts} from '../constants/Constants';
+import style from '../screens/dashboard/PtbProfile/MyVideo/style';
 
 const styles = {
   focusBorder: {
@@ -32,6 +33,18 @@ const styles = {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
   },
+  verifyEmail: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#1dbff1',
+    top: 7,
+    marginLeft: 170,
+    textDecorationLine: 'underline',
+  },
   //Change
 
   firstName: {
@@ -58,6 +71,18 @@ const styles = {
     top: 2,
     minHeight: 40,
   },
+  verifiedEmail: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#1dbff1',
+    marginLeft: 160,
+    textDecorationLine: 'underline',
+    top: 32,
+  },
 };
 const FloatingLabelInput = props => {
   const [isFocused, setFocused] = useState(false);
@@ -68,6 +93,8 @@ const FloatingLabelInput = props => {
     required = false,
     error = '',
     edited,
+    verifyEmail,
+    onPressVerify,
     endComponentPress,
     lineColor = false,
     ...textInputProps
@@ -81,18 +108,47 @@ const FloatingLabelInput = props => {
         containerStyle,
       ]}>
       <View>
-        <Text
-          style={[
-            isFocused || textInputProps.value
-              ? styles.firstName
-              : styles.firstNameCopy,
-            edited === false && styles.fade,
-          ]}
-          accessible={true}
-          accessibilityLabel={label}>
-          {label}
-          {required && <Text style={{color: Colors.RED}}>*</Text>}
-        </Text>
+        {verifyEmail ? (
+          <View style={{flexDirection: 'row'}}>
+            <Text
+              style={[
+                isFocused || textInputProps.value
+                  ? styles.firstName
+                  : styles.firstNameCopy,
+                edited === false && styles.fade,
+              ]}
+              accessible={true}
+              accessibilityLabel={label}>
+              {label}
+              {required && <Text style={{color: Colors.RED}}>*</Text>}
+            </Text>
+            <TouchableOpacity onPress={onPressVerify}>
+              <Text
+                style={
+                  isFocused || textInputProps.value
+                    ? styles.verifyEmail
+                    : styles.verifiedEmail
+                }>
+                Verify
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <>
+            <Text
+              style={[
+                isFocused || textInputProps.value
+                  ? styles.firstName
+                  : styles.firstNameCopy,
+                edited === false && styles.fade,
+              ]}
+              accessible={true}
+              accessibilityLabel={label}>
+              {label}
+              {required && <Text style={{color: Colors.RED}}>*</Text>}
+            </Text>
+          </>
+        )}
         {endComponent ? (
           <TouchableOpacity onPress={endComponentPress}>
             <TextInput
