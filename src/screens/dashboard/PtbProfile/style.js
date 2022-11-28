@@ -7,7 +7,7 @@ export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginTop: Value.CONSTANT_VALUE_105,
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),

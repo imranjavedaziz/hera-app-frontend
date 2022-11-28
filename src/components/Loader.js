@@ -6,6 +6,7 @@ import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {MaterialIndicator} from 'react-native-indicators';
+import {dynamicSize} from '../utils/responsive';
 const {width, height} = Dimensions.get('window');
 const styles = {
   container: {
@@ -26,7 +27,7 @@ const Loader = () => {
   if (loaderState.loading) {
     return (
       <View style={styles.container}>
-        <MaterialIndicator color={Colors.COLOR_A3C6C4} size={25} />
+        <MaterialIndicator color={Colors.COLOR_A3C6C4} size={dynamicSize(25)} />
       </View>
     );
   }

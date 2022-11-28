@@ -30,6 +30,7 @@ import {
 } from './Subscription';
 import {watchGetFeedback, watchGetSendNotification} from './Chat';
 import {watchDeleteAccount} from './DeleteAccount';
+import {watchGetEditProfile, watchUpdateEditProfile} from './Edit_profile';
 
 export default function* rootSaga() {
   yield all([
@@ -64,5 +65,7 @@ export default function* rootSaga() {
     fork(watchGetFeedback),
     fork(watchGetSendNotification),
     fork(watchDeleteAccount),
+    fork(watchGetEditProfile),
+    fork(watchUpdateEditProfile),
   ]);
 }

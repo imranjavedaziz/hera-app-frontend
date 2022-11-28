@@ -3,8 +3,11 @@ import {Value} from '../../../../constants/FixedValues';
 import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 export default {
+  upperContainer: {
+    flex: Value.CONSTANT_VALUE_1,
+    backgroundColor: Colors.BACKGROUND,
+  },
   mainContainer: {
-    flex: dynamicSize(Value.CONSTANT_VALUE_1),
     backgroundColor: Colors.BACKGROUND_WHOLE,
   },
   flex: {

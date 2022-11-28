@@ -88,6 +88,13 @@ export const FormKey = {
   mobileNumber: 'mobileNumber',
   message: 'message',
   parent_to_be_role_id: 2,
+  country: 'country',
+  state_id: 'state_id',
+  zipcode: 'zipcode',
+  occupation: 'occupation',
+  sexual_orientations_id: 'sexual_orientations_id',
+  bio: 'bio',
+  gender_id: 'gender_id',
 };
 export const ConstantsCode = {
   Country_CODE: '+1',
