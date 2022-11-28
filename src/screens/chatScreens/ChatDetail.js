@@ -404,6 +404,17 @@ const ChatDetail = props => {
           />
         </View>
       )}
+
+      {
+           parseInt(props?.route?.params?.item?.currentRole) === 1 && db?.messages.length === 0 && 
+           <View style={styles.smDonorEmptyView}>
+           <EmptySmDonor
+             image={Images.conversation2}
+             title={Strings.Chat.START_CONVERSATION}
+             midTitle=""
+           />
+         </View>
+      }
       {log_in_data?.role_id !== 2 &&
         db?.messages.length === 0 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (

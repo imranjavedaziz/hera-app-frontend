@@ -42,5 +42,7 @@ export default {
   chat_feedback: 'chat-feedback',
   push_notification: 'send-push-notification',
   delete_account: 'delete-account',
-  message:'/Messages/'
+  message:'/Messages/',
+  verifyEmail:'/v1/verify-email',
+  send_verification_mail:'/v1/send-verification-mail'
 };
