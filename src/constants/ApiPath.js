@@ -45,4 +45,7 @@ export default {
   get_user_detail: 'get-user-profile',
   update_user_detail: 'update-profile',
   message: '/Messages/',
+  account_deactive_reason:"account-deactive-reason",
+  update_account_status:"update-account-status",
+  match_password:"match-password",
 };
