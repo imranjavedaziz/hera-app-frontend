@@ -6,9 +6,11 @@ import ApiPath from '../constants/ApiPath';
 import {
   showAppLoader,
   hideAppLoader,
+  showAppToast
 } from '../redux/actions/loader';
 import { getUserGallery } from '../redux/actions/CreateGallery';
 import { Routes } from '../constants/Constants';
+import { Strings } from '../constants';
 const User = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -21,7 +23,6 @@ const User = () => {
         },
       })
       .then(response => {
-        console.log('response', response.data.data);
         dispatch(getUserGallery());
         setLoading(false);
       })
@@ -49,8 +50,8 @@ const User = () => {
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.change_password, data)
-      .then(async response => {
-        console.log('response', response.data.data);
+      .then(() => {
+        dispatch(showAppToast(false,Strings.ChangePassword.PASSWORD_UPDATED));
         navigation.goBack();
       })
       .finally(() => {
@@ -61,8 +62,8 @@ const User = () => {
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.resetPassword, data)
-      .then(async response => {
-        console.log('response', response.data.data);
+      .then(() => {
+        dispatch(showAppToast(false,Strings.ChangePassword.PASSWORD_UPDATED));
         navigation.navigate(Routes.Login);
       })
       .finally(() => {

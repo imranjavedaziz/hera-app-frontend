@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
-import Header from '../../../../components/Header';
+import Header, {CircleBtn} from '../../../../components/Header';
 import styles from './style';
-import {Colors, Images, Strings} from '../../../../constants';
-import {useNavigation} from '@react-navigation/native';
+import {Colors, Images, Strings, Alignment} from '../../../../constants';
+import {useNavigation,StackActions} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Value} from '../../../../constants/FixedValues';
@@ -55,18 +55,35 @@ const ChangePassword = ({route}) => {
       resetPassword(reqData);
     }
   }
-  const headerComp = () => (
-    <View>
-      <TouchableOpacity
-        style={styles.header}
-        onPress={() => navigation.goBack()}>
-        <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const headerComp = () => {
+    if(type===2){
+      return  <CircleBtn
+        icon={Images.iconcross}
+        Fixedstyle={{
+          marginTop: Value.CONSTANT_VALUE_54,
+          alignItems: Alignment.FLEXEND,
+          marginRight: Value.CONSTANT_VALUE_20,
+        }}
+        onPress={()=>{
+          const popAction = StackActions.pop(Value.CONSTANT_VALUE_3);
+          navigation.dispatch(popAction);
+        }}
+        accessibilityLabel="Cross Button, Go back"
+      />
+    }
+    return (
+      <View>
+        <TouchableOpacity
+          style={styles.header}
+          onPress={navigation.goBack}>
+          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <>
-      {type===1 && <Header end={true}>{headerComp()}</Header>}
+      <Header end={true}>{headerComp()}</Header>
       <ScrollView showVerticalIndicatot={false}>
         <View style={styles.mainContainer}>
           <View style={styles.headingContainer}>
