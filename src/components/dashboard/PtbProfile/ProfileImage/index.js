@@ -5,7 +5,6 @@ import styles from './style';
 import {Alignment} from '../../../../constants';
 
 const ProfileImage = ({
-  Heading,
   Name,
   source,
   LastName,

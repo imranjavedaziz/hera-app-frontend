@@ -30,9 +30,7 @@ import Colors from '../../../constants/Colors';
 import {profileMatch} from '../../../redux/actions/Profile_Match';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {dynamicSize, height} from '../../../utils/responsive';
-import {Alignment} from '../../../constants';
-import {VideoUploading} from '../../../components';
+import {dynamicSize} from '../../../utils/responsive';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -40,8 +38,7 @@ const DashboardDetailScreen = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [counter, setCounter] = useState(0);
+
   const {
     get_sm_donor_success,
     get_sm_donor_loading,
@@ -53,7 +50,6 @@ const DashboardDetailScreen = () => {
     profile_match_loading,
     profile_match_error_msg,
   } = useSelector(state => state.Profile_Match);
-  const videoRef = useRef();
   const {
     params: {userId},
   } = useRoute();
@@ -133,20 +129,12 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
-  const videoPlay = () => {
-    console.log('inside vedio play');
-    if (smDetailRes?.doner_video_gallery?.file_url !== '') {
-      setIsPlaying(!isPlaying);
-      setCounter(counter + 1);
-    }
-  };
   return (
     <>
       <Container
         mainStyle={true}
         scroller={true}
         showHeader={true}
-        fixedHeader={true}
         headerComp={headerComp}>
         {get_sm_donor_loading === false ? (
           <View style={styles.mainContainer}>
@@ -235,7 +223,7 @@ const DashboardDetailScreen = () => {
                       global?.tagText,
                       {
                         backgroundColor: Colors.RGBA_229_172_177,
-                        marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
                       },
                     ]}>
                     {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
@@ -269,7 +257,7 @@ const DashboardDetailScreen = () => {
                       global?.tagText,
                       {
                         backgroundColor: Colors.RGBA_229_172_177,
-                        marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
                       },
                     ]}>
                     {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
@@ -281,7 +269,7 @@ const DashboardDetailScreen = () => {
                       global?.tagText,
                       {
                         backgroundColor: Colors.RGBA_229_172_177,
-                        marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
                       },
                     ]}>
                     {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
@@ -312,27 +300,12 @@ const DashboardDetailScreen = () => {
                 <Text style={styles.middleText}>
                   {Strings.donorPofile.shortClip}
                 </Text>
-                <VideoUploading
-                  imageOverlay={styles.imageOverlayWrapper}
+                <Video
+                  controls={true}
+                  source={{uri: smDetailRes?.doner_video_gallery?.file_url}}
+                  onError={err => console.log(err)}
                   style={styles.imageDemo2}
-                  disabled={
-                    smDetailRes?.doner_video_gallery?.file_url === ''
-                      ? false
-                      : true
-                  }
-                  onEnd={() => {
-                    setIsPlaying(false);
-                    videoRef?.current?.seek(0);
-                    videoRef?.current?.setNativeProps({
-                      paused: true,
-                    });
-                  }}
-                  onPress={() => videoPlay()}
-                  videoStyle={styles.video}
-                  videoRef={videoRef}
-                  isPlaying={isPlaying}
-                  counter={counter}
-                  video={smDetailRes?.doner_video_gallery}
+                  paused={true}
                 />
               </View>
             )}
@@ -379,11 +352,7 @@ const DashboardDetailScreen = () => {
         ) : (
           <MaterialIndicator
             color={Colors.COLOR_A3C6C4}
-            style={{
-              justifyContent: Alignment.CENTER,
-              alignItems: Alignment.CENTER,
-              marginTop: height / 2,
-            }}
+            style={styles.loaderContainer}
             size={dynamicSize(25)}
           />
         )}

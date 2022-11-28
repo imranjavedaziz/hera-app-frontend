@@ -60,7 +60,7 @@ export default {
   },
   buttonContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_46,
+    marginTop: Value.CONSTANT_VALUE_72,
   },
   dashboardBtn: {
     width: Value.CONSTANT_VALUE_295,
@@ -110,7 +110,6 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     lineHeight: 21,
     letterSpacing: 0,
-    // textAlign:'center'
     justifyContent: 'center',
   },
 };

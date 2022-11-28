@@ -411,10 +411,12 @@ const PtbDashboard = props => {
             </View>
           </View>
         ) : (
-          <MaterialIndicator
-            color={Colors.COLOR_A3C6C4}
-            size={dynamicSize(25)}
-          />
+          <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View>
         )}
       </>
     );

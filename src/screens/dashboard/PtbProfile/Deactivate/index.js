@@ -20,10 +20,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 
 const DeactivateAccount = () => {
   const navigation = useNavigation();
-  const {
-    control,
-    formState: {errors, isValid},
-  } = useForm({
+  const {control} = useForm({
     resolver: yupResolver(),
   });
   const headerComp = () => (

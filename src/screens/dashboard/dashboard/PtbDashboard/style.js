@@ -1,6 +1,7 @@
 import Alignment from '../../../../constants/Alignment';
 import {
   dynamicSize,
+  height,
   normalizeFont,
   px,
   scaleHeight,
@@ -8,6 +9,7 @@ import {
 } from '../../../../utils/responsive';
 import {Value} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
+import {Colors} from '../../../../constants';
 
 export default {
   mainContainer: {
@@ -86,5 +88,17 @@ export default {
     height: scaleWidth(Value.CONSTANT_VALUE_130),
     width: scaleWidth(Value.CONSTANT_VALUE_125),
     left: Value.CONSTANT_VALUE_5,
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };
