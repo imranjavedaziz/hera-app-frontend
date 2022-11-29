@@ -34,7 +34,6 @@ export function* watchDeactivateAccount() {
 function* GetDeactivateReason(payload) {
   try {
     const result = yield getDeactivateReasonApi(payload.data);
-    console.log('LINE NO 37 SAGA REASONS_LIST_DEACTIVATE');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({ type: REASONS_LIST_SUCCESS, data: result });
     } else {

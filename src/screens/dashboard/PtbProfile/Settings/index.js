@@ -6,13 +6,14 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import Header, {IconHeader} from '../../../../components/Header';
+import React, { useState } from 'react';
+import Header, { IconHeader } from '../../../../components/Header';
 import styles from './style';
-import {Images, Strings} from '../../../../constants';
-import {useNavigation} from '@react-navigation/native';
+import { Images, Strings } from '../../../../constants';
+import { useNavigation } from '@react-navigation/native';
 import AccountSetting from '../../../../components/dashboard/PtbProfile/AccountSettings';
-import {ValidationMessages} from '../../../../constants/Strings';
+import { ValidationMessages } from '../../../../constants/Strings';
+import { Routes } from '../../../../constants/Constants';
 
 const Settings = () => {
   const navigation = useNavigation();
@@ -54,7 +55,7 @@ const Settings = () => {
         {
           text: Strings.sm_create_gallery.deactivateModal,
           onPress: () => {
-            navigation.navigate('DeactivateAccount');
+            navigation.navigate(Routes.DeactivateAccount);
           },
         },
         {
@@ -87,7 +88,7 @@ const Settings = () => {
             Heading={Strings.Settings.Change_Password}
             line
             onPress={() => {
-              navigation.navigate('ChangePassword',{type:1});
+              navigation.navigate('ChangePassword', { type: 1 });
             }}
           />
           <View style={styles.deactivate}>
@@ -140,8 +141,8 @@ const Settings = () => {
               onPress={() => {
                 setShowModal(false);
                 deactivate
-                  ? navigation.navigate('DeactivateAccount')
-                  : navigation.navigate('DeleteAccount');
+                  ? navigation.navigate(Routes.DeactivateAccount)
+                  : navigation.navigate(Routes.DeleteAccount);
                 setDeactivate(false);
               }}>
               <Text style={styles.modalOption1}>
@@ -166,4 +167,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default React.memo(Settings);

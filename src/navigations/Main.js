@@ -65,11 +65,14 @@ const Main = () => {
       ref={navigationRef}
       onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
-        initialRouteName={getRoute(
+        initialRouteName={
+          // Routes.DeactivateAccount
+        getRoute(
           auth?.access_token,
           auth?.role_id,
           auth?.registration_step,
-        )}>
+        )
+        }>
         <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}
