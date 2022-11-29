@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   createSubscription,
   getSubscriptionPlan,
+  getSubscriptionStatus,
 } from '../../../../redux/actions/Subsctiption';
 import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
@@ -71,6 +72,7 @@ const Subscription = props => {
       dispatch(showAppLoader());
       if (create_subscription_success) {
         console.log('create_subscription_success', create_subscription_success);
+        dispatch(getSubscriptionStatus())
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
         props.navigation.goBack();
