@@ -41,6 +41,9 @@ import {
   getEditProfile,
   updateEditProfile,
 } from '../../../redux/actions/Edit_profile';
+import {
+  sendVerificationMail
+} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
 
 const EditProfile = props => {
@@ -298,6 +301,7 @@ const EditProfile = props => {
     dispatch(updateEditProfile(payload));
   };
   const onPressVerify = () => {
+    dispatch(sendVerificationMail());
     console.log('verifyEmail');
   };
   return (
@@ -361,7 +365,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
-                    verifyEmail={true}
+                    verifyEmail={get_user_detail_res?.email_verified === 0 ? true : false}
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}

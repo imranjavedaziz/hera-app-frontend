@@ -196,6 +196,7 @@ export const Routes = {
   ChangePassword: 'ChangePassword',
   EditProfile: 'EditProfile',
   DeleteAccount: 'DeleteAccount',
+  ProfileLikedSm:'ProfileLikedSm'
 };
 export const Static = {
   countries: [

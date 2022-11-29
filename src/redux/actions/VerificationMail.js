@@ -6,9 +6,9 @@ export const verifyEmail = userInfo => {
     data: userInfo,
   };
 };
-export const sendVerificationMail = data => {
+export const sendVerificationMail = () => {
   return {
     type: SEND_VERIFICATION_MAIL,
-    data: data,
+    data: '',
   };
 };

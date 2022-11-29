@@ -83,4 +83,5 @@ export default {
   ADMIN_ICON: require('../assets/icons/adminLogo/adminLogo.png'),
   SERCHING: require('../assets/icons/searching/searching.png'),
   WHITE_GREEN_HEART:require('../assets/icons/whitegreenbackground/whitegreenbackground.png'),
+  BLUR_BACKGROUND:require('../assets/Images/rectangleBlur/rectangleBlur.png'),
 };
