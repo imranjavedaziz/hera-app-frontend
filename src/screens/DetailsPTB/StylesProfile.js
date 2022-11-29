@@ -2,6 +2,7 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
+import { dynamicSize } from '../../utils/responsive';
 
 export default {
   imgContainer: {
@@ -60,6 +61,7 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   tmcLink: {
+    top: dynamicSize(Value.CONSTANT_VALUE_2),
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,

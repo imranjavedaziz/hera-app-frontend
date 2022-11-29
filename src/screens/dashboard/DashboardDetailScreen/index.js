@@ -30,8 +30,7 @@ import Colors from '../../../constants/Colors';
 import {profileMatch} from '../../../redux/actions/Profile_Match';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {dynamicSize, height} from '../../../utils/responsive';
-import {Alignment} from '../../../constants';
+import {dynamicSize} from '../../../utils/responsive';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -353,11 +352,8 @@ const DashboardDetailScreen = () => {
         ) : (
           <MaterialIndicator
             color={Colors.COLOR_A3C6C4}
-            style={{
-              justifyContent: Alignment.CENTER,
-              alignItems: Alignment.CENTER,
-              marginTop: height / 2,
-            }}
+            style={styles.loaderContainer}
+            size={dynamicSize(25)}
           />
         )}
       </Container>

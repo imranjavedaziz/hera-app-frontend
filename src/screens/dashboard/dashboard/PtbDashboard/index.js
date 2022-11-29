@@ -46,7 +46,7 @@ import messaging from '@react-native-firebase/messaging';
 
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {scaleWidth} from '../../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -63,7 +63,15 @@ const PtbDashboard = props => {
   const loadingMatchRef = useRef(false);
   const {fcmToken} = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
   const [msgRead, setMsgRead] = useState(false);
+  useEffect(()=>{
+    if(subscriptionStatus && subscriptionStatus.data){
+      if(!subscriptionStatus.data.status){
+        dispatch(showAppToast(true,subscriptionStatus.data.is_trial?Strings.Subscription.TrailOver:Strings.Subscription.SubscriptionExpired));
+      }
+    }
+  },[subscriptionStatus])
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -74,7 +82,6 @@ const PtbDashboard = props => {
       dispatch(getPtbDashboard());
     }, [dispatch]),
   );
-  console.log(fcmToken, 'fcmTokenLat');
   //Get device Info
   useEffect(() => {
     const _deviceInfo = {
@@ -82,7 +89,6 @@ const PtbDashboard = props => {
       device_token: fcmToken,
       device_type: Platform.OS,
     };
-    console.log(_deviceInfo, 'deviceName');
     dispatch(deviceRegister(_deviceInfo));
   }, []);
   //Push Notification
@@ -294,9 +300,14 @@ const PtbDashboard = props => {
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
           onPress={() => {
-            navigation.navigate('DashboardDetailScreen', {
-              userId: item?.user?.id,
-            });
+            if(subscriptionStatus?.data?.status){
+              navigation.navigate('DashboardDetailScreen', {
+                userId: item?.user?.id,
+              });
+            }
+            else{
+              navigation.navigate(Routes.Subscription);
+            }
           }}
         />
       </>
@@ -367,9 +378,14 @@ const PtbDashboard = props => {
             <View style={STYLE}>
               <TouchableOpacity
                 onPress={() => {
-                  setIsVisibleLogo(true);
-                  setIslikedLogo('disliked');
-                  handleOnSwipedLeft();
+                  if(subscriptionStatus?.data?.status){
+                    setIsVisibleLogo(true);
+                    setIslikedLogo('disliked');
+                    handleOnSwipedLeft();
+                  }
+                  else{
+                    navigation.navigate(Routes.Subscription);
+                  }
                 }}>
                 <Image
                   style={styles.dislikeButton}
@@ -378,9 +394,14 @@ const PtbDashboard = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  setIsVisibleLogo(true);
-                  setIslikedLogo('liked');
-                  handleOnSwipedRight();
+                  if(subscriptionStatus?.data?.status){
+                    setIsVisibleLogo(true);
+                    setIslikedLogo('liked');
+                    handleOnSwipedRight();
+                  }
+                  else{
+                    navigation.navigate(Routes.Subscription);
+                  }
                 }}>
                 <Image
                   style={styles.likeButton}
@@ -390,7 +411,12 @@ const PtbDashboard = props => {
             </View>
           </View>
         ) : (
-          <MaterialIndicator color={Colors.COLOR_A3C6C4} />
+          <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View>
         )}
       </>
     );

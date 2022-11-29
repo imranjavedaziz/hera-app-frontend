@@ -88,6 +88,7 @@ const StateList = props => {
     }
     setSearching(true);
     setSearch(value);
+    console.log(searching, 'searching');
   };
   const selectState = item => {
     if (count === 3 && item.isActive === false) {

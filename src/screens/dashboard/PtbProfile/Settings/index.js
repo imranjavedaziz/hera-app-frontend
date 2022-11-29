@@ -6,17 +6,19 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import Header, {IconHeader} from '../../../../components/Header';
+import React, { useState } from 'react';
+import Header, { IconHeader } from '../../../../components/Header';
 import styles from './style';
-import {Images, Strings} from '../../../../constants';
-import {useNavigation} from '@react-navigation/native';
+import { Images, Strings } from '../../../../constants';
+import { useNavigation } from '@react-navigation/native';
 import AccountSetting from '../../../../components/dashboard/PtbProfile/AccountSettings';
-import {ValidationMessages} from '../../../../constants/Strings';
+import { ValidationMessages } from '../../../../constants/Strings';
+import { Routes } from '../../../../constants/Constants';
 
 const Settings = () => {
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
+  const [deactivate, setDeactivate] = useState(false);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -45,6 +47,29 @@ const Settings = () => {
     return true;
   };
 
+  const backDeactivateAction = () => {
+    Alert.alert(
+      ValidationMessages.Deactivate_Account,
+      ValidationMessages.DEACTIVATE_TEXT,
+      [
+        {
+          text: Strings.sm_create_gallery.deactivateModal,
+          onPress: () => {
+            navigation.navigate(Routes.DeactivateAccount);
+          },
+        },
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+  const deactivateFunc = () => {
+    setDeactivate(true);
+    setShowModal(true);
+  };
   return (
     <>
       <View style={styles.mainContainer}>
@@ -63,16 +88,21 @@ const Settings = () => {
             Heading={Strings.Settings.Change_Password}
             line
             onPress={() => {
-              navigation.navigate('ChangePassword',{type:1});
+              navigation.navigate('ChangePassword', { type: 1 });
             }}
           />
           <View style={styles.deactivate}>
             <AccountSetting
               Icon={Images.blockUser}
-              Heading={Strings.Settings.Deactivate_Account}
+              Heading={Strings.Settings.DEACTIVATE_ACCOUNT}
               Content={Strings.Settings.Deactivate_Content}
               line
               red
+              onPress={() => {
+                Platform.OS === 'ios'
+                  ? backDeactivateAction()
+                  : deactivateFunc();
+              }}
             />
           </View>
           <View style={styles.delete}>
@@ -98,23 +128,33 @@ const Settings = () => {
         <View style={[styles.centeredView]}>
           <View style={styles.modalView}>
             <Text style={styles.modalHeader}>
-              {ValidationMessages.DELETE_ACCOUNT}
+              {deactivate
+                ? ValidationMessages.Deactivate_Account
+                : ValidationMessages.DELETE_ACCOUNT}
             </Text>
             <Text style={styles.modalSubHeader}>
-              {ValidationMessages.DELETE_TEXT}
+              {deactivate
+                ? ValidationMessages.DEACTIVATE_TEXT
+                : ValidationMessages.DELETE_TEXT}
             </Text>
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
-                navigation.navigate('DeleteAccount');
+                deactivate
+                  ? navigation.navigate(Routes.DeactivateAccount)
+                  : navigation.navigate(Routes.DeleteAccount);
+                setDeactivate(false);
               }}>
               <Text style={styles.modalOption1}>
-                {Strings.sm_create_gallery.deleteModal}
+                {deactivate
+                  ? Strings.sm_create_gallery.deactivateModal
+                  : Strings.sm_create_gallery.deleteModal}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 setShowModal(false);
+                setDeactivate(false);
               }}>
               <Text style={styles.modalOption2}>
                 {Strings.sm_create_gallery.StayHera}
@@ -127,4 +167,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default React.memo(Settings);

@@ -100,10 +100,10 @@ const ChatListing = props => {
       case timeAgoArray[1] === 'few':
         day = 'Just Now';
         break;
-      case formattedDate == todayDate:
+      case formattedDate === todayDate:
         day = 'Today';
         break;
-      case formattedDate == yesterday:
+      case formattedDate === yesterday:
         day = 'Yesterday';
         break;
 

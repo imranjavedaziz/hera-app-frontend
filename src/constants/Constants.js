@@ -20,7 +20,7 @@ const environment = {
     chat: 'stage',
   },
 };
-export const {bucket, api_url, chat} = environment.qa;
+export const {bucket, api_url, chat} = environment.dev;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -196,7 +196,8 @@ export const Routes = {
   ChangePassword: 'ChangePassword',
   EditProfile: 'EditProfile',
   DeleteAccount: 'DeleteAccount',
-  ProfileLikedSm:'ProfileLikedSm'
+  ProfileLikedSm:'ProfileLikedSm',
+  DeactivateAccount: 'DeactivateAccount',
 };
 export const Static = {
   countries: [

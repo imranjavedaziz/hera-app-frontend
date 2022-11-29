@@ -155,7 +155,7 @@ const FloatingLabelInput = props => {
               style={[
                 styles.InputTextField,
                 isFocused ? styles.focusBorder : styles.blurBorder,
-                error ? {borderColor: Colors.RED} : null,
+                error ? {borderBottomColor: Colors.RED} : null,
               ]}
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -168,8 +168,8 @@ const FloatingLabelInput = props => {
             style={[
               styles.InputTextField,
               isFocused ? styles.focusBorder : styles.blurBorder,
-              lineColor && {borderColor: Colors.LIGHT_BLACK47},
-              error ? {borderColor: Colors.RED} : null,
+              lineColor && {borderBottomColor: Colors.LIGHT_BLACK47},
+              error ? {borderBottomColor: Colors.RED} : null,
               edited === false && styles.fade,
             ]}
             onFocus={handleFocus}

@@ -17,19 +17,18 @@ const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 0,
-    width: Prencentage.PRECENTAGE_100,
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    padding: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_60,
   },
   input: {
     padding: Value.CONSTANT_VALUE_10,
-    borderTopWidth: Value.CONSTANT_VALUE_1,
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
-    borderLeftWidth: Value.CONSTANT_VALUE_FRAC50,
-    borderRightWidth: Value.CONSTANT_VALUE_FRAC50,
-    fontSize: Value.CONSTANT_VALUE_18,
+    borderTopWidth: Value.CONSTANT_VALUE_2,
+    borderBottomWidth: Value.CONSTANT_VALUE_2,
+    borderLeftWidth: Value.CONSTANT_VALUE_1,
+    borderRightWidth: Value.CONSTANT_VALUE_1,
+    fontSize: Value.CONSTANT_VALUE_16,
     textAlign: Alignment.CENTER,
     minWidth: Value.CONSTANT_VALUE_40,
     minHeight: Value.CONSTANT_VALUE_40,
@@ -46,12 +45,12 @@ const styles = StyleSheet.create({
   input3or6: {
     borderTopRightRadius: Value.CONSTANT_VALUE_5,
     borderBottomRightRadius: Value.CONSTANT_VALUE_5,
-    borderRightWidth: Value.CONSTANT_VALUE_1,
+    borderRightWidth: Value.CONSTANT_VALUE_2,
   },
   input1or4: {
     borderTopLeftRadius: Value.CONSTANT_VALUE_5,
     borderBottomLeftRadius: Value.CONSTANT_VALUE_5,
-    borderLeftWidth: Value.CONSTANT_VALUE_1,
+    borderLeftWidth: Value.CONSTANT_VALUE_2,
   },
   hyphen: {
     borderTopWidth: 0,

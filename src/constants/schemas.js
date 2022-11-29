@@ -126,19 +126,25 @@ export const smRegisterSchema = yup.object().shape({
       const {parent} = ctx;
       const formatedDate = moment(value).format('YYYY/MM/DD');
       const selectedAge = calculateBirthYear(formatedDate);
-      if (parent?.role == '3') {
-        if (selectedAge >= 21 && selectedAge <= 45) return true;
-      } else if (parent?.role == '4') {
-        if (selectedAge >= 18 && selectedAge <= 40) return true;
-      } else if (parent?.role == '5') {
+      if (parent?.role === '3') {
+        if (selectedAge >= 21 && selectedAge <= 45) {
+          return true;
+        }
+      } else if (parent?.role === '4') {
+        if (selectedAge >= 18 && selectedAge <= 40) {
+          return true;
+        }
+      } else if (parent?.role === '5') {
         console.log('LINE NO 138 ', parent.role, selectedAge);
-        if (selectedAge >= 18 && selectedAge <= 40) return true;
+        if (selectedAge >= 18 && selectedAge <= 40) {
+          return true;
+        }
       }
       return ctx.createError({
         message:
-          parent?.role == '3'
+          parent?.role === '3'
             ? Strings.sm_register.Surrogate_Mother_error
-            : parent?.role == '4'
+            : parent?.role === '4'
             ? Strings.sm_register.Egg_Donar_error
             : Strings.sm_register.Sperm_Donar_error,
       });
@@ -265,7 +271,7 @@ export const changePasswordSchema = yup.object().shape({
   confirm_password: yup
     .string()
     .required(ValidationMessages.COMMON_REQUIRED)
-    .oneOf([yup.ref('new_password'),null], 'Your passwords do not match.'),
+    .oneOf([yup.ref('new_password'), null], 'Your passwords do not match.'),
 });
 
 export const forgetPasswordSchema = yup.object().shape({
@@ -292,7 +298,7 @@ export const forgetPasswordSchema = yup.object().shape({
   confirm_password: yup
     .string()
     .required(ValidationMessages.COMMON_REQUIRED)
-    .oneOf([yup.ref('new_password'),null], 'Your passwords do not match.'),
+    .oneOf([yup.ref('new_password'), null], 'Your passwords do not match.'),
 });
 
 export const smSetAttributesSchema = yup.object().shape({

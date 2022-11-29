@@ -4,6 +4,7 @@ import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
 import {
   dynamicSize,
+  height,
   normalizeFont,
   scaleHeight,
   scaleWidth,
@@ -14,8 +15,18 @@ export default {
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
     marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
   },
+  imageOverlayWrapper: {
+    position: Alignment.RELATIVE,
+    overflow: Alignment.HIDDEN,
+  },
   bioContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
+  },
+  video: {
+    overflow: Alignment.HIDDEN,
+    width: scaleWidth(Value.CONSTANT_VALUE_318),
+    height: Value.CONSTANT_VALUE_199,
+    marginTop: Value.CONSTANT_VALUE_3,
   },
   innerContainer: {},
   headerIcon: {
@@ -28,6 +39,11 @@ export default {
   nativeLong: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.FLEX_START,
+  },
+  playIcon: {
+    position: Alignment.ABSOLUTE,
+    alignSelf: Alignment.CENTER,
+    top: 180 / 2,
   },
   nativePlace: {
     backgroundColor: Colors.RGBA_229_172_177,
@@ -46,18 +62,18 @@ export default {
   motherPlace: {
     backgroundColor: Colors.RGBA_229_172_177,
     justifyContent: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   hairColor: {
     backgroundColor: Colors.RGBA_229_172_177,
     justifyContent: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   eyeColorContainer: {
     backgroundColor: Colors.RGBA_229_172_177,
     justifyContent: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
     width: Value.CONSTANT_VALUE_120,
   },
   eyeColorText: {
@@ -71,9 +87,9 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
   },
   imageDemo2: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
-    width: scaleWidth(Value.CONSTANT_VALUE_318),
-    height: Value.CONSTANT_VALUE_199,
+    justifyContent: Alignment.CENTER,
+    backgroundColor: Colors.VDOCONTAINER,
+    marginTop: Value.CONSTANT_VALUE_15,
   },
   Description: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_53),
@@ -132,8 +148,8 @@ export default {
   imageBox: {
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.BACKGROUND,
-    height: scaleHeight(Value.CONSTANT_VALUE_117),
-    width: scaleWidth(Value.CONSTANT_VALUE_105),
+    height: Value.CONSTANT_VALUE_110,
+    width: Value.CONSTANT_VALUE_110,
   },
   heartIcon: {
     flexDirection: Alignment.ROW,
@@ -149,5 +165,17 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     width: scaleWidth(Value.CONSTANT_VALUE_211),
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };

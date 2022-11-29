@@ -2,9 +2,10 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import {Routes} from '../constants/Constants';
 import getRoute from '../utils/getRoute';
+import { getSubscriptionStatus } from '../redux/actions/Subsctiption';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
 import SetPreference from '../screens/DetailsPTB/PTB_setPreference/SetPreference';
@@ -37,15 +38,26 @@ import ChangePassword from '../screens/dashboard/PtbProfile/ChangePassword';
 import EditProfile from '../screens/dashboard/EditProfile/EditProfile';
 import DeleteAccount from '../screens/dashboard/PtbProfile/DeleteAccount';
 import ProfileLikedSm from '../screens/chatScreens/ProfileLikedSm'
+import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
+
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
 
 const Main = () => {
+  const dispatch = useDispatch();
   const auth = useSelector(state => state.Auth.user);
   useEffect(() => {
     if (auth) {
       RNBootSplash.hide();
+      const path = getRoute(
+        auth?.access_token,
+        auth?.role_id,
+        auth?.registration_step,
+      );
+      if(path!==Routes.Landing && auth?.role_id===2){
+        dispatch(getSubscriptionStatus())
+      }
     }
   }, [auth]);
 
@@ -54,11 +66,14 @@ const Main = () => {
       ref={navigationRef}
       onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
-        initialRouteName={getRoute(
+        initialRouteName={
+          // Routes.DeactivateAccount
+        getRoute(
           auth?.access_token,
           auth?.role_id,
           auth?.registration_step,
-        )}>
+        )
+        }>
         <Stack.Screen
           name={Routes.SmDashboard}
           component={SmDashboard}
@@ -215,6 +230,11 @@ const Main = () => {
           options={{headerShown: false}}
         />
         
+        <Stack.Screen
+          name={Routes.DeactivateAccount}
+          component={DeactivateAccount}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
