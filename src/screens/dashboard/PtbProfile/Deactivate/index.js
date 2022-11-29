@@ -16,6 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDeactivateReason, deactivateAccount } from '../../../../redux/actions/DeactivateAccount';
 import { hideAppLoader } from '../../../../redux/actions/loader';
+import { Routes } from '../../../../constants/Constants';
 
 const DeactivateAccount = () => {
   const [deactivateReasonList, setDeactivateReasonList] = React.useState('')
@@ -70,13 +71,16 @@ const DeactivateAccount = () => {
       if (deactivate_account_success) {
         console.log('deactivate_account_success', deactivate_account_success);
         dispatch(hideAppLoader());
-        // props.navigation.goBack();
+        navigation.reset({
+          index: 0,
+          routes: [{ name: Routes.Login, }],
+        });
       }
       dispatch(hideAppLoader());
     }
     loadingRef.current = deactivate_account_loading;
   }, [deactivate_account_success, deactivate_account_loading]);
-  
+
   const deactivateAccountHandlar = item => {
     let payload = {
       status_id: 2,
@@ -135,7 +139,7 @@ const DeactivateAccount = () => {
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               style={styles.dashboardBtn}
               onPress={deactivateAccountHandlar}
-              >
+            >
               <Text
                 style={styles.buttonText}
                 accessible={false}
