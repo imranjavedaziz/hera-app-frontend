@@ -253,10 +253,32 @@ export const inqueryFormSchema = yup.object().shape({
   message: yup.string().required(ValidationMessages.ENTER_Message),
 });
 
+export const deleteAccountPassword = yup.object().shape({
+  current_password: yup
+    .string()
+    .required(ValidationMessages.PASSWORD_REQUIRED)
+    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .matches(Regx.SPECIAL_CHAR, {
+      excludeEmptyString: true,
+      message: null,
+    })
+    .matches(Regx.ALPHA_LOWER, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.ALPHA_CAP, {
+      excludeEmptyString: true,
+      message: '',
+    })
+    .matches(Regx.NUM, {
+      excludeEmptyString: true,
+      message: '',
+    }),
+});
+
 export const changePasswordSchema = yup.object().shape({
   current_password: yup
     .string()
-    // .required(ValidationMessages.COMMON_REQUIRED)
     .required(ValidationMessages.PASSWORD_REQUIRED)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {

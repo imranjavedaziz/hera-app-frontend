@@ -10,7 +10,7 @@ import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
-import {Routes} from '../../../constants/Constants';
+import {Routes, ABOUT_URL} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
@@ -23,6 +23,8 @@ import {
 } from '../../../redux/actions/loader';
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
+import openWebView from '../../../utils/openWebView';
+
 const PtbProfile = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
@@ -217,6 +219,7 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.information}
                 title={Strings.smSetting.AboutUs}
+                onPress={()=>openWebView(ABOUT_URL)}
               />
             </View>
             <View style={styles.buttoncontainer}>

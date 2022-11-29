@@ -34,6 +34,7 @@ import {
 } from './Subscription';
 import {watchGetFeedback, watchGetSendNotification} from './Chat';
 import {watchDeleteAccount} from './DeleteAccount';
+import {watchVerifyMail,watchSendMailVerification} from './VerificationMail'
 import {watchGetEditProfile, watchUpdateEditProfile} from './Edit_profile';
 import {
   watchDeactivateAccount,
@@ -73,6 +74,8 @@ export default function* rootSaga() {
     fork(watchGetFeedback),
     fork(watchGetSendNotification),
     fork(watchDeleteAccount),
+    fork(watchVerifyMail),
+    fork(watchSendMailVerification),
     fork(watchGetEditProfile),
     fork(watchUpdateEditProfile),
     fork(watchgetPreference),
