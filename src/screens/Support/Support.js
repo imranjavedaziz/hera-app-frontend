@@ -34,7 +34,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {MultiTextInput} from '../../components';
 import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
-
+import moment from 'moment-timezone';
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();
   const {
@@ -94,14 +94,13 @@ export default function Support() {
     }
     SubmitLoadingRef.current = get_support_form_loading;
   }, [get_support_form_loading, get_support_form_success]);
+
   const headerComp = () => (
     <CircleBtn
       Fixedstyle={styles.fixedheaderStyle}
       icon={Images.iconcross}
       onPress={() => {
-        {
-          Platform.OS === 'ios' ? backAction() : setShowModal(true);
-        }
+        Platform.OS === 'ios' ? backAction() : setShowModal(true);
       }}
       accessibilityLabel={Strings.inqueryForm.LEFT_ARROW_BUTTON}
     />
@@ -138,9 +137,9 @@ export default function Support() {
     );
     return true;
   };
-
+  const timezone = moment.tz.guess(true);
+  console.log(timezone);
   const onSubmit = data => {
-    console.log(data, 'finaldata');
     const payload = {
       name: data.name,
       email: data.email,
@@ -148,10 +147,12 @@ export default function Support() {
       phone_no: data.phone_no,
       enquiring_as: data.user_type.id,
       message: data.message,
+      user_timezone: timezone,
     };
     dispatch(showAppLoader());
     dispatch(SupportForm(payload));
   };
+
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;
     if (deleting) {

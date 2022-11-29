@@ -97,7 +97,10 @@ export default {
     bottom: -25,
     right: 0,
   },
-  rowStyle: {width: Prencentage.PRECENTAGE_100},
+  rowStyle: {
+    width: Prencentage.PRECENTAGE_100,
+    borderBottomWidth: Value.CONSTANT_VALUE_0,
+  },
   rowTextStyle: {textAlign: Alignment.CENTER, color: Colors.BLACK},
   dropdownStyle: {
     textAlign: Alignment.LEFT,

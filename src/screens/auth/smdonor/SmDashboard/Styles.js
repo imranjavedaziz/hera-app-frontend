@@ -2,7 +2,7 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {width} from '../../../../utils/responsive';
+import {height, width} from '../../../../utils/responsive';
 
 export default {
   mainContainer: {},
@@ -110,5 +110,31 @@ export default {
   },
   loaderContainer: {
     marginTop: Value.CONSTANT_VALUE_15,
+    position: Alignment.ABSOLUTE,
+    top: height / Value.CONSTANT_VALUE_2,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
+  },
+  emptyContainer: {
+    alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_203,
+  },
+  emptyText: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_23,
+    color: Colors.BLACK,
+  },
+  content: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_16,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_5,
   },
 };
