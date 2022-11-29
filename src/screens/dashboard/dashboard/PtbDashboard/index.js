@@ -221,7 +221,6 @@ const PtbDashboard = props => {
         dispatch(showAppLoader());
         if (profile_match_success) {
           dispatch(hideAppLoader());
-          dispatch(showAppToast(false, profile_match_error_msg));
         }
         if (profile_match_error_msg) {
           dispatch(hideAppLoader());

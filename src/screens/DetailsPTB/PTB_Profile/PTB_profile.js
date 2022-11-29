@@ -1,4 +1,11 @@
-import {Text, View, Image, ImageBackground, Pressable} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  ImageBackground,
+  Pressable,
+  Animated,
+} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import Container from '../../../components/Container';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -20,7 +27,7 @@ import {
 } from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {height} from '../../../utils/responsive';
+import {height, width} from '../../../utils/responsive';
 import FastImage from 'react-native-fast-image';
 
 const PTB_profile = props => {
@@ -29,6 +36,8 @@ const PTB_profile = props => {
   const loadingRef = useRef(false);
   const LoadinfRef = useRef(false);
   const [liked, setLiked] = useState(false);
+  const [isVisibleLogo, setIsVisibleLogo] = useState(false);
+  const [islikedLogo, setIslikedLogo] = useState('');
   const {
     get_ptb_profile_detail_success,
     get_ptb_profile_detail_loading,
@@ -87,12 +96,56 @@ const PTB_profile = props => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+
+  const FadeInView = props => {
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }).start();
+    }, [fadeAnim]);
+    return (
+      <Animated.View
+        style={{
+          ...props.style,
+          opacity: fadeAnim,
+        }}>
+        {props.children}
+      </Animated.View>
+    );
+  };
+  const IMG_CONDI =
+    islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
+
   const onPressDislike = () => {
     const payload = {
       to_user_id: userid,
       status: 3,
     };
     dispatch(sendLikePtb(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('disliked');
+    setTimeout(() => {
+      setIsVisibleLogo(false);
+      setIslikedLogo('');
+      navigation.navigate(Routes.SmDashboard);
+    }, 2000);
+  };
+  const onPresslike = () => {
+    const payload = {
+      to_user_id: userid,
+      status: 1,
+    };
+    dispatch(sendLikePtb(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('liked');
+    setTimeout(() => {
+      setIsVisibleLogo(false);
+      setIslikedLogo('');
+      navigation.navigate(Routes.SmDashboard);
+    }, 2000);
   };
   return (
     <Container
@@ -132,8 +185,26 @@ const PTB_profile = props => {
                 source={Images.QUOTES}
                 style={styles.bioBackground}
               />
+              {isVisibleLogo === true ? (
+                <FadeInView>
+                  <ImageBackground
+                    style={{
+                      flex: 1,
+                      position: 'absolute',
+                      left: 80,
+                      top: 0,
+                      bottom: 0,
+                      width: width,
+                    }}>
+                    <Image style={styles.iconImage} source={IMG_CONDI} />
+                  </ImageBackground>
+                </FadeInView>
+              ) : null}
               <Text style={styles.bioText}>{stateRes?.user_profile?.bio}</Text>
             </View>
+            {/* <View style={styles.iconContainer}> */}
+
+            {/* </View> */}
             <View style={{flexDirection: Alignment.ROW}}>
               <View style={{flexDirection: Alignment.ROW}}>
                 {stateRes?.user_profile?.gender && (
@@ -178,36 +249,24 @@ const PTB_profile = props => {
               />
             </View>
           )}
-          {!liked && stateRes?.profile_match_request?.status !== 2 && (
-            <Pressable
-              style={styles.sendMsgBtn}
-              onPress={() => {
-                setLiked(true);
-                dispatch(
-                  sendLikePtb({
-                    to_user_id: userid,
-                    status: 1,
-                  }),
-                );
-                setTimeout(() => {
-                  navigation.navigate(Routes.SmDashboard);
-                }, 1000);
-              }}>
-              <Image source={Images.HEARTH_ICON} />
-              <Text style={styles.sendMsgText}>
-                {' '}
-                {Strings.PTB_Profile.send_request}
-              </Text>
-            </Pressable>
-          )}
+
+          <Pressable
+            style={styles.sendMsgBtn}
+            onPress={() => {
+              onPresslike();
+            }}>
+            <Image source={Images.HEARTH_ICON} />
+            <Text style={styles.sendMsgText}>
+              {' '}
+              {Strings.PTB_Profile.send_request}
+            </Text>
+          </Pressable>
+
           {props?.route?.params?.seeAll && (
             <Pressable
               style={styles.sendMsgBtnDis}
               onPress={() => {
                 onPressDislike();
-                setTimeout(() => {
-                  navigation.navigate(Routes.SmDashboard);
-                }, 1000);
               }}>
               <Image source={Images.RED_CROSS_ICON} />
               <Text style={styles.sendMsgText}>

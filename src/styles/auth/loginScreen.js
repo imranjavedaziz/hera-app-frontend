@@ -34,9 +34,10 @@ export default {
   },
   btnMargin: {marginVertical: Value.CONSTANT_VALUE_20},
   psswrdInput: {
-    alignSelf: 'center',
+    alignSelf: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_5,
-    paddingBottom: Value.CONSTANT_VALUE_1,
+    paddingBottom: Value.CONSTANT_VALUE_3,
+    marginRight: Value.CONSTANT_VALUE_5,
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
