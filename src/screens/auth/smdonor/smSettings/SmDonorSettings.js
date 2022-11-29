@@ -26,6 +26,7 @@ import {Alignment} from '../../../../constants';
 import {getEditProfile} from '../../../../redux/actions/Edit_profile';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import openWebView from '../../../../utils/openWebView';
+import {getRoleType} from '../../../../utils/other';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -67,6 +68,7 @@ const SmDonorSettings = () => {
       GetLoadingRef.current = get_user_detail_loading;
     }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
   );
+  console.log(get_user_detail_res, 'get_user_detail_res');
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -148,6 +150,7 @@ const SmDonorSettings = () => {
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
+                roleId={getRoleType(name?.role_id)}
                 source={{
                   uri: profileImg,
                 }}
@@ -179,7 +182,7 @@ const SmDonorSettings = () => {
                 <Image source={Images.person} />
                 <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
               </TouchableOpacity>
-              <View style={Styles.dot} />
+              {name?.email_verified === 0 && <View style={Styles.dot} />}
             </View>
             <TouchableOpacity
               style={Styles.contain}

@@ -46,7 +46,7 @@ import messaging from '@react-native-firebase/messaging';
 
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {scaleWidth} from '../../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -411,7 +411,12 @@ const PtbDashboard = props => {
             </View>
           </View>
         ) : (
-          <MaterialIndicator color={Colors.COLOR_A3C6C4} />
+          <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View>
         )}
       </>
     );

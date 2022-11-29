@@ -170,7 +170,7 @@ const PtbProfile = () => {
               />
               <PtbAccount
                 leftIcon={Images.person}
-                BlueDot
+                BlueDot={name?.email_verified === 0 ? true : false}
                 title={Strings.smSetting.EditProfile}
                 onPress={() => navigation.navigate(Routes.EditProfile)}
               />

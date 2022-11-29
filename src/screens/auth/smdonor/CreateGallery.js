@@ -3,7 +3,6 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   View,
-  ImageBackground,
   Image,
   TouchableOpacity,
   ActivityIndicator,
@@ -13,7 +12,6 @@ import {
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../components/Container';
-import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
@@ -57,7 +55,6 @@ const CreateGallery = () => {
   ]);
   const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const loadingGalleryRef = useRef(false);
-  const loadRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
@@ -375,6 +372,7 @@ const CreateGallery = () => {
             ))}
           </View>
           <VideoUploading
+            apply={true}
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}

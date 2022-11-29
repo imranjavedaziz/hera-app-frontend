@@ -1,5 +1,5 @@
 // Dropdown
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Colors from '../../constants/Colors';
@@ -10,7 +10,7 @@ import CustomPicker from './CustomPicker/CustomPicker';
 import {Fonts} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const Dropdown = ({
   label,
@@ -27,15 +27,16 @@ const Dropdown = ({
   defaultValue,
   ...dropdownProps
 }) => {
+  const [isFocused, setFocused] = useState(false);
   const navigation = useNavigation();
   const [value, setValue] = useState(null);
   const [isVisible, setVisibility] = useState(false);
   const [isCome, setCome] = useState(false);
+  const handleFocus = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
   useEffect(() => {
     const previousValue = () => {
-      isCome &&
-        defaultValue !== undefined &&
-        setValue(Platform.OS === 'ios' ? defaultValue : defaultValue);
+      isCome && defaultValue !== undefined && setValue(defaultValue);
     };
     return previousValue();
   }, [defaultValue, isCome]);
@@ -57,7 +58,25 @@ const Dropdown = ({
     bottom: Value.CONSTANT_VALUE_0,
     zIndex: Value.CONSTANT_VALUE_2,
   };
-
+  const IOSfloated = {
+    fontFamily: Fonts.OpenSansRegular,
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#000000',
+    top: Value.CONSTANT_VALUE_8,
+    fontSize: Value.CONSTANT_VALUE_14,
+  };
+  const unIosfloated = {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: Colors.BLACK_0,
+    top: 22,
+  };
+  const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
   const STYLE_CONDITION = value ? STYLE_ONE : STYLE_TWO;
   return (
     <View
@@ -73,10 +92,11 @@ const Dropdown = ({
               onPress={() => {
                 setVisibility(true);
                 setCome(false);
+                setFocused(true);
               }}>
               <View style={styles.marginBottom}>
                 <Text
-                  style={value ? styles.IOSfloated : styles.unIosfloated}
+                  style={STYLE_CONDITION_THREE}
                   accessible={true}
                   accessibilityLabel={label}>
                   {label}
@@ -93,6 +113,7 @@ const Dropdown = ({
                 style={[
                   value ? styles.linebelowFloat : styles.linebelow,
                   {borderBottomColor: error ? Colors.RED : Colors.INPUT_BORDER},
+                  isFocused && {borderBottomColor: Colors.SKY_BLUE},
                 ]}
               />
             </TouchableOpacity>
@@ -100,22 +121,26 @@ const Dropdown = ({
               isVisible={isVisible}
               cancel={() => {
                 setVisibility(false);
+                setFocused(false);
               }}
               done={(selectedItem, index) => {
                 setVisibility(false);
                 onSelect(selectedItem);
                 setValue(selectedItem);
+                setFocused(false);
               }}
               data={data}
               selected={value}
               onValueChange={onSelect}
               selectedValue={value}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
           </View>
         ) : (
           <>
             <Text
-              style={value ? styles.IOSfloated : styles.unIosfloated}
+              style={STYLE_CONDITION_THREE}
               accessible={true}
               accessibilityLabel={label}>
               {label}
@@ -138,13 +163,15 @@ const Dropdown = ({
               rowTextForSelection={(item, index) => {
                 return item.name;
               }}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
               rowStyle={styles.rowStyle}
               rowTextStyle={styles.rowTextStyle}
               selectedRowTextStyle={{fontFamily: Fonts.OpenSansBold}}
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
-                borderColor: error ? 'red' : Colors.INPUT_BORDER,
+                borderColor: error ? Colors.RED : Colors.INPUT_BORDER,
               }}
               buttonTextStyle={{
                 ...styles.buttonTextStyle,

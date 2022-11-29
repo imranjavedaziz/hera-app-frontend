@@ -41,7 +41,11 @@ import {
   getEditProfile,
   updateEditProfile,
 } from '../../../redux/actions/Edit_profile';
+import {
+  sendVerificationMail
+} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
+import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -297,6 +301,10 @@ const EditProfile = props => {
     console.log(data, 'data:neww:::::');
     dispatch(updateEditProfile(payload));
   };
+  const onPressVerify = () => {
+    dispatch(sendVerificationMail());
+    console.log('verifyEmail');
+  };
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -358,6 +366,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    verifyEmail={get_user_detail_res?.email_verified === 0 ? true : false}
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -365,6 +374,7 @@ const EditProfile = props => {
                     required={true}
                     editable={false}
                     error={errors && errors.email?.message}
+                    onPressVerify={onPressVerify}
                   />
                 )}
                 name="email"
@@ -438,22 +448,6 @@ const EditProfile = props => {
                 )}
                 name="dob"
               />
-              {/* <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Dropdown
-                    // newValue={value}
-                    label={Strings.sm_basic.Country}
-                    data={stateRes}
-                    onSelect={selectedItem => {
-                      onChange(selectedItem);
-                    }}
-                    required={true}
-                    error={errors && errors.country?.message}
-                  />
-                )}
-                name={FormKey.country}
-              /> */}
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
@@ -533,7 +527,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <MultiTextInput
-                    containerStyle={{marginTop: 30}}
+                    containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                     title={Strings.sm_basic.Bio}
                     required={true}
                     value={value}

@@ -7,7 +7,7 @@ import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize} from '../utils/responsive';
-const {width, height} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 const styles = {
   container: {
     position: Alignment.ABSOLUTE,
