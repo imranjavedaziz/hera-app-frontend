@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Header from '../../../../components/Header';
 import { Images, Strings } from '../../../../constants';
@@ -15,7 +16,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDeactivateReason, deactivateAccount } from '../../../../redux/actions/DeactivateAccount';
-import { hideAppLoader } from '../../../../redux/actions/loader';
+import { logOut } from '../../../../redux/actions/Auth';
+import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
 import { Routes } from '../../../../constants/Constants';
 
 const DeactivateAccount = () => {
@@ -71,9 +73,10 @@ const DeactivateAccount = () => {
       if (deactivate_account_success) {
         console.log('deactivate_account_success', deactivate_account_success);
         dispatch(hideAppLoader());
+        dispatch(logOut());
         navigation.reset({
           index: 0,
-          routes: [{ name: Routes.Login, }],
+          routes: [{ name: Routes.Landing, }],
         });
       }
       dispatch(hideAppLoader());
@@ -105,7 +108,7 @@ const DeactivateAccount = () => {
           </View>
           <View style={styles.flex}>
             <View style={styles.fullWidth}>
-              <Controller
+              {deactivateReasonList?.data ? <Controller
                 control={control}
                 render={({ field: { onChange, value = 1 } }) => (
                   <View style={styles.radioContainer}>
@@ -131,7 +134,7 @@ const DeactivateAccount = () => {
                   </View>
                 )}
                 name="reasons"
-              />
+              /> : <ActivityIndicator />}
             </View>
           </View>
           <View style={styles.buttonContainer}>
