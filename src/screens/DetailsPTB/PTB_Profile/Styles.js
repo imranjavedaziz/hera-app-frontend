@@ -159,4 +159,12 @@ export default {
     width: Value.CONSTANT_VALUE_296,
     alignSelf: Alignment.CENTER,
   }),
+  iconContainer: {
+    flex: Value.CONSTANT_VALUE_FRAC88,
+    alignItems: Alignment.CENTER,
+  },
+  textInnerContainer: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.CENTER,
+  },
 };

@@ -16,7 +16,6 @@ import {useNavigation} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Value} from '../../../../constants/FixedValues';
-import {changePasswordSchema} from '../../../../constants/schemas';
 import {FloatingLabelInput} from '../../../../components';
 import styles from './style';
 import {Routes} from '../../../../constants/Constants';
@@ -27,6 +26,7 @@ import {
   showAppToast,
 } from '../../../../redux/actions/loader';
 import {useSelector, useDispatch} from 'react-redux';
+import {deleteAccountPassword} from '../../../../constants/schemas';
 
 const DeleteAccount = () => {
   const navigation = useNavigation();
@@ -37,7 +37,7 @@ const DeleteAccount = () => {
     handleSubmit,
     formState: {errors},
   } = useForm({
-    resolver: yupResolver(changePasswordSchema),
+    resolver: yupResolver(deleteAccountPassword),
   });
   const {
     delete_account_success,
@@ -72,6 +72,7 @@ const DeleteAccount = () => {
   }, [delete_account_loading, delete_account_success]);
 
   const onSubmit = () => {
+    console.log('Hiiii');
     dispatch(showAppLoader());
     dispatch(deleteAccount(password));
   };
@@ -122,7 +123,7 @@ const DeleteAccount = () => {
                           )}
                         />
                       )}
-                      name="current password"
+                      name="current_password"
                     />
                   </View>
                 </View>
@@ -133,9 +134,7 @@ const DeleteAccount = () => {
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               style={styles.dashboardBtn}
-              onPress={() => {
-                handleSubmit(onSubmit());
-              }}>
+              onPress={handleSubmit(onSubmit)}>
               <Text
                 style={styles.buttonText}
                 accessible={false}

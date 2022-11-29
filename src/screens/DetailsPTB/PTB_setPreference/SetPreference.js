@@ -277,7 +277,6 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange}}) => (
                 <Dropdown
-                  containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
                   onSelect={(selectedItem, index) => {
