@@ -27,6 +27,8 @@ import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import { IconHeader } from '../../../../components/Header';
+import { TERMS_OF_USE_URL, PRIVACY_URL } from '../../../../constants/Constants';
+import openWebView from '../../../../utils/openWebView';
 
 const Subscription = props => {
   const navigation = useNavigation();
@@ -240,13 +242,13 @@ const Subscription = props => {
                 <Text style={styles.mainText}>
                   <Text style={{ color: 'red' }}>*</Text>
                   {Strings.Subscription.BySubs}
-                  <TouchableOpacity style={{ top: 2 }}>
+                  <TouchableOpacity style={{ top: 2 }} onPress={()=>openWebView(TERMS_OF_USE_URL)}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.TermsServices}
                     </Text>
                   </TouchableOpacity>
                   {Strings.Subscription.And}
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>openWebView(PRIVACY_URL)}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.PrivacyPolicy}
                     </Text>

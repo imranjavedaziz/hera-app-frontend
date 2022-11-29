@@ -22,6 +22,11 @@ const environment = {
 };
 export const {bucket, api_url, chat} = environment.dev;
 
+const WEB_BASE_URL = 'https://makingbabyconnection.com/';
+export const ABOUT_URL = `${WEB_BASE_URL}about`;
+export const PRIVACY_URL = `${WEB_BASE_URL}privacy-policy`;
+export const TERMS_OF_USE_URL = `${WEB_BASE_URL}terms-of-service`;
+
 export const awsOptions = {
   keyPrefix: 'user/',
   bucket,

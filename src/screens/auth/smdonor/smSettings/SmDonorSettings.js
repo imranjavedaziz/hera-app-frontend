@@ -15,7 +15,7 @@ import Strings from '../../../../constants/Strings';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
-import {Routes} from '../../../../constants/Constants';
+import {Routes, ABOUT_URL} from '../../../../constants/Constants';
 import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
@@ -25,6 +25,7 @@ import ProfileImage from '../../../../components/dashboard/PtbProfile/ProfileIma
 import {Alignment} from '../../../../constants';
 import {getEditProfile} from '../../../../redux/actions/Edit_profile';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import openWebView from '../../../../utils/openWebView';
 import {getRoleType} from '../../../../utils/other';
 
 const SmDonorSettings = () => {
@@ -199,12 +200,12 @@ const SmDonorSettings = () => {
               <Image source={Images.writing} />
               <Text style={Styles.text}>{Strings.smSetting.Inquiry}</Text>
             </TouchableOpacity>
-            <View style={Styles.contain}>
+            <TouchableOpacity style={Styles.contain} onPress={()=>openWebView(ABOUT_URL)}>
               <Image source={Images.information} />
               <Text style={[Styles.text, Styles.extraTxt]}>
                 {Strings.smSetting.AboutUs}
               </Text>
-            </View>
+            </TouchableOpacity>
             <View style={Styles.BtnContainer}>
               <Button
                 style={Styles.Btn}

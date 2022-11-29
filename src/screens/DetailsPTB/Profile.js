@@ -36,6 +36,8 @@ import {
   pwdErrMsg,
   Routes,
   validatePassword,
+  PRIVACY_URL,
+  TERMS_OF_USE_URL,
 } from '../../constants/Constants';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
@@ -51,6 +53,7 @@ import {logOut} from '../../redux/actions/Auth';
 import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
+import openWebView from '../../utils/openWebView';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -445,17 +448,9 @@ const Profile = props => {
                   <View>
                     <Text style={styles.tmc1}>
                       {Strings.profile.tmc1}
-                      <TouchableOpacity>
-                        <Text style={styles.tmcLink}>
-                          {Strings.profile.tmc2}
-                        </Text>
-                      </TouchableOpacity>
+                      <TouchableOpacity onPress={()=>openWebView(TERMS_OF_USE_URL)}><Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text></TouchableOpacity>
                       {'\n'} and{' '}
-                      <TouchableOpacity>
-                        <Text style={styles.tmcLink}>
-                          {Strings.profile.tmc3}
-                        </Text>
-                      </TouchableOpacity>
+                      <TouchableOpacity onPress={()=>openWebView(PRIVACY_URL)}><Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text></TouchableOpacity>
                     </Text>
                   </View>
                 </View>
