@@ -28,15 +28,13 @@ const DeactivateAccount = () => {
   const [reason, setReason] = React.useState(1);
   const {
     control,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(),
   });
   const {
     deactivate_account_success,
     deactivate_account_loading,
-    deactivate_account_res,
-
     get_reason_list_success,
     get_reason_list_loading,
     get_reason_list_res,
