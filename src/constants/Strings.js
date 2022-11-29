@@ -261,7 +261,7 @@ export default {
     request_sent: 'REQUEST SENT',
     request_decline: 'REQUEST DECLINED',
     send_msg: 'SEND MESSAGE',
-    video_text: 'Parant has uploaded a sort clip',
+    video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
   },
   donorPofile: {

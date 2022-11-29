@@ -10,11 +10,20 @@ export default {
     height: Value.CONSTANT_VALUE_80,
     borderRadius: Value.CONSTANT_VALUE_40,
   },
+  mainContainer: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
+  },
+  flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   colorText: {color: Colors.BLACK},
   location: {
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_29,
     alignItems: Alignment.CENTER,
+  },
+  headerIcon: {
+    marginTop: Value.CONSTANT_VALUE_54,
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
   locationText: {
     fontSize: Value.CONSTANT_VALUE_16,
@@ -34,7 +43,6 @@ export default {
     flexDirection: Alignment.ROW_REVERSE,
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_3,
-    marginTop: Value.CONSTANT_VALUE_29,
   },
   profileType: {
     fontFamily: Fonts.OpenSansRegular,

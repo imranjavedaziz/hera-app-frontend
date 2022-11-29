@@ -12,7 +12,11 @@ import {smSetAttributesSchema} from '../../../constants/schemas';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {Value} from '../../../constants/FixedValues';
 import {useDispatch, useSelector} from 'react-redux';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import {getAttribute, saveAttribute} from '../../../redux/actions/SetAttribute';
 import {logOut} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
@@ -43,6 +47,10 @@ const SetAttributes = ({route}) => {
   React.useEffect(() => {
     dispatch(getAttribute());
   }, [dispatch]);
+
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
+  );
   const {
     set_attribute_res,
     set_attribute_success,
@@ -54,6 +62,7 @@ const SetAttributes = ({route}) => {
     save_attribute_error_msg,
   } = useSelector(state => state.SetAttribute);
   const LoadingRef = useRef(false);
+  const LogoutLoadingRef = useRef(false);
   const SubmitLoadingRef = useRef(false);
   useEffect(() => {
     return navigation.addListener('focus', () => {
@@ -81,6 +90,20 @@ const SetAttributes = ({route}) => {
     set_attribute_error_msg,
   ]);
 
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      } else {
+        dispatch(showAppToast(true, log_out_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
   //SAVE ATTRIBUTE DETAIL DATA
   useEffect(() => {
     if (!SubmitLoadingRef.current && !save_attribute_loading) {
@@ -154,7 +177,6 @@ const SetAttributes = ({route}) => {
 
   const logOutScreen = () => {
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
 
   return (

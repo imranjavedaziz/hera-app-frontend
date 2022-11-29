@@ -71,7 +71,11 @@ const SmBasicDetails = () => {
     save_basic_detail_loading,
     save_basic_detail_error_msg,
   } = useSelector(state => state.Register);
+  const LogoutLoadingRef = useRef(false);
   const user = useSelector(state => state.Auth.user);
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
+  );
   const {
     handleSubmit,
     control,
@@ -108,13 +112,12 @@ const SmBasicDetails = () => {
     }
     LoadingRef.current = get_profile_setter_loading;
   }, [get_profile_setter_success, get_profile_setter_loading]);
-console.log('get_profile_setter_res',get_profile_setter_res)
+
   //SAVE BASIC DETAIL DATA
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
       dispatch(showAppLoader());
       if (save_basic_detail_success) {
-        console.log(user?.role_id, 'user?.role_id ::::');
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
         navigation.navigate(
@@ -128,7 +131,20 @@ console.log('get_profile_setter_res',get_profile_setter_res)
     }
     SubmitLoadingRef.current = save_basic_detail_loading;
   }, [save_basic_detail_success, save_basic_detail_loading]);
-
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      }
+      if (log_out_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
   useEffect(() => {
     if (!isValid) {
       const e = errors.gender_id;
@@ -138,7 +154,7 @@ console.log('get_profile_setter_res',get_profile_setter_res)
     }
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
-    console.log(data, 'data::::::');
+    dispatch(showAppLoader());
     setPayloadData(data);
     dispatch(saveBasicDetail(data));
   };
@@ -166,7 +182,6 @@ console.log('get_profile_setter_res',get_profile_setter_res)
 
   const logOutScreen = () => {
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);

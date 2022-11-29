@@ -6,9 +6,10 @@ import {Routes} from '../constants/Constants';
 
 const NavigationOnLanding = () => {
   const navigation = useNavigation();
-  const navigateON = useSelector(state => state.navigator);
+  const navigateON = useSelector(state => state.NavigationOnLanding);
+  console.log(navigateON, 'navigateON');
   if (navigateON) {
-    return navigation.navigate(Routes.Alignment);
+    return navigation.navigate(Routes.Landing);
   }
   return null;
 };

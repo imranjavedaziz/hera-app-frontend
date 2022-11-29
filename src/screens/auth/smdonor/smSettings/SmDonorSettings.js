@@ -24,9 +24,14 @@ import {BottomSheetComp} from '../../../../components';
 import ProfileImage from '../../../../components/dashboard/PtbProfile/ProfileImage';
 import {Alignment} from '../../../../constants';
 import {getEditProfile} from '../../../../redux/actions/Edit_profile';
-import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 import {getRoleType} from '../../../../utils/other';
-
+import {getUserGallery} from '../../../../redux/actions/CreateGallery';
+import _ from 'lodash';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -38,6 +43,7 @@ const SmDonorSettings = () => {
   const [name, setName] = useState('');
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
+  const [avaiableVideo, setVideoAviable] = useState(false);
   const GetLoadingRef = useRef(false);
   const {
     get_user_detail_res,
@@ -45,12 +51,26 @@ const SmDonorSettings = () => {
     get_user_detail_loading,
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
+  const LogoutLoadingRef = useRef(false);
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
+  );
+  const {gallery_data} = useSelector(state => state.CreateGallery);
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
+      dispatch(getUserGallery());
+      videoAvaible();
     }, [dispatch]),
   );
+  const videoAvaible = () => {
+    if (_.isEmpty(gallery_data)) {
+      setVideoAviable(true);
+    } else {
+      setVideoAviable(false);
+    }
+  };
   //GET USER DETAIL
   useFocusEffect(
     useCallback(() => {
@@ -67,7 +87,21 @@ const SmDonorSettings = () => {
       GetLoadingRef.current = get_user_detail_loading;
     }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
   );
-  console.log(get_user_detail_res, 'get_user_detail_res');
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      } else {
+        dispatch(showAppToast(true, log_out_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
@@ -125,7 +159,6 @@ const SmDonorSettings = () => {
 
   const logoutScreen = () => {
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
 
   return (
@@ -171,6 +204,7 @@ const SmDonorSettings = () => {
               <Text style={[Styles.text, Styles.extraTxt]}>
                 {Strings.smSetting.Gallery}
               </Text>
+              {avaiableVideo === true && <View style={Styles.dot} />}
             </TouchableOpacity>
             <View style={Styles.highlightContainer}>
               <TouchableOpacity

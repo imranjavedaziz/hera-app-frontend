@@ -10,7 +10,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
 import {CircleBtn} from '../../../components/Header';
 import Button from '../../../components/Button';
@@ -30,8 +34,10 @@ import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
   SavePreference,
+  GetPreferenceRes,
 } from '../../../redux/actions/SetPreference';
 import {BottomSheetComp} from '../../../components';
+import {getStates} from '../../../redux/actions/Register';
 
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
@@ -55,14 +61,20 @@ const SetPreference = ({route, navigation}) => {
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
+  const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
   const [threeOption, setThreeOption] = useState([]);
-
   let actionSheet = useRef();
+  const LogoutLoadingRef = useRef(false);
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
+  );
+  const SetloadingRef = useRef(false);
   const {
     handleSubmit,
     control,
+    setValue,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
@@ -76,16 +88,108 @@ const SetPreference = ({route, navigation}) => {
     save_preference_success,
     save_preference_loading,
     save_preference_error_msg,
+    get_preference_success,
+    get_preference_loading,
+    get_preference_error_msg,
+    get_preference_res,
   } = useSelector(state => state.SetPreference);
-
+  const {
+    get_state_res,
+    get_state_success,
+    get_state_loading,
+    get_state_error_msg,
+  } = useSelector(state => state.Register);
   const loadingRef = useRef(false);
+  const stateLoadingRef = useRef(false);
+  useEffect(() => {
+    if (EditPreferences === true) {
+      dispatch(showAppLoader());
+      dispatch(GetPreferenceRes());
+    }
+    dispatch(getStates());
+    dispatch(SetPreferenceRes());
+    if (!isValid) {
+      const e = errors;
+      const messages = [];
+      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+    }
+  }, [errors, isValid, dispatch]);
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      setValue('');
+    });
+  }, [navigation, setValue]);
+  //GET STATE
+  useEffect(() => {
+    if (stateLoadingRef.current && !get_state_loading) {
+      dispatch(showAppLoader());
+      if (get_state_success) {
+        dispatch(hideAppLoader());
+        setStateRes(get_state_res);
+      }
+      if (get_state_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    stateLoadingRef.current = get_state_loading;
+  }, [get_state_loading, get_state_success]);
+  //GET PREFERENCE
+  useEffect(() => {
+    if (SetloadingRef.current && !get_preference_loading) {
+      dispatch(showAppLoader());
+      if (get_preference_success) {
+        dispatch(hideAppLoader());
+        EditPreferences === true && handelChange();
+      }
+      if (get_preference_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    SetloadingRef.current = get_preference_loading;
+  }, [get_preference_success, get_preference_loading, get_preference_res]);
+  //SETTER FIELDS
+  const handelChange = async value => {
+    // const HeightArr = Array(get_preference_res?.height.replace('-', ','));
+    const education = set_preference_res?.education?.find(obj => {
+      return obj.id === parseInt(get_preference_res?.education);
+    });
+    const race = set_preference_res?.race?.find(obj => {
+      return obj.id === parseInt(get_preference_res?.race);
+    });
+    const location = get_state_success?.find(obj => {
+      return obj.id === parseInt(get_preference_res?.state);
+    });
+    setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
+    setValue(FormKey.location, location);
+    setValue(FormKey.education, education);
+    setValue(FormKey.age_range, get_preference_res?.age);
+    setHeight([70, 84]);
+    setValue(FormKey.race, race);
+    setValue(FormKey.hair, get_preference_res?.hair_colour);
+    setValue(FormKey.eye, get_preference_res?.eye_colour);
+  };
 
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      } else {
+        dispatch(showAppToast(true, log_out_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
   //GET PREFERENCE
   useEffect(() => {
     if (loadingRef.current && !set_preference_loading) {
       dispatch(showAppLoader());
       if (set_preference_success) {
         dispatch(hideAppLoader());
+        EditPreferences === true && handelChange();
         setPreferencesData(set_preference_res);
       }
       if (set_preference_error_msg) {
@@ -94,7 +198,6 @@ const SetPreference = ({route, navigation}) => {
     }
     loadingRef.current = set_preference_loading;
   }, [set_preference_success, set_preference_loading]);
-
   // SAVE PREFERENCE
 
   useEffect(() => {
@@ -110,14 +213,6 @@ const SetPreference = ({route, navigation}) => {
     }
     SubmitLoadingRef.current = save_preference_loading;
   }, [save_preference_loading, save_preference_success]);
-  useEffect(() => {
-    dispatch(SetPreferenceRes());
-    if (!isValid) {
-      const e = errors;
-      const messages = [];
-      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-    }
-  }, [errors, isValid, dispatch]);
 
   const onSubmit = data => {
     let value = {
@@ -130,15 +225,15 @@ const SetPreference = ({route, navigation}) => {
       hair_colour: data.hair,
       eye_colour: data.eye,
       ethnicity: '2,3',
-      state: '1,2',
+      state: data.location?.id,
     };
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
   };
 
   const logOutScreen = () => {
+    dispatch(showAppLoader());
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -257,11 +352,12 @@ const SetPreference = ({route, navigation}) => {
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
+                  defaultValue={value}
                   containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
                   label={Strings.preference.Location}
-                  data={Static.location}
+                  data={stateRes}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem);
@@ -274,8 +370,9 @@ const SetPreference = ({route, navigation}) => {
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
+                  defaultValue={value}
                   containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
@@ -363,7 +460,6 @@ const SetPreference = ({route, navigation}) => {
                     value={height}
                     setValue={setHeight}
                     onValueChange={value => {
-                      console.log(value, 'value:::::::::');
                       onChange(value);
                     }}
                   />
@@ -373,8 +469,9 @@ const SetPreference = ({route, navigation}) => {
             </View>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
+                  defaultValue={value}
                   containerStyle={{marginTop: 10}}
                   label={Strings.preference.Race}
                   data={preferencesData?.race}

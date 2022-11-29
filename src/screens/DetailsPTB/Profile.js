@@ -47,7 +47,6 @@ import styles from './StylesProfile';
 import Alignment from '../../constants/Alignment';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
-import {logOut} from '../../redux/actions/Auth';
 import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
@@ -77,6 +76,7 @@ const Profile = props => {
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
+
   const {
     register_user_success,
     register_user_loading,
@@ -107,6 +107,7 @@ const Profile = props => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
+
   // Header Component
   const headerComp = () => (
     <CircleBtn
@@ -123,7 +124,6 @@ const Profile = props => {
   );
 
   const logoutScreen = () => {
-    dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
 
@@ -163,6 +163,7 @@ const Profile = props => {
         text: Strings.profile.ModalOption1,
         onPress: () => {
           logoutScreen();
+          navigation.navigate(Routes.Landing);
         },
       },
       {
@@ -202,7 +203,6 @@ const Profile = props => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
-    console.log('reqData', reqData);
   };
   useEffect(() => {
     return navigation.addListener('focus', () => {
@@ -539,6 +539,7 @@ const Profile = props => {
                       onPress={() => {
                         setShowModal(false);
                         logoutScreen();
+                        navigation.navigate(Routes.Landing);
                       }}>
                       <Text style={styles.modalOption1}>
                         {Strings.profile.ModalOption1}
