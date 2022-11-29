@@ -13,6 +13,7 @@ import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
 import moment from 'moment';
+import _ from 'lodash';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
@@ -30,17 +31,17 @@ const ChatListing = props => {
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  // useEffect(() => {
-  //   let obj = chats.find(o => {
-  //     o.read === 0 ? setNotRead(false) : setNotRead(true);
-  //   });
-  //   if (_.isEmpty(chats)) {
-  //     setNotRead(true);
-  //   } else {
-  //     setNotRead(false);
-  //   }
-  //   return obj;
-  // }, []);
+  useEffect(() => {
+    if (_.isEmpty(chats)) {
+      setNotRead(true);
+    } else {
+      let obj = chats.find(o => {
+        o?.read === 0 ? setNotRead(false) : setNotRead(true);
+      });
+      setNotRead(false);
+      return obj;
+    }
+  }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
@@ -99,10 +100,10 @@ const ChatListing = props => {
       case timeAgoArray[1] === 'few':
         day = 'Just Now';
         break;
-      case formattedDate == todayDate:
+      case formattedDate === todayDate:
         day = 'Today';
         break;
-      case formattedDate == yesterday:
+      case formattedDate === yesterday:
         day = 'Yesterday';
         break;
 
@@ -116,7 +117,6 @@ const ChatListing = props => {
     let month = date.getMonth();
     let day = date.getDate();
     return year + '-' + month + '-' + day;
-
   }
   const renderChatList = ({item}) => {
     return (

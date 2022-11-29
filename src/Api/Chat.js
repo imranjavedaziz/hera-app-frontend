@@ -6,4 +6,4 @@ export const chatFeedback = data => {
 };
 export const pushNotification = data => {
   return axiosRequest.post(ApiPath.push_notification, data);
-} 
+};

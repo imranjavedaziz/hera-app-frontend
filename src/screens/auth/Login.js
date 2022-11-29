@@ -160,7 +160,7 @@ const Login = props => {
                     style={styles.psswrdInput}>
                     <Image
                       source={show ? Images.eye2 : Images.eye}
-                      style={{height: show ? 15 : 9, width: show ? 15 : 15.2}}
+                      style={{height: show ? 18 : 10, width: show ? 18 : 15}}
                     />
                   </TouchableOpacity>
                 )}

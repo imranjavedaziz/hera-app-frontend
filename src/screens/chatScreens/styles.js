@@ -159,4 +159,32 @@ export default {
     position: Alignment.ABSOLUTE,
     right: 12,
   },
+  SeeProfile: {
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    marginTop: px(Value.CONSTANT_VALUE_10),
+  },
+  userImg: {
+    width: px(Value.CONSTANT_VALUE_60),
+    height: px(Value.CONSTANT_VALUE_60),
+    marginTop: px(Value.CONSTANT_VALUE_1),
+    marginLeft: px(Value.CONSTANT_VALUE_1),
+    borderRadius: px(Value.CONSTANT_VALUE_60),
+  },
+  ImgView: {
+    width: px(Value.CONSTANT_VALUE_66),
+    height: px(Value.CONSTANT_VALUE_66),
+    borderStyle: 'solid',
+    borderWidth: px(Value.CONSTANT_VALUE_2),
+    borderColor:Colors.WHITE,
+    marginTop:54,
+    // borderColor: Colors.GREEN,
+    borderRadius: px(Value.CONSTANT_VALUE_60),
+  },
+  headersm:{
+    marginTop:54,
+    marginRight:20
+  }
 };

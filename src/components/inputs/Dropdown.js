@@ -36,9 +36,7 @@ const Dropdown = ({
   const handleBlur = () => setFocused(false);
   useEffect(() => {
     const previousValue = () => {
-      isCome &&
-        defaultValue !== undefined &&
-        setValue(Platform.OS === 'ios' ? defaultValue : defaultValue);
+      isCome && defaultValue !== undefined && setValue(defaultValue);
     };
     return previousValue();
   }, [defaultValue, isCome]);
@@ -60,7 +58,25 @@ const Dropdown = ({
     bottom: Value.CONSTANT_VALUE_0,
     zIndex: Value.CONSTANT_VALUE_2,
   };
-
+  const IOSfloated = {
+    fontFamily: Fonts.OpenSansRegular,
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#000000',
+    top: Value.CONSTANT_VALUE_8,
+    fontSize: Value.CONSTANT_VALUE_14,
+  };
+  const unIosfloated = {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: Colors.BLACK_0,
+    top: 22,
+  };
+  const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
   const STYLE_CONDITION = value ? STYLE_ONE : STYLE_TWO;
   return (
     <View
@@ -80,7 +96,7 @@ const Dropdown = ({
               }}>
               <View style={styles.marginBottom}>
                 <Text
-                  style={value ? styles.IOSfloated : styles.unIosfloated}
+                  style={STYLE_CONDITION_THREE}
                   accessible={true}
                   accessibilityLabel={label}>
                   {label}
@@ -124,7 +140,7 @@ const Dropdown = ({
         ) : (
           <>
             <Text
-              style={value ? styles.IOSfloated : styles.unIosfloated}
+              style={STYLE_CONDITION_THREE}
               accessible={true}
               accessibilityLabel={label}>
               {label}

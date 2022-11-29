@@ -6,17 +6,18 @@ import styles from './style';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
 import Strings from '../../../constants/Strings';
-import Subscribe from '../../../components/dashboard/PtbProfile/subscribe';
+import Subscribe, {Subscribed} from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
-import {Routes} from '../../../constants/Constants';
+import {Routes, ABOUT_URL} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
 import {getEditProfile} from '../../../redux/actions/Edit_profile';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import openWebView from '../../../utils/openWebView';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -30,6 +31,7 @@ const PtbProfile = () => {
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
   const {
     get_user_detail_res,
     get_user_detail_success,
@@ -148,11 +150,17 @@ const PtbProfile = () => {
               />
             </View>
             <View>
-              <Subscribe
-                Icon={Images.STAR}
-                MainText={Strings.subscribe.Subscribe_Now}
-                InnerText={Strings.subscribe.Plans}
-              />
+              {
+                subscriptionStatus.data.status && !subscriptionStatus.data.is_trial && (<Subscribed/>)
+              }
+              {
+                !subscriptionStatus.data.status || subscriptionStatus.data.is_trial && (
+                  <Subscribe
+                    Icon={Images.STAR}
+                    MainText={Strings.subscribe.Subscribe_Now}
+                    InnerText={Strings.subscribe.Plans}
+                  />)
+              }
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
@@ -186,6 +194,7 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.information}
                 title={Strings.smSetting.AboutUs}
+                onPress={()=>openWebView(ABOUT_URL)}
               />
             </View>
             <View style={styles.buttoncontainer}>
