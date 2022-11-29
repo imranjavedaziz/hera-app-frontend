@@ -37,6 +37,7 @@ import Settings from '../screens/dashboard/PtbProfile/Settings';
 import ChangePassword from '../screens/dashboard/PtbProfile/ChangePassword';
 import EditProfile from '../screens/dashboard/EditProfile/EditProfile';
 import DeleteAccount from '../screens/dashboard/PtbProfile/DeleteAccount';
+import ProfileLikedSm from '../screens/chatScreens/ProfileLikedSm'
 import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
 
 
@@ -223,6 +224,12 @@ const Main = () => {
           component={DeleteAccount}
           options={{headerShown: false}}
         />
+            <Stack.Screen
+          name={Routes.ProfileLikedSm}
+          component={ProfileLikedSm}
+          options={{headerShown: false}}
+        />
+        
         <Stack.Screen
           name={Routes.DeactivateAccount}
           component={DeactivateAccount}

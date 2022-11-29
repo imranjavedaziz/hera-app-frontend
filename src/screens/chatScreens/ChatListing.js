@@ -32,15 +32,15 @@ const ChatListing = props => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
   useEffect(() => {
-    let obj = chats.find(o => {
-      o.read === 0 ? setNotRead(false) : setNotRead(true);
-    });
     if (_.isEmpty(chats)) {
       setNotRead(true);
     } else {
+      let obj = chats.find(o => {
+        o?.read === 0 ? setNotRead(false) : setNotRead(true);
+      });
       setNotRead(false);
+      return obj;
     }
-    return obj;
   }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
