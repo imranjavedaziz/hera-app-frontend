@@ -24,7 +24,7 @@ import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
-import {smRoles, Routes} from '../../../constants/Constants';
+import {smRoles, Routes, PRIVACY_URL,TERMS_OF_USE_URL} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
@@ -38,6 +38,7 @@ import {
 } from '../../../redux/actions/loader';
 import { ptbRegister } from '../../../redux/actions/Register';
 import { BottomSheetComp } from '../../../components';
+import openWebView from '../../../utils/openWebView';
 
 const validationType = {
   LEN: 'LEN',
@@ -435,8 +436,8 @@ const SmRegister = () => {
               )}
               <Text style={styles.checkboxLabel}>
                 By continuing, you agree to HERA's{' '}
-                <Text style={styles.checkboxTitle}>Terms of use </Text>
-                and <Text style={styles.checkboxTitle}>Privacy Policy</Text>
+                <TouchableOpacity onPress={()=>openWebView(TERMS_OF_USE_URL)}><Text style={styles.checkboxTitle}>Terms of use </Text></TouchableOpacity>
+                and <TouchableOpacity onPress={()=>openWebView(PRIVACY_URL)}><Text style={styles.checkboxTitle}>Privacy Policy</Text></TouchableOpacity>
               </Text>
             </View>
             <View style={styles.starContainer}>

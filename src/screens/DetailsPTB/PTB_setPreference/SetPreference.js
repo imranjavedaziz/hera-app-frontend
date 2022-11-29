@@ -21,7 +21,7 @@ import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {Static, Routes, FormKey, Fonts} from '../../../constants/Constants';
+import {Static, Routes, FormKey, Fonts, ABOUT_URL} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
@@ -32,6 +32,7 @@ import {
   SavePreference,
 } from '../../../redux/actions/SetPreference';
 import {BottomSheetComp} from '../../../components';
+import openWebView from '../../../utils/openWebView';
 
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
@@ -506,7 +507,7 @@ const SetPreference = ({route, navigation}) => {
               {Strings.preference.InquiryForm}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.heraBtn}>
+          <TouchableOpacity style={globalStyle.heraBtn} onPress={()=>openWebView(ABOUT_URL)}>
             <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
           </TouchableOpacity>
           <TouchableOpacity
