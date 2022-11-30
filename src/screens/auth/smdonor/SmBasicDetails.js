@@ -138,9 +138,9 @@ const SmBasicDetails = () => {
       if (log_out_success) {
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
-      }
-      if (log_out_error_msg) {
+      } else {
         dispatch(hideAppLoader());
+        dispatch(showAppToast(true, log_out_error_msg));
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -181,7 +181,9 @@ const SmBasicDetails = () => {
   );
 
   const logOutScreen = () => {
+    dispatch(showAppLoader());
     dispatch(logOut());
+    navigation.navigate(Routes.Landing);
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);

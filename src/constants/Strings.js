@@ -201,6 +201,7 @@ export default {
     EyeColor: 'Eye Color',
     Education: 'Education',
     Btn: 'Save',
+    EditTitle: 'Edit ATTRIBUTES',
   },
   sm_create_gallery: {
     Title: 'Create your gallery',

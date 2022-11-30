@@ -8,3 +8,6 @@ export const getAttributes = () => {
 export const saveAttributes = data => {
   return axiosRequest.post(ApiPath.setAttributes, data);
 };
+export const getUserAttributesApi = () => {
+  return axiosRequest.get(ApiPath.get_attributes_data);
+};

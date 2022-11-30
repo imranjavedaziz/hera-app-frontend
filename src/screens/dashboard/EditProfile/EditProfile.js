@@ -43,7 +43,6 @@ import {
 } from '../../../redux/actions/Edit_profile';
 import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
-import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -91,10 +90,11 @@ const EditProfile = props => {
     control,
     reset,
     setValue,
-    formState: {errors},
+    formState: {errors, isDirty},
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
+  console.log(isDirty, 'isDirtyisDirty');
   // UPDATE DETAIL
   useEffect(() => {
     if (UpdateLoadingRef.current && !update_user_detail_loading) {
@@ -131,7 +131,7 @@ const EditProfile = props => {
     }
     loadingRef.current = get_state_loading;
   }, [get_state_loading, get_state_success]);
-
+  console.log(control, 'controller');
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {
@@ -197,7 +197,13 @@ const EditProfile = props => {
     <View style={styles.cancelbtn}>
       <TouchableOpacity
         onPress={() => {
-          Platform.OS === 'ios' ? backAction() : setShowModal(true);
+          isDirty === true
+            ? Platform.OS === 'ios'
+              ? backAction()
+              : setShowModal(true)
+            : props.route?.params?.smProfile
+            ? navigation.navigate(Routes.SmSetting)
+            : navigation.navigate(Routes.PtbProfile);
         }}
         style={styles.clearView}>
         <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>
@@ -299,8 +305,6 @@ const EditProfile = props => {
       state_id: data?.state_id?.id ? data?.state_id?.id : data?.state_id,
       zipcode: data?.zipcode,
     };
-
-    console.log(data, 'data:neww:::::');
     dispatch(updateEditProfile(payload));
   };
   const onPressVerify = () => {
