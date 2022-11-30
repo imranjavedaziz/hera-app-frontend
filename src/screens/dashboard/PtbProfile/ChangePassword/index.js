@@ -9,8 +9,8 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
-import { useSelector } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Header, {CircleBtn} from '../../../../components/Header';
 import styles from './style';
 import {Colors, Images, Strings, Alignment} from '../../../../constants';
@@ -22,16 +22,23 @@ import {
   validatePassword,
   pwdErrMsg,
   Fonts,
+  ConstantsCode
 } from '../../../../constants/Constants';
 import {changePasswordSchema,forgetPasswordSchema} from '../../../../constants/schemas';
 import {Button, FloatingLabelInput} from '../../../../components';
 import User from '../../../../Api/User';
+import { logIn } from '../../../../redux/actions/Auth';
 
 const ChangePassword = ({route}) => {
   const navigation = useNavigation();
   const {type} = route.params;
+  const dispatch = useDispatch();
+  const [ isLogin, setLogin ] = useState(false);
   const {
     register_user_success_data,
+    user,
+    log_in_success,
+    log_in_loading
   } = useSelector(state => state.Auth);
   const {changePassword, resetPassword} = User();
   const {
@@ -42,9 +49,25 @@ const ChangePassword = ({route}) => {
     resolver: yupResolver(type===1?changePasswordSchema:forgetPasswordSchema),
   });
   const [show, setShow] = useState(false);
+  
+  useEffect(() => {
+    if (log_in_success && !log_in_loading && isLogin) {
+      setLogin(false);
+      navigation.goBack();
+    }
+  }, [log_in_success, log_in_loading,isLogin]);
   const onSubmit = (data)=>{
     if(type===1){
-      changePassword(data);
+      const login = ()=>{
+        const payload = {
+          country_code: ConstantsCode.Country_CODE,
+          phone_no: user.phone_no,
+          password: data.new_password,
+        };
+        dispatch(logIn(payload));
+        setLogin(true);
+      }
+      changePassword(data,login);
     }
     else{
       const reqData = {

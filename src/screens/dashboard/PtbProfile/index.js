@@ -24,6 +24,7 @@ import {
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
+import { getSubscriptionStatus } from '../../../redux/actions/Subsctiption';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -52,6 +53,7 @@ const PtbProfile = () => {
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
+      dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
       videoAvaible();
     }, [dispatch]),

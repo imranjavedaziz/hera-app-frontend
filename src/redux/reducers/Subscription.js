@@ -96,7 +96,6 @@ export default (state = initState, action) => {
         subscription_status_success: false,
         subscription_status_loading: true,
         subscription_status_error_msg: '',
-        subscription_status_res: action.data,
       };
     }
     case SUBSCRIPTION_STATUS_SUCCESS: {
@@ -114,7 +113,6 @@ export default (state = initState, action) => {
         subscription_status_success: false,
         subscription_status_loading: false,
         subscription_status_error_msg: '',
-        subscription_status_res: action?.data?.data,
       };
     }
     default:
