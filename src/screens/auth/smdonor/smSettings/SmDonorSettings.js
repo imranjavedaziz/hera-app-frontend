@@ -162,7 +162,9 @@ const SmDonorSettings = () => {
   }, [file, dispatch]);
 
   const logoutScreen = () => {
+    dispatch(showAppLoader());
     dispatch(logOut());
+    navigation.navigate(Routes.Landing);
   };
 
   return (
@@ -193,7 +195,13 @@ const SmDonorSettings = () => {
               />
             </View>
             <View style={Styles.highlightContainer}>
-              <TouchableOpacity style={Styles.flexRow}>
+              <TouchableOpacity
+                style={Styles.flexRow}
+                onPress={() =>
+                  navigation.navigate(Routes.SetAttributes, {
+                    EditAttributes: true,
+                  })
+                }>
                 <Image source={Images.preferences} />
                 <Text style={Styles.text}>
                   {Strings.smSetting.EditAttribute}

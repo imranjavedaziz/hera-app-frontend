@@ -10,7 +10,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute, StackActions} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Button from '../../components/Button';
@@ -23,9 +23,10 @@ import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
 import {verifyOtp} from '../../redux/actions/Auth';
+import { verifyEmail } from '../../redux/actions/VerificationMail';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
+import {hideAppLoader, showAppLoader,showAppToast} from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
 import {Colors} from '../../constants';
@@ -50,6 +51,11 @@ const OTP = ({route}) => {
 
   const {verify_otp_success, verify_otp_loading, verify_otp_error_msg} =
     useSelector(state => state.Auth);
+    const {
+      verify_mail_success,
+      verify_mail_loading,
+      verify_mail_error_msg,
+      verify_mail_res} = useSelector(state=>state.VerificationMail);
   // send otp res
   useEffect(() => {
     if (loadingRef.current && !verify_otp_loading) {
@@ -74,14 +80,43 @@ const OTP = ({route}) => {
     navigation,
     verify_otp_error_msg,
   ]);
+  useEffect(() => {
+    if (loadingRef.current && !verify_mail_loading) {
+      dispatch(showAppLoader());
+      if (verify_mail_success) {
+        dispatch(hideAppLoader());
+        const popAction = StackActions.pop(Value.CONSTANT_VALUE_1);
+        navigation.dispatch(popAction);
+        dispatch(showAppToast(false,verify_mail_res.message));
+      }
+      if (verify_mail_error_msg) {
+        dispatch(showAppToast(true,verify_mail_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = verify_mail_loading;
+  }, [
+    verify_mail_success,
+    verify_mail_loading,
+    verify_mail_error_msg,
+  ]);
   const onSubmit = data => {
-    const payload = {
-      country_code: isRouteData.country_code,
-      phone_no: isRouteData.phone_no,
-      otp: data.otp,
-    };
-    dispatch(showAppLoader());
-    dispatch(verifyOtp(payload));
+    if( type ===1 || type ===2 ){
+      const payload = {
+        country_code: isRouteData.country_code,
+        phone_no: isRouteData.phone_no,
+        otp: data.otp,
+      };
+      dispatch(showAppLoader());
+      dispatch(verifyOtp(payload));
+    }
+    else{
+      const payload = {
+        code: data.otp
+      }
+      dispatch(showAppLoader());
+      dispatch(verifyEmail(payload));
+    }
   };
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

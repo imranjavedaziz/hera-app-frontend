@@ -26,6 +26,7 @@ import {
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -56,6 +57,7 @@ const PtbProfile = () => {
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
+      dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
       videoAvaible();
     }, [dispatch]),
@@ -155,6 +157,7 @@ const PtbProfile = () => {
   const logoutScreen = () => {
     dispatch(showAppLoader());
     dispatch(logOut());
+    navigation.navigate(Routes.Landing);
   };
   const videoAvaible = () => {
     if (_.isEmpty(gallery_data)) {
@@ -188,14 +191,14 @@ const PtbProfile = () => {
               />
             </View>
             <View>
-              {subscriptionStatus &&
-                subscriptionStatus.data &&
-                subscriptionStatus.data.status &&
-                !subscriptionStatus.data.is_trial && <Subscribed />}
-              {(subscriptionStatus &&
-                subscriptionStatus.data &&
-                !subscriptionStatus.data.status) ||
-                (subscriptionStatus.data.is_trial && (
+              {typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                subscriptionStatus.data?.status &&
+                !subscriptionStatus.data?.is_trial && <Subscribed />}
+              {(typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                !subscriptionStatus.data?.status) ||
+                (subscriptionStatus.data?.is_trial && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}

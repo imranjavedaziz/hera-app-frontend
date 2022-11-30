@@ -26,6 +26,7 @@ import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../../components';
+import {Colors} from '../../../../constants';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -206,6 +207,7 @@ const MyVideo = () => {
         showHeader={true}
         fixedHeader={true}
         profileLoad={true}
+        style={{backgroundColor: Colors.BACKGROUND}}
         showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>

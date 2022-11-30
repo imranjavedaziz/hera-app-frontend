@@ -68,7 +68,6 @@ const Chat_Request = props => {
       id: props?.route?.params?.user?.id,
       status: 4,
     };
-    console.log(payload, 'payload');
     dispatch(profileMatchResponse(payload));
   };
   const onNavigationDetail = () => {

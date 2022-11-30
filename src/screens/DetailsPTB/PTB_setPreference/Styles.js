@@ -34,6 +34,7 @@ export default {
   containerView: {
     marginBottom: -40,
     marginHorizontal: scaleWidth(37),
+    backgroundColor: Colors.BACKGROUND,
   },
   label: {
     position: Alignment.ABSOLUTE,
