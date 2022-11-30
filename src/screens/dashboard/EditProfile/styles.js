@@ -105,12 +105,16 @@ export default {
     fontWeight: Alignment.BOLD,
     fontFamily: Fonts.OpenSansRegular,
     paddingBottom: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_16,
+    color: Colors.BLACK,
   },
   modalSubHeader: {
     textAlign: Alignment.CENTER,
     lineHeight: Value.CONSTANT_VALUE_18,
     marginTop: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_13,
+    color: Colors.BLACK,
   },
   modalOption1: {
     color: Colors.RED,
@@ -119,6 +123,10 @@ export default {
     marginVertical: Value.CONSTANT_VALUE_27,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    width: Value.CONSTANT_VALUE_234,
+    textAlign: Alignment.CENTER,
   },
   modalOption2: {
     fontSize: Value.CONSTANT_VALUE_16,

@@ -35,7 +35,7 @@ import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
 import {BottomSheetComp} from '../../../../components';
-import { Value } from '../../../../constants/FixedValues';
+import {Value} from '../../../../constants/FixedValues';
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
