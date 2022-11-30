@@ -18,6 +18,7 @@ import {BottomSheetComp} from '../../../components';
 import {getEditProfile} from '../../../redux/actions/Edit_profile';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import openWebView from '../../../utils/openWebView';
+import { getSubscriptionStatus } from '../../../redux/actions/Subsctiption';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -42,6 +43,7 @@ const PtbProfile = () => {
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
+      dispatch(getSubscriptionStatus())
     }, [dispatch]),
   );
   //GET USER DETAIL

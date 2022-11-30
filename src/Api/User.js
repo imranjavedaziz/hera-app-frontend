@@ -46,13 +46,13 @@ const User = () => {
         dispatch(hideAppLoader());
       });
   };
-  const changePassword = (data)=>{
+  const changePassword = (data,login)=>{
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.change_password, data)
       .then(() => {
+        login();
         dispatch(showAppToast(false,Strings.ChangePassword.PASSWORD_UPDATED));
-        navigation.goBack();
       })
       .finally(() => {
         dispatch(hideAppLoader());
