@@ -125,7 +125,7 @@ const OTP = ({route}) => {
             <View
               style={[
                 globalStyle.mainContainer,
-                {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_105},
+                {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_95},
               ]}>
               <Text style={globalStyle.screenTitle}>
                 {type === 1 ? Strings.otp.title : Strings.forgotPassword.forgot}

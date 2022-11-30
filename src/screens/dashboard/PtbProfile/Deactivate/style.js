@@ -2,6 +2,7 @@ import {Alignment, Colors} from '../../../../constants';
 import {Prencentage, Value} from '../../../../constants/FixedValues';
 import {
   dynamicSize,
+  height,
   normalizeFont,
   scaleWidth,
 } from '../../../../utils/responsive';
@@ -88,7 +89,7 @@ export default {
   radioContainer: {
     justifyContent: Alignment.SPACE_BETWEEN,
     width: Prencentage.PRECENTAGE_100,
-    marginTop: Value.CONSTANT_VALUE_31,
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   radioBtn: {
     flex: Value.CONSTANT_VALUE_0,
@@ -110,5 +111,18 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     lineHeight: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
+  },
+  loaderContainer: {
+    marginTop: Value.CONSTANT_VALUE_15,
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };

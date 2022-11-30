@@ -178,13 +178,13 @@ export default {
     height: px(Value.CONSTANT_VALUE_66),
     borderStyle: 'solid',
     borderWidth: px(Value.CONSTANT_VALUE_2),
-    borderColor:Colors.WHITE,
-    marginTop:54,
+    borderColor: Colors.WHITE,
+    marginTop: 54,
     // borderColor: Colors.GREEN,
     borderRadius: px(Value.CONSTANT_VALUE_60),
   },
-  headersm:{
-    marginTop:54,
-    marginRight:20
-  }
+  headersm: {
+    marginTop: 45,
+    marginRight: 20,
+  },
 };
