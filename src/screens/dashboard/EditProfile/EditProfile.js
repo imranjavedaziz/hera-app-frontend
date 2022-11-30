@@ -89,6 +89,11 @@ const EditProfile = props => {
     update_user_detail_res,
   } = useSelector(state => state.Edit_profile);
   const {
+    send_verification_success,
+    send_verification_loading,
+    send_verification_error_msg,
+    send_verification_res} = useSelector(state=>state.VerificationMail);
+  const {
     handleSubmit,
     control,
     reset,
@@ -97,6 +102,20 @@ const EditProfile = props => {
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
+  useEffect(() => {
+    if (loadingRef.current && !send_verification_loading) {
+      dispatch(showAppLoader());
+      if (send_verification_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false,send_verification_res.message));
+        navigation.navigate(Routes.OTP, {type: 3});
+      }
+      if (send_verification_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = send_verification_loading;
+  }, [send_verification_success, send_verification_loading,send_verification_res,send_verification_error_msg]);
   // UPDATE DETAIL
   useEffect(() => {
     if (UpdateLoadingRef.current && !update_user_detail_loading) {
@@ -203,7 +222,6 @@ const EditProfile = props => {
     </TouchableOpacity>
   );
   const normalizeInput = (value, previousValue) => {
-    console.log(value, previousValue);
     const deleting = previousValue && previousValue.length > value?.length;
     if (deleting) {
       return value;
@@ -297,13 +315,10 @@ const EditProfile = props => {
       state_id: data?.state_id?.id ? data?.state_id?.id : data?.state_id,
       zipcode: data?.zipcode,
     };
-
-    console.log(data, 'data:neww:::::');
     dispatch(updateEditProfile(payload));
   };
   const onPressVerify = () => {
     dispatch(sendVerificationMail());
-    console.log('verifyEmail');
   };
   return (
     <View style={styles.flex}>

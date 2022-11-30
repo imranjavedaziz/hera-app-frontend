@@ -150,10 +150,10 @@ const PtbProfile = () => {
             </View>
             <View>
               {
-                subscriptionStatus && subscriptionStatus.data && subscriptionStatus.data.status && !subscriptionStatus.data.is_trial && (<Subscribed/>)
+                typeof subscriptionStatus === "object" && typeof subscriptionStatus.data === "object" && subscriptionStatus.data?.status && !subscriptionStatus.data?.is_trial && (<Subscribed/>)
               }
               {
-                subscriptionStatus && subscriptionStatus.data && !subscriptionStatus.data.status || subscriptionStatus.data.is_trial && (
+                typeof subscriptionStatus === "object" && typeof subscriptionStatus.data === "object" && !subscriptionStatus.data?.status || subscriptionStatus.data?.is_trial && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}
