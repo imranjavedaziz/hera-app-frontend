@@ -7,7 +7,7 @@ export default {
   cancelbtn: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_54),
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_40),
     marginRight: Value.CONSTANT_VALUE_30,
   },
   clearView: {
@@ -32,7 +32,7 @@ export default {
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   mainContainer: {
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_105),
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_95),
     paddingHorizontal: px(Value.CONSTANT_VALUE_40),
   },
   headingStyle: {
