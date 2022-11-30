@@ -7,7 +7,7 @@ export default {
     flex: 1,
     justifyContent: Alignment.FLEX_START,
     paddingHorizontal: 40,
-    marginTop: Value.CONSTANT_VALUE_105,
+    marginTop: Value.CONSTANT_VALUE_95,
   },
   title: {
     color: Colors.BLACK,

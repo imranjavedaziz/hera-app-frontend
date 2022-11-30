@@ -38,6 +38,7 @@ export default {
   headingStyle: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_310,
   },
   inputRow: {
     flexDirection: Alignment.ROW,
@@ -55,7 +56,7 @@ export default {
   InnerheadingStyle: {
     marginTop: px(Value.CONSTANT_VALUE_8),
     fontFamily: Fonts.OpenSansBold,
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    fontSize: Value.CONSTANT_VALUE_23,
     letterSpacing: px(Value.CONSTANT_VALUE_0),
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
