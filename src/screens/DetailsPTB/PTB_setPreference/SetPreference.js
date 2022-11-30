@@ -5,8 +5,10 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
+  Alert,
+  Modal,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
@@ -45,6 +47,7 @@ import {
 import {BottomSheetComp} from '../../../components';
 import {getStates} from '../../../redux/actions/Register';
 import openWebView from '../../../utils/openWebView';
+import {useFocusEffect} from '@react-navigation/native';
 
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
@@ -78,11 +81,12 @@ const SetPreference = ({route, navigation}) => {
     state => state.Auth,
   );
   const SetloadingRef = useRef(false);
+  const [showModal, setShowModal] = useState(false);
   const {
     handleSubmit,
     control,
     setValue,
-    formState: {errors, isValid},
+    formState: {errors, isValid, isDirty},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
@@ -108,13 +112,17 @@ const SetPreference = ({route, navigation}) => {
   } = useSelector(state => state.Register);
   const loadingRef = useRef(false);
   const stateLoadingRef = useRef(false);
+  useFocusEffect(
+    useCallback(() => {
+      if (EditPreferences === true) {
+        dispatch(showAppLoader());
+        dispatch(GetPreferenceRes());
+      }
+      dispatch(getStates());
+      dispatch(SetPreferenceRes());
+    }, [dispatch]),
+  );
   useEffect(() => {
-    if (EditPreferences === true) {
-      dispatch(showAppLoader());
-      dispatch(GetPreferenceRes());
-    }
-    dispatch(getStates());
-    dispatch(SetPreferenceRes());
     if (!isValid) {
       const e = errors;
       const messages = [];
@@ -157,12 +165,14 @@ const SetPreference = ({route, navigation}) => {
   //SETTER FIELDS
   const handelChange = async value => {
     const HeightArr = get_preference_res?.height.split('-');
-    console.log(get_preference_res?.height, 'get_preference_res?.height');
     const education = set_preference_res?.education?.find(obj => {
       return obj.id === parseInt(get_preference_res?.education);
     });
+    const raceJson =
+      get_preference_res?.race !== undefined &&
+      JSON.parse(get_preference_res?.race);
     const race = set_preference_res?.race?.find(obj => {
-      return obj.id === parseInt(get_preference_res?.race);
+      return obj.id === parseInt(raceJson?.id);
     });
     const location = get_state_res?.find(obj => {
       return obj.id === parseInt(get_preference_res?.state);
@@ -176,7 +186,6 @@ const SetPreference = ({route, navigation}) => {
     setValue(FormKey.hair, get_preference_res?.hair_colour);
     setValue(FormKey.eye, get_preference_res?.eye_colour);
   };
-
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
@@ -206,14 +215,14 @@ const SetPreference = ({route, navigation}) => {
     }
     loadingRef.current = set_preference_loading;
   }, [set_preference_success, set_preference_loading]);
-  // SAVE PREFERENCE
 
+  // SAVE PREFERENCE
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
       dispatch(showAppLoader());
       if (save_preference_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.PtbDashboard);
+        navigation.navigate(Routes.PtbProfile);
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
@@ -235,6 +244,7 @@ const SetPreference = ({route, navigation}) => {
       ethnicity: '2,3',
       state: data.location?.id,
     };
+    console.log(value, 'datadata');
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
   };
@@ -242,6 +252,7 @@ const SetPreference = ({route, navigation}) => {
   const logOutScreen = () => {
     dispatch(showAppLoader());
     dispatch(logOut());
+    navigation.navigate(Routes.Landing);
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -268,14 +279,43 @@ const SetPreference = ({route, navigation}) => {
       actionSheet.current.show();
     }, 300);
   };
+  const backAction = () => {
+    Alert.alert(
+      Strings.EDITPROFILE.DiscardEdit,
+      Strings.EDITPROFILE.DiscardEditDisc,
+      [
+        {
+          text: Strings.profile.ModalOption1,
+          onPress: () => {
+            navigation.navigate(Routes.PtbProfile);
+          },
+        },
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
-        <TouchableOpacity
-          style={styles.header}
-          onPress={() => navigation.navigate(Routes.PtbProfile)}>
-          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
-        </TouchableOpacity>
+        <View style={globalStyle.cancelbtn}>
+          <TouchableOpacity
+            onPress={() => {
+              isDirty === true
+                ? Platform.OS === 'ios'
+                  ? backAction()
+                  : setShowModal(true)
+                : navigation.navigate(Routes.PtbProfile);
+            }}
+            style={globalStyle.clearView}>
+            <Text style={globalStyle.clearText}>
+              {Strings.Subscription.Cancel}
+            </Text>
+          </TouchableOpacity>
+        </View>
       ) : (
         <>
           <CircleBtn
@@ -624,6 +664,40 @@ const SetPreference = ({route, navigation}) => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[globalStyle.centeredView]}>
+          <View style={globalStyle.modalView}>
+            <Text style={globalStyle.modalHeader}>
+              {Strings.EDITPROFILE.DiscardEdit}
+            </Text>
+            <Text style={globalStyle.modalSubHeader}>
+              {Strings.EDITPROFILE.DiscardEditDisc}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                navigation.navigate(Routes.PtbProfile);
+              }}>
+              <Text style={globalStyle.modalOption1}>
+                {Strings.profile.ModalOption1}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={globalStyle.modalOption2}>
+                {Strings.profile.ModalOption2}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };

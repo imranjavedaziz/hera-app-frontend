@@ -151,6 +151,7 @@ const PtbProfile = () => {
   const logoutScreen = () => {
     dispatch(showAppLoader());
     dispatch(logOut());
+    navigation.navigate(Routes.Landing);
   };
   const videoAvaible = () => {
     if (_.isEmpty(gallery_data)) {

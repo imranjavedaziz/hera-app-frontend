@@ -80,7 +80,6 @@ const DashboardDetailScreen = () => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(false, profile_match_error_msg));
         navigation.navigate(Routes.PtbDashboard);
       } else {
         dispatch(hideAppLoader());

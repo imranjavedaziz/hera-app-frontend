@@ -13,7 +13,6 @@ import {supportApi, userTypeApi} from '../../Api';
 function* SupportForm(payload) {
   try {
     const result = yield supportApi(payload.data);
-    console.log(result, 'resugtyhßlt');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SUPPORT_FORM_SUCCESS, data: result});
     } else {

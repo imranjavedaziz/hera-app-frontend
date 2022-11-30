@@ -95,6 +95,7 @@ const Profile = props => {
         dispatch(hideAppLoader());
         navigation.navigate(Routes.SmBasicDetails);
       } else {
+        dispatch(showAppToast(true, register_user_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -448,9 +449,19 @@ const Profile = props => {
                   <View>
                     <Text style={styles.tmc1}>
                       {Strings.profile.tmc1}
-                      <TouchableOpacity onPress={()=>openWebView(TERMS_OF_USE_URL)}><Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text></TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => openWebView(TERMS_OF_USE_URL)}>
+                        <Text style={styles.tmcLink}>
+                          {Strings.profile.tmc2}
+                        </Text>
+                      </TouchableOpacity>
                       {'\n'} and{' '}
-                      <TouchableOpacity onPress={()=>openWebView(PRIVACY_URL)}><Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text></TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => openWebView(PRIVACY_URL)}>
+                        <Text style={styles.tmcLink}>
+                          {Strings.profile.tmc3}
+                        </Text>
+                      </TouchableOpacity>
                     </Text>
                   </View>
                 </View>

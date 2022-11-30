@@ -43,7 +43,6 @@ import {
 } from '../../../redux/actions/Edit_profile';
 import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
-import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -90,13 +89,14 @@ const EditProfile = props => {
     send_verification_success,
     send_verification_loading,
     send_verification_error_msg,
-    send_verification_res} = useSelector(state=>state.VerificationMail);
+    send_verification_res,
+  } = useSelector(state => state.VerificationMail);
   const {
     handleSubmit,
     control,
     reset,
     setValue,
-    formState: {errors},
+    formState: {errors, isDirty},
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
@@ -105,7 +105,7 @@ const EditProfile = props => {
       dispatch(showAppLoader());
       if (send_verification_success) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(false,send_verification_res.message));
+        dispatch(showAppToast(false, send_verification_res.message));
         navigation.navigate(Routes.OTP, {type: 3});
       }
       if (send_verification_error_msg) {
@@ -113,7 +113,12 @@ const EditProfile = props => {
       }
     }
     loadingRef.current = send_verification_loading;
-  }, [send_verification_success, send_verification_loading,send_verification_res,send_verification_error_msg]);
+  }, [
+    send_verification_success,
+    send_verification_loading,
+    send_verification_res,
+    send_verification_error_msg,
+  ]);
   // UPDATE DETAIL
   useEffect(() => {
     if (UpdateLoadingRef.current && !update_user_detail_loading) {
@@ -150,7 +155,7 @@ const EditProfile = props => {
     }
     loadingRef.current = get_state_loading;
   }, [get_state_loading, get_state_success]);
-
+  console.log(control, 'controller');
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {
@@ -216,7 +221,13 @@ const EditProfile = props => {
     <View style={styles.cancelbtn}>
       <TouchableOpacity
         onPress={() => {
-          Platform.OS === 'ios' ? backAction() : setShowModal(true);
+          isDirty === true
+            ? Platform.OS === 'ios'
+              ? backAction()
+              : setShowModal(true)
+            : props.route?.params?.smProfile
+            ? navigation.navigate(Routes.SmSetting)
+            : navigation.navigate(Routes.PtbProfile);
         }}
         style={styles.clearView}>
         <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>

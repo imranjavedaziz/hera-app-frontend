@@ -149,7 +149,7 @@ const Dropdown = ({
             </Text>
             <SelectDropdown
               data={data}
-              defaultValue={value?.name}
+              defaultValue={value}
               selectIndex={selectIndex}
               defaultButtonText={value?.name}
               onSelect={(selectedItem, index) => {

@@ -21,7 +21,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  console.log('action.?.message', action.data?.data?.message);
   switch (action.type) {
     /**
      * DEACTIVATE_ACCOUNT
