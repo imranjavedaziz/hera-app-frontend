@@ -150,6 +150,11 @@ export default {
     marginTop: 26,
     marginBottom: 78,
   },
+  Btn2: {
+    height: Value.CONSTANT_VALUE_80,
+    marginTop: 26,
+    marginBottom: 78,
+  },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {
     textDecorationLine: Alignment.UNDERLINE,

@@ -66,13 +66,14 @@ const SmDashboard = ({route}) => {
       deviceHandler(navigation, 'exit');
     }
   }, [navigation, route?.name]);
-
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      dispatch(showAppLoader());
-      _getDonorDashboard(1, search);
-    });
-  }, [route?.params]);
+  useFocusEffect(
+    useCallback(() => {
+      navigation.addListener('focus', () => {
+        dispatch(showAppLoader());
+        _getDonorDashboard(1, search);
+      });
+    }, [_getDonorDashboard,search]),
+  );
   //Get device Info
   useEffect(() => {
     async function fetchDeviceInfo() {
