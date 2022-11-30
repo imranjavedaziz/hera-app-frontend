@@ -15,6 +15,7 @@ import Chat from './Chat';
 import Subscription from './Subscription';
 import DeleteAccount from './DeleteAccount';
 import Edit_profile from './Edit_profile';
+import VerificationMail from './VerificationMail';
 import DeactivateAccount from './DeactivateAccount';
 import NavigationOnLanding from './NavigationOnLanding';
 
@@ -36,6 +37,7 @@ const allReducers = combineReducers({
   DeleteAccount,
   Edit_profile,
   DeactivateAccount,
+  VerificationMail
   NavigationOnLanding,
 });
 
