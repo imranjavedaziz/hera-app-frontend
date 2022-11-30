@@ -133,7 +133,7 @@ const ChatListing = props => {
             }
             onPress={() =>
               navigation.navigate(Routes.ChatDetail, {
-                item: item,
+                item,
                 isComingFrom: false,
               })
             }
