@@ -201,7 +201,7 @@ export const Routes = {
   ChangePassword: 'ChangePassword',
   EditProfile: 'EditProfile',
   DeleteAccount: 'DeleteAccount',
-  ProfileLikedSm:'ProfileLikedSm',
+  ProfileLikedSm: 'ProfileLikedSm',
   DeactivateAccount: 'DeactivateAccount',
 };
 export const Static = {

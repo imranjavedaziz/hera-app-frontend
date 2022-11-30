@@ -40,7 +40,6 @@ const Dropdown = ({
     };
     return previousValue();
   }, [defaultValue, isCome]);
-  console.log(defaultValue, 'defaultValuedefaultValue');
   useEffect(() => {
     return navigation.addListener('focus', () => {
       setCome(true);
