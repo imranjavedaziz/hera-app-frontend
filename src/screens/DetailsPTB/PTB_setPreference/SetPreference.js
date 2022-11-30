@@ -156,21 +156,22 @@ const SetPreference = ({route, navigation}) => {
   }, [get_preference_success, get_preference_loading, get_preference_res]);
   //SETTER FIELDS
   const handelChange = async value => {
-    // const HeightArr = Array(get_preference_res?.height.replace('-', ','));
+    const HeightArr = get_preference_res?.height.split('-');
+    console.log(get_preference_res?.height, 'get_preference_res?.height');
     const education = set_preference_res?.education?.find(obj => {
       return obj.id === parseInt(get_preference_res?.education);
     });
     const race = set_preference_res?.race?.find(obj => {
       return obj.id === parseInt(get_preference_res?.race);
     });
-    const location = get_state_success?.find(obj => {
+    const location = get_state_res?.find(obj => {
       return obj.id === parseInt(get_preference_res?.state);
     });
     setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
     setValue(FormKey.location, location);
     setValue(FormKey.education, education);
     setValue(FormKey.age_range, get_preference_res?.age);
-    setHeight([70, 84]);
+    setHeight(HeightArr);
     setValue(FormKey.race, race);
     setValue(FormKey.hair, get_preference_res?.hair_colour);
     setValue(FormKey.eye, get_preference_res?.eye_colour);

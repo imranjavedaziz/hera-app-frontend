@@ -102,9 +102,11 @@ const EditProfile = props => {
       if (update_user_detail_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, update_user_detail_res));
-        props.route?.params?.smProfile
-          ? navigation.navigate(Routes.SmSetting)
-          : navigation.navigate(Routes.PtbProfile);
+        setTimeout(() => {
+          props.route?.params?.smProfile
+            ? navigation.navigate(Routes.SmSetting)
+            : navigation.navigate(Routes.PtbProfile);
+        }, 1000);
       } else {
         dispatch(hideAppLoader());
         dispatch(showAppToast(true, update_user_detail__error_msg));
@@ -192,13 +194,15 @@ const EditProfile = props => {
     return true;
   };
   const headerComp = () => (
-    <TouchableOpacity
-      style={styles.header}
-      onPress={() => {
-        Platform.OS === 'ios' ? backAction() : setShowModal(true);
-      }}>
-      <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
-    </TouchableOpacity>
+    <View style={styles.cancelbtn}>
+      <TouchableOpacity
+        onPress={() => {
+          Platform.OS === 'ios' ? backAction() : setShowModal(true);
+        }}
+        style={styles.clearView}>
+        <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>
+      </TouchableOpacity>
+    </View>
   );
   const normalizeInput = (value, previousValue) => {
     console.log(value, previousValue);
@@ -252,7 +256,7 @@ const EditProfile = props => {
           obj.id === get_user_detail_res?.user_profile?.relationship_status_id
         );
       });
-    const state_id = get_state_res.find(obj => {
+    const state_id = get_state_res?.find(obj => {
       return obj.id === get_user_detail_res?.location?.state_id;
     });
     setValue('phone', a);
@@ -531,7 +535,6 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <MultiTextInput
-                    containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                     title={Strings.sm_basic.Bio}
                     required={true}
                     value={value}
