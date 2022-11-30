@@ -6,9 +6,16 @@ import {
   SAVE_ATTRIBUTE,
   SAVE_ATTRIBUTE_FAIL,
   SAVE_ATTRIBUTE_SUCCESS,
+  GET_USER_ATTRIBUTE,
+  GET_USER_ATTRIBUTE_FAIL,
+  GET_USER_ATTRIBUTE_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-import {getAttributes, saveAttributes} from '../../Api/SetAttribute';
+import {
+  getAttributes,
+  getUserAttributesApi,
+  saveAttributes,
+} from '../../Api/SetAttribute';
 function* SetAttributeRes() {
   try {
     const result = yield getAttributes();
@@ -45,4 +52,24 @@ function* SaveAttributeRes(payload) {
 }
 export function* watchSaveAttributeRes() {
   yield takeLatest(SAVE_ATTRIBUTE, SaveAttributeRes);
+}
+
+//GET user Attributes
+function* getUserAttribute() {
+  try {
+    const result = yield getUserAttributesApi();
+    if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      yield put({type: GET_USER_ATTRIBUTE_SUCCESS, data: result});
+    } else {
+      yield put({
+        type: GET_USER_ATTRIBUTE_FAIL,
+        data: {msg: result.data.message},
+      });
+    }
+  } catch (err) {
+    yield put({type: GET_USER_ATTRIBUTE_FAIL, data: {msg: 'NET ERROR'}});
+  }
+}
+export function* watchGetUserAttribute() {
+  yield takeLatest(GET_USER_ATTRIBUTE, getUserAttribute);
 }

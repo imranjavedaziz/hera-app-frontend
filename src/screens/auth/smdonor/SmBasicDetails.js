@@ -40,6 +40,7 @@ import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
+import { dynamicSize } from '../../../utils/responsive';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -71,7 +72,11 @@ const SmBasicDetails = () => {
     save_basic_detail_loading,
     save_basic_detail_error_msg,
   } = useSelector(state => state.Register);
+  const LogoutLoadingRef = useRef(false);
   const user = useSelector(state => state.Auth.user);
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
+  );
   const {
     handleSubmit,
     control,
@@ -108,13 +113,12 @@ const SmBasicDetails = () => {
     }
     LoadingRef.current = get_profile_setter_loading;
   }, [get_profile_setter_success, get_profile_setter_loading]);
-console.log('get_profile_setter_res',get_profile_setter_res)
+
   //SAVE BASIC DETAIL DATA
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
       dispatch(showAppLoader());
       if (save_basic_detail_success) {
-        console.log(user?.role_id, 'user?.role_id ::::');
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
         navigation.navigate(
@@ -128,7 +132,20 @@ console.log('get_profile_setter_res',get_profile_setter_res)
     }
     SubmitLoadingRef.current = save_basic_detail_loading;
   }, [save_basic_detail_success, save_basic_detail_loading]);
-
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      } else {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(true, log_out_error_msg));
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
   useEffect(() => {
     if (!isValid) {
       const e = errors.gender_id;
@@ -138,7 +155,7 @@ console.log('get_profile_setter_res',get_profile_setter_res)
     }
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
-    console.log(data, 'data::::::');
+    dispatch(showAppLoader());
     setPayloadData(data);
     dispatch(saveBasicDetail(data));
   };
@@ -147,7 +164,7 @@ console.log('get_profile_setter_res',get_profile_setter_res)
     <>
       <CircleBtn
         icon={Images.iconSettings}
-        Fixedstyle={{marginRight: 20, marginTop: 54}}
+        Fixedstyle={{marginRight: dynamicSize(20), marginTop: dynamicSize(45)}}
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}
@@ -165,6 +182,7 @@ console.log('get_profile_setter_res',get_profile_setter_res)
   );
 
   const logOutScreen = () => {
+    dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
@@ -276,7 +294,7 @@ console.log('get_profile_setter_res',get_profile_setter_res)
                         error={errors && errors.zipcode?.message}
                         required={true}
                         keyboardType="number-pad"
-                        maxLength={6}
+                        maxLength={5}
                         lineColor={isOpen}
                       />
                     )}

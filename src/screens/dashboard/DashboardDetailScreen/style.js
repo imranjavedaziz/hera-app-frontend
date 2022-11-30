@@ -13,8 +13,9 @@ export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
   },
+  flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   imageOverlayWrapper: {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
@@ -30,8 +31,8 @@ export default {
   },
   innerContainer: {},
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_5,
-    paddingHorizontal: Value.CONSTANT_VALUE_25,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
   nativeMainContainer: {
     flexDirection: Alignment.ROW,
@@ -164,11 +165,12 @@ export default {
   crossIcon: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
     width: scaleWidth(Value.CONSTANT_VALUE_211),
   },
   loaderContainer: {
     position: Alignment.ABSOLUTE,
-    top: height / 2.5,
+    top: height / Value.CONSTANT_VALUE_2,
     alignSelf: Alignment.CENTER,
     width: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_50,

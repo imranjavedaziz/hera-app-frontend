@@ -11,18 +11,18 @@ export default {
     flex: 1,
   },
   header: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_54),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerText: {
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
+    color: '#ff4544',
     marginRight: Value.CONSTANT_VALUE_30,
   },
   headingContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_105),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
   },
   changePassword: {
     fontFamily: Fonts.OpenSansBold,

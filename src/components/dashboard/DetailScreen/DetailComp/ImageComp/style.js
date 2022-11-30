@@ -4,9 +4,9 @@ import {
   scaleHeight,
   scaleWidth,
 } from '../../../../../utils/responsive';
-import { Fonts } from '../../../../../constants/Constants';
+import {Fonts} from '../../../../../constants/Constants';
 import Colors from '../../../../../constants/Colors';
-import { FontSize, Value } from '../../../../../constants/FixedValues';
+import {FontSize, Value} from '../../../../../constants/FixedValues';
 
 export default {
   mainContainer: {
@@ -18,6 +18,7 @@ export default {
     height: dynamicSize(86.8),
     width: dynamicSize(86.8),
     borderRadius: dynamicSize(90),
+    backgroundColor: 'E2E1D8',
   },
   row: {
     flexDirection: Alignment.ROW,

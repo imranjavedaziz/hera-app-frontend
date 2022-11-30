@@ -187,9 +187,36 @@ export const smRegisterSchema = yup.object().shape({
 
 export const setPreferenceSchema = yup.object().shape({
   looking: yup.number().required(ValidationMessages.SELECT_LOOKING),
-  location: yup.object().required(ValidationMessages.LOCATION),
-  education: yup.object().required(ValidationMessages.Education),
-  race: yup.string().required(ValidationMessages.RACE),
+  location: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.LOCATION); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.LOCATION); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.LOCATION); // here you can decide what is the default
+    }
+  }),
+  education: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.Education); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.Education); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.Education); // here you can decide what is the default
+    }
+  }),
+  race: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.RACE); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.RACE); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.RACE); // here you can decide what is the default
+    }
+  }),
   hair: yup.string().required(ValidationMessages.SELECT_HAIR),
   eye: yup.string().required(ValidationMessages.SELECT_EYE),
   height: yup.array(),
@@ -233,19 +260,19 @@ export const deleteAccountPassword = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: 'Invalid current password',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: 'Invalid current password',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: 'Invalid current password',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: 'Invalid current password',
     }),
 });
 
@@ -324,18 +351,86 @@ export const forgetPasswordSchema = yup.object().shape({
 });
 
 export const smSetAttributesSchema = yup.object().shape({
-  height_id: yup.string().required(ValidationMessages.SELECT_HEIGHT),
-  race_id: yup.string().required(ValidationMessages.SELECT_RACE),
-  mother_ethnicity_id: yup
-    .string()
-    .required(ValidationMessages.SELECT_MOT_ETHNICITY),
-  father_ethnicity_id: yup
-    .string()
-    .required(ValidationMessages.SELECT_FAT_ETHNICITY),
-  weight_id: yup.string().required(ValidationMessages.SELECT_WEIGHT),
-  eye_colour_id: yup.string().required(ValidationMessages.SELECT_EYE),
-  hair_colour_id: yup.string().required(ValidationMessages.SELECT_HAIR),
-  education_id: yup.string().required(ValidationMessages.SELECT_EDUCATION),
+  height_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_HEIGHT);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_HEIGHT);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_HEIGHT);
+    }
+  }),
+  race_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_RACE);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_RACE);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_RACE);
+    }
+  }),
+  mother_ethnicity_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_MOT_ETHNICITY);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_MOT_ETHNICITY);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_MOT_ETHNICITY);
+    }
+  }),
+  father_ethnicity_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_FAT_ETHNICITY);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_FAT_ETHNICITY);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_FAT_ETHNICITY);
+    }
+  }),
+  weight_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_WEIGHT);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_WEIGHT);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_WEIGHT);
+    }
+  }),
+  eye_colour_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_EYE);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_EYE);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_EYE);
+    }
+  }),
+  hair_colour_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_HAIR);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_HAIR);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_HAIR);
+    }
+  }),
+  education_id: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.SELECT_EDUCATION);
+      case 'string':
+        return yup.string().required(ValidationMessages.SELECT_EDUCATION);
+      default:
+        return yup.mixed().required(ValidationMessages.SELECT_EDUCATION);
+    }
+  }),
 });
 export const editProfileSchema = yup.object().shape({
   first_name: yup

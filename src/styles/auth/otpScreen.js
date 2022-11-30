@@ -1,6 +1,7 @@
 import {Colors, Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
+import {dynamicSize} from '../../utils/responsive';
 
 export default {
   troubleRow: {
@@ -13,7 +14,10 @@ export default {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  leftIcon: {marginLeft: Value.CONSTANT_VALUE_30, marginTop: 54},
+  leftIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
   marginStyle: {marginHorizontal: Value.CONSTANT_VALUE_10},
   redColor: {
     color: Colors.RED,

@@ -8,7 +8,7 @@ export default {
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_35),
   },
   innerContainer: {
-    paddingBottom: Value.CONSTANT_VALUE_20,
+    paddingBottom: Value.CONSTANT_VALUE_18,
   },
   innerView: {
     flexDirection: 'row',
@@ -18,8 +18,9 @@ export default {
     borderColor: '#e4e2d8',
   },
   Icon: {
-    width: 13.5,
-    height: 18.1,
+    marginRight: 14.5,
+  },
+  red: {
     marginRight: 14.5,
   },
   heading: {
@@ -39,16 +40,9 @@ export default {
   innerText: {
     fontWeight: Alignment.BOLD,
     fontFamily: Fonts.OpenSansBold,
-    fontSize: 13,
-    letterSpacing: 0,
-    color: '#999488',
-  },
-  simple: {
-    fontWeight: Alignment.BOLD,
-    fontFamily: Fonts.OpenSansBold,
-    fontSize: 13,
-    letterSpacing: 0,
+    fontSize: Value.CONSTANT_VALUE_13,
     color: '#999488',
     marginTop: 6,
+    marginBottom: 15,
   },
 };
