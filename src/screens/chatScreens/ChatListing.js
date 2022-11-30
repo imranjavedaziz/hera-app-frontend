@@ -42,6 +42,9 @@ const ChatListing = props => {
       return obj;
     }
   }, []);
+  useEffect(()=>{
+    console.log('chats',chats);
+  },[chats])
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard, {
@@ -133,7 +136,9 @@ const ChatListing = props => {
             }
             onPress={() =>
               navigation.navigate(Routes.ChatDetail, {
-                item: item,
+                item: {...item,
+                  recieverSubscription: 0
+                },
                 isComingFrom: false,
               })
             }
