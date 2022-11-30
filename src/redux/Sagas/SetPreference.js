@@ -34,7 +34,6 @@ export function* watchsetPreference() {
 function* SavePreference(payload) {
   try {
     const result = yield savePreferenceApi(payload.data);
-    console.log(result?.status, 'result');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SAVE_PREFERENCE_SUCCESS, data: result});
     } else {

@@ -183,7 +183,7 @@ export default {
     borderRadius: px(Value.CONSTANT_VALUE_60),
   },
   headersm: {
-    marginTop: 54,
+    marginTop: 45,
     marginRight: 20,
   },
 };

@@ -21,7 +21,10 @@ function* getEditProfile() {
       yield put({type: GET_USER_DETAIL_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: GET_USER_DETAIL_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: GET_USER_DETAIL_FAIL,
+      data: {msg: 'Seems like there is no internet connection.'},
+    });
   }
 }
 export function* watchGetEditProfile() {
@@ -41,7 +44,10 @@ function* updateEditProfile(payload) {
       });
     }
   } catch (err) {
-    yield put({type: UPDATE_USER_DETAIL_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: UPDATE_USER_DETAIL_FAIL,
+      data: {msg: 'Seems like there is no internet connection.'},
+    });
   }
 }
 export function* watchUpdateEditProfile() {

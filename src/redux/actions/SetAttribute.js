@@ -1,4 +1,4 @@
-import {GET_ATTRIBUTE, SAVE_ATTRIBUTE} from '../Type';
+import {GET_ATTRIBUTE, SAVE_ATTRIBUTE, GET_USER_ATTRIBUTE} from '../Type';
 
 export const getAttribute = () => {
   return {
@@ -11,5 +11,11 @@ export const saveAttribute = payload => {
   return {
     type: SAVE_ATTRIBUTE,
     data: payload,
+  };
+};
+export const getUserAttribute = () => {
+  return {
+    type: GET_USER_ATTRIBUTE,
+    data: {},
   };
 };

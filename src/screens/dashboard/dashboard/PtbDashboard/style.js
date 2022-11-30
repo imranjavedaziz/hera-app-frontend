@@ -63,18 +63,21 @@ export default {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
   },
   innerText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    color: Colors.BLACK,
   },
   innerText2: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     textAlign: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_12),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
   },
   headerIcon: {
     paddingTop: Value.CONSTANT_VALUE_5,

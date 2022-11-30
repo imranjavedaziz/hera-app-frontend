@@ -8,7 +8,6 @@ import {takeLatest, put} from 'redux-saga/effects';
 import {HttpStatus} from '../../constants/Constants';
 // Delete Account
 function* deleteAccount(payload) {
-  console.log('payload??', payload);
   try {
     const result = yield deleteAccountApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
