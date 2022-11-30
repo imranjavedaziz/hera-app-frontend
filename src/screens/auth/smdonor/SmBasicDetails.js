@@ -291,7 +291,7 @@ const SmBasicDetails = () => {
                         error={errors && errors.zipcode?.message}
                         required={true}
                         keyboardType="number-pad"
-                        maxLength={6}
+                        maxLength={5}
                         lineColor={isOpen}
                       />
                     )}

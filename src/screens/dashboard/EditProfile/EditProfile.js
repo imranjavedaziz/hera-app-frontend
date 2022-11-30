@@ -41,9 +41,7 @@ import {
   getEditProfile,
   updateEditProfile,
 } from '../../../redux/actions/Edit_profile';
-import {
-  sendVerificationMail
-} from '../../../redux/actions/VerificationMail';
+import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
 import {Value} from '../../../constants/FixedValues';
 
@@ -107,9 +105,9 @@ const EditProfile = props => {
         props.route?.params?.smProfile
           ? navigation.navigate(Routes.SmSetting)
           : navigation.navigate(Routes.PtbProfile);
-      }
-      if (update_user_detail__error_msg) {
+      } else {
         dispatch(hideAppLoader());
+        dispatch(showAppToast(true, update_user_detail__error_msg));
       }
     }
     UpdateLoadingRef.current = update_user_detail_loading;
@@ -309,8 +307,12 @@ const EditProfile = props => {
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.flex}>
+        keyboardShouldPersistTaps="handled"
+        resetScrollToCoords={{x: 0, y: 10}}
+        keyboardOpeningTime={0}
+        scrollEnabled={true}
+        extraHeight={180}
+        showsVerticalScrollIndicator={false}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.mainContainer}>
@@ -366,7 +368,9 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
-                    verifyEmail={get_user_detail_res?.email_verified === 0 ? true : false}
+                    verifyEmail={
+                      get_user_detail_res?.email_verified === 0 ? true : false
+                    }
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -531,11 +535,15 @@ const EditProfile = props => {
                     title={Strings.sm_basic.Bio}
                     required={true}
                     value={value}
-                    maxLength={250}
+                    maxLength={251}
                     onChangeText={v => {
                       onChange(v);
                     }}
-                    error={errors && errors.bio?.message}
+                    error={
+                      (value?.length > 250 &&
+                        'You have reached 250 characters limit.') ||
+                      (errors && errors.bio?.message)
+                    }
                   />
                 )}
                 name="bio"
@@ -543,7 +551,7 @@ const EditProfile = props => {
               <View style={styles.btnView}>
                 <Button
                   style={styles.Btn}
-                  label={Strings.sm_basic.Save}
+                  label={Strings.sm_basic.SAVE_PROFILE}
                   onPress={handleSubmit(onSubmit)}
                 />
               </View>

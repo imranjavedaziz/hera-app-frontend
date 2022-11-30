@@ -99,7 +99,7 @@ export default {
   },
   forgotPassword: {
     forgot: 'Forgot Password?',
-    title: 'Enter your mobile number to\nreceive a verification code'
+    title: 'Enter your mobile number to\nreceive a verification code',
   },
   profile: {
     makeAccountFor: 'Make Account For',
@@ -188,6 +188,7 @@ export default {
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
     Save: 'SAVE',
+    SAVE_PROFILE: 'SAVE PROFILE',
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -351,8 +352,10 @@ export default {
     Later: 'Later',
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
-    TrailOver: 'Your trial period is over. Please subscribe now to find new match.',
-    SubscriptionExpired: 'Your subscription has expired. Please renew your subscription now to find new match.',
+    TrailOver:
+      'Your trial period is over. Please subscribe now to find new match.',
+    SubscriptionExpired:
+      'Your subscription has expired. Please renew your subscription now to find new match.',
   },
   Chat: {
     Chat: 'CHAT',

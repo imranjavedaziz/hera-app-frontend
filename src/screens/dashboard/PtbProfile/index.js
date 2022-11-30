@@ -184,10 +184,10 @@ const PtbProfile = () => {
             </View>
             <View>
               {
-                subscriptionStatus.data.status && !subscriptionStatus.data.is_trial && (<Subscribed/>)
+                subscriptionStatus?.data.status && !subscriptionStatus?.data.is_trial && (<Subscribed/>)
               }
               {
-                !subscriptionStatus.data.status || subscriptionStatus.data.is_trial && (
+                !subscriptionStatus?.data.status || subscriptionStatus?.data.is_trial && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}
