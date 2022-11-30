@@ -67,7 +67,6 @@ const PtbProfile = () => {
       leftPress={() => navigation.navigate(Routes.PtbDashboard)}
     />
   );
-  console.log(get_user_detail_res, 'get_user_detail_res');
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
