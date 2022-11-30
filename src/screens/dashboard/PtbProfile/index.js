@@ -149,6 +149,7 @@ const PtbProfile = () => {
     dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
+    dispatch(showAppLoader());
     dispatch(logOut());
   };
   const videoAvaible = () => {
