@@ -6,14 +6,14 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import React, { useState } from 'react';
-import Header, { IconHeader } from '../../../../components/Header';
+import React, {useState} from 'react';
+import Header, {IconHeader} from '../../../../components/Header';
 import styles from './style';
-import { Images, Strings } from '../../../../constants';
-import { useNavigation } from '@react-navigation/native';
+import {Images, Strings} from '../../../../constants';
+import {useNavigation} from '@react-navigation/native';
 import AccountSetting from '../../../../components/dashboard/PtbProfile/AccountSettings';
-import { ValidationMessages } from '../../../../constants/Strings';
-import { Routes } from '../../../../constants/Constants';
+import {ValidationMessages} from '../../../../constants/Strings';
+import {Routes} from '../../../../constants/Constants';
 
 const Settings = () => {
   const navigation = useNavigation();
@@ -33,14 +33,14 @@ const Settings = () => {
       ValidationMessages.DELETE_TEXT,
       [
         {
-          text: Strings.profile.ModalOption2,
-          onPress: () => null,
-        },
-        {
           text: Strings.sm_create_gallery.deleteModal,
           onPress: () => {
             navigation.navigate('DeleteAccount');
           },
+        },
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
         },
       ],
     );
@@ -88,7 +88,7 @@ const Settings = () => {
             Heading={Strings.Settings.Change_Password}
             line
             onPress={() => {
-              navigation.navigate('ChangePassword', { type: 1 });
+              navigation.navigate('ChangePassword', {type: 1});
             }}
           />
           <View style={styles.deactivate}>
@@ -113,7 +113,6 @@ const Settings = () => {
               onPress={() => {
                 Platform.OS === 'ios' ? backAction() : setShowModal(true);
               }}
-              line
               red
             />
           </View>

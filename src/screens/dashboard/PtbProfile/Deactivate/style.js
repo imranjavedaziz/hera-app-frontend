@@ -18,18 +18,19 @@ export default {
     flex: 1,
   },
   header: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_54),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerText: {
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
     marginRight: Value.CONSTANT_VALUE_30,
+    letterSpacing: 0,
+    color: 'rgb(255,69,68)',
   },
   headingContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_105),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
   },
   AccountVerify: {
     fontFamily: Fonts.OpenSansBold,
@@ -68,7 +69,6 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_40,
     backgroundColor: '#f1a6a9',
     justifyContent: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_46,
     marginBottom: Value.CONSTANT_VALUE_67,
   },
   buttonText: {
@@ -108,8 +108,7 @@ export default {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
-    lineHeight: 21,
-    letterSpacing: 0,
-    justifyContent: 'center',
+    lineHeight: Value.CONSTANT_VALUE_21,
+    justifyContent: Alignment.CENTER,
   },
 };

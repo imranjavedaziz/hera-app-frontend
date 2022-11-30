@@ -238,9 +238,8 @@ export default {
     donerAge: 'Sperm Donor, 27 yrs',
     Btn: 'Save',
     Sorry: 'Sorry!',
-    Para1:
-      'We tried to find the best matches for you but seems like no one is around.',
-    Para2: 'May be try again later or change your\n settings.',
+    Para1: `You have exhausted\n today's limit.`,
+    Para2: 'Please come back tomorrow!',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
   },
