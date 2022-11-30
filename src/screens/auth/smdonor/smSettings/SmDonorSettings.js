@@ -12,8 +12,6 @@ import Images from '../../../../constants/Images';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Strings from '../../../../constants/Strings';
-import Colors from '../../../../constants/Colors';
-import Button from '../../../../components/Button';
 import Styles from './Styles';
 import {Routes, ABOUT_URL} from '../../../../constants/Constants';
 import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';

@@ -43,7 +43,6 @@ import {
 } from '../../../redux/actions/Edit_profile';
 import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
-import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -235,7 +234,7 @@ const EditProfile = props => {
       normalizeInput(get_user_detail_res.phone_no, prevstate),
     );
     let a = '';
-    for (var i = 0; i < get_user_detail_res.phone_no.length; i++) {
+    for (const i = 0; i < get_user_detail_res.phone_no.length; i++) {
       if (
         get_user_detail_res.phone_no[i] !== ' ' &&
         get_user_detail_res.phone_no[i] !== ')' &&

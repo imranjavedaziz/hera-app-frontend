@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import Header from '../../../../components/Header';
 import {Images, Strings} from '../../../../constants';
 import {useNavigation} from '@react-navigation/native';
@@ -22,7 +15,6 @@ import {
 import {logOut} from '../../../../redux/actions/Auth';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import {Routes} from '../../../../constants/Constants';
-import {MaterialIndicator} from 'react-native-indicators';
 
 const DeactivateAccount = () => {
   const [deactivateReasonList, setDeactivateReasonList] = React.useState('');
@@ -30,10 +22,7 @@ const DeactivateAccount = () => {
   const loadingRef = React.useRef(false);
   const navigation = useNavigation();
   const [reason, setReason] = React.useState(1);
-  const {
-    control,
-    formState: {errors},
-  } = useForm({
+  const {control} = useForm({
     resolver: yupResolver(),
   });
   const {
