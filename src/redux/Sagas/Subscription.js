@@ -16,7 +16,7 @@ import { createSubscriptionApi, subscriptionPlanApi, subscriptionStatusApi } fro
 function* CreateSubscription(payload) {
   try {
     const result = yield createSubscriptionApi(payload.data);
-    console.log('LINE NO 14 SAGA CREATE SUBSCRIPTION', result);
+    console.log('LINE NO 14 SAGA CREATE SUBSCRIPTION', result.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({ type: CREATE_SUBSCRIPTION_SUCCESS, data: result });
     } else {

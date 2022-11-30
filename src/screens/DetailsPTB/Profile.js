@@ -36,6 +36,8 @@ import {
   pwdErrMsg,
   Routes,
   validatePassword,
+  PRIVACY_URL,
+  TERMS_OF_USE_URL,
 } from '../../constants/Constants';
 import Strings, {ValidationMessages} from '../../constants/Strings';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
@@ -47,10 +49,10 @@ import styles from './StylesProfile';
 import Alignment from '../../constants/Alignment';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
-import {logOut} from '../../redux/actions/Auth';
 import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
+import openWebView from '../../utils/openWebView';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -77,6 +79,7 @@ const Profile = props => {
   } = useForm({
     resolver: yupResolver(parentRegisterSchema),
   });
+
   const {
     register_user_success,
     register_user_loading,
@@ -107,6 +110,7 @@ const Profile = props => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
+
   // Header Component
   const headerComp = () => (
     <CircleBtn
@@ -123,7 +127,6 @@ const Profile = props => {
   );
 
   const logoutScreen = () => {
-    dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
 
@@ -163,6 +166,7 @@ const Profile = props => {
         text: Strings.profile.ModalOption1,
         onPress: () => {
           logoutScreen();
+          navigation.navigate(Routes.Landing);
         },
       },
       {
@@ -202,7 +206,6 @@ const Profile = props => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
-    console.log('reqData', reqData);
   };
   useEffect(() => {
     return navigation.addListener('focus', () => {
@@ -445,17 +448,9 @@ const Profile = props => {
                   <View>
                     <Text style={styles.tmc1}>
                       {Strings.profile.tmc1}
-                      <TouchableOpacity>
-                        <Text style={styles.tmcLink}>
-                          {Strings.profile.tmc2}
-                        </Text>
-                      </TouchableOpacity>
+                      <TouchableOpacity onPress={()=>openWebView(TERMS_OF_USE_URL)}><Text style={styles.tmcLink}>{Strings.profile.tmc2}</Text></TouchableOpacity>
                       {'\n'} and{' '}
-                      <TouchableOpacity>
-                        <Text style={styles.tmcLink}>
-                          {Strings.profile.tmc3}
-                        </Text>
-                      </TouchableOpacity>
+                      <TouchableOpacity onPress={()=>openWebView(PRIVACY_URL)}><Text style={styles.tmcLink}>{Strings.profile.tmc3}</Text></TouchableOpacity>
                     </Text>
                   </View>
                 </View>
@@ -539,6 +534,7 @@ const Profile = props => {
                       onPress={() => {
                         setShowModal(false);
                         logoutScreen();
+                        navigation.navigate(Routes.Landing);
                       }}>
                       <Text style={styles.modalOption1}>
                         {Strings.profile.ModalOption1}

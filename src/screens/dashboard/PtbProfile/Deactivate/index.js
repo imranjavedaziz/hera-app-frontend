@@ -1,28 +1,45 @@
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
 import Header from '../../../../components/Header';
-import {Images, Strings} from '../../../../constants';
-import {useNavigation} from '@react-navigation/native';
+import { Images, Strings } from '../../../../constants';
+import { useNavigation } from '@react-navigation/native';
 import styles from './style';
-import {Value} from '../../../../constants/FixedValues';
-import {Controller, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
+import { Value } from '../../../../constants/FixedValues';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useSelector, useDispatch } from 'react-redux';
+import { getDeactivateReason, deactivateAccount } from '../../../../redux/actions/DeactivateAccount';
+import { logOut } from '../../../../redux/actions/Auth';
+import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
+import { Routes } from '../../../../constants/Constants';
 
 const DeactivateAccount = () => {
+  const [deactivateReasonList, setDeactivateReasonList] = React.useState('')
+  const dispatch = useDispatch();
+  const loadingRef = React.useRef(false);
   const navigation = useNavigation();
-  const {control} = useForm({
+  const [reason, setReason] = React.useState(1);
+  const {
+    control,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(),
   });
+  const {
+    deactivate_account_success,
+    deactivate_account_loading,
+    get_reason_list_success,
+    get_reason_list_loading,
+    get_reason_list_res,
+  } = useSelector(state => state.DeactivateAccount);
+
   const headerComp = () => (
     <View>
       <TouchableOpacity
@@ -32,33 +49,47 @@ const DeactivateAccount = () => {
       </TouchableOpacity>
     </View>
   );
+  React.useEffect(() => {
+    dispatch(getDeactivateReason());
+  }, []);
 
-  const Reasons = [
-    {
-      id: 1,
-      first: 'I have a privacy concern',
-    },
-    {
-      id: 2,
-      first: 'I have created another account and don’t need this one',
-    },
-    {
-      id: 3,
-      first: 'Cannot find right matches',
-    },
-    {
-      id: 4,
-      first: 'This is temporary, I’ll be back',
-    },
-    {
-      id: 5,
-      first: 'I find it distracting and takes away too much of my time.',
-    },
-    {
-      id: 6,
-      first: 'I don’t understand how it works',
-    },
-  ];
+  React.useEffect(() => {
+    if (loadingRef.current && !get_reason_list_loading) {
+      if (get_reason_list_success) {
+        dispatch(hideAppLoader());
+        setDeactivateReasonList(get_reason_list_res);
+      }
+      dispatch(hideAppLoader());
+    }
+    loadingRef.current = get_reason_list_loading;
+    dispatch(hideAppLoader());
+  }, [get_reason_list_success, get_reason_list_loading]);
+
+  React.useEffect(() => {
+    if (loadingRef.current && !deactivate_account_loading) {
+      dispatch(showAppLoader());
+      if (deactivate_account_success) {
+        console.log('deactivate_account_success', deactivate_account_success);
+        dispatch(hideAppLoader());
+        dispatch(logOut());
+        navigation.reset({
+          index: 0,
+          routes: [{ name: Routes.Landing, }],
+        });
+      }
+      dispatch(hideAppLoader());
+    }
+    loadingRef.current = deactivate_account_loading;
+  }, [deactivate_account_success, deactivate_account_loading]);
+
+  const deactivateAccountHandlar = item => {
+    let payload = {
+      status_id: 2,
+      reason_id: reason
+    };
+    console.log('LINE NO 144 PAYLOAD', payload);
+    dispatch(deactivateAccount(payload));
+  };
 
   return (
     <View style={styles.upperContainer}>
@@ -74,42 +105,42 @@ const DeactivateAccount = () => {
             <Text style={styles.setANew}>{Strings.Settings.Select_Reason}</Text>
           </View>
           <View style={styles.flex}>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              style={styles.flex}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.fullWidth}>
-                  <Controller
-                    control={control}
-                    render={({field: {onChange, value}}) => (
-                      <View style={styles.radioContainer}>
-                        {Reasons.map(item => (
-                          <TouchableOpacity
-                            onPress={() => onChange(item.id)}
-                            style={styles.radioBtn}>
-                            <Image
-                              style={styles.radioImg}
-                              source={
-                                value === item.id
-                                  ? Images.iconRadiosel
-                                  : Images.iconRadiounsel
-                              }
-                            />
-                            <Text style={styles.radioLabel}>{item.first}</Text>
-                          </TouchableOpacity>
-                        ))}
-                      </View>
-                    )}
-                    name="reasons"
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+            <View style={styles.fullWidth}>
+              {deactivateReasonList?.data ? <Controller
+                control={control}
+                render={({ field: { onChange, value = 1 } }) => (
+                  <View style={styles.radioContainer}>
+                    {deactivateReasonList?.data?.map((item, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                          onChange(item.id)
+                          setReason(item.id)
+                        }}
+                        style={styles.radioBtn}>
+                        <Image
+                          style={styles.radioImg}
+                          source={
+                            value === item.id
+                              ? Images.iconRadiosel
+                              : Images.iconRadiounsel
+                          }
+                        />
+                        <Text style={styles.radioLabel}>{item.name}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+                name="reasons"
+              /> : <ActivityIndicator />}
+            </View>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
-              style={styles.dashboardBtn}>
+              style={styles.dashboardBtn}
+              onPress={deactivateAccountHandlar}
+            >
               <Text
                 style={styles.buttonText}
                 accessible={false}
@@ -123,5 +154,4 @@ const DeactivateAccount = () => {
     </View>
   );
 };
-
-export default DeactivateAccount;
+export default React.memo(DeactivateAccount);

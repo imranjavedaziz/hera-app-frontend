@@ -187,9 +187,36 @@ export const smRegisterSchema = yup.object().shape({
 
 export const setPreferenceSchema = yup.object().shape({
   looking: yup.number().required(ValidationMessages.SELECT_LOOKING),
-  location: yup.object().required(ValidationMessages.LOCATION),
-  education: yup.object().required(ValidationMessages.Education),
-  race: yup.string().required(ValidationMessages.RACE),
+  location: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.LOCATION); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.LOCATION); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.LOCATION); // here you can decide what is the default
+    }
+  }),
+  education: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.Education); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.Education); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.Education); // here you can decide what is the default
+    }
+  }),
+  race: yup.lazy(value => {
+    switch (typeof value) {
+      case 'object':
+        return yup.object().required(ValidationMessages.RACE); // schema for object
+      case 'string':
+        return yup.string().required(ValidationMessages.RACE); // schema for string
+      default:
+        return yup.mixed().required(ValidationMessages.RACE); // here you can decide what is the default
+    }
+  }),
   hair: yup.string().required(ValidationMessages.SELECT_HAIR),
   eye: yup.string().required(ValidationMessages.SELECT_EYE),
   height: yup.array(),

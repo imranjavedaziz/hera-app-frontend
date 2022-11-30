@@ -188,6 +188,7 @@ export default {
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
     Save: 'SAVE',
+    SAVE_PROFILE: 'SAVE PROFILE',
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -260,7 +261,7 @@ export default {
     request_sent: 'REQUEST SENT',
     request_decline: 'REQUEST DECLINED',
     send_msg: 'SEND MESSAGE',
-    video_text: 'Parant has uploaded a sort clip',
+    video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
   },
   donorPofile: {
@@ -370,6 +371,7 @@ export default {
     INACTIVE_USER: 'Inactive User',
     HEY_ITS_MATCH: 'Hey, It’s a match!',
     PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
+    INACTIVE_ACCOUNT: 'The account is inactive',
   },
   Sensory: {
     AS_PER_SEARCH:
