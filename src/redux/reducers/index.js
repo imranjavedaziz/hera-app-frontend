@@ -36,7 +36,7 @@ const allReducers = combineReducers({
   DeleteAccount,
   Edit_profile,
   DeactivateAccount,
-  VerificationMail
+  VerificationMail,
   NavigationOnLanding,
 });
 
