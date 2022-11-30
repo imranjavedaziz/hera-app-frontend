@@ -32,14 +32,14 @@ const Settings = () => {
       ValidationMessages.DELETE_TEXT,
       [
         {
-          text: Strings.profile.ModalOption2,
-          onPress: () => null,
-        },
-        {
           text: Strings.sm_create_gallery.deleteModal,
           onPress: () => {
             navigation.navigate('DeleteAccount');
           },
+        },
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
         },
       ],
     );
@@ -87,7 +87,7 @@ const Settings = () => {
             Heading={Strings.Settings.Change_Password}
             line
             onPress={() => {
-              navigation.navigate('ChangePassword',{type:1});
+              navigation.navigate('ChangePassword', {type: 1});
             }}
           />
           <View style={styles.deactivate}>
@@ -112,7 +112,6 @@ const Settings = () => {
               onPress={() => {
                 Platform.OS === 'ios' ? backAction() : setShowModal(true);
               }}
-              line
               red
             />
           </View>

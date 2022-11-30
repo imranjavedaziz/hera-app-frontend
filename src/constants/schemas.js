@@ -233,19 +233,19 @@ export const deleteAccountPassword = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: 'Invalid current password',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: 'Invalid current password',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: 'Invalid current password',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: 'Invalid current password',
     }),
 });
 

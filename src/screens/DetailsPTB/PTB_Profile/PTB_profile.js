@@ -35,7 +35,6 @@ const PTB_profile = props => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const LoadinfRef = useRef(false);
-  const [liked, setLiked] = useState(false);
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const [islikedLogo, setIslikedLogo] = useState('');
   const {
