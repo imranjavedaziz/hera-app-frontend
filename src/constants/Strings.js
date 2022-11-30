@@ -99,7 +99,7 @@ export default {
   },
   forgotPassword: {
     forgot: 'Forgot Password?',
-    title: 'Enter your mobile number to\nreceive a verification code'
+    title: 'Enter your mobile number to\nreceive a verification code',
   },
   profile: {
     makeAccountFor: 'Make Account For',
@@ -188,6 +188,7 @@ export default {
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
     Save: 'SAVE',
+    SAVE_PROFILE: 'SAVE PROFILE',
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -237,9 +238,8 @@ export default {
     donerAge: 'Sperm Donor, 27 yrs',
     Btn: 'Save',
     Sorry: 'Sorry!',
-    Para1:
-      'We tried to find the best matches for you but seems like no one is around.',
-    Para2: 'May be try again later or change your\n settings.',
+    Para1: `You have exhausted\n today's limit.`,
+    Para2: 'Please come back tomorrow!',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
   },
@@ -261,7 +261,7 @@ export default {
     request_sent: 'REQUEST SENT',
     request_decline: 'REQUEST DECLINED',
     send_msg: 'SEND MESSAGE',
-    video_text: 'Parant has uploaded a sort clip',
+    video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
   },
   donorPofile: {
@@ -351,8 +351,10 @@ export default {
     Later: 'Later',
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
-    TrailOver: 'Your trial period is over. Please subscribe now to find new match.',
-    SubscriptionExpired: 'Your subscription has expired. Please renew your subscription now to find new match.',
+    TrailOver:
+      'Your trial period is over. Please subscribe now to find new match.',
+    SubscriptionExpired:
+      'Your subscription has expired. Please renew your subscription now to find new match.',
   },
   Chat: {
     Chat: 'CHAT',

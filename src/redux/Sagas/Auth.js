@@ -115,7 +115,10 @@ function* logOut() {
       });
     }
   } catch (err) {
-    yield put({type: AUTH_LOG_OUT_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: AUTH_LOG_OUT_FAIL,
+      data: {msg: 'Seems like there is no internet connection.'},
+    });
   }
 }
 export function* watchLogOutApi() {

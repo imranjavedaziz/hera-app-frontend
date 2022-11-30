@@ -8,12 +8,12 @@ export default {
     backgroundColor: Colors.BACKGROUND_WHOLE,
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_54),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   headingContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_105),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
   },
   Settings: {
     fontFamily: Fonts.OpenSansBold,

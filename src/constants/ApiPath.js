@@ -50,7 +50,7 @@ export default {
   resetPassword: 'reset-password',
   get_user_detail: 'get-user-profile',
   update_user_detail: 'update-profile',
-  account_deactive_reason:"account-deactive-reason",
-  update_account_status:"update-account-status",
-  match_password:"match-password",
+  account_deactive_reason: 'account-deactive-reason',
+  update_account_status: 'update-account-status',
+  match_password: 'match-password',
 };

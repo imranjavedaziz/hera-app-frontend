@@ -16,7 +16,13 @@ import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
 import {getEditProfile} from '../../../redux/actions/Edit_profile';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
+import {getUserGallery} from '../../../redux/actions/CreateGallery';
+import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
 
 const PtbProfile = () => {
@@ -27,6 +33,8 @@ const PtbProfile = () => {
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [name, setName] = useState('');
+  const [avaiableVideo, setVideoAviable] = useState(false);
+
   const GetLoadingRef = useRef(false);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
@@ -38,11 +46,19 @@ const PtbProfile = () => {
     get_user_detail_loading,
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
+  const {gallery_data} = useSelector(state => state.CreateGallery);
+
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
+      dispatch(getUserGallery());
+      videoAvaible();
     }, [dispatch]),
+  );
+  const LogoutLoadingRef = useRef(false);
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
   );
   //GET USER DETAIL
   useFocusEffect(
@@ -104,27 +120,46 @@ const PtbProfile = () => {
     setOpen(false);
     setFile(image);
   };
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      } else {
+        dispatch(showAppToast(true, log_out_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
 
-  console.log('file', file);
   useEffect(() => {
     return navigation.addListener('focus', () => {});
   }, [navigation]);
   useEffect(() => {
     const reqData = new FormData();
-    {
-      file !== null &&
-        reqData.append('file', {
-          name: 'name',
-          type: file.mime,
-          uri: file.path,
-        });
-      dispatch(updateProfileImg(reqData));
-    }
+    file !== null &&
+      reqData.append('file', {
+        name: 'name',
+        type: file.mime,
+        uri: file.path,
+      });
+    dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
+    dispatch(showAppLoader());
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
+  const videoAvaible = () => {
+    if (_.isEmpty(gallery_data)) {
+      setVideoAviable(true);
+    } else {
+      setVideoAviable(false);
+    }
+  };
+
   return (
     <>
       <View style={styles.flex}>
@@ -163,7 +198,6 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
-                BlueDot
                 onPress={() =>
                   navigation.navigate('SetPreference', {EditPreferences: true})
                 }
@@ -171,7 +205,7 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.video}
                 title={Strings.smSetting.AddVideo}
-                BlueDot
+                BlueDot={avaiableVideo === true ? true : false}
                 onPress={() => navigation.navigate(Routes.MyVideo)}
               />
               <PtbAccount

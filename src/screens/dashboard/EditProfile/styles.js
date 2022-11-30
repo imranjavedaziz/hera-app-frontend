@@ -1,23 +1,38 @@
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
-import {normalizeFont, px} from '../../../utils/responsive';
+import {normalizeFont, px, scaleHeight} from '../../../utils/responsive';
 
 export default {
-  header: {
+  cancelbtn: {
     justifyContent: Alignment.FLEXEND,
-    marginTop: px(Value.CONSTANT_VALUE_54),
+    alignItems: Alignment.FLEXEND,
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_54),
+    marginRight: Value.CONSTANT_VALUE_30,
+  },
+  clearView: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+  },
+  clearText: {
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: 16,
+    letterSpacing: 0,
+    color: 'rgb(255,69,68)',
+    height: 22,
   },
   headerText: {
-    textDecorationLine: Alignment.UNDERLINE,
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: Value.CONSTANT_VALUE_16,
+    letterSpacing: 0,
+    color: Colors.COLOR_RED,
     marginRight: px(Value.CONSTANT_VALUE_30),
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   mainContainer: {
-    marginTop: px(Value.CONSTANT_VALUE_105),
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_105),
     paddingHorizontal: px(Value.CONSTANT_VALUE_40),
   },
   headingStyle: {
@@ -71,10 +86,11 @@ export default {
     height: px(Value.CONSTANT_VALUE_25),
   },
   radioLabel: {
-    marginLeft: px(Value.CONSTANT_VALUE_5),
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_18),
+    marginLeft: px(Value.CONSTANT_VALUE_10),
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
+    lineHeight: 21,
   },
   Btn: {
     height: Value.CONSTANT_VALUE_80,
@@ -105,12 +121,16 @@ export default {
     fontWeight: Alignment.BOLD,
     fontFamily: Fonts.OpenSansRegular,
     paddingBottom: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_16,
+    color: Colors.BLACK,
   },
   modalSubHeader: {
     textAlign: Alignment.CENTER,
     lineHeight: Value.CONSTANT_VALUE_18,
     marginTop: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_13,
+    color: Colors.BLACK,
   },
   modalOption1: {
     color: Colors.RED,
@@ -119,6 +139,10 @@ export default {
     marginVertical: Value.CONSTANT_VALUE_27,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    width: Value.CONSTANT_VALUE_234,
+    textAlign: Alignment.CENTER,
   },
   modalOption2: {
     fontSize: Value.CONSTANT_VALUE_16,

@@ -52,7 +52,7 @@ const ChatDetail = props => {
   };
   useEffect(()=>{
     if(subscriptionStatus && subscriptionStatus.data){
-      if(!subscriptionStatus.data.status){
+      if(!subscriptionStatus?.data.status){
         dispatch(showAppToast(true,subscriptionStatus.data.is_trial?Strings.Subscription.TrailOver:Strings.Subscription.SubscriptionExpired));
       }
     }
