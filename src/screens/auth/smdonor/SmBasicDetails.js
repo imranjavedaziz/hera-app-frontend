@@ -40,6 +40,7 @@ import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
+import { dynamicSize } from '../../../utils/responsive';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -163,7 +164,7 @@ const SmBasicDetails = () => {
     <>
       <CircleBtn
         icon={Images.iconSettings}
-        Fixedstyle={{marginRight: 20, marginTop: 54}}
+        Fixedstyle={{marginRight: dynamicSize(20), marginTop: dynamicSize(45)}}
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}

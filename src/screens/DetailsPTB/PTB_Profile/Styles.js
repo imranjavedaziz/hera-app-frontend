@@ -22,7 +22,7 @@ export default {
     alignItems: Alignment.CENTER,
   },
   headerIcon: {
-    marginTop: Value.CONSTANT_VALUE_54,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   locationText: {

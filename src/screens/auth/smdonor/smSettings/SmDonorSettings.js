@@ -33,6 +33,8 @@ import openWebView from '../../../../utils/openWebView';
 import {getRoleType} from '../../../../utils/other';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import _ from 'lodash';
+import {Value} from '../../../../constants/FixedValues';
+import {dynamicSize} from '../../../../utils/responsive';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -108,7 +110,10 @@ const SmDonorSettings = () => {
       icon={Images.iconBack}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
-      Fixedstyle={{marginLeft: 30, marginTop: 54}}
+      Fixedstyle={{
+        paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+        marginLeft: Value.CONSTANT_VALUE_30,
+      }}
     />
   );
 
@@ -249,14 +254,13 @@ const SmDonorSettings = () => {
                 {Strings.smSetting.AboutUs}
               </Text>
             </TouchableOpacity>
-            <View style={Styles.BtnContainer}>
-              <Button
-                style={Styles.Btn}
-                label={Strings.smSetting.Btn}
-                color={Colors.BTNCOLR}
-                onPress={() => logoutScreen()}
-              />
-              <Text style={Styles.greyText}>
+            <View style={Styles.buttoncontainer}>
+              <TouchableOpacity
+                style={Styles.button}
+                onPress={() => logoutScreen()}>
+                <Text style={Styles.buttonText}>{Strings.smSetting.Btn}</Text>
+              </TouchableOpacity>
+              <Text style={Styles.AppVersion}>
                 {Strings.smSetting.AppVersion}
               </Text>
             </View>

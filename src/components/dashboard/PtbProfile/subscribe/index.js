@@ -26,9 +26,6 @@ const Subscribe = ({MainText, InnerText, Icon}) => {
 };
 export const Subscribed = ()=>{
   const {get_user_detail_res} = useSelector(state => state.Edit_profile);
-  React.useEffect(()=>{
-    console.log('get_user_detail_res',get_user_detail_res.length);
-  },[get_user_detail_res])
   if(!get_user_detail_res || !get_user_detail_res.subscription){
     return null;
   }

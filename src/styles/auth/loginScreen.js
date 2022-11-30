@@ -8,7 +8,7 @@ export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.FLEX_START,
-    marginTop: 110,
+    marginTop: Value.CONSTANT_VALUE_95,
     paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},

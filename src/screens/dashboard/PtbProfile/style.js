@@ -11,7 +11,7 @@ export default {
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
-    marginLeft: 30,
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   imgView: {

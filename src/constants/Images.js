@@ -51,6 +51,7 @@ export default {
   line8: require('../assets/icons/line8/line8Copy.png'),
   greenIconLike: require('../assets/icons/greenIconLike/icon_like.png'),
   shadowIconNotLike: require('../assets/icons/shadowIconNotLike/icon_notlike.png'),
+  defaultProfile: require('../assets/icons/default-profile/default-profile.png'),
   // IMAGES
   LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
   LOGO: require('../assets/Images/logo/logo.png'),
