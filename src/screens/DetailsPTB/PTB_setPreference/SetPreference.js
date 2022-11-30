@@ -122,6 +122,7 @@ const SetPreference = ({route, navigation}) => {
       dispatch(SetPreferenceRes());
     }, [dispatch]),
   );
+  console.log(isDirty,'isDirtyisDirty');
   useEffect(() => {
     if (!isValid) {
       const e = errors;
@@ -172,7 +173,7 @@ const SetPreference = ({route, navigation}) => {
       get_preference_res?.race !== undefined &&
       JSON.parse(get_preference_res?.race);
     const race = set_preference_res?.race?.find(obj => {
-      return obj.id === parseInt(raceJson?.id);
+      return obj.id === parseInt(raceJson);
     });
     const location = get_state_res?.find(obj => {
       return obj.id === parseInt(get_preference_res?.state);
@@ -631,11 +632,19 @@ const SetPreference = ({route, navigation}) => {
             )}
             name={FormKey.eye}
           />
-          <Button
-            label={Strings.preference.Save}
-            style={styles.Btn}
-            onPress={handleSubmit(onSubmit)}
-          />
+          {EditPreferences === true ? (
+            <Button
+              label={Strings.preference.SAVE_PREFERENCES}
+              style={styles.Btn2}
+              onPress={handleSubmit(onSubmit)}
+            />
+          ) : (
+            <Button
+              label={Strings.preference.Save}
+              style={styles.Btn}
+              onPress={handleSubmit(onSubmit)}
+            />
+          )}
         </View>
       </Container>
 
