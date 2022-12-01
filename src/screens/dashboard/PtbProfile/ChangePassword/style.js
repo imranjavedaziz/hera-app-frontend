@@ -4,14 +4,14 @@ import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
-    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND_WHOLE,
   },
   flex: {
     flex: 1,
   },
   header: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
   },
   headerText: {
     textDecorationLine: Alignment.UNDERLINE,
@@ -72,5 +72,20 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_5,
     maxWidth: Value.CONSTANT_VALUE_13,
     resizeMode: Alignment.CONTAIN,
+  },
+  dashboardBtn: {
+    width: Value.CONSTANT_VALUE_255,
+    height: Value.CONSTANT_VALUE_80,
+    borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: '#a3c6c4',
+    justifyContent: Alignment.CENTER,
+    marginBottom: Value.CONSTANT_VALUE_67,
+  },
+  buttonText: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    letterSpacing: Value.CONSTANT_VALUE_FRAC180,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
   },
 };
