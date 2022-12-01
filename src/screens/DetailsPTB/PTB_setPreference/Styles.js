@@ -150,6 +150,11 @@ export default {
     marginTop: 26,
     marginBottom: 78,
   },
+  Btn2: {
+    height: Value.CONSTANT_VALUE_80,
+    marginTop: 26,
+    marginBottom: 78,
+  },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {
     textDecorationLine: Alignment.UNDERLINE,
@@ -161,5 +166,17 @@ export default {
   heightlmt: {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
+  },
+  errMessage: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    position: 'absolute',
+    bottom: -25,
+    right: 0,
   },
 };

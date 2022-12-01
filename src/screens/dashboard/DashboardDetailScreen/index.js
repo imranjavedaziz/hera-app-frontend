@@ -151,9 +151,9 @@ const DashboardDetailScreen = () => {
                 {smDetailRes?.doner_attribute?.height && (
                   <BioComponent
                     Name={Strings.donorPofile.Height}
-                    Detail={Math.floor(
+                    Detail={`${parseInt(
                       smDetailRes?.doner_attribute?.height / 12,
-                    )}
+                    )} ft ${smDetailRes?.doner_attribute?.height % 12} in`}
                   />
                 )}
                 {smDetailRes?.doner_attribute?.weight && (

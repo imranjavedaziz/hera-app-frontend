@@ -194,7 +194,7 @@ export default {
   cancelbtn: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_54),
+    marginTop: Value.CONSTANT_VALUE_54,
     marginRight: Value.CONSTANT_VALUE_30,
   },
   clearView: {

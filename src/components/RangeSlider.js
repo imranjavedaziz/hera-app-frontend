@@ -19,6 +19,7 @@ const RangeSlider = ({value, setValue, onValueChange}) => {
         onValueChange(value);
         setValue(value);
       }}
+      thumbTouchSize={styles.thumbTouchSizeStyle}
     />
   );
 };
@@ -32,5 +33,9 @@ const styles = StyleSheet.create({
     borderRadius: Value.CONSTANT_VALUE_40,
     borderColor: Colors.PURE_WHITE,
     borderWidth: Value.CONSTANT_VALUE_2,
+  },
+  thumbTouchSizeStyle: {
+    width: Value.CONSTANT_VALUE_10,
+    height: Value.CONSTANT_VALUE_40,
   },
 });

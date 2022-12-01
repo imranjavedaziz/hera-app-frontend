@@ -147,6 +147,7 @@ export default {
     yrs: 'yrs',
     Education: 'Education',
     editPreference: 'Edit Preference',
+    SAVE_PREFERENCES: 'SAVE PREFERENCES',
   },
   otp: {
     title: 'Verify your mobile',
@@ -205,6 +206,7 @@ export default {
     EyeColor: 'Eye Color',
     Education: 'Education',
     Btn: 'Save',
+    EditAttribute: 'SAVE ATTRIBUTES',
     EditTitle: 'Edit ATTRIBUTES',
   },
   sm_create_gallery: {
