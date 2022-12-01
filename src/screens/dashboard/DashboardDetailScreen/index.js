@@ -184,7 +184,7 @@ const DashboardDetailScreen = () => {
                   </Text>
                 </ImageBackground>
               </View>
-              {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`
+              {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
                 .length < 20 ? (
                 <View style={styles.nativeMainContainer}>
                   {smDetailRes?.location?.name && (
@@ -194,10 +194,10 @@ const DashboardDetailScreen = () => {
                       </Text>
                     </View>
                   )}
-                  {smDetailRes?.doner_attribute?.race && (
+                  {smDetailRes?.doner_attribute?.father_ethnicity && (
                     <View style={styles.fatherPlace}>
                       <Text style={global?.tagText}>
-                        {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                        {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`}
                       </Text>
                     </View>
                   )}
@@ -216,7 +216,7 @@ const DashboardDetailScreen = () => {
                       {smDetailRes?.location?.name}
                     </Text>
                   )}
-                  {smDetailRes?.doner_attribute?.race && (
+                  {smDetailRes?.doner_attribute?.father_ethnicity && (
                     <Text
                       style={[
                         global?.tagText,
@@ -225,12 +225,12 @@ const DashboardDetailScreen = () => {
                           marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
                         },
                       ]}>
-                      {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                      {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`}
                     </Text>
                   )}
                 </View>
               )}
-              {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`
+              {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`
                 .length < 20 ? (
                 <View style={styles.nativeMainContainer}>
                   {smDetailRes?.doner_attribute?.hair_colour && (
@@ -240,10 +240,10 @@ const DashboardDetailScreen = () => {
                       </Text>
                     </View>
                   )}
-                  {smDetailRes?.doner_attribute?.race && (
+                  {smDetailRes?.doner_attribute?.mother_ethnicity && (
                     <View style={styles.hairColor}>
                       <Text style={global?.tagText}>
-                        {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                        {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
                       </Text>
                     </View>
                   )}
@@ -262,7 +262,7 @@ const DashboardDetailScreen = () => {
                       {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
                     </Text>
                   )}
-                  {smDetailRes?.doner_attribute?.race && (
+                  {smDetailRes?.doner_attribute?.mother_ethnicity && (
                     <Text
                       style={[
                         global?.tagText,
@@ -271,7 +271,7 @@ const DashboardDetailScreen = () => {
                           marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
                         },
                       ]}>
-                      {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.race}`}
+                      {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
                     </Text>
                   )}
                 </View>
