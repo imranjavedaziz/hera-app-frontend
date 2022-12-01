@@ -102,7 +102,7 @@ const OTP = ({route}) => {
         dispatch(hideAppLoader());
         const popAction = StackActions.pop(Value.CONSTANT_VALUE_1);
         navigation.dispatch(popAction);
-        dispatch(showAppToast(false,verify_mail_res.message));
+        dispatch(showAppToast(false,'Email verified sucessfully.'));
       }
       if (verify_mail_error_msg) {
         dispatch(showAppToast(true,verify_mail_error_msg));
