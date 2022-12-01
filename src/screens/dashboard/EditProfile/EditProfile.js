@@ -109,6 +109,7 @@ const EditProfile = props => {
         navigation.navigate(Routes.OTP, {type: 3});
       }
       if (send_verification_error_msg) {
+        dispatch(showAppToast(true,send_verification_error_msg));
         dispatch(hideAppLoader());
       }
     }

@@ -37,6 +37,7 @@ import {sendVerificationMail} from '../../redux/actions/VerificationMail';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
+  const [isApiCall,setApiCall] = useState(false);
   const loadingRef = useRef(false);
   const {
     params: {isRouteData},

@@ -47,10 +47,7 @@ axiosRequest.interceptors.response.use(
       return axiosRequest(originalRequest);
     } else if (error.response.status === 404 && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
-    } else if (error.response.status === 402 && error.response.data.message) {
-      store.dispatch(showAppToast(true, error.response.data.message));
-      store.dispatch(navigateOnLanding());
-    } else if (error.response.status === 403) {
+    } else if ((error.response.status === 402 || error.response.status === 403) && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
       store.dispatch(signoutUser());
     } else if (error.response.status === 417 && error.response.data.message) {
