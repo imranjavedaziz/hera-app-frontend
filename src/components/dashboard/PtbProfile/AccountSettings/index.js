@@ -24,7 +24,7 @@ const AccountSetting = ({
             },
           ]}>
           <View style={styles.innerView}>
-            <Image style={red ? styles.red : styles.Icon} source={Icon} />
+            <Image style={styles.Icon} source={Icon} />
             <Text style={red ? styles.Deactivate : styles.heading}>
               {Heading}
             </Text>

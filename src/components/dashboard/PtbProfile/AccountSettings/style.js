@@ -8,7 +8,7 @@ export default {
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_35),
   },
   innerContainer: {
-    paddingBottom: Value.CONSTANT_VALUE_18,
+    paddingBottom: Value.CONSTANT_VALUE_13,
   },
   innerView: {
     flexDirection: 'row',

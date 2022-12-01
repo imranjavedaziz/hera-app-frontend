@@ -47,7 +47,6 @@ const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.Auth.user);
   useEffect(() => {
-    console.log('route',navigationRef.current?.getCurrentRoute().name);
     if (auth) {
       RNBootSplash.hide();
       const path = getRoute(

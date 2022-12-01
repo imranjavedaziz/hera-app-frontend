@@ -13,7 +13,11 @@ import {
   deactivateAccount,
 } from '../../../../redux/actions/DeactivateAccount';
 import {logOut} from '../../../../redux/actions/Auth';
-import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 import {Routes} from '../../../../constants/Constants';
 
 const DeactivateAccount = () => {
@@ -62,7 +66,7 @@ const DeactivateAccount = () => {
     if (loadingRef.current && !deactivate_account_loading) {
       dispatch(showAppLoader());
       if (deactivate_account_success) {
-        console.log('deactivate_account_success', deactivate_account_success);
+        dispatch(showAppToast(true, 'Account deactivated successfully!'));
         dispatch(hideAppLoader());
         dispatch(logOut());
         navigation.reset({
