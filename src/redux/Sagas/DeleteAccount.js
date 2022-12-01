@@ -10,6 +10,7 @@ import {HttpStatus} from '../../constants/Constants';
 function* deleteAccount(payload) {
   try {
     const result = yield deleteAccountApi(payload.data);
+    console.log('result>>>', result);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: DELETE_ACCOUNT_SUCCESS, data: result});
     } else {

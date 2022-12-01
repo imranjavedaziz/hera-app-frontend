@@ -46,7 +46,7 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
   },
   delete: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_28),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,

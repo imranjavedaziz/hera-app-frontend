@@ -22,7 +22,6 @@ const initState = {
   get_profile_setter_success: false,
   get_profile_setter_loading: false,
   get_profile_setter_error_msg: '',
-
   get_sexual_orientation_res: {},
   get_sexual_orientation_success: false,
   get_sexual_orientation_loading: true,

@@ -30,7 +30,12 @@ const styles = {
   },
 };
 const Button = props => {
-  const {label = '', color = Colors.GREEN, style = {}, ...otherProps} = props;
+  const {
+    label = '',
+    color = Colors.COLOR_A3C6C4,
+    style = {},
+    ...otherProps
+  } = props;
   return (
     <TouchableOpacity
       activeOpacity={Value.CONSTANT_VALUE_FRAC80}

@@ -47,7 +47,6 @@ const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.Auth.user);
   useEffect(() => {
-    console.log('route',navigationRef.current?.getCurrentRoute().name);
     if (auth) {
       RNBootSplash.hide();
       const path = getRoute(
@@ -58,14 +57,17 @@ const Main = () => {
       if (path !== Routes.Landing && auth?.role_id === 2) {
         dispatch(getSubscriptionStatus());
       }
-      if(!auth.access_token && navigationRef.current?.getCurrentRoute().name !== Routes.Landing ){
+      if (
+        !auth.access_token &&
+        navigationRef.current?.getCurrentRoute().name !== Routes.Landing
+      ) {
         navigationRef.current?.reset({
           index: 0,
-          routes: [{ name: Routes.Landing }]
-        })
+          routes: [{name: Routes.Landing}],
+        });
       }
     }
-  }, [auth,navigationRef]);
+  }, [auth, navigationRef]);
   return (
     <NavigationContainer
       ref={navigationRef}
