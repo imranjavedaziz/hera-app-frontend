@@ -167,4 +167,16 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
   },
+  errMessage: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    position: 'absolute',
+    bottom: -25,
+    right: 0,
+  },
 };

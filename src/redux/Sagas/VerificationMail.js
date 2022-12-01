@@ -17,7 +17,7 @@ function* verifyMail(payload) {
     if (result?.data?.message) {
       yield put({type: VERIFY_MAIL_SUCCESS, data: result});
     } else {
-      yield put({type: VERIFY_MAIL_FAIL, data: {msg: result.data.message}});
+      yield put({type: VERIFY_MAIL_FAIL, data: {msg: result.code}});
     }
   } catch (err) {
     yield put({type: VERIFY_MAIL_FAIL, data: {msg: 'NET ERROR'}});
