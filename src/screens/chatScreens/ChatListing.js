@@ -15,7 +15,6 @@ import database from '@react-native-firebase/database';
 import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import _ from 'lodash';
-import {deviceHandler} from '../../utils/commonFunction';
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
