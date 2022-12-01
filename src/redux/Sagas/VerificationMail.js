@@ -20,7 +20,7 @@ function* verifyMail(payload) {
       yield put({type: VERIFY_MAIL_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: VERIFY_MAIL_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: VERIFY_MAIL_FAIL, data: {msg: 'Invalid OTP.'}});
   }
 }
 export function* watchVerifyMail() {

@@ -8,11 +8,13 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_15,
+    justifyContent: 'center',
   },
   troubleKeyRow: {
     marginTop: 80,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   leftIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
