@@ -33,6 +33,7 @@ import { sendVerificationMail } from '../../redux/actions/VerificationMail';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
+  const [isApiCall,setApiCall] = useState(false);
   const loadingRef = useRef(false);
   const {
     params: {isRouteData},
@@ -146,7 +147,6 @@ const OTP = ({route}) => {
     send_verification_error_msg,
   ]);
   const onSubmit = data => {
-    console.log('data.otp',data.otp);
     if(data.otp.length<6){
       dispatch(showAppToast(true,'Please fill OTP!'));
       return;
