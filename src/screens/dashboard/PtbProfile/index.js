@@ -160,13 +160,12 @@ const PtbProfile = () => {
     navigation.navigate(Routes.Landing);
   };
   const videoAvaible = () => {
-    if (_.isEmpty(gallery_data)) {
+    if (_.isEmpty(gallery_data?.doner_video_gallery)) {
       setVideoAviable(true);
     } else {
       setVideoAviable(false);
     }
   };
-
   return (
     <>
       <View style={styles.flex}>
