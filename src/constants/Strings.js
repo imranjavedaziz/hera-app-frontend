@@ -150,9 +150,12 @@ export default {
   },
   otp: {
     title: 'Verify your mobile',
+    titleEmail: 'Verify your email',
     subtitle1: 'Enter the 6-digit verification',
     subtitle2: 'code sent to your number',
+    subtitle3: 'code sent to your email',
     Btn: 'Submit',
+    Btn3: 'Verify Email Address',
     Trouble: 'Trouble receiving code?',
     SendAgain: 'Send Again',
   },
@@ -424,6 +427,7 @@ export default {
   ChangePassword: {
     CHANGE_PASSWORD: 'CHANGE PASSWORD',
     SET_A: 'Set a new password',
+    SET_B: 'Set your new password',
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
     Confirm_Password: 'Confirm Password',
