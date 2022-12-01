@@ -113,7 +113,7 @@ const MobileNumber = ({route}) => {
 
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
-    for (const i = 0; i < value.length; i++) {
+    for (let i = 0; i < value.length; i++) {
       if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
         a = a + value[i];
       }
