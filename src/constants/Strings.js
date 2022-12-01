@@ -313,6 +313,8 @@ export default {
     Settings: 'Settings',
     Inquiry: 'Support',
     AboutUs: 'About Us',
+    Terms: 'Terms Of Use',
+    Privacy: 'Privacy Policy',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
     RemoveVideo: 'REMOVE VIDEO',

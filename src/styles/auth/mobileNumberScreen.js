@@ -34,6 +34,6 @@ export default {
   },
   Btn: {
     height: Value.CONSTANT_VALUE_80,
-    width: Value.CONSTANT_VALUE_197,
+    // width: Value.CONSTANT_VALUE_197,
   },
 };

@@ -15,7 +15,7 @@ import Strings from '../../../../constants/Strings';
 import Colors from '../../../../constants/Colors';
 import Button from '../../../../components/Button';
 import Styles from './Styles';
-import {Routes, ABOUT_URL} from '../../../../constants/Constants';
+import {Routes, ABOUT_URL, TERMS_OF_USE_URL, PRIVACY_URL} from '../../../../constants/Constants';
 import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
@@ -252,6 +252,22 @@ const SmDonorSettings = () => {
               <Image source={Images.information} />
               <Text style={[Styles.text, Styles.extraTxt]}>
                 {Strings.smSetting.AboutUs}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Styles.contain}
+              onPress={() => openWebView(TERMS_OF_USE_URL)}>
+              <Image source={Images.file} />
+              <Text style={[Styles.text, Styles.extraTxt]}>
+                {Strings.smSetting.Terms}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Styles.contain}
+              onPress={() => openWebView(PRIVACY_URL)}>
+              <Image source={Images.sheild} />
+              <Text style={[Styles.text, Styles.extraTxt]}>
+                {Strings.smSetting.Privacy}
               </Text>
             </TouchableOpacity>
             <View style={Styles.buttoncontainer}>
