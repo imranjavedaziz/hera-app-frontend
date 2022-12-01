@@ -59,13 +59,13 @@ const Main = () => {
         dispatch(getSubscriptionStatus());
       }
       if(!auth.access_token && navigationRef.current?.getCurrentRoute().name !== Routes.Landing ){
-        navigationRef.current?.reset({
-          index: 0,
-          routes: [{ name: Routes.Landing }]
-        })
+        // navigationRef.current?.reset({
+        //   index: 0,
+        //   routes: [{ name: Routes.Landing }]
+        // })
       }
     }
-  }, [auth,navigationRef]);
+  }, [auth]);
   return (
     <NavigationContainer
       ref={navigationRef}
