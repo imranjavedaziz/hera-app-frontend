@@ -79,6 +79,7 @@ const PtbDashboard = props => {
   });
   useFocusEffect(
     useCallback(() => {
+      console.log('getPtbDashboard');
       dispatch(getPtbDashboard());
     }, [dispatch]),
   );

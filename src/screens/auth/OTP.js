@@ -150,7 +150,11 @@ const OTP = ({route}) => {
     send_verification_error_msg,
   ]);
   const onSubmit = data => {
-    if (type === 1 || type === 2) {
+    if(data.otp.length<6){
+      dispatch(showAppToast(true,'Please fill OTP!'));
+      return;
+    }
+    if( type ===1 || type ===2 ){
       const payload = {
         country_code: isRouteData.country_code,
         phone_no: isRouteData.phone_no,
