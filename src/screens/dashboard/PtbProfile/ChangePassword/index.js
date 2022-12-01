@@ -115,7 +115,7 @@ const ChangePassword = ({route}) => {
             </Text>
           </View>
           <View style={styles.innerHeading}>
-            <Text style={styles.setANew}>{Strings.ChangePassword.SET_A}</Text>
+            <Text style={styles.setANew}>{type===1?Strings.ChangePassword.SET_A:Strings.ChangePassword.SET_B}</Text>
           </View>
           <View style={styles.flex}>
             <KeyboardAvoidingView
