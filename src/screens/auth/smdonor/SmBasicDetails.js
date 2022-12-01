@@ -40,7 +40,7 @@ import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
-import { dynamicSize } from '../../../utils/responsive';
+import {dynamicSize} from '../../../utils/responsive';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();

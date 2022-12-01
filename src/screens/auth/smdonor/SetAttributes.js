@@ -499,11 +499,14 @@ const SetAttributes = ({route}) => {
               <Button
                 style={{
                   height: Value.CONSTANT_VALUE_80,
-                  width: Value.CONSTANT_VALUE_197,
                   marginTop: Value.CONSTANT_VALUE_46,
                   marginBottom: Value.CONSTANT_VALUE_50,
                 }}
-                label={Strings.sm_set_attributes.Btn}
+                label={
+                  EditAttributes === true
+                    ? Strings.sm_set_attributes.EditAttribute
+                    : Strings.sm_set_attributes.Btn
+                }
                 onPress={handleSubmit(onSubmit)}
               />
             </View>

@@ -175,7 +175,7 @@ const Login = props => {
               onPress={handleSubmit(onSubmit)}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate(Routes.MobileNumber,{type})}
+              onPress={() => navigation.navigate(Routes.MobileNumber, {type})}
               style={styles.btnMargin}
               accessible={true}
               accessibilityRole="button"
