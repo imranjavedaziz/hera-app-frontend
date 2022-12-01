@@ -57,9 +57,14 @@ const Main = () => {
       if (path !== Routes.Landing && auth?.role_id === 2) {
         dispatch(getSubscriptionStatus());
       }
+      if(!auth.access_token && path !== Routes.Landing){
+        navigationRef.current?.reset({
+          index: 0,
+          routes: [{ name: Routes.Landing }]
+        })
+      }
     }
   }, [auth]);
-
   return (
     <NavigationContainer
       ref={navigationRef}
