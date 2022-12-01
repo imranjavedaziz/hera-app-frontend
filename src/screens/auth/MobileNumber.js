@@ -84,6 +84,9 @@ const MobileNumber = ({route}) => {
     console.log(value, previousValue);
     const deleting = previousValue && previousValue.length > value.length;
     if (deleting) {
+      if(previousValue[previousValue.length-1]===')' || value[value.length-1]==='(' || value[value.length-1]===' '){
+        return value.substring(0,value.length-1);
+      }
       return value;
     }
     if (!value) {
