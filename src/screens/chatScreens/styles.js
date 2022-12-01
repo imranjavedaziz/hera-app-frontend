@@ -63,8 +63,7 @@ export default {
     borderTopColor: '#E8E8E8',
     borderRadius: 15,
     marginHorizontal: 15,
-    paddingTop: 5,
-    paddingLeft: 5,
+    padding: 5,
   },
   border: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,

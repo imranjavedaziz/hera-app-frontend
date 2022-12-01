@@ -261,10 +261,10 @@ const EditProfile = props => {
     reset({phone: ''});
 
     setPhone(prevstate =>
-      normalizeInput(get_user_detail_res.phone_no, prevstate),
+      normalizeInput(get_user_detail_res?.phone_no, prevstate),
     );
     let a = '';
-    for (var i = 0; i < get_user_detail_res.phone_no.length; i++) {
+    for (let i = 0; i < get_user_detail_res?.phone_no?.length; i++) {
       if (
         get_user_detail_res.phone_no[i] !== ' ' &&
         get_user_detail_res.phone_no[i] !== ')' &&
@@ -293,10 +293,10 @@ const EditProfile = props => {
     setValue('middle_name', get_user_detail_res?.middle_name);
     setValue('last_name', get_user_detail_res?.last_name);
     setValue('email', get_user_detail_res?.email);
-    setValue('gender_id', get_user_detail_res?.user_profile.gender_id);
+    setValue('gender_id', get_user_detail_res?.user_profile?.gender_id);
     setValue('dob', moment(get_user_detail_res?.dob).format('MMM DD, YYYY'));
     setValue('state_id', state_id);
-    setValue('zipcode', get_user_detail_res?.location.zipcode);
+    setValue('zipcode', get_user_detail_res?.location?.zipcode);
     setValue(
       'occupation',
       get_user_detail_res?.user_profile?.occupation === null

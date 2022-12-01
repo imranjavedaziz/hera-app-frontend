@@ -6,7 +6,9 @@ import styles from './style';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
 import Strings from '../../../constants/Strings';
-import Subscribe, {Subscribed} from '../../../components/dashboard/PtbProfile/subscribe';
+import Subscribe, {
+  Subscribed,
+} from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
@@ -24,7 +26,7 @@ import {
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
-import { getSubscriptionStatus } from '../../../redux/actions/Subsctiption';
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -40,7 +42,9 @@ const PtbProfile = () => {
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
-  const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription.subscription_status_res,
+  );
   const {
     get_user_detail_res,
     get_user_detail_success,
@@ -187,16 +191,20 @@ const PtbProfile = () => {
               />
             </View>
             <View>
-              {
-                typeof subscriptionStatus === "object" && typeof subscriptionStatus.data === "object" && subscriptionStatus.data?.status && !subscriptionStatus.data?.is_trial 
-                ?(<Subscribed/>)
-                :(
+              {typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                subscriptionStatus.data?.status &&
+                !subscriptionStatus.data?.is_trial && <Subscribed />}
+              {(typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                !subscriptionStatus.data?.status) ||
+                (subscriptionStatus.data?.is_trial && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}
                     InnerText={Strings.subscribe.Plans}
-                  />)
-              }
+                  />
+                ))}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
@@ -229,7 +237,7 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.information}
                 title={Strings.smSetting.AboutUs}
-                onPress={()=>openWebView(ABOUT_URL)}
+                onPress={() => openWebView(ABOUT_URL)}
               />
               <PtbAccount
                 leftIcon={Images.file}

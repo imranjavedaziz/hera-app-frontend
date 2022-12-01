@@ -48,7 +48,7 @@ import {BottomSheetComp} from '../../../components';
 import {getStates} from '../../../redux/actions/Register';
 import openWebView from '../../../utils/openWebView';
 import {useFocusEffect} from '@react-navigation/native';
-
+import _ from 'lodash';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -71,7 +71,7 @@ const SetPreference = ({route, navigation}) => {
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
-  const [stateRes, setStateRes] = useState();
+  const [stateRess, setStateRes] = useState();
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
   const [threeOption, setThreeOption] = useState([]);
@@ -82,14 +82,7 @@ const SetPreference = ({route, navigation}) => {
   );
   const SetloadingRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: {errors, isValid, isDirty},
-  } = useForm({
-    resolver: yupResolver(setPreferenceSchema),
-  });
+
   const {
     set_preference_success,
     set_preference_loading,
@@ -122,6 +115,15 @@ const SetPreference = ({route, navigation}) => {
       dispatch(SetPreferenceRes());
     }, [dispatch]),
   );
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: {errors, isValid, isDirty, dirtyFields},
+  } = useForm({
+    resolver: yupResolver(setPreferenceSchema),
+  });
+
   useEffect(() => {
     if (!isValid) {
       const e = errors;
@@ -129,11 +131,7 @@ const SetPreference = ({route, navigation}) => {
       Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
     }
   }, [errors, isValid, dispatch]);
-  useEffect(() => {
-    return navigation.addListener('focus', () => {
-      setValue('');
-    });
-  }, [navigation, setValue]);
+
   //GET STATE
   useEffect(() => {
     if (stateLoadingRef.current && !get_state_loading) {
@@ -164,18 +162,18 @@ const SetPreference = ({route, navigation}) => {
   }, [get_preference_success, get_preference_loading, get_preference_res]);
   //SETTER FIELDS
   const handelChange = async value => {
-    const HeightArr = get_preference_res?.height.split('-');
+    const HeightArr = get_preference_res?.height?.split('-');
     const education = set_preference_res?.education?.find(obj => {
       return obj.id === parseInt(get_preference_res?.education);
     });
     const raceJson =
       get_preference_res?.race !== undefined &&
       JSON.parse(get_preference_res?.race);
-    const race = set_preference_res?.race?.find(obj => {
-      return obj.id === parseInt(raceJson?.id);
-    });
     const location = get_state_res?.find(obj => {
       return obj.id === parseInt(get_preference_res?.state);
+    });
+    const race = set_preference_res?.race?.find(obj => {
+      return obj.id === parseInt(raceJson);
     });
     setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
     setValue(FormKey.location, location);
@@ -186,6 +184,7 @@ const SetPreference = ({route, navigation}) => {
     setValue(FormKey.hair, get_preference_res?.hair_colour);
     setValue(FormKey.eye, get_preference_res?.eye_colour);
   };
+
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
@@ -222,7 +221,9 @@ const SetPreference = ({route, navigation}) => {
       dispatch(showAppLoader());
       if (save_preference_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.PtbProfile);
+        EditPreferences === true
+          ? navigation.navigate(Routes.PtbProfile)
+          : navigation.navigate(Routes.PtbDashboard);
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
@@ -237,14 +238,13 @@ const SetPreference = ({route, navigation}) => {
       age: data.age_range,
       height:
         data?.height !== undefined ? data?.height.join('-') : height.join('-'),
-      race: data.race,
+      race: data.race?.id,
       education: data.education.id.toString(),
       hair_colour: data.hair,
       eye_colour: data.eye,
       ethnicity: '2,3',
       state: data.location?.id,
     };
-    console.log(value, 'datadata');
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
   };
@@ -298,17 +298,20 @@ const SetPreference = ({route, navigation}) => {
     );
     return true;
   };
+  const nav = () => {
+    if (_.isEmpty(dirtyFields)) {
+      navigation.navigate(Routes.PtbProfile);
+    } else {
+      Platform.OS === 'ios' ? backAction() : setShowModal(true);
+    }
+  };
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
         <View style={globalStyle.cancelbtn}>
           <TouchableOpacity
             onPress={() => {
-              isDirty === true
-                ? Platform.OS === 'ios'
-                  ? backAction()
-                  : setShowModal(true)
-                : navigation.navigate(Routes.PtbProfile);
+              nav();
             }}
             style={globalStyle.clearView}>
             <Text style={globalStyle.clearText}>
@@ -405,7 +408,7 @@ const SetPreference = ({route, navigation}) => {
                   defaultValue={value}
                   containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
                   label={Strings.preference.Location}
-                  data={stateRes}
+                  data={stateRess}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem);
@@ -481,6 +484,9 @@ const SetPreference = ({route, navigation}) => {
                       );
                     })}
                   </ScrollView>
+                  <Text style={styles.errMessage}>
+                    {errors && errors.age_range?.message}
+                  </Text>
                 </View>
               )}
               name={FormKey.age_range}
@@ -523,7 +529,7 @@ const SetPreference = ({route, navigation}) => {
                   label={Strings.preference.Race}
                   data={preferencesData?.race}
                   onSelect={(selectedItem, index) => {
-                    onChange(selectedItem.id);
+                    onChange(selectedItem);
                   }}
                   required={true}
                   error={errors && errors.race?.message}
@@ -578,6 +584,9 @@ const SetPreference = ({route, navigation}) => {
                         </View>
                       </TouchableOpacity>
                     ))}
+                  <Text style={styles.errMessage}>
+                    {errors && errors.hair?.message}
+                  </Text>
                 </View>
               )}
               name={FormKey.hair}
@@ -627,15 +636,26 @@ const SetPreference = ({route, navigation}) => {
                       </View>
                     </TouchableOpacity>
                   ))}
+                <Text style={styles.errMessage}>
+                  {errors && errors.eye?.message}
+                </Text>
               </View>
             )}
             name={FormKey.eye}
           />
-          <Button
-            label={Strings.preference.Save}
-            style={styles.Btn}
-            onPress={handleSubmit(onSubmit)}
-          />
+          {EditPreferences === true ? (
+            <Button
+              label={Strings.preference.SAVE_PREFERENCES}
+              style={styles.Btn2}
+              onPress={handleSubmit(onSubmit)}
+            />
+          ) : (
+            <Button
+              label={Strings.preference.Save}
+              style={styles.Btn}
+              onPress={handleSubmit(onSubmit)}
+            />
+          )}
         </View>
       </Container>
 
