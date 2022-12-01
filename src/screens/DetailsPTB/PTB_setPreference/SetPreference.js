@@ -37,7 +37,7 @@ import {
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import {logOut} from '../../../redux/actions/Auth';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
@@ -119,7 +119,7 @@ const SetPreference = ({route, navigation}) => {
     handleSubmit,
     control,
     setValue,
-    formState: {errors, isValid, isDirty, dirtyFields},
+    formState: {errors, isValid, dirtyFields},
   } = useForm({
     resolver: yupResolver(setPreferenceSchema),
   });
@@ -247,6 +247,7 @@ const SetPreference = ({route, navigation}) => {
     };
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
+    EditPreferences !== true && dispatch(updateRegStep());
   };
 
   const logOutScreen = () => {
