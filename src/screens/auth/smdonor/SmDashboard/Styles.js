@@ -44,6 +44,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     marginLeft: Value.CONSTANT_VALUE_8,
     opacity: 0.75,
+    width: 96,
   },
   profileFooter: {
     flexDirection: Alignment.ROW,
@@ -51,7 +52,8 @@ export default {
     alignSelf: Alignment.CENTER,
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_10,
+    // paddingTop: Value.CONSTANT_VALUE_10,
+    bottom: 10,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
   search: {},
@@ -109,12 +111,11 @@ export default {
     paddingBottom: Value.CONSTANT_VALUE_150,
   },
   loaderContainer: {
-    marginTop: Value.CONSTANT_VALUE_15,
     position: Alignment.ABSOLUTE,
-    top: height / Value.CONSTANT_VALUE_2,
+    top: height / 2.5,
     alignSelf: Alignment.CENTER,
-    width: Value.CONSTANT_VALUE_50,
-    height: Value.CONSTANT_VALUE_50,
+    width: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_40,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     borderRadius: Value.CONSTANT_VALUE_35,

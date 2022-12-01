@@ -80,7 +80,8 @@ export default {
     color: Colors.BLACK,
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_5,
+    // paddingTop: Value.CONSTANT_VALUE_5,
+    bottom: 10,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

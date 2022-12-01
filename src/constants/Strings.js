@@ -133,6 +133,7 @@ export default {
     SpermDonor: 'Sperm Donor',
     lookingFor: 'Who are you looking for?',
     Save: 'SAVE',
+    SaveNewPassword: 'SAVE NEW PASSWORD',
     Ethnicity: 'Ethnicity',
     Race: 'Race',
     Location: 'Location',
