@@ -95,6 +95,7 @@ export default {
     Code: 'Code',
     MobileNumber: MOBILE_CONST,
     VERIFY: 'VERIFY',
+    SEND_VERIFY: 'SEND VERIFICATION CODE',
     mainTitle: 'Before we proceed,\n please verify your number',
   },
   forgotPassword: {
@@ -314,6 +315,8 @@ export default {
     Settings: 'Settings',
     Inquiry: 'Support',
     AboutUs: 'About Us',
+    Terms: 'Terms Of Use',
+    Privacy: 'Privacy Policy',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
     RemoveVideo: 'REMOVE VIDEO',

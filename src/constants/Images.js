@@ -52,6 +52,8 @@ export default {
   greenIconLike: require('../assets/icons/greenIconLike/icon_like.png'),
   shadowIconNotLike: require('../assets/icons/shadowIconNotLike/icon_notlike.png'),
   defaultProfile: require('../assets/icons/default-profile/default-profile.png'),
+  file: require('../assets/icons/file/file.png'),
+  sheild: require('../assets/icons/sheild/sheild.png'),
   // IMAGES
   LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
   LOGO: require('../assets/Images/logo/logo.png'),

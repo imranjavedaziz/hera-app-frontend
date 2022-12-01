@@ -23,7 +23,7 @@ import {
   getSubscriptionPlan,
   getSubscriptionStatus,
 } from '../../../../redux/actions/Subsctiption';
-import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
+import { hideAppLoader, showAppLoader, showAppToast } from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
@@ -148,6 +148,10 @@ const Subscription = props => {
   }, []);
 
   const subscribePlan = (item, type) => {
+    if(item===null){
+      dispatch(showAppToast(true,'Please choose a plan!'));
+      return;
+    }
     dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
