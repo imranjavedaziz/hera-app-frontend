@@ -71,7 +71,7 @@ const SetPreference = ({route, navigation}) => {
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
-  const [stateRes, setStateRes] = useState();
+  const [stateRess, setStateRes] = useState();
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
   const [threeOption, setThreeOption] = useState([]);
@@ -162,7 +162,7 @@ const SetPreference = ({route, navigation}) => {
   }, [get_preference_success, get_preference_loading, get_preference_res]);
   //SETTER FIELDS
   const handelChange = async value => {
-    const HeightArr = get_preference_res?.height.split('-');
+    const HeightArr = get_preference_res?.height?.split('-');
     const education = set_preference_res?.education?.find(obj => {
       return obj.id === parseInt(get_preference_res?.education);
     });
@@ -172,15 +172,19 @@ const SetPreference = ({route, navigation}) => {
     const location = get_state_res?.find(obj => {
       return obj.id === parseInt(get_preference_res?.state);
     });
+    const race = set_preference_res?.race?.find(obj => {
+      return obj.id === parseInt(raceJson);
+    });
     setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
     setValue(FormKey.location, location);
     setValue(FormKey.education, education);
     setValue(FormKey.age_range, get_preference_res?.age);
     setHeight(HeightArr);
-    setValue(FormKey.race, raceJson);
+    setValue(FormKey.race, race);
     setValue(FormKey.hair, get_preference_res?.hair_colour);
     setValue(FormKey.eye, get_preference_res?.eye_colour);
   };
+
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
@@ -301,7 +305,6 @@ const SetPreference = ({route, navigation}) => {
       Platform.OS === 'ios' ? backAction() : setShowModal(true);
     }
   };
-  console.log(isDirty,'isDirtyIsdtiry');
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
@@ -405,7 +408,7 @@ const SetPreference = ({route, navigation}) => {
                   defaultValue={value}
                   containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
                   label={Strings.preference.Location}
-                  data={stateRes}
+                  data={stateRess}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem);
