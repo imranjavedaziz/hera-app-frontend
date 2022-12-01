@@ -264,7 +264,7 @@ const EditProfile = props => {
       normalizeInput(get_user_detail_res.phone_no, prevstate),
     );
     let a = '';
-    for (const i = 0; i < get_user_detail_res.phone_no.length; i++) {
+    for (let i = 0; i < get_user_detail_res.phone_no.length; i++) {
       if (
         get_user_detail_res.phone_no[i] !== ' ' &&
         get_user_detail_res.phone_no[i] !== ')' &&
