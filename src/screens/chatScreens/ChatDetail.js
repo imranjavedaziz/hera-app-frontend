@@ -35,6 +35,12 @@ const ChatDetail = props => {
   );
 
   const dispatch = useDispatch();
+  useEffect(()=>{
+    if(parseInt(props?.route?.params?.item?.recieverSubscription) ===
+    0 && user.role_id!==2){
+      dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
+    }
+  },[props.route.params])
   const renderActions = message => {
     return (
       <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
@@ -46,7 +52,7 @@ const ChatDetail = props => {
   };
   useEffect(()=>{
     if(subscriptionStatus && subscriptionStatus.data){
-      if(!subscriptionStatus.data.status){
+      if(!subscriptionStatus?.data.status){
         dispatch(showAppToast(true,subscriptionStatus.data.is_trial?Strings.Subscription.TrailOver:Strings.Subscription.SubscriptionExpired));
       }
     }
@@ -295,13 +301,15 @@ const ChatDetail = props => {
                 : false
             }
             onPress={() => navigateDetailScreen()}>
-            <>
+            <View style={[styles.topContainer,parseInt(props?.route?.params?.item?.recieverSubscription) ===
+                0?{alignItems: 'center'}:null]}>
               <View style={styles.avatar}>
                 <Image
                   source={
                     parseInt(props?.route?.params?.item?.currentRole) === 1
                       ? Images.ADMIN_ICON
-                      : {uri: props.route.params.item.recieverImage}
+                      : (parseInt(props?.route?.params?.item?.recieverSubscription) ===
+                      0?Images.defaultProfile:{uri: props.route.params.item.recieverImage})
                   }
                   style={styles.avatar}
                 />
@@ -346,7 +354,7 @@ const ChatDetail = props => {
                   </>
                 )}
               </View>
-            </>
+            </View>
           </TouchableOpacity>
           <View />
         </View>

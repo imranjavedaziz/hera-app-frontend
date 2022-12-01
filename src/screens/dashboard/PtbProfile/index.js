@@ -6,7 +6,9 @@ import styles from './style';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
 import Strings from '../../../constants/Strings';
-import Subscribe, {Subscribed} from '../../../components/dashboard/PtbProfile/subscribe';
+import Subscribe, {
+  Subscribed,
+} from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
@@ -16,8 +18,15 @@ import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
 import {getEditProfile} from '../../../redux/actions/Edit_profile';
-import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
+import {getUserGallery} from '../../../redux/actions/CreateGallery';
+import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -27,22 +36,35 @@ const PtbProfile = () => {
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [name, setName] = useState('');
+  const [avaiableVideo, setVideoAviable] = useState(false);
+
   const GetLoadingRef = useRef(false);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
-  const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription.subscription_status_res,
+  );
   const {
     get_user_detail_res,
     get_user_detail_success,
     get_user_detail_loading,
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
+  const {gallery_data} = useSelector(state => state.CreateGallery);
+
   useFocusEffect(
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
+      dispatch(getSubscriptionStatus());
+      dispatch(getUserGallery());
+      videoAvaible();
     }, [dispatch]),
+  );
+  const LogoutLoadingRef = useRef(false);
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
   );
   //GET USER DETAIL
   useFocusEffect(
@@ -67,7 +89,6 @@ const PtbProfile = () => {
       leftPress={() => navigation.navigate(Routes.PtbDashboard)}
     />
   );
-  console.log(get_user_detail_res, 'get_user_detail_res');
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
@@ -105,27 +126,47 @@ const PtbProfile = () => {
     setOpen(false);
     setFile(image);
   };
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      } else {
+        dispatch(showAppToast(true, log_out_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
 
-  console.log('file', file);
   useEffect(() => {
     return navigation.addListener('focus', () => {});
   }, [navigation]);
   useEffect(() => {
     const reqData = new FormData();
-    {
-      file !== null &&
-        reqData.append('file', {
-          name: 'name',
-          type: file.mime,
-          uri: file.path,
-        });
-      dispatch(updateProfileImg(reqData));
-    }
+    file !== null &&
+      reqData.append('file', {
+        name: 'name',
+        type: file.mime,
+        uri: file.path,
+      });
+    dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
+    dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
+  const videoAvaible = () => {
+    if (_.isEmpty(gallery_data)) {
+      setVideoAviable(true);
+    } else {
+      setVideoAviable(false);
+    }
+  };
+
   return (
     <>
       <View style={styles.flex}>
@@ -150,21 +191,23 @@ const PtbProfile = () => {
               />
             </View>
             <View>
-              {
-                subscriptionStatus.data.status && !subscriptionStatus.data.is_trial && (<Subscribed/>)
-              }
-              {
-                !subscriptionStatus.data.status || subscriptionStatus.data.is_trial && (
+              {typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                subscriptionStatus.data?.status &&
+                !subscriptionStatus.data?.is_trial && <Subscribed />}
+              {(typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                !subscriptionStatus.data?.status) ||
+                (subscriptionStatus.data?.is_trial && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}
                     InnerText={Strings.subscribe.Plans}
-                  />)
-              }
+                  />
+                ))}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
-                BlueDot
                 onPress={() =>
                   navigation.navigate('SetPreference', {EditPreferences: true})
                 }
@@ -172,7 +215,7 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.video}
                 title={Strings.smSetting.AddVideo}
-                BlueDot
+                BlueDot={avaiableVideo === true ? true : false}
                 onPress={() => navigation.navigate(Routes.MyVideo)}
               />
               <PtbAccount
@@ -194,7 +237,7 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.information}
                 title={Strings.smSetting.AboutUs}
-                onPress={()=>openWebView(ABOUT_URL)}
+                onPress={() => openWebView(ABOUT_URL)}
               />
             </View>
             <View style={styles.buttoncontainer}>

@@ -55,7 +55,7 @@ export default {
   },
   fixedheaderStyle: {
     marginRight: Value.CONSTANT_VALUE_20,
-    marginTop: Value.CONSTANT_VALUE_54,
+    marginTop: Value.CONSTANT_VALUE_45,
   },
   paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
   centeredView: {

@@ -34,6 +34,7 @@ export default {
   containerView: {
     marginBottom: -40,
     marginHorizontal: scaleWidth(37),
+    backgroundColor: Colors.BACKGROUND,
   },
   label: {
     position: Alignment.ABSOLUTE,
@@ -146,6 +147,11 @@ export default {
   Btn: {
     height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
+    marginTop: 26,
+    marginBottom: 78,
+  },
+  Btn2: {
+    height: Value.CONSTANT_VALUE_80,
     marginTop: 26,
     marginBottom: 78,
   },

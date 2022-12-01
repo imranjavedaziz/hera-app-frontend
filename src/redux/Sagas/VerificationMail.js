@@ -14,7 +14,7 @@ import {verifyEmail, sendVerificationMail} from '../../Api';
 function* verifyMail(payload) {
   try {
     const result = yield verifyEmail(payload.data);
-    if (result?.data?.data?.access_token) {
+    if (result?.data?.message) {
       yield put({type: VERIFY_MAIL_SUCCESS, data: result});
     } else {
       yield put({type: VERIFY_MAIL_FAIL, data: {msg: result.data.message}});
@@ -28,10 +28,10 @@ export function* watchVerifyMail() {
 }
 
 //Send Email Verification
-function* sendMailVerification(payload) {
+function* sendMailVerification() {
   try {
-    const result = yield sendVerificationMail(payload.data);
-    if (result?.data?.data?.access_token) {
+    const result = yield sendVerificationMail();
+    if (result?.data?.data) {
       yield put({type: SEND_VERIFICATION_MAIL_SUCCESS, data: result});
     } else {
       yield put({

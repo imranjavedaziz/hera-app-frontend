@@ -76,7 +76,6 @@ const DeleteAccount = () => {
     dispatch(showAppLoader());
     dispatch(deleteAccount(password));
   };
-
   return (
     <View style={styles.upperContainer}>
       <Header end={true}>{headerComp()}</Header>
@@ -113,7 +112,7 @@ const DeleteAccount = () => {
                           required={true}
                           secureTextEntry={!show}
                           minLength={8}
-                          error={errors && errors.password?.message}
+                          error={errors && errors.current_password?.message}
                           endComponent={() => (
                             <TouchableOpacity
                               onPress={() => setShow(!show)}

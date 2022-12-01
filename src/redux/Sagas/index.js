@@ -21,7 +21,11 @@ import {
 } from './SetPreference';
 import {watchGetUserGallery, watchDeleteUserGallery} from './CreateGallery';
 import {watchGetPtbDashboard} from './PtbDashboard';
-import {watchSetAttribute, watchSaveAttributeRes} from './SetAttribute';
+import {
+  watchSetAttribute,
+  watchSaveAttributeRes,
+  watchGetUserAttribute,
+} from './SetAttribute';
 import {watchGetDonorDashboard} from './DonorDashboard';
 import {watchGetPtbProfileDetail, watchsendLikePtb} from './PtbProfileDetail';
 import {watchSmDonorDetail} from './SmDonerDetail';
@@ -34,7 +38,7 @@ import {
 } from './Subscription';
 import {watchGetFeedback, watchGetSendNotification} from './Chat';
 import {watchDeleteAccount} from './DeleteAccount';
-import {watchVerifyMail,watchSendMailVerification} from './VerificationMail'
+import {watchVerifyMail, watchSendMailVerification} from './VerificationMail';
 import {watchGetEditProfile, watchUpdateEditProfile} from './Edit_profile';
 import {
   watchDeactivateAccount,
@@ -81,5 +85,6 @@ export default function* rootSaga() {
     fork(watchgetPreference),
     fork(watchDeactivateAccount),
     fork(watchGetDeactivateReason),
+    fork(watchGetUserAttribute),
   ]);
 }

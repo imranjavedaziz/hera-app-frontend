@@ -50,7 +50,6 @@ const Subscription = props => {
   const { create_subscription_success, create_subscription_loading } =
     useSelector(state => state.Subscription);
 
-  console.log("purchasereceipt STATE LINE 50", purchasereceipt);
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
@@ -71,7 +70,6 @@ const Subscription = props => {
     if (loadingRef.current && !create_subscription_loading) {
       dispatch(showAppLoader());
       if (create_subscription_success) {
-        console.log('create_subscription_success', create_subscription_success);
         dispatch(getSubscriptionStatus())
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
@@ -101,18 +99,15 @@ const Subscription = props => {
   };
 
   React.useEffect(() => {
-    console.log('LINE NO 88 RECeIPT');
     purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
       async purchase => {
         const receipt = purchase.transactionReceipt;
-        console.log('LINE NO 88 RECeIPT', receipt);
         setPurchaseReceipt(purchase);
         if (receipt) {
           try {
             purchaseAPI(purchase);
             await RNIap.finishTransaction({ purchase, isConsumable: true });
             if (Platform.OS === 'ios') {
-              console.log('LINE NO 90 PURCHAASE', purchase);
             } else if (Platform.OS === 'android') {
               await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
             }
@@ -137,19 +132,16 @@ const Subscription = props => {
     };
   }, []);
   const purchaseAPI = item => {
-    console.log('LINE NO 139', item);
     let payload = {
       device_type: Platform.OS === 'android' ? 'android' : 'ios',
       product_id: item?.productId,
       purchase_token: item?.transactionReceipt,
     };
-    console.log('LINE NO 144 PAYLOAD', payload);
     dispatch(createSubscription(payload));
   };
   React.useEffect(async () => {
     IAPService.initializeConnection();
     const allProducts = await IAPService.getIAPProducts();
-    console.log('ALL PRODUCT ID LINE NO 58', allProducts);
     return () => {
       IAPService.endIAPConnection();
     };
@@ -158,7 +150,6 @@ const Subscription = props => {
   const subscribePlan = (item, type) => {
     dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
-      console.log('LINE 139 PRINT', selectCheckBox);
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
     } else {
       requestSubscriptionAndroid(
@@ -170,7 +161,6 @@ const Subscription = props => {
   };
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
-    console.log('IAP req android', sku);
     try {
       await RNIap.requestPurchase({ sku })
         .then(async result => {
@@ -199,7 +189,6 @@ const Subscription = props => {
       console.warn(`err ${error.code}`, error.message);
     }
   };
-  console.log('LINE NO 200', subscriptionPlan?.data);
   return (
     <>
       <Container

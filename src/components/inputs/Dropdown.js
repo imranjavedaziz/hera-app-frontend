@@ -40,7 +40,6 @@ const Dropdown = ({
     };
     return previousValue();
   }, [defaultValue, isCome]);
-  console.log(defaultValue, 'defaultValuedefaultValue');
   useEffect(() => {
     return navigation.addListener('focus', () => {
       setCome(true);
@@ -150,7 +149,7 @@ const Dropdown = ({
             </Text>
             <SelectDropdown
               data={data}
-              defaultValue={value?.name}
+              defaultValue={value}
               selectIndex={selectIndex}
               defaultButtonText={value?.name}
               onSelect={(selectedItem, index) => {

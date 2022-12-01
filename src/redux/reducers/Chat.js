@@ -21,7 +21,6 @@ const initState = {
 };
 
 export default (state = initState, action) => {
-  console.log(action.data, 'payload', action.type, 'type');
   switch (action.type) {
     case PREPEND_CHAT:
       return {

@@ -1,6 +1,7 @@
 import { Colors, Alignment } from '../../../constants';
 import { Value, Prencentage } from '../../../constants/FixedValues';
 import { Fonts } from '../../../constants/Constants';
+import { dynamicSize } from '../../../utils/responsive';
 
 export default {
   main: {paddingHorizontal: 40, marginTop: Value.CONSTANT_VALUE_54},
@@ -156,8 +157,8 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_54,
-    marginRight: Value.CONSTANT_VALUE_20,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   align: {alignItems: 'center'},
 };

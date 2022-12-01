@@ -41,11 +41,8 @@ import {
   getEditProfile,
   updateEditProfile,
 } from '../../../redux/actions/Edit_profile';
-import {
-  sendVerificationMail
-} from '../../../redux/actions/VerificationMail';
+import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
-import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -89,14 +86,39 @@ const EditProfile = props => {
     update_user_detail_res,
   } = useSelector(state => state.Edit_profile);
   const {
+    send_verification_success,
+    send_verification_loading,
+    send_verification_error_msg,
+    send_verification_res,
+  } = useSelector(state => state.VerificationMail);
+  const {
     handleSubmit,
     control,
     reset,
     setValue,
-    formState: {errors},
+    formState: {errors, isDirty},
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
+  useEffect(() => {
+    if (loadingRef.current && !send_verification_loading) {
+      dispatch(showAppLoader());
+      if (send_verification_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, send_verification_res.message));
+        navigation.navigate(Routes.OTP, {type: 3});
+      }
+      if (send_verification_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingRef.current = send_verification_loading;
+  }, [
+    send_verification_success,
+    send_verification_loading,
+    send_verification_res,
+    send_verification_error_msg,
+  ]);
   // UPDATE DETAIL
   useEffect(() => {
     if (UpdateLoadingRef.current && !update_user_detail_loading) {
@@ -104,12 +126,14 @@ const EditProfile = props => {
       if (update_user_detail_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, update_user_detail_res));
-        props.route?.params?.smProfile
-          ? navigation.navigate(Routes.SmSetting)
-          : navigation.navigate(Routes.PtbProfile);
-      }
-      if (update_user_detail__error_msg) {
+        setTimeout(() => {
+          props.route?.params?.smProfile
+            ? navigation.navigate(Routes.SmSetting)
+            : navigation.navigate(Routes.PtbProfile);
+        }, 1000);
+      } else {
         dispatch(hideAppLoader());
+        dispatch(showAppToast(true, update_user_detail__error_msg));
       }
     }
     UpdateLoadingRef.current = update_user_detail_loading;
@@ -131,7 +155,7 @@ const EditProfile = props => {
     }
     loadingRef.current = get_state_loading;
   }, [get_state_loading, get_state_success]);
-
+  console.log(control, 'controller');
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {
@@ -194,16 +218,23 @@ const EditProfile = props => {
     return true;
   };
   const headerComp = () => (
-    <TouchableOpacity
-      style={styles.header}
-      onPress={() => {
-        Platform.OS === 'ios' ? backAction() : setShowModal(true);
-      }}>
-      <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
-    </TouchableOpacity>
+    <View style={styles.cancelbtn}>
+      <TouchableOpacity
+        onPress={() => {
+          isDirty === true
+            ? Platform.OS === 'ios'
+              ? backAction()
+              : setShowModal(true)
+            : props.route?.params?.smProfile
+            ? navigation.navigate(Routes.SmSetting)
+            : navigation.navigate(Routes.PtbProfile);
+        }}
+        style={styles.clearView}>
+        <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>
+      </TouchableOpacity>
+    </View>
   );
   const normalizeInput = (value, previousValue) => {
-    console.log(value, previousValue);
     const deleting = previousValue && previousValue.length > value?.length;
     if (deleting) {
       return value;
@@ -233,7 +264,7 @@ const EditProfile = props => {
       normalizeInput(get_user_detail_res.phone_no, prevstate),
     );
     let a = '';
-    for (var i = 0; i < get_user_detail_res.phone_no.length; i++) {
+    for (const i = 0; i < get_user_detail_res.phone_no.length; i++) {
       if (
         get_user_detail_res.phone_no[i] !== ' ' &&
         get_user_detail_res.phone_no[i] !== ')' &&
@@ -254,7 +285,7 @@ const EditProfile = props => {
           obj.id === get_user_detail_res?.user_profile?.relationship_status_id
         );
       });
-    const state_id = get_state_res.find(obj => {
+    const state_id = get_state_res?.find(obj => {
       return obj.id === get_user_detail_res?.location?.state_id;
     });
     setValue('phone', a);
@@ -297,20 +328,21 @@ const EditProfile = props => {
       state_id: data?.state_id?.id ? data?.state_id?.id : data?.state_id,
       zipcode: data?.zipcode,
     };
-
-    console.log(data, 'data:neww:::::');
     dispatch(updateEditProfile(payload));
   };
   const onPressVerify = () => {
     dispatch(sendVerificationMail());
-    console.log('verifyEmail');
   };
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.flex}>
+        keyboardShouldPersistTaps="handled"
+        resetScrollToCoords={{x: 0, y: 10}}
+        keyboardOpeningTime={0}
+        scrollEnabled={true}
+        extraHeight={180}
+        showsVerticalScrollIndicator={false}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.mainContainer}>
@@ -366,7 +398,9 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
-                    verifyEmail={get_user_detail_res?.email_verified === 0 ? true : false}
+                    verifyEmail={
+                      get_user_detail_res?.email_verified === 0 ? true : false
+                    }
                     label={Strings.profile.EmailAddress}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -527,15 +561,18 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <MultiTextInput
-                    containerStyle={{marginTop: Value.CONSTANT_VALUE_30}}
                     title={Strings.sm_basic.Bio}
                     required={true}
                     value={value}
-                    maxLength={250}
+                    maxLength={251}
                     onChangeText={v => {
                       onChange(v);
                     }}
-                    error={errors && errors.bio?.message}
+                    error={
+                      (value?.length > 250 &&
+                        'You have reached 250 characters limit.') ||
+                      (errors && errors.bio?.message)
+                    }
                   />
                 )}
                 name="bio"
@@ -543,7 +580,7 @@ const EditProfile = props => {
               <View style={styles.btnView}>
                 <Button
                   style={styles.Btn}
-                  label={Strings.sm_basic.Save}
+                  label={Strings.sm_basic.SAVE_PROFILE}
                   onPress={handleSubmit(onSubmit)}
                 />
               </View>

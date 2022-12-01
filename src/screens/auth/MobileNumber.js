@@ -47,7 +47,11 @@ const MobileNumber = ({route}) => {
       dispatch(showAppLoader());
       if (mobile_number_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.OTP, {isRouteData,type,register_user_success_data});
+        navigation.navigate(Routes.OTP, {
+          isRouteData,
+          type,
+          register_user_success_data,
+        });
       }
       if (mobile_number_error_msg) {
         dispatch(hideAppLoader());
@@ -61,7 +65,7 @@ const MobileNumber = ({route}) => {
     const payload = {
       country_code: ConstantsCode.Country_CODE,
       phone_no: data.phone,
-      type
+      type,
     };
     setIsRouteData(payload);
     dispatch(showAppLoader());
@@ -72,7 +76,7 @@ const MobileNumber = ({route}) => {
     <CircleBtn
       icon={Images.iconcross}
       Fixedstyle={{
-        marginTop: Value.CONSTANT_VALUE_54,
+        marginTop: Value.CONSTANT_VALUE_45,
         alignItems: Alignment.FLEXEND,
         marginRight: Value.CONSTANT_VALUE_20,
       }}
@@ -109,7 +113,7 @@ const MobileNumber = ({route}) => {
 
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
-    for (var i = 0; i < value.length; i++) {
+    for (const i = 0; i < value.length; i++) {
       if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
         a = a + value[i];
       }
@@ -134,12 +138,18 @@ const MobileNumber = ({route}) => {
             style={{
               alignItems: Alignment.CENTER,
               justifyContent: Alignment.CENTER,
-              marginTop: Value.CONSTANT_VALUE_104,
+              marginTop: Value.CONSTANT_VALUE_95,
             }}>
             <Text style={styles.screenTitle}>
-            {type===1?Strings.mobile.AccountVerification:Strings.forgotPassword.forgot}
+              {type === 1
+                ? Strings.mobile.AccountVerification
+                : Strings.forgotPassword.forgot}
             </Text>
-            <Text style={styles.mainTitle}>{type===1?Strings.mobile.mainTitle:Strings.forgotPassword.title}</Text>
+            <Text style={styles.mainTitle}>
+              {type === 1
+                ? Strings.mobile.mainTitle
+                : Strings.forgotPassword.title}
+            </Text>
           </View>
           <View style={styles.inputRow}>
             <InputLabel Code={true} label={Strings.mobile.Code} />

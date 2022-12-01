@@ -10,7 +10,7 @@ export default {
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
-    paddingHorizontal: Value.CONSTANT_VALUE_25,
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
   headingContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_16),

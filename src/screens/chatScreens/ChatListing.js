@@ -12,6 +12,7 @@ import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
+import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import _ from 'lodash';
 import {deviceHandler} from '../../utils/commonFunction';
@@ -87,21 +88,16 @@ const ChatListing = props => {
   function getChatDate(unixTimeStamp) {
     const timeAgo = moment(unixTimeStamp).local().startOf('seconds').fromNow();
     const timeAgoArray = timeAgo.split(' ');
-    const isString = timeAgoArray[1].match(/^[A-Za-z]+$/);
-    console.log(timeAgoArray[1], 'timeAgoArray', isString, 'isString');
     let date = new Date(unixTimeStamp);
-    let dateForSec = new Date(unixTimeStamp * 1000);
-    let minutesForSec = dateForSec.getSeconds();
     let today = new Date();
     let formattedDate = dateFormate(date);
     let todayDate = dateFormate(today);
     let yesterdayDate = new Date(new Date().getTime());
     yesterdayDate.setDate(new Date().getDate() - 1);
     let yesterday = dateFormate(yesterdayDate);
-    let month = today.toLocaleString('default', {month: 'short'});
-    let dateName = today.getDate();
     let day;
-    console.log(minutesForSec, 'minutesForSec');
+    let defaultDate = moment(date).format('MMM Do');
+
     switch (true) {
       case timeAgoArray[1] === 'few':
         day = 'Just Now';
@@ -114,7 +110,7 @@ const ChatListing = props => {
         break;
 
       default:
-        day = month + ' ' + dateName;
+        day = defaultDate;
     }
     return day;
   }
@@ -139,7 +135,7 @@ const ChatListing = props => {
             }
             onPress={() =>
               navigation.navigate(Routes.ChatDetail, {
-                item: item,
+                item,
                 isComingFrom: false,
               })
             }
