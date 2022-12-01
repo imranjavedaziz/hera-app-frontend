@@ -3,7 +3,7 @@ import axios from 'axios';
 import {api_url} from '../constants/Constants';
 import {store} from '../redux/store';
 import {showAppToast} from '../redux/actions/loader';
-import {updateToken,signoutUser} from '../redux/actions/Auth';
+import {updateToken, signoutUser} from '../redux/actions/Auth';
 import ApiPath from '../constants/ApiPath';
 import {navigateOnLanding} from '../redux/actions/NavigationOnLanding';
 
@@ -47,7 +47,10 @@ axiosRequest.interceptors.response.use(
       return axiosRequest(originalRequest);
     } else if (error.response.status === 404 && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
-    } else if ((error.response.status === 402 || error.response.status === 403) && error.response.data.message) {
+    } else if (
+      (error.response.status === 402 || error.response.status === 403) &&
+      error.response.data.message
+    ) {
       store.dispatch(showAppToast(true, error.response.data.message));
       store.dispatch(signoutUser());
     } else if (error.response.status === 417 && error.response.data.message) {
