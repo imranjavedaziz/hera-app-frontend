@@ -204,6 +204,15 @@ const OTP = ({route}) => {
       dispatch(sendVerificationMail());
     }
   }
+  const getScreenTitle = ()=>{
+    if(type === 1){
+      return Strings.otp.title;
+    }
+    else if(type === 2){
+      return Strings.forgotPassword.forgot;
+    }
+    return Strings.otp.titleEmail;
+  }
   return (
     <View
       style={{
@@ -222,7 +231,7 @@ const OTP = ({route}) => {
                 {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_95},
               ]}>
               <Text style={globalStyle.screenTitle}>
-                {type === 1 ? Strings.otp.title : Strings.forgotPassword.forgot}
+                {getScreenTitle()}
               </Text>
               <View
                 style={{}}
@@ -238,7 +247,7 @@ const OTP = ({route}) => {
                   style={globalStyle.screenSubTitle}
                   accessible={false}
                   numberOfLines={1}>
-                  {Strings.otp.subtitle2}
+                  {type===1 || type === 2 ? Strings.otp.subtitle2 : Strings.otp.subtitle3}
                 </Text>
               </View>
               <View style={styles.errMsg}>
@@ -264,7 +273,7 @@ const OTP = ({route}) => {
                     marginTop: 20,
                   }}>
                   <Button
-                    label={Strings.otp.Btn}
+                    label={type===3?Strings.otp.Btn3:Strings.otp.Btn}
                     onPress={handleSubmit(onSubmit)}
                   />
                   <View
