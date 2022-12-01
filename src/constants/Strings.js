@@ -95,6 +95,7 @@ export default {
     Code: 'Code',
     MobileNumber: MOBILE_CONST,
     VERIFY: 'VERIFY',
+    SEND_VERIFY: 'SEND VERIFICATION CODE',
     mainTitle: 'Before we proceed,\n please verify your number',
   },
   forgotPassword: {
