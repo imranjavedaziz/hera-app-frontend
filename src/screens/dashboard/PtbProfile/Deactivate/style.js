@@ -9,8 +9,8 @@ import {
 import {Fonts} from '../../../../constants/Constants';
 export default {
   upperContainer: {
-    flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
+    flex: Value.CONSTANT_VALUE_1,
   },
   mainContainer: {
     backgroundColor: Colors.BACKGROUND_WHOLE,
@@ -22,22 +22,22 @@ export default {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerText: {
+    color: 'rgb(255,69,68)',
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     marginRight: Value.CONSTANT_VALUE_30,
     letterSpacing: 0,
-    color: 'rgb(255,69,68)',
   },
   headingContainer: {
-    alignItems: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
+    alignItems: Alignment.CENTER,
   },
   AccountVerify: {
+    textAlign: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_11),
     letterSpacing: Value.CONSTANT_VALUE_2_84,
-    textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
   innerHeading: {
@@ -45,10 +45,10 @@ export default {
     alignItems: Alignment.CENTER,
   },
   setANew: {
+    textAlign: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     letterSpacing: Value.CONSTANT_VALUE_0,
-    textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
   innerContainer: {
@@ -56,8 +56,8 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
   psswrdInput: {
-    alignSelf: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_5,
+    alignSelf: Alignment.CENTER,
     paddingBottom: Value.CONSTANT_VALUE_1,
   },
   buttonContainer: {

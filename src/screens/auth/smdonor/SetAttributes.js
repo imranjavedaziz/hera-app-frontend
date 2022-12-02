@@ -276,9 +276,9 @@ const SetAttributes = ({route}) => {
     setValue('education_id', education_id);
   };
 
-  const headerComp = () => (
-    <>
-      {EditAttributes === true ? (
+  const headerComp = () => {
+    if(EditAttributes){
+      return (
         <View style={globalStyle.cancelbtn}>
           <TouchableOpacity
             onPress={() => {
@@ -294,31 +294,32 @@ const SetAttributes = ({route}) => {
             </Text>
           </TouchableOpacity>
         </View>
-      ) : (
-        <>
-          <CircleBtn
-            icon={Images.iconSettings}
-            onPress={() => {
-              Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
-            }}
-            Fixedstyle={{
-              marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
-              marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
-            }}
-          />
-          <ActionSheet
-            ref={actionSheet}
-            options={threeOption}
-            destructiveButtonIndex={2}
-            cancelButtonIndex={2}
-            onPress={index => {
-              handleThreeOption(threeOption[index]);
-            }}
-          />
-        </>
-      )}
-    </>
-  );
+      )
+    }
+    return (
+      <>
+        <CircleBtn
+          icon={Images.iconSettings}
+          onPress={() => {
+            Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
+          }}
+          Fixedstyle={{
+            marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
+            marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
+          }}
+        />
+        <ActionSheet
+          ref={actionSheet}
+          options={threeOption}
+          destructiveButtonIndex={2}
+          cancelButtonIndex={2}
+          onPress={index => {
+            handleThreeOption(threeOption[index]);
+          }}
+        />
+      </>
+    )
+  };
 
   const logOutScreen = () => {
     dispatch(logOut());

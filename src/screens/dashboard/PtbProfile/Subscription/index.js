@@ -35,7 +35,7 @@ const Subscription = props => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
-  const [purchasereceipt, setPurchaseReceipt] = React.useState(null);
+  const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
   const IAPService = InAPPPurchase.getInstance();
   let purchaseUpdateSubscription = null;
   let purchaseErrorSubscription = null;
@@ -107,8 +107,7 @@ const Subscription = props => {
           try {
             purchaseAPI(purchase);
             await RNIap.finishTransaction({ purchase, isConsumable: true });
-            if (Platform.OS === 'ios') {
-            } else if (Platform.OS === 'android') {
+            if (Platform.OS === 'android') {
               await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
             }
           } catch (ackErr) {
@@ -141,7 +140,6 @@ const Subscription = props => {
   };
   React.useEffect(async () => {
     IAPService.initializeConnection();
-    const allProducts = await IAPService.getIAPProducts();
     return () => {
       IAPService.endIAPConnection();
     };
