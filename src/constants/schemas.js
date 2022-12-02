@@ -265,7 +265,7 @@ export const changePasswordSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
@@ -292,7 +292,7 @@ export const forgetPasswordSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
