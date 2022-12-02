@@ -63,6 +63,10 @@ export default {
     marginTop: Value.CONSTANT_VALUE_40,
     justifyContent: Alignment.SPACE_BETWEEN,
   },
+  headerIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
   text: {
     marginLeft: Value.CONSTANT_VALUE_18,
     fontSize: Value.CONSTANT_VALUE_16,

@@ -12,7 +12,12 @@ import Subscribe, {
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
-import {Routes, ABOUT_URL, TERMS_OF_USE_URL,PRIVACY_URL} from '../../../constants/Constants';
+import {
+  Routes,
+  ABOUT_URL,
+  TERMS_OF_USE_URL,
+  PRIVACY_URL,
+} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
@@ -27,6 +32,7 @@ import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
+import {getRoleType} from '../../../utils/other';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -82,6 +88,7 @@ const PtbProfile = () => {
       GetLoadingRef.current = get_user_detail_loading;
     }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
   );
+  console.log('get_user_detail_res', get_user_detail_res);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -184,6 +191,7 @@ const PtbProfile = () => {
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
+                roleId={getRoleType(name?.role_id)}
                 source={{
                   uri: profileImg,
                 }}
@@ -241,12 +249,12 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.file}
                 title={Strings.smSetting.Terms}
-                onPress={()=>openWebView(TERMS_OF_USE_URL)}
+                onPress={() => openWebView(TERMS_OF_USE_URL)}
               />
               <PtbAccount
                 leftIcon={Images.sheild}
                 title={Strings.smSetting.Privacy}
-                onPress={()=>openWebView(PRIVACY_URL)}
+                onPress={() => openWebView(PRIVACY_URL)}
               />
             </View>
             <View style={styles.buttoncontainer}>

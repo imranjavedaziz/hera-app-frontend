@@ -18,7 +18,6 @@ export default {
     borderRadius: dynamicSize(90),
     width: Value.CONSTANT_VALUE_95,
     height: Value.CONSTANT_VALUE_95,
-    backgroundColor: '#93c0ba',
   },
   mainContainer: {
     alignItems: Alignment.CENTER,
@@ -47,6 +46,7 @@ export default {
     width: Value.CONSTANT_VALUE_86,
     marginTop: Value.CONSTANT_VALUE_5,
     borderRadius: dynamicSize(90),
+    backgroundColor: 'rgb(226, 225, 216)',
   },
   cameraContainer: {
     height: Value.CONSTANT_VALUE_30,

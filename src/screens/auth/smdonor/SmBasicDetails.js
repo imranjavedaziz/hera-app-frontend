@@ -288,6 +288,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
+                      containerStyle={{marginTop:10}}
                         label={Strings.sm_basic.Zip}
                         value={value}
                         onChangeText={v => onChange(v)}

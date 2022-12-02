@@ -451,14 +451,14 @@ const Profile = props => {
                       {Strings.profile.tmc1}
                       <TouchableOpacity
                         onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        <Text style={styles.tmcLink}>
+                        <Text style={styles.tmcLink1}>
                           {Strings.profile.tmc2}
                         </Text>
                       </TouchableOpacity>
                       {'\n'} and{' '}
                       <TouchableOpacity
                         onPress={() => openWebView(PRIVACY_URL)}>
-                        <Text style={styles.tmcLink}>
+                        <Text style={styles.tmcLink2}>
                           {Strings.profile.tmc3}
                         </Text>
                       </TouchableOpacity>
