@@ -59,7 +59,6 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     height: Value.CONSTANT_VALUE_80,
-    width: Value.CONSTANT_VALUE_195,
   },
   passwordCheck: {
     flexDirection: Alignment.ROW,
