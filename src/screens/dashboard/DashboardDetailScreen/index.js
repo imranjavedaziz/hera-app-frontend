@@ -22,7 +22,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   showAppLoader,
   hideAppLoader,
-  showAppToast,
 } from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';

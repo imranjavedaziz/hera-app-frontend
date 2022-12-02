@@ -320,7 +320,7 @@ export default (state = initState, action) => {
         register_user_success: false,
         register_user_loading: true,
         register_user_error_msg: '',
-        user: initState.user,
+        // user: initState.user,
         log_in_data: action?.data?.data?.data,
       };
     }
@@ -331,7 +331,7 @@ export default (state = initState, action) => {
         register_user_loading: false,
         register_user_error_msg: action.data.msg,
         registerUser: '',
-        user: initState.user,
+        // user: initState.user,
       };
     }
     case AUTH_REGISTER_SUCCESS: {
