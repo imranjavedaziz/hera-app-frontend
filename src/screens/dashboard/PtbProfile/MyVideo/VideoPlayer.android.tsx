@@ -83,7 +83,6 @@ export const VideoPlayer: React.FC = (props: any) => {
       Orientation.removeOrientationListener(handleOrientation);
     };
   }, []);
-  console.log('LINE NO 46', props?.url);
 
   return (
     <View style={styles.container}>

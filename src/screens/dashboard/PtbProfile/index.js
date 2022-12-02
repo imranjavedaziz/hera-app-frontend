@@ -49,7 +49,7 @@ const PtbProfile = () => {
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const subscriptionStatus = useSelector(
-    state => state.Subscription.subscription_status_res,
+    state => state.Subscription?.subscription_status_res,
   );
   const {
     get_user_detail_res,
@@ -133,6 +133,9 @@ const PtbProfile = () => {
     setOpen(false);
     setFile(image);
   };
+  React.useEffect(()=>{
+    console.log('subscriptionStatus',subscriptionStatus);
+  },[subscriptionStatus]);
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
@@ -198,14 +201,16 @@ const PtbProfile = () => {
               />
             </View>
             <View>
-              {typeof subscriptionStatus === 'object' &&
+              {(
+                typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
-                subscriptionStatus.data?.status &&
-                !subscriptionStatus.data?.is_trial && <Subscribed />}
+                subscriptionStatus.data?.status === 0 &&
+                !subscriptionStatus.data?.is_trial
+                ) && <Subscribed />}
               {(typeof subscriptionStatus === 'object' &&
-                typeof subscriptionStatus.data === 'object' &&
-                !subscriptionStatus.data?.status) ||
-                (subscriptionStatus.data?.is_trial && (
+                typeof subscriptionStatus.data === 'object') &&
+                ((subscriptionStatus.data?.is_trial || 
+                  !subscriptionStatus.data?.status === 0) && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}

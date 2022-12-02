@@ -49,7 +49,6 @@ const ChangePassword = ({route}) => {
     resolver: yupResolver(type===1?changePasswordSchema:forgetPasswordSchema),
   });
   const [show, setShow] = useState(false);
-  
   useEffect(() => {
     if (log_in_success && !log_in_loading && isLogin) {
       setLogin(false);

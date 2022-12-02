@@ -5,7 +5,6 @@ import {store} from '../redux/store';
 import {showAppToast} from '../redux/actions/loader';
 import {updateToken, signoutUser} from '../redux/actions/Auth';
 import ApiPath from '../constants/ApiPath';
-import {navigateOnLanding} from '../redux/actions/NavigationOnLanding';
 
 const axiosRequest = axios.create({
   baseURL: api_url,

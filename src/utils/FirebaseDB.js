@@ -131,7 +131,6 @@ export default class FirebaseDB {
       .endAt(this?.messages[this?.messages?.length - 1]._id)
       .once('value')
       .then(async snapshot => {
-        // alert('hi')
         console.log(snapshot.val(), 'snapshotmload earlier');
         let childShot = Object.keys(snapshot.val());
         console.log(childShot, 'childShot');
@@ -150,7 +149,6 @@ export default class FirebaseDB {
           console.log(childSnapshot, 'childSnapshot');
           // if(parseInt(keys[index])<parseInt(this.firstKey)){
           const {time, text, from} = childSnapshot;
-          const createdAt = new Date(time);
           // console.log(keys[index],'keys[index]')
           let messageItem = {
             _id: keys[index],
@@ -193,16 +191,10 @@ export default class FirebaseDB {
     const referenceUser = database().ref(
       `/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`,
     );
-    const referenceSender = database().ref(
-      `/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`,
-    );
     try {
       await referenceUser.update({
         read: 1,
       });
-      // await referenceSender.update({
-      //   read: 0,
-      // });
     } catch (e) {
       console.log(e);
     }

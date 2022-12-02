@@ -2,42 +2,47 @@ import {Alignment, Colors} from '../../../../constants';
 import {Value} from '../../../../constants/FixedValues';
 import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
+
 export default {
   upperContainer: {
     flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
   },
-  mainContainer: {
-    backgroundColor: Colors.BACKGROUND_WHOLE,
-  },
   flex: {
     flex: 1,
+  },
+  mainContainer: {
+    backgroundColor: Colors.BACKGROUND_WHOLE,
   },
   header: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerText: {
+    marginRight: Value.CONSTANT_VALUE_30,
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    marginRight: Value.CONSTANT_VALUE_30,
     letterSpacing: 0,
     color: 'rgb(255,69,68)',
+  },
+  AccountVerify: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_11),
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
   },
   headingContainer: {
     alignItems: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
   },
-  AccountVerify: {
-    fontFamily: Fonts.OpenSansBold,
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_11),
-    letterSpacing: Value.CONSTANT_VALUE_2_84,
-    textAlign: Alignment.CENTER,
-    color: Colors.BLACK,
-  },
   innerHeading: {
     marginTop: Value.CONSTANT_VALUE_8,
     alignItems: Alignment.CENTER,
+  },
+  innerContainer: {
+    marginTop: Value.CONSTANT_VALUE_35,
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
   setANew: {
     fontFamily: Fonts.OpenSansBold,
@@ -46,14 +51,10 @@ export default {
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
-  innerContainer: {
-    marginTop: Value.CONSTANT_VALUE_35,
-    paddingHorizontal: Value.CONSTANT_VALUE_40,
-  },
   psswrdInput: {
     alignSelf: Alignment.CENTER,
-    paddingTop: Value.CONSTANT_VALUE_5,
     paddingBottom: Value.CONSTANT_VALUE_1,
+    paddingTop: Value.CONSTANT_VALUE_5,
   },
   buttonContainer: {
     alignItems: Alignment.CENTER,
