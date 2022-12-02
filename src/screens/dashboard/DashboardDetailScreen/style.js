@@ -141,7 +141,7 @@ export default {
   },
   imageMainContainer: {
     flexDirection: Alignment.ROW,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_50),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
   },
   imageInnerContainer: {
     flexDirection: Alignment.ROW,
@@ -170,7 +170,7 @@ export default {
   },
   loaderContainer: {
     position: Alignment.ABSOLUTE,
-    top: height / Value.CONSTANT_VALUE_2,
+    top: height / 2.5,
     alignSelf: Alignment.CENTER,
     width: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_50,

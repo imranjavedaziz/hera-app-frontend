@@ -390,19 +390,7 @@ const Gallery = () => {
                 <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
             </View>
-          ) : (
-            <TouchableOpacity
-              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
-              style={styles.dashboardBtn}
-              onPress={() => navigation.navigate(Routes.SmDashboard)}>
-              <Text
-                style={styles.buttonText}
-                accessible={false}
-                numberOfLines={Value.CONSTANT_VALUE_1}>
-                {Strings.sm_create_gallery.Btn}
-              </Text>
-            </TouchableOpacity>
-          )}
+          ) : null}
         </View>
       </Container>
       <ActionSheet

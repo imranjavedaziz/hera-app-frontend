@@ -125,7 +125,9 @@ const Login = props => {
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
           <Controller
