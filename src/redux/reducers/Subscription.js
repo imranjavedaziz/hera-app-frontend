@@ -25,7 +25,9 @@ const initState = {
   subscription_status_success: false,
   subscription_status_loading: false,
   subscription_status_error_msg: '',
-  subscription_status_res: '',
+  subscription_status_res: {
+    data: {is_trial: true, status: 1}
+  },
 };
 
 export default (state = initState, action) => {
@@ -47,7 +49,7 @@ export default (state = initState, action) => {
         create_subscription_success: true,
         create_subscription_loading: false,
         create_subscription_error_msg: '',
-        subscription_status_res: action.data?.data?.message,
+        create_subscription_res: action.data?.data?.message,
       };
     case CREATE_SUBSCRIPTION_FAIL:
       return {
