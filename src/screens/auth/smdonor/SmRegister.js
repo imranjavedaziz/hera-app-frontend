@@ -29,7 +29,7 @@ import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
-import updateRegStep from '../../../redux/actions/Auth';
+import updateRegStep, {updateLocalImg} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
@@ -121,6 +121,7 @@ const SmRegister = () => {
       if (register_user_success) {
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
+        dispatch(updateLocalImg(file.path));
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
@@ -173,6 +174,7 @@ const SmRegister = () => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
+    dispatch(updateLocalImg(file.path));
   };
   const headerComp = () => (
     <CircleBtn

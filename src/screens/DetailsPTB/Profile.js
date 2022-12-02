@@ -53,6 +53,7 @@ import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
 import openWebView from '../../utils/openWebView';
+import { updateLocalImg } from '../../redux/actions/Auth';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -93,6 +94,7 @@ const Profile = props => {
       dispatch(showAppLoader());
       if (register_user_success) {
         dispatch(hideAppLoader());
+        dispatch(updateLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       } else {
         dispatch(showAppToast(true, register_user_error_msg));
@@ -207,6 +209,7 @@ const Profile = props => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
+    dispatch(updateLocalImg(userImage));
   };
   useEffect(() => {
     return navigation.addListener('focus', () => {
