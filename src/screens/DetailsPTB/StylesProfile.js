@@ -2,7 +2,7 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
-import { dynamicSize } from '../../utils/responsive';
+import {dynamicSize} from '../../utils/responsive';
 
 export default {
   imgContainer: {
@@ -43,8 +43,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     lineHeight: Value.CONSTANT_VALUE_21,
-    width: Value.CONSTANT_VALUE_306,
-    right: Value.CONSTANT_VALUE_8,
+    right: Value.CONSTANT_VALUE_10,
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
@@ -54,18 +53,28 @@ export default {
   },
   tmc: {
     flexDirection: Alignment.ROW,
+    width: Value.CONSTANT_VALUE_306,
+    right: Value.CONSTANT_VALUE_2,
   },
   rowContainer: {
     alignItems: Alignment.CENTER,
     right: Value.CONSTANT_VALUE_10,
     justifyContent: Alignment.CENTER,
   },
-  tmcLink: {
-    top: dynamicSize(Value.CONSTANT_VALUE_2),
+  tmcLink1: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    lineHeight: Value.CONSTANT_VALUE_21,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    textDecorationLine: Alignment.UNDERLINE,
+  },
+  tmcLink2: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_18,
     textDecorationLine: Alignment.UNDERLINE,
   },
   smRegister: {

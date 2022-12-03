@@ -63,11 +63,11 @@ const CreateGallery = () => {
   const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, _setImages] = useState([]);
   const [remove, setRemove] = useState([]);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-  const [counter, setCounter] = useState(0);
+  const [counter, _setCounter] = useState(0);
   const {
     gallery_success,
     gallery_loading,
@@ -327,23 +327,22 @@ const CreateGallery = () => {
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
+                activeOpacity={gIndex === index ? 0.1 : 1}
                 key={img.id}
-                onPress={() => ImageClick(index)}
-                activeOpacity={gIndex === index ? 0.1 : 1}>
+                onPress={() => ImageClick(index)}>
                 <FastImage
-                  key={img.id}
                   style={[styles.galleryImgView, styles.imageStyling]}
                   source={{
                     uri: img.uri,
                     priority: FastImage.priority.normal,
                     cache: FastImage.cacheControl.immutable,
-                  }}>
-                  {img.uri ? (
+                  }}
+                  key={img.id}>
+                  {img.uri && (
                     <TouchableOpacity
                       onPress={() => {
                         handelDel(img.id);
-                      }}
-                      style={{}}>
+                      }}>
                       <RNSDWebImage
                         source={
                           remove.includes(img.id)
@@ -353,13 +352,12 @@ const CreateGallery = () => {
                         style={styles.selectIcon}
                       />
                     </TouchableOpacity>
-                  ) : null}
+                  )}
                   {gIndex === index && (
                     <TouchableOpacity
                       onPress={() => {
                         Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
-                      }}
-                      style={{}}>
+                      }}>
                       <RNSDWebImage
                         source={Images.camera}
                         style={styles.camIcon}
@@ -372,25 +370,25 @@ const CreateGallery = () => {
             ))}
           </View>
           <VideoUploading
-            apply={true}
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}
             videoStyle={styles.video}
             onEnd={() => setIsPlaying(false)}
+            apply={true}
             onPress={() =>
               video?.file_url === ''
                 ? bottomSheetVideo()
                 : setIsPlaying(p => !p)
             }
             videoRef={videoRef}
+            counter={counter}
             isPlaying={isPlaying}
             video={video}
             selVideo={selVideo}
             handelDel={handelDel}
             rmvImgCount={rmvImgCount}
             remove={remove}
-            counter={counter}
           />
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
@@ -405,25 +403,25 @@ const CreateGallery = () => {
                 </Text>
               )}
               <TouchableOpacity
-                style={styles.deleteBtnContainer}
                 onPress={() => {
                   Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
-                }}>
-                <Image source={Images.trashRed} style={{}} />
+                }}
+                style={styles.deleteBtnContainer}>
+                <Image source={Images.trashRed} />
                 <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
             </View>
           ) : (
             <TouchableOpacity
-              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               style={styles.dashboardBtn}
+              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               onPress={() => {
                 dispatch(updateRegStep());
                 navigation.navigate(Routes.SmDashboard);
               }}>
               <Text
-                style={styles.buttonText}
                 accessible={false}
+                style={styles.buttonText}
                 numberOfLines={Value.CONSTANT_VALUE_1}>
                 {Strings.sm_create_gallery.Btn}
               </Text>
@@ -433,12 +431,12 @@ const CreateGallery = () => {
       </Container>
       <ActionSheet
         ref={actionSheet}
-        options={threeOption}
         destructiveButtonIndex={2}
         cancelButtonIndex={2}
         onPress={index => {
           handleThreeOption(threeOption[index]);
         }}
+        options={threeOption}
       />
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
@@ -452,10 +450,10 @@ const CreateGallery = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styleSheet.pickerBtn}
             onPress={() => {
               !isVideo ? openCamera(1, cb) : selectVideo(1);
-            }}
-            style={styleSheet.pickerBtn}>
+            }}>
             <Text style={styleSheet.pickerBtnLabel}>
               {Strings.sm_create_gallery.bottomSheetGallery}
             </Text>
@@ -463,8 +461,8 @@ const CreateGallery = () => {
         </View>
       </BottomSheetComp>
       <Modal
-        transparent={true}
         visible={showModal}
+        transparent={true}
         onRequestClose={() => {
           setShowModal(!showModal);
         }}>

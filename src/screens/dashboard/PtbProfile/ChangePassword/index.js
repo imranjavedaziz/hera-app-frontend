@@ -49,7 +49,6 @@ const ChangePassword = ({route}) => {
     resolver: yupResolver(type===1?changePasswordSchema:forgetPasswordSchema),
   });
   const [show, setShow] = useState(false);
-  
   useEffect(() => {
     if (log_in_success && !log_in_loading && isLogin) {
       setLogin(false);
@@ -230,7 +229,7 @@ const ChangePassword = ({route}) => {
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              label={Strings.preference.Save}
+              label={type===1?Strings.preference.Save:Strings.preference.SaveNewPassword}
               style={styles.Btn}
               onPress={handleSubmit(onSubmit)}
             />

@@ -32,6 +32,7 @@ import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
+import {getRoleType} from '../../../utils/other';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -48,7 +49,7 @@ const PtbProfile = () => {
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const subscriptionStatus = useSelector(
-    state => state.Subscription.subscription_status_res,
+    state => state.Subscription?.subscription_status_res,
   );
   const {
     get_user_detail_res,
@@ -87,6 +88,7 @@ const PtbProfile = () => {
       GetLoadingRef.current = get_user_detail_loading;
     }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
   );
+  console.log('get_user_detail_res', get_user_detail_res);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -131,6 +133,9 @@ const PtbProfile = () => {
     setOpen(false);
     setFile(image);
   };
+  React.useEffect(()=>{
+    console.log('subscriptionStatus',subscriptionStatus);
+  },[subscriptionStatus]);
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
@@ -194,20 +199,23 @@ const PtbProfile = () => {
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
+                roleId={getRoleType(name?.role_id)}
                 source={{
                   uri: profileImg,
                 }}
               />
             </View>
             <View>
-              {typeof subscriptionStatus === 'object' &&
+              {(
+                typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
-                subscriptionStatus.data?.status &&
-                !subscriptionStatus.data?.is_trial && <Subscribed />}
+                subscriptionStatus.data?.status === 0 &&
+                !subscriptionStatus.data?.is_trial
+                ) && <Subscribed />}
               {(typeof subscriptionStatus === 'object' &&
-                typeof subscriptionStatus.data === 'object' &&
-                !subscriptionStatus.data?.status) ||
-                (subscriptionStatus.data?.is_trial && (
+                typeof subscriptionStatus.data === 'object') &&
+                ((subscriptionStatus.data?.is_trial || 
+                  !subscriptionStatus.data?.status === 0) && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}

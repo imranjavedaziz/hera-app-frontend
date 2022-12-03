@@ -28,11 +28,6 @@ export const mobileSchema = yup.object().shape({
 });
 export const otpSchema = yup.object().shape({
   otp: yup.string().required(ValidationMessages.OTP_REQUIRED),
-  // .length(6, ValidationMessages.INVALID_OTP)
-  // .matches(Regx.OTP, {
-  //   excludeEmptyString: true,
-  //   message: ValidationMessages.INVALID_OTP,
-  // }),
 });
 export const loginSchema = yup.object().shape({
   phone: yup
@@ -265,7 +260,7 @@ export const changePasswordSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
@@ -292,7 +287,7 @@ export const forgetPasswordSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,

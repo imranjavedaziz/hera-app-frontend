@@ -104,14 +104,14 @@ const Chat_Request = props => {
             onPress={() => {
               onPressLike();
             }}
+            accessible={true}
             style={styles.btn(Colors.GREEN)}
-            accessibilityRole={'button'}
-            accessible={true}>
+            accessibilityRole={'button'}>
             <View style={styles.heartIcon}>
               <Image source={Images.HEARTH_ICON} />
               <Text
-                style={styles.textbtn1}
                 accessible={false}
+                style={styles.textbtn1}
                 numberOfLines={Value.CONSTANT_VALUE_1}>
                 {Strings.donorPofile.like_this_profile}
               </Text>

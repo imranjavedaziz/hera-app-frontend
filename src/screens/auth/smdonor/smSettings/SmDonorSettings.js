@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import Header, {CircleBtn} from '../../../../components/Header';
+import Header, {IconHeader} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -36,8 +36,6 @@ import openWebView from '../../../../utils/openWebView';
 import {getRoleType} from '../../../../utils/other';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import _ from 'lodash';
-import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize} from '../../../../utils/responsive';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -51,6 +49,7 @@ const SmDonorSettings = () => {
   let actionSheet = useRef();
   const [avaiableVideo, setVideoAviable] = useState(false);
   const GetLoadingRef = useRef(false);
+  const loadingGalleryRef = useRef(false);
   const {
     get_user_detail_res,
     get_user_detail_success,
@@ -61,22 +60,37 @@ const SmDonorSettings = () => {
   const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
   );
-  const {gallery_data} = useSelector(state => state.CreateGallery);
+  const {gallery_data, gallery_success, gallery_loading} = useSelector(
+    state => state.CreateGallery,
+  );
   useFocusEffect(
     useCallback(() => {
-      dispatch(showAppLoader());
       dispatch(getEditProfile());
       dispatch(getUserGallery());
-      videoAvaible();
     }, [dispatch]),
   );
-  const videoAvaible = () => {
-    if (_.isEmpty(gallery_data)) {
-      setVideoAviable(true);
-    } else {
-      setVideoAviable(false);
+  useEffect(() => {
+    if (loadingGalleryRef.current && !gallery_loading) {
+      dispatch(showAppLoader());
+      if (gallery_success) {
+        {
+          if (_.isEmpty(gallery_data?.doner_video_gallery)) {
+            setVideoAviable(true);
+          }
+          if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
+            setVideoAviable(true);
+          } else {
+            setVideoAviable(false);
+          }
+        }
+        dispatch(hideAppLoader());
+      } else {
+        dispatch(hideAppLoader());
+      }
     }
-  };
+    loadingGalleryRef.current = gallery_loading;
+  }, [gallery_success, gallery_loading]);
+
   //GET USER DETAIL
   useFocusEffect(
     useCallback(() => {
@@ -109,14 +123,10 @@ const SmDonorSettings = () => {
   }, [log_out_success, log_out_loading]);
 
   const headerComp = () => (
-    <CircleBtn
-      icon={Images.iconBack}
-      onPress={navigation.goBack}
-      accessibilityLabel="Cross Button, Go back"
-      Fixedstyle={{
-        paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
-        marginLeft: Value.CONSTANT_VALUE_30,
-      }}
+    <IconHeader
+      leftIcon={Images.circleIconBack}
+      style={Styles.headerIcon}
+      leftPress={navigation.goBack}
     />
   );
 
@@ -216,15 +226,17 @@ const SmDonorSettings = () => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={Styles.contain}
-              onPress={() => navigation.navigate(Routes.donorGallery)}>
-              <Image source={Images.galleryimage} />
-              <Text style={[Styles.text, Styles.extraTxt]}>
-                {Strings.smSetting.Gallery}
-              </Text>
-              {avaiableVideo === true && <View style={Styles.dot} />}
-            </TouchableOpacity>
+            <View style={Styles.highlightContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(Routes.donorGallery);
+                }}
+                style={Styles.flexRow}>
+                <Image source={Images.person} />
+                <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
+              </TouchableOpacity>
+              {avaiableVideo === true ? <View style={Styles.dot} /> : false}
+            </View>
             <View style={Styles.highlightContainer}>
               <TouchableOpacity
                 onPress={() => {

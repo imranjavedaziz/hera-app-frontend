@@ -5,6 +5,7 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
+  USE_LOCAL_IMAGE
 } from '../constants';
 
 import {
@@ -149,6 +150,16 @@ export default (state = initState, action) => {
         log_in_error_msg: '',
         login: true,
       };
+    }
+
+    case USE_LOCAL_IMAGE: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          profile_pic: action.data
+        }
+      }
     }
 
     // DEVICE REGISTER
@@ -309,7 +320,7 @@ export default (state = initState, action) => {
         register_user_success: false,
         register_user_loading: true,
         register_user_error_msg: '',
-        user: {},
+        // user: initState.user,
         log_in_data: action?.data?.data?.data,
       };
     }
@@ -320,7 +331,7 @@ export default (state = initState, action) => {
         register_user_loading: false,
         register_user_error_msg: action.data.msg,
         registerUser: '',
-        user: {},
+        // user: initState.user,
       };
     }
     case AUTH_REGISTER_SUCCESS: {
@@ -332,7 +343,7 @@ export default (state = initState, action) => {
         registerUser: action.data,
         register_user_error_msg: '',
         log_in_data: action?.data?.data?.data,
-        user: action?.data?.data?.data,
+        user: {...action?.data?.data?.data,profile_pic: state.user.profile_pic},
         token: access_token,
         login: true,
       };

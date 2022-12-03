@@ -106,7 +106,9 @@ const Dropdown = ({
               </View>
               <Image source={Images.arrowDown} style={STYLE_CONDITION} />
               {value && (
-                <Text style={styles.buttonTextStyle}>{value?.name}</Text>
+                <Text style={styles.buttonTextStyle} numberOfLines={1}>
+                  {value?.name}
+                </Text>
               )}
               <View
                 style={[

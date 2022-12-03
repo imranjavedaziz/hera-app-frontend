@@ -5,6 +5,7 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
+  USE_LOCAL_IMAGE
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -86,5 +87,12 @@ export const updateProfileImg = payload => {
   return {
     type: UPDATE_PROFILE_IMG,
     data: payload,
+  };
+};
+
+export const updateLocalImg = img => {
+  return {
+    type: USE_LOCAL_IMAGE,
+    data: img,
   };
 };

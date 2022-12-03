@@ -19,11 +19,7 @@ import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
@@ -187,10 +183,10 @@ const DashboardDetailScreen = () => {
               {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
                 .length < 20 ? (
                 <View style={styles.nativeMainContainer}>
-                  {smDetailRes?.location?.name && (
+                  {smDetailRes?.doner_attribute?.race && (
                     <View style={styles.nativePlace}>
                       <Text style={global?.tagText}>
-                        {smDetailRes?.location?.name}
+                        {smDetailRes?.doner_attribute?.race}
                       </Text>
                     </View>
                   )}
@@ -204,16 +200,16 @@ const DashboardDetailScreen = () => {
                 </View>
               ) : (
                 <View style={styles.nativeLong}>
-                  {smDetailRes?.location?.name && (
+                  {smDetailRes?.doner_attribute?.race && (
                     <Text
                       style={[
                         global?.tagText,
                         {
                           backgroundColor: Colors.RGBA_229_172_177,
-                          marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                          marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
                         },
                       ]}>
-                      {smDetailRes?.location?.name}
+                      {smDetailRes?.doner_attribute?.race}
                     </Text>
                   )}
                   {smDetailRes?.doner_attribute?.father_ethnicity && (
@@ -222,7 +218,7 @@ const DashboardDetailScreen = () => {
                         global?.tagText,
                         {
                           backgroundColor: Colors.RGBA_229_172_177,
-                          marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                          marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
                         },
                       ]}>
                       {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`}
@@ -256,7 +252,7 @@ const DashboardDetailScreen = () => {
                         global?.tagText,
                         {
                           backgroundColor: Colors.RGBA_229_172_177,
-                          marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                          marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
                         },
                       ]}>
                       {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
@@ -268,7 +264,7 @@ const DashboardDetailScreen = () => {
                         global?.tagText,
                         {
                           backgroundColor: Colors.RGBA_229_172_177,
-                          marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+                          marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
                         },
                       ]}>
                       {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}

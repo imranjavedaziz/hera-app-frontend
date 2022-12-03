@@ -60,12 +60,12 @@ const Gallery = () => {
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, _setImages] = useState([]);
   const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-  const [counter, setCounter] = useState(0);
+  const [counter, _setCounter] = useState(0);
 
   const videoRef = useRef();
   const {
@@ -390,19 +390,7 @@ const Gallery = () => {
                 <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
             </View>
-          ) : (
-            <TouchableOpacity
-              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
-              style={styles.dashboardBtn}
-              onPress={() => navigation.navigate(Routes.SmDashboard)}>
-              <Text
-                style={styles.buttonText}
-                accessible={false}
-                numberOfLines={Value.CONSTANT_VALUE_1}>
-                {Strings.sm_create_gallery.Btn}
-              </Text>
-            </TouchableOpacity>
-          )}
+          ) : null}
         </View>
       </Container>
       <ActionSheet

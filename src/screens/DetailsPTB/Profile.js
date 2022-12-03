@@ -53,6 +53,7 @@ import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
 import openWebView from '../../utils/openWebView';
+import { updateLocalImg } from '../../redux/actions/Auth';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -93,6 +94,7 @@ const Profile = props => {
       dispatch(showAppLoader());
       if (register_user_success) {
         dispatch(hideAppLoader());
+        dispatch(updateLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       } else {
         dispatch(showAppToast(true, register_user_error_msg));
@@ -207,6 +209,7 @@ const Profile = props => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
+    dispatch(updateLocalImg(userImage));
   };
   useEffect(() => {
     return navigation.addListener('focus', () => {
@@ -451,14 +454,14 @@ const Profile = props => {
                       {Strings.profile.tmc1}
                       <TouchableOpacity
                         onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        <Text style={styles.tmcLink}>
+                        <Text style={styles.tmcLink1}>
                           {Strings.profile.tmc2}
                         </Text>
                       </TouchableOpacity>
                       {'\n'} and{' '}
                       <TouchableOpacity
                         onPress={() => openWebView(PRIVACY_URL)}>
-                        <Text style={styles.tmcLink}>
+                        <Text style={styles.tmcLink2}>
                           {Strings.profile.tmc3}
                         </Text>
                       </TouchableOpacity>

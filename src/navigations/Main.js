@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {NavigationContainer,useRoute} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
 import {useSelector, useDispatch} from 'react-redux';
@@ -47,6 +47,14 @@ const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.Auth.user);
   useEffect(() => {
+    const screens = [
+      Routes.SmBasicDetails,
+      Routes.SetPreference,
+      Routes.SetAttributes,
+      Routes.CreateGallery,
+      Routes.Profile,
+    ];
+    const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (auth) {
       RNBootSplash.hide();
       const path = getRoute(
@@ -57,11 +65,11 @@ const Main = () => {
       if (path !== Routes.Landing && auth?.role_id === 2) {
         dispatch(getSubscriptionStatus());
       }
-      if(!auth.access_token && navigationRef.current?.getCurrentRoute().name !== Routes.Landing ){
-        // navigationRef.current?.reset({
-        //   index: 0,
-        //   routes: [{ name: Routes.Landing }]
-        // })
+      if(!auth.access_token && currentRoute !== Routes.Landing && !screens.includes(currentRoute)){
+        navigationRef.current?.reset({
+          index: 0,
+          routes: [{ name: Routes.Landing }]
+        });
       }
     }
   }, [auth]);

@@ -24,7 +24,7 @@ const ChatDetail = props => {
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data, user} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
@@ -423,7 +423,7 @@ const ChatDetail = props => {
       )}
 
       {
-           parseInt(props?.route?.params?.item?.currentRole) === 1 && db?.messages.length === 0 && 
+           parseInt(props?.route?.params?.item?.currentRole) === 1 && db?.messages.length === 0 &&
            <View style={styles.smDonorEmptyView}>
            <EmptySmDonor
              image={Images.conversation2}

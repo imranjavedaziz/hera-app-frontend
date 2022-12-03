@@ -185,7 +185,7 @@ const PTB_profile = props => {
                   source={Images.QUOTES}
                   style={styles.bioBackground}
                 />
-                {isVisibleLogo === true ? (
+                {isVisibleLogo && (
                   <FadeInView>
                     <ImageBackground
                       style={{
@@ -199,7 +199,7 @@ const PTB_profile = props => {
                       <Image style={styles.iconImage} source={IMG_CONDI} />
                     </ImageBackground>
                   </FadeInView>
-                ) : null}
+                )}
                 <Text style={styles.bioText}>
                   {stateRes?.user_profile?.bio}
                 </Text>

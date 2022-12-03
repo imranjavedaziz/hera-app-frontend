@@ -13,7 +13,7 @@ import styles from '../../styles/auth/loginScreen';
 import Strings from '../../constants/Strings';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
-import {logIn,navigateOnLanding} from '../../redux/actions/Auth';
+import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
@@ -125,7 +125,9 @@ const Login = props => {
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
           <Controller

@@ -23,7 +23,7 @@ import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
 import {verifyOtp, mobileNumber} from '../../redux/actions/Auth';
-import {verifyEmail} from '../../redux/actions/VerificationMail';
+import {verifyEmail, sendVerificationMail} from '../../redux/actions/VerificationMail';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   hideAppLoader,
@@ -33,11 +33,9 @@ import {
 import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
 import {Colors} from '../../constants';
-import {sendVerificationMail} from '../../redux/actions/VerificationMail';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
-  const [isApiCall,setApiCall] = useState(false);
   const loadingRef = useRef(false);
   const {
     params: {isRouteData},
@@ -60,7 +58,6 @@ const OTP = ({route}) => {
     verify_mail_success,
     verify_mail_loading,
     verify_mail_error_msg,
-    verify_mail_res,
   } = useSelector(state => state.VerificationMail);
 
   const {

@@ -70,11 +70,48 @@ const Container = props => {
         animated={true}
         hidden={false}
       />
-      {profileLoad === false ? (
-        <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
+      {
+        !profileLoad && (
+          <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
+            <KeyboardAvoidingView style={styles.flexMain} behavior={PADDING_CON}>
+              {
+                fixedHeader && (
+                  <>
+                  <Header end={headerEnd}>{headerComp()}</Header>
+                  <Scroller
+                    enabled={scroller}
+                    style={style}
+                    mainStyle={mainStyle}
+                    fixedHeader={fixedHeader}
+                    showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+                    {children}
+                  </Scroller>
+                </>
+                )
+              }
+              {
+                !fixedHeader && (
+                  <Scroller
+                  enabled={scroller}
+                  style={style}
+                  mainStyle={mainStyle}
+                  fixedHeader={fixedHeader}
+                  showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+                  {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
+                  {children}
+                </Scroller>
+                )
+              }
+            </KeyboardAvoidingView>
+          </SafeAreaView>
+        )
+      }
+      {
+        profileLoad && (
           <KeyboardAvoidingView style={styles.flexMain} behavior={PADDING_CON}>
-            {fixedHeader === true ? (
-              <>
+            {
+              fixedHeader && (
+                <>
                 <Header end={headerEnd}>{headerComp()}</Header>
                 <Scroller
                   enabled={scroller}
@@ -85,8 +122,11 @@ const Container = props => {
                   {children}
                 </Scroller>
               </>
-            ) : (
-              <Scroller
+              )
+            }
+            {
+              !fixedHeader && (
+                <Scroller
                 enabled={scroller}
                 style={style}
                 mainStyle={mainStyle}
@@ -95,36 +135,11 @@ const Container = props => {
                 {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
                 {children}
               </Scroller>
-            )}
+              )
+            }
           </KeyboardAvoidingView>
-        </SafeAreaView>
-      ) : (
-        <KeyboardAvoidingView style={styles.flexMain} behavior={PADDING_CON}>
-          {fixedHeader === true ? (
-            <>
-              <Header end={headerEnd}>{headerComp()}</Header>
-              <Scroller
-                enabled={scroller}
-                style={style}
-                mainStyle={mainStyle}
-                fixedHeader={fixedHeader}
-                showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
-                {children}
-              </Scroller>
-            </>
-          ) : (
-            <Scroller
-              enabled={scroller}
-              style={style}
-              mainStyle={mainStyle}
-              fixedHeader={fixedHeader}
-              showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
-              {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
-              {children}
-            </Scroller>
-          )}
-        </KeyboardAvoidingView>
-      )}
+        )
+      }
     </>
   );
 };

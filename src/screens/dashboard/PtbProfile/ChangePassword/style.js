@@ -25,31 +25,31 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
   },
   changePassword: {
+    color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_11),
     letterSpacing: Value.CONSTANT_VALUE_2_84,
     textAlign: Alignment.CENTER,
-    color: Colors.BLACK,
   },
   innerHeading: {
-    marginTop: Value.CONSTANT_VALUE_8,
     alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_8,
   },
   setANew: {
+    color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     letterSpacing: Value.CONSTANT_VALUE_0,
     textAlign: Alignment.CENTER,
-    color: Colors.BLACK,
   },
   innerContainer: {
-    marginTop: Value.CONSTANT_VALUE_35,
     paddingHorizontal: Value.CONSTANT_VALUE_40,
+    marginTop: Value.CONSTANT_VALUE_35,
   },
   psswrdInput: {
+    paddingBottom: Value.CONSTANT_VALUE_1,
     alignSelf: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_5,
-    paddingBottom: Value.CONSTANT_VALUE_1,
   },
   buttonContainer: {
     alignItems: Alignment.CENTER,
@@ -59,7 +59,6 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     height: Value.CONSTANT_VALUE_80,
-    width: Value.CONSTANT_VALUE_195,
   },
   passwordCheck: {
     flexDirection: Alignment.ROW,
