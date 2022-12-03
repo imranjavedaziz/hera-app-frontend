@@ -12,7 +12,12 @@ import Subscribe, {
 import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
-import {Routes, ABOUT_URL, TERMS_OF_USE_URL,PRIVACY_URL} from '../../../constants/Constants';
+import {
+  Routes,
+  ABOUT_URL,
+  TERMS_OF_USE_URL,
+  PRIVACY_URL,
+} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
@@ -166,6 +171,7 @@ const PtbProfile = () => {
       setVideoAviable(false);
     }
   };
+  
   return (
     <>
       <View style={styles.flex}>
@@ -178,9 +184,13 @@ const PtbProfile = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={
+                Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
-                }
+                } ${
+                  name?.middle_name === undefined || name?.middle_name === null
+                    ? ''
+                    : name?.middle_name
+                }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
@@ -241,12 +251,12 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.file}
                 title={Strings.smSetting.Terms}
-                onPress={()=>openWebView(TERMS_OF_USE_URL)}
+                onPress={() => openWebView(TERMS_OF_USE_URL)}
               />
               <PtbAccount
                 leftIcon={Images.sheild}
                 title={Strings.smSetting.Privacy}
-                onPress={()=>openWebView(PRIVACY_URL)}
+                onPress={() => openWebView(PRIVACY_URL)}
               />
             </View>
             <View style={styles.buttoncontainer}>

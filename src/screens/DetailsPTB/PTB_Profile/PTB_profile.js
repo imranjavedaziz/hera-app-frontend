@@ -160,6 +160,9 @@ const PTB_profile = props => {
                 </Text>
               </View>
               <Text style={styles.profileName}>{stateRes?.first_name}</Text>
+              {stateRes?.middle_name !== null && (
+                <Text style={styles.profileName}>{stateRes?.middle_name}</Text>
+              )}
               <Text style={styles.profileName}>{stateRes?.last_name}</Text>
               <View style={styles.profileImg}>
                 <FastImage

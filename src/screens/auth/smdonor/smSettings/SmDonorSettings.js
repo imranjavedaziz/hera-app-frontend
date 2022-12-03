@@ -13,7 +13,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Strings from '../../../../constants/Strings';
 import Styles from './Styles';
-import {Routes, ABOUT_URL, TERMS_OF_USE_URL, PRIVACY_URL} from '../../../../constants/Constants';
+import {
+  Routes,
+  ABOUT_URL,
+  TERMS_OF_USE_URL,
+  PRIVACY_URL,
+} from '../../../../constants/Constants';
 import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
@@ -166,7 +171,6 @@ const SmDonorSettings = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
-
   return (
     <>
       <View style={Styles.flex}>
@@ -182,9 +186,13 @@ const SmDonorSettings = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={
+                Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
-                }
+                } ${
+                  name?.middle_name === undefined || name?.middle_name === null
+                    ? ''
+                    : name?.middle_name
+                }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
