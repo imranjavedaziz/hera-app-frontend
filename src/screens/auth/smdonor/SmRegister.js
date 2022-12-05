@@ -24,7 +24,12 @@ import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smRegisterSchema, Regx} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
-import {smRoles, Routes, PRIVACY_URL,TERMS_OF_USE_URL} from '../../../constants/Constants';
+import {
+  smRoles,
+  Routes,
+  PRIVACY_URL,
+  TERMS_OF_USE_URL,
+} from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
@@ -36,8 +41,8 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import { ptbRegister } from '../../../redux/actions/Register';
-import { BottomSheetComp } from '../../../components';
+import {ptbRegister} from '../../../redux/actions/Register';
+import {BottomSheetComp} from '../../../components';
 import openWebView from '../../../utils/openWebView';
 
 const validationType = {
@@ -92,7 +97,7 @@ const SmRegister = () => {
   const [file, setFile] = useState(null);
   const [check, setCheck] = useState(true);
   const [threeOption, setThreeOption] = useState([]);
-
+  const [datePicked, onDateChange] = useState();
   let actionSheet = useRef();
   const {
     handleSubmit,
@@ -434,11 +439,22 @@ const SmRegister = () => {
                   <Image source={Images.iconCheck} />
                 </TouchableOpacity>
               )}
-              <Text style={styles.checkboxLabel}>
-                By continuing, you agree to HERA's{' '}
-                <TouchableOpacity onPress={()=>openWebView(TERMS_OF_USE_URL)}><Text style={styles.checkboxTitle}>Terms of use </Text></TouchableOpacity>
-                and <TouchableOpacity onPress={()=>openWebView(PRIVACY_URL)}><Text style={styles.checkboxTitle}>Privacy Policy</Text></TouchableOpacity>
-              </Text>
+              <View>
+                <Text style={styles.tmc1}>
+                  {Strings.profile.tmc1}
+                  <Text
+                    style={styles.tmcLink1}
+                    onPress={() => openWebView(TERMS_OF_USE_URL)}>
+                    {Strings.profile.tmc2}
+                  </Text>{' '}
+                  and{' '}
+                  <Text
+                    style={styles.tmcLink1}
+                    onPress={() => openWebView(PRIVACY_URL)}>
+                    {Strings.profile.tmc3}
+                  </Text>
+                </Text>
+              </View>
             </View>
             <View style={styles.starContainer}>
               <Text style={styles.starColor}>*</Text>
@@ -495,7 +511,9 @@ const SmRegister = () => {
           setShow(false);
           setValue('dob', moment(selectedDate).format('MMM DD, YYYY'));
           setDate(selectedDate);
+          onDateChange(selectedDate);
         }}
+        date={datePicked ?? new Date()}
         onCancel={() => {
           setShow(false);
         }}

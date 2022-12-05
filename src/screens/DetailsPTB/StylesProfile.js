@@ -43,7 +43,6 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     lineHeight: Value.CONSTANT_VALUE_21,
-    right: Value.CONSTANT_VALUE_10,
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
@@ -62,7 +61,7 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   tmcLink1: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,

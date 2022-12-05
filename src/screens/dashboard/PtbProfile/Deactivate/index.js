@@ -93,7 +93,9 @@ const DeactivateAccount = () => {
   return (
     <View style={styles.upperContainer}>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView showVerticalIndicatot={false}>
+      <ScrollView
+        showVerticalIndicatot={false}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.mainContainer}>
           <View style={styles.headingContainer}>
             <Text style={styles.AccountVerify}>

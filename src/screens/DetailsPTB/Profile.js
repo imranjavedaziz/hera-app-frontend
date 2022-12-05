@@ -10,7 +10,6 @@ import {
   Platform,
   Alert,
   ScrollView,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
@@ -53,7 +52,8 @@ import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
 import openWebView from '../../utils/openWebView';
-import { updateLocalImg } from '../../redux/actions/Auth';
+import {updateLocalImg} from '../../redux/actions/Auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -71,6 +71,7 @@ const Profile = props => {
   const [isOpen, setOpen] = useState(false);
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
+  const [datePicked, onDateChange] = useState();
   const {
     handleSubmit,
     control,
@@ -226,11 +227,13 @@ const Profile = props => {
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <KeyboardAvoidingView
+      <KeyboardAwareScrollView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.flex}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled">
             <View style={styles.innerView}>
               <View style={styles.imgContainer}>
                 <Text style={globalStyle.screenTitle}>
@@ -452,19 +455,17 @@ const Profile = props => {
                   <View>
                     <Text style={styles.tmc1}>
                       {Strings.profile.tmc1}
-                      <TouchableOpacity
+                      <Text
+                        style={styles.tmcLink1}
                         onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        <Text style={styles.tmcLink1}>
-                          {Strings.profile.tmc2}
-                        </Text>
-                      </TouchableOpacity>
-                      {'\n'} and{' '}
-                      <TouchableOpacity
+                        {Strings.profile.tmc2}
+                      </Text>{' '}
+                      and{' '}
+                      <Text
+                        style={styles.tmcLink1}
                         onPress={() => openWebView(PRIVACY_URL)}>
-                        <Text style={styles.tmcLink2}>
-                          {Strings.profile.tmc3}
-                        </Text>
-                      </TouchableOpacity>
+                        {Strings.profile.tmc3}
+                      </Text>
                     </Text>
                   </View>
                 </View>
@@ -519,10 +520,12 @@ const Profile = props => {
                 value={date}
                 isVisible={show}
                 mode={'date'}
+                date={datePicked ?? new Date()}
                 onConfirm={selectedDate => {
                   setShow(false);
                   setValue(FormKey.date_of_birth, getDate(selectedDate));
                   setDate(getDate(selectedDate));
+                  onDateChange(selectedDate);
                 }}
                 onCancel={() => {
                   setShow(false);
@@ -568,7 +571,7 @@ const Profile = props => {
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
