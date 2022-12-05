@@ -59,7 +59,7 @@ const Settings = () => {
           },
         },
         {
-          text: Strings.profile.ModalOption2,
+          text: Strings.sm_create_gallery.StayHera,
           onPress: () => null,
         },
       ],

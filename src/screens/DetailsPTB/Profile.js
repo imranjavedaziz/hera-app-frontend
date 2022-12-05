@@ -575,5 +575,4 @@ const Profile = props => {
     </View>
   );
 };
-
-export default Profile;
+export default React.memo(Profile);
