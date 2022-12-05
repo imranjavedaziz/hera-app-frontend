@@ -108,86 +108,78 @@ const FloatingLabelInput = props => {
         containerStyle,
       ]}>
       <View>
-        {
-          verifyEmail && (
-            <View style={{flexDirection: 'row'}}>
+        {verifyEmail && (
+          <View style={{flexDirection: 'row'}}>
+            <Text
+              style={[
+                isFocused || textInputProps.value
+                  ? styles.firstName
+                  : styles.firstNameCopy,
+                edited === false && styles.fade,
+              ]}
+              accessible={true}
+              accessibilityLabel={label}>
+              {label}
+              {required && <Text style={{color: Colors.RED}}>*</Text>}
+            </Text>
+            <TouchableOpacity onPress={onPressVerify}>
               <Text
-                style={[
+                style={
                   isFocused || textInputProps.value
-                    ? styles.firstName
-                    : styles.firstNameCopy,
-                  edited === false && styles.fade,
-                ]}
-                accessible={true}
-                accessibilityLabel={label}>
-                {label}
-                {required && <Text style={{color: Colors.RED}}>*</Text>}
+                    ? styles.verifyEmail
+                    : styles.verifiedEmail
+                }>
+                Verify
               </Text>
-              <TouchableOpacity onPress={onPressVerify}>
-                <Text
-                  style={
-                    (isFocused || textInputProps.value)
-                      ? styles.verifyEmail
-                      : styles.verifiedEmail
-                  }>
-                  Verify
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )
-        }
-        {
-          !verifyEmail && (
-            <>
-              <Text
-                style={[
-                  isFocused || textInputProps.value
-                    ? styles.firstName
-                    : styles.firstNameCopy,
-                  edited === false && styles.fade,
-                ]}
-                accessible={true}
-                accessibilityLabel={label}>
-                {label}
-                {required && <Text style={{color: Colors.RED}}>*</Text>}
-              </Text>
-            </>
-          )
-        }
-        {
-          endComponent && (
-            <TouchableOpacity onPress={endComponentPress}>
-              <TextInput
-                style={[
-                  styles.InputTextField,
-                  isFocused ? styles.focusBorder : styles.blurBorder,
-                  error ? {borderBottomColor: Colors.RED} : null,
-                ]}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                blurOnSubmit
-                {...textInputProps}
-              />
             </TouchableOpacity>
-          )
-        }
-        {
-          !endComponent && (
+          </View>
+        )}
+        {!verifyEmail && (
+          <>
+            <Text
+              style={[
+                isFocused || textInputProps.value
+                  ? styles.firstName
+                  : styles.firstNameCopy,
+                edited === false && styles.fade,
+              ]}
+              accessible={true}
+              accessibilityLabel={label}>
+              {label}
+              {required && <Text style={{color: Colors.RED}}>*</Text>}
+            </Text>
+          </>
+        )}
+        {endComponent && (
+          <TouchableOpacity onPress={endComponentPress}>
             <TextInput
               style={[
                 styles.InputTextField,
                 isFocused ? styles.focusBorder : styles.blurBorder,
-                lineColor && {borderBottomColor: Colors.LIGHT_BLACK47},
                 error ? {borderBottomColor: Colors.RED} : null,
-                edited === false && styles.fade,
               ]}
               onFocus={handleFocus}
               onBlur={handleBlur}
               blurOnSubmit
               {...textInputProps}
             />
-          )
-        }
+          </TouchableOpacity>
+        )}
+        {!endComponent && (
+          <TextInput
+            style={[
+              styles.InputTextField,
+              isFocused ? styles.focusBorder : styles.blurBorder,
+              lineColor && {borderBottomColor: Colors.LIGHT_BLACK47},
+              error ? {borderBottomColor: Colors.RED} : null,
+              edited === false && styles.fade,
+            ]}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            blurOnSubmit
+            {...textInputProps}
+          />
+        )}
         {endComponent && (
           <View style={styles.endComponent}>{endComponent()}</View>
         )}

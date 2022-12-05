@@ -442,6 +442,6 @@ export default {
     EDIT_PROFILE: 'EDIT PROFILE',
     Profile_Title: 'Change your profile details',
     DiscardEdit: 'Discard Edits',
-    DiscardEditDisc: 'If you cancel now, your edits will not be saved.',
+    DiscardEditDisc: 'If you cancel now, your edits will not\n be saved.',
   },
 };

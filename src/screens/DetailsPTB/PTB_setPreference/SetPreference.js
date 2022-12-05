@@ -500,10 +500,12 @@ const SetPreference = ({route, navigation}) => {
                 </Text>
                 <Text style={styles.heightTextView}>
                   <Text>
-                    {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
+                    {height && parseInt(height[0] / 12)}'
+                    {height && parseInt(height[0] % 12)}" -{' '}
                   </Text>
                   <Text>
-                    {parseInt(height[1] / 12)}'{parseInt(height[1] % 12)}"
+                    {height && parseInt(height[1] / 12)}'
+                    {height && parseInt(height[1] % 12)}"
                   </Text>
                 </Text>
               </View>

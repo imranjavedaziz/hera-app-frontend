@@ -14,7 +14,7 @@ import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
 import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
-import _ from 'lodash';
+
 const ChatListing = props => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
@@ -27,7 +27,6 @@ const ChatListing = props => {
   }, []);
 
   const [loader, setLoader] = useState(true);
-  const [notRead, setNotRead] = useState(false);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     if (props?.route?.name === 'PtbDashboard') {
@@ -37,26 +36,11 @@ const ChatListing = props => {
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  useEffect(() => {
-    if (_.isEmpty(chats)) {
-      setNotRead(true);
-    } else {
-      let obj = chats.find(o => {
-        o?.read === 0 ? setNotRead(false) : setNotRead(true);
-      });
-      setNotRead(false);
-      return obj;
-    }
-  }, []);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
-      navigation.navigate(Routes.PtbDashboard, {
-        msgRead: notRead,
-      });
+      navigation.navigate(Routes.PtbDashboard);
     } else {
-      navigation.navigate(Routes.SmDashboard, {
-        msgRead: notRead,
-      });
+      navigation.navigate(Routes.SmDashboard);
     }
   };
   const headerComp = () => (

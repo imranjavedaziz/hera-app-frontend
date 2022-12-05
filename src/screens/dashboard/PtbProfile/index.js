@@ -133,9 +133,9 @@ const PtbProfile = () => {
     setOpen(false);
     setFile(image);
   };
-  React.useEffect(()=>{
-    console.log('subscriptionStatus',subscriptionStatus);
-  },[subscriptionStatus]);
+  React.useEffect(() => {
+    console.log('subscriptionStatus', subscriptionStatus);
+  }, [subscriptionStatus]);
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
@@ -176,12 +176,14 @@ const PtbProfile = () => {
       setVideoAviable(false);
     }
   };
-  
+
   return (
     <>
       <View style={styles.flex}>
         <Header end={false}>{headerComp()}</Header>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
           <View style={styles.mainContainer}>
             <View style={styles.imgView}>
               <ProfileImage
@@ -206,22 +208,20 @@ const PtbProfile = () => {
               />
             </View>
             <View>
-              {(
-                typeof subscriptionStatus === 'object' &&
+              {typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
                 subscriptionStatus.data?.status === 0 &&
-                !subscriptionStatus.data?.is_trial
-                ) && <Subscribed />}
-              {(typeof subscriptionStatus === 'object' &&
-                typeof subscriptionStatus.data === 'object') &&
-                ((subscriptionStatus.data?.is_trial || 
+                !subscriptionStatus.data?.is_trial && <Subscribed />}
+              {typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                (subscriptionStatus.data?.is_trial ||
                   !subscriptionStatus.data?.status === 0) && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}
                     InnerText={Strings.subscribe.Plans}
                   />
-                ))}
+                )}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}

@@ -149,7 +149,9 @@ const PTB_profile = props => {
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         {get_ptb_profile_detail_loading === false ? (
           <View style={styles.mainContainer}>
             <View>

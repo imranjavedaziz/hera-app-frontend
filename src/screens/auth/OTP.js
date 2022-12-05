@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   View,
   Keyboard,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
   ScrollView,
@@ -23,7 +22,10 @@ import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
 import {verifyOtp, mobileNumber} from '../../redux/actions/Auth';
-import {verifyEmail, sendVerificationMail} from '../../redux/actions/VerificationMail';
+import {
+  verifyEmail,
+  sendVerificationMail,
+} from '../../redux/actions/VerificationMail';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   hideAppLoader,
@@ -33,6 +35,7 @@ import {
 import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
 import {Colors} from '../../constants';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
@@ -54,11 +57,8 @@ const OTP = ({route}) => {
 
   const {verify_otp_success, verify_otp_loading, verify_otp_error_msg} =
     useSelector(state => state.Auth);
-  const {
-    verify_mail_success,
-    verify_mail_loading,
-    verify_mail_error_msg,
-  } = useSelector(state => state.VerificationMail);
+  const {verify_mail_success, verify_mail_loading, verify_mail_error_msg} =
+    useSelector(state => state.VerificationMail);
 
   const {
     mobile_number_success,
@@ -104,10 +104,10 @@ const OTP = ({route}) => {
         dispatch(hideAppLoader());
         const popAction = StackActions.pop(Value.CONSTANT_VALUE_1);
         navigation.dispatch(popAction);
-        dispatch(showAppToast(false,'Email verified sucessfully.'));
+        dispatch(showAppToast(false, 'Email verified sucessfully.'));
       }
       if (verify_mail_error_msg) {
-        dispatch(showAppToast(true,verify_mail_error_msg));
+        dispatch(showAppToast(true, verify_mail_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -149,11 +149,11 @@ const OTP = ({route}) => {
     send_verification_error_msg,
   ]);
   const onSubmit = data => {
-    if(data.otp.length<6){
-      dispatch(showAppToast(true,'Please fill OTP!'));
+    if (data.otp.length < 6) {
+      dispatch(showAppToast(true, 'Please fill OTP!'));
       return;
     }
-    if( type ===1 || type ===2 ){
+    if (type === 1 || type === 2) {
       const payload = {
         country_code: isRouteData.country_code,
         phone_no: isRouteData.phone_no,
@@ -225,7 +225,7 @@ const OTP = ({route}) => {
       }}>
       <Header end={false}>{headerComp()}</Header>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingView
+        <KeyboardAwareScrollView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -295,7 +295,7 @@ const OTP = ({route}) => {
               </View>
             </View>
           </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </ScrollView>
     </View>
   );

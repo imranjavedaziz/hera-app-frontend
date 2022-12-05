@@ -3,18 +3,17 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Header, {CircleBtn} from '../../../../components/Header';
 import styles from './style';
 import {Colors, Images, Strings, Alignment} from '../../../../constants';
-import {useNavigation,StackActions} from '@react-navigation/native';
+import {useNavigation, StackActions} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Value} from '../../../../constants/FixedValues';
@@ -22,31 +21,33 @@ import {
   validatePassword,
   pwdErrMsg,
   Fonts,
-  ConstantsCode
+  ConstantsCode,
 } from '../../../../constants/Constants';
-import {changePasswordSchema,forgetPasswordSchema} from '../../../../constants/schemas';
+import {
+  changePasswordSchema,
+  forgetPasswordSchema,
+} from '../../../../constants/schemas';
 import {Button, FloatingLabelInput} from '../../../../components';
 import User from '../../../../Api/User';
-import { logIn } from '../../../../redux/actions/Auth';
+import {logIn} from '../../../../redux/actions/Auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const ChangePassword = ({route}) => {
   const navigation = useNavigation();
   const {type} = route.params;
   const dispatch = useDispatch();
-  const [ isLogin, setLogin ] = useState(false);
-  const {
-    register_user_success_data,
-    user,
-    log_in_success,
-    log_in_loading
-  } = useSelector(state => state.Auth);
+  const [isLogin, setLogin] = useState(false);
+  const {register_user_success_data, user, log_in_success, log_in_loading} =
+    useSelector(state => state.Auth);
   const {changePassword, resetPassword} = User();
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
-    resolver: yupResolver(type===1?changePasswordSchema:forgetPasswordSchema),
+    resolver: yupResolver(
+      type === 1 ? changePasswordSchema : forgetPasswordSchema,
+    ),
   });
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -54,10 +55,10 @@ const ChangePassword = ({route}) => {
       setLogin(false);
       navigation.goBack();
     }
-  }, [log_in_success, log_in_loading,isLogin]);
-  const onSubmit = (data)=>{
-    if(type===1){
-      const login = ()=>{
+  }, [log_in_success, log_in_loading, isLogin]);
+  const onSubmit = data => {
+    if (type === 1) {
+      const login = () => {
         const payload = {
           country_code: ConstantsCode.Country_CODE,
           phone_no: user.phone_no,
@@ -65,89 +66,100 @@ const ChangePassword = ({route}) => {
         };
         dispatch(logIn(payload));
         setLogin(true);
-      }
-      changePassword(data,login);
-    }
-    else{
+      };
+      changePassword(data, login);
+    } else {
       const reqData = {
         password: data.new_password,
         confirm_password: data.confirm_password,
-        user_id: register_user_success_data.data.data.id
-      }
+        user_id: register_user_success_data.data.data.id,
+      };
       resetPassword(reqData);
     }
-  }
+  };
   const headerComp = () => {
-    if(type===2){
-      return  <CircleBtn
-        icon={Images.iconcross}
-        Fixedstyle={{
-          marginTop: Value.CONSTANT_VALUE_54,
-          alignItems: Alignment.FLEXEND,
-          marginRight: Value.CONSTANT_VALUE_20,
-        }}
-        onPress={()=>{
-          const popAction = StackActions.pop(Value.CONSTANT_VALUE_3);
-          navigation.dispatch(popAction);
-        }}
-        accessibilityLabel="Cross Button, Go back"
-      />
+    if (type === 2) {
+      return (
+        <CircleBtn
+          icon={Images.iconcross}
+          Fixedstyle={{
+            marginTop: Value.CONSTANT_VALUE_54,
+            alignItems: Alignment.FLEXEND,
+            marginRight: Value.CONSTANT_VALUE_20,
+          }}
+          onPress={() => {
+            const popAction = StackActions.pop(Value.CONSTANT_VALUE_3);
+            navigation.dispatch(popAction);
+          }}
+          accessibilityLabel="Cross Button, Go back"
+        />
+      );
     }
     return (
       <View>
-        <TouchableOpacity
-          style={styles.header}
-          onPress={navigation.goBack}>
+        <TouchableOpacity style={styles.header} onPress={navigation.goBack}>
           <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
         </TouchableOpacity>
       </View>
     );
-  }
+  };
   return (
     <>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView showVerticalIndicatot={false}>
+      <ScrollView
+        showVerticalIndicatot={false}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.mainContainer}>
           <View style={styles.headingContainer}>
             <Text style={styles.changePassword}>
-              {type===1?Strings.ChangePassword.CHANGE_PASSWORD:Strings.forgotPassword.forgot}
+              {type === 1
+                ? Strings.ChangePassword.CHANGE_PASSWORD
+                : Strings.forgotPassword.forgot}
             </Text>
           </View>
           <View style={styles.innerHeading}>
-            <Text style={styles.setANew}>{type===1?Strings.ChangePassword.SET_A:Strings.ChangePassword.SET_B}</Text>
+            <Text style={styles.setANew}>
+              {type === 1
+                ? Strings.ChangePassword.SET_A
+                : Strings.ChangePassword.SET_B}
+            </Text>
           </View>
           <View style={styles.flex}>
-            <KeyboardAvoidingView
+            <KeyboardAwareScrollView
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={styles.flex}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.innerView}>
                   <View style={styles.fullWidth}>
-                    {type===1&&<Controller
-                      control={control}
-                      render={({field: {onChange, value}}) => (
-                        <FloatingLabelInput
-                          label={Strings.ChangePassword.Current_Password}
-                          value={value}
-                          containerStyle={{
-                            marginTop: Value.CONSTANT_VALUE_35,
-                          }}
-                          onChangeText={v => onChange(v)}
-                          required={true}
-                          secureTextEntry={!show}
-                          minLength={8}
-                          error={errors && errors.current_password?.message}
-                          endComponent={() => (
-                            <TouchableOpacity
-                              onPress={() => setShow(!show)}
-                              style={styles.psswrdInput}>
-                              <Image source={show ? Images.eye2 : Images.eye} />
-                            </TouchableOpacity>
-                          )}
-                        />
-                      )}
-                      name="current_password"
-                    />}
+                    {type === 1 && (
+                      <Controller
+                        control={control}
+                        render={({field: {onChange, value}}) => (
+                          <FloatingLabelInput
+                            label={Strings.ChangePassword.Current_Password}
+                            value={value}
+                            containerStyle={{
+                              marginTop: Value.CONSTANT_VALUE_35,
+                            }}
+                            onChangeText={v => onChange(v)}
+                            required={true}
+                            secureTextEntry={!show}
+                            minLength={8}
+                            error={errors && errors.current_password?.message}
+                            endComponent={() => (
+                              <TouchableOpacity
+                                onPress={() => setShow(!show)}
+                                style={styles.psswrdInput}>
+                                <Image
+                                  source={show ? Images.eye2 : Images.eye}
+                                />
+                              </TouchableOpacity>
+                            )}
+                          />
+                        )}
+                        name="current_password"
+                      />
+                    )}
                     <Controller
                       control={control}
                       render={({field: {onChange, value}}) => (
@@ -225,11 +237,15 @@ const ChangePassword = ({route}) => {
                   </View>
                 </View>
               </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              label={type===1?Strings.preference.Save:Strings.preference.SaveNewPassword}
+              label={
+                type === 1
+                  ? Strings.preference.Save
+                  : Strings.preference.SaveNewPassword
+              }
               style={styles.Btn}
               onPress={handleSubmit(onSubmit)}
             />

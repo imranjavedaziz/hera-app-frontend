@@ -2,7 +2,7 @@ import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, scaleWidth} from '../../../utils/responsive';
+import {dynamicSize, height, scaleWidth} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -178,5 +178,17 @@ export default {
     position: 'absolute',
     bottom: -25,
     right: 0,
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };
