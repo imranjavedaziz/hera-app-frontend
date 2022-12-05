@@ -195,6 +195,7 @@ export default {
     Btn: 'Save Profile',
     Save: 'SAVE',
     SAVE_PROFILE: 'SAVE PROFILE',
+    Apply: 'APPLY',
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -343,7 +344,7 @@ export default {
   },
   stateList: {
     Subtitle: 'Search in any state',
-    iconText: 'Done',
+    iconText: 'Clear',
   },
   Subscription: {
     SubHeader: 'See 5 profiles per day',
