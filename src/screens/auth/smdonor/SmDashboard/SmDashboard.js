@@ -69,6 +69,7 @@ const SmDashboard = ({route}) => {
     chatData.update();
   }, []);
   useEffect(() => {
+    fetchData();
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
     }
@@ -80,16 +81,12 @@ const SmDashboard = ({route}) => {
       });
       return obj;
     }
-  }, [navigation, route?.name, chats]);
-  useFocusEffect(
-    useCallback(() => {
-      fetchData();
-      navigation.addListener('focus', () => {
-        dispatch(showAppLoader());
-        _getDonorDashboard(1, search);
-      });
-    }, [_getDonorDashboard, search]),
-  );
+    navigation.addListener('focus', () => {
+      dispatch(showAppLoader());
+      _getDonorDashboard(1, search);
+    });
+  }, [navigation, route?.name]);
+
   //Get device Info
   useEffect(() => {
     async function fetchDeviceInfo() {
@@ -104,6 +101,7 @@ const SmDashboard = ({route}) => {
     }
     fetchDeviceInfo();
   }, [dispatch, fcmToken]);
+
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -232,12 +230,12 @@ const SmDashboard = ({route}) => {
       get_donor_dashboard_loading,
       get_donor_dashboard_res,
       get_donor_dashboard_error_msg,
-      dispatch,
     ]),
   );
-  const _getDonorDashboard = (page, value) => {
+
+  const _getDonorDashboard = (page) => {
     let payload = {
-      keyword: value ? value : '',
+      keyword: search,
       state_ids:
         route?.params?.informationDetail?.join() !== undefined
           ? route?.params?.informationDetail?.join()
@@ -260,7 +258,6 @@ const SmDashboard = ({route}) => {
     dispatch(showAppLoader());
     setSearch(value);
     setSearching(true);
-    _getDonorDashboard(1, value);
   };
   const onEndReached = () => {
     if (lastPage > page) {
