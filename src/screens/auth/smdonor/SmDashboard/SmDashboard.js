@@ -83,7 +83,7 @@ const SmDashboard = ({route}) => {
     }
     navigation.addListener('focus', () => {
       dispatch(showAppLoader());
-      _getDonorDashboard(1, search);
+      _getDonorDashboard(1);
     });
   }, [navigation, route?.name]);
 
@@ -233,7 +233,7 @@ const SmDashboard = ({route}) => {
     ]),
   );
 
-  const _getDonorDashboard = (page) => {
+  const _getDonorDashboard = page => {
     let payload = {
       keyword: search,
       state_ids:
@@ -252,7 +252,7 @@ const SmDashboard = ({route}) => {
       dispatch(showAppLoader());
       setSearch('');
       setSearching(false);
-      _getDonorDashboard(1, '');
+      _getDonorDashboard(1);
       return;
     }
     dispatch(showAppLoader());
@@ -262,7 +262,7 @@ const SmDashboard = ({route}) => {
   const onEndReached = () => {
     if (lastPage > page) {
       setLoadMore(true);
-      _getDonorDashboard(page + 1, search);
+      _getDonorDashboard(page + 1);
     } else {
       setLoadMore(false);
     }
@@ -337,7 +337,7 @@ const SmDashboard = ({route}) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    _getDonorDashboard(1, search);
+    _getDonorDashboard(1);
   };
 
   const renderEmptyCell = () => {
