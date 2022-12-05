@@ -306,10 +306,10 @@ export default function Support() {
         }}>
         <View style={[styles.centeredView]}>
           <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>
+            <Text style={styles.modal_Headertext}>
               {ValidationMessages.DISCARD_INQUIRY}
             </Text>
-            <Text style={styles.modalSubHeader}>
+            <Text style={styles.modal_SubHeadertext}>
               {ValidationMessages.REJECT_DISCARD}
             </Text>
             <TouchableOpacity
@@ -317,7 +317,7 @@ export default function Support() {
                 setShowModal(false);
                 navigation.goBack();
               }}>
-              <Text style={styles.modalOption1}>
+              <Text style={styles.modal_text_1}>
                 {Strings.sm_create_gallery.modalText}
               </Text>
             </TouchableOpacity>
@@ -325,7 +325,7 @@ export default function Support() {
               onPress={() => {
                 setShowModal(false);
               }}>
-              <Text style={styles.modalOption2}>
+              <Text style={styles.modal_text_2}>
                 {Strings.sm_create_gallery.modalText_2}
               </Text>
             </TouchableOpacity>

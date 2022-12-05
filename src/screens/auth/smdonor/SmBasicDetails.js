@@ -214,7 +214,7 @@ const SmBasicDetails = () => {
 
   return (
     <>
-      <View style={styles.flex}>
+      <View style={styles.flex_1}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -227,7 +227,7 @@ const SmBasicDetails = () => {
             extraHeight={180}
             showsVerticalScrollIndicator={false}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.mainComp}>
+              <View style={styles.mainComp_1}>
                 <View>
                   <Text style={globalStyle.screenTitle}>
                     {Strings.sm_basic.Title}

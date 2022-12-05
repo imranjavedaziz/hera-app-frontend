@@ -4,7 +4,7 @@ import {Fonts} from '../../../constants/Constants';
 import {scaleWidth, normalizeFont} from '../../../utils/responsive';
 
 export default {
-  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
+  flex_1: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   radioBtn: {
     flex: Value.CONSTANT_VALUE_0,
     flexDirection: Alignment.ROW,
@@ -12,7 +12,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp: {marginTop: 108, marginHorizontal: 40},
+  mainComp_1: {marginTop: 108, marginHorizontal: 40},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
@@ -75,20 +75,20 @@ export default {
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.SEARCH_BOX,
   },
-  modalHeader: {
+  modal_Headertext: {
     lineHeight: Value.CONSTANT_VALUE_21,
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     paddingBottom: Value.CONSTANT_VALUE_5,
     color: Colors.COLOR_535858,
   },
-  modalSubHeader: {
+  modal_SubHeadertext: {
     textAlign: Alignment.CENTER,
     lineHeight: Value.CONSTANT_VALUE_18,
     marginTop: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansRegular,
   },
-  modalOption1: {
+  modal_text_1: {
     color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_16,
     paddingBottom: Value.CONSTANT_VALUE_10,
@@ -96,7 +96,7 @@ export default {
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
   },
-  modalOption2: {
+  modal_text_2: {
     fontSize: Value.CONSTANT_VALUE_16,
     fontWeight: Alignment.BOLD,
     letterSpacing: Value.CONSTANT_VALUE_1,
