@@ -25,6 +25,8 @@ const Dropdown = ({
   newValue,
   cancelPress,
   defaultValue,
+  heighter,
+  weight,
   ...dropdownProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -100,9 +102,19 @@ const Dropdown = ({
                 </Text>
               </View>
               <Image source={Images.arrowDown} style={STYLE_CONDITION} />
-              {value && (
+              {!heighter && !weight && value && (
                 <Text style={styles.buttonTextStyle} numberOfLines={1}>
                   {value?.name}
+                </Text>
+              )}
+              {heighter && value && (
+                <Text style={styles.buttonTextStyle} numberOfLines={1}>
+                  {parseInt(value?.name / 12)} ft {value?.name % 12} in
+                </Text>
+              )}
+              {!heighter && weight && value && (
+                <Text style={styles.buttonTextStyle} numberOfLines={1}>
+                  {value?.name + ' pounds'}
                 </Text>
               )}
               <View
@@ -125,6 +137,8 @@ const Dropdown = ({
                 setValue(selectedItem);
                 setFocused(false);
               }}
+              weight={weight}
+              highter={heighter}
               data={data}
               selected={value}
               onValueChange={onSelect}

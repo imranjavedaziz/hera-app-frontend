@@ -45,6 +45,8 @@ export default function CustomPicker({
   done,
   data = [],
   selected,
+  highter,
+  weight,
 }) {
   const [selectedRecord, setSelectedRecord] = useState();
   useEffect(() => {
@@ -97,7 +99,15 @@ export default function CustomPicker({
               {data.map((value, i) => {
                 return (
                   <Picker.Item
-                    label={value.name}
+                    label={
+                      weight === true
+                        ? value.name + ' pounds'
+                        : !highter
+                        ? value.name
+                        : `${parseInt(value.name / 12)} ft ${
+                            value.name % 12
+                          } in`
+                    }
                     value={value.id ?? i}
                     key={i}
                   />
