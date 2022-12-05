@@ -62,7 +62,7 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   tmcLink1: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,

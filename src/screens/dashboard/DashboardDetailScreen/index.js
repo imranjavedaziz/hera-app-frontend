@@ -7,8 +7,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import Header, {IconHeader} from '../../../components/Header';
 import DetailComp from '../../../components/dashboard/DetailScreen/DetailComp/ImageComp';
@@ -27,13 +31,17 @@ import {profileMatch} from '../../../redux/actions/Profile_Match';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize} from '../../../utils/responsive';
+import ImageView from 'react-native-image-viewing';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
+  const [imgPreviewindex, setImgPreviewIndex] = useState(0);
+  const [visible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
+  const [images, _setImages] = useState([]);
 
   const {
     get_sm_donor_success,
@@ -52,25 +60,38 @@ const DashboardDetailScreen = () => {
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
   }, [dispatch, userId]);
-  useEffect(() => {
-    if (loadingRef.current && !get_sm_donor_loading) {
-      dispatch(showAppLoader());
-      if (get_sm_donor_success) {
-        dispatch(hideAppLoader());
-        setSmDetailRes(get_sm_donor_res);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !get_sm_donor_loading) {
+        dispatch(showAppLoader());
+        if (get_sm_donor_success) {
+          dispatch(hideAppLoader());
+          setSmDetailRes(get_sm_donor_res);
+          updateGallery();
+        }
+        if (get_sm_donor_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (get_sm_donor_error_msg) {
-        dispatch(hideAppLoader());
-      }
+      loadingRef.current = get_sm_donor_loading;
+    }, [
+      get_sm_donor_success,
+      get_sm_donor_loading,
+      get_sm_donor_error_msg,
+      dispatch,
+      get_sm_donor_res,
+    ]),
+  );
+  const updateGallery = () => {
+    const url =
+      get_sm_donor_res?.doner_photo_gallery?.length > 0 &&
+      get_sm_donor_res?.doner_photo_gallery.map((item, i) => {
+        return item;
+      });
+    for (let i = 0; i < url?.length; ++i) {
+      images.push({uri: url[i]?.file_url});
     }
-    loadingRef.current = get_sm_donor_loading;
-  }, [
-    get_sm_donor_success,
-    get_sm_donor_loading,
-    get_sm_donor_error_msg,
-    dispatch,
-    get_sm_donor_res,
-  ]);
+  };
   useEffect(() => {
     if (loadingMatchRef.current && !profile_match_loading) {
       dispatch(showAppLoader());
@@ -111,10 +132,19 @@ const DashboardDetailScreen = () => {
     };
     dispatch(profileMatch(payload));
   };
+  const ImageClick = index => {
+    console.log(index, 'index???');
+    setImgPreviewIndex(index);
+    setIsVisible(true);
+  };
+  console.log(images, 'imagesss');
+  console.log(imgPreviewindex, 'imgPreviewindex????');
   const renderItemData = item => {
     return (
       <>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => ImageClick(item?.index)}
+          key={item?.id}>
           <RNSDWebImage
             resizeMode="cover"
             source={{uri: item?.item?.file_url}}
@@ -124,6 +154,10 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
+  console.log(
+    smDetailRes?.doner_photo_gallery,
+    'smDetailRes?.doner_photo_gallery',
+  );
   return (
     <>
       <View style={styles.flex}>
@@ -353,6 +387,12 @@ const DashboardDetailScreen = () => {
             />
           </View>
         )}
+        <ImageView
+          images={images}
+          imageIndex={imgPreviewindex}
+          visible={visible}
+          onRequestClose={() => setIsVisible(false)}
+        />
       </View>
     </>
   );
