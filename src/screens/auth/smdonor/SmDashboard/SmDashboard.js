@@ -352,6 +352,7 @@ const SmDashboard = ({route}) => {
         </View>
       );
     }
+    return null;
   };
   const renderFooterCell = () => {
     if (loadMore && cards.length > 0) {
@@ -364,6 +365,7 @@ const SmDashboard = ({route}) => {
         </View>
       );
     }
+    return null;
   };
   return (
     <Container
