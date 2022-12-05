@@ -73,6 +73,7 @@ export const ValidationMessages = {
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
+const CONFIRM_CONST = 'Confirm Password';
 export default {
   landing: {
     LOG_IN: ' LOG IN  ',
@@ -112,7 +113,7 @@ export default {
     EmailAddress: 'Email Address',
     DateOfBirth: 'Date Of Birth',
     setPassword: 'Set Password',
-    confirmPassword: 'Confirm Password',
+    confirmPassword: CONFIRM_CONST,
     RegisterAs: 'Register as Surrogate Mother or a Donor',
     Register: 'REGISTER',
     ModalHeader: 'Cancel Registration?',
@@ -168,7 +169,7 @@ export default {
     LastName: 'Last Name',
     DOB: 'Date Of Birth',
     Password: 'Set Password',
-    Confirm: 'Confirm Password',
+    Confirm: CONFIRM_CONST,
     Title: 'Make account for',
     Btn: 'Register',
     Surrogate_Mother_error:
@@ -434,7 +435,7 @@ export default {
     SET_B: 'Set your new password',
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
-    Confirm_Password: 'Confirm Password',
+    Confirm_Password: CONFIRM_CONST,
     PASSWORD_UPDATED: 'Your Password has been changed successfully.',
   },
   //Edit Profile
