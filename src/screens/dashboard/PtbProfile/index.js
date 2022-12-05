@@ -165,7 +165,7 @@ const PtbProfile = () => {
     dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
-    dispatch(showAppLoader());
+    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };

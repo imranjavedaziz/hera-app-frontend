@@ -29,7 +29,7 @@ export default {
   radioLabel: {
     marginLeft: Value.CONSTANT_VALUE_16,
     fontSize: Value.CONSTANT_VALUE_23,
-    color: Colors.BLACK_KEY,
+    color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
   },
   imgContainer: {
