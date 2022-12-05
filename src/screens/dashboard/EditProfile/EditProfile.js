@@ -3,7 +3,6 @@ import {
   Text,
   TouchableWithoutFeedback,
   ScrollView,
-  KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
   Keyboard,
@@ -43,6 +42,7 @@ import {
 } from '../../../redux/actions/Edit_profile';
 import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -57,9 +57,9 @@ const EditProfile = props => {
   const UpdateLoadingRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
   const [phone, setPhone] = useState('');
+  const [datePicked, onDateChange] = useState();
   useFocusEffect(
     useCallback(() => {
-      dispatch(showAppLoader());
       dispatch(getStates());
       dispatch(getProfileSetterDetail());
       dispatch(getEditProfile());
@@ -109,7 +109,7 @@ const EditProfile = props => {
         navigation.navigate(Routes.OTP, {type: 3});
       }
       if (send_verification_error_msg) {
-        dispatch(showAppToast(true,send_verification_error_msg));
+        dispatch(showAppToast(true, send_verification_error_msg));
         dispatch(hideAppLoader());
       }
     }
@@ -337,7 +337,7 @@ const EditProfile = props => {
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <KeyboardAvoidingView
+      <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         resetScrollToCoords={{x: 0, y: 10}}
         keyboardOpeningTime={0}
@@ -345,7 +345,9 @@ const EditProfile = props => {
         extraHeight={180}
         showsVerticalScrollIndicator={false}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled">
             <View style={styles.mainContainer}>
               <View style={styles.headingStyle}>
                 <Text style={styles.MainheadingStyle}>
@@ -590,10 +592,12 @@ const EditProfile = props => {
               value={date}
               isVisible={show}
               mode={'date'}
+              date={datePicked ?? new Date()}
               onConfirm={selectedDate => {
                 setShow(false);
                 setValue('dob', getDate(selectedDate));
                 setDate(getDate(selectedDate));
+                onDateChange(selectedDate);
               }}
               onCancel={() => {
                 setShow(false);
@@ -603,7 +607,7 @@ const EditProfile = props => {
             />
           </ScrollView>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
       <Modal
         transparent={true}
         visible={showModal}
@@ -628,6 +632,9 @@ const EditProfile = props => {
               <Text style={styles.modalOption1}>
                 {Strings.profile.ModalOption1}
               </Text>
+              <View
+                style={{borderBottomWidth: 1, borderBottomColor: '#f2f2f2'}}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {

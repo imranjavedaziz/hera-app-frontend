@@ -78,13 +78,8 @@ const Dropdown = ({
   const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
   const STYLE_CONDITION = value ? STYLE_ONE : STYLE_TWO;
   return (
-    <View
-      style={[
-        styles.container,
-        containerStyle,
-        {paddingTop: Value.CONSTANT_VALUE_0},
-      ]}>
-      <View style={[{marginVertical: Value.CONSTANT_VALUE_0}, containerStyle]}>
+    <View style={[styles.container, containerStyle]}>
+      <View style={containerStyle}>
         {Platform.OS === 'ios' ? (
           <View style={styles.bottom}>
             <TouchableOpacity

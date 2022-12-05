@@ -3,7 +3,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
@@ -27,6 +26,7 @@ import {
 } from '../../../../redux/actions/loader';
 import {useSelector, useDispatch} from 'react-redux';
 import {deleteAccountPassword} from '../../../../constants/schemas';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const DeleteAccount = () => {
   const navigation = useNavigation();
@@ -72,14 +72,15 @@ const DeleteAccount = () => {
   }, [delete_account_loading, delete_account_success]);
 
   const onSubmit = () => {
-    console.log('Hiiii');
     dispatch(showAppLoader());
     dispatch(deleteAccount(password));
   };
   return (
     <View style={styles.upperContainer}>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView showVerticalIndicatot={false}>
+      <ScrollView
+        showVerticalIndicatot={false}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.mainContainer}>
           <View style={styles.headingContainer}>
             <Text style={styles.AccountVerify}>
@@ -90,7 +91,7 @@ const DeleteAccount = () => {
             <Text style={styles.setANew}>{Strings.Settings.Enter_delete}</Text>
           </View>
           <View style={styles.flex}>
-            <KeyboardAvoidingView
+            <KeyboardAwareScrollView
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={styles.flex}>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -127,7 +128,7 @@ const DeleteAccount = () => {
                   </View>
                 </View>
               </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
