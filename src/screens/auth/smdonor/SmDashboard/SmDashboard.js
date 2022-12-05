@@ -233,7 +233,7 @@ const SmDashboard = ({ route }) => {
     ]),
   );
 
-  const _getDonorDashboard = (page) => {
+  const _getDonorDashboard = page => {
     let payload = {
       keyword: search,
       state_ids:

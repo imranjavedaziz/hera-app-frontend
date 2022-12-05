@@ -445,4 +445,12 @@ export default {
     DiscardEdit: 'Discard Edits',
     DiscardEditDisc: 'If you cancel now, your edits will not\n be saved.',
   },
+
+  //Report User
+  ReportUser: {
+    Report_this_User: 'Report this User?',
+    ReportConfirm: 'Are you sure you want to report this user?',
+    Yes_Report: 'Yes, Report',
+    Not_Now: 'Not Now',
+  },
 };

@@ -6,6 +6,9 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
+  Platform,
+  Alert,
+  Modal,
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -18,6 +21,7 @@ import { chatFeedback, pushNotification } from '../../redux/actions/Chat';
 import { Routes } from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 import moment from 'moment';
+import globalStyle from '../../styles/global';
 let fireDB;
 let onChildAdd;
 const ChatDetail = props => {
@@ -25,9 +29,12 @@ const ChatDetail = props => {
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
   const [_loading, setLoading] = useState(true);
-  const [db, setDB] = useState({ messages: [], loading: true });
-  const { log_in_data, user } = useSelector(state => state.Auth);
-  const subscriptionStatus = useSelector(state => state.Subscription.subscription_status_res);
+  const [db, setDB] = useState({messages: [], loading: true});
+  const {log_in_data, user} = useSelector(state => state.Auth);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription.subscription_status_res,
+  );
+  const [showModal, setShowModal] = useState(false);
   const loadingRef = useRef(false);
   const [sendFeedback, setSendFeedback] = useState('');
   const { feedback_data, feedback_success, feedback_loading } = useSelector(
@@ -234,7 +241,31 @@ const ChatDetail = props => {
       });
     }
   };
-
+  const toastFunc = () => {
+    dispatch(showAppToast(false, 'User has been reported to HERA.'));
+  };
+  const backAction = () => {
+    Alert.alert(
+      Strings.ReportUser.Report_this_User,
+      Strings.ReportUser.ReportConfirm,
+      [
+        {
+          text: Strings.ReportUser.Yes_Report,
+          onPress: () => {
+            toastFunc();
+          },
+        },
+        {
+          text: Strings.ReportUser.Not_Now,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+  const navReport = () => {
+    Platform.OS === 'ios' ? backAction() : setShowModal(true);
+  };
   function getRoleData(roleId, role) {
     switch (true) {
       case roleId === 2:
@@ -356,6 +387,9 @@ const ChatDetail = props => {
                 )}
               </View>
             </View>
+            <TouchableOpacity onPress={() => navReport()}>
+              <Image source={Images.iconDarkMore} />
+            </TouchableOpacity>
           </TouchableOpacity>
           <View />
         </View>
@@ -513,6 +547,40 @@ const ChatDetail = props => {
             />
           </View>
         )}
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[globalStyle.centeredView]}>
+          <View style={globalStyle.modalView}>
+            <Text style={globalStyle.modalHeader}>
+              {Strings.ReportUser.Report_this_User}
+            </Text>
+            <Text style={globalStyle.modalSubHeader}>
+              {Strings.ReportUser.ReportConfirm}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                toastFunc();
+              }}>
+              <Text style={globalStyle.modalOption1}>
+                {Strings.ReportUser.Yes_Report}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={globalStyle.modalOption2}>
+                {Strings.ReportUser.Not_Now}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
