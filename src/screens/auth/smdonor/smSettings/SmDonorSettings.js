@@ -177,7 +177,7 @@ const SmDonorSettings = () => {
   }, [file, dispatch]);
 
   const logoutScreen = () => {
-    dispatch(showAppLoader());
+    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
