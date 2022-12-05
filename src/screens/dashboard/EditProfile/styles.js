@@ -124,18 +124,18 @@ export default {
   modalHeader: {
     lineHeight: Value.CONSTANT_VALUE_21,
     fontWeight: Alignment.BOLD,
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
     paddingBottom: Value.CONSTANT_VALUE_5,
-    fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
   },
   modalSubHeader: {
     textAlign: Alignment.CENTER,
     lineHeight: Value.CONSTANT_VALUE_18,
     marginTop: Value.CONSTANT_VALUE_1,
-    fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_13,
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
   },
   modalOption1: {
     color: Colors.RED,
@@ -147,15 +147,15 @@ export default {
     textAlign: Alignment.CENTER,
   },
   modalOption2: {
-    fontSize: Value.CONSTANT_VALUE_16,
     marginVertical: Value.CONSTANT_VALUE_20,
     fontWeight: Alignment.BOLD,
+    fontSize: Value.CONSTANT_VALUE_16,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
   },
   loaderContainer: {
-    position: Alignment.ABSOLUTE,
     top: height / 2.5,
+    position: Alignment.ABSOLUTE,
     alignSelf: Alignment.CENTER,
     width: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_50,

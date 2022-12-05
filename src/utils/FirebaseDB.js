@@ -134,10 +134,6 @@ export default class FirebaseDB {
         console.log(snapshot.val(), 'snapshotmload earlier');
         let childShot = Object.keys(snapshot.val());
         console.log(childShot, 'childShot');
-        // console.log(this.firstKey, ' this.firstKey')
-        // this.loading = false;
-        // const keys = (Object.keys(snapshot.val() || {}));
-        // if (snapshot.length < SIZE) this.endReached = true;
         const ordered = Object.keys(snapshot.val()).reduce((obj, key) => {
           obj[key] = snapshot.val()[key];
           return obj;
@@ -147,9 +143,7 @@ export default class FirebaseDB {
 
         snapValues.map(async (childSnapshot, index) => {
           console.log(childSnapshot, 'childSnapshot');
-          // if(parseInt(keys[index])<parseInt(this.firstKey)){
           const {time, text, from} = childSnapshot;
-          // console.log(keys[index],'keys[index]')
           let messageItem = {
             _id: keys[index],
             text,
@@ -158,29 +152,11 @@ export default class FirebaseDB {
           };
           console.log(messageItem, 'messageItem earlier');
           this.appendMessage(messageItem);
-          // await this.readSingle(messageItem);
-          // }
         });
-        // this.firstKey = this.messages[this.messages.length-1]._id
         cb(false);
       });
   }
 
-  // async readMessage(id, data) {
-  //   const timestamp = new Date()
-  //   const ref = database().ref(
-  //     `${chat}` + '/Messages/' + this.chatId + '/' + id,
-  //   );
-  //   const snap = await ref.once('value');
-  //   if (snap.val() !== null && data.user_id !== this.user.user_id) {
-  //     ref.update({
-  //       ...data,
-  //       message: data.text,
-  //       isRead: 0,
-  //       readAt: timestamp,
-  //     });
-  //   }
-  // }
   async readSingle(msg) {
     if (msg.sender_id === this.sender.user_id && !msg.isRead) {
       await this.readMessage(msg._id.split('-')[0], msg);

@@ -49,9 +49,7 @@ export default (state = initState, action) => {
         deactivate_account_error_msg: action.data.msg,
         deactivate_account_res: action?.data?.data,
       };
-    /**
-     * GET DEACTIVATE REASON LIST 
-     */
+    /** GET DEACTIVATE REASON LIST */
     case REASONS_LIST_DEACTIVATE: {
       return {
         ...state,
