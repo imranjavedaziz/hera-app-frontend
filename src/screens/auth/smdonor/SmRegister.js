@@ -439,16 +439,22 @@ const SmRegister = () => {
                   <Image source={Images.iconCheck} />
                 </TouchableOpacity>
               )}
-              <Text style={styles.checkboxLabel}>
-                By continuing, you agree to HERA's{' '}
-                <TouchableOpacity onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                  <Text style={styles.checkboxTitle}>Terms of use </Text>
-                </TouchableOpacity>
-                and{' '}
-                <TouchableOpacity onPress={() => openWebView(PRIVACY_URL)}>
-                  <Text style={styles.checkboxTitle}>Privacy Policy</Text>
-                </TouchableOpacity>
-              </Text>
+              <View>
+                <Text style={styles.tmc1}>
+                  {Strings.profile.tmc1}
+                  <Text
+                    style={styles.tmcLink1}
+                    onPress={() => openWebView(TERMS_OF_USE_URL)}>
+                    {Strings.profile.tmc2}
+                  </Text>{' '}
+                  and{' '}
+                  <Text
+                    style={styles.tmcLink1}
+                    onPress={() => openWebView(PRIVACY_URL)}>
+                    {Strings.profile.tmc3}
+                  </Text>
+                </Text>
+              </View>
             </View>
             <View style={styles.starContainer}>
               <Text style={styles.starColor}>*</Text>

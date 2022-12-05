@@ -21,7 +21,6 @@ const styles = {
     position: Alignment.ABSOLUTE,
     top: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
     // height: Value.CONSTANT_VALUE_134,
   },
   safe: {
@@ -33,15 +32,16 @@ const styles = {
   row: {
     flex: Value.CONSTANT_VALUE_1,
     flexDirection: Alignment.ROW,
-    // alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_40,
     width: Prencentage.PRECENTAGE_100,
+    paddingLeft: Value.CONSTANT_VALUE_30,
+    paddingRight: Value.CONSTANT_VALUE_40,
   },
   text: {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
-    marginLeft: Value.CONSTANT_VALUE_10,
+    marginLeft: Value.CONSTANT_VALUE_12,
   },
   bar: {
     width: Value.CONSTANT_VALUE_20,
@@ -85,8 +85,7 @@ const Toast = () => {
                 style={{
                   alignItems: Alignment.CENTER,
                   justifyContent: Alignment.CENTER,
-                  height: Value.CONSTANT_VALUE_20,
-                  width: Value.CONSTANT_VALUE_20,
+                  marginTop: Value.CONSTANT_VALUE_5,
                 }}
               />
               <Text style={styles.text}>{toastState.toastText}</Text>

@@ -1,7 +1,7 @@
-import { Colors, Alignment } from '../../../constants';
-import { Value, Prencentage } from '../../../constants/FixedValues';
-import { Fonts } from '../../../constants/Constants';
-import { dynamicSize } from '../../../utils/responsive';
+import {Colors, Alignment} from '../../../constants';
+import {Value, Prencentage} from '../../../constants/FixedValues';
+import {Fonts} from '../../../constants/Constants';
+import {dynamicSize} from '../../../utils/responsive';
 
 export default {
   main: {paddingHorizontal: 40, marginTop: Value.CONSTANT_VALUE_54},
@@ -73,7 +73,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_5,
     marginTop: 10,
   },
-  pwdErrContainer: { flexDirection: Alignment.ROW, alignItems: Alignment.CENTER },
+  pwdErrContainer: {flexDirection: Alignment.ROW, alignItems: Alignment.CENTER},
   pwdErrText: {
     fontSize: Value.CONSTANT_VALUE_13,
     fontFamily: Fonts.OpenSansBold,
@@ -161,4 +161,27 @@ export default {
     marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   align: {alignItems: 'center'},
+  tmc1: {
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    marginLeft: 10,
+  },
+  tmcLink1: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    textDecorationLine: Alignment.UNDERLINE,
+  },
+  tmcLink2: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    textDecorationLine: Alignment.UNDERLINE,
+  },
 };

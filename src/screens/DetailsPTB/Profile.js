@@ -455,19 +455,17 @@ const Profile = props => {
                   <View>
                     <Text style={styles.tmc1}>
                       {Strings.profile.tmc1}
-                      <TouchableOpacity
+                      <Text
+                        style={styles.tmcLink1}
                         onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        <Text style={styles.tmcLink1}>
-                          {Strings.profile.tmc2}
-                        </Text>
-                      </TouchableOpacity>
-                      {'\n'} and{' '}
-                      <TouchableOpacity
+                        {Strings.profile.tmc2}
+                      </Text>{' '}
+                      and{' '}
+                      <Text
+                        style={styles.tmcLink1}
                         onPress={() => openWebView(PRIVACY_URL)}>
-                        <Text style={styles.tmcLink2}>
-                          {Strings.profile.tmc3}
-                        </Text>
-                      </TouchableOpacity>
+                        {Strings.profile.tmc3}
+                      </Text>
                     </Text>
                   </View>
                 </View>
