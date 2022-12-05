@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   View,
   Text,
@@ -10,18 +10,24 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
-import { Images, Strings, Colors } from '../../constants';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import {Images, Strings, Colors} from '../../constants';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import styles from './styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { showAppToast } from '../../redux/actions/loader';
-import { chatFeedback, pushNotification } from '../../redux/actions/Chat';
-import { Routes } from '../../constants/Constants/';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../redux/actions/loader';
+import {chatFeedback, pushNotification} from '../../redux/actions/Chat';
+import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 import moment from 'moment';
 import globalStyle from '../../styles/global';
+import {ReportUser} from '../../redux/actions/ReportUser';
+
 let fireDB;
 let onChildAdd;
 const ChatDetail = props => {
@@ -36,24 +42,29 @@ const ChatDetail = props => {
   );
   const [showModal, setShowModal] = useState(false);
   const loadingRef = useRef(false);
+  const LoadingRef = useRef(false);
   const [sendFeedback, setSendFeedback] = useState('');
-  const { feedback_data, feedback_success, feedback_loading } = useSelector(
+  const {feedback_data, feedback_success, feedback_loading} = useSelector(
     state => state.Chat,
   );
-  console.log("LINE NO 36", _loading);
-  let bootTrueVal = true
+  const {report_user_success, report_user_loading, report_user_error} =
+    useSelector(state => state.ReportUser);
+  console.log('LINE NO 36', _loading);
+  let bootTrueVal = true;
   const dispatch = useDispatch();
   useEffect(() => {
-    if (parseInt(props?.route?.params?.item?.recieverSubscription) ===
-      0 && user.role_id !== 2) {
+    if (
+      parseInt(props?.route?.params?.item?.recieverSubscription) === 0 &&
+      user.role_id !== 2
+    ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
-  }, [props.route.params])
+  }, [props.route.params]);
   const renderActions = message => {
     return (
-      <View style={{ flexDirection: 'row', paddingBottom: 10, paddingRight: 10 }}>
+      <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
-          <Image source={Images.ICON_SEND} style={{ width: 30, height: 30 }} />
+          <Image source={Images.ICON_SEND} style={{width: 30, height: 30}} />
         </TouchableOpacity>
       </View>
     );
@@ -61,10 +72,17 @@ const ChatDetail = props => {
   useEffect(() => {
     if (subscriptionStatus && subscriptionStatus.data) {
       if (!subscriptionStatus?.data.status) {
-        dispatch(showAppToast(true, subscriptionStatus.data.is_trial ? Strings.Subscription.TrailOver : Strings.Subscription.SubscriptionExpired));
+        dispatch(
+          showAppToast(
+            true,
+            subscriptionStatus.data.is_trial
+              ? Strings.Subscription.TrailOver
+              : Strings.Subscription.SubscriptionExpired,
+          ),
+        );
       }
     }
-  }, [subscriptionStatus])
+  }, [subscriptionStatus]);
   useEffect(async () => {
     if (parseInt(props.route.params.item.senderSubscription) === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
@@ -109,16 +127,32 @@ const ChatDetail = props => {
 
   useEffect(async () => {
     const unsubscribe = () => {
-      setDB({ messages: [], loading: false });
+      setDB({messages: [], loading: false});
       fireDB.reference.off('child_added', onChildAdd);
       db.reference.off('child_added', onChildAdd);
       fireDB = null;
     };
     return () => unsubscribe();
   }, []);
+  //Report User
+  useEffect(() => {
+    if (LoadingRef.current && !report_user_loading) {
+      dispatch(showAppLoader());
+      if (report_user_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, report_user_error));
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    LoadingRef.current = report_user_loading;
+  }, [report_user_success, report_user_loading]);
 
   const onSend = (messages = '') => {
-    if (parseInt(props.route.params.item.senderSubscription) === 0 || (!subscriptionStatus?.data?.status && user.role_id === 2)) {
+    if (
+      parseInt(props.route.params.item.senderSubscription) === 0 ||
+      (!subscriptionStatus?.data?.status && user.role_id === 2)
+    ) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
       navigation.navigate(Routes.Subscription);
     } else {
@@ -145,13 +179,13 @@ const ChatDetail = props => {
 
   const customSystemMessage = item => {
     return (
-      <View style={{ flex: 1, marginBottom: 4 }}>
+      <View style={{flex: 1, marginBottom: 4}}>
         <View>
           <View>
             <View
               style={[
                 item.currentMessage.from ===
-                  parseInt(props?.route?.params?.item?.senderId)
+                parseInt(props?.route?.params?.item?.senderId)
                   ? styles.senderID
                   : styles.receiverID,
               ]}>
@@ -165,7 +199,7 @@ const ChatDetail = props => {
                     }}>
                     <Image
                       source={Images.warning}
-                      style={{ tintColor: '#ff4544' }}
+                      style={{tintColor: '#ff4544'}}
                     />
                   </View>
                 )}
@@ -177,9 +211,9 @@ const ChatDetail = props => {
           <View
             style={
               item.currentMessage.from ===
-                parseInt(props?.route?.params?.item?.senderId)
-                ? { alignSelf: 'flex-end', marginTop: 4, marginRight: 20 }
-                : { alignSelf: 'flex-start', marginTop: 4, marginLeft: 10 }
+              parseInt(props?.route?.params?.item?.senderId)
+                ? {alignSelf: 'flex-end', marginTop: 4, marginRight: 20}
+                : {alignSelf: 'flex-start', marginTop: 4, marginLeft: 10}
             }>
             <Text
               style={{
@@ -242,7 +276,10 @@ const ChatDetail = props => {
     }
   };
   const toastFunc = () => {
-    dispatch(showAppToast(false, 'User has been reported to HERA.'));
+    const payload = {
+      to_user_id: parseInt(props?.route?.params?.item?.recieverId),
+    };
+    dispatch(ReportUser(payload));
   };
   const backAction = () => {
     Alert.alert(
@@ -292,7 +329,7 @@ const ChatDetail = props => {
     'props?.route?.params?.item?.feedback_status',
   );
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.BACKGROUND }}>
+    <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
         barStyle="dark-content"
         backgroundColor={Colors.BACKGROUND}
@@ -311,9 +348,9 @@ const ChatDetail = props => {
           backgroundColor: Colors.BACKGROUND,
         }}>
         <View style={styles.outerContainer}>
-          <View style={{ flex: 1, zIndex: 9999 }}>
+          <View style={{flex: 1, zIndex: 9999}}>
             <TouchableOpacity
-              hitSlop={{ top: 20, bottom: 20, left: 10, right: 10 }}
+              hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
               onPress={() => {
                 props.route.params.isComingFrom === true
                   ? props.navigation.navigate(Routes.Chat_Listing)
@@ -321,7 +358,7 @@ const ChatDetail = props => {
               }}>
               <Image
                 source={Images.BACK_PLAN_ARROW}
-                style={{ width: 14.7, height: 12.6 }}
+                style={{width: 14.7, height: 12.6}}
               />
             </TouchableOpacity>
           </View>
@@ -333,22 +370,30 @@ const ChatDetail = props => {
                 : false
             }
             onPress={() => navigateDetailScreen()}>
-            <View style={[styles.topContainer, parseInt(props?.route?.params?.item?.recieverSubscription) ===
-              0 ? { alignItems: 'center' } : null]}>
+            <View
+              style={[
+                styles.topContainer,
+                parseInt(props?.route?.params?.item?.recieverSubscription) === 0
+                  ? {alignItems: 'center'}
+                  : null,
+              ]}>
               <View style={styles.avatar}>
                 <Image
                   source={
                     parseInt(props?.route?.params?.item?.currentRole) === 1
                       ? Images.ADMIN_ICON
-                      : (parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                        0 ? Images.defaultProfile : { uri: props.route.params.item.recieverImage })
+                      : parseInt(
+                          props?.route?.params?.item?.recieverSubscription,
+                        ) === 0
+                      ? Images.defaultProfile
+                      : {uri: props.route.params.item.recieverImage}
                   }
                   style={styles.avatar}
                 />
               </View>
-              <View style={{ marginLeft: 10 }}>
+              <View style={{marginLeft: 10}}>
                 {parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                  0 ? (
+                0 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
@@ -356,41 +401,43 @@ const ChatDetail = props => {
                   <>
                     {parseInt(props?.route?.params?.item?.currentRole) ===
                       1 && (
-                        <Text style={styles.titleText}>
-                          {props.route.params.item.recieverName}
-                        </Text>
-                      )}
+                      <Text style={styles.titleText}>
+                        {props.route.params.item.recieverName}
+                      </Text>
+                    )}
                     {parseInt(props?.route?.params?.item?.currentRole) !==
                       1 && (
-                        <>
-                          <Text numberOfLines={1} style={styles.titleText}>
-                            {parseInt(props?.route?.params?.item?.currentRole) ===
-                              2
-                              ? props?.route?.params?.item?.recieverName
-                              : getRoleData(
+                      <>
+                        <Text numberOfLines={1} style={styles.titleText}>
+                          {parseInt(props?.route?.params?.item?.currentRole) ===
+                          2
+                            ? props?.route?.params?.item?.recieverName
+                            : getRoleData(
                                 props?.route?.params?.item?.currentRole,
                               )}
-                          </Text>
-                          <Text numberOfLines={1} style={styles.descText}>
-                            {parseInt(props?.route?.params?.item?.currentRole) ===
-                              2
-                              ? getRoleData(
+                        </Text>
+                        <Text numberOfLines={1} style={styles.descText}>
+                          {parseInt(props?.route?.params?.item?.currentRole) ===
+                          2
+                            ? getRoleData(
                                 parseInt(
                                   props?.route?.params?.item?.currentRole,
                                 ),
                               )
-                              : `#${props?.route?.params?.item?.recieverUserName}`}
-                          </Text>
-                        </>
-                      )}
+                            : `#${props?.route?.params?.item?.recieverUserName}`}
+                        </Text>
+                      </>
+                    )}
                   </>
                 )}
               </View>
             </View>
+          </TouchableOpacity>
+          {parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
             <TouchableOpacity onPress={() => navReport()}>
               <Image source={Images.iconDarkMore} />
             </TouchableOpacity>
-          </TouchableOpacity>
+          )}
           <View />
         </View>
         <View style={styles.border} />
@@ -457,16 +504,16 @@ const ChatDetail = props => {
         </View>
       )}
 
-      {
-        parseInt(props?.route?.params?.item?.currentRole) === 1 && db?.messages.length === 0 &&
-        <View style={styles.smDonorEmptyView}>
-          <EmptySmDonor
-            image={Images.conversation2}
-            title={Strings.Chat.START_CONVERSATION}
-            midTitle=""
-          />
-        </View>
-      }
+      {parseInt(props?.route?.params?.item?.currentRole) === 1 &&
+        db?.messages.length === 0 && (
+          <View style={styles.smDonorEmptyView}>
+            <EmptySmDonor
+              image={Images.conversation2}
+              title={Strings.Chat.START_CONVERSATION}
+              midTitle=""
+            />
+          </View>
+        )}
       {log_in_data?.role_id !== 2 &&
         db?.messages.length === 0 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
@@ -477,7 +524,7 @@ const ChatDetail = props => {
           />
         )}
       {log_in_data?.role_id === 2 && (
-        <View style={{ flex: 1, marginBottom: 30, marginTop: 30 }}>
+        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
@@ -501,7 +548,7 @@ const ChatDetail = props => {
         </View>
       )}
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
-        <View style={{ flex: 1, marginBottom: 30, marginTop: 30 }}>
+        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
           <GiftedChat
             messages={db?.messages}
             onSend={messages => onSend(messages)}
@@ -524,7 +571,7 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{ flex: 1, marginBottom: 30, marginTop: 30 }}>
+          <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
             <GiftedChat
               messages={db?.messages}
               onSend={messages => onSend(messages)}
