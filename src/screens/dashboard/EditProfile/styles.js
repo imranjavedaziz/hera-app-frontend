@@ -1,7 +1,12 @@
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
-import {normalizeFont, px, scaleHeight} from '../../../utils/responsive';
+import {
+  height,
+  normalizeFont,
+  px,
+  scaleHeight,
+} from '../../../utils/responsive';
 
 export default {
   cancelbtn: {
@@ -135,19 +140,29 @@ export default {
   modalOption1: {
     color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_16,
-    paddingBottom: Value.CONSTANT_VALUE_10,
-    marginVertical: Value.CONSTANT_VALUE_27,
+    marginVertical: Value.CONSTANT_VALUE_20,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
     width: Value.CONSTANT_VALUE_234,
     textAlign: Alignment.CENTER,
   },
   modalOption2: {
     fontSize: Value.CONSTANT_VALUE_16,
+    marginVertical: Value.CONSTANT_VALUE_20,
     fontWeight: Alignment.BOLD,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };

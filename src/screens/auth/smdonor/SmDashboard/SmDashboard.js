@@ -40,6 +40,8 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {MaterialIndicator} from 'react-native-indicators';
 import {Colors} from '../../../../constants';
 import {dynamicSize} from '../../../../utils/responsive';
+import chatHistory from '../../../../hooks/chatHistory';
+import _ from 'lodash';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -61,19 +63,30 @@ const SmDashboard = ({route}) => {
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const [msgRead, setMsgRead] = useState(false);
+  const chats = useSelector(state => state.Chat.chats);
+  const chatData = chatHistory();
+  const fetchData = useCallback(() => {
+    chatData.update();
+  }, []);
   useEffect(() => {
+    fetchData();
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
     }
-  }, [navigation, route?.name]);
-  useFocusEffect(
-    useCallback(() => {
-      navigation.addListener('focus', () => {
-        dispatch(showAppLoader());
-        _getDonorDashboard(1, search);
+    if (_.isEmpty(chats)) {
+      setMsgRead(false);
+    } else {
+      let obj = chats.find(o => {
+        o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
       });
-    }, [_getDonorDashboard,search]),
-  );
+      return obj;
+    }
+    navigation.addListener('focus', () => {
+      dispatch(showAppLoader());
+      _getDonorDashboard(1, search);
+    });
+  }, [navigation, route?.name]);
+
   //Get device Info
   useEffect(() => {
     async function fetchDeviceInfo() {
@@ -88,6 +101,7 @@ const SmDashboard = ({route}) => {
     }
     fetchDeviceInfo();
   }, [dispatch, fcmToken]);
+
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -216,12 +230,12 @@ const SmDashboard = ({route}) => {
       get_donor_dashboard_loading,
       get_donor_dashboard_res,
       get_donor_dashboard_error_msg,
-      dispatch,
     ]),
   );
-  const _getDonorDashboard = (page, value) => {
+
+  const _getDonorDashboard = (page) => {
     let payload = {
-      keyword: value ? value : '',
+      keyword: search,
       state_ids:
         route?.params?.informationDetail?.join() !== undefined
           ? route?.params?.informationDetail?.join()
@@ -244,7 +258,6 @@ const SmDashboard = ({route}) => {
     dispatch(showAppLoader());
     setSearch(value);
     setSearching(true);
-    _getDonorDashboard(1, value);
   };
   const onEndReached = () => {
     if (lastPage > page) {
@@ -313,7 +326,7 @@ const SmDashboard = ({route}) => {
       leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
-      chat={msgRead === true || route?.params?.msgRead === false ? true : false}
+      chat={msgRead === true ? true : false}
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {smChat: true})
       }
@@ -336,6 +349,7 @@ const SmDashboard = ({route}) => {
         </View>
       );
     }
+    return null;
   };
   const renderFooterCell = () => {
     if (loadMore && cards.length > 0) {
@@ -348,6 +362,7 @@ const SmDashboard = ({route}) => {
         </View>
       );
     }
+    return null;
   };
   return (
     <Container

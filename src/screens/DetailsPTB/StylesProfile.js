@@ -43,7 +43,6 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     lineHeight: Value.CONSTANT_VALUE_21,
-    right: Value.CONSTANT_VALUE_10,
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,

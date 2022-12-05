@@ -214,9 +214,11 @@ const SmBasicDetails = () => {
 
   return (
     <>
-      <View style={styles.flex}>
+      <View style={styles.flex_1}>
         <Header end={true}>{headerComp()}</Header>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
           <KeyboardAwareScrollView
             keyboardShouldPersistTaps="handled"
             resetScrollToCoords={{x: 0, y: 10}}
@@ -225,7 +227,7 @@ const SmBasicDetails = () => {
             extraHeight={180}
             showsVerticalScrollIndicator={false}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.mainComp}>
+              <View style={styles.mainComp_1}>
                 <View>
                   <Text style={globalStyle.screenTitle}>
                     {Strings.sm_basic.Title}
@@ -288,7 +290,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                      containerStyle={{marginTop:10}}
+                        containerStyle={{marginTop: 10}}
                         label={Strings.sm_basic.Zip}
                         value={value}
                         onChangeText={v => onChange(v)}

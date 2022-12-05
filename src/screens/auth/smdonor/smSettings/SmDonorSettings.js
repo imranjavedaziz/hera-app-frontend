@@ -181,7 +181,6 @@ const SmDonorSettings = () => {
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
-
   return (
     <>
       <View style={Styles.flex}>
@@ -197,9 +196,13 @@ const SmDonorSettings = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={
+                Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
-                }
+                } ${
+                  name?.middle_name === undefined || name?.middle_name === null
+                    ? ''
+                    : name?.middle_name
+                }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
