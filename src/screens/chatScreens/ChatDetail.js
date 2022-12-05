@@ -6,6 +6,9 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
+  Platform,
+  Alert,
+  Modal,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -18,6 +21,7 @@ import {chatFeedback, pushNotification} from '../../redux/actions/Chat';
 import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 import moment from 'moment';
+import globalStyle from '../../styles/global';
 let fireDB;
 let onChildAdd;
 const ChatDetail = props => {
@@ -27,7 +31,10 @@ const ChatDetail = props => {
   const [_loading, setLoading] = useState(true);
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data, user} = useSelector(state => state.Auth);
-  const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription.subscription_status_res,
+  );
+  const [showModal, setShowModal] = useState(false);
   const loadingRef = useRef(false);
   const [sendFeedback, setSendFeedback] = useState('');
   const {feedback_data, feedback_success, feedback_loading} = useSelector(
@@ -35,12 +42,14 @@ const ChatDetail = props => {
   );
 
   const dispatch = useDispatch();
-  useEffect(()=>{
-    if(parseInt(props?.route?.params?.item?.recieverSubscription) ===
-    0 && user.role_id!==2){
+  useEffect(() => {
+    if (
+      parseInt(props?.route?.params?.item?.recieverSubscription) === 0 &&
+      user.role_id !== 2
+    ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
-  },[props.route.params])
+  }, [props.route.params]);
   const renderActions = message => {
     return (
       <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
@@ -50,13 +59,20 @@ const ChatDetail = props => {
       </View>
     );
   };
-  useEffect(()=>{
-    if(subscriptionStatus && subscriptionStatus.data){
-      if(!subscriptionStatus?.data.status){
-        dispatch(showAppToast(true,subscriptionStatus.data.is_trial?Strings.Subscription.TrailOver:Strings.Subscription.SubscriptionExpired));
+  useEffect(() => {
+    if (subscriptionStatus && subscriptionStatus.data) {
+      if (!subscriptionStatus?.data.status) {
+        dispatch(
+          showAppToast(
+            true,
+            subscriptionStatus.data.is_trial
+              ? Strings.Subscription.TrailOver
+              : Strings.Subscription.SubscriptionExpired,
+          ),
+        );
       }
     }
-  },[subscriptionStatus])
+  }, [subscriptionStatus]);
   useEffect(async () => {
     if (parseInt(props.route.params.item.senderSubscription) === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
@@ -110,7 +126,10 @@ const ChatDetail = props => {
   }, []);
 
   const onSend = (messages = '') => {
-    if (parseInt(props.route.params.item.senderSubscription) === 0 || (!subscriptionStatus?.data?.status && user.role_id===2)) {
+    if (
+      parseInt(props.route.params.item.senderSubscription) === 0 ||
+      (!subscriptionStatus?.data?.status && user.role_id === 2)
+    ) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
       navigation.navigate(Routes.Subscription);
     } else {
@@ -233,7 +252,31 @@ const ChatDetail = props => {
       });
     }
   };
-
+  const toastFunc = () => {
+    dispatch(showAppToast(false, 'User has been reported to HERA.'));
+  };
+  const backAction = () => {
+    Alert.alert(
+      Strings.ReportUser.Report_this_User,
+      Strings.ReportUser.ReportConfirm,
+      [
+        {
+          text: Strings.ReportUser.Yes_Report,
+          onPress: () => {
+            toastFunc();
+          },
+        },
+        {
+          text: Strings.ReportUser.Not_Now,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+  const navReport = () => {
+    Platform.OS === 'ios' ? backAction() : setShowModal(true);
+  };
   function getRoleData(roleId, role) {
     switch (true) {
       case roleId === 2:
@@ -301,15 +344,23 @@ const ChatDetail = props => {
                 : false
             }
             onPress={() => navigateDetailScreen()}>
-            <View style={[styles.topContainer,parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                0?{alignItems: 'center'}:null]}>
+            <View
+              style={[
+                styles.topContainer,
+                parseInt(props?.route?.params?.item?.recieverSubscription) === 0
+                  ? {alignItems: 'center'}
+                  : null,
+              ]}>
               <View style={styles.avatar}>
                 <Image
                   source={
                     parseInt(props?.route?.params?.item?.currentRole) === 1
                       ? Images.ADMIN_ICON
-                      : (parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                      0?Images.defaultProfile:{uri: props.route.params.item.recieverImage})
+                      : parseInt(
+                          props?.route?.params?.item?.recieverSubscription,
+                        ) === 0
+                      ? Images.defaultProfile
+                      : {uri: props.route.params.item.recieverImage}
                   }
                   style={styles.avatar}
                 />
@@ -355,6 +406,9 @@ const ChatDetail = props => {
                 )}
               </View>
             </View>
+            <TouchableOpacity onPress={() => navReport()}>
+              <Image source={Images.iconDarkMore} />
+            </TouchableOpacity>
           </TouchableOpacity>
           <View />
         </View>
@@ -422,16 +476,16 @@ const ChatDetail = props => {
         </View>
       )}
 
-      {
-           parseInt(props?.route?.params?.item?.currentRole) === 1 && db?.messages.length === 0 &&
-           <View style={styles.smDonorEmptyView}>
-           <EmptySmDonor
-             image={Images.conversation2}
-             title={Strings.Chat.START_CONVERSATION}
-             midTitle=""
-           />
-         </View>
-      }
+      {parseInt(props?.route?.params?.item?.currentRole) === 1 &&
+        db?.messages.length === 0 && (
+          <View style={styles.smDonorEmptyView}>
+            <EmptySmDonor
+              image={Images.conversation2}
+              title={Strings.Chat.START_CONVERSATION}
+              midTitle=""
+            />
+          </View>
+        )}
       {log_in_data?.role_id !== 2 &&
         db?.messages.length === 0 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
@@ -551,6 +605,40 @@ const ChatDetail = props => {
             />
           </View>
         )}
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[globalStyle.centeredView]}>
+          <View style={globalStyle.modalView}>
+            <Text style={globalStyle.modalHeader}>
+              {Strings.ReportUser.Report_this_User}
+            </Text>
+            <Text style={globalStyle.modalSubHeader}>
+              {Strings.ReportUser.ReportConfirm}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                toastFunc();
+              }}>
+              <Text style={globalStyle.modalOption1}>
+                {Strings.ReportUser.Yes_Report}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={globalStyle.modalOption2}>
+                {Strings.ReportUser.Not_Now}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
