@@ -9,7 +9,7 @@ import Strings from '../../../constants/Strings';
 import Subscribe, {
   Subscribed,
 } from '../../../components/dashboard/PtbProfile/subscribe';
-import PtbAccount from '../../../components/dashboard/PtbProfile/PtbAccount';
+import PtbAccount, {ToggleNotification} from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
 import {
@@ -246,6 +246,7 @@ const PtbProfile = () => {
                 title={Strings.smSetting.Settings}
                 onPress={() => navigation.navigate(Routes.Settings)}
               />
+              <ToggleNotification/>
               <PtbAccount
                 leftIcon={Images.writing}
                 title={Strings.smSetting.Inquiry}

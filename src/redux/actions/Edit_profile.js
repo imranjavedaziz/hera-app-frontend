@@ -1,4 +1,4 @@
-import {UPDATE_USER_DETAIL, GET_USER_DETAIL} from '../Type';
+import {UPDATE_USER_DETAIL, GET_USER_DETAIL, TOGGLE_NOTIFICATION} from '../Type';
 
 export const getEditProfile = () => {
   return {
@@ -12,3 +12,8 @@ export const updateEditProfile = payload => {
     data: payload,
   };
 };
+
+export const toggleNotification = data => ({
+  type: TOGGLE_NOTIFICATION,
+  data,
+})

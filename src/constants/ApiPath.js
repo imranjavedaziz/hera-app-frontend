@@ -55,4 +55,5 @@ export default {
   update_account_status: 'update-account-status',
   match_password: 'match-password',
   report_user: 'report-user',
+  updateNotifyStatus: 'update-notify-status',
 };

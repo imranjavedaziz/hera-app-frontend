@@ -36,4 +36,9 @@ export default {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
   },
+  toggle: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
+    color: 'rgb(53,58,58)',
+  }
 };

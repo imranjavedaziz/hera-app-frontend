@@ -56,8 +56,6 @@ const ChatDetail = props => {
   const dispatch = useDispatch();
   useEffect(() => {
     const paramItem = props?.route?.params?.item;
-    console.log('user.role_id',user.role_id);
-    console.log('paramItem',paramItem);
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
       user.role_id !== 2 &&
@@ -90,7 +88,7 @@ const ChatDetail = props => {
     }
   }, [subscriptionStatus]);
   useEffect(async () => {
-    if (parseInt(props.route.params.item.senderSubscription) === 0) {
+    if (parseInt(props.route.params.item.senderSubscription) === 0 && parseInt(user.role_id) === 2) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     }
 
@@ -346,10 +344,6 @@ const ChatDetail = props => {
       hideSubscription.remove();
     };
   }, []);
-  console.log(
-    props?.route?.params?.item?.status_id,
-    'props?.route?.params?.item?.status_id',
-  );
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
