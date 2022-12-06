@@ -546,7 +546,7 @@ const ChatDetail = props => {
           />
         )}
       {log_in_data?.role_id === 2 && (
-        <View style={{flex: 1, marginTop: 30}}>
+        <View style={{flex: 1, marginTop: 30,marginBottom:10}}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={-230}
             style={{flex: 1}}
@@ -586,7 +586,7 @@ const ChatDetail = props => {
         </View>
       )}
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
-        <View style={{flex: 1, marginTop: 30}}>
+        <View style={{flex: 1, marginTop: 30,marginBottom:10}}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={-230}
             style={{flex: 1}}
@@ -634,7 +634,7 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1, marginTop: 30}}>
+          <View style={{flex: 1, marginTop: 30,marginBottom:10}}>
             <KeyboardAvoidingView
               keyboardVerticalOffset={-230}
               style={{flex: 1}}
