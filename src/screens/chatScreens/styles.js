@@ -63,7 +63,7 @@ export default {
     borderTopColor: '#E8E8E8',
     borderRadius: 15,
     marginHorizontal: 15,
-    padding: 5,
+
   },
   border: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
@@ -179,11 +179,17 @@ export default {
     borderWidth: px(Value.CONSTANT_VALUE_2),
     borderColor: Colors.WHITE,
     marginTop: 54,
-    // borderColor: Colors.GREEN,
     borderRadius: px(Value.CONSTANT_VALUE_60),
   },
   headersm: {
     marginTop: 45,
     marginRight: 20,
   },
+  warningImage:{
+    position: Alignment.ABSOLUTE,
+    alignSelf: Alignment.FLEXEND,
+    marginLeft: -30,
+    left:0,
+
+  }
 };

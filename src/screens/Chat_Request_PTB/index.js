@@ -86,7 +86,7 @@ const Chat_Request = props => {
   return (
     <Container
       mainStyle={true}
-      scroller={false}
+      scroller={true}
       showHeader={true}
       headerComp={headerComp}>
       <View style={styles.mainContainer}>
