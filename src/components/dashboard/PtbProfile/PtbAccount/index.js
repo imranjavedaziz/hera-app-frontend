@@ -21,20 +21,23 @@ const PtbAccount = ({leftIcon, title, onPress, BlueDot}) => {
 export const ToggleNotification = () => {
   const dispatch = useDispatch();
   const [switchValue, setSwitchValue] = useState(false);
+  const [changed, setChanged] = useState(false);
   const notification = useSelector(
     state => state.Edit_profile.get_user_detail_res?.notification_setting,
   );
   const toggleSwitch = () => {
+    setChanged(true);
     setSwitchValue(old => !old);
   };
   useEffect(() => {
     setSwitchValue(Boolean(notification?.notify_status));
   }, [notification]);
   useEffect(() => {
-    if (Boolean(notification?.notify_status) !== switchValue) {
+    if (Boolean(notification?.notify_status) !== switchValue && changed) {
+      setChanged(false);
       dispatch(toggleNotification({notify_status: switchValue}));
     }
-  }, [switchValue]);
+  }, [switchValue,notification]);
   return (
     <>
       <View style={styles.container}>
