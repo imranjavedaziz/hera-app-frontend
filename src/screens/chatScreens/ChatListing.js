@@ -29,9 +29,7 @@ const ChatListing = props => {
   const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
-    if (props?.route?.name === 'PtbDashboard') {
-      deviceHandler(navigation, 'exit');
-    }
+    deviceHandler(navigation, 'deviceGoBack');
   });
   useEffect(() => {
     return navigation.addListener('focus', fetchData);

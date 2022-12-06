@@ -250,17 +250,19 @@ const PTB_profile = props => {
                 />
               </View>
             )}
-            <Pressable
-              style={styles.sendMsgBtn}
-              onPress={() => {
-                onPresslike();
-              }}>
-              <Image source={Images.HEARTH_ICON} />
-              <Text style={styles.sendMsgText}>
-                {' '}
-                {Strings.PTB_Profile.send_request}
-              </Text>
-            </Pressable>
+            {stateRes?.profile_match_request?.status !== 2 && (
+              <Pressable
+                style={styles.sendMsgBtn}
+                onPress={() => {
+                  onPresslike();
+                }}>
+                <Image source={Images.HEARTH_ICON} />
+                <Text style={styles.sendMsgText}>
+                  {' '}
+                  {Strings.PTB_Profile.send_request}
+                </Text>
+              </Pressable>
+            )}
 
             {props?.route?.params?.seeAll && (
               <Pressable
