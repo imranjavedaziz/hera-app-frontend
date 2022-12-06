@@ -16,6 +16,7 @@ const Chat_listing_Comp = props => {
     currentRole,
     roleId,
     chatStart,
+    status_id
   } = props;
   const styleMatchOne = message !== '' ? message : Strings.Chat.HEY_ITS_MATCH;
   const styleMatchTwo = message !== '' ? message : '';
@@ -37,7 +38,14 @@ const Chat_listing_Comp = props => {
                   ? styles.ImgView
                   : styles.unReadImgView
               }>
-              <FastImage style={styles.userImg} source={{uri: image}} />
+                {
+                  status_id!==1&&
+                  <FastImage style={styles.userImg} source={Images.defaultProfile} />
+                 
+                }
+                {
+                  status_id===1&&  <FastImage style={styles.userImg} source={{uri: image}} />}
+             
               {match === 2 && chatStart !== 1 && (
                 <FastImage
                   style={styles.heartIcon}
@@ -46,9 +54,14 @@ const Chat_listing_Comp = props => {
               )}
             </View>
             <View style={styles.description}>
+           
+            {status_id !== 1?
+                  <Text style={styles.userName}>
+                    {Strings.Chat.INACTIVE_USER}
+                  </Text>:
               <Text numberOfLines={1} style={styles.userName}>
                 {name}
-              </Text>
+              </Text>}
               {currentRole !== 1 ? (
                 <Text numberOfLines={2} style={styleMatchThree}>
                   {styleMatchOne}
@@ -73,15 +86,22 @@ const Chat_listing_Comp = props => {
           <View style={styles.contain}>
             <View
               style={
-                (currentRole !== 1 && match === 2 && chatStart !== 1) ||
+                (match === 2 && chatStart !== 1) ||
                 read === 0
                   ? styles.ImgView
                   : styles.unReadImgView
               }>
-              <FastImage
-                style={styles.userImg}
-                source={currentRole === 1 ? Images.ADMIN_ICON : {uri: image}}
-              />
+                 {
+                  status_id!==1&&
+                  <FastImage style={styles.userImg} source={Images.defaultProfile} />
+                 
+                }
+                {
+                  status_id===1&&   <FastImage
+                  style={styles.userImg}
+                  source={currentRole === 1 ? Images.ADMIN_ICON : {uri: image}}
+                />}
+             
               {match === 2 && currentRole !== 1 && chatStart !== 1 && (
                 <FastImage
                   style={styles.heartIcon}
@@ -90,9 +110,13 @@ const Chat_listing_Comp = props => {
               )}
             </View>
             <View style={styles.description}>
+            {status_id !== 1?
+                  <Text style={styles.userName}>
+                    {Strings.Chat.INACTIVE_USER}
+                  </Text>:
               <Text numberOfLines={1} style={styles.userName}>
                 {name}
-              </Text>
+              </Text>}
               {currentRole !== 1 ? (
                 <Text
                   numberOfLines={2}

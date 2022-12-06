@@ -6,6 +6,9 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
+  Keyboard,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -27,7 +30,9 @@ const ChatDetail = props => {
   const [_loading, setLoading] = useState(true);
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data, user} = useSelector(state => state.Auth);
-  const subscriptionStatus = useSelector(state=>state.Subscription.subscription_status_res);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription.subscription_status_res,
+  );
   const loadingRef = useRef(false);
   const [sendFeedback, setSendFeedback] = useState('');
   const {feedback_data, feedback_success, feedback_loading} = useSelector(
@@ -35,12 +40,14 @@ const ChatDetail = props => {
   );
 
   const dispatch = useDispatch();
-  useEffect(()=>{
-    if(parseInt(props?.route?.params?.item?.recieverSubscription) ===
-    0 && user.role_id!==2){
+  useEffect(() => {
+    if (
+      parseInt(props?.route?.params?.item?.recieverSubscription) === 0 &&
+      user.role_id !== 2
+    ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
-  },[props.route.params])
+  }, [props.route.params]);
   const renderActions = message => {
     return (
       <View style={{flexDirection: 'row', paddingBottom: 10, paddingRight: 10}}>
@@ -50,13 +57,20 @@ const ChatDetail = props => {
       </View>
     );
   };
-  useEffect(()=>{
-    if(subscriptionStatus && subscriptionStatus.data){
-      if(!subscriptionStatus?.data.status){
-        dispatch(showAppToast(true,subscriptionStatus.data.is_trial?Strings.Subscription.TrailOver:Strings.Subscription.SubscriptionExpired));
+  useEffect(() => {
+    if (subscriptionStatus && subscriptionStatus.data) {
+      if (!subscriptionStatus?.data.status) {
+        dispatch(
+          showAppToast(
+            true,
+            subscriptionStatus.data.is_trial
+              ? Strings.Subscription.TrailOver
+              : Strings.Subscription.SubscriptionExpired,
+          ),
+        );
       }
     }
-  },[subscriptionStatus])
+  }, [subscriptionStatus]);
   useEffect(async () => {
     if (parseInt(props.route.params.item.senderSubscription) === 0) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
@@ -110,12 +124,19 @@ const ChatDetail = props => {
   }, []);
 
   const onSend = (messages = '') => {
-    if (parseInt(props.route.params.item.senderSubscription) === 0 || (!subscriptionStatus?.data?.status && user.role_id===2)) {
+    console.log(props.route.params.item, 'props.route.params.item');
+    if (
+      parseInt(props.route.params.item.senderSubscription) === 0 ||
+      (!subscriptionStatus?.data?.status && user.role_id === 2)
+    ) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
       navigation.navigate(Routes.Subscription);
+    } else if (props.route.params.item.status_id !== 1) {
+      dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     } else {
       setTextData('');
       if (messages.text !== '') {
+        Keyboard.dismiss();
         db.sendMessage(messages.text)
           .then(() => {
             let data = {
@@ -149,12 +170,7 @@ const ChatDetail = props => {
               ]}>
               {parseInt(props.route.params.item.recieverSubscription) === 0 &&
                 db?.messages[0]._id === item.currentMessage._id && (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      alignSelf: 'flex-end',
-                      marginLeft: -30,
-                    }}>
+                  <View style={styles.warningImage}>
                     <Image
                       source={Images.warning}
                       style={{tintColor: '#ff4544'}}
@@ -254,10 +270,27 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(db?.messages.length, 'db?.messages.length');
+  const [keyboardStatus, setKeyboardStatus] = useState({marginBottom: 0});
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', e => {
+      console.log(e, 'e');
+      setKeyboardStatus({
+        marginBottom: textData?.length > 75 ? e.endCoordinates.screenY : 20,
+      });
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardStatus({marginBottom: 0});
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
   console.log(
-    props?.route?.params?.item?.feedback_status,
-    'props?.route?.params?.item?.feedback_status',
+    props?.route?.params?.item?.status_id,
+    'props?.route?.params?.item?.status_id',
   );
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
@@ -268,13 +301,14 @@ const ChatDetail = props => {
         hidden={false}
       />
       <SafeAreaView />
+
       <View
         style={{
           position: 'absolute',
           flex: 1,
           right: 0,
           left: 0,
-          marginTop: 30,
+          marginTop: Platform.OS === 'ios' ? 20 : 0,
           zIndex: 1,
           backgroundColor: Colors.BACKGROUND,
         }}>
@@ -296,27 +330,36 @@ const ChatDetail = props => {
           <TouchableOpacity
             style={styles.topContainer}
             disabled={
-              parseInt(props?.route?.params?.item?.currentRole) === 1
+              parseInt(props?.route?.params?.item?.currentRole) === 1 ||
+              props?.route?.params?.item?.status_id !== 1
                 ? true
                 : false
             }
             onPress={() => navigateDetailScreen()}>
-            <View style={[styles.topContainer,parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                0?{alignItems: 'center'}:null]}>
+            <View
+              style={[
+                styles.topContainer,
+                parseInt(props?.route?.params?.item?.recieverSubscription) === 0
+                  ? {alignItems: 'center'}
+                  : null,
+              ]}>
               <View style={styles.avatar}>
                 <Image
                   source={
                     parseInt(props?.route?.params?.item?.currentRole) === 1
                       ? Images.ADMIN_ICON
-                      : (parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                      0?Images.defaultProfile:{uri: props.route.params.item.recieverImage})
+                      : parseInt(
+                          props?.route?.params?.item?.recieverSubscription,
+                        ) === 0 || props.route.params.item.status_id !== 1
+                      ? Images.defaultProfile
+                      : {uri: props.route.params.item.recieverImage}
                   }
                   style={styles.avatar}
                 />
               </View>
               <View style={{marginLeft: 10}}>
                 {parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                0 ? (
+                  0 || props?.route?.params?.item?.status_id !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
@@ -363,7 +406,9 @@ const ChatDetail = props => {
       {showFeedback &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
         parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
-        (db?.messages?.length === 20 || db?.messages?.length >= 30) &&
+        ((db?.messages?.length === 20 &&
+          parseInt(props?.route?.params?.item?.feedback_status) === 2) ||
+          db?.messages?.length >= 30) &&
         log_in_data?.role_id === 2 && (
           <View
             style={{
@@ -422,16 +467,16 @@ const ChatDetail = props => {
         </View>
       )}
 
-      {
-           parseInt(props?.route?.params?.item?.currentRole) === 1 && db?.messages.length === 0 &&
-           <View style={styles.smDonorEmptyView}>
-           <EmptySmDonor
-             image={Images.conversation2}
-             title={Strings.Chat.START_CONVERSATION}
-             midTitle=""
-           />
-         </View>
-      }
+      {parseInt(props?.route?.params?.item?.currentRole) === 1 &&
+        db?.messages.length === 0 && (
+          <View style={styles.smDonorEmptyView}>
+            <EmptySmDonor
+              image={Images.conversation2}
+              title={Strings.Chat.START_CONVERSATION}
+              midTitle=""
+            />
+          </View>
+        )}
       {log_in_data?.role_id !== 2 &&
         db?.messages.length === 0 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
@@ -442,83 +487,11 @@ const ChatDetail = props => {
           />
         )}
       {log_in_data?.role_id === 2 && (
-        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
-          <GiftedChat
-            messages={db?.messages}
-            onSend={messages => onSend(messages)}
-            renderSend={message => renderActions(message)}
-            renderBubble={customSystemMessage}
-            scrollToBottom
-            onInputTextChanged={text => setTextData(text)}
-            text={textData}
-            user={{
-              _id: parseInt(props?.route?.params?.item?.senderId),
-              name: props?.route?.params?.item?.senderName,
-              avatar: props?.route?.params?.item?.senderImage,
-            }}
-            containerStyle={styles.mainContainerDetail}
-            renderAvatar={null}
-            textInputProps={{
-              autoCorrect: false,
-            }}
-            minComposerHeight={textData?.length > 75 ? 112 : 34}
-            // loadEarlier={loadEarlier}
-            // onLoadEarlier={()=>db.loadEarlier(setLoading)}
-            // isLoadingEarlier={loading}
-            // onLoadEarlier={()=>alert('hi')}
-            //   listViewProps={{
-            //     scrollEventThrottle: 400,
-            //     onScroll: ({ nativeEvent }) => {
-            //       db.loadEarlier(setLoading)
-            //       // setLoadEarlier(false)
-            //     }
-            // }}
-          />
-        </View>
-      )}
-      {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
-        <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
-          <GiftedChat
-            messages={db?.messages}
-            onSend={messages => onSend(messages)}
-            renderSend={message => renderActions(message)}
-            renderBubble={customSystemMessage}
-            scrollToBottom
-            onInputTextChanged={text => setTextData(text)}
-            text={textData}
-            user={{
-              _id: parseInt(props?.route?.params?.item?.senderId),
-              name: props?.route?.params?.item?.senderName,
-              avatar: props?.route?.params?.item?.senderImage,
-            }}
-            containerStyle={styles.mainContainerDetail}
-            renderAvatar={null}
-            minComposerHeight={textData?.length > 75 ? 112 : 34}
-            //   listViewProps={{
-            //     scrollEventThrottle: 400,
-            //     onScroll: ({ nativeEvent }) => {
-            //       db.loadEarlier(setLoading)
-            //       // setLoadEarlier(false)
-            //     }
-            // }}
-            // isLoadingEarlier={loading}
-            // loadEarlier={loadEarlier}
-            // onLoadEarlier={()=>db.loadEarlier(setLoading)}
-            // onLoadEarlier={()=>alert('hi')}
-            //   listViewProps={{
-            //     scrollEventThrottle: 400,
-            //     onScroll: ({ nativeEvent }) => {
-            //       db.loadEarlier(setLoading)
-            //       setLoadEarlier(false)
-            //     }
-            // }}
-          />
-        </View>
-      )}
-      {db?.messages.length > 0 &&
-        log_in_data?.role_id !== 2 &&
-        parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1, marginBottom: 30, marginTop: 30}}>
+        <View style={{flex: 1, marginTop: 30}}>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={-230}
+            style={{flex: 1}}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GiftedChat
               messages={db?.messages}
               onSend={messages => onSend(messages)}
@@ -534,14 +507,15 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              minComposerHeight={textData?.length > 75 ? 112 : 34}
               textInputProps={{
                 autoCorrect: false,
               }}
-
+              minComposerHeight={textData?.length > 75 ? 60 : 34}
               // loadEarlier={loadEarlier}
+              // onLoadEarlier={()=>db.loadEarlier(setLoading)}
               // isLoadingEarlier={loading}
-              // listViewProps={{
+              // onLoadEarlier={()=>alert('hi')}
+              //   listViewProps={{
               //     scrollEventThrottle: 400,
               //     onScroll: ({ nativeEvent }) => {
               //       db.loadEarlier(setLoading)
@@ -549,6 +523,94 @@ const ChatDetail = props => {
               //     }
               // }}
             />
+          </KeyboardAvoidingView>
+        </View>
+      )}
+      {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
+        <View style={{flex: 1, marginTop: 30}}>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={-230}
+            style={{flex: 1}}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <GiftedChat
+              messages={db?.messages}
+              onSend={messages => onSend(messages)}
+              renderSend={message => renderActions(message)}
+              renderBubble={customSystemMessage}
+              scrollToBottom
+              onInputTextChanged={text => setTextData(text)}
+              text={textData}
+              user={{
+                _id: parseInt(props?.route?.params?.item?.senderId),
+                name: props?.route?.params?.item?.senderName,
+                avatar: props?.route?.params?.item?.senderImage,
+              }}
+              containerStyle={styles.mainContainerDetail}
+              renderAvatar={null}
+              minComposerHeight={textData?.length > 75 ? 60 : 34}
+
+              // minComposerHeight={112}
+              //   listViewProps={{
+              //     scrollEventThrottle: 400,
+              //     onScroll: ({ nativeEvent }) => {
+              //       db.loadEarlier(setLoading)
+              //       // setLoadEarlier(false)
+              //     }
+              // }}
+              // isLoadingEarlier={loading}
+              // loadEarlier={loadEarlier}
+              // onLoadEarlier={()=>db.loadEarlier(setLoading)}
+              // onLoadEarlier={()=>alert('hi')}
+              //   listViewProps={{
+              //     scrollEventThrottle: 400,
+              //     onScroll: ({ nativeEvent }) => {
+              //       db.loadEarlier(setLoading)
+              //       setLoadEarlier(false)
+              //     }
+              // }}
+            />
+          </KeyboardAvoidingView>
+        </View>
+      )}
+      {db?.messages.length > 0 &&
+        log_in_data?.role_id !== 2 &&
+        parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
+          <View style={{flex: 1, marginTop: 30}}>
+            <KeyboardAvoidingView
+              keyboardVerticalOffset={-230}
+              style={{flex: 1}}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+              <GiftedChat
+                messages={db?.messages}
+                onSend={messages => onSend(messages)}
+                renderSend={message => renderActions(message)}
+                renderBubble={customSystemMessage}
+                scrollToBottom
+                onInputTextChanged={text => setTextData(text)}
+                text={textData}
+                user={{
+                  _id: parseInt(props?.route?.params?.item?.senderId),
+                  name: props?.route?.params?.item?.senderName,
+                  avatar: props?.route?.params?.item?.senderImage,
+                }}
+                containerStyle={styles.mainContainerDetail}
+                renderAvatar={null}
+                minComposerHeight={textData?.length > 75 ? 60 : 34}
+                textInputProps={{
+                  autoCorrect: false,
+                }}
+
+                // loadEarlier={loadEarlier}
+                // isLoadingEarlier={loading}
+                // listViewProps={{
+                //     scrollEventThrottle: 400,
+                //     onScroll: ({ nativeEvent }) => {
+                //       db.loadEarlier(setLoading)
+                //       // setLoadEarlier(false)
+                //     }
+                // }}
+              />
+            </KeyboardAvoidingView>
           </View>
         )}
     </View>
