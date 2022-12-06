@@ -72,9 +72,7 @@ const Container = props => {
       />
       {!profileLoad && (
         <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
-          <KeyboardAwareScrollView
-            style={styles.flexMain}
-            behavior={PADDING_CON}>
+          <View style={styles.flexMain} behavior={PADDING_CON}>
             {fixedHeader && (
               <>
                 <Header end={headerEnd}>{headerComp()}</Header>
@@ -99,7 +97,7 @@ const Container = props => {
                 {children}
               </Scroller>
             )}
-          </KeyboardAwareScrollView>
+          </View>
         </SafeAreaView>
       )}
       {profileLoad && (

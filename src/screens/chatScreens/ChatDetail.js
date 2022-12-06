@@ -262,6 +262,7 @@ const ChatDetail = props => {
     }, [feedback_success, feedback_loading]),
   );
   const navigateDetailScreen = () => {
+    console.log(log_in_data?.role_id, 'log_in_data?.role_id ');
     if (parseInt(props?.route?.params?.item?.match_request?.status) === 1) {
       navigation.navigate(Routes.Chat_Request, {
         item: props.route.params.item,
@@ -324,28 +325,6 @@ const ChatDetail = props => {
     }
     return role;
   }
-  const [keyboardStatus, setKeyboardStatus] = useState({marginBottom: 0});
-
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener('keyboardDidShow', e => {
-      console.log(e, 'e');
-      setKeyboardStatus({
-        marginBottom: textData?.length > 75 ? e.endCoordinates.screenY : 20,
-      });
-    });
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardStatus({marginBottom: 0});
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
-  console.log(
-    props?.route?.params?.item?.status_id,
-    'props?.route?.params?.item?.status_id',
-  );
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <StatusBar
@@ -466,7 +445,7 @@ const ChatDetail = props => {
         parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
         parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
         ((db?.messages?.length === 20 &&
-          parseInt(props?.route?.params?.item?.feedback_status) === 2) ||
+          parseInt(props?.route?.params?.item?.feedback_status) !== 2) ||
           db?.messages?.length >= 30) &&
         log_in_data?.role_id === 2 && (
           <View
@@ -486,7 +465,7 @@ const ChatDetail = props => {
                 top: 8,
                 alignSelf: 'flex-end',
               }}
-              disabled={db?.messages.length >= 50 && bootTrueVal}
+              disabled={db?.messages.length >= 30 && bootTrueVal}
               onPress={() => {
                 setSendFeedback(2);
                 feedback(0, 1);
@@ -546,7 +525,7 @@ const ChatDetail = props => {
           />
         )}
       {log_in_data?.role_id === 2 && (
-        <View style={{flex: 1, marginTop: 30,marginBottom:10}}>
+        <View style={{flex: 1, marginTop: 30, marginBottom: 10}}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={-230}
             style={{flex: 1}}
@@ -570,23 +549,18 @@ const ChatDetail = props => {
                 autoCorrect: false,
               }}
               minComposerHeight={textData?.length > 75 ? 60 : 34}
-              // loadEarlier={loadEarlier}
-              // onLoadEarlier={()=>db.loadEarlier(setLoading)}
-              // isLoadingEarlier={loading}
-              // onLoadEarlier={()=>alert('hi')}
-              //   listViewProps={{
-              //     scrollEventThrottle: 400,
-              //     onScroll: ({ nativeEvent }) => {
-              //       db.loadEarlier(setLoading)
-              //       // setLoadEarlier(false)
-              //     }
-              // }}
+              listViewProps={{
+                scrollEventThrottle: 400,
+                onScroll: () => {
+                  db.loadEarlier(setLoading);
+                },
+              }}
             />
           </KeyboardAvoidingView>
         </View>
       )}
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
-        <View style={{flex: 1, marginTop: 30,marginBottom:10}}>
+        <View style={{flex: 1, marginTop: 30, marginBottom: 10}}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={-230}
             style={{flex: 1}}
@@ -607,26 +581,12 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               minComposerHeight={textData?.length > 75 ? 60 : 34}
-
-              // minComposerHeight={112}
-              //   listViewProps={{
-              //     scrollEventThrottle: 400,
-              //     onScroll: ({ nativeEvent }) => {
-              //       db.loadEarlier(setLoading)
-              //       // setLoadEarlier(false)
-              //     }
-              // }}
-              // isLoadingEarlier={loading}
-              // loadEarlier={loadEarlier}
-              // onLoadEarlier={()=>db.loadEarlier(setLoading)}
-              // onLoadEarlier={()=>alert('hi')}
-              //   listViewProps={{
-              //     scrollEventThrottle: 400,
-              //     onScroll: ({ nativeEvent }) => {
-              //       db.loadEarlier(setLoading)
-              //       setLoadEarlier(false)
-              //     }
-              // }}
+              listViewProps={{
+                scrollEventThrottle: 400,
+                onScroll: () => {
+                  db.loadEarlier(setLoading);
+                },
+              }}
             />
           </KeyboardAvoidingView>
         </View>
@@ -634,7 +594,7 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1, marginTop: 30,marginBottom:10}}>
+          <View style={{flex: 1, marginTop: 30, marginBottom: 10}}>
             <KeyboardAvoidingView
               keyboardVerticalOffset={-230}
               style={{flex: 1}}
@@ -658,16 +618,12 @@ const ChatDetail = props => {
                 textInputProps={{
                   autoCorrect: false,
                 }}
-
-                // loadEarlier={loadEarlier}
-                // isLoadingEarlier={loading}
-                // listViewProps={{
-                //     scrollEventThrottle: 400,
-                //     onScroll: ({ nativeEvent }) => {
-                //       db.loadEarlier(setLoading)
-                //       // setLoadEarlier(false)
-                //     }
-                // }}
+                listViewProps={{
+                  scrollEventThrottle: 400,
+                  onScroll: () => {
+                    db.loadEarlier(setLoading);
+                  },
+                }}
               />
             </KeyboardAvoidingView>
           </View>
