@@ -4,7 +4,10 @@ import {Fonts} from '../../../constants/Constants';
 import {dynamicSize} from '../../../utils/responsive';
 
 export default {
-  main: {paddingHorizontal: 40, marginTop: Value.CONSTANT_VALUE_54},
+  main: {
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_35),
+  },
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
@@ -129,7 +132,7 @@ export default {
   ImageText: {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.DARKBLACK,
+    color: Colors.BLACK_KEY,
     lineHeight: Value.CONSTANT_VALUE_21,
   },
   Btn: {
@@ -157,7 +160,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
     marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   align: {alignItems: 'center'},

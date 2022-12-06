@@ -234,7 +234,7 @@ const SmDonorSettings = () => {
                   navigation.navigate(Routes.donorGallery);
                 }}
                 style={Styles.flexRow}>
-                <Image source={Images.person} />
+                <Image source={Images.galleryimage} />
                 <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
               </TouchableOpacity>
               {avaiableVideo === true ? <View style={Styles.dot} /> : false}

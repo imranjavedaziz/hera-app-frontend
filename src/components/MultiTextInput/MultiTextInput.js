@@ -62,6 +62,7 @@ export default function MultiTextInput({
             blurOnSubmit={false}
             keyboardType="name-phone-pad"
             // returnKeyType='next'
+            keyboardAppearance="light"
             {...textInputProps}
           />
           {error && <Text style={styles.errMessage}>{error}</Text>}
