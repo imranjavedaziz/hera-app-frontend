@@ -55,9 +55,13 @@ const ChatDetail = props => {
   let bootTrueVal = true;
   const dispatch = useDispatch();
   useEffect(() => {
+    const paramItem = props?.route?.params?.item;
+    console.log('user.role_id',user.role_id);
+    console.log('paramItem',paramItem);
     if (
-      parseInt(props?.route?.params?.item?.recieverSubscription) === 0 &&
-      user.role_id !== 2
+      parseInt(paramItem?.recieverSubscription) === 0 &&
+      user.role_id !== 2 &&
+      paramItem.currentRole !== 1
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
@@ -412,8 +416,9 @@ const ChatDetail = props => {
                 />
               </View>
               <View style={{marginLeft: 10}}>
-                {parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                  0 || props?.route?.params?.item?.status_id !== 1 ? (
+                {(parseInt(props?.route?.params?.item?.recieverSubscription) ===
+                  0 && parseInt(props?.route?.params?.item?.currentRole) !==
+                  1) || props?.route?.params?.item?.status_id !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
