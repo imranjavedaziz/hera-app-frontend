@@ -17,7 +17,7 @@ export const Regx = {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 };
 
-export const mobileSchema = yup.object().shape({
+const REG_OBJ={
   phone: yup
     .string()
     .required(ValidationMessages.MOBILE_REQUIRED)
@@ -25,20 +25,12 @@ export const mobileSchema = yup.object().shape({
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_MOBILE,
     }),
-});
+}
+export const mobileSchema = yup.object().shape(REG_OBJ);
 export const otpSchema = yup.object().shape({
   otp: yup.string().required(ValidationMessages.OTP_REQUIRED),
 });
-export const loginSchema = yup.object().shape({
-  phone: yup
-    .string()
-    .required(ValidationMessages.MOBILE_REQUIRED)
-    .matches(Regx.MOBILE_REGEX, {
-      excludeEmptyString: true,
-      message: ValidationMessages.INVALID_MOBILE,
-    }),
-  password: yup.string().required(ValidationMessages.PASSWORD_REQUIRED),
-});
+export const loginSchema = yup.object().shape(REG_OBJ);
 export const parentRegisterSchema = yup.object().shape({
   first_name: yup
     .string()

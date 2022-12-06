@@ -77,6 +77,7 @@ const CreateGallery = () => {
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
+    console.log(_setImages,_setCounter);
   }, [dispatch]);
   useFocusEffect(
     useCallback(() => {
@@ -241,9 +242,7 @@ const CreateGallery = () => {
       setRemove([]);
     }
   };
-  const headerComp = () => {
-    <></>;
-  };
+  const headerComp = () => <View/>
 
   const openBottomVideoSheet = () => {
     setOpen(true);

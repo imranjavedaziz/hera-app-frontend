@@ -13,36 +13,36 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {IconHeader} from '../../../../components/Header';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { IconHeader } from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
-import {Routes} from '../../../../constants/Constants';
-import {Value} from '../../../../constants/FixedValues';
+import { Routes } from '../../../../constants/Constants';
+import { Value } from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
-import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
-import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import {deviceRegister} from '../../../../redux/actions/Auth';
+import { getDonorDashboard } from '../../../../redux/actions/DonorDashboard';
+import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
+import { deviceRegister } from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
-import {deviceHandler} from '../../../../utils/commonFunction';
+import { deviceHandler } from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
 import DeviceInfo from 'react-native-device-info';
-import {NotificationContext} from '../../../../context/NotificationContextManager';
+import { NotificationContext } from '../../../../context/NotificationContextManager';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {MaterialIndicator} from 'react-native-indicators';
-import {Colors} from '../../../../constants';
-import {dynamicSize} from '../../../../utils/responsive';
+import { MaterialIndicator } from 'react-native-indicators';
+import { Colors } from '../../../../constants';
+import { dynamicSize } from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
-const SmDashboard = ({route}) => {
+const SmDashboard = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const LoadingRef = useRef(false);
@@ -61,7 +61,7 @@ const SmDashboard = ({route}) => {
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
-  const {fcmToken} = useContext(NotificationContext);
+  const { fcmToken } = useContext(NotificationContext);
   const [msgRead, setMsgRead] = useState(false);
   const chats = useSelector(state => state.Chat.chats);
   const chatData = chatHistory();
@@ -76,14 +76,14 @@ const SmDashboard = ({route}) => {
     if (_.isEmpty(chats)) {
       setMsgRead(false);
     } else {
-      let obj = chats.find(o => {
+      return chats.find(o => {
         o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
       });
-      return obj;
+
     }
     navigation.addListener('focus', () => {
       dispatch(showAppLoader());
-      _getDonorDashboard(1, search);
+      _getDonorDashboard(1);
     });
   }, [navigation, route?.name]);
 
@@ -114,7 +114,7 @@ const SmDashboard = ({route}) => {
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
-            const {status} = JSON.parse(notification.data?.match_request);
+            const { status } = JSON.parse(notification.data?.match_request);
             if (status === 2) {
               navigation.navigate(Routes.ChatDetail, {
                 item: notification?.data,
@@ -165,10 +165,10 @@ const SmDashboard = ({route}) => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      const {notification} = remoteMessage;
+      const { notification } = remoteMessage;
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'profile') {
-          const {status} = JSON.parse(notification.data?.match_request);
+          const { status } = JSON.parse(notification.data?.match_request);
           if (status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
@@ -209,7 +209,7 @@ const SmDashboard = ({route}) => {
         dispatch(showAppLoader());
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
-          const {current_page, last_page, data} = get_donor_dashboard_res.data;
+          const { current_page, last_page, data } = get_donor_dashboard_res.data;
           if (current_page > 1) {
             data.length > 0 && setLoadMore(false);
             setCards([...cards, ...data]);
@@ -233,7 +233,7 @@ const SmDashboard = ({route}) => {
     ]),
   );
 
-  const _getDonorDashboard = (page) => {
+  const _getDonorDashboard = page => {
     let payload = {
       keyword: search,
       state_ids:
@@ -252,7 +252,7 @@ const SmDashboard = ({route}) => {
       dispatch(showAppLoader());
       setSearch('');
       setSearching(false);
-      _getDonorDashboard(1, '');
+      _getDonorDashboard(1);
       return;
     }
     dispatch(showAppLoader());
@@ -262,7 +262,7 @@ const SmDashboard = ({route}) => {
   const onEndReached = () => {
     if (lastPage > page) {
       setLoadMore(true);
-      _getDonorDashboard(page + 1, search);
+      _getDonorDashboard(page + 1);
     } else {
       setLoadMore(false);
     }
@@ -282,18 +282,18 @@ const SmDashboard = ({route}) => {
     };
     dispatch(getDonorDashboard(payload));
   };
-  const renderProfile = ({item, index}) => {
+  const renderProfile = ({ item, index }) => {
     return (
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate(Routes.ProfileDetails, {userid: item.id})
+          navigation.navigate(Routes.ProfileDetails, { userid: item.id })
         }
         style={styles.mainContainer}>
         <View style={styles.conatiner}>
           <FastImage
             style={[
               styles.profileImgView,
-              {borderRadius: Value.CONSTANT_VALUE_18},
+              { borderRadius: Value.CONSTANT_VALUE_18 },
             ]}
             source={{
               uri: item.profile_pic,
@@ -301,8 +301,8 @@ const SmDashboard = ({route}) => {
               cache: FastImage.cacheControl.immutable,
             }}>
             <LinearGradient
-              start={{x: 0.0, y: 0.28}}
-              end={{x: 0.011, y: 1.15}}
+              start={{ x: 0.0, y: 0.28 }}
+              end={{ x: 0.011, y: 1.15 }}
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={styles.gradient}
             />
@@ -323,12 +323,12 @@ const SmDashboard = ({route}) => {
 
   const headerComp = () => (
     <IconHeader
-      leftIcon={{uri: profileImg}}
+      leftIcon={{ uri: profileImg }}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
       chat={msgRead === true ? true : false}
       rightPress={() =>
-        navigation.navigate(Routes.Chat_Listing, {smChat: true})
+        navigation.navigate(Routes.Chat_Listing, { smChat: true })
       }
       style={styles.headerIcon}
       ApiImage={true}
@@ -337,7 +337,7 @@ const SmDashboard = ({route}) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    _getDonorDashboard(1, search);
+    _getDonorDashboard(1);
   };
 
   const renderEmptyCell = () => {
@@ -413,7 +413,7 @@ const SmDashboard = ({route}) => {
           <View>
             <FlatList
               contentContainerStyle={Styles.flatlist}
-              columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
+              columnWrapperStyle={{ justifyContent: Alignment.SPACE_BETWEEN }}
               data={cards}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderProfile}

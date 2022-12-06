@@ -255,5 +255,4 @@ const ChangePassword = ({route}) => {
     </>
   );
 };
-
-export default ChangePassword;
+export default React.memo(ChangePassword);
