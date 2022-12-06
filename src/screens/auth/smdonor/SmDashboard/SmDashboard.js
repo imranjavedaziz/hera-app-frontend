@@ -15,7 +15,6 @@ import React, {
 } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
-import Container from '../../../../components/Container';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Header, {IconHeader} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
@@ -61,7 +60,6 @@ const SmDashboard = ({route}) => {
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
-  const [empty, setEmpty] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const [msgRead, setMsgRead] = useState(false);
   const chats = useSelector(state => state.Chat.chats);
@@ -247,10 +245,6 @@ const SmDashboard = ({route}) => {
     ]),
   );
 
-  // const _getDonorDashboard = () => {
-
-  // };
-
   const onSearch = value => {
     if (value === '' && value.length < 3) {
       dispatch(showAppLoader());
@@ -412,35 +406,27 @@ const SmDashboard = ({route}) => {
                 selectedStates={route?.params?.informationDetail}
               />
             </View>
-            {empty === true ? (
-              <View style={Styles.emptyCardContainer}>
-                <Text style={Styles.sryText}>{Strings.dashboard.Sorry}</Text>
-                <Text style={Styles.innerText}>{Strings.dashboard.Para1}</Text>
-                <Text style={Styles.innerText2}>{Strings.dashboard.Para2}</Text>
-              </View>
-            ) : (
-              <View>
-                <FlatList
-                  contentContainerStyle={Styles.flatlist}
-                  columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
-                  data={cards}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={renderProfile}
-                  numColumns={2}
-                  showsVerticalScrollIndicator={false}
-                  onEndReached={() => {
-                    route.params?.informationDetail !== undefined &&
-                      onEndReached();
-                    searching && onEndReached();
-                  }}
-                  ListEmptyComponent={renderEmptyCell}
-                  ListFooterComponent={renderFooterCell}
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                  testID="flat-list"
-                />
-              </View>
-            )}
+            <View>
+              <FlatList
+                contentContainerStyle={Styles.flatlist}
+                columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
+                data={cards}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderProfile}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+                onEndReached={() => {
+                  route.params?.informationDetail !== undefined &&
+                    onEndReached();
+                  searching && onEndReached();
+                }}
+                ListEmptyComponent={renderEmptyCell}
+                ListFooterComponent={renderFooterCell}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                testID="flat-list"
+              />
+            </View>
           </View>
         </View>
       </View>

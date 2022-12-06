@@ -412,7 +412,7 @@ const SmRegister = () => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
-                  containerStyle={{marginTop: 10}}
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
                   label={Strings.sm_register.Confirm}
                   value={value}
                   onChangeText={v => onChange(v)}
