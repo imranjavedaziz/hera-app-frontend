@@ -12,7 +12,7 @@ import {
   getDeactivateReason,
   deactivateAccount,
 } from '../../../../redux/actions/DeactivateAccount';
-import {logOut} from '../../../../redux/actions/Auth';
+import {signoutUser} from '../../../../redux/actions/Auth';
 import {
   hideAppLoader,
   showAppLoader,
@@ -68,7 +68,7 @@ const DeactivateAccount = () => {
       if (deactivate_account_success) {
         dispatch(showAppToast(true, 'Account deactivated successfully!'));
         dispatch(hideAppLoader());
-        dispatch(logOut());
+        dispatch(signoutUser());
         navigation.reset({
           index: 0,
           routes: [{name: Routes.Landing}],
@@ -93,7 +93,9 @@ const DeactivateAccount = () => {
   return (
     <View style={styles.upperContainer}>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView showVerticalIndicatot={false}>
+      <ScrollView
+        showVerticalIndicatot={false}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.mainContainer}>
           <View style={styles.headingContainer}>
             <Text style={styles.AccountVerify}>

@@ -5,12 +5,12 @@ import {
   StatusBar,
   ScrollView,
   SafeAreaView,
-  KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Header from './Header';
 import {Value} from '../constants/FixedValues';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const styles = {
   container: {
@@ -70,48 +70,13 @@ const Container = props => {
         animated={true}
         hidden={false}
       />
-      {
-        !profileLoad && (
-          <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
-            <KeyboardAvoidingView style={styles.flexMain} behavior={PADDING_CON}>
-              {
-                fixedHeader && (
-                  <>
-                  <Header end={headerEnd}>{headerComp()}</Header>
-                  <Scroller
-                    enabled={scroller}
-                    style={style}
-                    mainStyle={mainStyle}
-                    fixedHeader={fixedHeader}
-                    showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
-                    {children}
-                  </Scroller>
-                </>
-                )
-              }
-              {
-                !fixedHeader && (
-                  <Scroller
-                  enabled={scroller}
-                  style={style}
-                  mainStyle={mainStyle}
-                  fixedHeader={fixedHeader}
-                  showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
-                  {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
-                  {children}
-                </Scroller>
-                )
-              }
-            </KeyboardAvoidingView>
-          </SafeAreaView>
-        )
-      }
-      {
-        profileLoad && (
-          <KeyboardAvoidingView style={styles.flexMain} behavior={PADDING_CON}>
-            {
-              fixedHeader && (
-                <>
+      {!profileLoad && (
+        <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
+          <KeyboardAwareScrollView
+            style={styles.flexMain}
+            behavior={PADDING_CON}>
+            {fixedHeader && (
+              <>
                 <Header end={headerEnd}>{headerComp()}</Header>
                 <Scroller
                   enabled={scroller}
@@ -122,11 +87,9 @@ const Container = props => {
                   {children}
                 </Scroller>
               </>
-              )
-            }
-            {
-              !fixedHeader && (
-                <Scroller
+            )}
+            {!fixedHeader && (
+              <Scroller
                 enabled={scroller}
                 style={style}
                 mainStyle={mainStyle}
@@ -135,11 +98,38 @@ const Container = props => {
                 {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
                 {children}
               </Scroller>
-              )
-            }
-          </KeyboardAvoidingView>
-        )
-      }
+            )}
+          </KeyboardAwareScrollView>
+        </SafeAreaView>
+      )}
+      {profileLoad && (
+        <KeyboardAwareScrollView style={styles.flexMain} behavior={PADDING_CON}>
+          {fixedHeader && (
+            <>
+              <Header end={headerEnd}>{headerComp()}</Header>
+              <Scroller
+                enabled={scroller}
+                style={style}
+                mainStyle={mainStyle}
+                fixedHeader={fixedHeader}
+                showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+                {children}
+              </Scroller>
+            </>
+          )}
+          {!fixedHeader && (
+            <Scroller
+              enabled={scroller}
+              style={style}
+              mainStyle={mainStyle}
+              fixedHeader={fixedHeader}
+              showsVerticalScrollIndicator={showsVerticalScrollIndicator}>
+              {showHeader && <Header end={headerEnd}>{headerComp()}</Header>}
+              {children}
+            </Scroller>
+          )}
+        </KeyboardAwareScrollView>
+      )}
     </>
   );
 };

@@ -353,6 +353,7 @@ const SetAttributes = ({route}) => {
                 <Dropdown
                   heightprop={true}
                   defaultValue={value}
+                  heighter={true}
                   label={Strings.sm_set_attributes.Height}
                   data={attributeData?.height}
                   onSelect={selectedItem => {
@@ -427,6 +428,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
+                  weight={true}
                   label={Strings.sm_set_attributes.Weight}
                   data={attributeData?.weight}
                   onSelect={selectedItem => {

@@ -42,18 +42,19 @@ import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
+const screens = [
+  Routes.SmBasicDetails,
+  Routes.SetPreference,
+  Routes.SetAttributes,
+  Routes.CreateGallery,
+  Routes.Profile,
+  Routes.SmRegister
+];
 
 const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.Auth.user);
   useEffect(() => {
-    const screens = [
-      Routes.SmBasicDetails,
-      Routes.SetPreference,
-      Routes.SetAttributes,
-      Routes.CreateGallery,
-      Routes.Profile,
-    ];
     const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (auth) {
       RNBootSplash.hide();
@@ -65,10 +66,14 @@ const Main = () => {
       if (path !== Routes.Landing && auth?.role_id === 2) {
         dispatch(getSubscriptionStatus());
       }
-      if(!auth.access_token && currentRoute !== Routes.Landing && !screens.includes(currentRoute)){
+      if (
+        !auth.access_token &&
+        currentRoute !== Routes.Landing &&
+        !screens.includes(currentRoute)
+      ) {
         navigationRef.current?.reset({
           index: 0,
-          routes: [{ name: Routes.Landing }]
+          routes: [{name: Routes.Landing}],
         });
       }
     }

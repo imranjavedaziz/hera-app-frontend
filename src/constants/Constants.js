@@ -788,26 +788,12 @@ const CreditRichYearly = 'com.CreditRich.Yearly';
 const HeraDevMonthly = 'com.HeraDev.Monthly';
 const HeraDevYearly = 'com.HeraDev.Yearly';
 export const creditProductsIds = Platform.select({
-  ios: [
-    CreditRichMonthly,
-    CreditRichYearly,
-    HeraDevMonthly,
-    HeraDevYearly,
-  ],
-  android: [
-    CreditRichMonthly,
-    HeraDevYearly,
-    HeraDevMonthly,
-  ],
+  ios: [CreditRichMonthly, CreditRichYearly, HeraDevMonthly, HeraDevYearly],
+  android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly],
 });
 
 export const productsIds = Platform.select({
-  ios: [
-    CreditRichMonthly,
-    CreditRichYearly,
-    HeraDevYearly,
-    HeraDevMonthly,
-  ],
+  ios: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevMonthly],
   android: [CreditRichMonthly, 'Hera_002_2m', HeraDevYearly],
 });
 

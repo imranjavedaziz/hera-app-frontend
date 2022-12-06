@@ -10,3 +10,4 @@ export * from './DeleteAccount';
 export * from './Edit_profile';
 export * from './VerifactionMail';
 export * from './Edit_profile';
+export * from './ReportUser';

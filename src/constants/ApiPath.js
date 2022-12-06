@@ -54,4 +54,5 @@ export default {
   account_deactive_reason: 'account-deactive-reason',
   update_account_status: 'update-account-status',
   match_password: 'match-password',
+  report_user: 'report-user',
 };

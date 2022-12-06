@@ -23,7 +23,11 @@ import {
   getSubscriptionPlan,
   getSubscriptionStatus,
 } from '../../../../redux/actions/Subsctiption';
-import { hideAppLoader, showAppLoader, showAppToast } from '../../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
@@ -53,7 +57,7 @@ const Subscription = props => {
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
-
+  console.log(_purchasereceipt, '_purchasereceipt');
   React.useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
       if (subscription_plan_success) {
@@ -70,7 +74,7 @@ const Subscription = props => {
     if (loadingRef.current && !create_subscription_loading) {
       dispatch(showAppLoader());
       if (create_subscription_success) {
-        dispatch(getSubscriptionStatus())
+        dispatch(getSubscriptionStatus());
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
         props.navigation.goBack();
@@ -136,22 +140,28 @@ const Subscription = props => {
       product_id: item?.productId,
       purchase_token: item?.transactionReceipt,
     };
+    console.log("LINE NUMBER 143 PAYLOAD", payload);
     dispatch(createSubscription(payload));
   };
+
   React.useEffect(async () => {
     IAPService.initializeConnection();
+    const allProducts = await IAPService.getIAPProducts();
+    console.log('ALL PRODUCT ID LINE NO 58', allProducts);
     return () => {
       IAPService.endIAPConnection();
     };
   }, []);
 
   const subscribePlan = (item, type) => {
-    if(item===null){
-      dispatch(showAppToast(true,'Please choose a plan!'));
+    console.log("LINE NUMBER 154 item",item,selectCheckBox?.ios_product);
+    if (item === null) {
+      dispatch(showAppToast(true, 'Please choose a plan!'));
       return;
     }
     dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
+      console.log("LINE NUMBER 160 requestSubscriptionIOS");
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
     } else {
       requestSubscriptionAndroid(
@@ -198,7 +208,9 @@ const Subscription = props => {
         showHeader={true}
         headerComp={headerComp}
         mainStyle={true}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
           <View style={styles.mainContainer}>
             <Image source={Images.LOGO} style={styles.logo} />
             <TitleComp
@@ -235,13 +247,15 @@ const Subscription = props => {
                 <Text style={styles.mainText}>
                   <Text style={{ color: 'red' }}>*</Text>
                   {Strings.Subscription.BySubs}
-                  <TouchableOpacity style={{ top: 2 }} onPress={()=>openWebView(TERMS_OF_USE_URL)}>
+                  <TouchableOpacity
+                    style={{ top: 2 }}
+                    onPress={() => openWebView(TERMS_OF_USE_URL)}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.TermsServices}
                     </Text>
                   </TouchableOpacity>
                   {Strings.Subscription.And}
-                  <TouchableOpacity onPress={()=>openWebView(PRIVACY_URL)}>
+                  <TouchableOpacity onPress={() => openWebView(PRIVACY_URL)}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.PrivacyPolicy}
                     </Text>

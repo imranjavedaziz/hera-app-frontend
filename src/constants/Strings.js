@@ -73,6 +73,7 @@ export const ValidationMessages = {
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
+const CONFIRM_CONST = 'Confirm Password';
 export default {
   landing: {
     LOG_IN: ' LOG IN  ',
@@ -112,15 +113,15 @@ export default {
     EmailAddress: 'Email Address',
     DateOfBirth: 'Date Of Birth',
     setPassword: 'Set Password',
-    confirmPassword: 'Confirm Password',
+    confirmPassword: CONFIRM_CONST,
     RegisterAs: 'Register as Surrogate Mother or a Donor',
     Register: 'REGISTER',
     ModalHeader: 'Cancel Registration?',
     ModalSubheader: 'If you cancel now, your progress will be lost.',
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
-    tmc1: " By continuing, you agree to HERA's ",
-    tmc2: 'Terms of use',
+    tmc1: "By continuing, you agree to HERA's ",
+    tmc2: 'Terms & Conditions',
     tmc3: 'Privacy Policy',
     desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',
     phone_no: 'Phone Number',
@@ -168,7 +169,7 @@ export default {
     LastName: 'Last Name',
     DOB: 'Date Of Birth',
     Password: 'Set Password',
-    Confirm: 'Confirm Password',
+    Confirm: CONFIRM_CONST,
     Title: 'Make account for',
     Btn: 'Register',
     Surrogate_Mother_error:
@@ -195,6 +196,7 @@ export default {
     Btn: 'Save Profile',
     Save: 'SAVE',
     SAVE_PROFILE: 'SAVE PROFILE',
+    Apply: 'APPLY',
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -316,7 +318,7 @@ export default {
     Settings: 'Settings',
     Inquiry: 'Support',
     AboutUs: 'About Us',
-    Terms: 'Terms Of Use',
+    Terms: 'Terms & Conditions',
     Privacy: 'Privacy Policy',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
@@ -343,7 +345,7 @@ export default {
   },
   stateList: {
     Subtitle: 'Search in any state',
-    iconText: 'Done',
+    iconText: 'Clear',
   },
   Subscription: {
     SubHeader: 'See 5 profiles per day',
@@ -434,7 +436,7 @@ export default {
     SET_B: 'Set your new password',
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
-    Confirm_Password: 'Confirm Password',
+    Confirm_Password: CONFIRM_CONST,
     PASSWORD_UPDATED: 'Your Password has been changed successfully.',
   },
   //Edit Profile
@@ -442,6 +444,14 @@ export default {
     EDIT_PROFILE: 'EDIT PROFILE',
     Profile_Title: 'Change your profile details',
     DiscardEdit: 'Discard Edits',
-    DiscardEditDisc: 'If you cancel now, your edits will not be saved.',
+    DiscardEditDisc: 'If you cancel now, your edits will not\n be saved.',
+  },
+
+  //Report User
+  ReportUser: {
+    Report_this_User: 'Report this User?',
+    ReportConfirm: 'Are you sure you want to report this user?',
+    Yes_Report: 'Yes, Report',
+    Not_Now: 'Not Now',
   },
 };

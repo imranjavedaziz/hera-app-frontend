@@ -9,6 +9,8 @@ import {
   Keyboard,
   Platform,
   KeyboardAvoidingView,
+  Alert,
+  Modal,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -16,11 +18,18 @@ import {Images, Strings, Colors} from '../../constants';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
-import {showAppToast} from '../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../redux/actions/loader';
 import {chatFeedback, pushNotification} from '../../redux/actions/Chat';
 import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 import moment from 'moment';
+import globalStyle from '../../styles/global';
+import {ReportUser} from '../../redux/actions/ReportUser';
+
 let fireDB;
 let onChildAdd;
 const ChatDetail = props => {
@@ -33,12 +42,17 @@ const ChatDetail = props => {
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
+  const [showModal, setShowModal] = useState(false);
   const loadingRef = useRef(false);
+  const LoadingRef = useRef(false);
   const [sendFeedback, setSendFeedback] = useState('');
   const {feedback_data, feedback_success, feedback_loading} = useSelector(
     state => state.Chat,
   );
-
+  const {report_user_success, report_user_loading, report_user_error} =
+    useSelector(state => state.ReportUser);
+  console.log('LINE NO 36', _loading);
+  let bootTrueVal = true;
   const dispatch = useDispatch();
   useEffect(() => {
     if (
@@ -122,6 +136,19 @@ const ChatDetail = props => {
     };
     return () => unsubscribe();
   }, []);
+  //Report User
+  useEffect(() => {
+    if (LoadingRef.current && !report_user_loading) {
+      dispatch(showAppLoader());
+      if (report_user_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, report_user_error));
+      } else {
+        dispatch(hideAppLoader());
+      }
+    }
+    LoadingRef.current = report_user_loading;
+  }, [report_user_success, report_user_loading]);
 
   const onSend = (messages = '') => {
     console.log(props.route.params.item, 'props.route.params.item');
@@ -249,7 +276,34 @@ const ChatDetail = props => {
       });
     }
   };
-
+  const toastFunc = () => {
+    const payload = {
+      to_user_id: parseInt(props?.route?.params?.item?.recieverId),
+    };
+    dispatch(ReportUser(payload));
+  };
+  const backAction = () => {
+    Alert.alert(
+      Strings.ReportUser.Report_this_User,
+      Strings.ReportUser.ReportConfirm,
+      [
+        {
+          text: Strings.ReportUser.Yes_Report,
+          onPress: () => {
+            toastFunc();
+          },
+        },
+        {
+          text: Strings.ReportUser.Not_Now,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+  const navReport = () => {
+    Platform.OS === 'ios' ? backAction() : setShowModal(true);
+  };
   function getRoleData(roleId, role) {
     switch (true) {
       case roleId === 2:
@@ -399,6 +453,11 @@ const ChatDetail = props => {
               </View>
             </View>
           </TouchableOpacity>
+          {parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
+            <TouchableOpacity onPress={() => navReport()}>
+              <Image source={Images.iconDarkMore} />
+            </TouchableOpacity>
+          )}
           <View />
         </View>
         <View style={styles.border} />
@@ -427,7 +486,7 @@ const ChatDetail = props => {
                 top: 8,
                 alignSelf: 'flex-end',
               }}
-              disabled={db?.messages.length >= 50 && true}
+              disabled={db?.messages.length >= 50 && bootTrueVal}
               onPress={() => {
                 setSendFeedback(2);
                 feedback(0, 1);
@@ -613,8 +672,42 @@ const ChatDetail = props => {
             </KeyboardAvoidingView>
           </View>
         )}
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[globalStyle.centeredView]}>
+          <View style={globalStyle.modalView}>
+            <Text style={globalStyle.modalHeader}>
+              {Strings.ReportUser.Report_this_User}
+            </Text>
+            <Text style={globalStyle.modalSubHeader}>
+              {Strings.ReportUser.ReportConfirm}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                toastFunc();
+              }}>
+              <Text style={globalStyle.modalOption1}>
+                {Strings.ReportUser.Yes_Report}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={globalStyle.modalOption2}>
+                {Strings.ReportUser.Not_Now}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
-export default ChatDetail;
+export default React.memo(ChatDetail);

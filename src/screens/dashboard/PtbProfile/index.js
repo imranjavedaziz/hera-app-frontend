@@ -133,9 +133,9 @@ const PtbProfile = () => {
     setOpen(false);
     setFile(image);
   };
-  React.useEffect(()=>{
-    console.log('subscriptionStatus',subscriptionStatus);
-  },[subscriptionStatus]);
+  React.useEffect(() => {
+    console.log('subscriptionStatus', subscriptionStatus);
+  }, [subscriptionStatus]);
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
@@ -165,7 +165,7 @@ const PtbProfile = () => {
     dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
-    dispatch(showAppLoader());
+    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
@@ -176,11 +176,14 @@ const PtbProfile = () => {
       setVideoAviable(false);
     }
   };
+
   return (
     <>
       <View style={styles.flex}>
         <Header end={false}>{headerComp()}</Header>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
           <View style={styles.mainContainer}>
             <View style={styles.imgView}>
               <ProfileImage
@@ -188,9 +191,13 @@ const PtbProfile = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={
+                Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
-                }
+                } ${
+                  name?.middle_name === undefined || name?.middle_name === null
+                    ? ''
+                    : name?.middle_name
+                }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
@@ -201,22 +208,20 @@ const PtbProfile = () => {
               />
             </View>
             <View>
-              {(
-                typeof subscriptionStatus === 'object' &&
+              {typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
                 subscriptionStatus.data?.status === 0 &&
-                !subscriptionStatus.data?.is_trial
-                ) && <Subscribed />}
-              {(typeof subscriptionStatus === 'object' &&
-                typeof subscriptionStatus.data === 'object') &&
-                ((subscriptionStatus.data?.is_trial || 
+                !subscriptionStatus.data?.is_trial && <Subscribed />}
+              {typeof subscriptionStatus === 'object' &&
+                typeof subscriptionStatus.data === 'object' &&
+                (subscriptionStatus.data?.is_trial ||
                   !subscriptionStatus.data?.status === 0) && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}
                     InnerText={Strings.subscribe.Plans}
                   />
-                ))}
+                )}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}

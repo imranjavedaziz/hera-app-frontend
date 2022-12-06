@@ -6,9 +6,14 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  Animated,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import Header, {IconHeader} from '../../../components/Header';
 import DetailComp from '../../../components/dashboard/DetailScreen/DetailComp/ImageComp';
@@ -26,15 +31,20 @@ import Colors from '../../../constants/Colors';
 import {profileMatch} from '../../../redux/actions/Profile_Match';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, width} from '../../../utils/responsive';
+import ImageView from 'react-native-image-viewing';
 
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
+  const [imgPreviewindex, setImgPreviewIndex] = useState(0);
+  const [visible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-
+  const [images, _setImages] = useState([]);
+  const [islikedLogo, setIslikedLogo] = useState('');
+  const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const {
     get_sm_donor_success,
     get_sm_donor_loading,
@@ -52,31 +62,49 @@ const DashboardDetailScreen = () => {
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
   }, [dispatch, userId]);
-  useEffect(() => {
-    if (loadingRef.current && !get_sm_donor_loading) {
-      dispatch(showAppLoader());
-      if (get_sm_donor_success) {
-        dispatch(hideAppLoader());
-        setSmDetailRes(get_sm_donor_res);
+  console.log('LINE NO 63', _setImages);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !get_sm_donor_loading) {
+        dispatch(showAppLoader());
+        if (get_sm_donor_success) {
+          dispatch(hideAppLoader());
+          setSmDetailRes(get_sm_donor_res);
+          updateGallery();
+        }
+        if (get_sm_donor_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (get_sm_donor_error_msg) {
-        dispatch(hideAppLoader());
-      }
+      loadingRef.current = get_sm_donor_loading;
+    }, [
+      get_sm_donor_success,
+      get_sm_donor_loading,
+      get_sm_donor_error_msg,
+      dispatch,
+      get_sm_donor_res,
+    ]),
+  );
+  const updateGallery = () => {
+    const url =
+      get_sm_donor_res?.doner_photo_gallery?.length > 0 &&
+      get_sm_donor_res?.doner_photo_gallery.map((item, i) => {
+        return item;
+      });
+    for (let i = 0; i < url?.length; ++i) {
+      images.push({uri: url[i]?.file_url});
     }
-    loadingRef.current = get_sm_donor_loading;
-  }, [
-    get_sm_donor_success,
-    get_sm_donor_loading,
-    get_sm_donor_error_msg,
-    dispatch,
-    get_sm_donor_res,
-  ]);
+  };
   useEffect(() => {
     if (loadingMatchRef.current && !profile_match_loading) {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.PtbDashboard);
+        setTimeout(() => {
+          setIsVisibleLogo(false);
+          setIslikedLogo('');
+          navigation.navigate(Routes.PtbDashboard);
+        }, 5000);
       } else {
         dispatch(hideAppLoader());
       }
@@ -97,12 +125,48 @@ const DashboardDetailScreen = () => {
       style={styles.headerIcon}
     />
   );
+
+  const FadeInView = props => {
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start();
+    }, [fadeAnim]);
+    return (
+      <Animated.View
+        style={{
+          ...props.style,
+          opacity: fadeAnim,
+        }}>
+        <ImageBackground
+          style={{
+            flex: 1,
+            position: 'absolute',
+            left: 80,
+            top: 0,
+            bottom: 0,
+            width: width,
+          }}
+          source={IMG_CONDI}>
+          <Image style={styles.iconImage} source={IMG_CONDI} />
+        </ImageBackground>
+      </Animated.View>
+    );
+  };
+  const IMG_CONDI =
+    islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
+
   const onPressLike = () => {
     const payload = {
       to_user_id: smDetailRes?.id,
       status: 1,
     };
     dispatch(profileMatch(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('liked');
   };
   const onPressDislike = () => {
     const payload = {
@@ -110,11 +174,20 @@ const DashboardDetailScreen = () => {
       status: 3,
     };
     dispatch(profileMatch(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('disliked');
+  };
+  const ImageClick = index => {
+    console.log(index, 'index???');
+    setImgPreviewIndex(index);
+    setIsVisible(true);
   };
   const renderItemData = item => {
     return (
       <>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => ImageClick(item?.index)}
+          key={item?.id}>
           <RNSDWebImage
             resizeMode="cover"
             source={{uri: item?.item?.file_url}}
@@ -124,6 +197,35 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
+
+  let VIEW_PASS = (
+    <View style={styles.nativeLong}>
+      {smDetailRes?.doner_attribute?.hair_colour && (
+        <Text
+          style={[
+            global?.tagText,
+            {
+              backgroundColor: Colors.RGBA_229_172_177,
+              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+            },
+          ]}>
+          {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+        </Text>
+      )}
+      {smDetailRes?.doner_attribute?.mother_ethnicity && (
+        <Text
+          style={[
+            global?.tagText,
+            {
+              backgroundColor: Colors.RGBA_229_172_177,
+              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+            },
+          ]}>
+          {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
+        </Text>
+      )}
+    </View>
+  );
   return (
     <>
       <View style={styles.flex}>
@@ -171,14 +273,19 @@ const DashboardDetailScreen = () => {
                   />
                 )}
               </View>
+
               <View style={global.dynamicMarginBottom(8)}>
-                <ImageBackground
-                  imageStyle={styles.backgroundImage}
-                  source={Images.iconComma}>
-                  <Text style={styles.Description}>
-                    {smDetailRes?.user_profile?.bio}
-                  </Text>
-                </ImageBackground>
+                {isVisibleLogo ? (
+                  <FadeInView />
+                ) : (
+                  <ImageBackground
+                    imageStyle={styles.backgroundImage}
+                    source={Images.iconComma}>
+                    <Text style={styles.Description}>
+                      {smDetailRes?.user_profile?.bio}
+                    </Text>
+                  </ImageBackground>
+                )}
               </View>
               {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
                 .length < 20 ? (
@@ -245,32 +352,7 @@ const DashboardDetailScreen = () => {
                   )}
                 </View>
               ) : (
-                <View style={styles.nativeLong}>
-                  {smDetailRes?.doner_attribute?.hair_colour && (
-                    <Text
-                      style={[
-                        global?.tagText,
-                        {
-                          backgroundColor: Colors.RGBA_229_172_177,
-                          marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-                        },
-                      ]}>
-                      {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-                    </Text>
-                  )}
-                  {smDetailRes?.doner_attribute?.mother_ethnicity && (
-                    <Text
-                      style={[
-                        global?.tagText,
-                        {
-                          backgroundColor: Colors.RGBA_229_172_177,
-                          marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-                        },
-                      ]}>
-                      {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
-                    </Text>
-                  )}
-                </View>
+                VIEW_PASS
               )}
               {smDetailRes?.doner_attribute?.eye_colour && (
                 <View style={styles.eyeColorContainer}>
@@ -353,8 +435,14 @@ const DashboardDetailScreen = () => {
             />
           </View>
         )}
+        <ImageView
+          images={images}
+          imageIndex={imgPreviewindex}
+          visible={visible}
+          onRequestClose={() => setIsVisible(false)}
+        />
       </View>
     </>
   );
 };
-export default DashboardDetailScreen;
+export default React.memo(DashboardDetailScreen);
