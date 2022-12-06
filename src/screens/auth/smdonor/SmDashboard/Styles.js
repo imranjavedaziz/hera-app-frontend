@@ -52,8 +52,9 @@ export default {
     alignSelf: Alignment.CENTER,
   },
   headerIcon: {
-    // paddingTop: Value.CONSTANT_VALUE_10,
-    bottom: 10,
+    marginTop: Value.CONSTANT_VALUE_45,
+    // bottom: 10,
+    paddingHorizontal: 30,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
   search: {},
