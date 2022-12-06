@@ -8,15 +8,15 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import Header, {CircleBtn} from '../../../../components/Header';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Header, { CircleBtn } from '../../../../components/Header';
 import styles from './style';
-import {Colors, Images, Strings, Alignment} from '../../../../constants';
-import {useNavigation, StackActions} from '@react-navigation/native';
-import {Controller, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {Value} from '../../../../constants/FixedValues';
+import { Colors, Images, Strings, Alignment } from '../../../../constants';
+import { useNavigation, StackActions } from '@react-navigation/native';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Value } from '../../../../constants/FixedValues';
 import {
   validatePassword,
   pwdErrMsg,
@@ -27,23 +27,23 @@ import {
   changePasswordSchema,
   forgetPasswordSchema,
 } from '../../../../constants/schemas';
-import {Button, FloatingLabelInput} from '../../../../components';
+import { Button, FloatingLabelInput } from '../../../../components';
 import User from '../../../../Api/User';
-import {logIn} from '../../../../redux/actions/Auth';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { logIn } from '../../../../redux/actions/Auth';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const ChangePassword = ({route}) => {
+const ChangePassword = ({ route }) => {
   const navigation = useNavigation();
-  const {type} = route.params;
+  const { type } = route.params;
   const dispatch = useDispatch();
   const [isLogin, setLogin] = useState(false);
-  const {register_user_success_data, user, log_in_success, log_in_loading} =
+  const { register_user_success_data, user, log_in_success, log_in_loading } =
     useSelector(state => state.Auth);
-  const {changePassword, resetPassword} = User();
+  const { changePassword, resetPassword } = User();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(
       type === 1 ? changePasswordSchema : forgetPasswordSchema,
@@ -112,16 +112,12 @@ const ChangePassword = ({route}) => {
         <View style={styles.mainContainer}>
           <View style={styles.headingContainer}>
             <Text style={styles.changePassword}>
-              {type === 1
-                ? Strings.ChangePassword.CHANGE_PASSWORD
-                : Strings.forgotPassword.forgot}
+              {type === 1 ? Strings.ChangePassword.CHANGE_PASSWORD : Strings.forgotPassword.forgot}
             </Text>
           </View>
           <View style={styles.innerHeading}>
             <Text style={styles.setANew}>
-              {type === 1
-                ? Strings.ChangePassword.SET_A
-                : Strings.ChangePassword.SET_B}
+              {type === 1 ? Strings.ChangePassword.SET_A : Strings.ChangePassword.SET_B}
             </Text>
           </View>
           <View style={styles.flex}>
@@ -134,7 +130,7 @@ const ChangePassword = ({route}) => {
                     {type === 1 && (
                       <Controller
                         control={control}
-                        render={({field: {onChange, value}}) => (
+                        render={({ field: { onChange, value } }) => (
                           <FloatingLabelInput
                             label={Strings.ChangePassword.Current_Password}
                             value={value}
@@ -162,7 +158,7 @@ const ChangePassword = ({route}) => {
                     )}
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <View>
                           <FloatingLabelInput
                             label={Strings.ChangePassword.Set_New_Password}
@@ -184,7 +180,7 @@ const ChangePassword = ({route}) => {
                                   fontFamily: Fonts.OpenSansBold,
                                   color:
                                     validatePassword(value, msg.type) ||
-                                    validatePassword(value, msg.type) === null
+                                      validatePassword(value, msg.type) === null
                                       ? Colors.GRAY2
                                       : Colors.RED,
                                 }}>
@@ -194,20 +190,9 @@ const ChangePassword = ({route}) => {
                                 <Image
                                   style={[
                                     styles.ValidPwd,
-                                    {
-                                      tintColor: validatePassword(
-                                        value,
-                                        msg.type,
-                                      )
-                                        ? Colors.BLACK
-                                        : Colors.RED,
-                                    },
+                                    { tintColor: validatePassword(value, msg.type) ? Colors.BLACK : Colors.RED },
                                   ]}
-                                  source={
-                                    validatePassword(value, msg.type)
-                                      ? Images.path
-                                      : Images.warning
-                                  }
+                                  source={validatePassword(value, msg.type) ? Images.path : Images.warning}
                                 />
                               )}
                             </View>
@@ -218,7 +203,7 @@ const ChangePassword = ({route}) => {
                     />
                     <Controller
                       control={control}
-                      render={({field: {onChange, value}}) => (
+                      render={({ field: { onChange, value } }) => (
                         <FloatingLabelInput
                           label={Strings.ChangePassword.Confirm_Password}
                           value={value}
@@ -241,11 +226,7 @@ const ChangePassword = ({route}) => {
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              label={
-                type === 1
-                  ? Strings.preference.Save
-                  : Strings.preference.SaveNewPassword
-              }
+              label={type === 1 ? Strings.preference.Save : Strings.preference.SaveNewPassword}
               style={styles.Btn}
               onPress={handleSubmit(onSubmit)}
             />
