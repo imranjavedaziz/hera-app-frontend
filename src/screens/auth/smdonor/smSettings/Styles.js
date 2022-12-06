@@ -2,7 +2,7 @@ import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import {Fonts} from '../../../../constants/Constants';
-import {dynamicSize, px} from '../../../../utils/responsive';
+import {dynamicSize, normalizeFont, px} from '../../../../utils/responsive';
 
 export default {
   headerContainer: {
@@ -135,4 +135,29 @@ export default {
     marginLeft: 15,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
+  emptyCardContainer: {
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_263,
+  },
+  sryText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    textAlign: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+  },
+  innerText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    textAlign: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansBold,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    color: Colors.BLACK,
+  },
+  innerText2: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    textAlign: Alignment.CENTER,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
+  },
 };

@@ -6,6 +6,7 @@ import Strings from '../../../../constants/Strings';
 import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
 import Colors from '../../../../constants/Colors';
+import {Fonts} from '../../../../constants/Constants';
 
 const StateSearch = props => {
   const filterSearch = text => {
@@ -56,7 +57,8 @@ const styles = StyleSheet.create({
     flex: Value.CONSTANT_VALUE_1,
     paddingVertical: Value.CONSTANT_VALUE_5,
     paddingLeft: Value.CONSTANT_VALUE_10,
-    fontSize: Value.CONSTANT_VALUE_15,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansRegular,
     marginLeft: Value.CONSTANT_VALUE_5,
   },
   searchBarContainer: {

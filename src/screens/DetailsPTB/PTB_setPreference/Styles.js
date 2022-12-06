@@ -19,6 +19,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_17,
     fontSize: Value.CONSTANT_VALUE_14,
     lineHeight: Value.CONSTANT_VALUE_21,
+    color: Colors.BLACK_KEY,
   },
   required: {
     color: Colors.RED,
