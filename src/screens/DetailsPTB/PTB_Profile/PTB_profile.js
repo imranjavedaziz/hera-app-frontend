@@ -1,9 +1,16 @@
-import {Text, View, Image, ImageBackground, Pressable} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  ImageBackground,
+  Pressable,
+  ScrollView,
+  Animated,
+} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
-import Container from '../../../components/Container';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Images from '../../../constants/Images';
-import {CircleBtn} from '../../../components/Header';
+import Header, {IconHeader} from '../../../components/Header';
 import Strings from '../../../constants/Strings';
 import Alignment from '../../../constants/Alignment';
 import Video from 'react-native-video';
@@ -19,12 +26,17 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
-const PTB_profile = () => {
+import {MaterialIndicator} from 'react-native-indicators';
+import {height, width} from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
+
+const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const LoadinfRef = useRef(false);
-  const [liked, setLiked] = useState(false);
+  const [isVisibleLogo, setIsVisibleLogo] = useState(false);
+  const [islikedLogo, setIslikedLogo] = useState('');
   const {
     get_ptb_profile_detail_success,
     get_ptb_profile_detail_loading,
@@ -71,115 +83,177 @@ const PTB_profile = () => {
   const {
     params: {userid},
   } = useRoute();
+
   useEffect(() => {
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
   const navigation = useNavigation();
   const headerComp = () => (
-    <CircleBtn
-      icon={Images.iconBack}
+    <IconHeader
+      leftIcon={Images.circleIconBack}
       onPress={navigation.goBack}
-      accessibilityLabel="Cross Button, Go back"
+      style={styles.headerIcon}
     />
   );
+
+  const FadeInView = props => {
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }).start();
+    }, [fadeAnim]);
+    return (
+      <Animated.View
+        style={{
+          ...props.style,
+          opacity: fadeAnim,
+        }}>
+        {props.children}
+      </Animated.View>
+    );
+  };
+  const IMG_CONDI =
+    islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
+
+  const onPressDislike = () => {
+    const payload = {
+      to_user_id: userid,
+      status: 3,
+    };
+    dispatch(sendLikePtb(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('disliked');
+    setTimeout(() => {
+      setIsVisibleLogo(false);
+      setIslikedLogo('');
+      navigation.navigate(Routes.SmDashboard);
+    }, 2000);
+  };
+  const onPresslike = () => {
+    const payload = {
+      to_user_id: userid,
+      status: 1,
+    };
+    dispatch(sendLikePtb(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('liked');
+    setTimeout(() => {
+      setIsVisibleLogo(false);
+      setIslikedLogo('');
+      navigation.navigate(Routes.SmDashboard);
+    }, 2000);
+  };
   return (
-    <Container
-      showHeader={true}
-      headerEnd={false}
-      headerComp={headerComp}
-      style={{}}>
-      {stateRes?.doner_video_gallery !== undefined && (
-        <>
-          <View>
-            <View style={styles.location}>
-              <Image source={Images.iconmapblue} />
-              <Text style={styles.locationText}>
-                {stateRes?.location?.name}
-              </Text>
-            </View>
-            <Text style={styles.profileName}>{stateRes?.first_name}</Text>
-            <Text style={styles.profileName}>{stateRes?.last_name}</Text>
-            <View style={styles.profileImg}>
-              <Image
-                style={styles.profileLogo}
-                source={{
-                  uri: stateRes?.profile_pic,
-                }}
-              />
-            </View>
-            <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
-            <View style={styles.ageContainer}>
-              <Text style={styles.colorText}>Age: </Text>
-              <Text style={styles.ageYrs}>
-                {stateRes?.age}
-                {Strings.PTB_Profile.yrs}
-              </Text>
-            </View>
+    <View style={styles.flex}>
+      <Header end={false}>{headerComp()}</Header>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        {get_ptb_profile_detail_loading === false ? (
+          <View style={styles.mainContainer}>
             <View>
-              <ImageBackground
-                source={Images.QUOTES}
-                style={styles.bioBackground}
-              />
-              <Text style={styles.bioText}>{stateRes?.user_profile?.bio}</Text>
-            </View>
-            <View style={{flexDirection: Alignment.ROW}}>
+              <View style={styles.location}>
+                <Image source={Images.iconmapblue} />
+                <Text style={styles.locationText}>
+                  {stateRes?.location?.name}
+                </Text>
+              </View>
+              <Text style={styles.profileName}>{stateRes?.first_name}</Text>
+              {stateRes?.middle_name !== null && (
+                <Text style={styles.profileName}>{stateRes?.middle_name}</Text>
+              )}
+              <Text style={styles.profileName}>{stateRes?.last_name}</Text>
+              <View style={styles.profileImg}>
+                <FastImage
+                  style={styles.profileLogo}
+                  source={{
+                    uri: stateRes?.profile_pic,
+                  }}
+                />
+              </View>
+              <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
+              <View style={styles.ageContainer}>
+                <Text style={styles.colorText}>Age: </Text>
+                <Text style={styles.ageYrs}>
+                  {stateRes?.age}
+                  {Strings.PTB_Profile.yrs}
+                </Text>
+              </View>
+              <View>
+                <ImageBackground
+                  source={Images.QUOTES}
+                  style={styles.bioBackground}
+                />
+                {isVisibleLogo && (
+                  <FadeInView>
+                    <ImageBackground
+                      style={{
+                        flex: 1,
+                        position: 'absolute',
+                        left: 80,
+                        top: 0,
+                        bottom: 0,
+                        width: width,
+                      }}>
+                      <Image style={styles.iconImage} source={IMG_CONDI} />
+                    </ImageBackground>
+                  </FadeInView>
+                )}
+                <Text style={styles.bioText}>
+                  {stateRes?.user_profile?.bio}
+                </Text>
+              </View>
               <View style={{flexDirection: Alignment.ROW}}>
-                {stateRes?.user_profile?.gender && (
-                  <View style={styles.highlits}>
-                    <Text style={styles.highlitsText}>
-                      {stateRes?.user_profile?.gender}
-                    </Text>
-                  </View>
-                )}
-                {stateRes?.user_profile?.sexual_orientation && (
-                  <View style={styles.highlits}>
-                    <Text style={styles.highlitsText}>
-                      {stateRes?.user_profile?.sexual_orientation}
-                    </Text>
-                  </View>
-                )}
-                {stateRes?.user_profile?.relationship_status && (
-                  <View style={styles.highlits}>
-                    <Text style={styles.highlitsText}>
-                      {stateRes?.user_profile?.relationship_status}
-                    </Text>
-                  </View>
-                )}
+                <View style={{flexDirection: Alignment.ROW}}>
+                  {stateRes?.user_profile?.gender && (
+                    <View style={styles.highlits}>
+                      <Text style={styles.highlitsText}>
+                        {stateRes?.user_profile?.gender}
+                      </Text>
+                    </View>
+                  )}
+                  {stateRes?.user_profile?.sexual_orientation && (
+                    <View style={styles.highlits}>
+                      <Text style={styles.highlitsText}>
+                        {stateRes?.user_profile?.sexual_orientation}
+                      </Text>
+                    </View>
+                  )}
+                  {stateRes?.user_profile?.relationship_status && (
+                    <View style={styles.highlits}>
+                      <Text style={styles.highlitsText}>
+                        {stateRes?.user_profile?.relationship_status}
+                      </Text>
+                    </View>
+                  )}
+                </View>
               </View>
             </View>
-          </View>
-          {stateRes?.doner_video_gallery?.file_url && (
-            <View>
-              <Text style={styles.videoText}>
-                {Strings.PTB_Profile.video_text}
-              </Text>
-              <Video
-                controls={true}
-                source={{
-                  uri:
-                    stateRes?.doner_video_gallery?.file_url === undefined
-                      ? ''
-                      : stateRes?.doner_video_gallery?.file_url,
-                }}
-                style={styles.videoContainer}
-                paused={true}
-              />
-            </View>
-          )}
-          {!liked && (
+            {stateRes?.doner_video_gallery?.file_url && (
+              <View>
+                <Text style={styles.videoText}>
+                  {Strings.PTB_Profile.video_text}
+                </Text>
+                <Video
+                  controls={true}
+                  source={{
+                    uri:
+                      stateRes?.doner_video_gallery?.file_url === undefined
+                        ? ''
+                        : stateRes?.doner_video_gallery?.file_url,
+                  }}
+                  style={styles.videoContainer}
+                  paused={true}
+                />
+              </View>
+            )}
             <Pressable
               style={styles.sendMsgBtn}
               onPress={() => {
-                setLiked(true);
-                dispatch(
-                  sendLikePtb({
-                    to_user_id: userid,
-                    status: 1,
-                  }),
-                );
-                setTimeout(() => {
-                  navigation.navigate(Routes.SmDashboard);
-                }, 1000);
+                onPresslike();
               }}>
               <Image source={Images.HEARTH_ICON} />
               <Text style={styles.sendMsgText}>
@@ -187,10 +261,33 @@ const PTB_profile = () => {
                 {Strings.PTB_Profile.send_request}
               </Text>
             </Pressable>
-          )}
-        </>
-      )}
-    </Container>
+
+            {props?.route?.params?.seeAll && (
+              <Pressable
+                style={styles.sendMsgBtnDis}
+                onPress={() => {
+                  onPressDislike();
+                }}>
+                <Image source={Images.RED_CROSS_ICON} />
+                <Text style={styles.sendMsgText}>
+                  {' '}
+                  {Strings.donorPofile.Not_interested}
+                </Text>
+              </Pressable>
+            )}
+          </View>
+        ) : (
+          <MaterialIndicator
+            color="#a3c6c4"
+            style={{
+              justifyContent: Alignment.CENTER,
+              alignItems: Alignment.CENTER,
+              marginTop: height / 2.5,
+            }}
+          />
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

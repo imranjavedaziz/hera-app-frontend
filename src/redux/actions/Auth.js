@@ -5,6 +5,7 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
+  USE_LOCAL_IMAGE
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -13,6 +14,7 @@ import {
   AUTH_LOG_OUT,
   AUTH_REGISTER,
   UPDATE_PROFILE_IMG,
+  DEVICE_REGISTER,
 } from '../Type';
 
 export const logIn = userInfo => {
@@ -21,7 +23,12 @@ export const logIn = userInfo => {
     data: userInfo,
   };
 };
-
+export const deviceRegister = data => {
+  return {
+    type: DEVICE_REGISTER,
+    data: data,
+  };
+};
 export const setUser = payload => ({
   type: SET_USER,
   payload,
@@ -80,5 +87,12 @@ export const updateProfileImg = payload => {
   return {
     type: UPDATE_PROFILE_IMG,
     data: payload,
+  };
+};
+
+export const updateLocalImg = img => {
+  return {
+    type: USE_LOCAL_IMAGE,
+    data: img,
   };
 };

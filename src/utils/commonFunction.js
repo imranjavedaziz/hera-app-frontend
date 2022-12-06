@@ -1,6 +1,6 @@
 import {Alert, BackHandler} from 'react-native';
 import {Routes} from '../constants/Constants';
-import { ValidationMessages } from "../constants/Strings";
+import {ValidationMessages} from '../constants/Strings';
 
 export const deviceHandler = (navigation, screen) => {
   const backAction = () => {
@@ -13,10 +13,10 @@ export const deviceHandler = (navigation, screen) => {
       {
         text: ValidationMessages.YES,
         onPress: () => {
-          if (screen === 'goBack') {
+          if (screen === 'goBack' && navigation.canGoBack()) {
             navigation.goBack();
-          }else if(screen ==='exit'){
-            BackHandler.exitApp()
+          } else if (screen === 'exit') {
+            BackHandler.exitApp();
           } else {
             navigation.navigate(Routes.Landing);
           }

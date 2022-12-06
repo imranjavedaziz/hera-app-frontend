@@ -1,13 +1,11 @@
 import {Platform} from 'react-native';
 import {Value, Prencentage} from '../constants/FixedValues';
-import Alignment from '../constants/Alignment';
-import Colors from '../constants/Colors';
-import global from './global';
+import {Alignment, Colors} from '../constants';
 import {Fonts} from '../constants/Constants';
 import {dynamicSize} from '../utils/responsive';
 
 export default {
-  flex: {flex: Value.CONSTANT_VALUE_1},
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
     ...Platform.select({
@@ -43,19 +41,18 @@ export default {
   logo: {
     width: Value.CONSTANT_VALUE_200,
     height: Value.CONSTANT_VALUE_120,
-    resizeMode: 'contain',
+    resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
   },
   title: {
+    textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_23,
     color: Colors.BLACK,
     marginBottom: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_20,
-    fontFamily: Fonts.OpenSansRegular,
-    fontWeight: "bold",
+    fontFamily: Fonts.OpenSansBold,
   },
   btnContainer: {
-    //flex: 1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     paddingTop: Value.CONSTANT_VALUE_10,
@@ -81,7 +78,8 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
-    ...global.underlineText,
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
   },
   widthText: {width: Value.CONSTANT_VALUE_212},
 };

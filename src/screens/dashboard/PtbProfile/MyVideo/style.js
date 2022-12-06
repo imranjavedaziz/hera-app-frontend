@@ -6,10 +6,11 @@ import Colors from '../../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_10),
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
   headingContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_16),
@@ -54,6 +55,7 @@ export default {
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
   },
+
   imageOverlayWrapper: {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
@@ -66,18 +68,13 @@ export default {
   },
   playIcon: {
     position: Alignment.ABSOLUTE,
-    left: width / Value.CONSTANT_VALUE_3,
-    top: Value.CONSTANT_VALUE_70,
+    alignSelf: Alignment.CENTER,
+    top: 180 / 2,
   },
   videoSel: {
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_5,
     top: Value.CONSTANT_VALUE_10,
-  },
-  removeContainer: {
-    justifyContent: Alignment.CENTER,
-    flexDirection: Alignment.ROW,
-    backgroundColor: 'yellow',
   },
   deleteBtnContainer: {
     flexDirection: Alignment.ROW,
@@ -134,5 +131,15 @@ export default {
     fontWeight: Alignment.BOLD,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
+  },
+  videoCover: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'transparent',
+    height: '100%',
   },
 };

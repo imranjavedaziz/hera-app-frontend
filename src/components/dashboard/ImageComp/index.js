@@ -1,8 +1,10 @@
-import {View, Text, ImageBackground, Image, Animated} from 'react-native';
+import {View, Text, Image, Animated, TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
 import LinearGradient from 'react-native-linear-gradient';
+import FastImage from 'react-native-fast-image';
+
 const FadeInView = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -22,27 +24,26 @@ const FadeInView = props => {
     </Animated.View>
   );
 };
-const ImageComp = (
-  {
-    locationText,
-    code,
-    donerAge,
-    mapIcon,
-    onPress,
-    has_happen,
-    image,
-    isVisibleLogo,
-    category,
-  },
-  props,
-) => {
+const ImageComp = ({
+  locationText,
+  code,
+  donerAge,
+  mapIcon,
+  has_happen,
+  image,
+  isVisibleLogo,
+  category,
+  activeOpacity,
+  onPress,
+}) => {
+  const IMG_CONDI =
+    has_happen === 'liked' ? Images.iconbigheart : Images.iconbigcross;
   return (
-    <View style={styles.upperContainer}>
-      <View style={styles.mainContainer}>
-        <ImageBackground
+    <View style={styles.mainContainer}>
+      <TouchableOpacity activeOpacity={activeOpacity} onPress={onPress}>
+        <FastImage
           source={image}
-          style={styles.bgImage}
-          imageStyle={styles.imageStyle}
+          style={[styles.bgImage, styles.imageStyle]}
           resizeMode="cover">
           <LinearGradient
             colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
@@ -52,14 +53,7 @@ const ImageComp = (
             <View style={styles.iconContainer}>
               {isVisibleLogo === true ? (
                 <FadeInView>
-                  <Image
-                    style={styles.iconImage}
-                    source={
-                      has_happen === 'liked'
-                        ? Images.iconbigheart
-                        : Images.iconbigcross
-                    }
-                  />
+                  <Image style={styles.iconImage} source={IMG_CONDI} />
                 </FadeInView>
               ) : null}
               <View style={styles.textInnerContainer}>
@@ -69,13 +63,13 @@ const ImageComp = (
                 </View>
                 <Text style={styles.codeText}>#{code}</Text>
                 <Text style={styles.donerAge}>
-                  {category} ,{donerAge} yrs
+                  {category}, {donerAge} yrs
                 </Text>
               </View>
             </View>
           </LinearGradient>
-        </ImageBackground>
-      </View>
+        </FastImage>
+      </TouchableOpacity>
     </View>
   );
 };

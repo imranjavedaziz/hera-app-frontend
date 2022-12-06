@@ -35,14 +35,18 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Play music while using the app</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Using for profile picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Your location will be used to find nearby services.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>App needs Microphone Access Permission for testing</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Allow Hera to access photos, media and file on your device.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>Allow Hera to access photos, media and file on your device.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>UIAppFonts</string>
@@ -57,6 +61,10 @@
 		<string>OpenSans-Regular.ttf</string>
 		<string>OpenSans-Semibold.ttf</string>
 		<string>OpenSans-SemiboldItalic.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>

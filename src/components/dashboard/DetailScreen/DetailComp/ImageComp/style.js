@@ -1,7 +1,6 @@
 import Alignment from '../../../../../constants/Alignment';
 import {
   dynamicSize,
-  normalizeFont,
   scaleHeight,
   scaleWidth,
 } from '../../../../../utils/responsive';
@@ -19,6 +18,7 @@ export default {
     height: dynamicSize(86.8),
     width: dynamicSize(86.8),
     borderRadius: dynamicSize(90),
+    backgroundColor: 'E2E1D8',
   },
   row: {
     flexDirection: Alignment.ROW,
@@ -41,16 +41,5 @@ export default {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_20,
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.BLACK,
-  },
-  codeText: {
-    fontSize: normalizeFont(32),
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
-  },
-  typeText: {
-    fontSize: normalizeFont(20),
-    fontFamily: Fonts.OpenSansRegular,
-    color: Colors.BLACK,
   },
 };

@@ -5,21 +5,21 @@ import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useDispatch, useSelector} from 'react-redux';
-import Container from '../../components/Container';
 import Images from '../../constants/Images';
-import {CircleBtn} from '../../components/Header';
-import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
+import Header, {CircleBtn} from '../../components/Header';
+import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Button from '../../components/Button';
 import styles from '../../styles/auth/loginScreen';
-import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
 import {logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
-import {Routes} from '../../constants/Constants';
-import {Value} from '../../constants/FixedValues';
+import {ConstantsCode, Routes} from '../../constants/Constants';
+import {Alignment} from '../../constants';
+
+const type = 2;
 const Login = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Login = props => {
     getValues,
     setValue,
     reset,
-    formState: {errors, isValid},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
@@ -43,31 +43,25 @@ const Login = props => {
   useEffect(() => {
     deviceHandler(props.navigation, 'goBack');
   }, [props.navigation]);
-  // useEffect(() => {
-  //   if (!isValid) {
-  //     const e = errors;
-  //     const messages = [];
-  //     Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-  //     const msg = messages.join('\n').trim();
-  //     if (msg) {
-  //       dispatch(showAppToast(true, msg));
-  //     }
-  //   }
-  // }, [errors, isValid, dispatch]);
+
   useEffect(() => {
     if (loadingRef.current && !log_in_loading) {
       dispatch(showAppLoader());
-
       if (log_in_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(
-          getRoute(
-            log_in_data.access_token,
-            log_in_data.role_id,
-            log_in_data.registration_step,
-          ),
-          payloadData,
-        );
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: getRoute(
+                log_in_data.access_token,
+                log_in_data.role_id,
+                log_in_data.registration_step,
+              ),
+              params: {payloadData},
+            },
+          ],
+        });
       }
       if (log_in_error_msg) {
         dispatch(hideAppLoader());
@@ -80,14 +74,16 @@ const Login = props => {
       icon={Images.iconcross}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
+      style={styles.headerIcon}
     />
   );
   const onSubmit = data => {
     const payload = {
-      country_code: '+91',
+      country_code: ConstantsCode.Country_CODE,
       phone_no: data.phone,
       password: data.password,
     };
+    dispatch(showAppLoader());
     setPayloadData(payload);
     dispatch(logIn(payload));
   };
@@ -95,7 +91,7 @@ const Login = props => {
   const normalizeInput = (value, previousValue) => {
     const deleting = previousValue && previousValue.length > value.length;
     if (deleting) {
-      return value;
+      return value.replace(/[^\w]/g, '');
     }
     if (!value) {
       return value;
@@ -119,7 +115,7 @@ const Login = props => {
     reset({phone: '', password: getValues('password')});
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
-    for (var i = 0; i < value.length; i++) {
+    for (let i = 0; i < value.length; i++) {
       if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
         a = a + value[i];
       }
@@ -127,14 +123,12 @@ const Login = props => {
     setValue('phone', a);
   };
   return (
-    <Container
-      scroller={false}
-      showHeader={true}
-      headerComp={headerComp}
-      headerEnd={true}
-      style={{marginHorizontal: 35}}>
-      <ScrollView style={{marginTop: Value.CONSTANT_VALUE_80}}>
-        <View style={globalStyle.mainContainer}>
+    <View style={styles.flex}>
+      <Header end={true}>{headerComp()}</Header>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.mainContainer}>
           <Image source={Images.LOGO} style={styles.logo} />
           <Controller
             control={control}
@@ -148,7 +142,6 @@ const Login = props => {
                 keyboardType="number-pad"
                 maxLength={14}
                 error={errors && errors.phone?.message}
-                // required={true}
               />
             )}
             name="phone"
@@ -164,31 +157,39 @@ const Login = props => {
                 minLength={8}
                 error={errors && errors.password?.message}
                 endComponent={() => (
-                  <TouchableOpacity onPress={() => setShow(!show)}>
-                    <Image source={show ? Images.eye2 : Images.eye} />
+                  <TouchableOpacity
+                    onPress={() => setShow(!show)}
+                    style={styles.psswrdInput}>
+                    <Image
+                      source={show ? Images.eye2 : Images.eye}
+                      style={{height: show ? 18 : 10, width: show ? 18 : 15}}
+                    />
                   </TouchableOpacity>
                 )}
               />
             )}
             name="password"
           />
-          <Button
-            label={Strings.login.LOG_IN}
-            style={styles.loginBtn}
-            onPress={handleSubmit(onSubmit)}
-          />
-          <TouchableOpacity
-            style={styles.btnMargin}
-            accessible={true}
-            accessibilityRole="button"
-            accessibilityLabel={Strings.login.ForgotPassword}>
-            <Text style={styles.underlineBtn} accessible={false}>
-              {Strings.login.ForgotPassword}
-            </Text>
-          </TouchableOpacity>
+          <View style={{alignItems: Alignment.CENTER}}>
+            <Button
+              label={Strings.login.LOG_IN}
+              style={styles.loginBtn}
+              onPress={handleSubmit(onSubmit)}
+            />
+            <TouchableOpacity
+              onPress={() => navigation.navigate(Routes.MobileNumber, {type})}
+              style={styles.btnMargin}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={Strings.login.ForgotPassword}>
+              <Text style={styles.underlineBtn} accessible={false}>
+                {Strings.login.ForgotPassword}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
-    </Container>
+    </View>
   );
 };
 export default Login;

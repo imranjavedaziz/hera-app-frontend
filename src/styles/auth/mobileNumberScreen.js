@@ -1,13 +1,29 @@
-import Colors from '../../constants/Colors';
-import {Value, Prencentage} from '../../constants/FixedValues';
-import Alignment from '../../constants/Alignment';
+import {Alignment, Colors} from '../../constants';
+import {Fonts} from '../../constants/Constants';
+import {Value} from '../../constants/FixedValues';
 
 export default {
+  screenTitle: {
+    textTransform: Alignment.UPPERCASE,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
+    textAlign: Alignment.CENTER,
+    fontSize: Value.CONSTANT_VALUE_11,
+  },
+  mainTitle: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_23,
+    letterSpacing: 0,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_8,
+  },
   inputRow: {
-    flex: Value.CONSTANT_VALUE_0,
-    width: Prencentage.PRECENTAGE_100,
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_45 ,
+    marginTop: Value.CONSTANT_VALUE_55,
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
+    justifyContent: 'flex-start',
   },
   contryCodeContainer: {
     width: Value.CONSTANT_VALUE_50,
@@ -16,8 +32,8 @@ export default {
   countryCodeInput: {
     color: Colors.BORDER_LINE,
   },
-  Btn:{
-    height:Value.CONSTANT_VALUE_80,
-    width:Value.CONSTANT_VALUE_197,
-  }
+  Btn: {
+    height: Value.CONSTANT_VALUE_80,
+    // width: Value.CONSTANT_VALUE_197,
+  },
 };

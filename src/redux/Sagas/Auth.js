@@ -14,6 +14,9 @@ import {
   UPDATE_PROFILE_IMG,
   UPDATE_PROFILE_IMG_SUCCESS,
   UPDATE_PROFILE_IMG_FAIL,
+  DEVICE_REGISTER,
+  DEVICE_REGISTER_FAIL,
+  DEVICE_REGISTER_SUCCESS,
 } from '../Type';
 
 import {takeLatest, put} from 'redux-saga/effects';
@@ -23,6 +26,7 @@ import {
   verifyOtpApi,
   logOutApi,
   updateProfileImgApi,
+  deviceRegisterApi,
 } from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
 //LogIn
@@ -40,6 +44,23 @@ function* logIn(payload) {
 }
 export function* watchLogIn() {
   yield takeLatest(AUTH_LOG_IN, logIn);
+}
+
+//DEVICE REGISTER
+function* deviceRegister(payload) {
+  try {
+    const result = yield deviceRegisterApi(payload.data);
+    if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      yield put({type: DEVICE_REGISTER_SUCCESS, data: result});
+    } else {
+      yield put({type: DEVICE_REGISTER_FAIL, data: {msg: result.data.message}});
+    }
+  } catch (err) {
+    yield put({type: DEVICE_REGISTER_FAIL, data: {msg: 'NET ERROR'}});
+  }
+}
+export function* watchdeviceRegister() {
+  yield takeLatest(DEVICE_REGISTER, deviceRegister);
 }
 
 // mobile Number Registration
@@ -94,7 +115,10 @@ function* logOut() {
       });
     }
   } catch (err) {
-    yield put({type: AUTH_LOG_OUT_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: AUTH_LOG_OUT_FAIL,
+      data: {msg: 'Seems like there is no internet connection.'},
+    });
   }
 }
 export function* watchLogOutApi() {

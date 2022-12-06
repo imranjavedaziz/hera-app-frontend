@@ -6,10 +6,10 @@ export function getRoleType(id) {
     return 'Surrogate Mother';
   }
   if (id === 4) {
-    return 'Egg Doner';
+    return 'Egg Donor';
   }
   if (id === 5) {
-    return 'Sperm Doner';
+    return 'Sperm Donor';
   } else {
     return '';
   }

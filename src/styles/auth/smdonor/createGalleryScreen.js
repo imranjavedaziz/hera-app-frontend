@@ -1,8 +1,7 @@
-import Colors from '../../../constants/Colors';
+import {Colors, Alignment} from '../../../constants';
 import {Value} from '../../../constants/FixedValues';
-import Alignment from '../../../constants/Alignment';
 import {Fonts} from '../../../constants/Constants';
-import {width} from '../../../utils/responsive';
+import {dynamicSize, scaleWidth, width} from '../../../utils/responsive';
 
 export default {
   profileImgContainner: {
@@ -11,6 +10,7 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_15,
   },
+  zeromargin: {marginHorizontal: Value.CONSTANT_VALUE_0},
   profileImg: {
     width: Value.CONSTANT_VALUE_40,
     height: Value.CONSTANT_VALUE_40,
@@ -58,7 +58,7 @@ export default {
   },
   p1: {
     textAlign: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_5,
+    marginTop: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
@@ -68,9 +68,11 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   btn: {
-    height: Value.CONSTANT_VALUE_80,
-    width: Value.CONSTANT_VALUE_259,
-    paddingHorizontal: Value.CONSTANT_VALUE_0,
+    height: dynamicSize(Value.CONSTANT_VALUE_80),
+    width: dynamicSize(Value.CONSTANT_VALUE_259),
+    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_0),
+    marginTop: Value.CONSTANT_VALUE_46,
+    marginBottom: Value.CONSTANT_VALUE_67,
   },
   subTitle: {
     marginBottom: Value.CONSTANT_VALUE_20,
@@ -106,13 +108,14 @@ export default {
     position: Alignment.RELATIVE,
     overflow: Alignment.HIDDEN,
     height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    width:320,
+    width: width,
   },
   video: {
-    overflow: Alignment.HIDDEN,
-    width: 320,
-    height: (width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2) * 1.5,
-    // marginTop: Value.CONSTANT_VALUE_3,
+    position: 'absolute',
+    top: Value.CONSTANT_VALUE_0,
+    left: Value.CONSTANT_VALUE_0,
+    bottom: Value.CONSTANT_VALUE_0,
+    right: Value.CONSTANT_VALUE_0,
   },
   playIcon: {
     position: Alignment.ABSOLUTE,
@@ -124,5 +127,25 @@ export default {
   },
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
+  },
+  resize: {
+    resizeMode: Alignment.COVER,
+  },
+  header: {marginLeft: scaleWidth(20)},
+  dashboardBtn: {
+    width: Value.CONSTANT_VALUE_259,
+    height: Value.CONSTANT_VALUE_80,
+    borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: Colors.COLOR_A3C6C4,
+    justifyContent: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_46,
+    marginBottom: Value.CONSTANT_VALUE_67,
+  },
+  buttonText: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    letterSpacing: Value.CONSTANT_VALUE_FRAC180,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
   },
 };

@@ -20,7 +20,7 @@ const styles = {
   },
   text: {
     fontSize: Value.CONSTANT_VALUE_14,
-    lineHeight: Value.CONSTANT_VALUE_18,
+    lineHeight: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
     textAlign: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_0,
@@ -30,7 +30,12 @@ const styles = {
   },
 };
 const Button = props => {
-  const {label = '', color = Colors.GREEN, style = {}, ...otherProps} = props;
+  const {
+    label = '',
+    color = Colors.COLOR_A3C6C4,
+    style = {},
+    ...otherProps
+  } = props;
   return (
     <TouchableOpacity
       activeOpacity={Value.CONSTANT_VALUE_FRAC80}

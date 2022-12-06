@@ -10,6 +10,9 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.zoontek.rnbootsplash.RNBootSplash;
 import com.brentvatne.react.ReactVideoPackage;
+import android.view.WindowManager;
+import android.os.Bundle;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -20,11 +23,15 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "MBC";
   }
-
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     RNBootSplash.init(this);
     super.onCreate(savedInstanceState);
+    //  getWindow().setFlags(
+    //   WindowManager.LayoutParams.FLAG_SECURE,
+    //   WindowManager.LayoutParams.FLAG_SECURE
+    // );
   }
 
   /**

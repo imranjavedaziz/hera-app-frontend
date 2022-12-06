@@ -1,24 +1,22 @@
 //Donor gallery
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   View,
-  ImageBackground,
   Image,
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Alert,
+  Platform,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../../components/Container';
-import Button from '../../../../components/Button';
 import Images from '../../../../constants/Images';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import openCamera from '../../../../utils/openCamera';
-import {Routes} from '../../../../constants/Constants';
 import videoPicker from '../../../../utils/videoPicker';
-import BottomSheetComp from '../../../../components/BottomSheet';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
@@ -33,6 +31,10 @@ import {CircleBtn} from '../../../../components/Header';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
+import ActionSheet from 'react-native-actionsheet';
+import FastImage from 'react-native-fast-image';
+import {BottomSheetComp} from '../../../../components';
+
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -40,6 +42,8 @@ const Gallery = () => {
   const loadingGalleryRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
   const [visible, setIsVisible] = useState(false);
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
   const [gallery, setGallery] = useState([
     {id: 0, uri: '', loading: false},
     {id: 1, uri: '', loading: false},
@@ -49,69 +53,69 @@ const Gallery = () => {
     {id: 5, uri: '', loading: false},
   ]);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({file_url: '', loading: false,id:0});
+  const [video, setVideo] = useState({file_url: '', loading: false, id: 0});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, setImages] = useState([]);
+  const [images, _setImages] = useState([]);
   const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
+  const [counter, _setCounter] = useState(0);
+
   const videoRef = useRef();
-  const {gallery_success, gallery_loading, gallery_data,  delete_gallery_success,delete_gallery_loading,delete_gallery__error_msg} = useSelector(
-    state => state.CreateGallery,
-  );
+  const {
+    gallery_success,
+    gallery_loading,
+    gallery_data,
+    delete_gallery_success,
+    delete_gallery_loading,
+  } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
-  }, []);
-
-  useEffect(() => {
-    if (loadingGalleryRef.current && !gallery_loading) {
-      dispatch(showAppLoader());
-      if (gallery_success) {
-        updateGallery();
-        console.log(gallery_data?.doner_video_gallery,'gallery_data?.doner_video_gallery')
-        setVideo({
-          file_url: gallery_data?.doner_video_gallery?.file_url
-            ? gallery_data?.doner_video_gallery?.file_url
-            : '',
-          loading: false,
-          id:gallery_data?.doner_video_gallery?.id
-        });
-        dispatch(hideAppLoader());
-      } else {
-        dispatch(hideAppLoader());
+  }, [dispatch]);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingGalleryRef.current && !gallery_loading) {
+        dispatch(showAppLoader());
+        if (gallery_success) {
+          updateGallery();
+          setVideo({
+            file_url: gallery_data?.doner_video_gallery?.file_url
+              ? gallery_data?.doner_video_gallery?.file_url
+              : '',
+            loading: false,
+            id: gallery_data?.doner_video_gallery?.id,
+          });
+          dispatch(hideAppLoader());
+        } else {
+          dispatch(hideAppLoader());
+        }
       }
-    }
-    loadingGalleryRef.current = gallery_loading;
-  }, [gallery_success, gallery_loading]);
+      loadingGalleryRef.current = gallery_loading;
+    }, [gallery_success, gallery_loading]),
+  );
 
-  useEffect(() => {
-    if (loadingGalleryRef.current && !delete_gallery_loading) {
-      dispatch(showAppLoader());
-      if (delete_gallery_success) {
-        dispatch(getUserGallery());
-        dispatch(hideAppLoader());
-      } else {
-        dispatch(hideAppLoader());
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingGalleryRef.current && !delete_gallery_loading) {
+        dispatch(showAppLoader());
+        if (delete_gallery_success) {
+          dispatch(getUserGallery());
+          dispatch(hideAppLoader());
+        } else {
+          dispatch(hideAppLoader());
+        }
       }
-    }
-    loadingGalleryRef.current = delete_gallery_loading;
-  }, [delete_gallery_success, delete_gallery_loading]);
+      loadingGalleryRef.current = delete_gallery_loading;
+    }, [delete_gallery_success, delete_gallery_loading, dispatch]),
+  );
 
   const cb = image => {
     setOpen(false);
-    setGallery(oldImg => {
-      return oldImg.map((img, i) => {
-        if (i === gIndex) {
-          return {id: i, uri: image.path, loading: true};
-        }
-        return img;
-      });
-    });
     const setLoading = loading => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
@@ -157,53 +161,46 @@ const Gallery = () => {
   const ImageClick = index => {
     setImgPreviewIndex(index);
     if (gIndex === index && rmvImgCount === 0) {
-      return setOpen(true);
+      return Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
     } else if (index < gIndex && rmvImgCount === 0) {
       return setIsVisible(true);
     } else {
       return;
     }
   };
-  function handelDel(index, isVideo) {
-    console.log(index, isVideo,'index, isVideo')
-
-    if (isVideo) {
-      setSelVideo(!selVideo);
-      setDel(true);
-      if (selVideo === false) {
-        let arr =[]
-        arr.push(index)
-        setRemove(arr);
-        setRmvVideoCount(1);
-      } else {
-        setRmvVideoCount(0);
-      }
-      return;
-    } else if (isVideo === false) {
-      setDel(true);
-      let pushArr = remove;
-      let isExist = pushArr.findIndex(val => val === index);
-      if (isExist === -1) {
-        pushArr.push(index);
-        setRmvImgCount(rmvImgCount + 1);
-      } else {
-        pushArr.splice(isExist, 1);
-        setRmvImgCount(rmvImgCount - 1);
-      }
-      setRemove(pushArr);
+  const deleteAction = () => {
+    Alert.alert(
+      Strings.sm_create_gallery.modalTitle,
+      Strings.sm_create_gallery.modalsubTitle,
+      [
+        {
+          text: Strings.sm_create_gallery.modalText,
+          onPress: () => {
+            deleteImg(selVideo);
+          },
+        },
+        {
+          text: Strings.sm_create_gallery.modalText_2,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+  function handelDel(index) {
+    setDel(true);
+    let pushArr = remove;
+    let isExist = pushArr.findIndex(val => val === index);
+    if (isExist === -1) {
+      pushArr.push(index);
+      setRmvImgCount(rmvImgCount + 1);
+    } else {
+      pushArr.splice(isExist, 1);
+      setRmvImgCount(rmvImgCount - 1);
     }
+    setRemove(pushArr);
   }
-  remove.sort();
-  let del = [];
-  let iterator = 0;
-  gallery_data?.doner_photo_gallery?.map((item, index) => {
-    if (index === remove[iterator]) {
-      del.push(item.id.toString());
-      iterator++;
-    }
-  });
   const deleteImg = selVideo => {
-    console.log(remove,'remove:::::')
     if (selVideo) {
       setDel(false);
       setRmvVideoCount(0);
@@ -211,11 +208,10 @@ const Gallery = () => {
       return;
     } else {
       let payload = {
-        ids: del?.join(),
-      };       
-      // console.log('PAYLOAD', payload);
+        ids: remove?.join(),
+      };
+      dispatch(showAppLoader());
       dispatch(deleteGallery(payload));
-      dispatch(getUserGallery());
       setDel(false);
       setRmvImgCount(0);
       setRemove([]);
@@ -226,45 +222,80 @@ const Gallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
       gallery_data?.doner_photo_gallery.map((item, i) => {
-        return item.file_url;
+        return item;
       });
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
-          return {id: i, uri: url[i], loading: false};
+          return {id: url[i]?.id, uri: url[i]?.file_url, loading: false};
         }
         return {id: i, uri: '', loading: false};
       });
     });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({uri: url[i]});
+      images.push({uri: url[i]?.file_url});
     }
     if (url?.length === undefined) {
       setGIndex(0);
       return;
     }
     setGIndex(url?.length);
-    console.log('GALLY', gallery);
+  };
+
+  const handleThreeOption = option => {
+    switch (option) {
+      case Strings.sm_create_gallery.bottomSheetCamera:
+        !isVideo ? openCamera(0, cb) : selectVideo(0);
+        break;
+      case Strings.sm_create_gallery.bottomSheetGallery:
+        !isVideo ? openCamera(1, cb) : selectVideo(1);
+        break;
+      case Strings.Subscription.Cancel:
+        console.log('Cancel');
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.sm_create_gallery.bottomSheetCamera,
+      Strings.sm_create_gallery.bottomSheetGallery,
+      Strings.Subscription.Cancel,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+  const iosPhotoSheet = () => {
+    setIsVideo(false);
+    openActionSheet();
+  };
+  const iosVideoSheet = () => {
+    setIsVideo(true);
+    openActionSheet();
+  };
+  const bottomSheetVideo = () => {
+    Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();
   };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
       onPress={navigation.goBack}
       accessibilityLabel="Cross Button, Go back"
-      style={{marginLeft: 30}}
+      style={style.header}
     />
   );
   const openBottomVideoSheet = () => {
     setOpen(true);
     setIsVideo(true);
   };
+  console.log(video, 'video');
   return (
     <>
       <Container
         showHeader={true}
         headerEnd={false}
         headerComp={headerComp}
-        style={{marginHorizontal: 0}}>
+        style={style.containerStyle}>
         <View style={globalStyle.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.sm_create_gallery.myGallery}
@@ -275,31 +306,36 @@ const Gallery = () => {
                 key={img.id}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
-                <ImageBackground
+                <FastImage
                   key={img.id}
-                  style={styles.galleryImgView}
-                  imageStyle={{
-                    resizeMode: 'cover',
-                  }}
-                  source={img.uri ? {uri: img.uri} : null}>
-                  {img.uri && selVideo === false ? (
+                  style={[styles.galleryImgView, styles.imageStyling]}
+                  source={{
+                    uri: img.uri,
+                    priority: FastImage.priority.normal,
+                    cache: FastImage.cacheControl.immutable,
+                  }}>
+                  {img.uri ? (
                     <TouchableOpacity
                       onPress={() => {
-                        handelDel(img.id, false);
+                        handelDel(img.id);
                       }}
                       style={{}}>
                       <RNSDWebImage
                         source={
                           remove.includes(img.id)
                             ? Images.iconRadiosel
-                            : Images.iconRadiounsel
+                            : Images.iconWhite
                         }
                         style={styles.selectIcon}
                       />
                     </TouchableOpacity>
                   ) : null}
                   {gIndex === index && (
-                    <TouchableOpacity onPress={() => setOpen(true)} style={{}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
+                      }}
+                      style={{}}>
                       <RNSDWebImage
                         source={Images.camera}
                         style={styles.camIcon}
@@ -307,11 +343,12 @@ const Gallery = () => {
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
-                </ImageBackground>
+                </FastImage>
               </TouchableOpacity>
             ))}
           </View>
           <VideoUploading
+            apply={true}
             disabled={video?.file_url === '' ? false : true}
             style={styles.videoContainer}
             imageOverlay={styles.imageOverlayWrapper}
@@ -319,7 +356,7 @@ const Gallery = () => {
             onEnd={() => setIsPlaying(false)}
             onPress={() =>
               video?.file_url === ''
-                ? openBottomVideoSheet()
+                ? bottomSheetVideo()
                 : setIsPlaying(p => !p)
             }
             videoRef={videoRef}
@@ -328,6 +365,8 @@ const Gallery = () => {
             selVideo={selVideo}
             handelDel={handelDel}
             rmvImgCount={rmvImgCount}
+            remove={remove}
+            counter={counter}
           />
           {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
             <View style={styles.delContainer}>
@@ -343,21 +382,25 @@ const Gallery = () => {
               )}
               <TouchableOpacity
                 style={styles.deleteBtnContainer}
-                onPress={() => setShowModal(true)}>
+                onPress={() => {
+                  Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
+                }}>
                 <Image source={Images.trashRed} style={{}} />
                 <Text style={styles.rmvText}>Remove From Gallery</Text>
               </TouchableOpacity>
             </View>
-          ) : (
-            <Button
-              style={styles.btn}
-              label={Strings.sm_create_gallery.Btn}
-              onPress={() => navigation.navigate(Routes.SmDashboard)}
-            />
-          )}
+          ) : null}
         </View>
       </Container>
-
+      <ActionSheet
+        ref={actionSheet}
+        options={threeOption}
+        destructiveButtonIndex={2}
+        cancelButtonIndex={2}
+        onPress={index => {
+          handleThreeOption(threeOption[index]);
+        }}
+      />
       <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
         <View style={styleSheet.imgPickerContainer}>
           <TouchableOpacity
@@ -375,7 +418,6 @@ const Gallery = () => {
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>
-              {' '}
               {Strings.sm_create_gallery.bottomSheetGallery}
             </Text>
           </TouchableOpacity>
@@ -399,7 +441,6 @@ const Gallery = () => {
               onPress={() => {
                 setShowModal(false);
                 deleteImg(selVideo);
-                // navigation.navigate(Routes.SmSetting);
               }}>
               <Text style={style.modalOption1}>
                 {Strings.sm_create_gallery.modalText}

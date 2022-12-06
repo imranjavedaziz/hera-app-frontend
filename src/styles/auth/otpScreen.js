@@ -1,13 +1,33 @@
-import Colors from '../../constants/Colors';
+import {Colors, Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
-import Alignment from '../../constants/Alignment';
+import {dynamicSize} from '../../utils/responsive';
 
 export default {
   troubleRow: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_15,
+    justifyContent: 'center',
+  },
+  troubleKeyRow: {
+    marginTop: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  leftIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
+  marginStyle: {marginHorizontal: Value.CONSTANT_VALUE_10},
+  redColor: {
+    color: Colors.RED,
+    fontFamily: Fonts.OpenSansSemibold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: 21,
+    letterSpacing: 0,
+    top: 42,
   },
   trouble: {
     fontSize: Value.CONSTANT_VALUE_16,
@@ -29,6 +49,6 @@ export default {
   errMsg: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginVertical: Value.CONSTANT_VALUE_20,
+    // marginTop:50
   },
 };

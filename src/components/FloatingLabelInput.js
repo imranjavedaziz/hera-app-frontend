@@ -1,51 +1,25 @@
 // FloatingLabelInput
 import React, {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Colors from '../constants/Colors';
-import {Prencentage, Value} from '../constants/FixedValues';
+import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {Fonts} from '../constants/Constants';
+import style from '../screens/dashboard/PtbProfile/MyVideo/style';
 
 const styles = {
-  container: {
-    paddingTop: Value.CONSTANT_VALUE_18,
-    flex: Value.CONSTANT_VALUE_0,
-    width: Prencentage.PRECENTAGE_100,
-    marginVertical: Value.CONSTANT_VALUE_20,
-  },
-  label: {
-    position: Alignment.ABSOLUTE,
-    left: Value.CONSTANT_VALUE_0,
-    zIndex: -1,
-    color: Colors.LABEL_BLACK,
-    fontFamily: Fonts.OpenSansRegular,
-  },
-  floated: {
-    top: Value.CONSTANT_VALUE_0,
-    fontSize: Value.CONSTANT_VALUE_14,
-  },
-  unfloated: {
-    top: Value.CONSTANT_VALUE_24,
-    fontSize: Value.CONSTANT_VALUE_18,
-  },
-  input: {
-    minHeight: Value.CONSTANT_VALUE_40,
-    fontSize: Value.CONSTANT_VALUE_18,
-    color: Colors.BLACK,
-    borderBottomWidth: Value.CONSTANT_VALUE_1,
-    paddingBottom: Value.CONSTANT_VALUE_10,
-    textVerticleAlignment: Alignment.CENTER,
-    fontFamily: Fonts.OpenSansBold,
-  },
   focusBorder: {
-    borderBottomColor: Colors.BLUE,
+    borderBottomColor: Colors.SKY_BLUE,
+    borderBottomWidth: 2,
   },
   blurBorder: {
     borderBottomColor: Colors.INPUT_BORDER,
+    borderBottomWidth: 2,
   },
+  fade: {opacity: 0.4},
   endComponent: {
     position: Alignment.ABSOLUTE,
-    right: Value.CONSTANT_VALUE_10,
+    right: Value.CONSTANT_VALUE_0,
     bottom: Value.CONSTANT_VALUE_15,
     borderRadius: Value.CONSTANT_VALUE_50,
     zIndex: Value.CONSTANT_VALUE_2,
@@ -59,46 +33,153 @@ const styles = {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
   },
+  verifyEmail: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#1dbff1',
+    top: 7,
+    marginLeft: 170,
+    textDecorationLine: 'underline',
+  },
+  //Change
+
+  firstName: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 14,
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#000000',
+    top: 8,
+  },
+  firstNameCopy: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 16,
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: Colors.BLACK_0,
+    top: 32,
+  },
+  InputTextField: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: 16,
+    letterSpacing: 0,
+    color: '#353a3a',
+    top: 2,
+    minHeight: 40,
+  },
+  verifiedEmail: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 14,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: '#1dbff1',
+    marginLeft: 160,
+    textDecorationLine: 'underline',
+    top: 32,
+  },
 };
 const FloatingLabelInput = props => {
   const [isFocused, setFocused] = useState(false);
   const {
     label,
     containerStyle = {},
-    fixed = false,
     endComponent = null,
     required = false,
     error = '',
+    edited,
+    verifyEmail,
+    onPressVerify,
+    endComponentPress,
+    lineColor = false,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
   return (
-    <View style={[styles.container, containerStyle, {paddingTop: 0}]}>
-      <View style={[styles.container, {marginVertical: 0}, containerStyle]}>
-        <Text
-          style={[
-            styles.label,
-            isFocused || textInputProps.value || fixed
-              ? styles.floated
-              : styles.unfloated,
-          ]}
-          accessible={true}
-          accessibilityLabel={label}>
-          {label}
-          {required && <Text style={[styles.label, {color: 'red'}]}>*</Text>}
-        </Text>
-        <TextInput
-          style={[
-            styles.input,
-            isFocused ? styles.focusBorder : styles.blurBorder,
-            error ? {borderBottomColor: 'red'} : null,
-          ]}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          blurOnSubmit
-          {...textInputProps}
-        />
+    <View
+      style={[
+        {flex: Value.CONSTANT_VALUE_1, marginTop: Value.CONSTANT_VALUE_30},
+        containerStyle,
+      ]}>
+      <View>
+        {verifyEmail && (
+          <View style={{flexDirection: 'row'}}>
+            <Text
+              style={[
+                isFocused || textInputProps.value
+                  ? styles.firstName
+                  : styles.firstNameCopy,
+                edited === false && styles.fade,
+              ]}
+              accessible={true}
+              accessibilityLabel={label}>
+              {label}
+              {required && <Text style={{color: Colors.RED}}>*</Text>}
+            </Text>
+            <TouchableOpacity onPress={onPressVerify}>
+              <Text
+                style={
+                  isFocused || textInputProps.value
+                    ? styles.verifyEmail
+                    : styles.verifiedEmail
+                }>
+                Verify
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {!verifyEmail && (
+          <>
+            <Text
+              style={[
+                isFocused || textInputProps.value
+                  ? styles.firstName
+                  : styles.firstNameCopy,
+                edited === false && styles.fade,
+              ]}
+              accessible={true}
+              accessibilityLabel={label}>
+              {label}
+              {required && <Text style={{color: Colors.RED}}>*</Text>}
+            </Text>
+          </>
+        )}
+        {endComponent && (
+          <TouchableOpacity onPress={endComponentPress}>
+            <TextInput
+              style={[
+                styles.InputTextField,
+                isFocused ? styles.focusBorder : styles.blurBorder,
+                error ? {borderBottomColor: Colors.RED} : null,
+              ]}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              blurOnSubmit
+              {...textInputProps}
+            />
+          </TouchableOpacity>
+        )}
+        {!endComponent && (
+          <TextInput
+            style={[
+              styles.InputTextField,
+              isFocused ? styles.focusBorder : styles.blurBorder,
+              lineColor && {borderBottomColor: Colors.LIGHT_BLACK47},
+              error ? {borderBottomColor: Colors.RED} : null,
+              edited === false && styles.fade,
+            ]}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            blurOnSubmit
+            {...textInputProps}
+          />
+        )}
         {endComponent && (
           <View style={styles.endComponent}>{endComponent()}</View>
         )}

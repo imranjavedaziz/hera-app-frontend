@@ -1,22 +1,16 @@
 // Landing
 import React, {useEffect} from 'react';
-import {
-  View,
-  Image,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Button from '../components/Button';
-import Container from '../components/Container';
 import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
 import Strings from '../constants/Strings';
-import {Routes} from '../constants/Constants';
+import {Routes,ABOUT_URL} from '../constants/Constants';
 import {deviceHandler} from '../utils/commonFunction';
+import openWebView from '../utils/openWebView';
 
+const type = 1;
 const Landing = () => {
   const navigation = useNavigation();
   useEffect(() => {
@@ -27,32 +21,31 @@ const Landing = () => {
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
-      <Container scroller={false}>
-        <View style={styles.mainContainer}>
-          <Image
-            source={Images.LOGO}
-            style={styles.logo}
-            accessible={true}
-            accessibilityLabel="This is app logo"
+      <View style={styles.mainContainer}>
+        <Image
+          source={Images.LOGO}
+          style={styles.logo}
+          accessible={true}
+          accessibilityLabel="This is app logo"
+        />
+        <Text style={styles.title}>{Strings.landing.Like_Match_Connect}</Text>
+        <View style={styles.btnContainer}>
+          <Button
+            style={styles.widthText}
+            label={Strings.landing.LOG_IN}
+            onPress={() => navigation.navigate(Routes.Login)}
           />
-          <Text style={styles.title}>{Strings.landing.Like_Match_Connect}</Text>
-          <View style={styles.btnContainer}>
-            <Button
-              style={styles.widthText}
-              label={Strings.landing.LOG_IN}
-              onPress={() => navigation.navigate(Routes.Login)}
-            />
-            <Button
-              style={styles.widthText}
-              label={Strings.landing.REGISTER}
-              onPress={() => navigation.navigate(Routes.MobileNumber)}
-            />
-          </View>
+          <Button
+            style={styles.widthText}
+            label={Strings.landing.REGISTER}
+            onPress={() => navigation.navigate(Routes.MobileNumber, {type})}
+          />
         </View>
-      </Container>
+      </View>
       <View style={styles.footer}>
         <TouchableOpacity
           accessible={true}
+          onPress={()=>openWebView(ABOUT_URL)}
           accessibilityLabel={Strings.landing.AboutUs}>
           <Text style={styles.footerBtn} accessible={false}>
             {Strings.landing.AboutUs}
@@ -67,8 +60,7 @@ const Landing = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <StatusBar hidden={Platform.OS === 'android'} animated={true} />
     </View>
   );
 };
-export default Landing;
+export default React.memo(Landing);

@@ -21,7 +21,6 @@ const styles = {
     position: Alignment.ABSOLUTE,
     top: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
     // height: Value.CONSTANT_VALUE_134,
   },
   safe: {
@@ -33,22 +32,23 @@ const styles = {
   row: {
     flex: Value.CONSTANT_VALUE_1,
     flexDirection: Alignment.ROW,
-    // alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_40,
+    marginTop: Value.CONSTANT_VALUE_20,
     width: Prencentage.PRECENTAGE_100,
+    paddingLeft: Value.CONSTANT_VALUE_30,
+    paddingRight: Value.CONSTANT_VALUE_40,
   },
   text: {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
-    marginLeft: Value.CONSTANT_VALUE_10,
+    marginLeft: Value.CONSTANT_VALUE_12,
   },
   bar: {
     width: Value.CONSTANT_VALUE_20,
     height: Value.CONSTANT_VALUE_5,
     backgroundColor: Colors.WHITE,
     opacity: 0.4,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_20,
     marginBottom: Value.CONSTANT_VALUE_10,
     borderRadius: Value.CONSTANT_VALUE_3,
   },
@@ -67,7 +67,7 @@ const Toast = () => {
     if (toastState.showToast) {
       setTimeout(hideToast, 5000);
     }
-  }, [toastState.showToast,]);
+  }, [toastState.showToast]);
   if (toastState.showToast) {
     return (
       <View style={[styles.container, {backgroundColor}]}>
@@ -80,7 +80,22 @@ const Toast = () => {
         <SafeAreaView style={styles.safe}>
           <Pressable style={styles.safe} onPress={hideToast}>
             <View style={styles.row}>
-              <Image source={icon} />
+              <Image
+                source={icon}
+                style={
+                  toastState.toastText.length > 10
+                    ? {
+                        alignItems: Alignment.CENTER,
+                        justifyContent: Alignment.CENTER,
+                        marginTop: Value.CONSTANT_VALUE_2,
+                      }
+                    : {
+                        alignItems: Alignment.CENTER,
+                        justifyContent: Alignment.CENTER,
+                        marginTop: Value.CONSTANT_VALUE_5,
+                      }
+                }
+              />
               <Text style={styles.text}>{toastState.toastText}</Text>
             </View>
             <View style={styles.bar} />

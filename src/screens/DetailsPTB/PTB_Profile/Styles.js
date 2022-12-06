@@ -2,6 +2,7 @@ import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
+import {dynamicSize, scaleWidth} from '../../../utils/responsive';
 
 export default {
   profileLogo: {
@@ -9,13 +10,25 @@ export default {
     height: Value.CONSTANT_VALUE_80,
     borderRadius: Value.CONSTANT_VALUE_40,
   },
+  mainContainer: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
+  },
+  flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   colorText: {color: Colors.BLACK},
   location: {
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_10,
     alignItems: Alignment.CENTER,
   },
+  headerIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
   locationText: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    lineHeight: 21,
+    letterSpacing: 0,
     fontFamily: Fonts.OpenSansRegular,
     marginLeft: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
@@ -30,7 +43,6 @@ export default {
     flexDirection: Alignment.ROW_REVERSE,
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_3,
-    top: Value.CONSTANT_VALUE_10,
   },
   profileType: {
     fontFamily: Fonts.OpenSansRegular,
@@ -116,6 +128,16 @@ export default {
     height: Value.CONSTANT_VALUE_80,
     //width:Value.CONSTANT_VALUE_296,
   },
+  sendMsgBtnDis: {
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+    borderWidth: Value.CONSTANT_VALUE_1,
+    borderColor: Colors.COLOR_A3C6C4,
+    borderRadius: Value.CONSTANT_VALUE_40,
+    justifyContent: Alignment.CENTER,
+    marginHorizontal: Value.CONSTANT_VALUE_20,
+    height: Value.CONSTANT_VALUE_80,
+  },
   sendMsgText: {
     letterSpacing: Value.CONSTANT_VALUE_FRAC36,
     fontFamily: Fonts.OpenSansBold,
@@ -124,5 +146,33 @@ export default {
   },
   highlitsText: {
     fontFamily: Fonts.OpenSansRegular,
+  },
+  crossIconContainer: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_70),
+  },
+  crossIcon: {
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+    width: scaleWidth(Value.CONSTANT_VALUE_211),
+  },
+  btn: color => ({
+    borderRadius: dynamicSize(Value.CONSTANT_VALUE_40),
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderColor: color,
+    borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
+    backgroundColor: Colors.BACKGROUND,
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_296,
+    alignSelf: Alignment.CENTER,
+  }),
+  iconContainer: {
+    flex: Value.CONSTANT_VALUE_FRAC88,
+    alignItems: Alignment.CENTER,
+  },
+  textInnerContainer: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.CENTER,
   },
 };

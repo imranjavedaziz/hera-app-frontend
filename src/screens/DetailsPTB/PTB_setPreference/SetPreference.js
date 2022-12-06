@@ -1,5 +1,14 @@
-import {Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+  Alert,
+  Modal,
+} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
@@ -18,17 +27,28 @@ import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {Static, Routes, FormKey, Fonts} from '../../../constants/Constants';
-import BottomSheetComp from '../../../components/BottomSheet';
+import {
+  Static,
+  Routes,
+  FormKey,
+  Fonts,
+  ABOUT_URL,
+} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import {logOut} from '../../../redux/actions/Auth';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
   SavePreference,
+  GetPreferenceRes,
 } from '../../../redux/actions/SetPreference';
-import {scaleWidth} from '../../../utils/responsive';
+import {BottomSheetComp} from '../../../components';
+import {getStates} from '../../../redux/actions/Register';
+import openWebView from '../../../utils/openWebView';
+import {useFocusEffect} from '@react-navigation/native';
+import _ from 'lodash';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -51,16 +71,18 @@ const SetPreference = ({route, navigation}) => {
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
+  const [stateRess, setStateRes] = useState();
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
-  const {
-    handleSubmit,
-    control,
-    formState: {errors, isValid},
-  } = useForm({
-    resolver: yupResolver(setPreferenceSchema),
-  });
-  console.log(EditPreferences, 'EditPreferences');
+  const [threeOption, setThreeOption] = useState([]);
+  let actionSheet = useRef();
+  const LogoutLoadingRef = useRef(false);
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+    state => state.Auth,
+  );
+  const SetloadingRef = useRef(false);
+  const [showModal, setShowModal] = useState(false);
+
   const {
     set_preference_success,
     set_preference_loading,
@@ -70,16 +92,120 @@ const SetPreference = ({route, navigation}) => {
     save_preference_success,
     save_preference_loading,
     save_preference_error_msg,
+    get_preference_success,
+    get_preference_loading,
+    get_preference_error_msg,
+    get_preference_res,
   } = useSelector(state => state.SetPreference);
-
+  const {
+    get_state_res,
+    get_state_success,
+    get_state_loading,
+    get_state_error_msg,
+  } = useSelector(state => state.Register);
   const loadingRef = useRef(false);
+  const stateLoadingRef = useRef(false);
+  useFocusEffect(
+    useCallback(() => {
+      if (EditPreferences === true) {
+        dispatch(showAppLoader());
+        dispatch(GetPreferenceRes());
+      }
+      dispatch(getStates());
+      dispatch(SetPreferenceRes());
+    }, [dispatch]),
+  );
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: {errors, isValid, dirtyFields},
+  } = useForm({
+    resolver: yupResolver(setPreferenceSchema),
+  });
 
+  useEffect(() => {
+    if (!isValid) {
+      const e = errors;
+      const messages = [];
+      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
+    }
+  }, [errors, isValid, dispatch]);
+
+  //GET STATE
+  useEffect(() => {
+    if (stateLoadingRef.current && !get_state_loading) {
+      dispatch(showAppLoader());
+      if (get_state_success) {
+        dispatch(hideAppLoader());
+        setStateRes(get_state_res);
+      }
+      if (get_state_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    stateLoadingRef.current = get_state_loading;
+  }, [get_state_loading, get_state_success]);
+  //GET PREFERENCE
+  useEffect(() => {
+    if (SetloadingRef.current && !get_preference_loading) {
+      dispatch(showAppLoader());
+      if (get_preference_success) {
+        dispatch(hideAppLoader());
+        EditPreferences === true && handelChange();
+      }
+      if (get_preference_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    SetloadingRef.current = get_preference_loading;
+  }, [get_preference_success, get_preference_loading, get_preference_res]);
+  //SETTER FIELDS
+  const handelChange = async value => {
+    const HeightArr = get_preference_res?.height?.split('-');
+    const education = set_preference_res?.education?.find(obj => {
+      return obj.id === parseInt(get_preference_res?.education);
+    });
+    const raceJson =
+      get_preference_res?.race !== undefined &&
+      JSON.parse(get_preference_res?.race);
+    const location = get_state_res?.find(obj => {
+      return obj.id === parseInt(get_preference_res?.state);
+    });
+    const race = set_preference_res?.race?.find(obj => {
+      return obj.id === parseInt(raceJson);
+    });
+    setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
+    setValue(FormKey.location, location);
+    setValue(FormKey.education, education);
+    setValue(FormKey.age_range, get_preference_res?.age);
+    setHeight(HeightArr);
+    setValue(FormKey.race, race);
+    setValue(FormKey.hair, get_preference_res?.hair_colour);
+    setValue(FormKey.eye, get_preference_res?.eye_colour);
+  };
+
+  //logout
+  useEffect(() => {
+    if (LogoutLoadingRef.current && !log_out_loading) {
+      dispatch(showAppLoader());
+      if (log_out_success) {
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.Landing);
+      } else {
+        dispatch(showAppToast(true, log_out_error_msg));
+        dispatch(hideAppLoader());
+      }
+    }
+    LogoutLoadingRef.current = log_out_loading;
+  }, [log_out_success, log_out_loading]);
   //GET PREFERENCE
   useEffect(() => {
     if (loadingRef.current && !set_preference_loading) {
       dispatch(showAppLoader());
       if (set_preference_success) {
         dispatch(hideAppLoader());
+        EditPreferences === true && handelChange();
         setPreferencesData(set_preference_res);
       }
       if (set_preference_error_msg) {
@@ -90,14 +216,14 @@ const SetPreference = ({route, navigation}) => {
   }, [set_preference_success, set_preference_loading]);
 
   // SAVE PREFERENCE
-
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
       dispatch(showAppLoader());
-      console.log(save_preference_success, 'save_preference_success');
       if (save_preference_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.PtbDashboard);
+        EditPreferences === true
+          ? navigation.navigate(Routes.PtbProfile)
+          : navigation.navigate(Routes.PtbDashboard);
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
@@ -105,18 +231,6 @@ const SetPreference = ({route, navigation}) => {
     }
     SubmitLoadingRef.current = save_preference_loading;
   }, [save_preference_loading, save_preference_success]);
-  useEffect(() => {
-    dispatch(SetPreferenceRes());
-    if (!isValid) {
-      const e = errors;
-      const messages = [];
-      Object.keys(errors).forEach(k => messages.push(e[k].message || ''));
-      const msg = messages.join('\n').trim();
-      if (msg) {
-        dispatch(showAppToast(true, msg));
-      }
-    }
-  }, [errors, isValid]);
 
   const onSubmit = data => {
     let value = {
@@ -124,38 +238,107 @@ const SetPreference = ({route, navigation}) => {
       age: data.age_range,
       height:
         data?.height !== undefined ? data?.height.join('-') : height.join('-'),
-      race: data.race,
+      race: data.race?.id,
       education: data.education.id.toString(),
       hair_colour: data.hair,
       eye_colour: data.eye,
       ethnicity: '2,3',
-      state: '1,2',
+      state: data.location?.id,
     };
     dispatch(showAppLoader());
     dispatch(SavePreference(value));
+    EditPreferences !== true && dispatch(updateRegStep());
   };
 
-  const logoutScreen = () => {
+  const logOutScreen = () => {
+    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
-
+  const navigateSupport = () => {
+    navigation.navigate(Routes.Support);
+  };
+  const handleThreeOption = async option => {
+    switch (option) {
+      case Strings.smSetting.Inquiry:
+        navigateSupport();
+        break;
+      case Strings.preference.About:
+        break;
+      case Strings.preference.Logout:
+        logOutScreen();
+        break;
+    }
+  };
+  const openActionSheet = () => {
+    setThreeOption([
+      Strings.smSetting.Inquiry,
+      Strings.preference.About,
+      Strings.preference.Logout,
+    ]);
+    setTimeout(() => {
+      actionSheet.current.show();
+    }, 300);
+  };
+  const backAction = () => {
+    Alert.alert(
+      Strings.EDITPROFILE.DiscardEdit,
+      Strings.EDITPROFILE.DiscardEditDisc,
+      [
+        {
+          text: Strings.profile.ModalOption1,
+          onPress: () => {
+            navigation.navigate(Routes.PtbProfile);
+          },
+        },
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+  const nav = () => {
+    if (_.isEmpty(dirtyFields)) {
+      navigation.navigate(Routes.PtbProfile);
+    } else {
+      Platform.OS === 'ios' ? backAction() : setShowModal(true);
+    }
+  };
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
-        <TouchableOpacity
-          style={styles.header}
-          onPress={() => navigation.goBack()}>
-          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
-        </TouchableOpacity>
+        <View style={globalStyle.cancelbtn}>
+          <TouchableOpacity
+            onPress={() => {
+              nav();
+            }}
+            style={globalStyle.clearView}>
+            <Text style={globalStyle.clearText}>
+              {Strings.Subscription.Cancel}
+            </Text>
+          </TouchableOpacity>
+        </View>
       ) : (
-        <CircleBtn
-          Fixedstyle={styles.fixedheaderStyle}
-          icon={Images.iconSettings}
-          onPress={() => {
-            setOpen(true);
-          }}
-        />
+        <>
+          <CircleBtn
+            Fixedstyle={styles.fixedheaderStyle}
+            icon={Images.iconSettings}
+            onPress={() => {
+              Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
+            }}
+          />
+          <ActionSheet
+            ref={actionSheet}
+            options={threeOption}
+            destructiveButtonIndex={2}
+            cancelButtonIndex={2}
+            onPress={index => {
+              handleThreeOption(threeOption[index]);
+            }}
+          />
+        </>
       )}
     </>
   );
@@ -170,10 +353,7 @@ const SetPreference = ({route, navigation}) => {
         safeAreViewStyle={
           isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
         }
-        style={{
-          paddingBottom: Value.CONSTANT_VALUE_50,
-          marginHorizontal: scaleWidth(35),
-        }}>
+        style={styles.containerView}>
         <View style={styles.mainContainer}>
           {EditPreferences === true ? (
             <Text style={globalStyle.screenTitle}>
@@ -187,16 +367,14 @@ const SetPreference = ({route, navigation}) => {
           <View
             accessible={true}
             accessibilityLabel={`${Strings.preference.filter}`}>
-            <Text
-              style={globalStyle.screenSubTitle}
-              numberOfLines={2}
-              accessible={false}>
+            <Text style={globalStyle.screenSubTitle} accessible={false}>
               {Strings.preference.SearchPrioritize}
             </Text>
           </View>
           <View style={styles.lookingFor}>
             <Text style={styles.lookingForText}>
               {Strings.preference.lookingFor}
+              <Text style={styles.chipsRequiredText}>*</Text>
             </Text>
             <Controller
               control={control}
@@ -226,10 +404,12 @@ const SetPreference = ({route, navigation}) => {
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
+                  defaultValue={value}
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
                   label={Strings.preference.Location}
-                  data={Static.location}
+                  data={stateRess}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                     onChange(selectedItem);
@@ -242,8 +422,9 @@ const SetPreference = ({route, navigation}) => {
             />
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
+                  defaultValue={value}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
                   onSelect={(selectedItem, index) => {
@@ -291,10 +472,10 @@ const SetPreference = ({route, navigation}) => {
                                 {
                                   color: isSelected(value, item.name)
                                     ? Colors.WHITE
-                                    : null,
-                                  fontWeight: isSelected(value, item.name)
-                                    ? Alignment.BOLD
-                                    : null,
+                                    : Colors.BLACK_0,
+                                  fontFamily: isSelected(value, item.name)
+                                    ? Fonts.OpenSansBold
+                                    : Fonts.OpenSansRegular,
                                 },
                               ]}>
                               {item.name} {Strings.preference.yrs}
@@ -304,6 +485,9 @@ const SetPreference = ({route, navigation}) => {
                       );
                     })}
                   </ScrollView>
+                  <Text style={styles.errMessage}>
+                    {errors && errors.age_range?.message}
+                  </Text>
                 </View>
               )}
               name={FormKey.age_range}
@@ -314,12 +498,14 @@ const SetPreference = ({route, navigation}) => {
                   {Strings.preference.Height}
                   <Text style={styles.heightText}>*</Text>
                 </Text>
-                <Text style={{fontWeight: Alignment.BOLD}}>
+                <Text style={styles.heightTextView}>
                   <Text>
-                    {parseInt(height[0] / 12)}'{parseInt(height[0] % 12)}" -{' '}
+                    {height && parseInt(height[0] / 12)}'
+                    {height && parseInt(height[0] % 12)}" -{' '}
                   </Text>
                   <Text>
-                    {parseInt(height[1] / 12)}'{parseInt(height[1] % 12)}"
+                    {height && parseInt(height[1] / 12)}'
+                    {height && parseInt(height[1] % 12)}"
                   </Text>
                 </Text>
               </View>
@@ -330,7 +516,6 @@ const SetPreference = ({route, navigation}) => {
                     value={height}
                     setValue={setHeight}
                     onValueChange={value => {
-                      console.log(value, 'value:::::::::');
                       onChange(value);
                     }}
                   />
@@ -340,12 +525,14 @@ const SetPreference = ({route, navigation}) => {
             </View>
             <Controller
               control={control}
-              render={({field: {onChange}}) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
+                  defaultValue={value}
+                  containerStyle={{marginTop: 10}}
                   label={Strings.preference.Race}
                   data={preferencesData?.race}
                   onSelect={(selectedItem, index) => {
-                    onChange(selectedItem.id);
+                    onChange(selectedItem);
                   }}
                   required={true}
                   error={errors && errors.race?.message}
@@ -353,10 +540,7 @@ const SetPreference = ({route, navigation}) => {
               )}
               name={FormKey.race}
             />
-            <Text style={styles.chipText}>
-              {Strings.preference.HairColor}
-              <Text style={styles.chipsRequiredText}>*</Text>
-            </Text>
+            <Text style={styles.chipText}>{Strings.preference.HairColor}</Text>
             <Controller
               control={control}
               render={({field: {onChange, value = ''}}) => (
@@ -395,7 +579,7 @@ const SetPreference = ({route, navigation}) => {
                                   : Fonts.OpenSansRegular,
                                 color: isSelected(value, item.id.toString())
                                   ? Colors.WHITE
-                                  : null,
+                                  : Colors.BLACK_0,
                               },
                             ]}>
                             {item.name}
@@ -403,14 +587,14 @@ const SetPreference = ({route, navigation}) => {
                         </View>
                       </TouchableOpacity>
                     ))}
+                  <Text style={styles.errMessage}>
+                    {errors && errors.hair?.message}
+                  </Text>
                 </View>
               )}
               name={FormKey.hair}
             />
-            <Text style={styles.chipText}>
-              {Strings.preference.EyeColor}
-              <Text style={styles.chipsRequiredText}>*</Text>
-            </Text>
+            <Text style={styles.chipText}>{Strings.preference.EyeColor}</Text>
           </View>
           <Controller
             control={control}
@@ -447,7 +631,7 @@ const SetPreference = ({route, navigation}) => {
                                 : Fonts.OpenSansRegular,
                               color: isSelected(value, item.id.toString())
                                 ? Colors.WHITE
-                                : null,
+                                : Colors.BLACK_0,
                             },
                           ]}>
                           {item.name}
@@ -455,21 +639,32 @@ const SetPreference = ({route, navigation}) => {
                       </View>
                     </TouchableOpacity>
                   ))}
+                <Text style={styles.errMessage}>
+                  {errors && errors.eye?.message}
+                </Text>
               </View>
             )}
             name={FormKey.eye}
           />
-          <Button
-            label={Strings.preference.Save}
-            style={styles.Btn}
-            onPress={handleSubmit(onSubmit)}
-          />
+          {EditPreferences === true ? (
+            <Button
+              label={Strings.preference.SAVE_PREFERENCES}
+              style={styles.Btn2}
+              onPress={handleSubmit(onSubmit)}
+            />
+          ) : (
+            <Button
+              label={Strings.preference.Save}
+              style={styles.Btn}
+              onPress={handleSubmit(onSubmit)}
+            />
+          )}
         </View>
       </Container>
 
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
-        lineStyle={{width: Value.CONSTANT_VALUE_20, backgroundColor: '#494947'}}
+        lineStyle={globalStyle.lineStyle}
         isOpen={isOpen}
         setOpen={setOpen}>
         <View style={globalStyle.basicSheetContainer}>
@@ -478,18 +673,54 @@ const SetPreference = ({route, navigation}) => {
               {Strings.preference.InquiryForm}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.heraBtn}>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}
+            onPress={() => openWebView(ABOUT_URL)}>
             <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={() => logoutScreen()}>
+            onPress={() => logOutScreen()}>
             <Text style={globalStyle.logoutText}>
               {Strings.preference.Logout}
             </Text>
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[globalStyle.centeredView]}>
+          <View style={globalStyle.modalView}>
+            <Text style={globalStyle.modalHeader}>
+              {Strings.EDITPROFILE.DiscardEdit}
+            </Text>
+            <Text style={globalStyle.modalSubHeader}>
+              {Strings.EDITPROFILE.DiscardEditDisc}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                navigation.navigate(Routes.PtbProfile);
+              }}>
+              <Text style={globalStyle.modalOption1}>
+                {Strings.profile.ModalOption1}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={globalStyle.modalOption2}>
+                {Strings.profile.ModalOption2}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };

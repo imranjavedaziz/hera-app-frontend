@@ -131,17 +131,16 @@ def reactNativeArchitectures() {
 
 android {
     ndkVersion rootProject.ext.ndkVersion
-
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+    
     defaultConfig {
-        applicationId "com.mbc"
+        applicationId "com.makingBabyConnetionDev"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-
+        missingDimensionStrategy 'store', 'play' 
         if (isNewArchitectureEnabled()) {
             // We configure the NDK build only if you decide to opt-in for the New Architecture.
             externalNativeBuild {
@@ -167,6 +166,8 @@ android {
                 }
             }
         }
+    // react-native-iap: we only use the Google Play flavor
+      missingDimensionStrategy 'store', 'play'
     }
 
     if (isNewArchitectureEnabled()) {
@@ -244,6 +245,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            crunchPngs false 
         }
     }
 

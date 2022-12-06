@@ -5,6 +5,7 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
+  USE_LOCAL_IMAGE,
 } from '../constants';
 
 import {
@@ -26,6 +27,9 @@ import {
   UPDATE_PROFILE_IMG,
   UPDATE_PROFILE_IMG_SUCCESS,
   UPDATE_PROFILE_IMG_FAIL,
+  DEVICE_REGISTER,
+  DEVICE_REGISTER_FAIL,
+  DEVICE_REGISTER_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -46,6 +50,7 @@ const initState = {
     updated_at: '',
     username: '',
   },
+  login: false,
   basic: {
     bio: '',
     created_at: '',
@@ -91,12 +96,21 @@ const initState = {
   log_out_loading: false,
   log_out_error_msg: '',
   register_user_success: false,
+  register_user_success_data: null,
   register_user_loading: false,
   register_user_error_msg: '',
   update_user_profile_img_success: false,
   update_user_profile_img_fail: false,
   update_user_profile_img_error_msg: '',
   update_message: '',
+  device_info: {
+    device_id: '',
+    device_token: '',
+    device_type: '',
+  },
+  device_info_error_msg: '',
+  device_info_loading: false,
+  device_info_success: false,
 };
 
 export default (state = initState, action) => {
@@ -134,6 +148,46 @@ export default (state = initState, action) => {
         token: access_token,
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
+        login: true,
+      };
+    }
+
+    case USE_LOCAL_IMAGE: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          profile_pic: action.data,
+        },
+      };
+    }
+
+    // DEVICE REGISTER
+    case DEVICE_REGISTER: {
+      return {
+        ...state,
+        device_info_success: false,
+        device_info_loading: true,
+        device_info_error_msg: '',
+        device_info: {},
+      };
+    }
+    case DEVICE_REGISTER_FAIL: {
+      return {
+        ...state,
+        device_info_success: false,
+        device_info_loading: false,
+        device_info_error_msg: action.data.msg,
+        device_info: {},
+      };
+    }
+    case DEVICE_REGISTER_SUCCESS: {
+      return {
+        ...state,
+        device_info_success: true,
+        device_info_loading: false,
+        device_info_error_msg: '',
+        device_info: action?.data?.data?.data,
       };
     }
     /**
@@ -202,6 +256,7 @@ export default (state = initState, action) => {
         mobile_number_success: true,
         mobile_number_loading: false,
         mobile_number_error_msg: '',
+        register_user_success_data: action.data,
       };
     }
     case AUTH_VERIFY_OTP: {
@@ -265,9 +320,8 @@ export default (state = initState, action) => {
         register_user_success: false,
         register_user_loading: true,
         register_user_error_msg: '',
-        user: {},
+        // user: initState.user,
         log_in_data: action?.data?.data?.data,
-        registerUser: action?.data?.data?.data,
       };
     }
     case AUTH_REGISTER_FAIL: {
@@ -277,7 +331,7 @@ export default (state = initState, action) => {
         register_user_loading: false,
         register_user_error_msg: action.data.msg,
         registerUser: '',
-        user: {},
+        // user: initState.user,
       };
     }
     case AUTH_REGISTER_SUCCESS: {
@@ -289,8 +343,12 @@ export default (state = initState, action) => {
         registerUser: action.data,
         register_user_error_msg: '',
         log_in_data: action?.data?.data?.data,
-        user: action?.data?.data?.data,
+        user: {
+          ...action?.data?.data?.data,
+          profile_pic: state.user.profile_pic,
+        },
         token: access_token,
+        login: true,
       };
     }
     /**

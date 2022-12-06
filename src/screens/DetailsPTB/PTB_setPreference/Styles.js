@@ -2,7 +2,7 @@ import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, height, scaleWidth} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -12,16 +12,29 @@ export default {
   fixedheaderStyle: {marginRight: Value.CONSTANT_VALUE_20},
   lookingFor: {
     width: '100%',
-    marginTop: Value.CONSTANT_VALUE_50,
+    marginTop: Value.CONSTANT_VALUE_40,
   },
   lookingForText: {
     fontFamily: Fonts.OpenSansRegular,
     marginBottom: Value.CONSTANT_VALUE_17,
-    fontSize: 14,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   required: {
     color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_18,
+  },
+  heightTextView: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: 21,
+    letterSpacing: 0,
+    color: Colors.BLACK_0,
+  },
+  containerView: {
+    marginBottom: -40,
+    marginHorizontal: scaleWidth(37),
+    backgroundColor: Colors.BACKGROUND,
   },
   label: {
     position: Alignment.ABSOLUTE,
@@ -39,7 +52,8 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginBottom: Value.CONSTANT_VALUE_27,
-    color: Colors.COLOR_535858,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   lookingDonor: {
     marginLeft: Value.CONSTANT_VALUE_10,
@@ -67,8 +81,9 @@ export default {
   },
   chipText: {
     fontSize: Value.CONSTANT_VALUE_14,
-    // marginBottom: dynamicSize(Value.CONSTANT_VALUE_14),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
+    color: Colors.BLACK_0,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_35),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
     fontFamily: Fonts.OpenSansRegular,
   },
   chipsRequiredText: {
@@ -96,16 +111,18 @@ export default {
   ageText: {
     marginVertical: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
-    marginTop: Value.CONSTANT_VALUE_25,
+    marginTop: Value.CONSTANT_VALUE_30,
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK_0,
   },
   heightTextInner: {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK_0,
   },
   ageRangeChip: {
     height: Value.CONSTANT_VALUE_41,
-    width: Value.CONSTANT_VALUE_104,
+    width: Value.CONSTANT_VALUE_100,
     borderRadius: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_5,
@@ -113,6 +130,9 @@ export default {
     padding: Value.CONSTANT_VALUE_0,
   },
   chipInsideText: {
+    fontSize: 14,
+    lineHeight: 21,
+    letterSpacing: 0,
     alignSelf: Alignment.CENTER,
   },
   flexRow: {
@@ -127,6 +147,13 @@ export default {
   Btn: {
     height: Value.CONSTANT_VALUE_80,
     width: Value.CONSTANT_VALUE_195,
+    marginTop: 26,
+    marginBottom: 78,
+  },
+  Btn2: {
+    height: Value.CONSTANT_VALUE_80,
+    marginTop: 26,
+    marginBottom: 78,
   },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {
@@ -135,5 +162,33 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.RED,
     marginRight: 30,
+  },
+  heightlmt: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  errMessage: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    position: 'absolute',
+    bottom: -25,
+    right: 0,
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };

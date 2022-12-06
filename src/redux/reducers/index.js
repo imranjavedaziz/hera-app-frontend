@@ -10,6 +10,15 @@ import PtbProfileDetail from './PtbProfileDetail';
 import SmDonorDetail from './SmDonerDetail';
 import SetPreference from './SetPreference';
 import Support from './Support';
+import Profile_Match from './Profile_Match';
+import Chat from './Chat';
+import Subscription from './Subscription';
+import DeleteAccount from './DeleteAccount';
+import Edit_profile from './Edit_profile';
+import VerificationMail from './VerificationMail';
+import DeactivateAccount from './DeactivateAccount';
+import NavigationOnLanding from './NavigationOnLanding';
+import ReportUser from './ReportUser';
 
 const allReducers = combineReducers({
   Auth,
@@ -23,6 +32,15 @@ const allReducers = combineReducers({
   PtbProfileDetail,
   SmDonorDetail,
   Support,
+  Profile_Match,
+  Chat,
+  Subscription,
+  DeleteAccount,
+  Edit_profile,
+  DeactivateAccount,
+  VerificationMail,
+  NavigationOnLanding,
+  ReportUser,
 });
 
 export default allReducers;

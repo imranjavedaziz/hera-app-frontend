@@ -2,19 +2,13 @@ import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import {Fonts} from '../../../../constants/Constants';
+import {dynamicSize, px} from '../../../../utils/responsive';
 
 export default {
   headerContainer: {
-    alignSelf: 'center',
-    shadowColor: 'rgba(0,0,0,0.17)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 1,
-    elevation: 1,
-    shadowRadius: 34,
-    borderRadius:100,
+    flex: Value.CONSTANT_VALUE_1,
+    marginTop: Value.CONSTANT_VALUE_90,
+    paddingHorizontal: 30,
   },
   usernameText: {
     fontSize: Value.CONSTANT_VALUE_24,
@@ -66,8 +60,12 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     width: '100%',
-    marginTop: Value.CONSTANT_VALUE_35,
+    marginTop: Value.CONSTANT_VALUE_40,
     justifyContent: Alignment.SPACE_BETWEEN,
+  },
+  headerIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
   text: {
     marginLeft: Value.CONSTANT_VALUE_18,
@@ -79,10 +77,16 @@ export default {
     color: Colors.BLACK,
   },
   dot: {
-    height: Value.CONSTANT_VALUE_12,
-    width: Value.CONSTANT_VALUE_12,
-    borderRadius: Value.CONSTANT_VALUE_6,
     backgroundColor: Colors.GREEN,
+    width: px(Value.CONSTANT_VALUE_12),
+    height: px(Value.CONSTANT_VALUE_12),
+    borderStyle: Alignment.SOLID,
+    borderWidth: px(Value.CONSTANT_VALUE_1),
+    borderColor: Colors.WHITE,
+    borderRadius: px(Value.CONSTANT_VALUE_30),
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.CENTER,
+    marginRight: 10,
   },
   contain: {
     flexDirection: Alignment.ROW,
@@ -90,15 +94,35 @@ export default {
     marginTop: Value.CONSTANT_VALUE_35,
   },
   BtnContainer: {
-    justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
   },
-  Btn: {
-    width: Value.CONSTANT_VALUE_144,
-    height: Value.CONSTANT_VALUE_59,
-    paddingHorizontal: Value.CONSTANT_VALUE_0,
-    paddingVertical: Value.CONSTANT_VALUE_0,
-    marginTop: Value.CONSTANT_VALUE_35,
+  buttoncontainer: {
+    paddingBottom: Value.CONSTANT_VALUE_89,
+    alignItems: Alignment.CENTER,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_35),
+  },
+  button: {
+    alignItems: Alignment.CENTER,
+    width: dynamicSize(Value.CONSTANT_VALUE_144),
+    height: dynamicSize(Value.CONSTANT_VALUE_59),
+    borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: Colors.PINK,
+    justifyContent: Alignment.CENTER,
+  },
+  buttonText: {
+    color: Colors.BLACK,
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    textAlign: Alignment.CENTER,
+    letterSpacing: 1.67,
+  },
+  AppVersion: {
+    textAlign: Alignment.CENTER,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
+    marginTop: Value.CONSTANT_VALUE_25,
+    color: Colors.GRAY,
   },
   flexRow: {
     flexDirection: Alignment.ROW,
@@ -110,4 +134,5 @@ export default {
   extraTxt: {
     marginLeft: 15,
   },
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
 };

@@ -3,7 +3,7 @@ import axios from 'axios';
 import {api_url} from '../constants/Constants';
 import {store} from '../redux/store';
 import {showAppToast} from '../redux/actions/loader';
-import {updateToken} from '../redux/actions/Auth';
+import {updateToken, signoutUser} from '../redux/actions/Auth';
 import ApiPath from '../constants/ApiPath';
 
 const axiosRequest = axios.create({
@@ -35,6 +35,8 @@ axiosRequest.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config;
     console.log(error.response.status, 'error.response.status::::::');
+    console.log(error.response.data, 'error.response.data');
+
     if (error.response.status === 401 && originalRequest._retry === false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       console.log(tokenRes, 'tokenRes.data');
@@ -44,6 +46,12 @@ axiosRequest.interceptors.response.use(
       return axiosRequest(originalRequest);
     } else if (error.response.status === 404 && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
+    } else if (
+      (error.response.status === 402 || error.response.status === 403) &&
+      error.response.data.message
+    ) {
+      store.dispatch(showAppToast(true, error.response.data.message));
+      store.dispatch(signoutUser());
     } else if (error.response.status === 417 && error.response.data.message) {
       return error.response.data.message;
     }

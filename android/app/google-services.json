@@ -1,10 +1,47 @@
 {
   "project_info": {
     "project_number": "976287230857",
+    "firebase_url": "https://making-baby-connection-default-rtdb.firebaseio.com",
     "project_id": "making-baby-connection",
     "storage_bucket": "making-baby-connection.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976287230857:android:f3d81ed21da2cdcf5e8f58",
+        "android_client_info": {
+          "package_name": "com.makingBabyConnetionDev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976287230857-u2ui7u2uldqh4pm6vpcjsd8nrc4g3rs0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaKE1JN6pXRMJJuH-E_of8HsVeaJekyro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976287230857-u2ui7u2uldqh4pm6vpcjsd8nrc4g3rs0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "976287230857-6l2b0jcl775atbril9lte4ue6vgmsspa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.makingBabyConnection"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:976287230857:android:27280cceb90f4bb35e8f58",
@@ -29,6 +66,13 @@
             {
               "client_id": "976287230857-u2ui7u2uldqh4pm6vpcjsd8nrc4g3rs0.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "976287230857-6l2b0jcl775atbril9lte4ue6vgmsspa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.makingBabyConnection"
+              }
             }
           ]
         }
@@ -36,4 +80,5 @@
     }
   ],
   "configuration_version": "1"
+  
 }

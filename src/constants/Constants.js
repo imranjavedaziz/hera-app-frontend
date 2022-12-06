@@ -1,21 +1,31 @@
-import {ValidationMessages} from './Strings';
+import Strings, {ValidationMessages} from './Strings';
 import {Regx} from './schemas';
+import Images from './Images';
+import {Platform} from 'react-native';
 
 const environment = {
   dev: {
     bucket: '',
     api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',
+    chat: 'dev',
   },
   qa: {
     bucket: '',
     api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
+    chat: 'qa',
   },
   stage: {
     bucket: '',
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
+    chat: 'stage',
   },
 };
-export const {bucket, api_url} = environment.stage;
+export const {bucket, api_url, chat} = environment.qa;
+
+const WEB_BASE_URL = 'https://makingbabyconnection.com/';
+export const ABOUT_URL = `${WEB_BASE_URL}about`;
+export const PRIVACY_URL = `${WEB_BASE_URL}privacy-policy`;
+export const TERMS_OF_USE_URL = `${WEB_BASE_URL}terms-of-service`;
 
 export const awsOptions = {
   keyPrefix: 'user/',
@@ -83,6 +93,16 @@ export const FormKey = {
   mobileNumber: 'mobileNumber',
   message: 'message',
   parent_to_be_role_id: 2,
+  country: 'country',
+  state_id: 'state_id',
+  zipcode: 'zipcode',
+  occupation: 'occupation',
+  sexual_orientations_id: 'sexual_orientations_id',
+  bio: 'bio',
+  gender_id: 'gender_id',
+};
+export const ConstantsCode = {
+  Country_CODE: '+1',
 };
 
 export const smRoles = [
@@ -171,6 +191,18 @@ export const Routes = {
   stateList: 'StateList',
   Support: 'Support',
   Subscription: 'Subscription',
+  PushNotificationExample: 'PushNotificationExample',
+  Chat_Request: 'Chat_Request',
+  Chat_Listing: 'Chat_Listing',
+  ChatList: 'ChatList',
+  ChatDetail: 'ChatDetail',
+  ChatEmpty: 'ChatEmpty',
+  Settings: 'Settings',
+  ChangePassword: 'ChangePassword',
+  EditProfile: 'EditProfile',
+  DeleteAccount: 'DeleteAccount',
+  ProfileLikedSm: 'ProfileLikedSm',
+  DeactivateAccount: 'DeactivateAccount',
 };
 export const Static = {
   countries: [
@@ -750,3 +782,36 @@ export const Static = {
     },
   ],
 };
+
+const CreditRichMonthly = 'com.CreditRich.Monthly';
+const CreditRichYearly = 'com.CreditRich.Yearly';
+const HeraDevMonthly = 'com.HeraDev.Monthly';
+const HeraDevYearly = 'com.HeraDev.Yearly';
+export const creditProductsIds = Platform.select({
+  ios: [CreditRichMonthly, CreditRichYearly, HeraDevMonthly, HeraDevYearly],
+  android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly],
+});
+
+export const productsIds = Platform.select({
+  ios: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevMonthly],
+  android: [CreditRichMonthly, 'Hera_002_2m', HeraDevYearly],
+});
+
+export const SUBSCRIPTION_PLAN = [
+  {
+    id: 1,
+    MainText: Strings.Subscription.Price,
+    Months: Strings.Subscription.Commitment,
+  },
+  {
+    id: 2,
+    MainText: Strings.Subscription.yearPrice,
+    Months: Strings.Subscription.YearCommitment,
+  },
+];
+
+export const SENSORY_ARR = [
+  {id: 1, img: Images.BABY_MOTHER, caption: Strings.Sensory.AS_PER_SEARCH},
+  {id: 2, img: Images.HEART, caption: Strings.Sensory.SELECT_HEART_TO},
+  {id: 2, img: Images.CROSS, caption: Strings.Sensory.SELECT_CROSS},
+];

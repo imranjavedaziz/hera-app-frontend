@@ -8,3 +8,7 @@ export const setPreferenceApi = () => {
 export const savePreferenceApi = data => {
   return axiosRequest.post(ApiPath.setPreferences, data);
 };
+
+export const getPreferenceApi = () => {
+  return axiosRequest.get(ApiPath.get_preference);
+};

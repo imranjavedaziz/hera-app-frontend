@@ -1,19 +1,20 @@
 // Loader
 import React from 'react';
-import {View, ActivityIndicator, Dimensions} from 'react-native';
+import {View, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
-
-const {width, height} = Dimensions.get('window');
+import {MaterialIndicator} from 'react-native-indicators';
+import {dynamicSize} from '../utils/responsive';
+const {height} = Dimensions.get('window');
 const styles = {
   container: {
     position: Alignment.ABSOLUTE,
-    top: height / Value.CONSTANT_VALUE_2 - Value.CONSTANT_VALUE_35,
-    left: width / Value.CONSTANT_VALUE_2 - Value.CONSTANT_VALUE_35,
-    width: Value.CONSTANT_VALUE_60,
-    height: Value.CONSTANT_VALUE_60,
+    top: height / Value.CONSTANT_VALUE_2,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     borderRadius: Value.CONSTANT_VALUE_35,
@@ -26,7 +27,7 @@ const Loader = () => {
   if (loaderState.loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator color={Colors.COLOR_A3C6C4} />
+        <MaterialIndicator color={Colors.COLOR_A3C6C4} size={dynamicSize(25)} />
       </View>
     );
   }

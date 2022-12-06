@@ -2,17 +2,18 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
+import {dynamicSize} from '../../utils/responsive';
 
 export default {
   imgContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_105,
+    marginBottom: 4,
   },
-  subTitle: {
-    marginVertical: Value.CONSTANT_VALUE_8,
-  },
+  flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   profileContainer: {
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_25,
   },
   imgBack: {
     borderRadius: Value.CONSTANT_VALUE_70,
@@ -20,9 +21,13 @@ export default {
     resizeMode: Alignment.COVER,
   },
   profileImg: {
-    width: Value.CONSTANT_VALUE_20,
-    height: Value.CONSTANT_VALUE_20,
+    width: Value.CONSTANT_VALUE_31,
+    height: Value.CONSTANT_VALUE_25,
     resizeMode: Alignment.CONTAIN,
+  },
+  profileUploadedStyle: {
+    height: Value.CONSTANT_VALUE_14,
+    width: Value.CONSTANT_VALUE_17,
   },
   ValidPwd: {
     marginLeft: Value.CONSTANT_VALUE_5,
@@ -35,28 +40,51 @@ export default {
   },
   tmc1: {
     fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_52,
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   tmc: {
     flexDirection: Alignment.ROW,
+    width: Value.CONSTANT_VALUE_306,
+    right: Value.CONSTANT_VALUE_2,
   },
-  tmcLink: {
-    fontWeight: Alignment.BOLD,
+  rowContainer: {
+    alignItems: Alignment.CENTER,
+    right: Value.CONSTANT_VALUE_10,
+    justifyContent: Alignment.CENTER,
+  },
+  tmcLink1: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    textDecorationLine: Alignment.UNDERLINE,
+  },
+  tmcLink2: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_18,
     textDecorationLine: Alignment.UNDERLINE,
   },
   smRegister: {
     fontWeight: Alignment.BOLD,
     alignSelf: Alignment.CENTER,
     textDecorationLine: Alignment.UNDERLINE,
-    fontSize: Value.CONSTANT_VALUE_15,
+    fontSize: Value.CONSTANT_VALUE_16,
     marginTop: Value.CONSTANT_VALUE_20,
     marginBottom: Value.CONSTANT_VALUE_60,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
   },
   modalView: {
     height: Value.CONSTANT_VALUE_230,
@@ -96,6 +124,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.LABEL_BLACK,
+    marginTop: Value.CONSTANT_VALUE_10,
   },
   uploadBackground: {
     width: Value.CONSTANT_VALUE_35,
@@ -106,8 +135,8 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   background: {
-    width: Value.CONSTANT_VALUE_140,
-    height: Value.CONSTANT_VALUE_140,
+    width: Value.CONSTANT_VALUE_138,
+    height: Value.CONSTANT_VALUE_138,
     borderRadius: Value.CONSTANT_VALUE_70,
     backgroundColor: Colors.GREEN,
     alignItems: Alignment.CENTER,
@@ -141,12 +170,12 @@ export default {
     color: Colors.BLACK,
   },
   fullWidth: {
-    width: '100%',
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
   userImg: {
     position: Alignment.ABSOLUTE,
     bottom: Value.CONSTANT_VALUE_0,
-    right: Value.CONSTANT_VALUE_20,
+    right: Value.CONSTANT_VALUE_10,
   },
   calender: {
     width: Value.CONSTANT_VALUE_16,
@@ -155,5 +184,8 @@ export default {
   footText: {
     marginTop: Value.CONSTANT_VALUE_20,
     marginBottom: Value.CONSTANT_VALUE_60,
+  },
+  innerView: {
+    justifyContent: Alignment.FLEX_START,
   },
 };

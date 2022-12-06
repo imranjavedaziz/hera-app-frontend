@@ -1,32 +1,32 @@
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, normalizeFont} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
 
 export default {
-  upperContainer: {
-    alignItems: Alignment.CENTER,
-    bottom: Value.CONSTANT_VALUE_20,
-    right: Value.CONSTANT_VALUE_15,
-  },
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
+    right: dynamicSize(Value.CONSTANT_VALUE_15),
+    shadowColor: 'rgba(0, 0, 0, 0.09)',
+    shadowOffset: {
+      width: Value.CONSTANT_VALUE_0,
+      height: Value.CONSTANT_VALUE_10,
+    },
+    shadowRadius: Value.CONSTANT_VALUE_18,
+    shadowOpacity: 0.5,
+    elevation: Value.CONSTANT_VALUE_5,
   },
   bgImage: {
-    height: dynamicSize(Value.CONSTANT_VALUE_400),
-    width: dynamicSize(Value.CONSTANT_VALUE_248),
+    height: Value.CONSTANT_VALUE_395,
+    width: dynamicSize(Value.CONSTANT_VALUE_250),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    // backgroundColor: 'red',
-    shadowOffset: {width: -2, height: 9},
-    shadowColor: '#171717',
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
   },
   iconContainer: {
-    flex: 0.88,
+    flex: Value.CONSTANT_VALUE_FRAC88,
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
   },
@@ -35,7 +35,7 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   imageStyle: {
-    borderRadius: Value.CONSTANT_VALUE_20,
+    borderRadius: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -46,13 +46,13 @@ export default {
   locationText: {
     fontSize: Value.CONSTANT_VALUE_11,
     paddingLeft: dynamicSize(Value.CONSTANT_VALUE_10),
-    paddingBottom: dynamicSize(Value.CONSTANT_VALUE_5),
-    letterSpacing: 2.84,
+    paddingBottom: dynamicSize(Value.CONSTANT_VALUE_2),
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.WHITE,
   },
   codeText: {
-    fontSize: Value.CONSTANT_VALUE_32,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_32),
     color: Colors.WHITE,
     Fonts: Fonts.OpenSansRegular,
   },
@@ -68,9 +68,9 @@ export default {
   },
   linearGradient: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    width: dynamicSize(Value.CONSTANT_VALUE_248),
-    height: dynamicSize(Value.CONSTANT_VALUE_400),
-    borderRadius: Value.CONSTANT_VALUE_20,
+    width: dynamicSize(Value.CONSTANT_VALUE_250),
+    height: dynamicSize(Value.CONSTANT_VALUE_395),
+    borderRadius: dynamicSize(Value.CONSTANT_VALUE_20),
     justifyContent: Alignment.CENTER,
   },
 };

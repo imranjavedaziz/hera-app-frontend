@@ -1,10 +1,11 @@
 // Header
 import React from 'react';
-import {View, TouchableOpacity, Image, Platform} from 'react-native';
+import {View, TouchableOpacity, Image, Platform, Text} from 'react-native';
 import Colors from '../constants/Colors';
 import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {dynamicSize} from '../utils/responsive';
+import {Fonts} from '../constants/Constants';
 
 const styles = {
   container: {
@@ -25,6 +26,7 @@ const styles = {
   },
   circle: {
     flex: Value.CONSTANT_VALUE_0,
+    marginTop: Value.CONSTANT_VALUE_4,
   },
   img: {
     maxWidth: Value.CONSTANT_VALUE_50,
@@ -57,6 +59,25 @@ const styles = {
   androidIconCon: {
     marginRight: dynamicSize(Value.CONSTANT_VALUE_290),
   },
+  headerText: {
+    textDecorationLine: Alignment.UNDERLINE,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_16,
+  },
+  blankContainer: {
+    width: Value.CONSTANT_VALUE_12,
+    height: Value.CONSTANT_VALUE_12,
+    backgroundColor: Colors.COLOR_RED,
+    borderRadius: Value.CONSTANT_VALUE_6,
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_0,
+    zIndex: 9999,
+    borderStyle: Alignment.SOLID,
+    borderWidth: Value.CONSTANT_VALUE_1,
+    top: Value.CONSTANT_VALUE_5,
+    borderColor: Colors.WHITE,
+  },
 };
 export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
   <TouchableOpacity
@@ -68,57 +89,80 @@ export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
     <Image accessible={false} source={icon} style={styles.img} />
   </TouchableOpacity>
 );
-export const IconHeader = ({
-  rightIcon,
-  leftIcon,
-  leftPress,
-  rightPress,
-  profileView,
-  profileImg,
-  ApiImage = false,
-  ...otherProps
-}) => (
-  <>
-    {profileView ? (
-      <TouchableOpacity
-        style={
-          Platform.OS === 'ios'
-            ? styles.profileIconConatiner
-            : styles.androidIconCon
-        }
-        onPress={leftPress}>
-        <View
-          style={[styles.circle, styles.start, styles.profileImgContainner]}>
-          <Image source={{uri: profileImg}} style={styles.profileImg} />
-        </View>
-      </TouchableOpacity>
-    ) : (
-      <TouchableOpacity
-        style={styles.circle}
-        onPress={leftPress}
-        {...otherProps}
-        accessible={true}
-        accessibilityRole="button">
-        {ApiImage ? (
-          <View style={[styles.profileImgContainner]}>
-            <Image source={leftIcon} style={styles.innerProfileimg} />
+export const IconHeader = props => {
+  const {
+    rightIcon,
+    leftIcon,
+    leftPress,
+    rightPress,
+    profileView,
+    profileImg,
+    ApiImage = false,
+    rightPrevPress,
+    rightPrevIcon,
+    rightImg,
+    txt,
+    txtPress,
+    chat,
+    ...otherProps
+  } = props;
+  const STYLE_ONE =
+    Platform.OS === 'ios' ? styles.profileIconConatiner : styles.androidIconCon;
+  return (
+    <>
+      {profileView ? (
+        <TouchableOpacity style={STYLE_ONE} onPress={leftPress}>
+          <View
+            style={[styles.circle, styles.start, styles.profileImgContainner]}>
+            <Image source={{uri: profileImg}} style={styles.profileImg} />
           </View>
-        ) : (
-          <Image accessible={false} source={leftIcon} style={styles.img} />
-        )}
-      </TouchableOpacity>
-    )}
-
-    <TouchableOpacity
-      style={styles.circle}
-      onPress={rightPress}
-      {...otherProps}
-      accessible={true}
-      accessibilityRole="button">
-      <Image accessible={false} source={rightIcon} style={styles.img} />
-    </TouchableOpacity>
-  </>
-);
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.circle}
+          onPress={leftPress}
+          {...otherProps}
+          accessible={true}
+          accessibilityRole="button">
+          {ApiImage ? (
+            <View style={[styles.profileImgContainner]}>
+              <Image source={leftIcon} style={styles.innerProfileimg} />
+            </View>
+          ) : (
+            <Image accessible={false} source={leftIcon} style={styles.img} />
+          )}
+        </TouchableOpacity>
+      )}
+      <View
+        style={{flexDirection: Alignment.ROW, alignItems: Alignment.CENTER}}>
+        <TouchableOpacity
+          style={styles.circle}
+          onPress={rightPrevPress}
+          {...otherProps}
+          accessible={true}
+          accessibilityRole="button">
+          <Image
+            accessible={false}
+            source={rightPrevIcon}
+            style={[styles.img, rightImg]}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={txtPress}>
+          <Text style={styles.headerText}>{txt}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.circle}
+          onPress={rightPress}
+          {...otherProps}
+          accessible={true}
+          accessibilityRole="button">
+          {chat === true && <View style={styles.blankContainer} />}
+          <Image accessible={false} source={rightIcon} style={styles.img} />
+        </TouchableOpacity>
+      </View>
+    </>
+  );
+};
 const Header = ({end = false, children}) => {
   return (
     <View style={[styles.container, end ? styles.end : styles.start]}>
@@ -139,4 +183,4 @@ export const ProfileIcon = () => (
   </View>
 );
 
-export default Header;
+export default React.memo(Header);

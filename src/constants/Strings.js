@@ -13,11 +13,12 @@ export const ValidationMessages = {
   INVALID_LAST_NAME: 'Please enter a valid Last Name',
   PASSWORD: 'Please Set the Password',
   CONFIRM_PASSWORD: 'Please enter Confirm Password',
-  ADD_PROFILE_PHOTO: 'Please add Profile Photo',
+  ADD_PROFILE_PHOTO: 'Please upload a display picture',
   DOB: 'Please enter your Date of Birth',
   ENTER_DOB: 'Please enter your DOB',
   ENTER_GENDER: 'Please select your Gender',
   ENTER_SEXUAL_ORIENTATION: 'Please select your Sexual Orientation',
+  ENTER_COUNTRY: 'Please select your Country',
   ENTER_RELATIONSHIP: 'Please select your Relationship Status',
   ENTER_STATE: 'Please select your State',
   ENTER_ZIP: 'Please enter your Zip Code',
@@ -61,17 +62,28 @@ export const ValidationMessages = {
   HOLD_ON: 'Hold on!',
   CANCEL: 'Cancel',
   YES: 'YES',
+  DISCARD_INQUIRY: 'Discard Inquiry',
+  DELETE_ACCOUNT: 'Delete Account?',
+  Deactivate_Account: 'Deactivate Account?',
+  DEACTIVATE_TEXT:
+    'Once you deactivate, users will not be able to see your profile. You can always come back later to activate.',
+  DELETE_TEXT:
+    'Once you delete, your data will be removed and cannot be retrieved later.',
+  REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
 };
+const LIKE_CONST = 'Like, Match & Connect!';
+const MOBILE_CONST = 'Mobile Number';
+const CONFIRM_CONST = 'Confirm Password';
 export default {
   landing: {
     LOG_IN: ' LOG IN  ',
     REGISTER: 'REGISTER',
-    Like_Match_Connect: 'Like, Match & Connect!',
+    Like_Match_Connect: LIKE_CONST,
     AboutUs: 'About Us',
     InquiryForm: 'Support',
   },
   login: {
-    MobileNumber: 'Mobile Number',
+    MobileNumber: MOBILE_CONST,
     Password: 'Password',
     LOG_IN: 'LOG IN',
     ForgotPassword: 'Forgot Your Password?',
@@ -82,8 +94,14 @@ export default {
     BeforProceed: 'Before we proceed,',
     VerifyNumber: 'please verify your number',
     Code: 'Code',
-    MobileNumber: 'Mobile Number',
+    MobileNumber: MOBILE_CONST,
     VERIFY: 'VERIFY',
+    SEND_VERIFY: 'SEND VERIFICATION CODE',
+    mainTitle: 'Before we proceed,\n please verify your number',
+  },
+  forgotPassword: {
+    forgot: 'Forgot Password?',
+    title: 'Enter your mobile number to\nreceive a verification code',
   },
   profile: {
     makeAccountFor: 'Make Account For',
@@ -95,7 +113,7 @@ export default {
     EmailAddress: 'Email Address',
     DateOfBirth: 'Date Of Birth',
     setPassword: 'Set Password',
-    confirmPassword: 'Confirm Password',
+    confirmPassword: CONFIRM_CONST,
     RegisterAs: 'Register as Surrogate Mother or a Donor',
     Register: 'REGISTER',
     ModalHeader: 'Cancel Registration?',
@@ -103,9 +121,10 @@ export default {
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
     tmc1: "By continuing, you agree to HERA's ",
-    tmc2: 'Terms of use',
+    tmc2: 'Terms & Conditions',
     tmc3: 'Privacy Policy',
     desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',
+    phone_no: 'Phone Number',
   },
   preference: {
     setPreference: 'Set Preference',
@@ -116,6 +135,7 @@ export default {
     SpermDonor: 'Sperm Donor',
     lookingFor: 'Who are you looking for?',
     Save: 'SAVE',
+    SaveNewPassword: 'SAVE NEW PASSWORD',
     Ethnicity: 'Ethnicity',
     Race: 'Race',
     Location: 'Location',
@@ -129,12 +149,16 @@ export default {
     yrs: 'yrs',
     Education: 'Education',
     editPreference: 'Edit Preference',
+    SAVE_PREFERENCES: 'SAVE PREFERENCES',
   },
   otp: {
     title: 'Verify your mobile',
+    titleEmail: 'Verify your email',
     subtitle1: 'Enter the 6-digit verification',
     subtitle2: 'code sent to your number',
-    Btn: 'Submit',
+    subtitle3: 'code sent to your email',
+    Btn: 'Verify Mobile Number',
+    Btn3: 'Verify Email Address',
     Trouble: 'Trouble receiving code?',
     SendAgain: 'Send Again',
   },
@@ -144,11 +168,16 @@ export default {
     MiddleName: 'Middle Name (Optional)',
     LastName: 'Last Name',
     DOB: 'Date Of Birth',
-    // email: 'Email Address',
     Password: 'Set Password',
-    Confirm: 'Confirm Password',
+    Confirm: CONFIRM_CONST,
     Title: 'Make account for',
     Btn: 'Register',
+    Surrogate_Mother_error:
+      "You are not eligible to register as a Surrogate Mother because you don't fall in the age bracket of 21-45 years.",
+    Egg_Donar_error:
+      "You are not eligible to register as a Egg Donor because you don't fall in the age bracket of 18-40 years.",
+    Sperm_Donar_error:
+      "You are not eligible to register as a Sperm Donor because you don't fall in the age bracket of 18-40 years.",
   },
   sm_basic: {
     Title: 'Basic Details',
@@ -165,6 +194,9 @@ export default {
     RelationshipStatus: 'Relationship Status',
     Bio: 'Add a Short Bio (Max 250 Char)',
     Btn: 'Save Profile',
+    Save: 'SAVE',
+    SAVE_PROFILE: 'SAVE PROFILE',
+    Apply: 'APPLY',
   },
   sm_set_attributes: {
     Title: 'SET ATTRIBUTES',
@@ -175,9 +207,10 @@ export default {
     FatheEthnicity: 'Father’s Ethnicity',
     Weight: 'Weight',
     EyeColor: 'Eye Color',
-    // HairColor: 'Hair Color',
     Education: 'Education',
     Btn: 'Save',
+    EditAttribute: 'SAVE ATTRIBUTES',
+    EditTitle: 'Edit ATTRIBUTES',
   },
   sm_create_gallery: {
     Title: 'Create your gallery',
@@ -186,10 +219,13 @@ export default {
     Subtitle3: 'about you!',
     maxUpload: 'This step is optional.',
     imagetype: 'Maximum 6 photos ',
-    Btn: 'Go to dashboard',
+    Btn: 'GO TO DASHBOARD',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",
     modalText: 'Yes, Remove',
+    deleteModal: 'Yes, Delete',
+    deactivateModal: 'Yes, Deactivate',
+    StayHera: 'Stay on HERA',
     modalText_2: 'Stay on Page',
     myGallery: 'My Gallery',
     bottomSheetCamera: 'Open Camera',
@@ -205,19 +241,20 @@ export default {
     Log_Out: 'Log Out',
   },
   dashboard: {
-    Title: 'Like, Match & Connect!',
+    Title: LIKE_CONST,
     Subtitle: 'Your match might just\n be a click away!',
     locationText: 'U S A',
     code: '#SD5882',
     donerAge: 'Sperm Donor, 27 yrs',
     Btn: 'Save',
     Sorry: 'Sorry!',
-    Para1:
-      'We tried to find the best matches for you but seems like no one is around.',
-    Para2: 'May be try again later or change your\n settings.',
+    Para1: `You have exhausted\n today's limit.`,
+    Para2: 'Please come back tomorrow!',
+    noResult: 'No Results Found!',
+    emptyDashboard: 'Try using a different name or keyword',
   },
   sm_dashboard: {
-    Title: 'Like, Match & Connect!',
+    Title: LIKE_CONST,
     Subtitle1: 'Your match might just',
     Subtitle2: 'be a click away!',
   },
@@ -234,8 +271,10 @@ export default {
     request_sent: 'REQUEST SENT',
     request_decline: 'REQUEST DECLINED',
     send_msg: 'SEND MESSAGE',
-    video_text: 'Parant has uploaded a sort clip',
+    video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
+    ReceiveNoti: 'Receive Notifications',
+    ReceiveNotiDesc: 'You can choose to turn off notifications. However, you will still receive subscription notifications.'
   },
   donorPofile: {
     Age: 'Age: ',
@@ -263,6 +302,7 @@ export default {
   },
   search_Bar: {
     search: 'Search',
+    write_message: 'Write a message',
   },
   smSetting: {
     profile: 'Profile',
@@ -280,6 +320,8 @@ export default {
     Settings: 'Settings',
     Inquiry: 'Support',
     AboutUs: 'About Us',
+    Terms: 'Terms & Conditions',
+    Privacy: 'Privacy Policy',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
     RemoveVideo: 'REMOVE VIDEO',
@@ -294,7 +336,7 @@ export default {
     Name: 'Name',
     // EmailAddress: 'Email Address',
     USER_TYPE: 'User Type',
-    MobileNumber: 'Mobile Number',
+    MobileNumber: MOBILE_CONST,
     Message: 'Message',
     SendInquiry: 'SEND INQUIRY',
     Title: 'SUPPORT',
@@ -305,11 +347,11 @@ export default {
   },
   stateList: {
     Subtitle: 'Search in any state',
-    iconText: 'Done',
+    iconText: 'Clear',
   },
   Subscription: {
     SubHeader: 'See 5 profiles per day',
-    MidHeader:'(Use-it-or-lose it)',
+    MidHeader: '(Use-it-or-lose it)',
     SubscribeButton: 'SUBSCRIBE & PAY',
     BySubs: 'By subscribing, you agree to HERA’s ',
     TermsServices: 'Terms of Service',
@@ -323,5 +365,96 @@ export default {
     Later: 'Later',
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
+    TrailOver:
+      'Your trial period is over. Please subscribe now to find new match.',
+    SubscriptionExpired:
+      'Your subscription has expired. Please renew your subscription now to find new match.',
+  },
+  Chat: {
+    Chat: 'CHAT',
+    All_Conversations: 'All Conversations',
+    WHAT_DO_YO: 'What do you think of this match?',
+    NOT_GOOD: 'Not good',
+    GOING_WELL: 'Going well',
+    NOT_FOUND_MATCH_YET: 'Seems like you have not found any match yet.',
+    YOUR_SUBSCRIPTION_EXPIRED:
+      'Your subscription has expired. Please subscribe now.',
+    SENDER_SUBSCRIPTION_EXPIRED: 'subscription has expired.',
+    YOU_MATCHED: 'You Matched!',
+    PARENT_TO_BE_CONVERSATION: ' Parent To Be will start the conversation.',
+    START_CONVERSATION: 'Start a conversation!',
+    INACTIVE_USER: 'Inactive User',
+    HEY_ITS_MATCH: 'Hey, It’s a match!',
+    PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
+    INACTIVE_ACCOUNT: 'The account is inactive',
+  },
+  Sensory: {
+    AS_PER_SEARCH:
+      'As per the search criteria you have set, a series of surrogate mother, sperm donor or egg donor will be shown',
+    SELECT_HEART_TO:
+      'Select heart to send a like to the profile & if they like you back, it will be a match! You will be able to chat only with your matches.',
+    SELECT_CROSS:
+      'Select cross to reject the profile & go to the next profile.',
+    ABOUT: 'About this Page',
+    OKAY_GOT_IT: 'OKAY, GOT IT!',
+    WHY_SUBSCRIBE: 'Why Subscribe?',
+    HERA_HASTWO:
+      'HERA has 2 subscription models for you. You can select any plan to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile. Please note: Subscribed users have a daily limit of 5 swipes.',
+    FIND_THE_PERFECT: 'Find the Perfect Match',
+    FIND_YOUR_MATCH:
+      'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
+  },
+
+  //Static
+  Meryl_Anderson: 'Meryl Anderson',
+
+  //Chat
+  Type: 'Parent-To-Be',
+  Liked_your_profile: 'Liked your profile',
+  Start_Converstation:
+    'Seems like a good match?\nLike and start a conversation!',
+  All_Matches: 'All Matches',
+  INBOX: 'INBOX',
+  // Settings
+  Settings: {
+    SETTINGS: 'SETTINGS',
+    Account_Settings: 'Account Settings',
+    Change_Password: 'Change Password',
+    DEACTIVATE_ACCOUNT: 'Deactivate Account',
+    Deactivate_Content:
+      'Temporarily deactivate your account, you can log in using the same credentials to activate your account again.',
+    Delete_Content:
+      'This will permanently delete your account, to use the application, you will need to sign up again.',
+    Delete_Account: 'Delete Account',
+    DELETE_MY_ACCOUNT: 'DELETE MY ACCOUNT',
+    DEACTIVATE_MY_ACCOUNT: 'DEACTIVATE MY ACCOUNT',
+    Account_Verify: 'ACCOUNT VERIFICATION',
+    Deactivate_Account: 'DEACTIVATE ACCOUNT',
+    Enter_delete: 'Enter password to delete',
+    Select_Reason: 'Select a Reason',
+  },
+  ChangePassword: {
+    CHANGE_PASSWORD: 'CHANGE PASSWORD',
+    SET_A: 'Set a new password',
+    SET_B: 'Set your new password',
+    Current_Password: 'Current Password',
+    Set_New_Password: 'Set New Password',
+    Confirm_Password: CONFIRM_CONST,
+    PASSWORD_UPDATED: 'Your Password has been changed successfully.',
+  },
+  //Edit Profile
+  EDITPROFILE: {
+    EDIT_PROFILE: 'EDIT PROFILE',
+    Profile_Title: 'Change your profile details',
+    DiscardEdit: 'Discard Edits',
+    DiscardEditDisc: 'If you cancel now, your edits will not\n be saved.',
+  },
+
+  //Report User
+  ReportUser: {
+    Report_this_User: 'Report this User?',
+    ReportConfirm: 'Are you sure you want to report this user?',
+    Yes_Report: 'Yes, Report',
+    Not_Now: 'Not Now',
   },
 };

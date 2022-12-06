@@ -11,10 +11,11 @@ import {CircleBtn} from '../../components/Header';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import {smBasicSchema} from '../../constants/schemas';
-import FloatingLabelInput from '../../components/inputs/FloatingLabelInput';
+import FloatingLabelInput from '../../components/FloatingLabelInput';
 import {genders, Static, Routes} from '../../constants/Constants';
 import Dropdown from '../../components/inputs/Dropdown';
 import styles from '../../styles/auth/smdonor/basicDetailsScreen';
+import {MultiTextInput} from '../../components';
 
 const PtbBasicDetails = ({route}) => {
   const navigation = useNavigation();
@@ -165,16 +166,15 @@ const PtbBasicDetails = ({route}) => {
           <Controller
             control={control}
             render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.sm_basic.Bio}
-                value={value}
-                onChangeText={v => onChange(v)}
-                error={errors && errors.bio?.message}
+              <MultiTextInput
+                title={Strings.sm_basic.Bio}
                 required={true}
-                fixed={true}
-                multiline={true}
-                numberOfLines={5}
-                inputStyle={styles.textArea}
+                value={value}
+                maxLength={250}
+                onChangeText={v => {
+                  onChange(v);
+                }}
+                error={errors && errors.bio?.message}
               />
             )}
             name="bio"

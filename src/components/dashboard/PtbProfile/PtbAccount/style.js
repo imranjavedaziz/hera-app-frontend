@@ -2,13 +2,15 @@ import Colors from '../../../../constants/Colors';
 import {Fonts} from '../../../../constants/Constants';
 import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize} from '../../../../utils/responsive';
+import {dynamicSize, px} from '../../../../utils/responsive';
 
 export default {
   container: {
     flexDirection: Alignment.ROW,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_30),
-    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_26),
+
+    justifyContent: Alignment.SPACE_BETWEEN,
+    alignItems: Alignment.CENTER,
   },
   row: {
     flexDirection: Alignment.ROW,
@@ -24,11 +26,19 @@ export default {
     color: Colors.BLACK,
   },
   blueDot: {
-    borderRadius: dynamicSize(Value.CONSTANT_VALUE_6),
-    borderWidth: dynamicSize(Value.CONSTANT_VALUE_6),
-    height: dynamicSize(Value.CONSTANT_VALUE_12),
-    borderColor: Colors.CAMERA_BLUE,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
-    marginLeft: dynamicSize(Value.CONSTANT_VALUE_174),
+    backgroundColor: Colors.GREEN,
+    width: px(Value.CONSTANT_VALUE_12),
+    height: px(Value.CONSTANT_VALUE_12),
+    borderStyle: Alignment.SOLID,
+    borderWidth: px(Value.CONSTANT_VALUE_1),
+    borderColor: Colors.WHITE,
+    borderRadius: px(Value.CONSTANT_VALUE_30),
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.CENTER,
   },
+  toggle: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontFamily: Fonts.OpenSansRegular,
+    color: 'rgb(53,58,58)',
+  }
 };

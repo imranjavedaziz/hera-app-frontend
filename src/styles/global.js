@@ -1,6 +1,5 @@
-import Colors from '../constants/Colors';
+import {Colors, Alignment} from '../constants';
 import {Value} from '../constants/FixedValues';
-import Alignment from '../constants/Alignment';
 import {
   normalizeFont,
   dynamicSize,
@@ -13,7 +12,6 @@ export default {
   screenTitle: {
     textTransform: 'uppercase',
     letterSpacing: Value.CONSTANT_VALUE_2_84,
-    fontWeight: '600',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
     textAlign: 'center',
@@ -23,13 +21,12 @@ export default {
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_23,
     lineHeight: Value.CONSTANT_VALUE_32,
-    fontWeight: '700',
     textAlign: 'center',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
   },
   mainContainer: {
-    flex: 1,
+    flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
   },
@@ -105,25 +102,111 @@ export default {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
   },
-  dynamicMarginTop: (value) => ({
+  dynamicMarginTop: value => ({
     marginTop: scaleHeight(value),
   }),
-  dynamicMarginBottom: (value) => ({
+  dynamicMarginBottom: value => ({
     marginBottom: scaleHeight(value),
   }),
-  dynamicMarginHorizontal: (value) => ({
+  dynamicMarginHorizontal: value => ({
     marginHorizontal: scaleWidth(value),
   }),
-  dynamicMarginRight: (value) => ({
+  dynamicMarginRight: value => ({
     marginRight: scaleWidth(value),
   }),
-  dynamicMarginLeft: (value) => ({
+  dynamicMarginLeft: value => ({
     marginLeft: scaleWidth(value),
   }),
   tagText: {
-    padding: Value.CONSTANT_VALUE_5,
+    paddingVertical: Value.CONSTANT_VALUE_5,
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
+    lineHeight: 21,
+  },
+  modal: {
+    flex: Value.CONSTANT_VALUE_1,
+  },
+  bottomSheet: {
+    borderRadius: Value.CONSTANT_VALUE_0,
+  },
+  outerContentStyle: {
+    borderRadius: Value.CONSTANT_VALUE_0,
+    borderTopLeftRadius: Value.CONSTANT_VALUE_0,
+    borderTopRightRadius: Value.CONSTANT_VALUE_0,
+  },
+  innerContentStyle: {
+    borderRadius: Value.CONSTANT_VALUE_0,
+    borderTopLeftRadius: Value.CONSTANT_VALUE_0,
+    borderTopRightRadius: Value.CONSTANT_VALUE_0,
+  },
+
+  //EDIT ATTRIBUTE
+  modalView: {
+    height: Value.CONSTANT_VALUE_230,
+    width: Value.CONSTANT_VALUE_283,
+    backgroundColor: Colors.WHITE,
+    paddingHorizontal: Value.CONSTANT_VALUE_23,
+    paddingVertical: Value.CONSTANT_VALUE_20,
+    alignItems: Alignment.CENTER,
+  },
+  modalHeader: {
+    lineHeight: Value.CONSTANT_VALUE_21,
+    fontWeight: Alignment.BOLD,
+    fontFamily: Fonts.OpenSansRegular,
+    paddingBottom: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_16,
+    color: Colors.BLACK,
+  },
+  modalSubHeader: {
+    textAlign: Alignment.CENTER,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    marginTop: Value.CONSTANT_VALUE_1,
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_13,
+    color: Colors.BLACK,
+  },
+  modalOption1: {
+    color: Colors.RED,
+    fontSize: Value.CONSTANT_VALUE_16,
+    paddingBottom: Value.CONSTANT_VALUE_10,
+    marginVertical: Value.CONSTANT_VALUE_27,
+    letterSpacing: Value.CONSTANT_VALUE_1,
+    fontFamily: Fonts.OpenSansBold,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    width: Value.CONSTANT_VALUE_234,
+    textAlign: Alignment.CENTER,
+  },
+  modalOption2: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontWeight: Alignment.BOLD,
+    letterSpacing: Value.CONSTANT_VALUE_1,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  centeredView: {
+    flex: Value.CONSTANT_VALUE_1,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  cancelbtn: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.FLEXEND,
+    marginTop: Value.CONSTANT_VALUE_54,
+    marginRight: Value.CONSTANT_VALUE_30,
+  },
+  clearView: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+  },
+  clearText: {
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: 16,
+    letterSpacing: 0,
+    color: 'rgb(255,69,68)',
+    height: 22,
   },
 };

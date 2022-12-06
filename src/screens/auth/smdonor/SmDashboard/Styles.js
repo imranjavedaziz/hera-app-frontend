@@ -2,6 +2,7 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
+import {height, width} from '../../../../utils/responsive';
 
 export default {
   mainContainer: {},
@@ -22,8 +23,7 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: Value.CONSTANT_VALUE_167,
-    // opacity: 0.85,
+    width: (width - 70) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
@@ -31,19 +31,20 @@ export default {
     left: Value.CONSTANT_VALUE_18,
   },
   profileName: {
-    fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_20,
-    fontFamily: Fonts.OpenSansBold,
+    fontFamily: Fonts.OpenSansSemibold,
     color: Colors.WHITE,
     marginBottom: Value.CONSTANT_VALUE_5,
   },
   locationText: {
     fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_11,
-    letterSpacing: Value.CONSTANT_VALUE_2,
-    color: Colors.PARA,
+    letterSpacing: Value.CONSTANT_VALUE_2_84,
+    color: Colors.WHITE,
     fontFamily: Fonts.OpenSansBold,
     marginLeft: Value.CONSTANT_VALUE_8,
+    opacity: 0.75,
+    width: 96,
   },
   profileFooter: {
     flexDirection: Alignment.ROW,
@@ -51,22 +52,20 @@ export default {
     alignSelf: Alignment.CENTER,
   },
   headerIcon: {
-    paddingTop: Value.CONSTANT_VALUE_10,
+    // paddingTop: Value.CONSTANT_VALUE_10,
+    bottom: 10,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
-  search: {
-    paddingBottom: Value.CONSTANT_VALUE_10,
-  },
+  search: {},
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
   },
   stateItemContainer: {
     flexDirection: 'row',
-    width: 334,
     justifyContent: 'space-between',
     alignItems: 'center',
+    flex: 1,
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
@@ -85,21 +84,23 @@ export default {
   imgSel: {
     alignSelf: 'center',
     tintColor: Colors.GREEN,
+    alignItems: 'flex-end',
   },
   iconFont: {
+    fontSize: 16,
     fontFamily: Fonts.OpenSansBold,
-    textDecorationLine: 'underline',
-    color: Colors.BLACK,
+    color: Colors.COLOR_RED,
   },
   stateSubtitle: {marginBottom: Value.CONSTANT_VALUE_15},
   flexRow: {
     flexDirection: 'row',
   },
   gradient: {
+    borderRadius: Value.CONSTANT_VALUE_20,
+    justifyContent: Alignment.CENTER,
     width: '100%',
     height: '100%',
-    opacity: 0.2,
-    borderRadius: Value.CONSTANT_VALUE_18,
+    opacity: 0.8,
   },
   iconHead: {
     position: 'absolute',
@@ -108,5 +109,52 @@ export default {
   },
   flatlist: {
     paddingBottom: Value.CONSTANT_VALUE_150,
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_40,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
+  },
+  emptyContainer: {
+    alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_203,
+  },
+  emptyText: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_23,
+    color: Colors.BLACK,
+  },
+  content: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_16,
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_5,
+  },
+  Btn: {
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_259,
+    paddingVertical: Value.CONSTANT_VALUE_0,
+    paddingHorizontal: Value.CONSTANT_VALUE_0,
+  },
+  btnView: {
+    alignItems: Alignment.CENTER,
+    bottom: 20,
+    position: 'absolute',
+  },
+  headerIconBack: {
+    marginLeft: Value.CONSTANT_VALUE_30,
+    marginTop: Value.CONSTANT_VALUE_45,
+  },
+  CancelBack: {
+    marginRight: Value.CONSTANT_VALUE_30,
+    marginTop: Value.CONSTANT_VALUE_45,
   },
 };

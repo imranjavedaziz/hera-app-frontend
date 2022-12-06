@@ -1,15 +1,17 @@
-import Colors from '../../../constants/Colors';
+import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
-import Alignment from '../../../constants/Alignment';
 import {Fonts} from '../../../constants/Constants';
+import {dynamicSize} from '../../../utils/responsive';
 
 export default {
+  main: {paddingHorizontal: 40, marginTop: Value.CONSTANT_VALUE_54},
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.LEFT,
     width: Prencentage.PRECENTAGE_100,
-    marginBottom: Value.CONSTANT_VALUE_20,
+    marginBottom: Value.CONSTANT_VALUE_15,
+    marginTop: Value.CONSTANT_VALUE_60,
   },
   radioContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -25,7 +27,7 @@ export default {
     height: Value.CONSTANT_VALUE_30,
   },
   radioLabel: {
-    marginLeft: Value.CONSTANT_VALUE_10,
+    marginLeft: Value.CONSTANT_VALUE_16,
     fontSize: Value.CONSTANT_VALUE_23,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
@@ -36,8 +38,8 @@ export default {
     marginTop: Value.CONSTANT_VALUE_20,
   },
   imgView: {
-    width: Value.CONSTANT_VALUE_140,
-    height: Value.CONSTANT_VALUE_140,
+    width: Value.CONSTANT_VALUE_135,
+    height: Value.CONSTANT_VALUE_135,
     borderRadius: Value.CONSTANT_VALUE_70,
     backgroundColor: Colors.GREEN,
     alignItems: Alignment.CENTER,
@@ -69,6 +71,7 @@ export default {
   pwdInputContainer: {
     marginVertical: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_5,
+    marginTop: 10,
   },
   pwdErrContainer: {flexDirection: Alignment.ROW, alignItems: Alignment.CENTER},
   pwdErrText: {
@@ -84,24 +87,27 @@ export default {
     flexDirection: Alignment.ROW,
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_30,
   },
   checkboxLabel: {
     fontSize: Value.CONSTANT_VALUE_13,
     marginLeft: Value.CONSTANT_VALUE_10,
     flex: Value.CONSTANT_VALUE_1,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
   },
   checkboxTitle: {
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
+    fontWeight: Alignment.BOLD,
+    textDecorationLine: Alignment.UNDERLINE,
   },
   parentBtn: {
     fontWeight: Alignment.BOLD,
     alignSelf: Alignment.CENTER,
     textDecorationLine: Alignment.UNDERLINE,
-    fontSize: Value.CONSTANT_VALUE_15,
+    fontSize: Value.CONSTANT_VALUE_16,
     marginTop: Value.CONSTANT_VALUE_20,
     marginBottom: Value.CONSTANT_VALUE_60,
+    color: Colors.BLACK,
   },
   imgPickerContainer: {
     width: Prencentage.PRECENTAGE_100,
@@ -121,10 +127,10 @@ export default {
     color: Colors.BLACK,
   },
   ImageText: {
-    // alignItems: Alignment.FLEX_START,
-    fontSize: Value.CONSTANT_VALUE_18,
+    fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.LABEL_BLACK,
+    color: Colors.DARKBLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
   },
   Btn: {
     height: Value.CONSTANT_VALUE_80,
@@ -132,9 +138,50 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_0,
     paddingVertical: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_36,
+    alignItems: 'center',
   },
   error: {
     width: '100%',
     marginVertical: Value.CONSTANT_VALUE_20,
+  },
+  starContainer: {
+    marginTop: Value.CONSTANT_VALUE_15,
+    flexDirection: Alignment.ROW,
+  },
+  starColor: {
+    color: Colors.RED,
+  },
+  descText: {
+    fontFamily: Fonts.OpenSansItalic,
+    color: Colors.BLACK_KEY,
+    fontSize: Value.CONSTANT_VALUE_14,
+  },
+  headerIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
+  },
+  align: {alignItems: 'center'},
+  tmc1: {
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    marginLeft: 10,
+  },
+  tmcLink1: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    textDecorationLine: Alignment.UNDERLINE,
+  },
+  tmcLink2: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_9),
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    textDecorationLine: Alignment.UNDERLINE,
   },
 };
