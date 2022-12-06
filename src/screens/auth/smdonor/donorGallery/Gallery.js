@@ -168,6 +168,7 @@ const Gallery = () => {
       return;
     }
   };
+
   const deleteAction = () => {
     Alert.alert(
       Strings.sm_create_gallery.modalTitle,
@@ -289,6 +290,7 @@ const Gallery = () => {
     setIsVideo(true);
   };
   console.log(video, 'video');
+  console.log(imgPreviewindex, 'imgPreviewindex>>>>');
   return (
     <>
       <Container

@@ -171,7 +171,7 @@ const StateList = props => {
         accessibilityLabel="Cross Button, Go back"
       />
       {count > 0 && (
-        <TouchableOpacity onPress={submit}>
+        <TouchableOpacity onPress={submit} style={{marginTop: 10}}>
           <Text style={Styles.iconFont}>{Strings.stateList.iconText}</Text>
         </TouchableOpacity>
       )}
