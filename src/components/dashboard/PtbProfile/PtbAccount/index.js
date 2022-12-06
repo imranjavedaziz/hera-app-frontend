@@ -49,7 +49,8 @@ export const ToggleNotification = () => {
         </View>
       </View>
       <Text style={[styles.toggle,{marginLeft: 30, marginTop: 5}]}>
-        <Text style={{color: 'red'}}>*{Strings.PTB_Profile.ReceiveNotiDesc}</Text>
+        <Text style={{color: 'red'}}>*</Text>
+        {Strings.PTB_Profile.ReceiveNotiDesc}
       </Text>
     </>
   );

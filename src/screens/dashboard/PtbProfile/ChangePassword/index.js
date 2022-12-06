@@ -32,6 +32,33 @@ import User from '../../../../Api/User';
 import {logIn} from '../../../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
+const HeaderComp = ({type}) => {
+  const navigation = useNavigation();
+  if (type === 2) {
+    return (
+      <CircleBtn
+        icon={Images.iconcross}
+        Fixedstyle={{
+          marginTop: Value.CONSTANT_VALUE_54,
+          alignItems: Alignment.FLEXEND,
+          marginRight: Value.CONSTANT_VALUE_20,
+        }}
+        onPress={() => {
+          const popAction = StackActions.pop(Value.CONSTANT_VALUE_3);
+          navigation.dispatch(popAction);
+        }}
+        accessibilityLabel="Cross Button, Go back"
+      />
+    );
+  }
+  return (
+    <View>
+      <TouchableOpacity style={styles.header} onPress={navigation.goBack}>
+        <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 const ChangePassword = ({route}) => {
   const navigation = useNavigation();
   const {type} = route.params;
@@ -77,35 +104,11 @@ const ChangePassword = ({route}) => {
       resetPassword(reqData);
     }
   };
-  const headerComp = () => {
-    if (type === 2) {
-      return (
-        <CircleBtn
-          icon={Images.iconcross}
-          Fixedstyle={{
-            marginTop: Value.CONSTANT_VALUE_54,
-            alignItems: Alignment.FLEXEND,
-            marginRight: Value.CONSTANT_VALUE_20,
-          }}
-          onPress={() => {
-            const popAction = StackActions.pop(Value.CONSTANT_VALUE_3);
-            navigation.dispatch(popAction);
-          }}
-          accessibilityLabel="Cross Button, Go back"
-        />
-      );
-    }
-    return (
-      <View>
-        <TouchableOpacity style={styles.header} onPress={navigation.goBack}>
-          <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
   return (
     <>
-      <Header end={true}>{headerComp()}</Header>
+      <Header end={true}>
+        <HeaderComp type={type}/>  
+      </Header>
       <ScrollView
         showVerticalIndicatot={false}
         keyboardShouldPersistTaps="handled">
