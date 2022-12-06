@@ -61,6 +61,7 @@ const SmDashboard = ({route}) => {
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
+  const [empty, setEmpty] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const [msgRead, setMsgRead] = useState(false);
   const chats = useSelector(state => state.Chat.chats);
@@ -97,7 +98,7 @@ const SmDashboard = ({route}) => {
       };
       console.log('Hellooo');
       dispatch(getDonorDashboard(payload));
-    }, [ search, page, route?.params?.informationDetail]),
+    }, [search, page, route?.params?.informationDetail]),
   );
 
   //Get device Info
@@ -367,21 +368,12 @@ const SmDashboard = ({route}) => {
     return null;
   };
   return (
-    // <Container
-    //   mainStyle={true}
-    //   scroller={false}
-    //   showHeader={searching ? false : true}
-    //   headerComp={headerComp}
-    //   style={{
-    //     paddingTop: searching
-    //       ? Value.CONSTANT_VALUE_1
-    //       : Value.CONSTANT_VALUE_55,
-    //   }}>
-    <View style={{flex: 1, backgroundColor: Colors.BACKGROUND, paddingTop: 60 }}>
-      <Header end={false}>{headerComp()}</Header>
+    <View style={styles.upperContainer}>
+      {!searching && <Header end={false}>{headerComp()}</Header>}
       <View style={globalStyle.mainContainer}>
         <View
           style={{
+            marginBottom: Value.CONSTANT_VALUE_150,
             paddingTop: searching
               ? Value.CONSTANT_VALUE_1
               : Value.CONSTANT_VALUE_55,
@@ -420,27 +412,35 @@ const SmDashboard = ({route}) => {
                 selectedStates={route?.params?.informationDetail}
               />
             </View>
-            <View>
-              <FlatList
-                contentContainerStyle={Styles.flatlist}
-                columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
-                data={cards}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderProfile}
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-                onEndReached={() => {
-                  route.params?.informationDetail !== undefined &&
-                    onEndReached();
-                  searching && onEndReached();
-                }}
-                ListEmptyComponent={renderEmptyCell}
-                ListFooterComponent={renderFooterCell}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                testID="flat-list"
-              />
-            </View>
+            {empty === true ? (
+              <View style={Styles.emptyCardContainer}>
+                <Text style={Styles.sryText}>{Strings.dashboard.Sorry}</Text>
+                <Text style={Styles.innerText}>{Strings.dashboard.Para1}</Text>
+                <Text style={Styles.innerText2}>{Strings.dashboard.Para2}</Text>
+              </View>
+            ) : (
+              <View>
+                <FlatList
+                  contentContainerStyle={Styles.flatlist}
+                  columnWrapperStyle={{justifyContent: Alignment.SPACE_BETWEEN}}
+                  data={cards}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderProfile}
+                  numColumns={2}
+                  showsVerticalScrollIndicator={false}
+                  onEndReached={() => {
+                    route.params?.informationDetail !== undefined &&
+                      onEndReached();
+                    searching && onEndReached();
+                  }}
+                  ListEmptyComponent={renderEmptyCell}
+                  ListFooterComponent={renderFooterCell}
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  testID="flat-list"
+                />
+              </View>
+            )}
           </View>
         </View>
       </View>

@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -164,7 +165,7 @@ const SmBasicDetails = () => {
     <>
       <CircleBtn
         icon={Images.iconSettings}
-        Fixedstyle={{marginRight: dynamicSize(20), marginTop: dynamicSize(45)}}
+        Fixedstyle={{marginRight: dynamicSize(20), marginTop: dynamicSize(35)}}
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}
@@ -214,6 +215,12 @@ const SmBasicDetails = () => {
 
   return (
     <>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.BACKGROUND}
+        animated={true}
+        hidden={false}
+      />
       <View style={styles.flex_1}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
@@ -337,6 +344,9 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
+                        containerStyle={{
+                          marginTop: Value.CONSTANT_VALUE_30,
+                        }}
                         label={Strings.sm_basic.Occupation}
                         value={value}
                         onChangeText={v => onChange(v)}
@@ -366,7 +376,7 @@ const SmBasicDetails = () => {
                   <View
                     style={{
                       alignItems: Alignment.CENTER,
-                      marginTop: Value.CONSTANT_VALUE_46,
+                      marginTop: Value.CONSTANT_VALUE_40,
                     }}>
                     <Button
                       style={styles.Btn}
