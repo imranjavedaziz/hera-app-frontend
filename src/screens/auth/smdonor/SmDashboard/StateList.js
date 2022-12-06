@@ -7,8 +7,7 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useRef, useState, useCallback} from 'react';
-import Container from '../../../../components/Container';
-import {CircleBtn} from '../../../../components/Header';
+import Header, {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -20,6 +19,8 @@ import Searchbar from './StateSearch';
 import {Routes} from '../../../../constants/Constants';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from './Styles';
+import {Alignment, Colors} from '../../../../constants';
+import {Button} from '../../../../components';
 const StateList = props => {
   const {selectedStateList} = props.route.params;
   const navigation = useNavigation();
@@ -129,9 +130,10 @@ const StateList = props => {
       });
     });
   };
+
   const renderState = ({item, index}) => {
     return (
-      <>
+      <View style={{paddingHorizontal: Value.CONSTANT_VALUE_40}}>
         <TouchableOpacity
           style={Styles.stateItem}
           onPress={() => selectState(item)}>
@@ -144,9 +146,10 @@ const StateList = props => {
             )}
           </View>
         </TouchableOpacity>
-      </>
+      </View>
     );
   };
+
   const submit = async () => {
     let sl = [];
     allstate.map((item, index) => {
@@ -163,30 +166,62 @@ const StateList = props => {
       submit();
     }
   };
+  const OnClear = () => {
+    setState(oldData => {
+      return oldData.map((old, index) => {
+        return {
+          code: old.code,
+          id: old.id,
+          isActive: false,
+          name: old.name,
+        };
+      });
+    });
+    setAllState(oldData => {
+      return oldData.map((old, index) => {
+        return {
+          code: old.code,
+          id: old.id,
+          isActive: false,
+          name: old.name,
+        };
+      });
+    });
+    selectState('');
+    setCount(0);
+  };
   const headerComp = () => (
     <>
       <CircleBtn
         icon={Images.iconBack}
         onPress={BackControl}
         accessibilityLabel="Cross Button, Go back"
+        style={Styles.headerIconBack}
       />
       {count > 0 && (
-        <TouchableOpacity onPress={submit} style={{marginTop: 10}}>
+        <TouchableOpacity
+          onPress={() => {
+            OnClear();
+          }}
+          style={Styles.CancelBack}>
           <Text style={Styles.iconFont}>{Strings.stateList.iconText}</Text>
         </TouchableOpacity>
       )}
     </>
   );
   return (
-    <Container
-      scroller={false}
-      showHeader={true}
-      headerComp={headerComp}
-      headerEnd={false}
+    <View
       style={{
-        paddingTop: Value.CONSTANT_VALUE_60,
+        flex: Value.CONSTANT_VALUE_1,
+        backgroundColor: Colors.BACKGROUND,
       }}>
-      <View style={globalStyle.mainContainer}>
+      <Header end={false}>{headerComp()}</Header>
+      <View
+        style={{
+          marginTop: Value.CONSTANT_VALUE_95,
+          alignItems: Alignment.CENTER,
+          flex: Value.CONSTANT_VALUE_1,
+        }}>
         <Text style={[globalStyle.screenSubTitle, Styles.stateSubtitle]}>
           {Strings.stateList.Subtitle}
         </Text>
@@ -200,15 +235,21 @@ const StateList = props => {
         />
         <View style={Styles.flexRow}>
           <FlatList
-            contentContainerStyle={Styles.flatlist}
             data={state}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderState}
             showsVerticalScrollIndicator={false}
           />
         </View>
+        <View style={Styles.btnView}>
+          <Button
+            style={Styles.Btn}
+            label={Strings.sm_basic.Apply}
+            onPress={submit}
+          />
+        </View>
       </View>
-    </Container>
+    </View>
   );
 };
 

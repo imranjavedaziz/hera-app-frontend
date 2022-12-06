@@ -88,9 +88,9 @@ export default {
     alignItems: 'flex-end',
   },
   iconFont: {
+    fontSize: 16,
     fontFamily: Fonts.OpenSansBold,
-    textDecorationLine: 'underline',
-    color: Colors.BLACK,
+    color: Colors.COLOR_RED,
   },
   stateSubtitle: {marginBottom: Value.CONSTANT_VALUE_15},
   flexRow: {
@@ -138,5 +138,24 @@ export default {
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
     marginTop: Value.CONSTANT_VALUE_5,
+  },
+  Btn: {
+    height: Value.CONSTANT_VALUE_80,
+    width: Value.CONSTANT_VALUE_259,
+    paddingVertical: Value.CONSTANT_VALUE_0,
+    paddingHorizontal: Value.CONSTANT_VALUE_0,
+  },
+  btnView: {
+    alignItems: Alignment.CENTER,
+    bottom: 20,
+    position: 'absolute',
+  },
+  headerIconBack: {
+    marginLeft: Value.CONSTANT_VALUE_30,
+    marginTop: Value.CONSTANT_VALUE_45,
+  },
+  CancelBack: {
+    marginRight: Value.CONSTANT_VALUE_30,
+    marginTop: Value.CONSTANT_VALUE_45,
   },
 };

@@ -68,6 +68,7 @@ const SmDashboard = ({route}) => {
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
+
   useEffect(() => {
     fetchData();
     if (route?.name === 'SmDashboard') {
@@ -80,11 +81,24 @@ const SmDashboard = ({route}) => {
         o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
       });
     }
-    navigation.addListener('focus', () => {
-      dispatch(showAppLoader());
-      _getDonorDashboard(1);
-    });
   }, [navigation, route?.name]);
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(showAppLoader());
+      let payload = {
+        keyword: search ? search : '',
+        state_ids:
+          route?.params?.informationDetail?.join() !== undefined
+            ? route?.params?.informationDetail?.join()
+            : '',
+        page: page,
+        limit: 10,
+      };
+      console.log('Hellooo');
+      dispatch(getDonorDashboard(payload));
+    }, [ search, page, route?.params?.informationDetail]),
+  );
 
   //Get device Info
   useEffect(() => {
@@ -232,26 +246,15 @@ const SmDashboard = ({route}) => {
     ]),
   );
 
-  const _getDonorDashboard = page => {
-    let payload = {
-      keyword: search,
-      state_ids:
-        route?.params?.informationDetail?.join() !== undefined
-          ? route?.params?.informationDetail?.join()
-          : '',
-      page: page,
-      limit: 10,
-    };
+  // const _getDonorDashboard = () => {
 
-    dispatch(getDonorDashboard(payload));
-  };
+  // };
 
   const onSearch = value => {
     if (value === '' && value.length < 3) {
       dispatch(showAppLoader());
       setSearch('');
       setSearching(false);
-      _getDonorDashboard(1);
       return;
     }
     dispatch(showAppLoader());
@@ -261,7 +264,7 @@ const SmDashboard = ({route}) => {
   const onEndReached = () => {
     if (lastPage > page) {
       setLoadMore(true);
-      _getDonorDashboard(page + 1);
+      setPage(page + 1);
     } else {
       setLoadMore(false);
     }
@@ -336,7 +339,7 @@ const SmDashboard = ({route}) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    _getDonorDashboard(1);
+    setPage(1);
   };
 
   const renderEmptyCell = () => {

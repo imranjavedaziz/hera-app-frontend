@@ -10,7 +10,7 @@ export default {
     alignItems: Alignment.CENTER,
     marginTop: px(Value.CONSTANT_VALUE_100),
   },
-  header: {marginTop: px(10)},
+  header: {marginTop: px(10),marginRight:px(20)},
   heartIconContainer: {
     marginTop: px(Value.CONSTANT_VALUE_35),
     justifyContent: Alignment.CENTER,
