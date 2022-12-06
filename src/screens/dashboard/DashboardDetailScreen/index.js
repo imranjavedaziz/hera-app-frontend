@@ -6,31 +6,32 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  Animated,
 } from 'react-native';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
 import Images from '../../../constants/Images';
-import Header, { IconHeader } from '../../../components/Header';
+import Header, {IconHeader} from '../../../components/Header';
 import DetailComp from '../../../components/dashboard/DetailScreen/DetailComp/ImageComp';
 import BioComponent from '../../../components/dashboard/DetailScreen/BioComponent/ImageComp';
 import styles from './style';
 import Strings from '../../../constants/Strings';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
-import { SmDonerDetail } from '../../../redux/actions/SmDonerDetail';
-import { useDispatch, useSelector } from 'react-redux';
-import { showAppLoader, hideAppLoader } from '../../../redux/actions/loader';
+import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
+import {useDispatch, useSelector} from 'react-redux';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
-import { profileMatch } from '../../../redux/actions/Profile_Match';
-import { Routes } from '../../../constants/Constants';
-import { MaterialIndicator } from 'react-native-indicators';
-import { dynamicSize } from '../../../utils/responsive';
+import {profileMatch} from '../../../redux/actions/Profile_Match';
+import {Routes} from '../../../constants/Constants';
+import {MaterialIndicator} from 'react-native-indicators';
+import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 
 const DashboardDetailScreen = () => {
@@ -42,7 +43,8 @@ const DashboardDetailScreen = () => {
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
   const [images, _setImages] = useState([]);
-
+  const [islikedLogo, setIslikedLogo] = useState('');
+  const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const {
     get_sm_donor_success,
     get_sm_donor_loading,
@@ -55,12 +57,12 @@ const DashboardDetailScreen = () => {
     profile_match_error_msg,
   } = useSelector(state => state.Profile_Match);
   const {
-    params: { userId },
+    params: {userId},
   } = useRoute();
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
   }, [dispatch, userId]);
-  console.log("LINE NO 63", _setImages);
+  console.log('LINE NO 63', _setImages);
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_sm_donor_loading) {
@@ -90,7 +92,7 @@ const DashboardDetailScreen = () => {
         return item;
       });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({ uri: url[i]?.file_url });
+      images.push({uri: url[i]?.file_url});
     }
   };
   useEffect(() => {
@@ -98,7 +100,11 @@ const DashboardDetailScreen = () => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.PtbDashboard);
+        setTimeout(() => {
+          setIsVisibleLogo(false);
+          setIslikedLogo('');
+          navigation.navigate(Routes.PtbDashboard);
+        }, 5000);
       } else {
         dispatch(hideAppLoader());
       }
@@ -119,12 +125,48 @@ const DashboardDetailScreen = () => {
       style={styles.headerIcon}
     />
   );
+
+  const FadeInView = props => {
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start();
+    }, [fadeAnim]);
+    return (
+      <Animated.View
+        style={{
+          ...props.style,
+          opacity: fadeAnim,
+        }}>
+        <ImageBackground
+          style={{
+            flex: 1,
+            position: 'absolute',
+            left: 80,
+            top: 0,
+            bottom: 0,
+            width: width,
+          }}
+          source={IMG_CONDI}>
+          <Image style={styles.iconImage} source={IMG_CONDI} />
+        </ImageBackground>
+      </Animated.View>
+    );
+  };
+  const IMG_CONDI =
+    islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
+
   const onPressLike = () => {
     const payload = {
       to_user_id: smDetailRes?.id,
       status: 1,
     };
     dispatch(profileMatch(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('liked');
   };
   const onPressDislike = () => {
     const payload = {
@@ -132,6 +174,8 @@ const DashboardDetailScreen = () => {
       status: 3,
     };
     dispatch(profileMatch(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('disliked');
   };
   const ImageClick = index => {
     console.log(index, 'index???');
@@ -146,7 +190,7 @@ const DashboardDetailScreen = () => {
           key={item?.id}>
           <RNSDWebImage
             resizeMode="cover"
-            source={{ uri: item?.item?.file_url }}
+            source={{uri: item?.item?.file_url}}
             style={styles.imageBox}
           />
         </TouchableOpacity>
@@ -154,32 +198,34 @@ const DashboardDetailScreen = () => {
     );
   };
 
-  let VIEW_PASS = <View style={styles.nativeLong}>
-    {smDetailRes?.doner_attribute?.hair_colour && (
-      <Text
-        style={[
-          global?.tagText,
-          {
-            backgroundColor: Colors.RGBA_229_172_177,
-            marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-          },
-        ]}>
-        {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-      </Text>
-    )}
-    {smDetailRes?.doner_attribute?.mother_ethnicity && (
-      <Text
-        style={[
-          global?.tagText,
-          {
-            backgroundColor: Colors.RGBA_229_172_177,
-            marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-          },
-        ]}>
-        {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
-      </Text>
-    )}
-  </View>
+  let VIEW_PASS = (
+    <View style={styles.nativeLong}>
+      {smDetailRes?.doner_attribute?.hair_colour && (
+        <Text
+          style={[
+            global?.tagText,
+            {
+              backgroundColor: Colors.RGBA_229_172_177,
+              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+            },
+          ]}>
+          {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+        </Text>
+      )}
+      {smDetailRes?.doner_attribute?.mother_ethnicity && (
+        <Text
+          style={[
+            global?.tagText,
+            {
+              backgroundColor: Colors.RGBA_229_172_177,
+              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+            },
+          ]}>
+          {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
+        </Text>
+      )}
+    </View>
+  );
   return (
     <>
       <View style={styles.flex}>
@@ -191,7 +237,7 @@ const DashboardDetailScreen = () => {
                 Place={smDetailRes?.location?.name}
                 Code={smDetailRes?.username}
                 DonerType={smDetailRes?.role}
-                image={{ uri: smDetailRes?.profile_pic }}
+                image={{uri: smDetailRes?.profile_pic}}
               />
               <View style={styles.bioContainer}>
                 {smDetailRes?.age && (
@@ -227,14 +273,19 @@ const DashboardDetailScreen = () => {
                   />
                 )}
               </View>
+
               <View style={global.dynamicMarginBottom(8)}>
-                <ImageBackground
-                  imageStyle={styles.backgroundImage}
-                  source={Images.iconComma}>
-                  <Text style={styles.Description}>
-                    {smDetailRes?.user_profile?.bio}
-                  </Text>
-                </ImageBackground>
+                {isVisibleLogo ? (
+                  <FadeInView />
+                ) : (
+                  <ImageBackground
+                    imageStyle={styles.backgroundImage}
+                    source={Images.iconComma}>
+                    <Text style={styles.Description}>
+                      {smDetailRes?.user_profile?.bio}
+                    </Text>
+                  </ImageBackground>
+                )}
               </View>
               {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
                 .length < 20 ? (
@@ -328,7 +379,7 @@ const DashboardDetailScreen = () => {
                   </Text>
                   <Video
                     controls={true}
-                    source={{ uri: smDetailRes?.doner_video_gallery?.file_url }}
+                    source={{uri: smDetailRes?.doner_video_gallery?.file_url}}
                     onError={err => console.log(err)}
                     style={styles.imageDemo2}
                     paused={true}

@@ -18,6 +18,8 @@ import Edit_profile from './Edit_profile';
 import VerificationMail from './VerificationMail';
 import DeactivateAccount from './DeactivateAccount';
 import NavigationOnLanding from './NavigationOnLanding';
+import ReportUser from './ReportUser';
+
 const allReducers = combineReducers({
   Auth,
   loader,
@@ -38,6 +40,7 @@ const allReducers = combineReducers({
   DeactivateAccount,
   VerificationMail,
   NavigationOnLanding,
+  ReportUser,
 });
 
 export default allReducers;

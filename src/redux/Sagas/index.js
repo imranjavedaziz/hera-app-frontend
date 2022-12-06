@@ -44,6 +44,7 @@ import {
   watchDeactivateAccount,
   watchGetDeactivateReason,
 } from './DeactivateAccount';
+import {watchReportUser} from './ReportUser';
 
 export default function* rootSaga() {
   yield all([
@@ -86,5 +87,6 @@ export default function* rootSaga() {
     fork(watchDeactivateAccount),
     fork(watchGetDeactivateReason),
     fork(watchGetUserAttribute),
+    fork(watchReportUser),
   ]);
 }
