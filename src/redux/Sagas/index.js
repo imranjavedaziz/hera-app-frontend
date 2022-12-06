@@ -39,7 +39,7 @@ import {
 import {watchGetFeedback, watchGetSendNotification} from './Chat';
 import {watchDeleteAccount} from './DeleteAccount';
 import {watchVerifyMail, watchSendMailVerification} from './VerificationMail';
-import {watchGetEditProfile, watchUpdateEditProfile} from './Edit_profile';
+import {watchGetEditProfile, watchUpdateEditProfile, watchUpdateNotification} from './Edit_profile';
 import {
   watchDeactivateAccount,
   watchGetDeactivateReason,
@@ -88,5 +88,6 @@ export default function* rootSaga() {
     fork(watchGetDeactivateReason),
     fork(watchGetUserAttribute),
     fork(watchReportUser),
+    fork(watchUpdateNotification),
   ]);
 }

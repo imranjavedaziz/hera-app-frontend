@@ -36,6 +36,8 @@ import openWebView from '../../../../utils/openWebView';
 import {getRoleType} from '../../../../utils/other';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import _ from 'lodash';
+import { ToggleNotification } from '../../../../components/dashboard/PtbProfile/PtbAccount';
+
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -256,6 +258,7 @@ const SmDonorSettings = () => {
                 {Strings.smSetting.Settings}
               </Text>
             </TouchableOpacity>
+            <ToggleNotification/>
             <TouchableOpacity
               style={Styles.contain}
               onPress={() => {

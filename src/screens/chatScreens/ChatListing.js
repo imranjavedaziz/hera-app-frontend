@@ -161,7 +161,6 @@ const ChatListing = props => {
       </>
     );
   };
-
   return (
     <Container
       mainStyle={true}

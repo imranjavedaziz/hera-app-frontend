@@ -273,6 +273,8 @@ export default {
     send_msg: 'SEND MESSAGE',
     video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
+    ReceiveNoti: 'Receive Notifications',
+    ReceiveNotiDesc: 'You can choose to turn off notifications. However, you will still receive subscription notifications.'
   },
   donorPofile: {
     Age: 'Age: ',
@@ -377,6 +379,7 @@ export default {
     NOT_FOUND_MATCH_YET: 'Seems like you have not found any match yet.',
     YOUR_SUBSCRIPTION_EXPIRED:
       'Your subscription has expired. Please subscribe now.',
+    SENDER_SUBSCRIPTION_EXPIRED: 'subscription has expired.',
     YOU_MATCHED: 'You Matched!',
     PARENT_TO_BE_CONVERSATION: ' Parent To Be will start the conversation.',
     START_CONVERSATION: 'Start a conversation!',

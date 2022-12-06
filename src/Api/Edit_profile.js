@@ -7,3 +7,7 @@ export const getEditProfileApi = () => {
 export const updateEditProfileApi = data => {
   return axiosRequest.post(ApiPath.update_user_detail, data);
 };
+
+export const toggleNotificationApi = data => {
+  return axiosRequest.post(ApiPath.updateNotifyStatus, data);
+}
