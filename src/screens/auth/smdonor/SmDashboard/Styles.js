@@ -162,4 +162,9 @@ export default {
     backgroundColor: Colors.BACKGROUND,
     paddingTop: Value.CONSTANT_VALUE_50,
   },
+  con:{
+    marginTop: Value.CONSTANT_VALUE_95,
+    alignItems: Alignment.CENTER,
+    flex: Value.CONSTANT_VALUE_1,
+  }
 };

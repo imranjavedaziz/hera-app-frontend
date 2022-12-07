@@ -39,6 +39,8 @@ import EditProfile from '../screens/dashboard/EditProfile/EditProfile';
 import DeleteAccount from '../screens/dashboard/PtbProfile/DeleteAccount';
 import ProfileLikedSm from '../screens/chatScreens/ProfileLikedSm';
 import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
+import { showAppToast } from '../redux/actions/loader';
+import { Strings } from '../constants';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -54,6 +56,9 @@ const screens = [
 const Main = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.Auth.user);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription.subscription_status_res,
+  );
   useEffect(() => {
     const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (auth) {
@@ -78,6 +83,20 @@ const Main = () => {
       }
     }
   }, [auth]);
+  useEffect(() => {
+    if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
+      if (!subscriptionStatus?.data.status && parseInt(auth?.role_id) === 2) {
+        dispatch(
+          showAppToast(
+            true,
+            subscriptionStatus.data.is_trial
+              ? Strings.Subscription.TrailOver
+              : Strings.Subscription.SubscriptionExpired,
+          ),
+        );
+      }
+    }
+  }, [subscriptionStatus?.data,auth?.role_id]);
   return (
     <NavigationContainer
       ref={navigationRef}
