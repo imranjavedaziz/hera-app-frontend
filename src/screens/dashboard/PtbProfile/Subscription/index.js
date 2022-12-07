@@ -7,17 +7,17 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   createSubscription,
   getSubscriptionPlan,
@@ -31,8 +31,8 @@ import {
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import { IconHeader } from '../../../../components/Header';
-import { TERMS_OF_USE_URL, PRIVACY_URL } from '../../../../constants/Constants';
+import {IconHeader} from '../../../../components/Header';
+import {TERMS_OF_USE_URL, PRIVACY_URL} from '../../../../constants/Constants';
 import openWebView from '../../../../utils/openWebView';
 
 const Subscription = props => {
@@ -51,7 +51,7 @@ const Subscription = props => {
     subscription_plan_loading,
     subscription_plan_res,
   } = useSelector(state => state.Subscription);
-  const { create_subscription_success, create_subscription_loading } =
+  const {create_subscription_success, create_subscription_loading} =
     useSelector(state => state.Subscription);
 
   React.useEffect(() => {
@@ -110,7 +110,7 @@ const Subscription = props => {
         if (receipt) {
           try {
             purchaseAPI(purchase);
-            await RNIap.finishTransaction({ purchase, isConsumable: true });
+            await RNIap.finishTransaction({purchase, isConsumable: true});
             if (Platform.OS === 'android') {
               await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
             }
@@ -140,7 +140,7 @@ const Subscription = props => {
       product_id: item?.productId,
       purchase_token: item?.transactionReceipt,
     };
-    console.log("LINE NUMBER 143 PAYLOAD", payload);
+    console.log('LINE NUMBER 143 PAYLOAD', payload);
     dispatch(createSubscription(payload));
   };
 
@@ -154,14 +154,14 @@ const Subscription = props => {
   }, []);
 
   const subscribePlan = (item, type) => {
-    console.log("LINE NUMBER 154 item",item,selectCheckBox?.ios_product);
+    console.log('LINE NUMBER 154 item', item, selectCheckBox?.ios_product);
     if (item === null) {
       dispatch(showAppToast(true, 'Please choose a plan!'));
       return;
     }
     dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
-      console.log("LINE NUMBER 160 requestSubscriptionIOS");
+      console.log('LINE NUMBER 160 requestSubscriptionIOS');
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
     } else {
       requestSubscriptionAndroid(
@@ -174,7 +174,7 @@ const Subscription = props => {
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
     try {
-      await RNIap.requestPurchase({ sku })
+      await RNIap.requestPurchase({sku})
         .then(async result => {
           console.log('ANDROID LINE 185', result, 'Itemm', item, 'Type', type);
         })
@@ -188,7 +188,7 @@ const Subscription = props => {
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
     try {
-      await RNIap.requestSubscription({ sku })
+      await RNIap.requestSubscription({sku})
         .then(async result => {
           console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         })
@@ -219,24 +219,26 @@ const Subscription = props => {
               Midtitle={Strings.Subscription.MidHeader}
               isCenter={true}
             />
-            {subscriptionPlan?.data ? (
-              subscriptionPlan?.data?.map((item, index) => (
-                <Commitment
-                  key={index}
-                  MainText={`$${item?.price}/${item?.interval}`}
-                  Months={item.description}
-                  Icon={
-                    selectCheckBox?.id === item?.id
-                      ? Images.iconRadiosel
-                      : Images.iconRadiounsel
-                  }
-                  Style={selectCheckBox?.id === item?.id && styles.box}
-                  onPress={() => selectCheckHandler(item)}
-                />
-              ))
-            ) : (
-              <ActivityIndicator />
-            )}
+            <View style={styles.commitment}>
+              {subscriptionPlan?.data ? (
+                subscriptionPlan?.data?.map((item, index) => (
+                  <Commitment
+                    key={index}
+                    MainText={`$${item?.price}/${item?.interval}`}
+                    Months={item.description}
+                    Icon={
+                      selectCheckBox?.id === item?.id
+                        ? Images.iconRadiosel
+                        : Images.iconRadiounsel
+                    }
+                    Style={selectCheckBox?.id === item?.id && styles.box}
+                    onPress={() => selectCheckHandler(item)}
+                  />
+                ))
+              ) : (
+                <ActivityIndicator />
+              )}
+            </View>
             <Button
               label={Strings.Subscription.SubscribeButton}
               style={styles.payButton}
@@ -245,10 +247,10 @@ const Subscription = props => {
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>
-                  <Text style={{ color: 'red' }}>*</Text>
+                  <Text style={{color: 'red'}}>*</Text>
                   {Strings.Subscription.BySubs}
                   <TouchableOpacity
-                    style={{ top: 2 }}
+                    style={{top: 2}}
                     onPress={() => openWebView(TERMS_OF_USE_URL)}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.TermsServices}

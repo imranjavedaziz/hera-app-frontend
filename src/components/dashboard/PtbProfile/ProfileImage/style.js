@@ -18,6 +18,7 @@ export default {
     borderRadius: dynamicSize(90),
     width: Value.CONSTANT_VALUE_95,
     height: Value.CONSTANT_VALUE_95,
+    backgroundColor: '#E2E1D8',
   },
   mainContainer: {
     alignItems: Alignment.CENTER,

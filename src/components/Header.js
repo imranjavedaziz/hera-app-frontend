@@ -29,7 +29,6 @@ const styles = {
     marginTop: Value.CONSTANT_VALUE_4,
   },
   img: {
-    maxWidth: Value.CONSTANT_VALUE_50,
     resizeMode: Alignment.COVER,
     maxHeight: Value.CONSTANT_VALUE_50,
     flex: Value.CONSTANT_VALUE_0,
@@ -38,6 +37,7 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: '#E2E1D8',
   },
   profileImg: {
     width: Value.CONSTANT_VALUE_35,

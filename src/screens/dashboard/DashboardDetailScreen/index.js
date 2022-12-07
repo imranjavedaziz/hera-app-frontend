@@ -187,7 +187,8 @@ const DashboardDetailScreen = () => {
       <>
         <TouchableOpacity
           onPress={() => ImageClick(item?.index)}
-          key={item?.id}>
+          key={item?.id}
+          style={styles.imagePlaceholder}>
           <RNSDWebImage
             resizeMode="cover"
             source={{uri: item?.item?.file_url}}

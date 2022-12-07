@@ -8,6 +8,7 @@ import {
   normalizeFont,
   scaleHeight,
   scaleWidth,
+  width,
 } from '../../../utils/responsive';
 export default {
   mainContainer: {
@@ -16,10 +17,6 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
-  imageOverlayWrapper: {
-    position: Alignment.RELATIVE,
-    overflow: Alignment.HIDDEN,
-  },
   bioContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
   },
@@ -179,5 +176,8 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_35,
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
+  },
+  imagePlaceholder: {
+    backgroundColor: '#E2E1D8',
   },
 };

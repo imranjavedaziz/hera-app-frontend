@@ -2,13 +2,13 @@ import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, scaleWidth} from '../../../utils/responsive';
+import {dynamicSize, height, scaleWidth} from '../../../utils/responsive';
 
 export default {
   profileLogo: {
-    width: Value.CONSTANT_VALUE_80,
-    height: Value.CONSTANT_VALUE_80,
-    borderRadius: Value.CONSTANT_VALUE_40,
+    width: Value.CONSTANT_VALUE_86,
+    height: Value.CONSTANT_VALUE_86,
+    borderRadius: Value.CONSTANT_VALUE_46,
   },
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
@@ -38,6 +38,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_32,
     fontWeight: Alignment.BOLD,
     color: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_6,
   },
   profileImg: {
     flexDirection: Alignment.ROW_REVERSE,
@@ -53,6 +54,7 @@ export default {
     flexDirection: Alignment.ROW,
     marginVertical: Value.CONSTANT_VALUE_15,
     marginBottom: Value.CONSTANT_VALUE_52,
+    marginTop: Value.CONSTANT_VALUE_25,
   },
   ageYrs: {
     fontFamily: Fonts.OpenSansRegular,
@@ -70,7 +72,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_22,
   },
   highlits: {
-    backgroundColor: Colors.HIGHLIGHT_PINK,
+    backgroundColor: Colors.PINK,
     marginRight: Value.CONSTANT_VALUE_8,
     height: Value.CONSTANT_VALUE_31,
     alignContent: Alignment.CENTER,
@@ -126,7 +128,6 @@ export default {
     marginHorizontal: Value.CONSTANT_VALUE_20,
     marginVertical: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_80,
-    //width:Value.CONSTANT_VALUE_296,
   },
   sendMsgBtnDis: {
     flexDirection: Alignment.ROW,
@@ -142,10 +143,11 @@ export default {
     letterSpacing: Value.CONSTANT_VALUE_FRAC36,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    marginHorizontal: Value.CONSTANT_VALUE_10,
   },
   highlitsText: {
     fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_KEY,
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -174,5 +176,17 @@ export default {
   textInnerContainer: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    top: height / 2.5,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };

@@ -27,8 +27,9 @@ import {
 } from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {height, width} from '../../../utils/responsive';
+import {dynamicSize, width} from '../../../utils/responsive';
 import FastImage from 'react-native-fast-image';
+import {Colors} from '../../../constants';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
@@ -279,14 +280,12 @@ const PTB_profile = props => {
             )}
           </View>
         ) : (
-          <MaterialIndicator
-            color="#a3c6c4"
-            style={{
-              justifyContent: Alignment.CENTER,
-              alignItems: Alignment.CENTER,
-              marginTop: height / 2.5,
-            }}
-          />
+          <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View>
         )}
       </ScrollView>
     </View>

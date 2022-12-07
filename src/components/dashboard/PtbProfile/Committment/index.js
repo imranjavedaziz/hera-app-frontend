@@ -13,7 +13,9 @@ const Commitment = ({MainText, Months, Icon, Style, onPress}) => {
           <Text style={styles.mainText}>{MainText}</Text>
           <Text style={styles.innerText}>{Months}</Text>
         </View>
-        <Image style={styles.Icon} source={Icon} />
+        <View style={styles.iconContainer}>
+          <Image style={styles.Icon} source={Icon} />
+        </View>
       </TouchableOpacity>
     </>
   );
