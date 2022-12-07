@@ -93,7 +93,7 @@ const PtbProfile = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      style={Platform.OS === 'ios' ? styles.headerIcon : styles.andHeaderIcon}
+      style={styles.andHeaderIcon}
       leftPress={() => navigation.navigate(Routes.PtbDashboard)}
     />
   );
@@ -184,12 +184,7 @@ const PtbProfile = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
-          <View
-            style={
-              Platform.OS === 'ios'
-                ? styles.mainContainer
-                : styles.andMainContainer
-            }>
+          <View style={styles.andMainContainer}>
             <View style={styles.imgView}>
               <ProfileImage
                 Heading={Strings.smSetting.ptbProfile}

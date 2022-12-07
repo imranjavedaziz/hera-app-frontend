@@ -16,7 +16,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp_1: {marginTop: dynamicSize(85), marginHorizontal: 40},
+  mainComp_1: {marginTop: dynamicSize(59), marginHorizontal: 40},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',

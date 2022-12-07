@@ -79,7 +79,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   headerIcon: {
-    bottom: 10,
+    marginTop: 13,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

@@ -101,11 +101,7 @@ export default function Support() {
 
   const headerComp = () => (
     <CircleBtn
-      Fixedstyle={
-        Platform.OS === 'ios'
-          ? styles.fixedheaderStyle
-          : styles.andoridFixedheaderStyle
-      }
+      Fixedstyle={styles.andoridFixedheaderStyle}
       icon={Images.iconcross}
       onPress={() => {
         isDirty === true ? VAL_CHECK() : navigation.goBack();
@@ -182,12 +178,7 @@ export default function Support() {
             <ScrollView
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="handled">
-              <View
-                style={
-                  Platform.OS === 'ios'
-                    ? Styles.mainContainer
-                    : Styles.androidMainContainer
-                }>
+              <View style={Styles.androidMainContainer}>
                 <Text style={Styles.title}>{Strings.inqueryForm.Title}</Text>
                 <Text style={Styles.title1}>
                   {Strings.inqueryForm.Subtitle}

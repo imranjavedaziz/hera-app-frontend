@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Images from '../constants/Images';
 import Strings from '../constants/Strings';
 import Alignment from '../constants/Alignment';
@@ -20,7 +20,7 @@ const Searchbar = props => {
   const navigation = useNavigation();
   return (
     <>
-      {props.editing ? null : (
+      {props.editing && props.isFocused === false ? null : (
         <View style={styles.cancelbtn}>
           <TouchableOpacity onPress={props.onClear} style={styles.clearView}>
             <Text style={styles.clearText}>Cancel</Text>
@@ -45,6 +45,8 @@ const Searchbar = props => {
             placeholderTextColor={Colors.BLACK}
             keyboardType={'web-search'}
             autoCorrect={false}
+            onFocus={props?.handleFocus}
+            onBlur={props?.handleBlur}
           />
 
           {!props.editing && (

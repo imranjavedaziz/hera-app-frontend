@@ -1,4 +1,13 @@
-import { Text, View, Image, FlatList, TouchableOpacity, } from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
+} from 'react-native';
 import React, {
   useState,
   useEffect,
@@ -6,33 +15,33 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import Header, { IconHeader } from '../../../../components/Header';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import Header, {IconHeader} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
-import { Routes } from '../../../../constants/Constants';
-import { Value } from '../../../../constants/FixedValues';
+import {Routes} from '../../../../constants/Constants';
+import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
-import { getDonorDashboard } from '../../../../redux/actions/DonorDashboard';
-import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
+import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
+import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from '../smSettings/Styles';
-import { deviceHandler } from '../../../../utils/commonFunction';
+import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
-import { NotificationContext } from '../../../../context/NotificationContextManager';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { MaterialIndicator } from 'react-native-indicators';
-import { Colors } from '../../../../constants';
-import { dynamicSize } from '../../../../utils/responsive';
+import {MaterialIndicator} from 'react-native-indicators';
+import {Colors} from '../../../../constants';
+import {dynamicSize} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
-const SmDashboard = ({ route }) => {
+const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const LoadingRef = useRef(false);
@@ -51,10 +60,13 @@ const SmDashboard = ({ route }) => {
   } = useSelector(state => state.DonorDashBoard);
   const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
-  const { fcmToken } = useContext(NotificationContext);
+  const {fcmToken} = useContext(NotificationContext);
   const [msgRead, setMsgRead] = useState(false);
   const chats = useSelector(state => state.Chat.chats);
   const chatData = chatHistory();
+  const [isFocused, setFocused] = useState(false);
+  const handleFocus = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
@@ -68,7 +80,6 @@ const SmDashboard = ({ route }) => {
   useFocusEffect(
     useCallback(() => {
       fetchData();
-      dispatch(showAppLoader());
       let payload = {
         keyword: search ? search : '',
         state_ids:
@@ -100,7 +111,7 @@ const SmDashboard = ({ route }) => {
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
-            const { status } = JSON.parse(notification.data?.match_request);
+            const {status} = JSON.parse(notification.data?.match_request);
             if (status === 2) {
               navigation.navigate(Routes.ChatDetail, {
                 item: notification?.data,
@@ -151,10 +162,10 @@ const SmDashboard = ({ route }) => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      const { notification } = remoteMessage;
+      const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'profile') {
-          const { status } = JSON.parse(notification.data?.match_request);
+          const {status} = JSON.parse(notification.data?.match_request);
           if (status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
@@ -195,7 +206,7 @@ const SmDashboard = ({ route }) => {
         dispatch(showAppLoader());
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
-          const { current_page, last_page, data } = get_donor_dashboard_res.data;
+          const {current_page, last_page, data} = get_donor_dashboard_res.data;
           if (current_page > 1) {
             data.length > 0 && setLoadMore(false);
             setCards([...cards, ...data]);
@@ -221,12 +232,11 @@ const SmDashboard = ({ route }) => {
 
   const onSearch = value => {
     if (value === '' && value.length < 3) {
-      dispatch(showAppLoader());
       setSearch('');
       setSearching(false);
       return;
     }
-    dispatch(showAppLoader());
+
     setSearch(value);
     setSearching(true);
   };
@@ -241,6 +251,7 @@ const SmDashboard = ({ route }) => {
   const onClear = () => {
     setSearching(false);
     setSearch('');
+    setFocused(false);
     dispatch(showAppLoader());
     let payload = {
       keyword: '',
@@ -253,18 +264,18 @@ const SmDashboard = ({ route }) => {
     };
     dispatch(getDonorDashboard(payload));
   };
-  const renderProfile = ({ item, index }) => {
+  const renderProfile = ({item, index}) => {
     return (
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate(Routes.ProfileDetails, { userid: item.id })
+          navigation.navigate(Routes.ProfileDetails, {userid: item.id})
         }
         style={styles.mainContainer}>
         <View style={styles.conatiner}>
           <FastImage
             style={[
               styles.profileImgView,
-              { borderRadius: Value.CONSTANT_VALUE_18 },
+              {borderRadius: Value.CONSTANT_VALUE_18},
             ]}
             source={{
               uri: item.profile_pic,
@@ -272,8 +283,8 @@ const SmDashboard = ({ route }) => {
               cache: FastImage.cacheControl.immutable,
             }}>
             <LinearGradient
-              start={{ x: 0.0, y: 0.28 }}
-              end={{ x: 0.011, y: 1.15 }}
+              start={{x: 0.0, y: 0.28}}
+              end={{x: 0.011, y: 1.15}}
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={styles.gradient}
             />
@@ -294,14 +305,14 @@ const SmDashboard = ({ route }) => {
 
   const headerComp = () => (
     <IconHeader
-      leftIcon={{ uri: profileImg }}
+      leftIcon={{uri: profileImg}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
       chat={msgRead === true ? true : false}
       rightPress={() =>
-        navigation.navigate(Routes.Chat_Listing, { smChat: true })
+        navigation.navigate(Routes.Chat_Listing, {smChat: true})
       }
-      style={styles.headerIcon}
+      style={styles.androidIconHeader}
       ApiImage={true}
     />
   );
@@ -335,75 +346,87 @@ const SmDashboard = ({ route }) => {
     }
     return null;
   };
+  console.log(isFocused, 'isFocused');
   return (
     <View style={styles.upperContainer}>
-      {!searching && <Header end={false}>{headerComp()}</Header>}
-      <View style={globalStyle.mainContainer}>
-        <View
-          style={{
-            marginBottom: Value.CONSTANT_VALUE_150,
-            paddingTop: searching
-              ? Value.CONSTANT_VALUE_1
-              : Value.CONSTANT_VALUE_55,
-          }}>
-          {search === '' ? (
-            <>
-              <Text style={[globalStyle.screenTitle]}>
-                {Strings.landing.Like_Match_Connect}
-              </Text>
-              <View
-                style={styles.subTitle}
-                accessible={true}
-                accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
-                <Text
-                  style={globalStyle.screenSubTitle}
-                  numberOfLines={2}
-                  accessible={false}>
-                  {Strings.sm_dashboard.Subtitle1}
+      {!searching && isFocused === false && (
+        <Header end={false}>{headerComp()}</Header>
+      )}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={globalStyle.mainContainer}>
+          <View
+            style={{
+              marginBottom: Value.CONSTANT_VALUE_150,
+              paddingTop:
+                searching && isFocused
+                  ? Value.CONSTANT_VALUE_1
+                  : Value.CONSTANT_VALUE_59,
+            }}>
+            {search === '' && isFocused === false ? (
+              <>
+                <Text style={[globalStyle.screenTitle]}>
+                  {Strings.landing.Like_Match_Connect}
                 </Text>
-                <Text
-                  style={globalStyle.screenSubTitle}
-                  accessible={false}
-                  numberOfLines={1}>
-                  {Strings.sm_dashboard.Subtitle2}
-                </Text>
-              </View>
-            </>
-          ) : null}
-          <View>
-            <View style={styles.search}>
-              <Searchbar
-                value={search}
-                onChangeText={onSearch}
-                editing={search === ''}
-                onClear={onClear}
-                selectedStates={route?.params?.informationDetail}
-              />
-            </View>
+                <View
+                  style={styles.subTitle}
+                  accessible={true}
+                  accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
+                  <Text
+                    style={globalStyle.screenSubTitle}
+                    numberOfLines={2}
+                    accessible={false}>
+                    {Strings.sm_dashboard.Subtitle1}
+                  </Text>
+                  <Text
+                    style={globalStyle.screenSubTitle}
+                    accessible={false}
+                    numberOfLines={1}>
+                    {Strings.sm_dashboard.Subtitle2}
+                  </Text>
+                </View>
+              </>
+            ) : null}
             <View>
-              <FlatList
-                contentContainerStyle={Styles.flatlist}
-                columnWrapperStyle={{ justifyContent: Alignment.SPACE_BETWEEN }}
-                data={cards}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderProfile}
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-                onEndReached={() => {
-                  route.params?.informationDetail !== undefined &&
-                    onEndReached();
-                  searching && onEndReached();
-                }}
-                ListEmptyComponent={renderEmptyCell}
-                ListFooterComponent={renderFooterCell}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                testID="flat-list"
-              />
+              <View style={styles.search}>
+                <Searchbar
+                  value={search}
+                  onChangeText={onSearch}
+                  editing={search === ''}
+                  onClear={onClear}
+                  selectedStates={route?.params?.informationDetail}
+                  handleFocus={handleFocus}
+                  handleBlur={handleBlur}
+                  isFocused={isFocused}
+                />
+              </View>
+              <View>
+                <FlatList
+                  keyboardShouldPersistTaps="handled"
+                  contentContainerStyle={Styles.flatlist}
+                  columnWrapperStyle={{
+                    justifyContent: Alignment.SPACE_BETWEEN,
+                  }}
+                  data={cards}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderProfile}
+                  numColumns={2}
+                  showsVerticalScrollIndicator={false}
+                  onEndReached={() => {
+                    route.params?.informationDetail !== undefined &&
+                      onEndReached();
+                    searching && onEndReached();
+                  }}
+                  ListEmptyComponent={renderEmptyCell}
+                  ListFooterComponent={renderFooterCell}
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  testID="flat-list"
+                />
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };

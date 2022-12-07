@@ -2,7 +2,7 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {height, width} from '../../../../utils/responsive';
+import {dynamicSize, height, width} from '../../../../utils/responsive';
 
 export default {
   mainContainer: {},
@@ -53,6 +53,10 @@ export default {
   },
   headerIcon: {
     marginTop: Value.CONSTANT_VALUE_40,
+    paddingHorizontal: 30,
+  },
+  androidIconHeader: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     paddingHorizontal: 30,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
@@ -160,11 +164,11 @@ export default {
   upperContainer: {
     flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
-    paddingTop: Value.CONSTANT_VALUE_50,
+    // paddingTop: Value.CONSTANT_VALUE_50,
   },
-  con:{
+  con: {
     marginTop: Value.CONSTANT_VALUE_95,
     alignItems: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_1,
-  }
+  },
 };

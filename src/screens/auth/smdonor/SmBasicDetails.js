@@ -165,7 +165,7 @@ const SmBasicDetails = () => {
     <>
       <CircleBtn
         icon={Images.iconSettings}
-        Fixedstyle={{marginRight: dynamicSize(20), marginTop: dynamicSize(35)}}
+        Fixedstyle={{marginRight: dynamicSize(20), marginTop: dynamicSize(13)}}
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}

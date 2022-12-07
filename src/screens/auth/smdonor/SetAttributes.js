@@ -1,5 +1,5 @@
 // SetAttributes
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Text,
   View,
@@ -9,17 +9,17 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
-import Header, { CircleBtn } from '../../../components/Header';
+import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
-import { smSetAttributesSchema } from '../../../constants/schemas';
+import {smSetAttributesSchema} from '../../../constants/schemas';
 import Dropdown from '../../../components/inputs/Dropdown';
-import { Value } from '../../../constants/FixedValues';
-import { useDispatch, useSelector } from 'react-redux';
+import {Value} from '../../../constants/FixedValues';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {
   hideAppLoader,
@@ -31,15 +31,15 @@ import {
   getUserAttribute,
   saveAttribute,
 } from '../../../redux/actions/SetAttribute';
-import { logOut, updateRegStep } from '../../../redux/actions/Auth';
-import { Routes } from '../../../constants/Constants';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {Routes} from '../../../constants/Constants';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
-import { BottomSheetComp } from '../../../components';
-import { Alignment } from '../../../constants';
-import { dynamicSize } from '../../../utils/responsive';
+import {BottomSheetComp} from '../../../components';
+import {Alignment} from '../../../constants';
+import {dynamicSize} from '../../../utils/responsive';
 
-const SetAttributes = ({ route }) => {
+const SetAttributes = ({route}) => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [attributeData, setAttributeData] = useState();
@@ -53,7 +53,7 @@ const SetAttributes = ({ route }) => {
     control,
     reset,
     setValue,
-    formState: { errors, isDirty, dirtyFields },
+    formState: {errors, isDirty, dirtyFields},
   } = useForm({
     resolver: yupResolver(smSetAttributesSchema),
   });
@@ -91,7 +91,7 @@ const SetAttributes = ({ route }) => {
       EditAttributes === true && dispatch(getUserAttribute());
     }, [dispatch]),
   );
-  const { log_out_success, log_out_loading, log_out_error_msg } = useSelector(
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
   );
   const {
@@ -276,15 +276,18 @@ const SetAttributes = ({ route }) => {
     setValue('hair_colour_id', hair_colour_id);
     setValue('education_id', education_id);
   };
-  const ternaryEXT = () => Platform.OS === 'ios'
-    ? backAction()
-    : setShowModal(true)
+  const ternaryEXT = () =>
+    Platform.OS === 'ios' ? backAction() : setShowModal(true);
   const headerComp = () => {
     if (EditAttributes) {
       return (
-        <View style={globalStyle.cancelbtn}>
+        <View style={globalStyle.cancelAndroidbtn}>
           <TouchableOpacity
-            onPress={() => { isDirty === true ? ternaryEXT() : navigation.navigate(Routes.SmSetting) }}
+            onPress={() => {
+              isDirty === true
+                ? ternaryEXT()
+                : navigation.navigate(Routes.SmSetting);
+            }}
             style={globalStyle.clearView}>
             <Text style={globalStyle.clearText}>
               {Strings.Subscription.Cancel}
@@ -297,11 +300,20 @@ const SetAttributes = ({ route }) => {
       <>
         <CircleBtn
           icon={Images.iconSettings}
-          onPress={() => { Platform.OS === 'ios' ? openActionSheet() : setOpen(true); }}
-          Fixedstyle={{
-            marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
-            marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
+          onPress={() => {
+            Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
           }}
+          Fixedstyle={
+            Platform.OS === 'ios'
+              ? {
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
+                  marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
+                }
+              : {
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_13),
+                  marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
+                }
+          }
         />
         <ActionSheet
           ref={actionSheet}
@@ -332,7 +344,7 @@ const SetAttributes = ({ route }) => {
           <View
             style={{
               paddingHorizontal: Value.CONSTANT_VALUE_40,
-              marginTop: Value.CONSTANT_VALUE_95,
+              marginTop: Value.CONSTANT_VALUE_59,
             }}>
             <Text style={globalStyle.screenTitle}>
               {EditAttributes === true
@@ -344,7 +356,7 @@ const SetAttributes = ({ route }) => {
             </Text>
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   heightprop={true}
                   defaultValue={value}
@@ -357,12 +369,14 @@ const SetAttributes = ({ route }) => {
                   required={true}
                   error={errors && errors.height_id?.message}
                   buttonTextAfterSelection={(selectedItem, index) => {
-                    return `${parseInt(selectedItem.name / 12)} ft ${selectedItem.name % 12
-                      } in`;
+                    return `${parseInt(selectedItem.name / 12)} ft ${
+                      selectedItem.name % 12
+                    } in`;
                   }}
                   rowTextForSelection={(item, index) => {
-                    return `${parseInt(item.name / 12)} ft ${item.name % 12
-                      } in`;
+                    return `${parseInt(item.name / 12)} ft ${
+                      item.name % 12
+                    } in`;
                   }}
                 />
               )}
@@ -370,7 +384,7 @@ const SetAttributes = ({ route }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
                   label={Strings.sm_set_attributes.Race}
@@ -386,7 +400,7 @@ const SetAttributes = ({ route }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
                   label={Strings.sm_set_attributes.MotherEthnicity}
@@ -402,7 +416,7 @@ const SetAttributes = ({ route }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
                   label={Strings.sm_set_attributes.FatheEthnicity}
@@ -418,7 +432,7 @@ const SetAttributes = ({ route }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
                   weight={true}
@@ -441,7 +455,7 @@ const SetAttributes = ({ route }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
                   label={Strings.sm_set_attributes.EyeColor}
@@ -457,7 +471,7 @@ const SetAttributes = ({ route }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
                   label={Strings.preference.HairColor}
@@ -473,7 +487,7 @@ const SetAttributes = ({ route }) => {
             />
             <Controller
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
                   label={Strings.sm_set_attributes.Education}
@@ -559,7 +573,9 @@ const SetAttributes = ({ route }) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => { setShowModal(false) }}>
+              onPress={() => {
+                setShowModal(false);
+              }}>
               <Text style={globalStyle.modalOption2}>
                 {Strings.profile.ModalOption2}
               </Text>

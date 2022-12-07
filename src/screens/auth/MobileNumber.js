@@ -67,7 +67,7 @@ const MobileNumber = ({route}) => {
     <CircleBtn
       icon={Images.iconcross}
       Fixedstyle={{
-        marginTop: Value.CONSTANT_VALUE_45,
+        marginTop: Value.CONSTANT_VALUE_13,
         alignItems: Alignment.FLEXEND,
         marginRight: Value.CONSTANT_VALUE_20,
       }}
@@ -105,7 +105,7 @@ const MobileNumber = ({route}) => {
             style={{
               alignItems: Alignment.CENTER,
               justifyContent: Alignment.CENTER,
-              marginTop: Value.CONSTANT_VALUE_95,
+              marginTop: Value.CONSTANT_VALUE_59,
             }}>
             <Text style={styles.screenTitle}>
               {type === 1

@@ -8,7 +8,7 @@ export default {
   imgContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_105,
+    marginTop: Value.CONSTANT_VALUE_59,
     marginBottom: 4,
   },
   androidimgContainer: {

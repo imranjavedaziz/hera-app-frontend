@@ -1,8 +1,13 @@
-import { Fonts } from '../../../constants/Constants';
+import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import { dynamicSize, scaleWidth, height, width } from '../../../utils/responsive';
+import {
+  dynamicSize,
+  scaleWidth,
+  height,
+  width,
+} from '../../../utils/responsive';
 
 export default {
   profileLogo: {
@@ -15,14 +20,23 @@ export default {
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
     marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
   },
-  flex: { flex: 1, backgroundColor: Colors.BACKGROUND },
-  colorText: { color: Colors.BLACK },
+  mainAndroidContainer: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_70),
+  },
+  flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
+  colorText: {color: Colors.BLACK},
   location: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
+  androidHeaderIcons: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   locationText: {
@@ -180,7 +194,7 @@ export default {
     color: Colors.BLACK,
     marginLeft: 7,
   },
-  dateTextView: { flexDirection: Alignment.ROW, marginTop: 51 },
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
   imgCondi: {
     flex: 1,
     position: 'absolute',
