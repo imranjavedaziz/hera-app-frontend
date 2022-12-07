@@ -27,10 +27,10 @@ import {
 } from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {dynamicSize, width} from '../../../utils/responsive';
+import {dynamicSize} from '../../../utils/responsive';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../../constants';
-
+import moment from 'moment';
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
@@ -63,7 +63,6 @@ const PTB_profile = props => {
     get_ptb_profile_detail_res,
     dispatch,
   ]);
-
   useEffect(() => {
     if (LoadinfRef.current && !send_like_ptb_loading) {
       dispatch(showAppLoader());
@@ -84,7 +83,6 @@ const PTB_profile = props => {
   const {
     params: {userid},
   } = useRoute();
-
   useEffect(() => {
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
@@ -96,7 +94,6 @@ const PTB_profile = props => {
       style={styles.headerIcon}
     />
   );
-
   const FadeInView = props => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     useEffect(() => {
@@ -107,23 +104,15 @@ const PTB_profile = props => {
       }).start();
     }, [fadeAnim]);
     return (
-      <Animated.View
-        style={{
-          ...props.style,
-          opacity: fadeAnim,
-        }}>
+      <Animated.View style={{...props.style, opacity: fadeAnim}}>
         {props.children}
       </Animated.View>
     );
   };
   const IMG_CONDI =
     islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
-
   const onPressDislike = () => {
-    const payload = {
-      to_user_id: userid,
-      status: 3,
-    };
+    const payload = {to_user_id: userid, status: 3};
     dispatch(sendLikePtb(payload));
     setIsVisibleLogo(true);
     setIslikedLogo('disliked');
@@ -134,10 +123,7 @@ const PTB_profile = props => {
     }, 2000);
   };
   const onPresslike = () => {
-    const payload = {
-      to_user_id: userid,
-      status: 1,
-    };
+    const payload = {to_user_id: userid, status: 1};
     dispatch(sendLikePtb(payload));
     setIsVisibleLogo(true);
     setIslikedLogo('liked');
@@ -170,9 +156,7 @@ const PTB_profile = props => {
               <View style={styles.profileImg}>
                 <FastImage
                   style={styles.profileLogo}
-                  source={{
-                    uri: stateRes?.profile_pic,
-                  }}
+                  source={{uri: stateRes?.profile_pic}}
                 />
               </View>
               <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
@@ -190,15 +174,7 @@ const PTB_profile = props => {
                 />
                 {isVisibleLogo && (
                   <FadeInView>
-                    <ImageBackground
-                      style={{
-                        flex: 1,
-                        position: 'absolute',
-                        left: 80,
-                        top: 0,
-                        bottom: 0,
-                        width: width,
-                      }}>
+                    <ImageBackground style={styles.imgCondi}>
                       <Image style={styles.iconImage} source={IMG_CONDI} />
                     </ImageBackground>
                   </FadeInView>
@@ -259,12 +235,21 @@ const PTB_profile = props => {
                 }}>
                 <Image source={Images.HEARTH_ICON} />
                 <Text style={styles.sendMsgText}>
-                  {' '}
                   {Strings.PTB_Profile.send_request}
                 </Text>
               </Pressable>
             )}
-
+            {stateRes?.profile_match_request?.status === 2 && (
+              <View style={styles.dateTextView}>
+                <Image source={Images.HEARTH_ICON} />
+                <Text style={styles.dateText}>
+                  {Strings.PTB_Profile.YouMatched}{' '}
+                  {moment(stateRes?.profile_match_request?.updated_at).format(
+                    'MMM DD,YYYY',
+                  )}
+                </Text>
+              </View>
+            )}
             {props?.route?.params?.seeAll && (
               <Pressable
                 style={styles.sendMsgBtnDis}
@@ -273,7 +258,6 @@ const PTB_profile = props => {
                 }}>
                 <Image source={Images.RED_CROSS_ICON} />
                 <Text style={styles.sendMsgText}>
-                  {' '}
                   {Strings.donorPofile.Not_interested}
                 </Text>
               </Pressable>
@@ -291,5 +275,4 @@ const PTB_profile = props => {
     </View>
   );
 };
-
-export default PTB_profile;
+export default React.memo(PTB_profile);

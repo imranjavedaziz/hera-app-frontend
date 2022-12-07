@@ -12,10 +12,10 @@ export default {
     borderColor: Colors.PINK,
     marginTop: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.SEARCH_BOX,
+    justifyContent: Alignment.CENTER,
   },
   row: {
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_17,
     alignItems: Alignment.CENTER,
     marginHorizontal: Value.CONSTANT_VALUE_25,
   },
@@ -47,5 +47,5 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_25,
     marginRight: Value.CONSTANT_VALUE_25,
     textAlign: Alignment.LEFT,
-  }
+  },
 };

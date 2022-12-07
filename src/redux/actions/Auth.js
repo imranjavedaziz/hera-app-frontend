@@ -15,6 +15,7 @@ import {
   AUTH_REGISTER,
   UPDATE_PROFILE_IMG,
   DEVICE_REGISTER,
+  AUTH_MOBILE_NUMBER_RESET,
 } from '../Type';
 
 export const logIn = userInfo => {
@@ -63,6 +64,10 @@ export const mobileNumber = payload => {
     data: payload,
   };
 };
+
+export const resetMobile = () => ({
+  type: AUTH_MOBILE_NUMBER_RESET
+})
 
 export const verifyOtp = payload => {
   return {

@@ -2,7 +2,7 @@ import {Text, View, TouchableOpacity, Image, Switch} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './style';
-import {Images,Strings} from '../../../../constants';
+import {Images, Strings} from '../../../../constants';
 import {toggleNotification} from '../../../../redux/actions/Edit_profile';
 
 const PtbAccount = ({leftIcon, title, onPress, BlueDot}) => {
@@ -37,7 +37,7 @@ export const ToggleNotification = () => {
       setChanged(false);
       dispatch(toggleNotification({notify_status: switchValue}));
     }
-  }, [switchValue,notification]);
+  }, [switchValue, notification]);
   return (
     <>
       <View style={styles.container}>
@@ -48,10 +48,15 @@ export const ToggleNotification = () => {
             </View>
             <Text style={styles.title}>{Strings.PTB_Profile.ReceiveNoti}</Text>
           </View>
-          <Switch value={switchValue} onValueChange={toggleSwitch} trackColor={{true: '#5abdec'}}/>
+          <Switch
+            style={{left: 9}}
+            value={switchValue}
+            onValueChange={toggleSwitch}
+            trackColor={{true: '#5abdec'}}
+          />
         </View>
       </View>
-      <Text style={[styles.toggle,{marginLeft: 30, marginTop: 5}]}>
+      <Text style={[styles.toggle, {marginLeft: 33, marginTop: 5}]}>
         <Text style={{color: 'red'}}>*</Text>
         {Strings.PTB_Profile.ReceiveNotiDesc}
       </Text>

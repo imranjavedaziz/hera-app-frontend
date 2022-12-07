@@ -71,9 +71,12 @@ const Subscription = props => {
   }, [subscription_plan_success, subscription_plan_loading]);
 
   React.useEffect(() => {
+    console.log("CHECKING CREATE SUB LINE NO 74");
     if (loadingRef.current && !create_subscription_loading) {
+      console.log("CHECKING CREATE SUB LINE NO 75");
       dispatch(showAppLoader());
       if (create_subscription_success) {
+        console.log("CHECKING CREATE SUB LINE NO 77");
         dispatch(getSubscriptionStatus());
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
@@ -135,6 +138,7 @@ const Subscription = props => {
     };
   }, []);
   const purchaseAPI = item => {
+    console.log("CHECKING CREATE SUB LINE NO 141");
     let payload = {
       device_type: Platform.OS === 'android' ? 'android' : 'ios',
       product_id: item?.productId,

@@ -21,6 +21,7 @@ export default class FirebaseDB {
   onChildAdd;
   user = {};
   sender = {};
+ 
 
   constructor(user, sender) {
     this.chatId = createChatId(user.user_id, sender.user_id);
@@ -195,10 +196,10 @@ export default class FirebaseDB {
     );
     try {
       await referenceUser.update({
-        read: 1,
+        read: 0,
       });
       await referenceSender.update({
-        read: 0,
+        read: 1,
       });
     } catch (e) {
       console.log(e);
@@ -227,11 +228,13 @@ export default class FirebaseDB {
       message: lastMsg,
       chat_start: 1,
       time: Date.now(),
+      read: 1,
     });
     await referenceSender.update({
       message: lastMsg,
       chat_start: 1,
       time: Date.now(),
+      read: 0,
     });
   }
   async readAt(id, setLoading) {

@@ -1,11 +1,4 @@
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Platform, ScrollView} from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import Header, {IconHeader} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
@@ -36,7 +29,9 @@ import openWebView from '../../../../utils/openWebView';
 import {getRoleType} from '../../../../utils/other';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import _ from 'lodash';
-import {ToggleNotification} from '../../../../components/dashboard/PtbProfile/PtbAccount';
+import PtbAccount, {
+  ToggleNotification,
+} from '../../../../components/dashboard/PtbProfile/PtbAccount';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -127,7 +122,9 @@ const SmDonorSettings = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      style={Styles.headerIcon}
+      style={
+        Platform.OS === 'ios' ? Styles.headerIcon : Styles.androidHeaderIcon
+      }
       leftPress={navigation.goBack}
     />
   );
@@ -179,7 +176,6 @@ const SmDonorSettings = () => {
   }, [file, dispatch]);
 
   const logoutScreen = () => {
-    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
@@ -188,13 +184,18 @@ const SmDonorSettings = () => {
       <View style={Styles.flex}>
         <Header end={false}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={Styles.headerContainer}>
+          <View
+            style={
+              Platform.OS === 'ios'
+                ? Styles.headerContainer
+                : Styles.androidHeaderContainer
+            }>
             <View
               style={{
                 alignItems: Alignment.CENTER,
               }}>
               <ProfileImage
-                smProfile={true}
+                // smProfile={true}
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
@@ -214,83 +215,60 @@ const SmDonorSettings = () => {
                 }}
               />
             </View>
-            <View style={Styles.highlightContainer}>
-              <TouchableOpacity
-                style={Styles.flexRow}
-                onPress={() =>
-                  navigation.navigate(Routes.SetAttributes, {
-                    EditAttributes: true,
-                  })
-                }>
-                <Image source={Images.preferences} />
-                <Text style={Styles.text}>
-                  {Strings.smSetting.EditAttribute}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={Styles.highlightContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(Routes.donorGallery);
-                }}
-                style={Styles.flexRow}>
-                <Image source={Images.galleryimage} />
-                <Text style={Styles.text}>{Strings.smSetting.Gallery}</Text>
-              </TouchableOpacity>
-              {avaiableVideo === true ? <View style={Styles.dot} /> : false}
-            </View>
-            <View style={Styles.highlightContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(Routes.EditProfile, {smProfile: true});
-                }}
-                style={Styles.flexRow}>
-                <Image source={Images.person} />
-                <Text style={Styles.text}>{Strings.smSetting.EditProfile}</Text>
-              </TouchableOpacity>
-              {name?.email_verified === 0 && <View style={Styles.dot} />}
-            </View>
-            <TouchableOpacity
-              style={Styles.contain}
-              onPress={() => navigation.navigate(Routes.Settings)}>
-              <Image source={Images.setting2} />
-              <Text style={[Styles.text, Styles.extraTxt]}>
-                {Strings.smSetting.Settings}
-              </Text>
-            </TouchableOpacity>
+            <PtbAccount
+              leftIcon={Images.preferences}
+              title={Strings.smSetting.EditAttribute}
+              onPress={() =>
+                navigation.navigate(Routes.SetAttributes, {
+                  EditAttributes: true,
+                })
+              }
+            />
+            <PtbAccount
+              leftIcon={Images.galleryimage}
+              title={Strings.smSetting.Gallery}
+              onPress={() => {
+                navigation.navigate(Routes.donorGallery);
+              }}
+              BlueDot={avaiableVideo === true ? true : false}
+            />
+            <PtbAccount
+              leftIcon={Images.person}
+              title={Strings.smSetting.EditProfile}
+              onPress={() => {
+                navigation.navigate(Routes.EditProfile, {smProfile: true});
+              }}
+              BlueDot={name?.email_verified === 0 ? true : false}
+            />
+            <PtbAccount
+              leftIcon={Images.setting2}
+              title={Strings.smSetting.Settings}
+              onPress={() => navigation.navigate(Routes.Settings)}
+            />
             <ToggleNotification />
-            <TouchableOpacity
-              style={Styles.contain}
+            <PtbAccount
+              leftIcon={Images.writing}
+              title={Strings.smSetting.Inquiry}
               onPress={() => {
                 navigation.navigate(Routes.Support);
-              }}>
-              <Image source={Images.writing} />
-              <Text style={Styles.text}>{Strings.smSetting.Inquiry}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Styles.contain}
-              onPress={() => openWebView(ABOUT_URL)}>
-              <Image source={Images.information} />
-              <Text style={[Styles.text, Styles.extraTxt]}>
-                {Strings.smSetting.AboutUs}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Styles.contain}
-              onPress={() => openWebView(TERMS_OF_USE_URL)}>
-              <Image source={Images.file} />
-              <Text style={[Styles.text, Styles.extraTxt]}>
-                {Strings.smSetting.Terms}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Styles.contain}
-              onPress={() => openWebView(PRIVACY_URL)}>
-              <Image source={Images.sheild} />
-              <Text style={[Styles.text, Styles.extraTxt]}>
-                {Strings.smSetting.Privacy}
-              </Text>
-            </TouchableOpacity>
+              }}
+            />
+            <PtbAccount
+              leftIcon={Images.information}
+              title={Strings.smSetting.AboutUs}
+              onPress={() => openWebView(ABOUT_URL)}
+            />
+            <PtbAccount
+              leftIcon={Images.file}
+              title={Strings.smSetting.Terms}
+              onPress={() => openWebView(TERMS_OF_USE_URL)}
+            />
+            <PtbAccount
+              leftIcon={Images.sheild}
+              title={Strings.smSetting.Privacy}
+              onPress={() => openWebView(PRIVACY_URL)}
+            />
+
             <View style={Styles.buttoncontainer}>
               <TouchableOpacity
                 style={Styles.button}
@@ -335,4 +313,4 @@ const SmDonorSettings = () => {
   );
 };
 
-export default SmDonorSettings;
+export default React.memo(SmDonorSettings);

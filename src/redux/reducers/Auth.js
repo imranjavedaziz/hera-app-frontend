@@ -15,6 +15,7 @@ import {
   AUTH_MOBILE_NUMBER,
   AUTH_MOBILE_NUMBER_SUCCESS,
   AUTH_MOBILE_NUMBER_FAIL,
+  AUTH_MOBILE_NUMBER_RESET,
   AUTH_VERIFY_OTP,
   AUTH_VERIFY_OTP_FAIL,
   AUTH_VERIFY_OTP_SUCCESS,
@@ -240,6 +241,15 @@ export default (state = initState, action) => {
         mobile_number_success: false,
         mobile_number_loading: true,
         mobile_number_error_msg: '',
+      };
+    }
+    case AUTH_MOBILE_NUMBER_RESET: {
+      return {
+        ...state,
+        mobile_number_success: false,
+        mobile_number_loading: false,
+        mobile_number_error_msg: '',
+        register_user_success_data: null,
       };
     }
     case AUTH_MOBILE_NUMBER_FAIL: {

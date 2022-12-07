@@ -1,4 +1,5 @@
 // Parent to Be Screen
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -13,22 +14,17 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import moment from 'moment';
-import openCamera from '../../utils/openCamera';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  showAppToast,
-  hideAppLoader,
-  showAppLoader,
-} from '../../redux/actions/loader';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { showAppToast, hideAppLoader, showAppLoader } from '../../redux/actions/loader';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Header, { CircleBtn } from '../../components/Header';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {useForm, Controller} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import Header, {CircleBtn} from '../../components/Header';
+import openCamera from '../../utils/openCamera';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
+import moment from 'moment';
 import {
   Fonts,
   FormKey,
@@ -38,29 +34,29 @@ import {
   PRIVACY_URL,
   TERMS_OF_USE_URL,
 } from '../../constants/Constants';
-import Strings, {ValidationMessages} from '../../constants/Strings';
+import Strings, { ValidationMessages } from '../../constants/Strings';
+import { Value } from '../../constants/FixedValues';
+import { parentRegisterSchema } from '../../constants/schemas';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
-import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
-import {parentRegisterSchema} from '../../constants/schemas';
 import styles from './StylesProfile';
-import Alignment from '../../constants/Alignment';
-import {askCameraPermission} from '../../utils/permissionManager';
-import {ptbRegister} from '../../redux/actions/Register';
-import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../components';
+import Alignment from '../../constants/Alignment';
 import openWebView from '../../utils/openWebView';
-import {updateLocalImg} from '../../redux/actions/Auth';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { askCameraPermission } from '../../utils/permissionManager';
+import { ptbRegister } from '../../redux/actions/Register';
+import { deviceHandler } from '../../utils/commonFunction';
+import { BottomSheetComp } from '../../components';
+import { deviceRegister, updateLocalImg, updateRegStep } from '../../redux/actions/Auth';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DeviceInfo from 'react-native-device-info';
+import { NotificationContext } from '../../context/NotificationContextManager';
 
 const Profile = props => {
   const navigation = useNavigation();
   const loadingRef = useRef(false);
-  const {
-    params: {isRouteData},
-  } = useRoute();
+  const { params: { isRouteData } } = useRoute();
   const [show, setShow] = useState(false);
   const [date, setDate] = useState();
   const [file, setFile] = useState(null);
@@ -72,15 +68,14 @@ const Profile = props => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [datePicked, onDateChange] = useState();
+  const { fcmToken } = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
     reset,
     setValue,
-    formState: {errors},
-  } = useForm({
-    resolver: yupResolver(parentRegisterSchema),
-  });
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(parentRegisterSchema) });
 
   const {
     register_user_success,
@@ -94,7 +89,14 @@ const Profile = props => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
       if (register_user_success) {
+        const _deviceInfo = {
+          device_id: DeviceInfo.getDeviceId(),
+          device_token: fcmToken,
+          device_type: Platform.OS,
+        };
+        dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         dispatch(updateLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       } else {
@@ -114,7 +116,6 @@ const Profile = props => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
-
   // Header Component
   const headerComp = () => (
     <CircleBtn
@@ -258,7 +259,7 @@ const Profile = props => {
                           : openAndroidSheet();
                       }}>
                       <ImageBackground
-                        source={userImage ? {uri: userImage} : null}
+                        source={userImage ? { uri: userImage } : null}
                         style={styles.background}
                         imageStyle={styles.imgBack}>
                         <TouchableOpacity
@@ -287,14 +288,14 @@ const Profile = props => {
                 </View>
                 <Text style={styles.ImageText}>
                   {Strings.profile.uploadImage}
-                  <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
+                  <Text style={[styles.label, { color: Colors.RED }]}>*</Text>
                 </Text>
                 {/* Image Upload End  */}
               </View>
               <View style={styles.fullWidth}>
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.profile.FirstName}
                       value={value}
@@ -307,7 +308,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.profile.MiddleName}
                       value={value}
@@ -320,7 +321,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.profile.LastName}
                       value={value}
@@ -334,7 +335,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.profile.EmailAddress}
                       value={value}
@@ -348,7 +349,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.profile.DateOfBirth}
                       value={value}
@@ -372,7 +373,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <View>
                       <FloatingLabelInput
                         label={Strings.profile.setPassword}
@@ -380,7 +381,7 @@ const Profile = props => {
                         onChangeText={v => onChange(v)}
                         required={true}
                         secureTextEntry={true}
-                        containerStyle={{marginBottom: Value.CONSTANT_VALUE_10}}
+                        containerStyle={{ marginBottom: Value.CONSTANT_VALUE_10 }}
                       />
                       {pwdErrMsg.map(msg => (
                         <View style={styles.passwordCheck} key={msg.type}>
@@ -390,7 +391,7 @@ const Profile = props => {
                               fontFamily: Fonts.OpenSansBold,
                               color:
                                 validatePassword(value, msg.type) ||
-                                validatePassword(value, msg.type) === null
+                                  validatePassword(value, msg.type) === null
                                   ? Colors.BLACK
                                   : Colors.RED,
                             }}>
@@ -421,14 +422,14 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({field: {onChange, value}}) => (
+                  render={({ field: { onChange, value } }) => (
                     <FloatingLabelInput
                       label={Strings.profile.confirmPassword}
                       value={value}
                       onChangeText={v => onChange(v)}
                       required={true}
                       secureTextEntry={true}
-                      containerStyle={{marginBottom: Value.CONSTANT_VALUE_40}}
+                      containerStyle={{ marginBottom: Value.CONSTANT_VALUE_40 }}
                       error={errors && errors.confirm_password?.message}
                     />
                   )}
@@ -479,7 +480,7 @@ const Profile = props => {
               </View>
               <Pressable
                 onPress={() => {
-                  navigation.navigate(Routes.SmRegister, {isRouteData});
+                  navigation.navigate(Routes.SmRegister, { isRouteData });
                 }}>
                 <Text style={styles.smRegister}>
                   {Strings.profile.RegisterAs}

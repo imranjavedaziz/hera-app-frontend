@@ -2,7 +2,13 @@ import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, height, scaleWidth} from '../../../utils/responsive';
+
+import {
+  dynamicSize,
+  scaleWidth,
+  height,
+  width,
+} from '../../../utils/responsive';
 
 export default {
   profileLogo: {
@@ -179,8 +185,6 @@ export default {
   },
   loaderContainer: {
     position: Alignment.ABSOLUTE,
-    top: height / 2.5,
-    alignSelf: Alignment.CENTER,
     width: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_50,
     alignItems: Alignment.CENTER,
@@ -188,5 +192,23 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_35,
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
+  },
+  dateText: {
+    fontFamily: Fonts.OpenSansLightItalic,
+    color: Colors.BLACK,
+  },
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
+  imgCondi: {
+    flex: 1,
+    position: 'absolute',
+    left: 80,
+    top: 0,
+    bottom: 0,
+    width: width,
+  },
+  indicator: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    marginTop: height / 2.5,
   },
 };

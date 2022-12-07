@@ -9,7 +9,9 @@ import Strings from '../../../constants/Strings';
 import Subscribe, {
   Subscribed,
 } from '../../../components/dashboard/PtbProfile/subscribe';
-import PtbAccount, {ToggleNotification} from '../../../components/dashboard/PtbProfile/PtbAccount';
+import PtbAccount, {
+  ToggleNotification,
+} from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
 import {
@@ -63,7 +65,6 @@ const PtbProfile = () => {
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
-      dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
       videoAvaible();
     }, [dispatch]),
@@ -92,7 +93,7 @@ const PtbProfile = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      style={styles.headerIcon}
+      style={Platform.OS === 'ios' ? styles.headerIcon : styles.andHeaderIcon}
       leftPress={() => navigation.navigate(Routes.PtbDashboard)}
     />
   );
@@ -165,7 +166,6 @@ const PtbProfile = () => {
     dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
-    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
@@ -184,7 +184,12 @@ const PtbProfile = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
-          <View style={styles.mainContainer}>
+          <View
+            style={
+              Platform.OS === 'ios'
+                ? styles.mainContainer
+                : styles.andMainContainer
+            }>
             <View style={styles.imgView}>
               <ProfileImage
                 Heading={Strings.smSetting.ptbProfile}
@@ -210,12 +215,12 @@ const PtbProfile = () => {
             <View>
               {typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
-                subscriptionStatus.data?.status === 0 &&
+                Boolean(subscriptionStatus.data?.status) &&
                 !subscriptionStatus.data?.is_trial && <Subscribed />}
               {typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
                 (subscriptionStatus.data?.is_trial ||
-                  !subscriptionStatus.data?.status === 0) && (
+                  !Boolean(subscriptionStatus.data?.status)) && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}
@@ -246,7 +251,7 @@ const PtbProfile = () => {
                 title={Strings.smSetting.Settings}
                 onPress={() => navigation.navigate(Routes.Settings)}
               />
-              <ToggleNotification/>
+              <ToggleNotification />
               <PtbAccount
                 leftIcon={Images.writing}
                 title={Strings.smSetting.Inquiry}

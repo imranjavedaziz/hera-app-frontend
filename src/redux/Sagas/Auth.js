@@ -29,6 +29,7 @@ import {
   deviceRegisterApi,
 } from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
+import { showAppLoader,hideAppLoader } from '../actions/loader';
 //LogIn
 function* logIn(payload) {
   try {
@@ -65,6 +66,7 @@ export function* watchdeviceRegister() {
 
 // mobile Number Registration
 function* mobileNumber(payload) {
+  yield put(showAppLoader());
   try {
     const result = yield mobileNumberApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
@@ -77,6 +79,9 @@ function* mobileNumber(payload) {
     }
   } catch (err) {
     yield put({type: AUTH_MOBILE_NUMBER_FAIL, data: {msg: 'NET ERROR'}});
+  }
+  finally{
+    yield put(hideAppLoader());
   }
 }
 export function* watchMobileNumber() {
