@@ -1,8 +1,8 @@
 import * as yup from 'yup';
-import Strings, {ValidationMessages} from './Strings';
-import {Value} from './FixedValues';
+import Strings, { ValidationMessages } from './Strings';
+import { Value } from './FixedValues';
 import moment from 'moment';
-import {calculateBirthYear} from '../utils/calculateBirthYear';
+import { calculateBirthYear } from '../utils/calculateBirthYear';
 
 export const Regx = {
   MOBILE_REGEX: /^[0]?[1-9]\d{9,10}$/,
@@ -18,7 +18,7 @@ export const Regx = {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 };
 
-const REG_OBJ={
+const REG_OBJ = {
   phone: yup
     .string()
     .required(ValidationMessages.MOBILE_REQUIRED)
@@ -115,7 +115,7 @@ export const smRegisterSchema = yup.object().shape({
     .string()
     .required(ValidationMessages.DOB)
     .test('DOB', Strings.sm_register.Surrogate_Mother_error, (value, ctx) => {
-      const {parent} = ctx;
+      const { parent } = ctx;
       const formatedDate = moment(value).format('YYYY/MM/DD');
       const selectedAge = calculateBirthYear(formatedDate);
       if (parent?.role === '3') {
@@ -137,8 +137,8 @@ export const smRegisterSchema = yup.object().shape({
           parent?.role === '3'
             ? Strings.sm_register.Surrogate_Mother_error
             : parent?.role === '4'
-            ? Strings.sm_register.Egg_Donar_error
-            : Strings.sm_register.Sperm_Donar_error,
+              ? Strings.sm_register.Egg_Donar_error
+              : Strings.sm_register.Sperm_Donar_error,
       });
     }),
   email: yup
