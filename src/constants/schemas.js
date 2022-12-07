@@ -136,11 +136,17 @@ export const smRegisterSchema = yup.object().shape({
           return true;
         }
       }
-      return ctx.createError({
-        message: parent?.role === '3'
-          ? Strings.sm_register.Surrogate_Mother_error
-          : TERNARYEXT,
-      });
+      let message = '';
+      if(parent?.role === '3'){
+        message = Strings.sm_register.Surrogate_Mother_error;
+      }
+      else if(parent?.role === '4'){
+        message = Strings.sm_register.Egg_Donar_error;
+      }
+      else{
+        message = Strings.sm_register.Sperm_Donar_error;
+      }
+      return ctx.createError({message});
     }),
   email: yup
     .string()
