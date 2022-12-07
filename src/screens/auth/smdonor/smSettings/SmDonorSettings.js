@@ -36,7 +36,7 @@ import openWebView from '../../../../utils/openWebView';
 import {getRoleType} from '../../../../utils/other';
 import {getUserGallery} from '../../../../redux/actions/CreateGallery';
 import _ from 'lodash';
-import { ToggleNotification } from '../../../../components/dashboard/PtbProfile/PtbAccount';
+import {ToggleNotification} from '../../../../components/dashboard/PtbProfile/PtbAccount';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -194,7 +194,7 @@ const SmDonorSettings = () => {
                 alignItems: Alignment.CENTER,
               }}>
               <ProfileImage
-                smProfile={true}
+                // smProfile={true}
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
@@ -258,7 +258,7 @@ const SmDonorSettings = () => {
                 {Strings.smSetting.Settings}
               </Text>
             </TouchableOpacity>
-            <ToggleNotification/>
+            <ToggleNotification />
             <TouchableOpacity
               style={Styles.contain}
               onPress={() => {
