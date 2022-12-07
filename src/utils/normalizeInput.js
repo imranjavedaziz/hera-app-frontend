@@ -20,5 +20,6 @@ const normalizeInput = (value, previousValue) => {
       6,
     )} (${currentValue.slice(6, 10)})`;
   }
+  return value;
 };
 export default normalizeInput;

@@ -63,7 +63,6 @@ const OTP = ({route}) => {
   const {
     mobile_number_success,
     mobile_number_loading,
-    mobile_number_error_msg,
     register_user_success_data,
   } = useSelector(state => state.Auth);
 
