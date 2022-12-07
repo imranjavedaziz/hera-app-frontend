@@ -1,4 +1,11 @@
-import {Text, View, TouchableOpacity, Platform, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import Header, {IconHeader} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
@@ -122,9 +129,7 @@ const SmDonorSettings = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      style={
-        Platform.OS === 'ios' ? Styles.headerIcon : Styles.androidHeaderIcon
-      }
+      style={Styles.androidHeaderIcon}
       leftPress={navigation.goBack}
     />
   );
@@ -181,15 +186,10 @@ const SmDonorSettings = () => {
   };
   return (
     <>
-      <View style={Styles.flex}>
+      <SafeAreaView style={Styles.flex}>
         <Header end={false}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View
-            style={
-              Platform.OS === 'ios'
-                ? Styles.headerContainer
-                : Styles.androidHeaderContainer
-            }>
+          <View style={Styles.androidHeaderContainer}>
             <View
               style={{
                 alignItems: Alignment.CENTER,
@@ -281,7 +281,7 @@ const SmDonorSettings = () => {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
       <ActionSheet
         ref={actionSheet}
         options={threeOption}

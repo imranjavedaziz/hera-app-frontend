@@ -82,8 +82,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
-    // bottom: 10,
+    marginTop: 13,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

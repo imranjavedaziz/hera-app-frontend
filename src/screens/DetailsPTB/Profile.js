@@ -1,5 +1,5 @@
 // Parent to Be Screen
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -14,12 +14,16 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { showAppToast, hideAppLoader, showAppLoader } from '../../redux/actions/loader';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import Header, { CircleBtn } from '../../components/Header';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  showAppToast,
+  hideAppLoader,
+  showAppLoader,
+} from '../../redux/actions/loader';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import Header, {CircleBtn} from '../../components/Header';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import openCamera from '../../utils/openCamera';
 import Images from '../../constants/Images';
@@ -34,9 +38,9 @@ import {
   PRIVACY_URL,
   TERMS_OF_USE_URL,
 } from '../../constants/Constants';
-import Strings, { ValidationMessages } from '../../constants/Strings';
-import { Value } from '../../constants/FixedValues';
-import { parentRegisterSchema } from '../../constants/schemas';
+import Strings, {ValidationMessages} from '../../constants/Strings';
+import {Value} from '../../constants/FixedValues';
+import {parentRegisterSchema} from '../../constants/schemas';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
 import Button from '../../components/Button';
@@ -44,19 +48,25 @@ import styles from './StylesProfile';
 import ActionSheet from 'react-native-actionsheet';
 import Alignment from '../../constants/Alignment';
 import openWebView from '../../utils/openWebView';
-import { askCameraPermission } from '../../utils/permissionManager';
-import { ptbRegister } from '../../redux/actions/Register';
-import { deviceHandler } from '../../utils/commonFunction';
-import { BottomSheetComp } from '../../components';
-import { deviceRegister, updateLocalImg, updateRegStep } from '../../redux/actions/Auth';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {askCameraPermission} from '../../utils/permissionManager';
+import {ptbRegister} from '../../redux/actions/Register';
+import {deviceHandler} from '../../utils/commonFunction';
+import {BottomSheetComp} from '../../components';
+import {
+  deviceRegister,
+  updateLocalImg,
+  updateRegStep,
+} from '../../redux/actions/Auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DeviceInfo from 'react-native-device-info';
-import { NotificationContext } from '../../context/NotificationContextManager';
+import {NotificationContext} from '../../context/NotificationContextManager';
 
 const Profile = props => {
   const navigation = useNavigation();
   const loadingRef = useRef(false);
-  const { params: { isRouteData } } = useRoute();
+  const {
+    params: {isRouteData},
+  } = useRoute();
   const [show, setShow] = useState(false);
   const [date, setDate] = useState();
   const [file, setFile] = useState(null);
@@ -68,14 +78,14 @@ const Profile = props => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [datePicked, onDateChange] = useState();
-  const { fcmToken } = useContext(NotificationContext);
+  const {fcmToken} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
     reset,
     setValue,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(parentRegisterSchema) });
+    formState: {errors},
+  } = useForm({resolver: yupResolver(parentRegisterSchema)});
 
   const {
     register_user_success,
@@ -125,7 +135,7 @@ const Profile = props => {
       }}
       Fixedstyle={{
         marginRight: Value.CONSTANT_VALUE_20,
-        marginTop: Value.CONSTANT_VALUE_44,
+        marginTop: Value.CONSTANT_VALUE_13,
       }}
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
@@ -259,7 +269,7 @@ const Profile = props => {
                           : openAndroidSheet();
                       }}>
                       <ImageBackground
-                        source={userImage ? { uri: userImage } : null}
+                        source={userImage ? {uri: userImage} : null}
                         style={styles.background}
                         imageStyle={styles.imgBack}>
                         <TouchableOpacity
@@ -288,14 +298,14 @@ const Profile = props => {
                 </View>
                 <Text style={styles.ImageText}>
                   {Strings.profile.uploadImage}
-                  <Text style={[styles.label, { color: Colors.RED }]}>*</Text>
+                  <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
                 </Text>
                 {/* Image Upload End  */}
               </View>
               <View style={styles.fullWidth}>
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
                       label={Strings.profile.FirstName}
                       value={value}
@@ -308,7 +318,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
                       label={Strings.profile.MiddleName}
                       value={value}
@@ -321,7 +331,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
                       label={Strings.profile.LastName}
                       value={value}
@@ -335,7 +345,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
                       label={Strings.profile.EmailAddress}
                       value={value}
@@ -349,7 +359,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
                       label={Strings.profile.DateOfBirth}
                       value={value}
@@ -373,7 +383,7 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  render={({field: {onChange, value}}) => (
                     <View>
                       <FloatingLabelInput
                         label={Strings.profile.setPassword}
@@ -381,7 +391,7 @@ const Profile = props => {
                         onChangeText={v => onChange(v)}
                         required={true}
                         secureTextEntry={true}
-                        containerStyle={{ marginBottom: Value.CONSTANT_VALUE_10 }}
+                        containerStyle={{marginBottom: Value.CONSTANT_VALUE_10}}
                       />
                       {pwdErrMsg.map(msg => (
                         <View style={styles.passwordCheck} key={msg.type}>
@@ -391,7 +401,7 @@ const Profile = props => {
                               fontFamily: Fonts.OpenSansBold,
                               color:
                                 validatePassword(value, msg.type) ||
-                                  validatePassword(value, msg.type) === null
+                                validatePassword(value, msg.type) === null
                                   ? Colors.BLACK
                                   : Colors.RED,
                             }}>
@@ -422,14 +432,14 @@ const Profile = props => {
                 />
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
                       label={Strings.profile.confirmPassword}
                       value={value}
                       onChangeText={v => onChange(v)}
                       required={true}
                       secureTextEntry={true}
-                      containerStyle={{ marginBottom: Value.CONSTANT_VALUE_40 }}
+                      containerStyle={{marginBottom: Value.CONSTANT_VALUE_40}}
                       error={errors && errors.confirm_password?.message}
                     />
                   )}
@@ -480,7 +490,7 @@ const Profile = props => {
               </View>
               <Pressable
                 onPress={() => {
-                  navigation.navigate(Routes.SmRegister, { isRouteData });
+                  navigation.navigate(Routes.SmRegister, {isRouteData});
                 }}>
                 <Text style={styles.smRegister}>
                   {Strings.profile.RegisterAs}

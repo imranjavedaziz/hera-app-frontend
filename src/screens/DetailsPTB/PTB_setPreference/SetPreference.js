@@ -251,7 +251,6 @@ const SetPreference = ({route, navigation}) => {
   };
 
   const logOutScreen = () => {
-    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };

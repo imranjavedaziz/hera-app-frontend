@@ -131,7 +131,7 @@ const DashboardDetailScreen = () => {
     useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: true,
       }).start();
     }, [fadeAnim]);

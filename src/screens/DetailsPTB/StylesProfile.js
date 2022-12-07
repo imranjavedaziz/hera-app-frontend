@@ -8,12 +8,19 @@ export default {
   imgContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_105,
+    marginTop: Value.CONSTANT_VALUE_59,
+    marginBottom: 4,
+  },
+  androidimgContainer: {
+    flex: 1,
+    alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_59,
     marginBottom: 4,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   profileContainer: {
     marginTop: Value.CONSTANT_VALUE_25,
+    alignItems: Alignment.CENTER,
   },
   imgBack: {
     borderRadius: Value.CONSTANT_VALUE_70,

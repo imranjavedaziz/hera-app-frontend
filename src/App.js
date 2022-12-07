@@ -14,12 +14,23 @@ import Main from './navigations/Main';
 import Loader from './components/Loader';
 import Toast from './components/Toast';
 import NotificationContextManager from './context/NotificationContextManager';
+import {SafeAreaView, StatusBar} from 'react-native';
+import {Colors} from './constants';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NotificationContextManager>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={Colors.BACKGROUND}
+            animated={true}
+            hidden={false}
+          />
+          <SafeAreaView />
+
           <Main />
           <Loader />
           <Toast />

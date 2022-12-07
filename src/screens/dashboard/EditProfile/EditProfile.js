@@ -220,7 +220,7 @@ const EditProfile = props => {
     return true;
   };
   const headerComp = () => (
-    <View style={styles.cancelbtn}>
+    <View style={styles.cancelAndroidsbtn}>
       <TouchableOpacity
         onPress={() => {
           isDirty === true
@@ -326,7 +326,7 @@ const EditProfile = props => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled">
-            <View style={styles.mainContainer}>
+            <View style={styles.mainAndroidContainer}>
               <View style={styles.headingStyle}>
                 <Text style={styles.MainheadingStyle}>
                   {Strings.EDITPROFILE.EDIT_PROFILE}

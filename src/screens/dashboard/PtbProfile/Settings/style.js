@@ -11,9 +11,17 @@ export default {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
+  headerIconAndroid: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
   headingContainer: {
     alignItems: Alignment.CENTER,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
+  },
+  headingAndroidContainer: {
+    alignItems: Alignment.CENTER,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_59),
   },
   Settings: {
     fontFamily: Fonts.OpenSansBold,

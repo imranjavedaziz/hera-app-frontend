@@ -21,6 +21,11 @@ export default {
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
     marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
   },
+  mainAndroidContainer: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_70),
+  },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   colorText: {color: Colors.BLACK},
   location: {
@@ -29,6 +34,10 @@ export default {
   },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
+  androidHeaderIcons: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   locationText: {

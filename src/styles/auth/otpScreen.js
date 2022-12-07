@@ -17,7 +17,7 @@ export default {
     justifyContent: 'center',
   },
   leftIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   marginStyle: {marginHorizontal: Value.CONSTANT_VALUE_10},

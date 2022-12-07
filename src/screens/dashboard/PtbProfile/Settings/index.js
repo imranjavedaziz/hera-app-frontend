@@ -22,7 +22,7 @@ const Settings = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      style={styles.headerIcon}
+      style={styles.headerIconAndroid}
       leftPress={() => navigation.goBack()}
     />
   );
@@ -74,7 +74,7 @@ const Settings = () => {
     <>
       <View style={styles.mainContainer}>
         <Header end={false}>{headerComp()}</Header>
-        <View style={styles.headingContainer}>
+        <View style={styles.headingAndroidContainer}>
           <Text style={styles.Settings}>{Strings.Settings.SETTINGS}</Text>
         </View>
         <View style={styles.innerHeading}>

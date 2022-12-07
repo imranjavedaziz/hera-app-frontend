@@ -1,5 +1,5 @@
 // OTP
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -9,32 +9,39 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
-import { useForm, Controller } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useNavigation, useRoute, StackActions} from '@react-navigation/native';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import Button from '../../components/Button';
 import Images from '../../constants/Images';
-import Header, { CircleBtn } from '../../components/Header';
+import Header, {CircleBtn} from '../../components/Header';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import OtpInputs from '../../components/OtpInputs';
-import { otpSchema } from '../../constants/schemas';
-import { height } from '../../utils/responsive';
+import {otpSchema} from '../../constants/schemas';
+import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
-import { verifyOtp, mobileNumber, resetMobile } from '../../redux/actions/Auth';
-import { verifyEmail, sendVerificationMail } from '../../redux/actions/VerificationMail';
-import { useDispatch, useSelector } from 'react-redux';
-import { hideAppLoader, showAppLoader, showAppToast } from '../../redux/actions/loader';
-import { Routes } from '../../constants/Constants';
-import { Value } from '../../constants/FixedValues';
-import { Colors } from '../../constants';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {verifyOtp, mobileNumber, resetMobile} from '../../redux/actions/Auth';
+import {
+  verifyEmail,
+  sendVerificationMail,
+} from '../../redux/actions/VerificationMail';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../redux/actions/loader';
+import {Routes} from '../../constants/Constants';
+import {Value} from '../../constants/FixedValues';
+import {Colors} from '../../constants';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const OTP = ({ route }) => {
+const OTP = ({route}) => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const {
-    params: { isRouteData },
+    params: {isRouteData},
   } = useRoute();
   const type = route.params.type;
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -42,15 +49,15 @@ const OTP = ({ route }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: {errors, isValid},
     clearErrors,
   } = useForm({
     resolver: yupResolver(otpSchema),
   });
 
-  const { verify_otp_success, verify_otp_loading, verify_otp_error_msg } =
+  const {verify_otp_success, verify_otp_loading, verify_otp_error_msg} =
     useSelector(state => state.Auth);
-  const { verify_mail_success, verify_mail_loading, verify_mail_error_msg } =
+  const {verify_mail_success, verify_mail_loading, verify_mail_error_msg} =
     useSelector(state => state.VerificationMail);
   const {
     mobile_number_success,
@@ -71,7 +78,7 @@ const OTP = ({ route }) => {
         dispatch(hideAppLoader());
         navigation.navigate(
           type === 1 ? Routes.Profile : Routes.ChangePassword,
-          { isRouteData, type },
+          {isRouteData, type},
         );
       }
       if (verify_otp_error_msg) {
@@ -147,7 +154,7 @@ const OTP = ({ route }) => {
       dispatch(showAppLoader());
       dispatch(verifyOtp(payload));
     } else {
-      const payload = { code: data.otp, };
+      const payload = {code: data.otp};
       dispatch(showAppLoader());
       dispatch(verifyEmail(payload));
     }
@@ -202,7 +209,11 @@ const OTP = ({ route }) => {
     return Strings.otp.titleEmail;
   };
   return (
-    <View style={{ flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND }}>
+    <View
+      style={{
+        flex: Value.CONSTANT_VALUE_1,
+        backgroundColor: Colors.BACKGROUND,
+      }}>
       <Header end={false}>{headerComp()}</Header>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAwareScrollView
@@ -212,7 +223,7 @@ const OTP = ({ route }) => {
             <View
               style={[
                 globalStyle.mainContainer,
-                { minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_95 },
+                {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_59},
               ]}>
               <Text style={globalStyle.screenTitle}>{getScreenTitle()}</Text>
               <View
@@ -220,7 +231,9 @@ const OTP = ({ route }) => {
                 accessible={true}
                 accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
                 <Text
-                  style={globalStyle.screenSubTitle} numberOfLines={2} accessible={false}>
+                  style={globalStyle.screenSubTitle}
+                  numberOfLines={2}
+                  accessible={false}>
                   {Strings.otp.subtitle1}
                 </Text>
                 <Text
@@ -238,7 +251,7 @@ const OTP = ({ route }) => {
                 )}
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value, onBlur } }) => (
+                  render={({field: {onChange, value, onBlur}}) => (
                     <OtpInputs
                       onBlur={() => clearErrors()}
                       value={value}

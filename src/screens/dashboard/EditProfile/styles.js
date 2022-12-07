@@ -15,6 +15,12 @@ export default {
     marginTop: scaleHeight(Value.CONSTANT_VALUE_40),
     marginRight: Value.CONSTANT_VALUE_30,
   },
+  cancelAndroidsbtn: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.FLEXEND,
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_13),
+    marginRight: Value.CONSTANT_VALUE_30,
+  },
   clearView: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -40,6 +46,10 @@ export default {
     marginTop: scaleHeight(Value.CONSTANT_VALUE_95),
     paddingHorizontal: px(Value.CONSTANT_VALUE_40),
   },
+  mainAndroidContainer: {
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_59),
+    paddingHorizontal: px(Value.CONSTANT_VALUE_40),
+  },
   headingStyle: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -62,7 +72,6 @@ export default {
     marginTop: px(Value.CONSTANT_VALUE_8),
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_23,
-    letterSpacing: px(Value.CONSTANT_VALUE_0),
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },

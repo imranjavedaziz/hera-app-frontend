@@ -338,7 +338,7 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      chat={msgRead === true ? true : false}
+      chatptb={msgRead === true ? true : false}
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
       }

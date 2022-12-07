@@ -75,7 +75,19 @@ const styles = {
     zIndex: 9999,
     borderStyle: Alignment.SOLID,
     borderWidth: Value.CONSTANT_VALUE_1,
-    top: Value.CONSTANT_VALUE_5,
+    borderColor: Colors.WHITE,
+    marginRight: Value.CONSTANT_VALUE_30,
+  },
+  blankContainerptb: {
+    width: Value.CONSTANT_VALUE_12,
+    height: Value.CONSTANT_VALUE_12,
+    backgroundColor: Colors.COLOR_RED,
+    borderRadius: Value.CONSTANT_VALUE_6,
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_0,
+    zIndex: 9999,
+    borderStyle: Alignment.SOLID,
+    borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.WHITE,
   },
 };
@@ -104,6 +116,7 @@ export const IconHeader = props => {
     txt,
     txtPress,
     chat,
+    chatptb,
     ...otherProps
   } = props;
   const STYLE_ONE =
@@ -157,6 +170,7 @@ export const IconHeader = props => {
           accessible={true}
           accessibilityRole="button">
           {chat === true && <View style={styles.blankContainer} />}
+          {chatptb === true && <View style={styles.blankContainerptb} />}
           <Image accessible={false} source={rightIcon} style={styles.img} />
         </TouchableOpacity>
       </View>

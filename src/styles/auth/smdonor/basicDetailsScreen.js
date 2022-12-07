@@ -1,7 +1,11 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {scaleWidth, normalizeFont, dynamicSize} from '../../../utils/responsive';
+import {
+  scaleWidth,
+  normalizeFont,
+  dynamicSize,
+} from '../../../utils/responsive';
 
 export default {
   flex_1: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
@@ -12,7 +16,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp_1: {marginTop: dynamicSize(85), marginHorizontal: 40},
+  mainComp_1: {marginTop: dynamicSize(59), marginHorizontal: 40},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
@@ -56,6 +60,10 @@ export default {
   fixedheaderStyle: {
     marginRight: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_45,
+  },
+  andoridFixedheaderStyle: {
+    marginRight: Value.CONSTANT_VALUE_20,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_13),
   },
   paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
   centeredView: {

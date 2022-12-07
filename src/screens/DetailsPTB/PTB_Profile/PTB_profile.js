@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
   Animated,
+  Platform,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -20,14 +21,9 @@ import {
   getPtbProfileDetail,
   sendLikePtb,
 } from '../../../redux/actions/PtbProfileDetail';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {dynamicSize} from '../../../utils/responsive';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../../constants';
 import moment from 'moment';
@@ -68,7 +64,6 @@ const PTB_profile = props => {
       dispatch(showAppLoader());
       if (send_like_ptb_success) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(false, send_like_ptb_res.message));
       } else {
         dispatch(hideAppLoader());
       }
@@ -91,7 +86,7 @@ const PTB_profile = props => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={navigation.goBack}
-      style={styles.headerIcon}
+      style={styles.androidHeaderIcons}
     />
   );
   const FadeInView = props => {
@@ -99,7 +94,7 @@ const PTB_profile = props => {
     useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 800,
+        duration: 1000,
         useNativeDriver: true,
       }).start();
     }, [fadeAnim]);
@@ -120,7 +115,7 @@ const PTB_profile = props => {
       setIsVisibleLogo(false);
       setIslikedLogo('');
       navigation.navigate(Routes.SmDashboard);
-    }, 2000);
+    }, 3000);
   };
   const onPresslike = () => {
     const payload = {to_user_id: userid, status: 1};
@@ -131,7 +126,7 @@ const PTB_profile = props => {
       setIsVisibleLogo(false);
       setIslikedLogo('');
       navigation.navigate(Routes.SmDashboard);
-    }, 2000);
+    }, 3000);
   };
   return (
     <View style={styles.flex}>
@@ -140,7 +135,7 @@ const PTB_profile = props => {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled">
         {get_ptb_profile_detail_loading === false ? (
-          <View style={styles.mainContainer}>
+          <View style={styles.mainAndroidContainer}>
             <View>
               <View style={styles.location}>
                 <Image source={Images.iconmapblue} />
