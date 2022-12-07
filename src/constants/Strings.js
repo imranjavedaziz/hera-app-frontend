@@ -274,6 +274,7 @@ export default {
     video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
     ReceiveNoti: 'Receive Notifications',
+    YouMatched:'You had matched on',
     ReceiveNotiDesc: 'You can choose to turn off notifications. However, you will still receive subscription notifications.'
   },
   donorPofile: {
