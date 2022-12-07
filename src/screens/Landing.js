@@ -2,6 +2,7 @@
 import React, {useEffect} from 'react';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 import Button from '../components/Button';
 import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
@@ -9,10 +10,15 @@ import Strings from '../constants/Strings';
 import {Routes,ABOUT_URL} from '../constants/Constants';
 import {deviceHandler} from '../utils/commonFunction';
 import openWebView from '../utils/openWebView';
+import { resetMobile } from '../redux/actions/Auth';
 
 const type = 1;
 const Landing = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  useEffect(()=>{
+    dispatch(resetMobile());
+  },[])
   useEffect(() => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);
