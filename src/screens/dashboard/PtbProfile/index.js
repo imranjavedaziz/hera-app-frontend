@@ -63,7 +63,6 @@ const PtbProfile = () => {
     useCallback(() => {
       dispatch(showAppLoader());
       dispatch(getEditProfile());
-      dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
       videoAvaible();
     }, [dispatch]),
