@@ -61,8 +61,6 @@ const Gallery = () => {
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  // const [images, _setImages] = useState([]);
-  // const [counter, _setCounter] = useState(0);
   const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);

@@ -157,13 +157,14 @@ const ChatDetail = props => {
 
   const onSend = (messages = '') => {
     console.log(props.route.params.item, 'props.route.params.item');
+    console.log(subscriptionStatus?.data, 'subscriptionStatus?.data');
     if (
-      parseInt(props.route.params.item.senderSubscription) === 0 ||
-      (!subscriptionStatus?.data?.status && user.role_id === 2)
+      ( parseInt(props.route.params.item.senderSubscription) === 0 ||
+      !subscriptionStatus?.data?.status) && parseInt(user?.role_id) === 2
     ) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
       navigation.navigate(Routes.Subscription);
-    } else if (props.route.params.item.status_id !== 1) {
+    } else if (props.route.params.item.status_id !== 1 || (parseInt(user?.role_id) !== 2 && parseInt(props.route.params.item.recieverSubscription) === 0)) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     } else {
       setTextData('');
