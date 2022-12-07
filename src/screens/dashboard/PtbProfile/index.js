@@ -9,7 +9,9 @@ import Strings from '../../../constants/Strings';
 import Subscribe, {
   Subscribed,
 } from '../../../components/dashboard/PtbProfile/subscribe';
-import PtbAccount, {ToggleNotification} from '../../../components/dashboard/PtbProfile/PtbAccount';
+import PtbAccount, {
+  ToggleNotification,
+} from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
 import {
@@ -92,7 +94,7 @@ const PtbProfile = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      style={styles.headerIcon}
+      style={Platform.OS === 'ios' ? styles.headerIcon : styles.andHeaderIcon}
       leftPress={() => navigation.navigate(Routes.PtbDashboard)}
     />
   );
@@ -184,7 +186,12 @@ const PtbProfile = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
-          <View style={styles.mainContainer}>
+          <View
+            style={
+              Platform.OS === 'ios'
+                ? styles.mainContainer
+                : styles.andMainContainer
+            }>
             <View style={styles.imgView}>
               <ProfileImage
                 Heading={Strings.smSetting.ptbProfile}
@@ -246,7 +253,7 @@ const PtbProfile = () => {
                 title={Strings.smSetting.Settings}
                 onPress={() => navigation.navigate(Routes.Settings)}
               />
-              <ToggleNotification/>
+              <ToggleNotification />
               <PtbAccount
                 leftIcon={Images.writing}
                 title={Strings.smSetting.Inquiry}

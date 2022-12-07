@@ -1,5 +1,5 @@
 // SmRegister
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -34,7 +34,10 @@ import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
-import updateRegStep, {updateLocalImg} from '../../../redux/actions/Auth';
+import updateRegStep, {
+  deviceRegister,
+  updateLocalImg,
+} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
@@ -44,6 +47,8 @@ import {
 import {ptbRegister} from '../../../redux/actions/Register';
 import {BottomSheetComp} from '../../../components';
 import openWebView from '../../../utils/openWebView';
+import DeviceInfo from 'react-native-device-info';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const validationType = {
   LEN: 'LEN',
@@ -98,6 +103,7 @@ const SmRegister = () => {
   const [check, setCheck] = useState(true);
   const [threeOption, setThreeOption] = useState([]);
   const [datePicked, onDateChange] = useState();
+  const {fcmToken} = useContext(NotificationContext);
   let actionSheet = useRef();
   const {
     handleSubmit,
@@ -124,6 +130,12 @@ const SmRegister = () => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
       if (register_user_success) {
+        const _deviceInfo = {
+          device_id: DeviceInfo.getDeviceId(),
+          device_token: fcmToken,
+          device_type: Platform.OS,
+        };
+        dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
         dispatch(updateLocalImg(file.path));

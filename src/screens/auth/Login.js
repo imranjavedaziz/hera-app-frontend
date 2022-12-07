@@ -1,6 +1,13 @@
 // Login
-import React, {useState, useEffect, useRef} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -13,11 +20,13 @@ import styles from '../../styles/auth/loginScreen';
 import Strings from '../../constants/Strings';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
-import {logIn} from '../../redux/actions/Auth';
+import {deviceRegister, logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
+import DeviceInfo from 'react-native-device-info';
+import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
 
 const type = 2;
@@ -28,6 +37,7 @@ const Login = props => {
   const [show, setShow] = useState(false);
   const [payloadData, setPayloadData] = useState('');
   const [phone, setPhone] = useState('');
+  const {fcmToken} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
@@ -49,6 +59,12 @@ const Login = props => {
     if (loadingRef.current && !log_in_loading) {
       dispatch(showAppLoader());
       if (log_in_success) {
+        const _deviceInfo = {
+          device_id: DeviceInfo.getDeviceId(),
+          device_token: fcmToken,
+          device_type: Platform.OS,
+        };
+        dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
         navigation.reset({
           index: 0,

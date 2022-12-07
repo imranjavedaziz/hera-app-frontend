@@ -242,11 +242,13 @@ const StateList = props => {
           />
         </View>
         <View style={Styles.btnView}>
-          <Button
-            style={Styles.Btn}
-            label={Strings.sm_basic.Apply}
-            onPress={submit}
-          />
+          {count > 0 && (
+            <Button
+              style={Styles.Btn}
+              label={Strings.sm_basic.Apply}
+              onPress={submit}
+            />
+          )}
         </View>
       </View>
     </View>

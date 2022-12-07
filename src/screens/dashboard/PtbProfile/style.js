@@ -9,8 +9,17 @@ export default {
     marginTop: Value.CONSTANT_VALUE_95,
     paddingHorizontal: 30,
   },
+  andMainContainer: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginTop: Value.CONSTANT_VALUE_59,
+    paddingHorizontal: 30,
+  },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
+  andHeaderIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
