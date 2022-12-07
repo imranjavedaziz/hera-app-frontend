@@ -60,4 +60,10 @@ export default {
   innerContainer: {
     marginTop: dynamicSize(34),
   },
+  headerIcon: {
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
+  },
+  commitment: {
+    marginTop: Value.CONSTANT_VALUE_10,
+  },
 };

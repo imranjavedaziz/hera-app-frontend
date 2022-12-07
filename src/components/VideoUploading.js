@@ -14,9 +14,9 @@ import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
-import { Alignment, Colors } from '../constants';
-import { MaterialIndicator } from 'react-native-indicators';
-import { Value } from '../constants/FixedValues';
+import {Alignment, Colors} from '../constants';
+import {MaterialIndicator} from 'react-native-indicators';
+import {Value} from '../constants/FixedValues';
 
 const VideoUploading = props => {
   const [loadingState, setLoadingState] = React.useState(false);
@@ -26,9 +26,8 @@ const VideoUploading = props => {
 
   const IMG_CONDITWO = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
-    : Images.iconRadiounsel;
+    : Images.iconWhite;
   let boolTrue = true;
-  console.log("LINE NO 30 props?.counter", props?.counter);
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       {props?.apply === true && props?.video?.loading && (
@@ -55,7 +54,7 @@ const VideoUploading = props => {
             )}
             <View style={props?.imageOverlay}>
               <Video
-                source={{ uri: `${props?.video?.file_url}` }}
+                source={{uri: `${props?.video?.file_url}`}}
                 style={props?.videoStyle}
                 audioOnly
                 controls={props?.counter > 0 && boolTrue}

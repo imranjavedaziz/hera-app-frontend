@@ -21,14 +21,11 @@ import {
   getPtbProfileDetail,
   sendLikePtb,
 } from '../../../redux/actions/PtbProfileDetail';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
 import FastImage from 'react-native-fast-image';
+import {Colors} from '../../../constants';
 import moment from 'moment';
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
@@ -262,7 +259,12 @@ const PTB_profile = props => {
             )}
           </View>
         ) : (
-          <MaterialIndicator color="#a3c6c4" style={styles.indicator} />
+          <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View>
         )}
       </ScrollView>
     </View>

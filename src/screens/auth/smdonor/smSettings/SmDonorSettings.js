@@ -5,7 +5,6 @@ import {
   Platform,
   ScrollView,
   SafeAreaView,
-  Image,
 } from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import Header, {IconHeader} from '../../../../components/Header';
@@ -40,7 +39,6 @@ import _ from 'lodash';
 import PtbAccount, {
   ToggleNotification,
 } from '../../../../components/dashboard/PtbProfile/PtbAccount';
-import {Value} from '../../../../constants/FixedValues';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();

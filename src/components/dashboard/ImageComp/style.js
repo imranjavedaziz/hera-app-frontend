@@ -20,8 +20,8 @@ export default {
     elevation: Value.CONSTANT_VALUE_5,
   },
   bgImage: {
-    height: Value.CONSTANT_VALUE_395,
-    width: dynamicSize(Value.CONSTANT_VALUE_250),
+    height: Value.CONSTANT_VALUE_398,
+    width: dynamicSize(245),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
