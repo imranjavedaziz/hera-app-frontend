@@ -44,7 +44,7 @@ export default {
   Image: {
     height: Value.CONSTANT_VALUE_86,
     width: Value.CONSTANT_VALUE_86,
-    marginTop: Value.CONSTANT_VALUE_5,
+    marginTop: Value.CONSTANT_VALUE_4,
     borderRadius: dynamicSize(90),
     backgroundColor: 'rgb(226, 225, 216)',
   },

@@ -51,7 +51,6 @@ const ChatDetail = props => {
   );
   const {report_user_success, report_user_loading, report_user_error} =
     useSelector(state => state.ReportUser);
-  console.log('LINE NO 36', _loading);
   let bootTrueVal = true;
   const dispatch = useDispatch();
   useEffect(() => {
@@ -88,7 +87,10 @@ const ChatDetail = props => {
     }
   }, [subscriptionStatus]);
   useEffect(async () => {
-    if (parseInt(props.route.params.item.senderSubscription) === 0 && parseInt(user.role_id) === 2) {
+    if (
+      parseInt(props.route.params.item.senderSubscription) === 0 &&
+      user?.role_id === 2
+    ) {
       dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
     }
 
@@ -103,6 +105,7 @@ const ChatDetail = props => {
       name: props?.route?.params?.item?.recieverName,
       image: props?.route?.params?.item?.recieverImage,
     };
+    console.log(user, receiver, 'user, receiver');
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
@@ -128,7 +131,7 @@ const ChatDetail = props => {
       },
     );
   }, []);
-
+  console.log(db?.messages, 'db?.messages');
   useEffect(async () => {
     const unsubscribe = () => {
       setDB({messages: [], loading: false});
@@ -395,8 +398,9 @@ const ChatDetail = props => {
               </View>
               <View style={{marginLeft: 10}}>
                 {(parseInt(props?.route?.params?.item?.recieverSubscription) ===
-                  0 && parseInt(props?.route?.params?.item?.currentRole) !==
-                  1) || props?.route?.params?.item?.status_id !== 1 ? (
+                  0 &&
+                  parseInt(props?.route?.params?.item?.currentRole) !== 1) ||
+                props?.route?.params?.item?.status_id !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
@@ -531,7 +535,7 @@ const ChatDetail = props => {
       {log_in_data?.role_id === 2 && (
         <View style={{flex: 1, marginTop: 30, marginBottom: 10}}>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={-230}
+            keyboardVerticalOffset={-210}
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GiftedChat
@@ -559,6 +563,8 @@ const ChatDetail = props => {
                   db.loadEarlier(setLoading);
                 },
               }}
+              maxInputLength={1024}
+              placeholder={'Write a message'}
             />
           </KeyboardAvoidingView>
         </View>
@@ -566,7 +572,7 @@ const ChatDetail = props => {
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
         <View style={{flex: 1, marginTop: 30, marginBottom: 10}}>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={-230}
+            keyboardVerticalOffset={-210}
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GiftedChat
@@ -591,6 +597,8 @@ const ChatDetail = props => {
                   db.loadEarlier(setLoading);
                 },
               }}
+              maxInputLength={1024}
+              placeholder={'Write a message'}
             />
           </KeyboardAvoidingView>
         </View>
@@ -600,7 +608,7 @@ const ChatDetail = props => {
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
           <View style={{flex: 1, marginTop: 30, marginBottom: 10}}>
             <KeyboardAvoidingView
-              keyboardVerticalOffset={-230}
+              keyboardVerticalOffset={-210}
               style={{flex: 1}}
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
               <GiftedChat
@@ -628,6 +636,8 @@ const ChatDetail = props => {
                     db.loadEarlier(setLoading);
                   },
                 }}
+                maxInputLength={1024}
+                placeholder={'Write a message'}
               />
             </KeyboardAvoidingView>
           </View>

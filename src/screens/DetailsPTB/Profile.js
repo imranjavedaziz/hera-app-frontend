@@ -13,7 +13,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import moment from 'moment';
 import openCamera from '../../utils/openCamera';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -52,8 +52,14 @@ import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
 import openWebView from '../../utils/openWebView';
-import {updateLocalImg} from '../../redux/actions/Auth';
+import {
+  deviceRegister,
+  updateLocalImg,
+  updateRegStep,
+} from '../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import DeviceInfo from 'react-native-device-info';
+import {NotificationContext} from '../../context/NotificationContextManager';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -72,6 +78,7 @@ const Profile = props => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [datePicked, onDateChange] = useState();
+  const {fcmToken} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
@@ -94,7 +101,14 @@ const Profile = props => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
       if (register_user_success) {
+        const _deviceInfo = {
+          device_id: DeviceInfo.getDeviceId(),
+          device_token: fcmToken,
+          device_type: Platform.OS,
+        };
+        dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         dispatch(updateLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       } else {

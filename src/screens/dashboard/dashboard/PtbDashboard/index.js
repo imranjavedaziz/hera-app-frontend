@@ -21,33 +21,31 @@ import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
-import { IconHeader } from '../../../../components/Header';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { getRoleType } from '../../../../utils/other';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPtbDashboard } from '../../../../redux/actions/PtbDashboard';
+import {IconHeader} from '../../../../components/Header';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {getRoleType} from '../../../../utils/other';
+import {useDispatch, useSelector} from 'react-redux';
+import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
 import {
   showAppLoader,
   hideAppLoader,
   showAppToast,
 } from '../../../../redux/actions/loader';
-import { deviceRegister } from '../../../../redux/actions/Auth';
-import { Routes } from '../../../../constants/Constants';
-import { deviceHandler } from '../../../../utils/commonFunction';
-import { MaterialIndicator } from 'react-native-indicators';
+import {Routes} from '../../../../constants/Constants';
+import {deviceHandler} from '../../../../utils/commonFunction';
+import {MaterialIndicator} from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
 import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import DeviceInfo from 'react-native-device-info';
-import { NotificationContext } from '../../../../context/NotificationContextManager';
-import { profileMatch } from '../../../../redux/actions/Profile_Match';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
+import {profileMatch} from '../../../../redux/actions/Profile_Match';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
-
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { dynamicSize, scaleWidth } from '../../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
+
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -62,7 +60,7 @@ const PtbDashboard = props => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-  const { fcmToken } = useContext(NotificationContext);
+  const {fcmToken} = useContext(NotificationContext);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
@@ -74,6 +72,21 @@ const PtbDashboard = props => {
   }, []);
   const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
+    if (subscriptionStatus && subscriptionStatus.data) {
+      if (!subscriptionStatus?.data.status) {
+        dispatch(
+          showAppToast(
+            true,
+            subscriptionStatus.data.is_trial
+              ? Strings.Subscription.TrailOver
+              : Strings.Subscription.SubscriptionExpired,
+          ),
+        );
+      }
+    }
+  }, [subscriptionStatus]);
+
+  useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
     }
@@ -83,25 +96,15 @@ const PtbDashboard = props => {
       return chats.find(o => {
         o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
       });
-
     }
-  });
+  }, []);
   useFocusEffect(
     useCallback(() => {
-      dispatch(showAppLoader())
       dispatch(getPtbDashboard());
       fetchData();
     }, [dispatch]),
   );
-  //Get device Info
-  useEffect(() => {
-    const _deviceInfo = {
-      device_id: DeviceInfo.getDeviceId(),
-      device_token: fcmToken,
-      device_type: Platform.OS,
-    };
-    dispatch(deviceRegister(_deviceInfo));
-  }, []);
+
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -114,7 +117,7 @@ const PtbDashboard = props => {
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
-            const { status } = JSON.parse(notification.data?.match_request);
+            const {status} = JSON.parse(notification.data?.match_request);
             if (status === 2) {
               navigation.navigate(Routes.ChatDetail, {
                 item: notification?.data,
@@ -165,10 +168,10 @@ const PtbDashboard = props => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      const { notification } = remoteMessage;
+      const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'profile') {
-          const { status } = JSON.parse(notification.data?.match_request);
+          const {status} = JSON.parse(notification.data?.match_request);
           if (status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
@@ -306,7 +309,7 @@ const PtbDashboard = props => {
           code={item?.user?.username}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
-          image={{ uri: item?.user?.profile_pic }}
+          image={{uri: item?.user?.profile_pic}}
           fadeAnim={fadeAnim}
           isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
@@ -337,12 +340,12 @@ const PtbDashboard = props => {
       rightIcon={Images.iconChat}
       chat={msgRead === true ? true : false}
       rightPress={() =>
-        navigation.navigate(Routes.Chat_Listing, { ptbChat: true })
+        navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
       }
       style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}
-      rightImg={{ marginRight: scaleWidth(18) }}
+      rightImg={{marginRight: scaleWidth(18)}}
       rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );

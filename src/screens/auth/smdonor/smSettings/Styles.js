@@ -10,6 +10,11 @@ export default {
     marginTop: Value.CONSTANT_VALUE_90,
     paddingHorizontal: 30,
   },
+  androidHeaderContainer: {
+    flex: Value.CONSTANT_VALUE_1,
+    marginTop: Value.CONSTANT_VALUE_59,
+    paddingHorizontal: 30,
+  },
   usernameText: {
     fontSize: Value.CONSTANT_VALUE_24,
     textAlign: Alignment.CENTER,
@@ -67,8 +72,12 @@ export default {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
+  androidHeaderIcon: {
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
   text: {
-    marginLeft: Value.CONSTANT_VALUE_18,
+    marginLeft: dynamicSize(Value.CONSTANT_VALUE_16),
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
@@ -92,6 +101,7 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_35,
+    width: '100%',
   },
   BtnContainer: {
     alignItems: Alignment.CENTER,
@@ -132,7 +142,7 @@ export default {
     paddingBottom: Value.CONSTANT_VALUE_300,
   },
   extraTxt: {
-    marginLeft: 15,
+    // marginLeft: 12,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   emptyCardContainer: {

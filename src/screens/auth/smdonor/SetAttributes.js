@@ -31,7 +31,7 @@ import {
   getUserAttribute,
   saveAttribute,
 } from '../../../redux/actions/SetAttribute';
-import {logOut} from '../../../redux/actions/Auth';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 import {Routes} from '../../../constants/Constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
@@ -82,6 +82,7 @@ const SetAttributes = ({route}) => {
     EditAttributes === true
       ? dispatch(saveAttribute(payload))
       : dispatch(saveAttribute(data));
+    EditAttributes !== true && dispatch(updateRegStep());
   };
   useFocusEffect(
     useCallback(() => {
@@ -277,7 +278,7 @@ const SetAttributes = ({route}) => {
   };
 
   const headerComp = () => {
-    if(EditAttributes){
+    if (EditAttributes) {
       return (
         <View style={globalStyle.cancelbtn}>
           <TouchableOpacity
@@ -294,7 +295,7 @@ const SetAttributes = ({route}) => {
             </Text>
           </TouchableOpacity>
         </View>
-      )
+      );
     }
     return (
       <>
@@ -318,7 +319,7 @@ const SetAttributes = ({route}) => {
           }}
         />
       </>
-    )
+    );
   };
 
   const logOutScreen = () => {

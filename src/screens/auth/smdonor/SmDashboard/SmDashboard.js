@@ -27,11 +27,9 @@ import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
-import {deviceRegister} from '../../../../redux/actions/Auth';
 import Styles from '../smSettings/Styles';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
-import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
@@ -94,25 +92,9 @@ const SmDashboard = ({route}) => {
         page: page,
         limit: 10,
       };
-      console.log('Hellooo');
       dispatch(getDonorDashboard(payload));
     }, [search, page, route?.params?.informationDetail]),
   );
-
-  //Get device Info
-  useEffect(() => {
-    async function fetchDeviceInfo() {
-      const deviceName = await DeviceInfo.getDeviceName();
-      const _deviceInfo = {
-        device_id: DeviceInfo.getDeviceId(),
-        device_token: fcmToken,
-        device_type: Platform.OS,
-      };
-      console.log(deviceName, 'deviceName');
-      dispatch(deviceRegister(_deviceInfo));
-    }
-    fetchDeviceInfo();
-  }, [dispatch, fcmToken]);
 
   //Push Notification
   useEffect(() => {
