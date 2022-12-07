@@ -8,6 +8,7 @@ export const Regx = {
   MOBILE_REGEX: /^[0]?[1-9]\d{9,10}$/,
   SPECIAL_CHAR: /[|#\\/~^:,;?!&%$@*+]/,
   ALPHA: /[a-zA-Z]/,
+  ALPHA_START: /^[A-Z]/i,
   ALPHA_LOWER: /[a-z]/,
   ALPHA_CAP: /[A-Z]/,
   NUM: /[0-9]/,
@@ -68,11 +69,15 @@ export const parentRegisterSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
@@ -80,7 +85,7 @@ export const parentRegisterSchema = yup.object().shape({
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
@@ -149,19 +154,23 @@ export const smRegisterSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, '')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
@@ -256,15 +265,19 @@ export const changePasswordSchema = yup.object().shape({
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
@@ -283,15 +296,19 @@ export const forgetPasswordSchema = yup.object().shape({
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()

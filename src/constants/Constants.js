@@ -157,7 +157,7 @@ export const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8;
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value);
+        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value) && Regx.ALPHA_START.test(value);
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value);
       case validationType.CAPSLOCK:
