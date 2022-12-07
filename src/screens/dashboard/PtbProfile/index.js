@@ -167,7 +167,6 @@ const PtbProfile = () => {
     dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
-    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
@@ -222,7 +221,7 @@ const PtbProfile = () => {
               {typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
                 (subscriptionStatus.data?.is_trial ||
-                  !subscriptionStatus.data?.status === 0) && (
+                  !subscriptionStatus.data?.status == 0) && (
                   <Subscribe
                     Icon={Images.STAR}
                     MainText={Strings.subscribe.Subscribe_Now}

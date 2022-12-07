@@ -10,7 +10,6 @@ import {
 import {Value} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
 import {Colors} from '../../../../constants';
-
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
@@ -55,32 +54,31 @@ export default {
     width: scaleWidth(340),
   },
   emptyCardContainer: {
+    marginTop: Value.CONSTANT_VALUE_263,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_263,
   },
   sryText: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
-    fontFamily: Fonts.OpenSansBold,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   innerText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     color: Colors.BLACK,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
   innerText2: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.BLACK,
   },
   headerIcon: {
-    // paddingTop: Value.CONSTANT_VALUE_5,
     bottom: 10,
   },
   likeButton: {

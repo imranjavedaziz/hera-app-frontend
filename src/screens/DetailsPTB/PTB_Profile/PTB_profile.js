@@ -7,27 +7,23 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Images from '../../../constants/Images';
-import Header, {IconHeader} from '../../../components/Header';
+import Header, { IconHeader } from '../../../components/Header';
 import Strings from '../../../constants/Strings';
 import Alignment from '../../../constants/Alignment';
 import Video from 'react-native-video';
 import styles from './Styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  getPtbProfileDetail,
-  sendLikePtb,
-} from '../../../redux/actions/PtbProfileDetail';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPtbProfileDetail, sendLikePtb, } from '../../../redux/actions/PtbProfileDetail';
 import {
   showAppLoader,
   hideAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import {Routes} from '../../../constants/Constants';
-import {MaterialIndicator} from 'react-native-indicators';
-import {height, width} from '../../../utils/responsive';
+import { Routes } from '../../../constants/Constants';
+import { MaterialIndicator } from 'react-native-indicators';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 const PTB_profile = props => {
@@ -62,7 +58,6 @@ const PTB_profile = props => {
     get_ptb_profile_detail_res,
     dispatch,
   ]);
-
   useEffect(() => {
     if (LoadinfRef.current && !send_like_ptb_loading) {
       dispatch(showAppLoader());
@@ -74,16 +69,8 @@ const PTB_profile = props => {
       }
     }
     LoadinfRef.current = send_like_ptb_loading;
-  }, [
-    send_like_ptb_success,
-    send_like_ptb_loading,
-    send_like_ptb_res,
-    dispatch,
-  ]);
-  const {
-    params: {userid},
-  } = useRoute();
-
+  }, [send_like_ptb_success, send_like_ptb_loading, send_like_ptb_res, dispatch]);
+  const { params: { userid } } = useRoute();
   useEffect(() => {
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
@@ -95,34 +82,21 @@ const PTB_profile = props => {
       style={styles.headerIcon}
     />
   );
-
   const FadeInView = props => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     useEffect(() => {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 800,
-        useNativeDriver: true,
-      }).start();
+      Animated.timing(fadeAnim, { toValue: 1, duration: 800, useNativeDriver: true, }).start();
     }, [fadeAnim]);
     return (
       <Animated.View
-        style={{
-          ...props.style,
-          opacity: fadeAnim,
-        }}>
+        style={{ ...props.style, opacity: fadeAnim }}>
         {props.children}
       </Animated.View>
     );
   };
-  const IMG_CONDI =
-    islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
-
+  const IMG_CONDI = islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
   const onPressDislike = () => {
-    const payload = {
-      to_user_id: userid,
-      status: 3,
-    };
+    const payload = { to_user_id: userid, status: 3, };
     dispatch(sendLikePtb(payload));
     setIsVisibleLogo(true);
     setIslikedLogo('disliked');
@@ -133,10 +107,7 @@ const PTB_profile = props => {
     }, 2000);
   };
   const onPresslike = () => {
-    const payload = {
-      to_user_id: userid,
-      status: 1,
-    };
+    const payload = {to_user_id: userid,status: 1};
     dispatch(sendLikePtb(payload));
     setIsVisibleLogo(true);
     setIslikedLogo('liked');
@@ -146,7 +117,6 @@ const PTB_profile = props => {
       navigation.navigate(Routes.SmDashboard);
     }, 2000);
   };
-  console.log(stateRes, 'stateRes:::::::::::::');
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -170,9 +140,7 @@ const PTB_profile = props => {
               <View style={styles.profileImg}>
                 <FastImage
                   style={styles.profileLogo}
-                  source={{
-                    uri: stateRes?.profile_pic,
-                  }}
+                  source={{ uri: stateRes?.profile_pic, }}
                 />
               </View>
               <Text style={styles.profileType}>{Strings.PTB_Profile.type}</Text>
@@ -184,21 +152,10 @@ const PTB_profile = props => {
                 </Text>
               </View>
               <View>
-                <ImageBackground
-                  source={Images.QUOTES}
-                  style={styles.bioBackground}
-                />
+                <ImageBackground source={Images.QUOTES} style={styles.bioBackground} />
                 {isVisibleLogo && (
                   <FadeInView>
-                    <ImageBackground
-                      style={{
-                        flex: 1,
-                        position: 'absolute',
-                        left: 80,
-                        top: 0,
-                        bottom: 0,
-                        width: width,
-                      }}>
+                    <ImageBackground style={styles.imgCondi}>
                       <Image style={styles.iconImage} source={IMG_CONDI} />
                     </ImageBackground>
                   </FadeInView>
@@ -207,8 +164,8 @@ const PTB_profile = props => {
                   {stateRes?.user_profile?.bio}
                 </Text>
               </View>
-              <View style={{flexDirection: Alignment.ROW}}>
-                <View style={{flexDirection: Alignment.ROW}}>
+              <View style={{ flexDirection: Alignment.ROW }}>
+                <View style={{ flexDirection: Alignment.ROW }}>
                   {stateRes?.user_profile?.gender && (
                     <View style={styles.highlits}>
                       <Text style={styles.highlitsText}>
@@ -254,17 +211,13 @@ const PTB_profile = props => {
             {stateRes?.profile_match_request?.status !== 2 && (
               <Pressable
                 style={styles.sendMsgBtn}
-                onPress={() => {
-                  onPresslike();
-                }}>
+                onPress={() => { onPresslike() }}>
                 <Image source={Images.HEARTH_ICON} />
                 <Text style={styles.sendMsgText}>
-                  {' '}
                   {Strings.PTB_Profile.send_request}
                 </Text>
               </Pressable>
             )}
-
             {stateRes?.profile_match_request?.status === 2 && (
               <View style={styles.dateTextView}>
                 <Image source={Images.HEARTH_ICON} />
@@ -273,34 +226,22 @@ const PTB_profile = props => {
                 </Text>
               </View>
             )}
-
             {props?.route?.params?.seeAll && (
               <Pressable
                 style={styles.sendMsgBtnDis}
-                onPress={() => {
-                  onPressDislike();
-                }}>
+                onPress={() => { onPressDislike() }}>
                 <Image source={Images.RED_CROSS_ICON} />
                 <Text style={styles.sendMsgText}>
-                  {' '}
                   {Strings.donorPofile.Not_interested}
                 </Text>
               </Pressable>
             )}
           </View>
         ) : (
-          <MaterialIndicator
-            color="#a3c6c4"
-            style={{
-              justifyContent: Alignment.CENTER,
-              alignItems: Alignment.CENTER,
-              marginTop: height / 2.5,
-            }}
-          />
+          <MaterialIndicator color="#a3c6c4" style={styles.indicator} />
         )}
       </ScrollView>
     </View>
   );
 };
-
-export default PTB_profile;
+export default React.memo(PTB_profile);

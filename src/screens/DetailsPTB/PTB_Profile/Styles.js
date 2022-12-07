@@ -1,8 +1,8 @@
-import {Fonts} from '../../../constants/Constants';
+import { Fonts } from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
-import {Value} from '../../../constants/FixedValues';
+import { Value } from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, scaleWidth} from '../../../utils/responsive';
+import { dynamicSize, scaleWidth, height, width } from '../../../utils/responsive';
 
 export default {
   profileLogo: {
@@ -15,8 +15,8 @@ export default {
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
     marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
   },
-  flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
-  colorText: {color: Colors.BLACK},
+  flex: { flex: 1, backgroundColor: Colors.BACKGROUND },
+  colorText: { color: Colors.BLACK },
   location: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
@@ -180,5 +180,18 @@ export default {
     color: Colors.BLACK,
     marginLeft: 7,
   },
-  dateTextView: {flexDirection:Alignment.ROW, marginTop: 51},
+  dateTextView: { flexDirection: Alignment.ROW, marginTop: 51 },
+  imgCondi: {
+    flex: 1,
+    position: 'absolute',
+    left: 80,
+    top: 0,
+    bottom: 0,
+    width: width,
+  },
+  indicator: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    marginTop: height / 2.5,
+  },
 };

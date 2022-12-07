@@ -1,16 +1,15 @@
 import {
   Text,
   View,
-  Image,
   TouchableOpacity,
   Platform,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useState, useRef, useCallback} from 'react';
-import Header, {IconHeader} from '../../../../components/Header';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import Header, { IconHeader } from '../../../../components/Header';
 import Images from '../../../../constants/Images';
-import {useSelector, useDispatch} from 'react-redux';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Strings from '../../../../constants/Strings';
 import Styles from './Styles';
 import {
@@ -19,22 +18,22 @@ import {
   TERMS_OF_USE_URL,
   PRIVACY_URL,
 } from '../../../../constants/Constants';
-import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';
+import { updateProfileImg, logOut } from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../../components';
+import { BottomSheetComp } from '../../../../components';
 import ProfileImage from '../../../../components/dashboard/PtbProfile/ProfileImage';
-import {Alignment} from '../../../../constants';
-import {getEditProfile} from '../../../../redux/actions/Edit_profile';
+import { Alignment } from '../../../../constants';
+import { getEditProfile } from '../../../../redux/actions/Edit_profile';
 import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
 } from '../../../../redux/actions/loader';
 import openWebView from '../../../../utils/openWebView';
-import {getRoleType} from '../../../../utils/other';
-import {getUserGallery} from '../../../../redux/actions/CreateGallery';
+import { getRoleType } from '../../../../utils/other';
+import { getUserGallery } from '../../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import PtbAccount, {
   ToggleNotification,
@@ -61,10 +60,10 @@ const SmDonorSettings = () => {
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
   const LogoutLoadingRef = useRef(false);
-  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+  const { log_out_success, log_out_loading, log_out_error_msg } = useSelector(
     state => state.Auth,
   );
-  const {gallery_data, gallery_success, gallery_loading} = useSelector(
+  const { gallery_data, gallery_success, gallery_loading } = useSelector(
     state => state.CreateGallery,
   );
   useFocusEffect(
@@ -183,7 +182,6 @@ const SmDonorSettings = () => {
   }, [file, dispatch]);
 
   const logoutScreen = () => {
-    // dispatch(showAppLoader());
     dispatch(logOut());
     navigation.navigate(Routes.Landing);
   };
@@ -207,13 +205,11 @@ const SmDonorSettings = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={`${
-                  name?.first_name === undefined ? first_name : name?.first_name
-                } ${
-                  name?.middle_name === undefined || name?.middle_name === null
+                Name={`${name?.first_name === undefined ? first_name : name?.first_name
+                  } ${name?.middle_name === undefined || name?.middle_name === null
                     ? ''
                     : name?.middle_name
-                }`}
+                  }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
@@ -244,7 +240,7 @@ const SmDonorSettings = () => {
               leftIcon={Images.person}
               title={Strings.smSetting.EditProfile}
               onPress={() => {
-                navigation.navigate(Routes.EditProfile, {smProfile: true});
+                navigation.navigate(Routes.EditProfile, { smProfile: true });
               }}
               BlueDot={name?.email_verified === 0 ? true : false}
             />
@@ -321,4 +317,4 @@ const SmDonorSettings = () => {
   );
 };
 
-export default SmDonorSettings;
+export default React.memo(SmDonorSettings);

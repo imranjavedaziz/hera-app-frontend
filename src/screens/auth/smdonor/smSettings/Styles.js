@@ -6,14 +6,14 @@ import {dynamicSize, normalizeFont, px} from '../../../../utils/responsive';
 
 export default {
   headerContainer: {
-    flex: Value.CONSTANT_VALUE_1,
     marginTop: Value.CONSTANT_VALUE_90,
+    flex: Value.CONSTANT_VALUE_1,
     paddingHorizontal: 30,
   },
   androidHeaderContainer: {
     flex: Value.CONSTANT_VALUE_1,
-    marginTop: Value.CONSTANT_VALUE_59,
     paddingHorizontal: 30,
+    marginTop: Value.CONSTANT_VALUE_59,
   },
   usernameText: {
     fontSize: Value.CONSTANT_VALUE_24,
@@ -151,10 +151,10 @@ export default {
     marginTop: Value.CONSTANT_VALUE_263,
   },
   sryText: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
-    fontFamily: Fonts.OpenSansBold,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   innerText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
@@ -164,10 +164,10 @@ export default {
     color: Colors.BLACK,
   },
   innerText2: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     textAlign: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
-    fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
   },
 };
