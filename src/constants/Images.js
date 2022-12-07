@@ -89,4 +89,5 @@ export default {
   WHITE_GREEN_HEART: require('../assets/icons/whitegreenbackground/whitegreenbackground.png'),
   BLUR_BACKGROUND: require('../assets/Images/rectangleBlur/rectangleBlur.png'),
   iconDarkMore: require('../assets/icons/iconDarkMore/iconDarkMore.png'),
+  iconBig: require('../assets/icons/iconBig/iconbigheart.png'),
 };

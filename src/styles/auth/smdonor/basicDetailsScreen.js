@@ -1,7 +1,11 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {scaleWidth, normalizeFont, dynamicSize} from '../../../utils/responsive';
+import {
+  scaleWidth,
+  normalizeFont,
+  dynamicSize,
+} from '../../../utils/responsive';
 
 export default {
   flex_1: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
@@ -56,6 +60,10 @@ export default {
   fixedheaderStyle: {
     marginRight: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_45,
+  },
+  andoridFixedheaderStyle: {
+    marginRight: Value.CONSTANT_VALUE_20,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_13),
   },
   paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
   centeredView: {

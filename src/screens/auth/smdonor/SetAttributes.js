@@ -491,6 +491,7 @@ const SetAttributes = ({route}) => {
                   }}
                   required={true}
                   error={errors && errors.education_id?.message}
+                  education={true}
                 />
               )}
               name="education_id"

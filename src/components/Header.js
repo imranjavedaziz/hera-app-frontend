@@ -75,8 +75,8 @@ const styles = {
     zIndex: 9999,
     borderStyle: Alignment.SOLID,
     borderWidth: Value.CONSTANT_VALUE_1,
-    top: Value.CONSTANT_VALUE_5,
     borderColor: Colors.WHITE,
+    marginRight: Value.CONSTANT_VALUE_30,
   },
 };
 export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (

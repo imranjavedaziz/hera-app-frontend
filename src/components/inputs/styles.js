@@ -97,6 +97,16 @@ export default {
     bottom: -25,
     right: 0,
   },
+  errMessage_1: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    right: 0,
+  },
   rowStyle: {
     width: Prencentage.PRECENTAGE_100,
     borderBottomWidth: Value.CONSTANT_VALUE_0,

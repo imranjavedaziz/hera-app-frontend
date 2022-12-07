@@ -67,21 +67,14 @@ const SmDashboard = ({route}) => {
   }, []);
 
   useEffect(() => {
-    fetchData();
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
-    }
-    if (_.isEmpty(chats)) {
-      setMsgRead(false);
-    } else {
-      return chats.find(o => {
-        o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
-      });
     }
   }, [navigation, route?.name]);
 
   useFocusEffect(
     useCallback(() => {
+      fetchData();
       dispatch(showAppLoader());
       let payload = {
         keyword: search ? search : '',
@@ -93,6 +86,13 @@ const SmDashboard = ({route}) => {
         limit: 10,
       };
       dispatch(getDonorDashboard(payload));
+      if (_.isEmpty(chats)) {
+        setMsgRead(false);
+      } else {
+        return chats.find(o => {
+          o?.read == 0 ? setMsgRead(true) : setMsgRead(false);
+        });
+      }
     }, [search, page, route?.params?.informationDetail]),
   );
 
