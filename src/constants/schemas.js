@@ -27,6 +27,10 @@ const REG_OBJ = {
       message: ValidationMessages.INVALID_MOBILE,
     }),
 }
+const TERNARYEXT = parent?.role === '4'
+  ? Strings.sm_register.Egg_Donar_error
+  : Strings.sm_register.Sperm_Donar_error;
+
 export const mobileSchema = yup.object().shape(REG_OBJ);
 export const otpSchema = yup.object().shape({
   otp: yup.string().required(ValidationMessages.OTP_REQUIRED),

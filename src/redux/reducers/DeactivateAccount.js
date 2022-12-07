@@ -8,12 +8,12 @@ import {
 } from '../Type';
 
 const initState = {
-  // CREATE
+  /*  CREATE */
   deactivate_account_success: false,
   deactivate_account_loading: false,
   deactivate_account_error_msg: '',
   deactivate_account_res: '',
-  // REASON LIST
+  /*  REASON LIST  */
   get_reason_list_success: false,
   get_reason_list_loading: false,
   get_reason_list_error_msg: '',

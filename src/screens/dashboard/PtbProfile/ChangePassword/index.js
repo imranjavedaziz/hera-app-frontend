@@ -17,22 +17,14 @@ import { useNavigation, StackActions } from '@react-navigation/native';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Value } from '../../../../constants/FixedValues';
-import {
-  validatePassword,
-  pwdErrMsg,
-  Fonts,
-  ConstantsCode,
-} from '../../../../constants/Constants';
-import {
-  changePasswordSchema,
-  forgetPasswordSchema,
-} from '../../../../constants/schemas';
+import { validatePassword, pwdErrMsg, Fonts, ConstantsCode } from '../../../../constants/Constants';
+import { changePasswordSchema, forgetPasswordSchema, } from '../../../../constants/schemas';
 import { Button, FloatingLabelInput } from '../../../../components';
 import User from '../../../../Api/User';
 import { logIn } from '../../../../redux/actions/Auth';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const HeaderComp = ({type}) => {
+const HeaderComp = ({ type }) => {
   const navigation = useNavigation();
   if (type === 2) {
     return (
@@ -59,7 +51,7 @@ const HeaderComp = ({type}) => {
     </View>
   );
 };
-const ChangePassword = ({route}) => {
+const ChangePassword = ({ route }) => {
   const navigation = useNavigation();
   const { type } = route.params;
   const dispatch = useDispatch();
@@ -107,7 +99,7 @@ const ChangePassword = ({route}) => {
   return (
     <>
       <Header end={true}>
-        <HeaderComp type={type}/>
+        <HeaderComp type={type} />
       </Header>
       <ScrollView
         showVerticalIndicatot={false}
