@@ -73,11 +73,11 @@ export const parentRegisterSchema = yup.object().shape({
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_START, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
@@ -85,7 +85,7 @@ export const parentRegisterSchema = yup.object().shape({
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
@@ -154,23 +154,23 @@ export const smRegisterSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, '')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_START, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
@@ -265,19 +265,19 @@ export const changePasswordSchema = yup.object().shape({
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_START, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
