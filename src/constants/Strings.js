@@ -35,7 +35,7 @@ export const ValidationMessages = {
   // PASSWORD_MIN: 'Minimum 8 characters',
   SPECIAL_CHAR: 'Must have atleast 1 special character',
   // SPECIAL_CHAR: 'Atleast 1 special character',
-  ALPHA_NUM: 'Must be Alphanumeric',
+  ALPHA_NUM: 'Must be Alphanumeric and 1st letter as alphabet',
   INVALID_OTP: 'OTP is not valid',
   LOCATION: 'Please select your Location preference',
   MAX_FIRST_NAME: 'First name must be at most 30 characters',
@@ -274,6 +274,7 @@ export default {
     video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
     ReceiveNoti: 'Receive Notifications',
+    YouMatched:'You had matched on',
     ReceiveNotiDesc: 'You can choose to turn off notifications. However, you will still receive subscription notifications.'
   },
   donorPofile: {

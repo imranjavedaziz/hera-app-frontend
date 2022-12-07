@@ -21,7 +21,7 @@ import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
 import {height} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
-import {verifyOtp, mobileNumber} from '../../redux/actions/Auth';
+import {verifyOtp, mobileNumber,resetMobile} from '../../redux/actions/Auth';
 import {
   verifyEmail,
   sendVerificationMail,
@@ -115,13 +115,8 @@ const OTP = ({route}) => {
   }, [verify_mail_success, verify_mail_loading, verify_mail_error_msg]);
   useEffect(() => {
     if (loadingRef.current && !mobile_number_loading) {
-      dispatch(showAppLoader());
       if (mobile_number_success) {
-        dispatch(hideAppLoader());
         dispatch(showAppToast(false, 'OTP send again successfully!'));
-      }
-      if (mobile_number_error_msg) {
-        dispatch(hideAppLoader());
       }
     }
     loadingRef.current = mobile_number_loading;
@@ -192,7 +187,10 @@ const OTP = ({route}) => {
     <CircleBtn
       icon={Images.iconBack}
       Fixedstyle={styles.leftIcon}
-      onPress={navigation.goBack}
+      onPress={()=>{
+        dispatch(resetMobile());
+        navigation.goBack();
+      }}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
@@ -203,7 +201,6 @@ const OTP = ({route}) => {
         phone_no: isRouteData.phone_no,
         type,
       };
-      dispatch(showAppLoader());
       dispatch(mobileNumber(payload));
     } else {
       dispatch(sendVerificationMail());

@@ -126,7 +126,6 @@ export default {
     marginHorizontal: Value.CONSTANT_VALUE_20,
     marginVertical: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_80,
-    //width:Value.CONSTANT_VALUE_296,
   },
   sendMsgBtnDis: {
     flexDirection: Alignment.ROW,
@@ -175,4 +174,11 @@ export default {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
   },
+  dateText: {
+    fontFamily: Fonts.OpenSansLightItalic,
+    fontSize: Value.CONSTANT_VALUE_15,
+    color: Colors.BLACK,
+    marginLeft: 7,
+  },
+  dateTextView: {flexDirection:Alignment.ROW, marginTop: 51},
 };

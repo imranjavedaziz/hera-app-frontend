@@ -62,7 +62,7 @@ export default {
   },
   passwordCheck: {
     flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
+    alignItems: Alignment.FLEX_START,
   },
   fullWidth: {
     paddingHorizontal: Value.CONSTANT_VALUE_40,

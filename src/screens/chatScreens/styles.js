@@ -61,8 +61,11 @@ export default {
   mainContainerDetail: {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',
-    borderRadius: 15,
+   borderRadius: 24,
+   paddingVertical:5,
     marginHorizontal: 15,
+    justifyContent:'center',
+    textAlign:'center'
 
   },
   border: {

@@ -33,7 +33,7 @@ import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
-
+import moment from 'moment';
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
@@ -381,6 +381,17 @@ const DashboardDetailScreen = () => {
                     style={styles.imageDemo2}
                     paused={true}
                   />
+                </View>
+              )}
+              {smDetailRes?.profile_match_request?.status === 2 && (
+                <View style={styles.dateTextView}>
+                  <Image source={Images.HEARTH_ICON} />
+                  <Text style={styles.dateText}>
+                    {Strings.PTB_Profile.YouMatched}{' '}
+                    {moment(smDetailRes?.profile_match_request?.updated_at).format(
+                      'MMM DD,YYYY',
+                    )}
+                  </Text>
                 </View>
               )}
               {smDetailRes?.profile_match_request?.status !== 2 && (

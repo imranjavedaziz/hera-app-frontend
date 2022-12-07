@@ -27,6 +27,7 @@ import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../context/NotificationContextManager';
+import normalizeInput from '../../utils/normalizeInput';
 
 const type = 2;
 const Login = props => {
@@ -102,30 +103,6 @@ const Login = props => {
     dispatch(showAppLoader());
     setPayloadData(payload);
     dispatch(logIn(payload));
-  };
-
-  const normalizeInput = (value, previousValue) => {
-    const deleting = previousValue && previousValue.length > value.length;
-    if (deleting) {
-      return value.replace(/[^\w]/g, '');
-    }
-    if (!value) {
-      return value;
-    }
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length;
-    if (!previousValue || value.length > previousValue.length) {
-      if (cvLength < 4) {
-        return currentValue;
-      }
-      if (cvLength < 7) {
-        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
-      }
-      return `${currentValue.slice(0, 3)} ${currentValue.slice(
-        3,
-        6,
-      )} (${currentValue.slice(6, 10)})`;
-    }
   };
   const handelChange = async value => {
     reset({phone: '', password: getValues('password')});

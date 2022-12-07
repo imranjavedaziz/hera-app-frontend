@@ -29,7 +29,7 @@ import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
 import {height, width} from '../../../utils/responsive';
 import FastImage from 'react-native-fast-image';
-
+import moment from 'moment';
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
@@ -146,6 +146,7 @@ const PTB_profile = props => {
       navigation.navigate(Routes.SmDashboard);
     }, 2000);
   };
+  console.log(stateRes, 'stateRes:::::::::::::');
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -262,6 +263,15 @@ const PTB_profile = props => {
                   {Strings.PTB_Profile.send_request}
                 </Text>
               </Pressable>
+            )}
+
+            {stateRes?.profile_match_request?.status === 2 && (
+              <View style={styles.dateTextView}>
+                <Image source={Images.HEARTH_ICON} />
+                <Text style={styles.dateText}>
+                  {Strings.PTB_Profile.YouMatched} {moment(stateRes?.profile_match_request?.updated_at).format('MMM DD,YYYY')}
+                </Text>
+              </View>
             )}
 
             {props?.route?.params?.seeAll && (
