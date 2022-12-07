@@ -43,6 +43,7 @@ import {
 import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import normalizeInput from '../../../utils/normalizeInput';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -235,29 +236,6 @@ const EditProfile = props => {
       </TouchableOpacity>
     </View>
   );
-  const normalizeInput = (value, previousValue) => {
-    const deleting = previousValue && previousValue.length > value?.length;
-    if (deleting) {
-      return value;
-    }
-    if (!value) {
-      return value;
-    }
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length;
-    if (!previousValue || value?.length > previousValue.length) {
-      if (cvLength < 4) {
-        return currentValue;
-      }
-      if (cvLength < 7) {
-        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
-      }
-      return `${currentValue.slice(0, 3)} ${currentValue.slice(
-        3,
-        6,
-      )} (${currentValue.slice(6, 10)})`;
-    }
-  };
   const handelChange = async value => {
     reset({phone: ''});
 

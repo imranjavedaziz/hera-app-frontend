@@ -107,7 +107,7 @@ const ChangePassword = ({route}) => {
   return (
     <>
       <Header end={true}>
-        <HeaderComp type={type}/>  
+        <HeaderComp type={type}/>
       </Header>
       <ScrollView
         showVerticalIndicatot={false}

@@ -35,6 +35,8 @@ import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
 import {BottomSheetComp} from '../../../../components';
 
+const images = [];
+const counter = 0;
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -59,12 +61,12 @@ const Gallery = () => {
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, _setImages] = useState([]);
+  // const [images, _setImages] = useState([]);
+  // const [counter, _setCounter] = useState(0);
   const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-  const [counter, _setCounter] = useState(0);
 
   const videoRef = useRef();
   const {
