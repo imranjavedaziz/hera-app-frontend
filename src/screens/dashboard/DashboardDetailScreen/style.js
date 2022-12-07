@@ -8,6 +8,7 @@ import {
   normalizeFont,
   scaleHeight,
   scaleWidth,
+  width,
 } from '../../../utils/responsive';
 export default {
   mainContainer: {
@@ -16,10 +17,6 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
-  imageOverlayWrapper: {
-    position: Alignment.RELATIVE,
-    overflow: Alignment.HIDDEN,
-  },
   bioContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
   },
@@ -180,11 +177,14 @@ export default {
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
   },
+  imagePlaceholder: {
+    backgroundColor: '#E2E1D8',
+  },
   dateText: {
     fontFamily: Fonts.OpenSansLightItalic,
     fontSize: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
     marginLeft: 7,
   },
-  dateTextView: {flexDirection:Alignment.ROW, marginTop: 51},
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
 };

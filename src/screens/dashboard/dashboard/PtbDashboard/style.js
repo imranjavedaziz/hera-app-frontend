@@ -13,7 +13,7 @@ import {Colors} from '../../../../constants';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
+    paddingTop: dynamicSize(45),
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -28,6 +28,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
+    bottom: px(25),
   },
   androidInnerContainer: {
     flexDirection: Alignment.ROW,
@@ -35,6 +36,7 @@ export default {
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
     marginTop: px(Value.CONSTANT_VALUE_10),
+    bottom: px(25),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -48,6 +50,7 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     bottom: Value.CONSTANT_VALUE_2_34,
+    marginTop: Value.CONSTANT_VALUE_32_7,
   },
   ImageSize: {
     height: scaleHeight(445),
@@ -79,7 +82,8 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   headerIcon: {
-    bottom: 10,
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    // bottom: 10,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),
