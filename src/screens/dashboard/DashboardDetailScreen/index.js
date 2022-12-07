@@ -275,17 +275,14 @@ const DashboardDetailScreen = () => {
               </View>
 
               <View style={global.dynamicMarginBottom(8)}>
-                {isVisibleLogo ? (
-                  <FadeInView />
-                ) : (
-                  <ImageBackground
-                    imageStyle={styles.backgroundImage}
-                    source={Images.iconComma}>
-                    <Text style={styles.Description}>
-                      {smDetailRes?.user_profile?.bio}
-                    </Text>
-                  </ImageBackground>
-                )}
+                {isVisibleLogo && <FadeInView />}
+                <ImageBackground
+                  imageStyle={styles.backgroundImage}
+                  source={Images.iconComma}>
+                  <Text style={styles.Description}>
+                    {smDetailRes?.user_profile?.bio}
+                  </Text>
+                </ImageBackground>
               </View>
               {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
                 .length < 20 ? (

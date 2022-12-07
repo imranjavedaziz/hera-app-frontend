@@ -52,7 +52,11 @@ import {deviceHandler} from '../../utils/commonFunction';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../components';
 import openWebView from '../../utils/openWebView';
-import {deviceRegister, updateLocalImg} from '../../redux/actions/Auth';
+import {
+  deviceRegister,
+  updateLocalImg,
+  updateRegStep,
+} from '../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../context/NotificationContextManager';
@@ -104,6 +108,7 @@ const Profile = props => {
         };
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         dispatch(updateLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       } else {
