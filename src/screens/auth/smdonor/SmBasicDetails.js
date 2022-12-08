@@ -21,7 +21,7 @@ import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
-import {Routes} from '../../../constants/Constants';
+import {Routes, ABOUT_URL} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import {Value} from '../../../constants/FixedValues';
@@ -42,6 +42,7 @@ import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
 import {dynamicSize} from '../../../utils/responsive';
+import openWebView from '../../../utils/openWebView';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -396,12 +397,20 @@ const SmBasicDetails = () => {
         isOpen={isOpen}
         setOpen={setOpen}>
         <View style={globalStyle.basicSheetContainer}>
-          <TouchableOpacity style={globalStyle.formBtn}>
+          <TouchableOpacity
+            style={globalStyle.formBtn}
+            onPress={() => {
+              navigation.navigate('Support');
+            }}>
             <Text style={globalStyle.formText}>
-              {Strings.bottomSheet.Inquiry_Form}
+              {Strings.smSetting.Inquiry}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.heraBtn}>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}
+            onPress={() => {
+              openWebView(ABOUT_URL);
+            }}>
             <Text style={globalStyle.heraText}>
               {Strings.bottomSheet.About_HERA}
             </Text>

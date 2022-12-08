@@ -10,6 +10,7 @@ export default {
   },
   flex: {
     flex: 1,
+    // backgroundColor: 'pink',
   },
   mainContainer: {
     backgroundColor: Colors.BACKGROUND_WHOLE,

@@ -62,7 +62,6 @@ const DashboardDetailScreen = () => {
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
   }, [dispatch, userId]);
-  console.log('LINE NO 63', _setImages);
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_sm_donor_loading) {
