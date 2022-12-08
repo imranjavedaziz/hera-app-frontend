@@ -106,9 +106,9 @@ const ChatDetail = props => {
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
-    if (fireDB.messages.length > 1) {
+   
       await fireDB.readMessage();
-    }
+
 
     fireDB.lastIdInSnapshot = now;
     setDB(fireDB);
