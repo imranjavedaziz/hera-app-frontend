@@ -34,7 +34,7 @@ import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
 import {getRoleType} from '../../../utils/other';
-
+import {empty} from '../../../redux/actions/Chat';
 const PtbProfile = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
@@ -141,6 +141,7 @@ const PtbProfile = () => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
+        dispatch(empty())
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
       } else {
@@ -166,7 +167,6 @@ const PtbProfile = () => {
   }, [file, dispatch]);
   const logoutScreen = () => {
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
   const videoAvaible = () => {
     if (_.isEmpty(gallery_data?.doner_video_gallery)) {

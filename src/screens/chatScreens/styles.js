@@ -62,7 +62,6 @@ export default {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',
     borderRadius: 24,
-    paddingVertical: 8,
     marginHorizontal: 15,
     justifyContent: Alignment.CENTER,
     textAlign: Alignment.CENTER,
@@ -70,7 +69,6 @@ export default {
   border: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
     borderBottomColor: Colors.COLOR_228226216,
-    marginTop: Value.CONSTANT_VALUE_16,
   },
   titleText: {
     fontFamily: Fonts.OpenSansBold,
@@ -99,7 +97,7 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.SPACE_BETWEEN,
-    marginTop: 40,
+   paddingVertical: 20,
     paddingHorizontal: 20,
   },
   thumbContain: color => ({

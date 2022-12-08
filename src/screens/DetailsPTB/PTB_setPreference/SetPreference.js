@@ -191,8 +191,9 @@ const SetPreference = ({ route, navigation }) => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
-        dispatch(hideAppLoader());
         dispatch(empty())
+        dispatch(hideAppLoader());
+
         navigation.navigate(Routes.Landing);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
@@ -254,7 +255,6 @@ const SetPreference = ({ route, navigation }) => {
 
   const logOutScreen = () => {
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);

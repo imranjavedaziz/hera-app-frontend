@@ -31,31 +31,31 @@ const Chat_listing_Comp = props => {
         <TouchableOpacity
           style={styles.innerContainer}
           onPress={() => onPress()}>
-          <View style={styles.contain}>
-            <View
-              style={
-                (match === 2 && chatStart !== 1) || read === 0
-                  ? styles.ImgView
-                  : styles.unReadImgView
-              }>
-              {status_id !== 1 && (
-                <FastImage
-                  style={styles.userImg}
-                  source={Images.defaultProfile}
-                />
-              )}
-              {status_id === 1 && (
-                <FastImage style={styles.userImg} source={{uri: image}} />
-              )}
+          <View
+            style={
+              (match === 2 && chatStart !== 1) || read === 0
+                ? styles.ImgView
+                : styles.unReadImgView
+            }>
+            {status_id !== 1 && (
+              <FastImage
+                style={styles.userImg}
+                source={Images.defaultProfile}
+              />
+            )}
+            {status_id === 1 && (
+              <FastImage style={styles.userImg} source={{uri: image}} />
+            )}
 
-              {match === 2 && chatStart !== 1 && (
-                <FastImage
-                  style={styles.heartIcon}
-                  source={Images.WHITE_GREEN_HEART}
-                />
-              )}
-            </View>
-            <View style={styles.description}>
+            {match === 2 && chatStart !== 1 && (
+              <FastImage
+                style={styles.heartIcon}
+                source={Images.WHITE_GREEN_HEART}
+              />
+            )}
+          </View>
+          <View style={[styles.description, {flexDirection: 'row'}]}>
+            <View style={{maxWidth: 190}}>
               {status_id !== 1 ? (
                 <Text style={styles.userName}>
                   {Strings.Chat.INACTIVE_USER}
@@ -75,11 +75,11 @@ const Chat_listing_Comp = props => {
                 </Text>
               )}
             </View>
-          </View>
-          <View style={styles.timeView}>
-            <Text style={styles.time}>{time}</Text>
-            {read === 0 && <View style={styles.recentmsg} />}
-            {read !== 0 && <View style={{marginTop: 20}} />}
+            <View style={styles.timeView}>
+              <Text style={styles.time}>{time}</Text>
+              {read === 0 && <View style={styles.recentmsg} />}
+              {read !== 0 && <View style={{marginTop: 20}} />}
+            </View>
           </View>
         </TouchableOpacity>
       )}

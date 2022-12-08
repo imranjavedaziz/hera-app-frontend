@@ -9,10 +9,12 @@ const chatHistory = () => {
   const {log_in_data} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
   const fetchChats = () => {
+    console.log(`${chat}/Users/${log_in_data?.id}`,'`${chat}/Users/${log_in_data?.id}`')
     database()
       .ref(`${chat}/Users/${log_in_data?.id}`)
       .once('value')
       .then(async snapshot => {
+        console.log(snapshot,'snapshot')
         snapshot.forEach(async childSnapshot => {
           const item = childSnapshot.val();
           dispatch(append(Object.values(item)));
