@@ -70,6 +70,8 @@ export default {
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
+    // backgroundColor: 'yellow',
+    // marginBottom: 50,
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
@@ -77,6 +79,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     justifyContent: 'flex-start',
+    // backgroundColor: 'pink',
   },
   sel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
