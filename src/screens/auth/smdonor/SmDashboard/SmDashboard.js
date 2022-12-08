@@ -79,6 +79,7 @@ const SmDashboard = ({route}) => {
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(showAppLoader());
       fetchData();
       let payload = {
         keyword: search ? search : '',
