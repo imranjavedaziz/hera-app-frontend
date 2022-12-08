@@ -70,8 +70,6 @@ export default {
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
-    // backgroundColor: 'yellow',
-    // marginBottom: 50,
   },
   unSel: {
     paddingVertical: Value.CONSTANT_VALUE_10,

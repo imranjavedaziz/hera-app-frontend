@@ -13,9 +13,9 @@ import {
 
 export default {
   profileLogo: {
-    width: Value.CONSTANT_VALUE_86,
-    height: Value.CONSTANT_VALUE_86,
-    borderRadius: Value.CONSTANT_VALUE_46,
+    width: Value.CONSTANT_VALUE_80,
+    height: Value.CONSTANT_VALUE_80,
+    borderRadius: Value.CONSTANT_VALUE_40,
   },
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
