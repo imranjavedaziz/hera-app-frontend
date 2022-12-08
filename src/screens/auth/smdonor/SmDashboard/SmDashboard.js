@@ -37,7 +37,7 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {MaterialIndicator} from 'react-native-indicators';
 import {Colors} from '../../../../constants';
-import {dynamicSize} from '../../../../utils/responsive';
+import {dynamicSize, statusHide} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
 const SmDashboard = ({route}) => {
@@ -74,7 +74,12 @@ const SmDashboard = ({route}) => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
     }
-  }, [navigation, route?.name]);
+    if (_.isEmpty(chats)) {
+      setMsgRead(false);
+    } else {
+      setMsgRead(chats.some(x => x?.read === 0));
+    }
+  }, [navigation, route?.name, chats]);
 
   useFocusEffect(
     useCallback(() => {
@@ -90,15 +95,10 @@ const SmDashboard = ({route}) => {
         limit: 10,
       };
       dispatch(getDonorDashboard(payload));
-      if (_.isEmpty(chats)) {
-        setMsgRead(false);
-      }
-      chats.some(checkAdult);
-      function checkAdult(o) {
-        return o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
-      }
     }, [search, page, route?.params?.informationDetail]),
   );
+  // expected output: true
+
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -357,10 +357,7 @@ const SmDashboard = ({route}) => {
           <View
             style={{
               marginBottom: Value.CONSTANT_VALUE_150,
-              paddingTop:
-                searching && isFocused
-                  ? Value.CONSTANT_VALUE_1
-                  : Value.CONSTANT_VALUE_59,
+              paddingTop: statusHide(Value.CONSTANT_VALUE_105),
             }}>
             {search === '' && isFocused === false ? (
               <>

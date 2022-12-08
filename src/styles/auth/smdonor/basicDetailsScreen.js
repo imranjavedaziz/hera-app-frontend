@@ -1,11 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {
-  scaleWidth,
-  normalizeFont,
-  dynamicSize,
-} from '../../../utils/responsive';
+import {scaleWidth, normalizeFont, statusHide} from '../../../utils/responsive';
 
 export default {
   flex_1: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
@@ -16,7 +12,7 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp_1: {marginTop: dynamicSize(59), marginHorizontal: 40},
+  mainComp_1: {marginTop: statusHide(105), marginHorizontal: 40},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
@@ -56,6 +52,7 @@ export default {
     width: Value.CONSTANT_VALUE_197,
     paddingVertical: Value.CONSTANT_VALUE_0,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
+    marginBottom: 30,
   },
   fixedheaderStyle: {
     marginRight: Value.CONSTANT_VALUE_20,
@@ -63,14 +60,12 @@ export default {
   },
   andoridFixedheaderStyle: {
     marginRight: Value.CONSTANT_VALUE_20,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_13),
   },
   paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_52,
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   modalView: {

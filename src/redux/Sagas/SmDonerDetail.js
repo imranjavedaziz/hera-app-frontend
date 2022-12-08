@@ -6,6 +6,7 @@ import {
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
 import {SmDonorDetailApi} from '../../Api/SmDonerDetail';
+import {ValidationMessages} from '../../constants/Strings'
 function* SmDonorDetail(payload) {
   try {
     const result = yield SmDonorDetailApi(payload.data);
@@ -18,7 +19,7 @@ function* SmDonorDetail(payload) {
       });
     }
   } catch (err) {
-    yield put({type: SM_DONOR_DETAIL_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SM_DONOR_DETAIL_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSmDonorDetail() {

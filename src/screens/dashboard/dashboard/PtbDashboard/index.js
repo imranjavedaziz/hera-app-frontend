@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  Platform,
 } from 'react-native';
 import React, {
   useRef,
@@ -26,11 +25,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {getRoleType} from '../../../../utils/other';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import {MaterialIndicator} from 'react-native-indicators';
@@ -70,22 +65,8 @@ const PtbDashboard = props => {
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
-  const [msgRead, setMsgRead] = useState(false);
-  useEffect(() => {
-    if (subscriptionStatus && subscriptionStatus.data) {
-      if (!subscriptionStatus?.data.status) {
-        dispatch(
-          showAppToast(
-            true,
-            subscriptionStatus.data.is_trial
-              ? Strings.Subscription.TrailOver
-              : Strings.Subscription.SubscriptionExpired,
-          ),
-        );
-      }
-    }
-  }, [subscriptionStatus]);
 
+  const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -93,11 +74,9 @@ const PtbDashboard = props => {
     if (_.isEmpty(chats)) {
       setMsgRead(false);
     } else {
-      return chats.find(o => {
-        o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
-      });
+      setMsgRead(chats.some(x => x?.read === 0));
     }
-  }, []);
+  }, [chats]);
   useFocusEffect(
     useCallback(() => {
       dispatch(getPtbDashboard());
@@ -138,7 +117,6 @@ const PtbDashboard = props => {
               isComingFrom: false,
               chatPush: true,
             });
-            setMsgRead(false);
           }
         }
         if (notification.userInteraction === false) {
@@ -191,7 +169,6 @@ const PtbDashboard = props => {
             isComingFrom: false,
             chatPush: true,
           });
-          setMsgRead(false);
         }
       }
       if (notification.userInteraction === false) {
@@ -342,7 +319,6 @@ const PtbDashboard = props => {
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
       }
-      style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}
       rightImg={{marginRight: scaleWidth(18)}}
@@ -351,10 +327,7 @@ const PtbDashboard = props => {
   );
 
   const dashboardShow = () => {
-    const STYLE =
-      Platform.OS === 'ios'
-        ? styles.iosInnerContainer
-        : styles.androidInnerContainer;
+    const STYLE = styles.androidInnerContainer;
     return (
       <>
         {get_ptb_dashboard_res?.data?.data?.data.length > 0 ? (

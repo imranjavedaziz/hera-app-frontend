@@ -58,7 +58,6 @@ import {
   updateRegStep,
 } from '../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../context/NotificationContextManager';
 
 const Profile = props => {
@@ -78,7 +77,7 @@ const Profile = props => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [datePicked, onDateChange] = useState();
-  const {fcmToken} = useContext(NotificationContext);
+  const {fcmToken, Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
@@ -100,7 +99,7 @@ const Profile = props => {
       dispatch(showAppLoader());
       if (register_user_success) {
         const _deviceInfo = {
-          device_id: DeviceInfo.getDeviceId(),
+          device_id: Device_ID,
           device_token: fcmToken,
           device_type: Platform.OS,
         };
@@ -135,7 +134,6 @@ const Profile = props => {
       }}
       Fixedstyle={{
         marginRight: Value.CONSTANT_VALUE_20,
-        marginTop: Value.CONSTANT_VALUE_13,
       }}
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
@@ -552,10 +550,10 @@ const Profile = props => {
                 }}>
                 <View style={[styles.centeredView]}>
                   <View style={styles.modalView}>
-                    <Text style={styles.modalHeader}>
+                    <Text style={globalStyle.modalHeader}>
                       {Strings.profile.ModalHeader}
                     </Text>
-                    <Text style={styles.modalSubHeader}>
+                    <Text style={globalStyle.modalSubHeader}>
                       {Strings.profile.ModalSubheader}
                     </Text>
                     <TouchableOpacity
@@ -564,7 +562,7 @@ const Profile = props => {
                         logoutScreen();
                         navigation.navigate(Routes.Landing);
                       }}>
-                      <Text style={styles.modalOption1}>
+                      <Text style={globalStyle.modalOption1}>
                         {Strings.profile.ModalOption1}
                       </Text>
                     </TouchableOpacity>
@@ -572,7 +570,7 @@ const Profile = props => {
                       onPress={() => {
                         setShowModal(false);
                       }}>
-                      <Text style={styles.modalOption2}>
+                      <Text style={globalStyle.modalOption2}>
                         {Strings.profile.ModalOption2}
                       </Text>
                     </TouchableOpacity>

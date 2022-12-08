@@ -9,7 +9,7 @@ import {
 import {takeLatest, put} from 'redux-saga/effects';
 import {getUserGalleryApi, deleteGalleryApi} from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
-
+import {ValidationMessages} from '../../constants/Strings'
 //GetUserGallery
 function* getUserGallery() {
   try {
@@ -20,7 +20,7 @@ function* getUserGallery() {
       yield put({type: GET_GALLERY_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: GET_GALLERY_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_GALLERY_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchGetUserGallery() {
@@ -40,7 +40,7 @@ function* deleteUserGallery(payload) {
       });
     }
   } catch (err) {
-    yield put({type: GET_DELETE_GALLERY_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_DELETE_GALLERY_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchDeleteUserGallery() {

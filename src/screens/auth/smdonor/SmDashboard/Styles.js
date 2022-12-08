@@ -2,8 +2,7 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {dynamicSize, height, width} from '../../../../utils/responsive';
-
+import {height, width} from '../../../../utils/responsive';
 export default {
   mainContainer: {},
   conatiner: {
@@ -23,7 +22,7 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: (width - 70) / 2,
+    width: (width - 75) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
@@ -56,7 +55,6 @@ export default {
     paddingHorizontal: 30,
   },
   androidIconHeader: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     paddingHorizontal: 30,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
@@ -77,6 +75,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     justifyContent: 'flex-start',
+    // backgroundColor: 'pink',
   },
   sel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
@@ -164,7 +163,6 @@ export default {
   upperContainer: {
     flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
-    // paddingTop: Value.CONSTANT_VALUE_50,
   },
   con: {
     marginTop: Value.CONSTANT_VALUE_95,

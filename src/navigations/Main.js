@@ -57,6 +57,7 @@ const screens = [
 
 const Main = () => {
   const dispatch = useDispatch();
+  const [statusFetched,setStatusFetched] = React.useState(false);
   const auth = useSelector(state => state.Auth.user);
   const {register_user_success} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(
@@ -66,14 +67,6 @@ const Main = () => {
     const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (auth) {
       RNBootSplash.hide();
-      const path = getRoute(
-        auth?.access_token,
-        auth?.role_id,
-        auth?.registration_step,
-      );
-      if (path !== Routes.Landing && auth?.role_id === Value.CONSTANT_VALUE_2) {
-        dispatch(getSubscriptionStatus());
-      }
       if (
         !auth.access_token &&
         currentRoute !== Routes.Landing &&
@@ -87,10 +80,19 @@ const Main = () => {
     }
   }, [auth]);
   useEffect(() => {
+    const path = getRoute(
+      auth?.access_token,
+      auth?.role_id,
+      auth?.registration_step,
+    );
+    if (path !== Routes.Landing && auth?.role_id === Value.CONSTANT_VALUE_2 && !statusFetched) {
+      setStatusFetched(true);
+      dispatch(getSubscriptionStatus());
+    }
     if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
-      const now = moment(new Date()).unix();
-      const createdAt = moment(new Date(auth.created_at)).unix();
-      const fromNow = (now - createdAt)/(Value.CONSTANT_VALUE_60*Value.CONSTANT_VALUE_60*Value.CONSTANT_VALUE_24);
+      const now = moment(new Date());
+      const createdAt = moment(new Date(auth.created_at));
+      const fromNow = now.diff(createdAt,'days');
       if (
         !subscriptionStatus?.data.status &&
         parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&

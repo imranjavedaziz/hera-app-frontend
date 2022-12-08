@@ -25,7 +25,6 @@ import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
-import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
 
@@ -37,7 +36,7 @@ const Login = props => {
   const [show, setShow] = useState(false);
   const [payloadData, setPayloadData] = useState('');
   const [phone, setPhone] = useState('');
-  const {fcmToken} = useContext(NotificationContext);
+  const {fcmToken, Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
@@ -60,7 +59,7 @@ const Login = props => {
       dispatch(showAppLoader());
       if (log_in_success) {
         const _deviceInfo = {
-          device_id: DeviceInfo.getDeviceId(),
+          device_id: Device_ID,
           device_token: fcmToken,
           device_type: Platform.OS,
         };

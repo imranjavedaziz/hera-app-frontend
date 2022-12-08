@@ -9,7 +9,7 @@ import {
 } from '../Type';
 import { takeLatest, put } from 'redux-saga/effects';
 import { deactivateAccountApi ,getDeactivateReasonApi} from '../../Api/DeactivateAccount';
-
+import {ValidationMessages} from '../../constants/Strings'
 function* DeactivateAccount(payload) {
   try {
     const result = yield deactivateAccountApi(payload.data);
@@ -24,7 +24,7 @@ function* DeactivateAccount(payload) {
     }
   } catch (err) {
     console.log('err', err);
-    yield put({ type: DEACTIVATE_ACCOUNT_FAIL, data: { msg: 'NET ERROR' } });
+    yield put({ type: DEACTIVATE_ACCOUNT_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION } });
   }
 }
 export function* watchDeactivateAccount() {
@@ -44,7 +44,7 @@ function* GetDeactivateReason(payload) {
     }
   } catch (err) {
     console.log('err', err);
-    yield put({ type: REASONS_LIST_FAIL, data: { msg: 'NET ERROR' } });
+    yield put({ type: REASONS_LIST_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION} });
   }
 }
 export function* watchGetDeactivateReason() {

@@ -6,11 +6,14 @@ import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {dynamicSize} from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
+import {getStatusBarHeight} from 'react-native-safearea-height';
 
+const MaxValueHeader = Math.abs(getStatusBarHeight() - 54);
 const styles = {
   container: {
     width: Prencentage.PRECENTAGE_100,
-    paddingVertical: Value.CONSTANT_VALUE_10,
+    // paddingVertical: Value.CONSTANT_VALUE_10,
+    marginTop: MaxValueHeader,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.CLEAR,
     position: Alignment.ABSOLUTE,
@@ -26,7 +29,6 @@ const styles = {
   },
   circle: {
     flex: Value.CONSTANT_VALUE_0,
-    marginTop: Value.CONSTANT_VALUE_4,
   },
   img: {
     resizeMode: Alignment.COVER,
@@ -77,7 +79,6 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.WHITE,
     marginRight: Value.CONSTANT_VALUE_30,
-    top: 13,
   },
   blankContainerptb: {
     width: Value.CONSTANT_VALUE_12,

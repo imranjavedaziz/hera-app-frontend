@@ -60,8 +60,6 @@ export default function MultiTextInput({
             onFocus={handleFocus}
             onBlur={handleBlur}
             blurOnSubmit={false}
-            keyboardType="name-phone-pad"
-            // returnKeyType='next'
             keyboardAppearance="light"
             {...textInputProps}
           />

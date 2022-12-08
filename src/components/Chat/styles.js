@@ -27,14 +27,12 @@ export default {
     flexDirection: Alignment.ROW,
     marginBottom: px(Value.CONSTANT_VALUE_18),
     flex: 1,
-    justifyContent: Alignment.SPACE_BETWEEN,
   },
   description: {
     marginLeft: px(Value.CONSTANT_VALUE_12),
-    marginRight: px(Value.CONSTANT_VALUE_5),
-    maxWidth: px(Value.CONSTANT_VALUE_190),
-    alignItems: Alignment.FLEX_START,
-    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    flex: 1,
   },
   userName: {
     fontFamily: Fonts.OpenSansRegular,
@@ -83,7 +81,7 @@ export default {
     right: -13,
     bottom: -12,
   },
-  contain: {flexDirection: 'row'},
+  contain: {flexDirection: Alignment.ROW},
   seemsLikeYouHave: {
     width: 290,
     height: 64,

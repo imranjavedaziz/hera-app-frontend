@@ -8,7 +8,7 @@ export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_80),
     right: dynamicSize(Value.CONSTANT_VALUE_15),
     shadowColor: 'rgba(0, 0, 0, 0.09)',
     shadowOffset: {
@@ -20,8 +20,8 @@ export default {
     elevation: Value.CONSTANT_VALUE_5,
   },
   bgImage: {
-    height: Value.CONSTANT_VALUE_398,
-    width: dynamicSize(245),
+    height: '80%',
+    width: dynamicSize(240),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },

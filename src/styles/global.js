@@ -194,13 +194,11 @@ export default {
   cancelbtn: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
-    marginTop: Value.CONSTANT_VALUE_13,
     marginRight: Value.CONSTANT_VALUE_30,
   },
   cancelAndroidbtn: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
-    marginTop: Value.CONSTANT_VALUE_13,
     marginRight: Value.CONSTANT_VALUE_30,
   },
   clearView: {

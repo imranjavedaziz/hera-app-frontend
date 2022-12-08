@@ -19,6 +19,7 @@ const Landing = () => {
   useEffect(() => {
     dispatch(resetMobile());
   }, []);
+
   useEffect(() => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);

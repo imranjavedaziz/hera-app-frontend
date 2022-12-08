@@ -197,7 +197,6 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
-
   let VIEW_PASS = (
     <View style={styles.nativeLong}>
       {smDetailRes?.doner_attribute?.hair_colour && (

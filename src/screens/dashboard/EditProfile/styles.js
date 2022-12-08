@@ -6,6 +6,7 @@ import {
   normalizeFont,
   px,
   scaleHeight,
+  statusHide,
 } from '../../../utils/responsive';
 
 export default {
@@ -18,9 +19,9 @@ export default {
   cancelAndroidsbtn: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_13),
     marginRight: Value.CONSTANT_VALUE_30,
   },
+
   clearView: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -47,7 +48,7 @@ export default {
     paddingHorizontal: px(Value.CONSTANT_VALUE_40),
   },
   mainAndroidContainer: {
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_59),
+    marginTop: statusHide(Value.CONSTANT_VALUE_104),
     paddingHorizontal: px(Value.CONSTANT_VALUE_40),
   },
   headingStyle: {

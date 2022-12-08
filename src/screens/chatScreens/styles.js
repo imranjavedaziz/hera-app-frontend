@@ -48,12 +48,12 @@ export default {
     backgroundColor: Colors.WHITE,
     alignItems: Alignment.CENTER,
     marginRight: 20,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
   },
   receiverID: {
     alignSelf: Alignment.FLEX_START,
     flexDirection: Alignment.ROW,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     marginLeft: 10,
     backgroundColor: Colors.GREEN,
@@ -61,23 +61,21 @@ export default {
   mainContainerDetail: {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',
-   borderRadius: 24,
-   paddingVertical:5,
+    borderRadius: 24,
     marginHorizontal: 15,
-    justifyContent:'center',
-    textAlign:'center'
-
+    paddingLeft:10,
+    justifyContent: Alignment.CENTER,
+    textAlign: Alignment.CENTER,
   },
   border: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
     borderBottomColor: Colors.COLOR_228226216,
-    marginTop: Value.CONSTANT_VALUE_16,
   },
   titleText: {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_16,
-    width: 128,
+    width: 128
   },
   descText: {
     fontFamily: Fonts.OpenSansRegular,
@@ -91,16 +89,16 @@ export default {
     justifyContent: Alignment.FLEX_START,
   },
   avatar: {
-    width: Value.CONSTANT_VALUE_35,
-    height: Value.CONSTANT_VALUE_35,
+    width: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_40,
 
-    borderRadius: Value.CONSTANT_VALUE_35 / 2,
+    borderRadius: Value.CONSTANT_VALUE_40 / 2,
   },
   outerContainer: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    justifyContent: 'space-between',
-    marginTop: 40,
+    justifyContent: Alignment.SPACE_BETWEEN,
+   paddingVertical: 20,
     paddingHorizontal: 20,
   },
   thumbContain: color => ({
@@ -188,11 +186,10 @@ export default {
     marginTop: 45,
     marginRight: 20,
   },
-  warningImage:{
+  warningImage: {
     position: Alignment.ABSOLUTE,
     alignSelf: Alignment.FLEXEND,
     marginLeft: -30,
-    left:0,
-
-  }
+    left: 0,
+  },
 };
