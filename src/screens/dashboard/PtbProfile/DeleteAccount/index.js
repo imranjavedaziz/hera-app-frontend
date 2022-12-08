@@ -17,7 +17,6 @@ import {
 } from '../../../../redux/actions/loader';
 import {useSelector, useDispatch} from 'react-redux';
 import {deleteAccountPassword} from '../../../../constants/schemas';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const DeleteAccount = () => {
   const navigation = useNavigation();
