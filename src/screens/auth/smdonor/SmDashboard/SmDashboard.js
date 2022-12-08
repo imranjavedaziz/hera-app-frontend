@@ -92,13 +92,13 @@ const SmDashboard = ({route}) => {
       dispatch(getDonorDashboard(payload));
       if (_.isEmpty(chats)) {
         setMsgRead(false);
-      }
-      chats.some(checkAdult);
-      function checkAdult(o) {
-        return o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
+      } else {
+        setMsgRead(chats.some(x => x?.read === 0));
       }
     }, [search, page, route?.params?.informationDetail]),
   );
+  // expected output: true
+
   //Push Notification
   useEffect(() => {
     //For foreground
