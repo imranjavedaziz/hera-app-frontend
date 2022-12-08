@@ -8,13 +8,14 @@ import {
   scaleWidth,
   height,
   width,
+  px,
 } from '../../../utils/responsive';
 
 export default {
   profileLogo: {
-    width: Value.CONSTANT_VALUE_86,
-    height: Value.CONSTANT_VALUE_86,
-    borderRadius: Value.CONSTANT_VALUE_46,
+    width: Value.CONSTANT_VALUE_80,
+    height: Value.CONSTANT_VALUE_80,
+    borderRadius: Value.CONSTANT_VALUE_40,
   },
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
@@ -31,6 +32,7 @@ export default {
   location: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_29,
   },
   androidHeaderIcons: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
@@ -49,12 +51,12 @@ export default {
     fontSize: Value.CONSTANT_VALUE_32,
     fontWeight: Alignment.BOLD,
     color: Colors.BLACK,
-    marginTop: Value.CONSTANT_VALUE_6,
   },
   profileImg: {
     flexDirection: Alignment.ROW_REVERSE,
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_3,
+    marginTop: Value.CONSTANT_VALUE_25,
   },
   profileType: {
     fontFamily: Fonts.OpenSansRegular,
@@ -83,7 +85,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_22,
   },
   highlits: {
-    backgroundColor: Colors.PINK,
+    backgroundColor: Colors.TAGCOLOR,
     marginRight: Value.CONSTANT_VALUE_8,
     height: Value.CONSTANT_VALUE_31,
     alignContent: Alignment.CENTER,
@@ -95,6 +97,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     marginVertical: Value.CONSTANT_VALUE_15,
     fontWeight: Alignment.BOLD,
+    color: Colors.BLACK_KEY,
   },
   videoContainer: {
     height: Value.CONSTANT_VALUE_200,
@@ -154,11 +157,14 @@ export default {
     letterSpacing: Value.CONSTANT_VALUE_FRAC36,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
+    marginHorizontal: px(5),
+    left: px(5),
   },
   highlitsText: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_14,
     color: Colors.BLACK_KEY,
+    opacity: 1,
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),

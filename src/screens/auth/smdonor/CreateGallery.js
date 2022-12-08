@@ -36,6 +36,7 @@ import {BottomSheetComp} from '../../../components';
 import FastImage from 'react-native-fast-image';
 import RNSDWebImage from 'react-native-sdwebimage';
 import {Value} from '../../../constants/FixedValues';
+import {statusHide} from '../../../utils/responsive';
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -77,7 +78,7 @@ const CreateGallery = () => {
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
-    console.log(_setImages,_setCounter);
+    console.log(_setImages, _setCounter);
   }, [dispatch]);
   useFocusEffect(
     useCallback(() => {
@@ -242,7 +243,7 @@ const CreateGallery = () => {
       setRemove([]);
     }
   };
-  const headerComp = () => <View/>
+  const headerComp = () => <View />;
 
   const openBottomVideoSheet = () => {
     setOpen(true);
@@ -291,7 +292,7 @@ const CreateGallery = () => {
         headerEnd={true}
         headerComp={headerComp}
         style={styles.zeromargin}>
-        <View style={globalStyle.mainContainer}>
+        <View style={[globalStyle.mainContainer, {marginTop: statusHide(107)}]}>
           <View style={styles.profileImgContainner}>
             <Image source={{uri: profileImg}} style={styles.profileImg} />
           </View>

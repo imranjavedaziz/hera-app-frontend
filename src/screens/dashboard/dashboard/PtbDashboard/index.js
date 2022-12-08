@@ -70,22 +70,8 @@ const PtbDashboard = props => {
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
-  const [msgRead, setMsgRead] = useState(false);
-  useEffect(() => {
-    if (subscriptionStatus && subscriptionStatus.data) {
-      if (!subscriptionStatus?.data.status) {
-        dispatch(
-          showAppToast(
-            true,
-            subscriptionStatus.data.is_trial
-              ? Strings.Subscription.TrailOver
-              : Strings.Subscription.SubscriptionExpired,
-          ),
-        );
-      }
-    }
-  }, [subscriptionStatus]);
 
+  const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -342,7 +328,6 @@ const PtbDashboard = props => {
       rightPress={() =>
         navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
       }
-      style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}
       rightImg={{marginRight: scaleWidth(18)}}
@@ -351,10 +336,7 @@ const PtbDashboard = props => {
   );
 
   const dashboardShow = () => {
-    const STYLE =
-      Platform.OS === 'ios'
-        ? styles.iosInnerContainer
-        : styles.androidInnerContainer;
+    const STYLE = styles.androidInnerContainer;
     return (
       <>
         {get_ptb_dashboard_res?.data?.data?.data.length > 0 ? (

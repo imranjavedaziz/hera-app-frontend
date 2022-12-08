@@ -6,23 +6,23 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import Header, { CircleBtn } from '../../../../components/Header';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
+import Header, {CircleBtn} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
-import { getStates } from '../../../../redux/actions/Register';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
+import {getStates} from '../../../../redux/actions/Register';
 import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
-import { Value } from '../../../../constants/FixedValues';
+import {Value} from '../../../../constants/FixedValues';
 import Searchbar from './StateSearch';
-import { Routes } from '../../../../constants/Constants';
-import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
+import {Routes} from '../../../../constants/Constants';
+import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from './Styles';
-import { Colors } from '../../../../constants';
-import { Button } from '../../../../components';
+import {Colors} from '../../../../constants';
+import {Button} from '../../../../components';
 const StateList = props => {
-  const { selectedStateList } = props.route.params;
+  const {selectedStateList} = props.route.params;
   const navigation = useNavigation();
   const loadingRef = useRef(false);
   const [state, setState] = useState([]);
@@ -31,7 +31,12 @@ const StateList = props => {
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
   const dispatch = useDispatch();
-  const { get_state_success, get_state_loading, get_state_error_msg, get_state_res, } = useSelector(st => st?.Register);
+  const {
+    get_state_success,
+    get_state_loading,
+    get_state_error_msg,
+    get_state_res,
+  } = useSelector(st => st?.Register);
   //GET STATE
   useFocusEffect(
     useCallback(() => {
@@ -48,7 +53,13 @@ const StateList = props => {
         }
       }
       loadingRef.current = get_state_loading;
-    }, [get_state_success, get_state_loading, get_state_error_msg, get_state_res, dispatch,]),
+    }, [
+      get_state_success,
+      get_state_loading,
+      get_state_error_msg,
+      get_state_res,
+      dispatch,
+    ]),
   );
   const existingCountrySelection = () => {
     const data = get_state_res?.map(item => {
@@ -91,16 +102,26 @@ const StateList = props => {
           } else {
             setCount(count - 1);
           }
-          return { code: old.code, id: old.id, isActive: !old.isActive, name: old.name };
+          return {
+            code: old.code,
+            id: old.id,
+            isActive: !old.isActive,
+            name: old.name,
+          };
         } else {
           return old;
         }
       });
     });
     setAllState(oldData => {
-      return oldData.map((old) => {
+      return oldData.map(old => {
         if (item.id === old.id) {
-          return { code: old.code, id: old.id, isActive: !old.isActive, name: old.name };
+          return {
+            code: old.code,
+            id: old.id,
+            isActive: !old.isActive,
+            name: old.name,
+          };
         } else {
           return old;
         }
@@ -108,9 +129,9 @@ const StateList = props => {
     });
   };
 
-  const renderState = ({ item, index }) => {
+  const renderState = ({item, index}) => {
     return (
-      <View style={{ paddingHorizontal: Value.CONSTANT_VALUE_40 }}>
+      <View style={{paddingHorizontal: Value.CONSTANT_VALUE_40}}>
         <TouchableOpacity
           style={Styles.stateItem}
           onPress={() => selectState(item)}>
@@ -133,7 +154,7 @@ const StateList = props => {
         sl.push(item.id);
       }
     });
-    navigation.navigate(Routes.SmDashboard, { informationDetail: sl });
+    navigation.navigate(Routes.SmDashboard, {informationDetail: sl});
   };
   const BackControl = () => {
     if (count === 0) {
@@ -144,13 +165,13 @@ const StateList = props => {
   };
   const OnClear = () => {
     setState(oldData => {
-      return oldData.map((old) => {
-        return { code: old.code, id: old.id, isActive: false, name: old.name, };
+      return oldData.map(old => {
+        return {code: old.code, id: old.id, isActive: false, name: old.name};
       });
     });
     setAllState(oldData => {
-      return oldData.map((old) => {
-        return { code: old.code, id: old.id, isActive: false, name: old.name, };
+      return oldData.map(old => {
+        return {code: old.code, id: old.id, isActive: false, name: old.name};
       });
     });
     selectState('');
@@ -166,7 +187,9 @@ const StateList = props => {
       />
       {count > 0 && (
         <TouchableOpacity
-          onPress={() => { OnClear() }}
+          onPress={() => {
+            OnClear();
+          }}
           style={Styles.CancelBack}>
           <Text style={Styles.iconFont}>{Strings.stateList.iconText}</Text>
         </TouchableOpacity>
@@ -174,7 +197,11 @@ const StateList = props => {
     </>
   );
   return (
-    <View style={{ flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND }}>
+    <View
+      style={{
+        flex: Value.CONSTANT_VALUE_1,
+        backgroundColor: Colors.BACKGROUND,
+      }}>
       <Header end={false}>{headerComp()}</Header>
       <View style={Styles.con}>
         <Text style={[globalStyle.screenSubTitle, Styles.stateSubtitle]}>

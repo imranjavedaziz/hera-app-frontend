@@ -267,14 +267,7 @@ const PTB_profile = props => {
               </Pressable>
             )}
           </View>
-        ) : (
-          <View style={styles.loaderContainer}>
-            <MaterialIndicator
-              color={Colors.COLOR_A3C6C4}
-              size={dynamicSize(25)}
-            />
-          </View>
-        )}
+        ) : null}
       </ScrollView>
     </View>
   );

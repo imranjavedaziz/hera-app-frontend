@@ -1,6 +1,6 @@
 // responsive
 import {Dimensions, PixelRatio, Platform} from 'react-native';
-
+import {getStatusBarHeight} from 'react-native-safearea-height';
 export const {width, height} = Dimensions.get('window');
 let max;
 if (width > height) {
@@ -39,3 +39,7 @@ export function px(size) {
     return size;
   }
 }
+
+export const statusHide = maxNum => {
+  return Math.abs(getStatusBarHeight() - maxNum);
+};

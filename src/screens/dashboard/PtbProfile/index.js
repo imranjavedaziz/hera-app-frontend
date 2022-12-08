@@ -33,8 +33,8 @@ import {
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
-import {getRoleType} from '../../../utils/other';
 import {empty} from '../../../redux/actions/Chat';
+
 const PtbProfile = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
@@ -62,7 +62,6 @@ const PtbProfile = () => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(showAppLoader());
       dispatch(getEditProfile());
       dispatch(getUserGallery());
       videoAvaible();
@@ -200,7 +199,7 @@ const PtbProfile = () => {
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
-                roleId={getRoleType(name?.role_id)}
+                roleId={'Parent To Be'}
                 source={{
                   uri: profileImg,
                 }}

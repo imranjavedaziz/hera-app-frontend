@@ -2,13 +2,13 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
-import {dynamicSize} from '../../utils/responsive';
+import {dynamicSize, statusHide} from '../../utils/responsive';
 
 export default {
   imgContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_59,
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
     marginBottom: 4,
   },
   androidimgContainer: {
@@ -60,7 +60,7 @@ export default {
   tmc: {
     flexDirection: Alignment.ROW,
     width: Value.CONSTANT_VALUE_306,
-    right: Value.CONSTANT_VALUE_2,
+    marginLeft: 10,
   },
   rowContainer: {
     alignItems: Alignment.CENTER,

@@ -5,6 +5,7 @@ import {
   height,
   normalizeFont,
   scaleWidth,
+  statusHide,
 } from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 export default {
@@ -30,7 +31,7 @@ export default {
     letterSpacing: 0,
   },
   headingContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
     alignItems: Alignment.CENTER,
   },
   AccountVerify: {

@@ -43,7 +43,6 @@ export default (state = initState, action) => {
     case GET_USER_DETAIL:
       return {
         ...state,
-        get_user_detail_res: initState.get_user_detail_res,
         get_user_detail_success: false,
         get_user_detail_loading: true,
         get_user_detail_error: '',
@@ -59,7 +58,6 @@ export default (state = initState, action) => {
     case GET_USER_DETAIL_FAIL:
       return {
         ...state,
-        get_user_detail_res: initState.get_user_detail_res,
         get_user_detail_success: false,
         get_user_detail_loading: false,
         get_user_detail_error: action.data.msg,
