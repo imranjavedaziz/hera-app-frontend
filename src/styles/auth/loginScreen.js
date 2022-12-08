@@ -40,7 +40,7 @@ export default {
     marginRight: Value.CONSTANT_VALUE_5,
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     paddingHorizontal: Value.CONSTANT_VALUE_25,
   },
 };

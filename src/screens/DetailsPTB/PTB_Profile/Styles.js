@@ -32,10 +32,6 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
   },
-  headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
-    marginLeft: Value.CONSTANT_VALUE_30,
-  },
   androidHeaderIcons: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,

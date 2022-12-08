@@ -6,7 +6,6 @@ import {
   Pressable,
   ScrollView,
   Animated,
-  Platform,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -27,6 +26,8 @@ import {MaterialIndicator} from 'react-native-indicators';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../../constants';
 import moment from 'moment';
+import {dynamicSize} from '../../../utils/responsive';
+
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
@@ -79,13 +80,16 @@ const PTB_profile = props => {
     params: {userid},
   } = useRoute();
   useEffect(() => {
+    dispatch(showAppLoader());
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
   const navigation = useNavigation();
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      onPress={navigation.goBack}
+      onPress={() => {
+        navigation.navigate(Routes.SmDashboard);
+      }}
       style={styles.androidHeaderIcons}
     />
   );
@@ -128,6 +132,7 @@ const PTB_profile = props => {
       navigation.navigate(Routes.SmDashboard);
     }, 3000);
   };
+
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -144,9 +149,13 @@ const PTB_profile = props => {
                 </Text>
               </View>
               <Text style={styles.profileName}>{stateRes?.first_name}</Text>
-              {stateRes?.middle_name !== null && (
-                <Text style={styles.profileName}>{stateRes?.middle_name}</Text>
-              )}
+              {stateRes?.middle_name !== null &&
+                stateRes?.middle_name !== '' &&
+                stateRes?.middle_name !== undefined && (
+                  <Text style={styles.profileName}>
+                    {stateRes?.middle_name}
+                  </Text>
+                )}
               <Text style={styles.profileName}>{stateRes?.last_name}</Text>
               <View style={styles.profileImg}>
                 <FastImage

@@ -30,7 +30,6 @@ const App = () => {
             hidden={false}
           />
           <SafeAreaView />
-
           <Main />
           <Loader />
           <Toast />
