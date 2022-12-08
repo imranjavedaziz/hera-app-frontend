@@ -1,13 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Header, {CircleBtn} from '../../../../components/Header';
@@ -30,7 +21,6 @@ import {
 import {Button, FloatingLabelInput} from '../../../../components';
 import User from '../../../../Api/User';
 import {logIn} from '../../../../redux/actions/Auth';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const HeaderComp = ({type}) => {
   const navigation = useNavigation();

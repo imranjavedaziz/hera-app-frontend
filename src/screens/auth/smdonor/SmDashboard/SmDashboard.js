@@ -74,7 +74,12 @@ const SmDashboard = ({route}) => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
     }
-  }, [navigation, route?.name]);
+    if (_.isEmpty(chats)) {
+      setMsgRead(false);
+    } else {
+      setMsgRead(chats.some(x => x?.read === 0));
+    }
+  }, [navigation, route?.name, chats]);
 
   useFocusEffect(
     useCallback(() => {
@@ -90,11 +95,6 @@ const SmDashboard = ({route}) => {
         limit: 10,
       };
       dispatch(getDonorDashboard(payload));
-      if (_.isEmpty(chats)) {
-        setMsgRead(false);
-      } else {
-        setMsgRead(chats.some(x => x?.read === 0));
-      }
     }, [search, page, route?.params?.informationDetail]),
   );
   // expected output: true
