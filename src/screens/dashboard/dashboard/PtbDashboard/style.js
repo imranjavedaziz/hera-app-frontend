@@ -6,14 +6,16 @@ import {
   px,
   scaleHeight,
   scaleWidth,
+  statusHide,
 } from '../../../../utils/responsive';
 import {Value} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
 import {Colors} from '../../../../constants';
+
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    paddingTop: dynamicSize(45),
+    marginTop: statusHide(105),
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
@@ -35,7 +37,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    marginTop: px(Value.CONSTANT_VALUE_10),
+    // marginTop: px(Value.CONSTANT_VALUE_10),
     bottom: px(25),
   },
   iconContainer: {
@@ -50,10 +52,9 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     bottom: Value.CONSTANT_VALUE_2_34,
-    marginTop: Value.CONSTANT_VALUE_32_7,
   },
   ImageSize: {
-    height: scaleHeight(445),
+    height: scaleHeight(400),
     width: scaleWidth(340),
   },
   emptyCardContainer: {
@@ -82,7 +83,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   headerIcon: {
-    marginTop: 13,
+
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

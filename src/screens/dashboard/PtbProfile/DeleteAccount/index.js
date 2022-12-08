@@ -39,9 +39,7 @@ const DeleteAccount = () => {
   const [password, setPassword] = useState('');
   const headerComp = () => (
     <View>
-      <TouchableOpacity
-        style={styles.header}
-        onPress={() => navigation.goBack()}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
       </TouchableOpacity>
     </View>

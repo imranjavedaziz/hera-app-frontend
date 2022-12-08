@@ -19,7 +19,7 @@ import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
-import {height} from '../../utils/responsive';
+import {height, statusHide} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
 import {verifyOtp, mobileNumber, resetMobile} from '../../redux/actions/Auth';
 import {
@@ -223,7 +223,10 @@ const OTP = ({route}) => {
             <View
               style={[
                 globalStyle.mainContainer,
-                {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_59},
+                {
+                  minHeight: height * 0.8,
+                  marginTop: statusHide(Value.CONSTANT_VALUE_105),
+                },
               ]}>
               <Text style={globalStyle.screenTitle}>{getScreenTitle()}</Text>
               <View

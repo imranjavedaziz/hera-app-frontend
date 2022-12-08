@@ -8,12 +8,9 @@ export default {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
-  headingContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_16),
-  },
+
   heading: {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_11,

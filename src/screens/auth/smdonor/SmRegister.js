@@ -103,7 +103,7 @@ const SmRegister = () => {
   const [check, setCheck] = useState(true);
   const [threeOption, setThreeOption] = useState([]);
   const [datePicked, onDateChange] = useState();
-  const {fcmToken} = useContext(NotificationContext);
+  const {fcmToken, Device_ID} = useContext(NotificationContext);
   let actionSheet = useRef();
   const {
     handleSubmit,
@@ -131,7 +131,7 @@ const SmRegister = () => {
       dispatch(showAppLoader());
       if (register_user_success) {
         const _deviceInfo = {
-          device_id: DeviceInfo.getDeviceId(),
+          device_id: Device_ID,
           device_token: fcmToken,
           device_type: Platform.OS,
         };

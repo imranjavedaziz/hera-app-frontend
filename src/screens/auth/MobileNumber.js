@@ -17,6 +17,7 @@ import {InputLabel} from '../../components';
 import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
 import normalizeInput from '../../utils/normalizeInput';
+import { statusHide } from '../../utils/responsive';
 
 const MobileNumber = ({route}) => {
   const navigation = useNavigation();
@@ -67,7 +68,6 @@ const MobileNumber = ({route}) => {
     <CircleBtn
       icon={Images.iconcross}
       Fixedstyle={{
-        marginTop: Value.CONSTANT_VALUE_13,
         alignItems: Alignment.FLEXEND,
         marginRight: Value.CONSTANT_VALUE_20,
       }}
@@ -105,7 +105,7 @@ const MobileNumber = ({route}) => {
             style={{
               alignItems: Alignment.CENTER,
               justifyContent: Alignment.CENTER,
-              marginTop: Value.CONSTANT_VALUE_59,
+              marginTop: statusHide(Value.CONSTANT_VALUE_105),
             }}>
             <Text style={styles.screenTitle}>
               {type === 1

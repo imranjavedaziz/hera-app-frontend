@@ -37,7 +37,7 @@ import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {MaterialIndicator} from 'react-native-indicators';
 import {Colors} from '../../../../constants';
-import {dynamicSize} from '../../../../utils/responsive';
+import {dynamicSize, statusHide} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
 const SmDashboard = ({route}) => {
@@ -357,10 +357,7 @@ const SmDashboard = ({route}) => {
           <View
             style={{
               marginBottom: Value.CONSTANT_VALUE_150,
-              paddingTop:
-                searching && isFocused
-                  ? Value.CONSTANT_VALUE_1
-                  : Value.CONSTANT_VALUE_59,
+              paddingTop: statusHide(Value.CONSTANT_VALUE_105),
             }}>
             {search === '' && isFocused === false ? (
               <>

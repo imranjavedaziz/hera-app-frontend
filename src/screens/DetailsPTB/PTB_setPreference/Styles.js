@@ -2,7 +2,12 @@ import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, height, scaleWidth} from '../../../utils/responsive';
+import {
+  dynamicSize,
+  height,
+  scaleWidth,
+  statusHide,
+} from '../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -36,6 +41,7 @@ export default {
     marginBottom: -40,
     marginHorizontal: scaleWidth(37),
     backgroundColor: Colors.BACKGROUND,
+    marginTop: statusHide(105),
   },
   label: {
     position: Alignment.ABSOLUTE,

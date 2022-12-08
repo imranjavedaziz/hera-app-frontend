@@ -37,7 +37,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
 import {Alignment} from '../../../constants';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, statusHide} from '../../../utils/responsive';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -303,17 +303,9 @@ const SetAttributes = ({route}) => {
           onPress={() => {
             Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
           }}
-          Fixedstyle={
-            Platform.OS === 'ios'
-              ? {
-                  marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
-                  marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
-                }
-              : {
-                  marginTop: dynamicSize(Value.CONSTANT_VALUE_13),
-                  marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
-                }
-          }
+          Fixedstyle={{
+            marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
+          }}
         />
         <ActionSheet
           ref={actionSheet}
@@ -344,7 +336,7 @@ const SetAttributes = ({route}) => {
           <View
             style={{
               paddingHorizontal: Value.CONSTANT_VALUE_40,
-              marginTop: Value.CONSTANT_VALUE_59,
+              marginTop: statusHide(Value.CONSTANT_VALUE_105),
             }}>
             <Text style={globalStyle.screenTitle}>
               {EditAttributes === true
