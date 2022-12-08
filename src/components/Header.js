@@ -77,6 +77,7 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.WHITE,
     marginRight: Value.CONSTANT_VALUE_30,
+    top: 13,
   },
   blankContainerptb: {
     width: Value.CONSTANT_VALUE_12,

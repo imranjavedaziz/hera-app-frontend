@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
 } from 'react-native';
 import React, {
   useState,
@@ -79,6 +78,7 @@ const SmDashboard = ({route}) => {
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(showAppLoader());
       fetchData();
       let payload = {
         keyword: search ? search : '',
@@ -92,10 +92,10 @@ const SmDashboard = ({route}) => {
       dispatch(getDonorDashboard(payload));
       if (_.isEmpty(chats)) {
         setMsgRead(false);
-      } else {
-        return chats.find(o => {
-          o?.read == 0 ? setMsgRead(true) : setMsgRead(false);
-        });
+      }
+      chats.some(checkAdult);
+      function checkAdult(o) {
+        return o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
       }
     }, [search, page, route?.params?.informationDetail]),
   );
@@ -283,7 +283,7 @@ const SmDashboard = ({route}) => {
               cache: FastImage.cacheControl.immutable,
             }}>
             <LinearGradient
-              start={{x: 0.0, y: 0.28}}
+              start={{x: 0.0, y: 0.55}}
               end={{x: 0.011, y: 1.15}}
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={styles.gradient}

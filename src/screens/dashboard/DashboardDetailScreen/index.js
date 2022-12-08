@@ -353,7 +353,7 @@ const DashboardDetailScreen = () => {
               )}
               {smDetailRes?.doner_attribute?.eye_colour && (
                 <View style={styles.eyeColorContainer}>
-                  <Text style={global?.tagText}>
+                  <Text style={global?.tagText} numberOfLines={1}>
                     {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
                   </Text>
                 </View>

@@ -1,7 +1,7 @@
-import Strings, { ValidationMessages } from './Strings';
-import { Regx } from './schemas';
+import Strings, {ValidationMessages} from './Strings';
+import {Regx} from './schemas';
 import Images from './Images';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 const environment = {
   dev: {
@@ -20,7 +20,8 @@ const environment = {
     chat: 'stage',
   },
 };
-export const { bucket, api_url, chat } = environment.dev;
+
+export const {bucket, api_url, chat} = environment.qa;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -148,7 +149,7 @@ export const pwdErrMsg = [
     type: validationType.SPECIAL,
     msg: ValidationMessages.SPECIAL_CHAR,
   },
-  { type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK },
+  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 //validate password
 export const validatePassword = (value, type) => {
@@ -157,7 +158,11 @@ export const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8;
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value) && Regx.ALPHA_START.test(value);
+        return (
+          Regx.ALPHA_LOWER.test(value) &&
+          Regx.NUM.test(value) &&
+          Regx.ALPHA_START.test(value)
+        );
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value);
       case validationType.CAPSLOCK:
@@ -789,12 +794,24 @@ const HeraDevMonthly = 'com.HeraDev.Monthly';
 const HeraDevYearly = 'com.HeraDev.Yearly';
 const HeraDevWeekly = 'com.HeraDev.Weekly';
 export const creditProductsIds = Platform.select({
-  ios: [CreditRichMonthly, CreditRichYearly, HeraDevMonthly, HeraDevYearly, HeraDevWeekly],
+  ios: [
+    CreditRichMonthly,
+    CreditRichYearly,
+    HeraDevMonthly,
+    HeraDevYearly,
+    HeraDevWeekly,
+  ],
   android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
 });
 
 export const productsIds = Platform.select({
-  ios: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
+  ios: [
+    CreditRichMonthly,
+    CreditRichYearly,
+    HeraDevYearly,
+    HeraDevMonthly,
+    HeraDevWeekly,
+  ],
   android: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevWeekly],
 });
 
@@ -812,7 +829,7 @@ export const SUBSCRIPTION_PLAN = [
 ];
 
 export const SENSORY_ARR = [
-  { id: 1, img: Images.BABY_MOTHER, caption: Strings.Sensory.AS_PER_SEARCH },
-  { id: 2, img: Images.HEART, caption: Strings.Sensory.SELECT_HEART_TO },
-  { id: 2, img: Images.CROSS, caption: Strings.Sensory.SELECT_CROSS },
+  {id: 1, img: Images.BABY_MOTHER, caption: Strings.Sensory.AS_PER_SEARCH},
+  {id: 2, img: Images.HEART, caption: Strings.Sensory.SELECT_HEART_TO},
+  {id: 2, img: Images.CROSS, caption: Strings.Sensory.SELECT_CROSS},
 ];
