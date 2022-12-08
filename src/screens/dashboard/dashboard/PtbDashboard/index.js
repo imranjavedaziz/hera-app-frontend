@@ -72,21 +72,6 @@ const PtbDashboard = props => {
   }, []);
   const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
-    if (subscriptionStatus && subscriptionStatus.data) {
-      if (!subscriptionStatus?.data.status) {
-        dispatch(
-          showAppToast(
-            true,
-            subscriptionStatus.data.is_trial
-              ? Strings.Subscription.TrailOver
-              : Strings.Subscription.SubscriptionExpired,
-          ),
-        );
-      }
-    }
-  }, [subscriptionStatus]);
-
-  useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
     }
