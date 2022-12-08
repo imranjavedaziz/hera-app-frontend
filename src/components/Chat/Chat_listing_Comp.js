@@ -87,7 +87,6 @@ const Chat_listing_Comp = props => {
         <TouchableOpacity
           style={styles.innerContainer}
           onPress={() => onPress()}>
-          <View style={styles.contain}>
             <View
               style={
                 (match === 2 && chatStart !== 1) || read === 0
@@ -114,7 +113,8 @@ const Chat_listing_Comp = props => {
                 />
               )}
             </View>
-            <View style={styles.description}>
+            <View style={[styles.description, {flexDirection: 'row'}]}>
+            <View style={{maxWidth: 190}}>
               {status_id !== 1 ? (
                 <Text style={styles.userName}>
                   {Strings.Chat.INACTIVE_USER}
@@ -137,12 +137,12 @@ const Chat_listing_Comp = props => {
                   {styleMatchTwo}
                 </Text>
               )}
-            </View>
-          </View>
-          <View style={styles.timeView}>
+                  </View>
+               <View style={styles.timeView}>
             <Text style={styles.time}>{time}</Text>
             {read === 0 && <View style={styles.recentmsg} />}
             {read !== 0 && <View style={{marginTop: 20}} />}
+          </View>
           </View>
         </TouchableOpacity>
       )}

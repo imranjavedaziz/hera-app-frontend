@@ -4,8 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StatusBar,
-  SafeAreaView,
   Platform,
   KeyboardAvoidingView,
   Alert,
