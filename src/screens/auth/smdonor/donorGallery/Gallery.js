@@ -75,9 +75,11 @@ const Gallery = () => {
     delete_gallery_success,
     delete_gallery_loading,
   } = useSelector(state => state.CreateGallery);
+  
   useEffect(() => {
     dispatch(getUserGallery());
   }, [dispatch]);
+
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -313,12 +315,9 @@ const Gallery = () => {
                     priority: FastImage.priority.normal,
                     cache: FastImage.cacheControl.immutable,
                   }}>
-                  {img.uri ? (
+                  {img.uri && (
                     <TouchableOpacity
-                      onPress={() => {
-                        handelDel(img.id);
-                      }}
-                      style={{}}>
+                      onPress={() => { handelDel(img.id); }}>
                       <RNSDWebImage
                         source={
                           remove.includes(img.id)
@@ -328,12 +327,10 @@ const Gallery = () => {
                         style={styles.selectIcon}
                       />
                     </TouchableOpacity>
-                  ) : null}
+                  )}
                   {gIndex === index && (
                     <TouchableOpacity
-                      onPress={() => {
-                        Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
-                      }}
+                      onPress={() => { Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true) }}
                       style={{}}>
                       <RNSDWebImage
                         source={Images.camera}
