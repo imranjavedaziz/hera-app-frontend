@@ -52,7 +52,7 @@ const Login = props => {
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
   useEffect(() => {
-    deviceHandler(props.navigation, 'goBack');
+    deviceHandler(props.navigation, 'exit');
   }, [props.navigation]);
 
   useEffect(() => {
