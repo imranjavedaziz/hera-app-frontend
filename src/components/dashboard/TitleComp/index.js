@@ -8,7 +8,7 @@ const TitleComp = props => {
   return (
     <View style={[styles.mainContainer, containerStyle]}>
       <Text style={styles.screenTitle}>{Title}</Text>
-      <Text style={styles.screenSubTitle} onPress={onPress}>
+      <Text style={styles.screenSubTitle}>
         {Subtitle}
       </Text>
       {isCenter === true && <Text style={styles.midTitle}>{Midtitle}</Text>}

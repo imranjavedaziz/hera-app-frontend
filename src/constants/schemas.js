@@ -258,10 +258,10 @@ export const deleteAccountPassword = yup.object().shape({
 });
 
 export const changePasswordSchema = yup.object().shape({
-  current_password: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  current_password: yup.string().required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
   new_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.PLEASE_ENTER_NEW_PASS)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
@@ -285,7 +285,7 @@ export const changePasswordSchema = yup.object().shape({
     }),
   confirm_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.PLEASE_ENTER_CONFIRM_PASS)
     .oneOf([yup.ref('new_password'), null], 'Your password do not match.'),
 });
 
