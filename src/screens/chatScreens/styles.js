@@ -48,12 +48,12 @@ export default {
     backgroundColor: Colors.WHITE,
     alignItems: Alignment.CENTER,
     marginRight: 20,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
   },
   receiverID: {
     alignSelf: Alignment.FLEX_START,
     flexDirection: Alignment.ROW,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     marginLeft: 10,
     backgroundColor: Colors.GREEN,
@@ -61,12 +61,11 @@ export default {
   mainContainerDetail: {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',
-   borderRadius: 24,
-   paddingVertical:5,
+    borderRadius: 24,
+    paddingVertical: 8,
     marginHorizontal: 15,
-    justifyContent:'center',
-    textAlign:'center'
-
+    justifyContent: Alignment.CENTER,
+    textAlign: Alignment.CENTER,
   },
   border: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
@@ -99,7 +98,7 @@ export default {
   outerContainer: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    justifyContent: 'space-between',
+    justifyContent: Alignment.SPACE_BETWEEN,
     marginTop: 40,
     paddingHorizontal: 20,
   },
@@ -188,11 +187,10 @@ export default {
     marginTop: 45,
     marginRight: 20,
   },
-  warningImage:{
+  warningImage: {
     position: Alignment.ABSOLUTE,
     alignSelf: Alignment.FLEXEND,
     marginLeft: -30,
-    left:0,
-
-  }
+    left: 0,
+  },
 };

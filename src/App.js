@@ -28,7 +28,7 @@ const App = () => {
             animated={true}
             hidden={false}
           />
-          <SafeAreaView />
+          <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
           <Main />
           <Loader />
           <Toast />
