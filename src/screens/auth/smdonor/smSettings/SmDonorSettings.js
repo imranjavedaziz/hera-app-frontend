@@ -39,7 +39,7 @@ import _ from 'lodash';
 import PtbAccount, {
   ToggleNotification,
 } from '../../../../components/dashboard/PtbProfile/PtbAccount';
-
+import {empty} from '../../../../redux/actions/Chat';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -116,6 +116,7 @@ const SmDonorSettings = () => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
+        dispatch(empty())
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
       } else {
@@ -182,7 +183,6 @@ const SmDonorSettings = () => {
 
   const logoutScreen = () => {
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
   return (
     <>

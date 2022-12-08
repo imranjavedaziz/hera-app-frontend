@@ -16,7 +16,8 @@ export const append = data => ({
   payload: data,
 });
 
-export const empty = () => ({
+export const empty = () => (
+  {
   type: EMPTY_CHAT,
 });
 
