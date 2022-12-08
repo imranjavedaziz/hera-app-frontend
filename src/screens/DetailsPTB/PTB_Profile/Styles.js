@@ -204,7 +204,9 @@ export default {
   },
   dateText: {
     fontFamily: Fonts.OpenSansLightItalic,
+    fontSize: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
+    marginLeft: 7,
   },
   dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
   imgCondi: {

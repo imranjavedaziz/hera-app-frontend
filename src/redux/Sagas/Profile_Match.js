@@ -10,6 +10,7 @@ import {
 import {takeLatest, put} from 'redux-saga/effects';
 
 import {ProfileMatchApi, ProfileMatchResponseApi} from '../../Api';
+import {ValidationMessages} from '../../constants/Strings'
 
 function* profileMatch(payload) {
   try {
@@ -23,7 +24,7 @@ function* profileMatch(payload) {
       });
     }
   } catch (err) {
-    yield put({type: PROFILE_MATCH_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: PROFILE_MATCH_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchProfileMatch() {
@@ -41,7 +42,7 @@ function* profileMatchResponse(payload) {
       });
     }
   } catch (err) {
-    yield put({type: PROFILE_MATCH_RESPONSE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: PROFILE_MATCH_RESPONSE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchpProfileMatchResponse() {

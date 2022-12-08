@@ -12,7 +12,7 @@ import {
 } from '../Type';
 import { takeLatest, put } from 'redux-saga/effects';
 import { createSubscriptionApi, subscriptionPlanApi, subscriptionStatusApi } from '../../Api/Subscription';
-
+import {ValidationMessages} from '../../constants/Strings'
 function* CreateSubscription(payload) {
   try {
     const result = yield createSubscriptionApi(payload.data);
@@ -27,7 +27,7 @@ function* CreateSubscription(payload) {
     }
   } catch (err) {
     console.log('err', err);
-    yield put({ type: CREATE_SUBSCRIPTION_FAIL, data: { msg: 'NET ERROR' } });
+    yield put({ type: CREATE_SUBSCRIPTION_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION} });
   }
 }
 export function* watchCreateSubscription() {
@@ -48,7 +48,7 @@ function* SubscriptionPlan(payload) {
     }
   } catch (err) {
     console.log('err', err);
-    yield put({ type: SUBSCRIPTION_PLAN_FAIL, data: { msg: 'NET ERROR' } });
+    yield put({ type: SUBSCRIPTION_PLAN_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION} });
   }
 }
 export function* watchSubscriptionPlan() {
@@ -69,7 +69,7 @@ function* SubscriptionStatus(payload) {
     }
   } catch (err) {
     console.log('err', err);
-    yield put({ type: SUBSCRIPTION_STATUS_FAIL, data: { msg: 'NET ERROR' } });
+    yield put({ type: SUBSCRIPTION_STATUS_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION} });
   }
 }
 export function* watchSubscriptionStatus() {

@@ -24,6 +24,7 @@ import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
@@ -229,7 +230,7 @@ const PTB_profile = props => {
               </View>
             )}
             {stateRes?.profile_match_request?.status !== 2 && (
-              <Pressable
+              <TouchableOpacity
                 style={styles.sendMsgBtn}
                 onPress={() => {
                   onPresslike();
@@ -238,7 +239,7 @@ const PTB_profile = props => {
                 <Text style={styles.sendMsgText}>
                   {Strings.PTB_Profile.send_request}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             )}
             {stateRes?.profile_match_request?.status === 2 && (
               <View style={styles.dateTextView}>

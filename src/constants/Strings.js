@@ -2,9 +2,9 @@ export const ValidationMessages = {
   MOBILE_REQUIRED: 'Mobile number is a required field.',
   PASSWORD_REQUIRED: 'Password is a required field.',
   COMMON_REQUIRED: 'This field is required!',
-  PLEASE_ENTER_CURR_PASS:"Please enter Current Password",
-  PLEASE_ENTER_NEW_PASS:"Please enter New Password",
-  PLEASE_ENTER_CONFIRM_PASS:"Please enter Confirm Password",
+  PLEASE_ENTER_CURR_PASS: 'Please enter Current Password',
+  PLEASE_ENTER_NEW_PASS: 'Please enter New Password',
+  PLEASE_ENTER_CONFIRM_PASS: 'Please enter Confirm Password',
   INVALID_MOBILE: 'Mobile number is not valid.',
   PICTURE_REQUIRE: 'Please upload a display picture',
   TERMS_OF_USE: 'Please accept the Terms of Use',
@@ -73,6 +73,8 @@ export const ValidationMessages = {
   DELETE_TEXT:
     'Once you delete, your data will be removed and cannot be retrieved later.',
   REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
+  //Error
+  NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
@@ -251,7 +253,7 @@ export default {
     donerAge: 'Sperm Donor, 27 yrs',
     Btn: 'Save',
     Sorry: 'Sorry!',
-    Para1: `You have exhausted\n today's limit.`,
+    Para1: "You have exhausted\n today's limit.",
     Para2: 'Please come back tomorrow!',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
@@ -277,8 +279,9 @@ export default {
     video_text: 'Parent has uploaded a short clip',
     Cross_Button: 'Cross Button, Go back',
     ReceiveNoti: 'Receive Notifications',
-    YouMatched:'You had matched on',
-    ReceiveNotiDesc: 'You can choose to turn off notifications. However, you will still receive subscription notifications.'
+    YouMatched: 'You had matched on',
+    ReceiveNotiDesc:
+      'You can choose to turn off notifications. However, you will still receive subscription notifications.',
   },
   donorPofile: {
     Age: 'Age: ',
@@ -291,7 +294,8 @@ export default {
     educationDetail: 'MFA',
     Occupation: 'Occupation: ',
     ocupationDetail: 'Data Analyst',
-    donerDescription: `I give priority to health and play a wide range of sports. I have a good exposure to different cultures of the world. I value the donation programmes & every parent who needs support.`,
+    donerDescription:
+      'I give priority to health and play a wide range of sports. I have a good exposure to different cultures of the world. I value the donation programmes & every parent who needs support.',
     nativePlace: 'Native American',
     fatherPlace: 'Father is',
     motherPlace: 'Mother is',

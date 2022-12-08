@@ -75,7 +75,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_16,
-    width: 128,
+    width: 128
   },
   descText: {
     fontFamily: Fonts.OpenSansRegular,
@@ -89,10 +89,10 @@ export default {
     justifyContent: Alignment.FLEX_START,
   },
   avatar: {
-    width: Value.CONSTANT_VALUE_35,
-    height: Value.CONSTANT_VALUE_35,
+    width: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_40,
 
-    borderRadius: Value.CONSTANT_VALUE_35 / 2,
+    borderRadius: Value.CONSTANT_VALUE_40 / 2,
   },
   outerContainer: {
     flexDirection: Alignment.ROW,

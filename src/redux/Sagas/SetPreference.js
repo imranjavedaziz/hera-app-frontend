@@ -12,6 +12,7 @@ import {
   GET_PREFERENCE_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
+import {ValidationMessages} from '../../constants/Strings'
 function* SetPreferenceRes() {
   try {
     const result = yield setPreferenceApi();
@@ -24,7 +25,7 @@ function* SetPreferenceRes() {
       });
     }
   } catch (err) {
-    yield put({type: SET_PREFERENCE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SET_PREFERENCE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchsetPreference() {
@@ -43,7 +44,7 @@ function* SavePreference(payload) {
       });
     }
   } catch (err) {
-    yield put({type: SAVE_PREFERENCE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SAVE_PREFERENCE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSavePreferenceRes() {
@@ -62,7 +63,7 @@ function* GetPreferenceRes() {
       });
     }
   } catch (err) {
-    yield put({type: GET_PREFERENCE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_PREFERENCE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchgetPreference() {

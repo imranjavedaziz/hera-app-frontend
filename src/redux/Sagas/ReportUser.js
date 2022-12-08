@@ -3,6 +3,7 @@ import {takeLatest, put} from 'redux-saga/effects';
 
 import {HttpStatus} from '../../constants/Constants';
 import {ReportUserApi} from '../../Api';
+import {ValidationMessages} from '../../constants/Strings'
 
 //Report User
 function* ReportUser(payload) {
@@ -19,7 +20,7 @@ function* ReportUser(payload) {
   } catch (err) {
     yield put({
       type: REPORT_USER_FAIL,
-      data: {msg: 'Seems like there is no internet connection.'},
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
     });
   }
 }
