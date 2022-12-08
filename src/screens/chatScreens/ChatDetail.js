@@ -6,7 +6,6 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
-  Keyboard,
   Platform,
   KeyboardAvoidingView,
   Alert,
@@ -169,7 +168,6 @@ const ChatDetail = props => {
     } else {
       setTextData('');
       if (messages.text !== '') {
-        Keyboard.dismiss();
         db.sendMessage(messages.text)
           .then(() => {
             let data = {
@@ -340,7 +338,6 @@ const ChatDetail = props => {
         hidden={false}
       />
       <SafeAreaView />
-
       <View
         style={{
           position: 'absolute',
@@ -590,7 +587,7 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              minComposerHeight={textData?.length > 75 ? 60 : 34}
+              minComposerHeight={textData?.length > 75 ? 60 : 30}
               listViewProps={{
                 scrollEventThrottle: 400,
                 onScroll: () => {

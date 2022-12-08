@@ -21,7 +21,7 @@ const ChatListing = props => {
   const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
   const fetchData = useCallback(() => {
-  chatData.update();
+    chatData.update();
     setLoader(false);
     setRefreshing(false);
   }, []);
@@ -30,7 +30,7 @@ const ChatListing = props => {
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     deviceHandler(navigation, 'deviceGoBack');
-  });
+  }, []);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
