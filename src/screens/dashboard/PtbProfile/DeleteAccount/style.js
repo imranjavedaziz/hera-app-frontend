@@ -1,6 +1,6 @@
 import {Alignment, Colors} from '../../../../constants';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
+import {dynamicSize, normalizeFont, statusHide} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 
 export default {
@@ -15,9 +15,7 @@ export default {
   mainContainer: {
     backgroundColor: Colors.BACKGROUND_WHOLE,
   },
-  header: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
-  },
+
   headerText: {
     marginRight: Value.CONSTANT_VALUE_30,
     textDecorationLine: Alignment.UNDERLINE,
@@ -35,7 +33,7 @@ export default {
   },
   headingContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
   innerHeading: {
     marginTop: Value.CONSTANT_VALUE_8,

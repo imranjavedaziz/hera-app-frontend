@@ -1,6 +1,6 @@
 import {Alignment, Colors} from '../../../../constants';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
+import {dynamicSize, normalizeFont, statusHide} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
@@ -22,7 +22,7 @@ export default {
   },
   headingContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
   changePassword: {
     color: Colors.BLACK,

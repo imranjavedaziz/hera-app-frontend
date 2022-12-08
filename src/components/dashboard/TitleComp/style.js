@@ -7,7 +7,6 @@ import {dynamicSize} from '../../../utils/responsive';
 export default {
   mainContainer: {
     height: Value.CONSTANT_VALUE_118,
-    paddingTop: Value.CONSTANT_VALUE_15,
     marginBottom: Value.CONSTANT_VALUE_40,
   },
   screenTitle: {

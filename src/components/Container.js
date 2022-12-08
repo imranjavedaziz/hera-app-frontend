@@ -16,13 +16,9 @@ const styles = {
   container: {
     flex: Value.CONSTANT_VALUE_1,
     marginHorizontal: Value.CONSTANT_VALUE_25,
-    marginTop: Value.CONSTANT_VALUE_8,
   },
   safearea: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
-  flexMain: {flex: Value.CONSTANT_VALUE_1},
-  paddingTop: {
-    paddingTop: Value.CONSTANT_VALUE_57,
-  },
+  flexMain: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
 };
 const Scroller = ({
   enabled,

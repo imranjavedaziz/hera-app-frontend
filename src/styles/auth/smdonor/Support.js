@@ -1,6 +1,7 @@
 import {Value} from '../../../constants/FixedValues';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
+import { statusHide } from '../../../utils/responsive';
 
 export default {
   mainContainer: {
@@ -13,7 +14,7 @@ export default {
     flex: 1,
     justifyContent: Alignment.FLEX_START,
     paddingHorizontal: 40,
-    marginTop: Value.CONSTANT_VALUE_59,
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
   title: {
     color: Colors.BLACK,

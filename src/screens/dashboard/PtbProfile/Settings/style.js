@@ -1,18 +1,17 @@
 import {Alignment, Colors} from '../../../../constants';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
+import {
+  dynamicSize,
+  normalizeFont,
+  statusHide,
+} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     backgroundColor: Colors.BACKGROUND_WHOLE,
   },
-  headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
-    marginLeft: Value.CONSTANT_VALUE_30,
-  },
   headerIconAndroid: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   headingContainer: {
@@ -21,7 +20,7 @@ export default {
   },
   headingAndroidContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_59),
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
   Settings: {
     fontFamily: Fonts.OpenSansBold,
@@ -60,7 +59,6 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_52),
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   modalView: {

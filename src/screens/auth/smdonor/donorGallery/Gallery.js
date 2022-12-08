@@ -1,5 +1,5 @@
 //Donor gallery
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   View,
@@ -10,7 +10,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import globalStyle from '../../../../styles/global';
@@ -21,19 +21,20 @@ import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../Api/User';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserGallery,
   deleteGallery,
 } from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
-import { CircleBtn } from '../../../../components/Header';
-import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
+import {CircleBtn} from '../../../../components/Header';
+import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
-import { BottomSheetComp } from '../../../../components';
+import {BottomSheetComp} from '../../../../components';
+import {statusHide} from '../../../../utils/responsive';
 
 const images = [];
 const counter = 0;
@@ -47,15 +48,15 @@ const Gallery = () => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [gallery, setGallery] = useState([
-    { id: 0, uri: '', loading: false },
-    { id: 1, uri: '', loading: false },
-    { id: 2, uri: '', loading: false },
-    { id: 3, uri: '', loading: false },
-    { id: 4, uri: '', loading: false },
-    { id: 5, uri: '', loading: false },
+    {id: 0, uri: '', loading: false},
+    {id: 1, uri: '', loading: false},
+    {id: 2, uri: '', loading: false},
+    {id: 3, uri: '', loading: false},
+    {id: 4, uri: '', loading: false},
+    {id: 5, uri: '', loading: false},
   ]);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({ file_url: '', loading: false, id: 0 });
+  const [video, setVideo] = useState({file_url: '', loading: false, id: 0});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
@@ -122,7 +123,7 @@ const Gallery = () => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
           if (i === gIndex) {
-            return { id: i, uri: img.uri, loading };
+            return {id: i, uri: img.uri, loading};
           }
           return img;
         });
@@ -141,10 +142,10 @@ const Gallery = () => {
   const selectVideo = index => {
     videoPicker(index).then(v => {
       if (v?.path) {
-        setVideo({ file_url: v.path, loading: false });
+        setVideo({file_url: v.path, loading: false});
         setOpen(false);
       } else {
-        setVideo({ file_url: '', loading: false });
+        setVideo({file_url: '', loading: false});
         setOpen(false);
       }
 
@@ -156,7 +157,7 @@ const Gallery = () => {
         uri: v.path,
       });
       userService.createGallery(reqData, loading =>
-        setVideo(old => ({ ...old, loading })),
+        setVideo(old => ({...old, loading})),
       );
     });
   };
@@ -209,7 +210,7 @@ const Gallery = () => {
       setRmvVideoCount(0);
       setSelVideo(false);
     } else {
-      let payload = { ids: remove?.join() };
+      let payload = {ids: remove?.join()};
       dispatch(showAppLoader());
       dispatch(deleteGallery(payload));
       setDel(false);
@@ -227,13 +228,13 @@ const Gallery = () => {
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
-          return { id: url[i]?.id, uri: url[i]?.file_url, loading: false };
+          return {id: url[i]?.id, uri: url[i]?.file_url, loading: false};
         }
-        return { id: i, uri: '', loading: false };
+        return {id: i, uri: '', loading: false};
       });
     });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({ uri: url[i]?.file_url });
+      images.push({uri: url[i]?.file_url});
     }
     if (url?.length === undefined) {
       setGIndex(0);
@@ -288,6 +289,7 @@ const Gallery = () => {
     setOpen(true);
     setIsVideo(true);
   };
+
   return (
     <>
       <Container
@@ -295,7 +297,7 @@ const Gallery = () => {
         headerEnd={false}
         headerComp={headerComp}
         style={style.containerStyle}>
-        <View style={globalStyle.mainContainer}>
+        <View style={[globalStyle.mainContainer, {marginTop: statusHide(105)}]}>
           <Text style={globalStyle.screenTitle}>
             {Strings.sm_create_gallery.myGallery}
           </Text>
