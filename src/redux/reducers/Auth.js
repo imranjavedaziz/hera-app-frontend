@@ -127,6 +127,7 @@ export default (state = initState, action) => {
         token: '',
         log_in_error_msg: '',
         log_in_data: {},
+        register_user_success: false,
       };
     }
     case AUTH_LOG_IN_FAIL: {
@@ -150,6 +151,7 @@ export default (state = initState, action) => {
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
         login: true,
+        register_user_success: false,
       };
     }
 
@@ -234,6 +236,8 @@ export default (state = initState, action) => {
         ...state,
         user: initState.user,
         gallery: initState.gallery,
+        register_user_success: false,
+        registration_step: 1,
       };
     case AUTH_MOBILE_NUMBER: {
       return {
@@ -319,6 +323,7 @@ export default (state = initState, action) => {
         log_in_data: '',
         user: initState.user,
         registerUser: '',
+        register_user_success: false,
       };
     }
     /**

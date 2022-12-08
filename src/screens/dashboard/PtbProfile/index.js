@@ -33,7 +33,6 @@ import {
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
-import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import {getRoleType} from '../../../utils/other';
 
 const PtbProfile = () => {
