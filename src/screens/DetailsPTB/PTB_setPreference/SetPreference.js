@@ -49,6 +49,7 @@ import {getStates} from '../../../redux/actions/Register';
 import openWebView from '../../../utils/openWebView';
 import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
+import {empty} from '../../../redux/actions/Chat';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -191,6 +192,7 @@ const SetPreference = ({route, navigation}) => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(hideAppLoader());
+        dispatch(empty())
         navigation.navigate(Routes.Landing);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));

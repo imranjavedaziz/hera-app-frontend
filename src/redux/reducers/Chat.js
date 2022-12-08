@@ -28,7 +28,9 @@ export default (state = initState, action) => {
         chats: [action.payload, ...state.chats],
       };
     case APPEND_CHAT:
-     let sortedData=action?.payload?.sort(function(a, b){return b?.time - a?.time});
+      let sortedData = action?.payload?.sort(function (a, b) {
+        return b?.time - a?.time;
+      });
       return {
         ...state,
         chats: sortedData,
@@ -37,7 +39,6 @@ export default (state = initState, action) => {
       return {
         ...state,
         chats: [],
-        matchedUsers: [],
       };
 
     case FEEDBACK_CHAT:
