@@ -9,7 +9,7 @@ import {
 
 import {takeLatest, put} from 'redux-saga/effects';
 import {verifyEmail, sendVerificationMail} from '../../Api';
-
+import {ValidationMessages} from '../../constants/Strings'
 //Verify Mail
 function* verifyMail(payload) {
   try {
@@ -40,7 +40,7 @@ function* sendMailVerification() {
       });
     }
   } catch (err) {
-    yield put({type: SEND_VERIFICATION_MAIL_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SEND_VERIFICATION_MAIL_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSendMailVerification() {

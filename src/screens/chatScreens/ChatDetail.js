@@ -578,7 +578,7 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-               minComposerHeight={textData?.length > 75 ? 60 : 40}
+              minComposerHeight={textData?.length > 75 ? 60 : 40}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
