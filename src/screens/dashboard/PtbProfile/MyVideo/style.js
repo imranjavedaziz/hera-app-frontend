@@ -141,4 +141,9 @@ export default {
     backgroundColor: 'transparent',
     height: '100%',
   },
+  materialIcon:{
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignSelf: "center"
+  }
 };
