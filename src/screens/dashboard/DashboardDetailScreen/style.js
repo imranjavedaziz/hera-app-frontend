@@ -14,7 +14,7 @@ export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_69),
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   bioContainer: {
@@ -28,7 +28,7 @@ export default {
   },
   innerContainer: {},
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   nativeMainContainer: {
