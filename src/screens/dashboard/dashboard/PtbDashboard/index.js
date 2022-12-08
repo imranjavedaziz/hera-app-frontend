@@ -79,11 +79,9 @@ const PtbDashboard = props => {
     if (_.isEmpty(chats)) {
       setMsgRead(false);
     } else {
-      return chats.find(o => {
-        o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
-      });
+      setMsgRead(chats.some(x => x?.read === 0));
     }
-  }, []);
+  }, [chats]);
   useFocusEffect(
     useCallback(() => {
       dispatch(getPtbDashboard());
@@ -124,7 +122,6 @@ const PtbDashboard = props => {
               isComingFrom: false,
               chatPush: true,
             });
-            setMsgRead(false);
           }
         }
         if (notification.userInteraction === false) {
@@ -177,7 +174,6 @@ const PtbDashboard = props => {
             isComingFrom: false,
             chatPush: true,
           });
-          setMsgRead(false);
         }
       }
       if (notification.userInteraction === false) {
