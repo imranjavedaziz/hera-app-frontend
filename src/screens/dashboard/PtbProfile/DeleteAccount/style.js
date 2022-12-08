@@ -1,6 +1,6 @@
 import {Alignment, Colors} from '../../../../constants';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, normalizeFont, statusHide} from '../../../../utils/responsive';
+import {normalizeFont, statusHide} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 
 export default {

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  Platform,
 } from 'react-native';
 import React, {
   useRef,
@@ -26,11 +25,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {getRoleType} from '../../../../utils/other';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import {MaterialIndicator} from 'react-native-indicators';
@@ -79,11 +74,9 @@ const PtbDashboard = props => {
     if (_.isEmpty(chats)) {
       setMsgRead(false);
     } else {
-      return chats.find(o => {
-        o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
-      });
+      setMsgRead(chats.some(x => x?.read === 0));
     }
-  }, []);
+  }, [chats]);
   useFocusEffect(
     useCallback(() => {
       dispatch(getPtbDashboard());
@@ -124,7 +117,6 @@ const PtbDashboard = props => {
               isComingFrom: false,
               chatPush: true,
             });
-            setMsgRead(false);
           }
         }
         if (notification.userInteraction === false) {
@@ -177,7 +169,6 @@ const PtbDashboard = props => {
             isComingFrom: false,
             chatPush: true,
           });
-          setMsgRead(false);
         }
       }
       if (notification.userInteraction === false) {

@@ -21,6 +21,7 @@ export default {
     alignItems: Alignment.FLEXEND,
     marginRight: Value.CONSTANT_VALUE_30,
   },
+
   clearView: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
