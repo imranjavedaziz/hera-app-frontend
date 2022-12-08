@@ -6,7 +6,6 @@ import {
   Pressable,
   ScrollView,
   Animated,
-  Platform,
 } from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
