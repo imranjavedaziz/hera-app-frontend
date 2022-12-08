@@ -2,8 +2,7 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {dynamicSize, height, width} from '../../../../utils/responsive';
-
+import {height, width} from '../../../../utils/responsive';
 export default {
   mainContainer: {},
   conatiner: {
@@ -23,7 +22,7 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: (width - 70) / 2,
+    width: (width - 75) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,

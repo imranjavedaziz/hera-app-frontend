@@ -8,12 +8,13 @@ import {
   normalizeFont,
   scaleHeight,
   scaleWidth,
+  statusHide,
 } from '../../../utils/responsive';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_69),
+    marginTop: statusHide(105),
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   bioContainer: {
@@ -27,7 +28,6 @@ export default {
   },
   innerContainer: {},
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   nativeMainContainer: {
