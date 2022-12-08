@@ -1,12 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {
-  scaleWidth,
-  normalizeFont,
-  dynamicSize,
-  statusHide,
-} from '../../../utils/responsive';
+import {scaleWidth, normalizeFont, statusHide} from '../../../utils/responsive';
 
 export default {
   flex_1: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},

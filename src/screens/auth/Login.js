@@ -25,7 +25,6 @@ import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
-import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
 

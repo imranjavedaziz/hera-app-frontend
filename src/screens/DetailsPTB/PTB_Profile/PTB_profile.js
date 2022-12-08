@@ -22,11 +22,8 @@ import {
 } from '../../../redux/actions/PtbProfileDetail';
 import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
-import {MaterialIndicator} from 'react-native-indicators';
 import FastImage from 'react-native-fast-image';
-import {Colors} from '../../../constants';
 import moment from 'moment';
-import {dynamicSize} from '../../../utils/responsive';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
