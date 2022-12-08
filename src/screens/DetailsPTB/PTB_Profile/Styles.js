@@ -9,6 +9,7 @@ import {
   height,
   width,
   px,
+  statusHide,
 } from '../../../utils/responsive';
 
 export default {
@@ -25,17 +26,15 @@ export default {
   mainAndroidContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_70),
+    marginTop: statusHide(105),
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   colorText: {color: Colors.BLACK},
   location: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_29,
   },
   androidHeaderIcons: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   locationText: {
@@ -56,7 +55,6 @@ export default {
     flexDirection: Alignment.ROW_REVERSE,
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_3,
-    marginTop: Value.CONSTANT_VALUE_25,
   },
   profileType: {
     fontFamily: Fonts.OpenSansRegular,

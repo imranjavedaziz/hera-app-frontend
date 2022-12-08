@@ -2,14 +2,18 @@ import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
-import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
+import {
+  dynamicSize,
+  scaleWidth,
+  statusHide,
+} from '../../../../utils/responsive';
 
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
-    marginTop: Value.CONSTANT_VALUE_40,
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
   logo: {
     width: Value.CONSTANT_VALUE_200,

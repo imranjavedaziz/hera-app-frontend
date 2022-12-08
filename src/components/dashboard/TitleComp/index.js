@@ -8,9 +8,7 @@ const TitleComp = props => {
   return (
     <View style={[styles.mainContainer, containerStyle]}>
       <Text style={styles.screenTitle}>{Title}</Text>
-      <Text style={styles.screenSubTitle}>
-        {Subtitle}
-      </Text>
+      <Text style={styles.screenSubTitle}>{Subtitle}</Text>
       {isCenter === true && <Text style={styles.midTitle}>{Midtitle}</Text>}
       <Image style={styles.Icon} source={Icon} />
     </View>
