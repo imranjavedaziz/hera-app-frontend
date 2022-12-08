@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import Images from '../constants/Images';
 import Strings from '../constants/Strings';
 import Alignment from '../constants/Alignment';

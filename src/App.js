@@ -16,7 +16,6 @@ import Toast from './components/Toast';
 import NotificationContextManager from './context/NotificationContextManager';
 import {SafeAreaView, StatusBar} from 'react-native';
 import {Colors} from './constants';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const App = () => {
   return (
