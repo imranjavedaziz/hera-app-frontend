@@ -33,6 +33,7 @@ export default {
   COLOR_RED: '#ff4544',
   HIGHLIGHT_PINK: '#e5acb1d9',
   PINK: '#e5acb1',
+  TAGCOLOR: '#F1DEDD',
   CAMERA_BLUE: '#93c0ba',
   VDOCONTAINER: 'rgba(215,213,202,0.49)',
   COLOR_535858: 'rgb(53,58,58)',

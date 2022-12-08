@@ -4,7 +4,7 @@ export default {
   GEAR_ICON: require('../assets/icons/gear.png'),
   CROSS_ICON: require('../assets/icons/cross.png'),
   RED_CROSS_ICON: require('../assets/icons/iconredcross/iconredcross.png'),
-  HEARTH_ICON: require('../assets/icons/iconheartinbox/iconheartinbox.png'),
+  HEARTH_ICON: require('../assets/icons/iconheartinbox/icongreenheart.png'),
   arrowDown: require('../assets/icons/arrowDown/arrowDown.png'),
   blockUser: require('../assets/icons/blockUser/blockUser.png'),
   calendar: require('../assets/icons/calendar/calendar.png'),

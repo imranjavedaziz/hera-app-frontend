@@ -77,6 +77,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     justifyContent: 'flex-start',
+    // backgroundColor: 'pink',
   },
   sel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
