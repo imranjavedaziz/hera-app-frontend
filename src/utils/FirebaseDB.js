@@ -90,6 +90,13 @@ export default class FirebaseDB {
     if (keys.length < SIZE) {
       this.endReached = true;
     }
+    this.reference
+      .orderByKey()
+      .once('value')
+      .then(snapshot => {
+        this.totalSize = snapshot.numChildren();
+      });
+    this.totalSize = snapshot.numChildren();
     snapshot.forEach(async (childSnapshot, index) => {
       const messageItem = this.parseMessages(childSnapshot);
       if ((this.messages.length === 0 && this.firstKey === '') || index === 0) {
@@ -100,7 +107,6 @@ export default class FirebaseDB {
       this.prependMessage(messageItem);
     });
   }
-
   async sendMessage(msg) {
     const timestampRow = Date.now();
     const referenceDb = database().ref(
@@ -216,7 +222,7 @@ export default class FirebaseDB {
       console.log(e);
     }
   }
-  async updateHistory(lastMsg, timestampRow) {
+  async updateHistory(lastMsg) {
     const referenceUser = database().ref(
       `/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`,
     );

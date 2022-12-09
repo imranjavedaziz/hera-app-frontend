@@ -164,7 +164,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    marginTop: px(Value.CONSTANT_VALUE_10),
+    textAlign:Alignment.CENTER
   },
   userImg: {
     width: px(Value.CONSTANT_VALUE_60),
@@ -185,6 +185,7 @@ export default {
   headersm: {
     marginTop: 45,
     marginRight: 20,
+    alignSelf: Alignment.FLEXEND,
   },
   warningImage: {
     position: Alignment.ABSOLUTE,
@@ -192,4 +193,19 @@ export default {
     marginLeft: -30,
     left: 0,
   },
+  profileLikeScree:{
+    width: px(Value.CONSTANT_VALUE_190),
+    height: px(Value.CONSTANT_VALUE_190),
+    borderStyle: 'solid',
+    borderWidth: px(Value.CONSTANT_VALUE_2),
+    borderColor: Colors.WHITE,
+    marginVertical: px(Value.CONSTANT_VALUE_54),
+    borderRadius: px(Value.CONSTANT_VALUE_90),
+  },
+  matchFoundText:{
+    fontFamily: Fonts.OpenSansBold,
+    fontSize:px(Value.CONSTANT_VALUE_35),
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+  }
 };
