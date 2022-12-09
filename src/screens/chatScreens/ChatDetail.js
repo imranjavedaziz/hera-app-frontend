@@ -159,7 +159,7 @@ const ChatDetail = props => {
     ) {
       navigation.navigate(Routes.Subscription);
     } else if (
-      props.route.params.item.status_id !== 1 ||
+      parseInt(props.route.params.item.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
         parseInt(props.route.params.item.recieverSubscription) === 0)
     ) {
