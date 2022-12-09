@@ -4,7 +4,6 @@ import {
   height,
   normalizeFont,
   px,
-  scaleHeight,
   scaleWidth,
   statusHide,
 } from '../../../../utils/responsive';
@@ -37,8 +36,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    marginTop: px(Value.CONSTANT_VALUE_35),
-    bottom: px(25),
+    bottom: px(30),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -51,11 +49,11 @@ export default {
   mainImageContainer: {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    bottom: Value.CONSTANT_VALUE_2_34,
+    bottom: Value.CONSTANT_VALUE_30,
   },
   ImageSize: {
-    height: scaleHeight(400),
-    width: scaleWidth(340),
+    height: dynamicSize(450),
+    width: dynamicSize(320),
   },
   emptyCardContainer: {
     marginTop: Value.CONSTANT_VALUE_263,
@@ -81,9 +79,6 @@ export default {
     color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
-  },
-  headerIcon: {
-
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),
