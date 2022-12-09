@@ -25,6 +25,8 @@ const Chat_listing_Comp = props => {
     match === 1 && message === ''
       ? Strings.Chat.PARENT_TO_BE_SEND_REQUEST
       : message;
+
+      console.log(match,chatStart,'match,chatstart')
   return (
     <>
       {currentRole !== 1 && roleId === 2 && (
@@ -87,33 +89,33 @@ const Chat_listing_Comp = props => {
         <TouchableOpacity
           style={styles.innerContainer}
           onPress={() => onPress()}>
-            <View
-              style={
-                (match === 2 && chatStart !== 1) || read === 0
-                  ? styles.ImgView
-                  : styles.unReadImgView
-              }>
-              {status_id !== 1 && (
-                <FastImage
-                  style={styles.userImg}
-                  source={Images.defaultProfile}
-                />
-              )}
-              {status_id === 1 && (
-                <FastImage
-                  style={styles.userImg}
-                  source={currentRole === 1 ? Images.ADMIN_ICON : {uri: image}}
-                />
-              )}
+          <View
+            style={
+              (match === 2 && chatStart !== 1) || read === 0
+                ? styles.ImgView
+                : styles.unReadImgView
+            }>
+            {status_id !== 1 && (
+              <FastImage
+                style={styles.userImg}
+                source={Images.defaultProfile}
+              />
+            )}
+            {status_id === 1 && (
+              <FastImage
+                style={styles.userImg}
+                source={currentRole === 1 ? Images.ADMIN_ICON : {uri: image}}
+              />
+            )}
 
-              {match === 2 && currentRole !== 1 && chatStart !== 1 && (
-                <FastImage
-                  style={styles.heartIcon}
-                  source={Images.WHITE_GREEN_HEART}
-                />
-              )}
-            </View>
-            <View style={[styles.description, {flexDirection: 'row'}]}>
+            {match === 2 && currentRole !== 1 && chatStart !== 1 && (
+              <FastImage
+                style={styles.heartIcon}
+                source={Images.WHITE_GREEN_HEART}
+              />
+            )}
+          </View>
+          <View style={[styles.description, {flexDirection: 'row'}]}>
             <View style={{maxWidth: 190}}>
               {status_id !== 1 ? (
                 <Text style={styles.userName}>
@@ -137,12 +139,12 @@ const Chat_listing_Comp = props => {
                   {styleMatchTwo}
                 </Text>
               )}
-                  </View>
-               <View style={styles.timeView}>
-            <Text style={styles.time}>{time}</Text>
-            {read === 0 && <View style={styles.recentmsg} />}
-            {read !== 0 && <View style={{marginTop: 20}} />}
-          </View>
+            </View>
+            <View style={styles.timeView}>
+              <Text style={styles.time}>{time}</Text>
+              {read === 0 && <View style={styles.recentmsg} />}
+              {read !== 0 && <View style={{marginTop: 20}} />}
+            </View>
           </View>
         </TouchableOpacity>
       )}

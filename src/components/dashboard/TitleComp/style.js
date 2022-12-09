@@ -38,6 +38,6 @@ export default {
 
   Icon: {
     left: dynamicSize(Value.CONSTANT_VALUE_263),
-    bottom: dynamicSize(Value.CONSTANT_VALUE_25),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_15),
   },
 };
