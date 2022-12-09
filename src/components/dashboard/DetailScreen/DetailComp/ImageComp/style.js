@@ -19,7 +19,7 @@ export default {
     height: dynamicSize(86.8),
     width: dynamicSize(86.8),
     borderRadius: dynamicSize(90),
-    backgroundColor: 'E2E1D8',
+    backgroundColor: '#E2E1D8',
   },
   row: {
     flexDirection: Alignment.ROW,
