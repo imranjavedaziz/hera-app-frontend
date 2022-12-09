@@ -1,8 +1,8 @@
 import * as yup from 'yup';
-import Strings, { ValidationMessages } from './Strings';
-import { Value } from './FixedValues';
+import Strings, {ValidationMessages} from './Strings';
+import {Value} from './FixedValues';
 import moment from 'moment';
-import { calculateBirthYear } from '../utils/calculateBirthYear';
+import {calculateBirthYear} from '../utils/calculateBirthYear';
 
 export const Regx = {
   MOBILE_REGEX: /^[0]?[1-9]\d{9,10}$/,
@@ -26,13 +26,22 @@ const REG_OBJ = {
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_MOBILE,
     }),
-}
+};
 
 export const mobileSchema = yup.object().shape(REG_OBJ);
 export const otpSchema = yup.object().shape({
   otp: yup.string().required(ValidationMessages.OTP_REQUIRED),
 });
-export const loginSchema = yup.object().shape(REG_OBJ);
+export const loginSchema = yup.object().shape({
+  phone: yup
+    .string()
+    .required(ValidationMessages.MOBILE_REQUIRED)
+    .matches(Regx.MOBILE_REGEX, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    }),
+  password: yup.string().required(ValidationMessages.PASSWORD_REQUIRED),
+});
 export const parentRegisterSchema = yup.object().shape({
   first_name: yup
     .string()
@@ -116,7 +125,7 @@ export const smRegisterSchema = yup.object().shape({
     .string()
     .required(ValidationMessages.DOB)
     .test('DOB', Strings.sm_register.Surrogate_Mother_error, (value, ctx) => {
-      const { parent } = ctx;
+      const {parent} = ctx;
       const formatedDate = moment(value).format('YYYY/MM/DD');
       const selectedAge = calculateBirthYear(formatedDate);
       if (parent?.role === '3') {
@@ -134,13 +143,11 @@ export const smRegisterSchema = yup.object().shape({
         }
       }
       let message = '';
-      if(parent?.role === '3'){
+      if (parent?.role === '3') {
         message = Strings.sm_register.Surrogate_Mother_error;
-      }
-      else if(parent?.role === '4'){
+      } else if (parent?.role === '4') {
         message = Strings.sm_register.Egg_Donar_error;
-      }
-      else{
+      } else {
         message = Strings.sm_register.Sperm_Donar_error;
       }
       return ctx.createError({message});
@@ -258,7 +265,9 @@ export const deleteAccountPassword = yup.object().shape({
 });
 
 export const changePasswordSchema = yup.object().shape({
-  current_password: yup.string().required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
+  current_password: yup
+    .string()
+    .required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
   new_password: yup
     .string()
     .required(ValidationMessages.PLEASE_ENTER_NEW_PASS)

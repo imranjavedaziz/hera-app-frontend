@@ -51,7 +51,6 @@ import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import {empty} from '../../../redux/actions/Chat';
-
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;

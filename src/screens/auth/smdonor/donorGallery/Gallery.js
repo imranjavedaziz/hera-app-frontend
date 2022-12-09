@@ -21,11 +21,8 @@ import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../Api/User';
-import {useSelector, useDispatch} from 'react-redux';
-import {
-  getUserGallery,
-  deleteGallery,
-} from '../../../../redux/actions/CreateGallery';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserGallery, deleteGallery, } from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
@@ -48,12 +45,12 @@ const Gallery = () => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [gallery, setGallery] = useState([
-    {id: 0, uri: '', loading: false},
-    {id: 1, uri: '', loading: false},
-    {id: 2, uri: '', loading: false},
-    {id: 3, uri: '', loading: false},
-    {id: 4, uri: '', loading: false},
-    {id: 5, uri: '', loading: false},
+    { id: 0, uri: '', loading: true },
+    { id: 1, uri: '', loading: true },
+    { id: 2, uri: '', loading: true },
+    { id: 3, uri: '', loading: true },
+    { id: 4, uri: '', loading: true },
+    { id: 5, uri: '', loading: true },
   ]);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false, id: 0});
@@ -75,7 +72,7 @@ const Gallery = () => {
     delete_gallery_success,
     delete_gallery_loading,
   } = useSelector(state => state.CreateGallery);
-  
+
   useEffect(() => {
     dispatch(getUserGallery());
   }, [dispatch]);
@@ -338,7 +335,7 @@ const Gallery = () => {
                       />
                     </TouchableOpacity>
                   )}
-                  {img.loading && <ActivityIndicator />}
+                  {img?.loading && <ActivityIndicator />}
                 </FastImage>
               </TouchableOpacity>
             ))}
