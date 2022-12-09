@@ -113,39 +113,6 @@ const Subscription = props => {
       purchaseAPI(_purchasereceipt);
     }
   }, [isCallApi]);
-
-  React.useEffect(() => {
-    purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
-      async purchase => {
-        const receipt = purchase.transactionReceipt;
-        if (receipt) {
-          try {
-            setPurchaseReceipt(purchase);
-            setCallApi(true);
-            await RNIap.finishTransaction({purchase, isConsumable: true});
-            if (Platform.OS === 'android') {
-              await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
-            }
-          } catch (ackErr) {
-            console.log('ERROR LINE NO 101', ackErr);
-          }
-        }
-      },
-    );
-    purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
-      console.log('ERROR LINE NO 101', error);
-    });
-    return () => {
-      if (purchaseUpdateSubscription) {
-        purchaseUpdateSubscription.remove();
-        purchaseUpdateSubscription = null;
-      }
-      if (purchaseErrorSubscription) {
-        purchaseErrorSubscription.remove();
-        purchaseErrorSubscription = null;
-      }
-    };
-  }, []);
   const purchaseAPI = item => {
     console.log("CHECKING CREATE SUB LINE NO 141");
     let payload = {
@@ -200,19 +167,26 @@ const Subscription = props => {
     }
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
-    try {
-      await RNIap.requestSubscription({sku})
-        .then(async result => {
-          console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
-        })
-        .catch(err => {
-          console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
-          console.log(err?.message);
-          dispatch(hideAppLoader());
-        });
-    } catch (error) {
-      console.warn(`err ${error.code}`, error.message);
-    }
+    RNIap.requestSubscription({sku})
+    .then(async result => {
+      console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
+      const receipt = result.transactionReceipt;
+      if (receipt) {
+        try {
+          setPurchaseReceipt(result);
+          setCallApi(true);
+          await RNIap.finishTransaction({result, isConsumable: true});
+        } catch (ackErr) {
+          console.log('ERROR LINE NO 101', ackErr);
+        }
+      }
+    })
+    .catch(err => {
+      console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
+      console.log(err?.message);
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true,err.message));
+    });
   };
   return (
     <>
