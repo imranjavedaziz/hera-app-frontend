@@ -7,7 +7,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -26,7 +29,6 @@ import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {NotificationContext} from '../../context/NotificationContextManager';
-import normalizeInput from '../../utils/normalizeInput';
 
 const type = 2;
 const Login = props => {
@@ -103,6 +105,31 @@ const Login = props => {
     setPayloadData(payload);
     dispatch(logIn(payload));
   };
+
+  const normalizeInput = (value, previousValue) => {
+    const deleting = previousValue && previousValue.length > value.length;
+    if (deleting) {
+      return value.replace(/[^\w]/g, '');
+    }
+    if (!value) {
+      return value;
+    }
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+    if (!previousValue || value.length > previousValue.length) {
+      if (cvLength < 4) {
+        return currentValue;
+      }
+      if (cvLength < 7) {
+        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
+      }
+      return `${currentValue.slice(0, 3)} ${currentValue.slice(
+        3,
+        6,
+      )} (${currentValue.slice(6, 10)})`;
+    }
+  };
+
   const handelChange = async value => {
     reset({phone: '', password: getValues('password')});
     await setPhone(prevstate => normalizeInput(value, prevstate));
@@ -114,72 +141,85 @@ const Login = props => {
     }
     setValue('phone', a);
   };
+  console.log('errors.password?.message', errors.password?.message);
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled">
-        <View style={styles.mainContainer}>
-          <Image source={Images.LOGO} style={styles.logo} />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.login.MobileNumber}
-                value={phone}
-                onChangeText={v => {
-                  handelChange(v);
-                }}
-                keyboardType="number-pad"
-                maxLength={14}
-                error={errors && errors.phone?.message}
-              />
-            )}
-            name="phone"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.login.Password}
-                value={value}
-                onChangeText={v => onChange(v)}
-                secureTextEntry={!show}
-                minLength={8}
-                error={errors && errors.password?.message}
-                endComponent={() => (
-                  <TouchableOpacity
-                    onPress={() => setShow(!show)}
-                    style={styles.psswrdInput}>
-                    <Image
-                      source={show ? Images.eye2 : Images.eye}
-                      style={{height: show ? 18 : 10, width: show ? 18 : 15}}
-                    />
-                  </TouchableOpacity>
+        <KeyboardAwareScrollView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.flex}
+          keyboardShouldPersistTaps="handled">
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.mainContainer}>
+              <Image source={Images.LOGO} style={styles.logo} />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <FloatingLabelInput
+                    label={Strings.login.MobileNumber}
+                    value={phone}
+                    onChangeText={v => {
+                      handelChange(v);
+                    }}
+                    keyboardType="number-pad"
+                    maxLength={14}
+                    error={errors && errors.phone?.message}
+                  />
                 )}
+                name="phone"
               />
-            )}
-            name="password"
-          />
-          <View style={{alignItems: Alignment.CENTER}}>
-            <Button
-              label={Strings.login.LOG_IN}
-              style={styles.loginBtn}
-              onPress={handleSubmit(onSubmit)}
-            />
-            <TouchableOpacity
-              onPress={() => navigation.navigate(Routes.MobileNumber, {type})}
-              style={styles.btnMargin}
-              accessible={true}
-              accessibilityRole="button"
-              accessibilityLabel={Strings.login.ForgotPassword}>
-              <Text style={styles.underlineBtn} accessible={false}>
-                {Strings.login.ForgotPassword}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <FloatingLabelInput
+                    label={Strings.login.Password}
+                    value={value}
+                    onChangeText={v => onChange(v)}
+                    secureTextEntry={!show}
+                    minLength={8}
+                    error={errors && errors.password?.message}
+                    endComponent={() => (
+                      <TouchableOpacity
+                        onPress={() => setShow(!show)}
+                        style={styles.psswrdInput}>
+                        <Image
+                          source={show ? Images.eye2 : Images.eye}
+                          style={{
+                            height: show ? 18 : 10,
+                            width: show ? 18 : 15,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  />
+                )}
+                name="password"
+              />
+              <View style={{alignItems: Alignment.CENTER}}>
+                <Button
+                  label={Strings.login.LOG_IN}
+                  style={styles.loginBtn}
+                  onPress={handleSubmit(onSubmit)}
+                />
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(Routes.MobileNumber, {type})
+                  }
+                  style={styles.btnMargin}
+                  accessible={true}
+                  accessibilityRole="button"
+                  accessibilityLabel={Strings.login.ForgotPassword}>
+                  <Text style={styles.underlineBtn} accessible={false}>
+                    {Strings.login.ForgotPassword}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
       </ScrollView>
     </View>
   );
