@@ -56,10 +56,7 @@ export const Subscribed = () => {
         </View>
         <Text style={[styles.price, {marginTop: 5}]}>{`$${
           get_user_detail_res.subscription.price
-        }/${get_user_detail_res.subscription.subscription_interval.substring(
-          0,
-          2,
-        )}`}</Text>
+        }/${get_user_detail_res.subscription.subscription_interval==='month'?'mo':'yr'}`}</Text>
         <Text style={[styles.price, {fontWeight: '500', marginTop: 10,fontFamily: Fonts.OpenSansBold}]}>
           Next Due On:{' '}
           {moment(
