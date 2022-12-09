@@ -345,20 +345,6 @@ const Profile = props => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
-                      label={Strings.profile.EmailAddress}
-                      value={value}
-                      onChangeText={v => onChange(v)}
-                      fontWeight={Alignment.BOLD}
-                      required={true}
-                      error={errors && errors.email?.message}
-                    />
-                  )}
-                  name={FormKey.email}
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <FloatingLabelInput
                       label={Strings.profile.DateOfBirth}
                       value={value}
                       onChangeText={v => onChange(v)}
@@ -375,6 +361,20 @@ const Profile = props => {
                     />
                   )}
                   name={FormKey.date_of_birth}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.profile.EmailAddress}
+                      value={value}
+                      onChangeText={v => onChange(v)}
+                      fontWeight={Alignment.BOLD}
+                      required={true}
+                      error={errors && errors.email?.message}
+                    />
+                  )}
+                  name={FormKey.email}
                 />
                 <Controller
                   control={control}
