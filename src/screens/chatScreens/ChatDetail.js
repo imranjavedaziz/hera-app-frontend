@@ -551,9 +551,7 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              textInputProps={{
-                autoCorrect: false,
-              }}
+              textInputProps={styles.textInput}
               minComposerHeight={textData?.length > 75 ? 60 : 34}
               listViewProps={{
                 scrollEventThrottle: 400,
@@ -589,6 +587,7 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
+              textInputProps={styles.textInput}
               minComposerHeight={textData?.length > 75 ? 60 : 34}
               listViewProps={{
                 scrollEventThrottle: 400,
@@ -627,9 +626,7 @@ const ChatDetail = props => {
                 containerStyle={styles.mainContainerDetail}
                 renderAvatar={null}
                 minComposerHeight={textData?.length > 75 ? 60 : 34}
-                textInputProps={{
-                  autoCorrect: false,
-                }}
+                textInputProps={styles.textInput}
                 listViewProps={{
                   scrollEventThrottle: 400,
                   marginBottom: 10,
