@@ -55,7 +55,7 @@ export const ValidationMessages = {
   SELECT_HAIR_1: 'Please enter Hair color',
   SELECT_EYE_1: 'Please enter Eye color',
   SELECT_WEIGHT: 'Please enter Weight',
-  CAPSLOCK: 'Atleast 1 upper case letter',
+  CAPSLOCK: 'Must have atleast 1 upper case letter',
   OTP_REQUIRED: 'Required!',
   USER_TYPE: 'Please select a user type',
   Name: 'Please enter your Name',
