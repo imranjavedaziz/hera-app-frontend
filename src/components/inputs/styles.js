@@ -94,7 +94,7 @@ export default {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
-    bottom: -25,
+    bottom: -30,
     right: 0,
   },
   errMessage_1: {
