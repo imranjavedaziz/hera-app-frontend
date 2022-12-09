@@ -322,7 +322,6 @@ const SetAttributes = ({route}) => {
 
   const logOutScreen = () => {
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
 
   return (
