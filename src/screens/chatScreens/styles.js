@@ -63,9 +63,14 @@ export default {
     borderTopColor: '#E8E8E8',
     borderRadius: 24,
     marginHorizontal: 15,
-    paddingLeft:10,
+    paddingLeft: 10,
     justifyContent: Alignment.CENTER,
     textAlign: Alignment.CENTER,
+  },
+  textInput: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK,
   },
   border: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
@@ -75,7 +80,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_16,
-    width: 128
+    width: 128,
   },
   descText: {
     fontFamily: Fonts.OpenSansRegular,
@@ -98,7 +103,7 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.SPACE_BETWEEN,
-   paddingVertical: 20,
+    paddingVertical: 20,
     paddingHorizontal: 20,
   },
   thumbContain: color => ({
@@ -164,7 +169,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    textAlign:Alignment.CENTER
+    textAlign: Alignment.CENTER,
   },
   userImg: {
     width: px(Value.CONSTANT_VALUE_60),
@@ -193,7 +198,7 @@ export default {
     marginLeft: -30,
     left: 0,
   },
-  profileLikeScree:{
+  profileLikeScree: {
     width: px(Value.CONSTANT_VALUE_190),
     height: px(Value.CONSTANT_VALUE_190),
     borderStyle: 'solid',
@@ -202,10 +207,10 @@ export default {
     marginVertical: px(Value.CONSTANT_VALUE_54),
     borderRadius: px(Value.CONSTANT_VALUE_90),
   },
-  matchFoundText:{
+  matchFoundText: {
     fontFamily: Fonts.OpenSansBold,
-    fontSize:px(Value.CONSTANT_VALUE_35),
+    fontSize: px(Value.CONSTANT_VALUE_35),
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
-  }
+  },
 };
