@@ -165,7 +165,6 @@ const ChatDetail = props => {
         !subscriptionStatus?.data?.status) &&
       parseInt(user?.role_id) === 2
     ) {
-      dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
       navigation.navigate(Routes.Subscription);
     } else if (
       props.route.params.item.status_id !== 1 ||
