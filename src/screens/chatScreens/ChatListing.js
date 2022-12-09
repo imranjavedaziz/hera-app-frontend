@@ -16,7 +16,7 @@ import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
 
-const ChatListing = props => {
+const ChatListing = () => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
   const [refreshing, setRefreshing] = useState(false);
@@ -101,7 +101,9 @@ const ChatListing = props => {
     let day = date.getDate();
     return year + '-' + month + '-' + day;
   }
+
   const renderChatList = ({item}) => {
+    console.log(item,'item' )
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (

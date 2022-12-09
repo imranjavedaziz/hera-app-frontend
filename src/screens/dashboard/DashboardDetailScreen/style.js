@@ -6,6 +6,7 @@ import {
   dynamicSize,
   height,
   normalizeFont,
+  px,
   scaleHeight,
   scaleWidth,
   statusHide,
@@ -121,6 +122,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: Value.CONSTANT_VALUE_FRAC3_62,
     color: Colors.BLACK,
+    marginHorizontal: px(5),
   },
   textbtn2: {
     fontSize: Value.CONSTANT_VALUE_14,

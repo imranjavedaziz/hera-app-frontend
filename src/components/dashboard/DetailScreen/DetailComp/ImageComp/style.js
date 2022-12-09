@@ -1,6 +1,7 @@
 import Alignment from '../../../../../constants/Alignment';
 import {
   dynamicSize,
+  px,
   scaleHeight,
   scaleWidth,
 } from '../../../../../utils/responsive';
@@ -23,6 +24,7 @@ export default {
   row: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
+    marginTop: px(Value.CONSTANT_VALUE_13),
   },
   locationText: {
     fontSize: FontSize?.FONT_16,

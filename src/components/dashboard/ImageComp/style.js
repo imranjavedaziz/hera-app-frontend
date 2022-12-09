@@ -1,7 +1,7 @@
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, normalizeFont} from '../../../utils/responsive';
+import {dynamicSize, normalizeFont, px} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
 
 export default {
@@ -18,12 +18,14 @@ export default {
     shadowRadius: Value.CONSTANT_VALUE_18,
     shadowOpacity: 0.5,
     elevation: Value.CONSTANT_VALUE_5,
+    marginTop: Value.CONSTANT_VALUE_60,
   },
   bgImage: {
-    height: '80%',
+    height: px(380),
     width: dynamicSize(240),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    marginRight: Value.CONSTANT_VALUE_20,
   },
   iconContainer: {
     flex: Value.CONSTANT_VALUE_FRAC88,
@@ -69,7 +71,7 @@ export default {
   linearGradient: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     width: dynamicSize(Value.CONSTANT_VALUE_250),
-    height: dynamicSize(Value.CONSTANT_VALUE_395),
+    height: '100%',
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_20),
     justifyContent: Alignment.CENTER,
   },

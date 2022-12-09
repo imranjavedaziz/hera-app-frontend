@@ -33,6 +33,7 @@ export default {
   location: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
+    marginTop: px(Value.CONSTANT_VALUE_13),
   },
   androidHeaderIcons: {
     marginLeft: Value.CONSTANT_VALUE_30,
