@@ -293,7 +293,7 @@ const PtbDashboard = props => {
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
           onPress={() => {
-            if (!subscriptionStatus?.data?.status) {
+            if (subscriptionStatus?.data?.status) {
               navigation.navigate('DashboardDetailScreen', {
                 userId: item?.user?.id,
               });
