@@ -1,18 +1,9 @@
 // OTP
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {Text, TouchableOpacity, View, Keyboard, ScrollView} from 'react-native';
 import {useNavigation, useRoute, StackActions} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Button from '../../components/Button';
 import Images from '../../constants/Images';
 import Header, {CircleBtn} from '../../components/Header';
 import globalStyle from '../../styles/global';
@@ -34,8 +25,7 @@ import {
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {Colors} from '../../constants';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Alignment, Colors} from '../../constants';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
@@ -215,81 +205,89 @@ const OTP = ({route}) => {
         backgroundColor: Colors.BACKGROUND,
       }}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <KeyboardAwareScrollView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.container}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View
-              style={[
-                globalStyle.mainContainer,
-                {
-                  minHeight: height * 0.8,
-                  marginTop: statusHide(Value.CONSTANT_VALUE_105),
-                },
-              ]}>
-              <Text style={globalStyle.screenTitle}>{getScreenTitle()}</Text>
-              <View
-                style={{}}
-                accessible={true}
-                accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
-                <Text
-                  style={globalStyle.screenSubTitle}
-                  numberOfLines={2}
-                  accessible={false}>
-                  {Strings.otp.subtitle1}
-                </Text>
-                <Text
-                  style={globalStyle.screenSubTitle}
-                  accessible={false}
-                  numberOfLines={1}>
-                  {type === 1 || type === 2
-                    ? Strings.otp.subtitle2
-                    : Strings.otp.subtitle3}
-                </Text>
-              </View>
-              <View style={styles.errMsg}>
-                {!isValid && errors.otp?.message && (
-                  <Text style={styles.redColor}>{errors.otp?.message}</Text>
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value, onBlur}}) => (
-                    <OtpInputs
-                      onBlur={() => clearErrors()}
-                      value={value}
-                      onChange={onChange}
-                      isValid={errors.otp === undefined}
-                    />
-                  )}
-                  name="otp"
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        <View
+          style={[
+            globalStyle.mainContainer,
+            {
+              minHeight: height * 0.9,
+              marginTop: statusHide(Value.CONSTANT_VALUE_105),
+            },
+          ]}>
+          <Text style={globalStyle.screenTitle}>{getScreenTitle()}</Text>
+          <View
+            style={{}}
+            accessible={true}
+            accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
+            <Text
+              style={globalStyle.screenSubTitle}
+              numberOfLines={2}
+              accessible={false}>
+              {Strings.otp.subtitle1}
+            </Text>
+            <Text
+              style={globalStyle.screenSubTitle}
+              accessible={false}
+              numberOfLines={1}>
+              {type === 1 || type === 2
+                ? Strings.otp.subtitle2
+                : Strings.otp.subtitle3}
+            </Text>
+          </View>
+          <View style={styles.errMsg}>
+            {!isValid && errors.otp?.message && (
+              <Text style={styles.redColor}>{errors.otp?.message}</Text>
+            )}
+            <Controller
+              control={control}
+              render={({field: {onChange, value, onBlur}}) => (
+                <OtpInputs
+                  onBlur={() => clearErrors()}
+                  value={value}
+                  onChange={onChange}
+                  isValid={errors.otp === undefined}
                 />
-                <View
-                  style={{
-                    position: isKeyboardVisible ? 'relative' : 'absolute',
-                    bottom: 0,
-                    marginTop: 20,
-                  }}>
-                  <Button
-                    label={type === 3 ? Strings.otp.Btn3 : Strings.otp.Btn}
-                    onPress={handleSubmit(onSubmit)}
-                  />
-                  <View
-                    style={
-                      isKeyboardVisible
-                        ? styles.troubleKeyRow
-                        : styles.troubleRow
-                    }>
-                    <Text style={styles.trouble}>{Strings.otp.Trouble}</Text>
-                    <TouchableOpacity onPress={resendOTP}>
-                      <Text style={styles.resend}>{Strings.otp.SendAgain}</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+              )}
+              name="otp"
+            />
+          </View>
+          <View
+            style={{
+              flex: Value.CONSTANT_VALUE_1,
+              alignItems: Alignment.CENTER,
+              marginBottom: Value.CONSTANT_VALUE_40,
+            }}>
+            <View
+              style={{
+                position: isKeyboardVisible
+                  ? Alignment.RELATIVE
+                  : Alignment.ABSOLUTE,
+                bottom: Value.CONSTANT_VALUE_0,
+                marginTop: Value.CONSTANT_VALUE_35,
+                justifyContent: Alignment.CENTER,
+                alignItems: Alignment.CENTER,
+              }}>
+              <TouchableOpacity
+                style={styles.btnTouch}
+                onPress={handleSubmit(onSubmit)}>
+                <Text style={styles.btn}>
+                  {type === 3 ? Strings.otp.Btn3 : Strings.otp.Btn}
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={
+                  isKeyboardVisible ? styles.troubleRow : styles.troubleRowKey
+                }>
+                <Text style={styles.trouble}>{Strings.otp.Trouble}</Text>
+                <TouchableOpacity onPress={resendOTP}>
+                  <Text style={styles.resend}>{Strings.otp.SendAgain}</Text>
+                </TouchableOpacity>
               </View>
             </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
+          </View>
+        </View>
       </ScrollView>
     </View>
   );

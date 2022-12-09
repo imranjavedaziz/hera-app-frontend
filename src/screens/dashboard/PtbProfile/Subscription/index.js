@@ -45,6 +45,8 @@ const Subscription = props => {
   let purchaseErrorSubscription = null;
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
+  const [isCallApi, setCallApi] = React.useState(false);
+
   const dispatch = useDispatch();
   const {
     subscription_plan_success,
@@ -106,13 +108,19 @@ const Subscription = props => {
   };
 
   React.useEffect(() => {
+    if (isCallApi) {
+      purchaseAPI(purchasereceipt);
+    }
+  }, [isCallApi]);
+
+  React.useEffect(() => {
     purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
       async purchase => {
         const receipt = purchase.transactionReceipt;
-        setPurchaseReceipt(purchase);
         if (receipt) {
           try {
-            purchaseAPI(purchase);
+            setPurchaseReceipt(purchase);
+            setCallApi(true);
             await RNIap.finishTransaction({purchase, isConsumable: true});
             if (Platform.OS === 'android') {
               await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
