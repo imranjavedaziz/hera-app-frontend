@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
 });
 const Loader = ({style=null}) => {
   return (
     <View style={[...style, styles.loader]}>
-      <ActivityIndicator color={Colors.SKY_BLUE} large={'large'}/>
+      <ActivityIndicator color={Colors.PURE_WHITE}/>
     </View>
   );
 };
