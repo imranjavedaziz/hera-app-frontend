@@ -118,6 +118,7 @@ const SmRegister = () => {
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
+    dispatch(updateLocalImg(image.path));
     setFile(image);
   };
   const {

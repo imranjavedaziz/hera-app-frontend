@@ -33,7 +33,7 @@ const ChatDetail = props => {
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
-  const [_loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data, user} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(
@@ -123,8 +123,8 @@ const ChatDetail = props => {
           fireDB.prependMessage(messageItem);
           await fireDB.readAll();
           fireDB.lastIdInSnapshot = snapshot.key;
-          setLoading(false);
         }
+        setLoading(false);
       },
     );
   }, []);
@@ -151,7 +151,14 @@ const ChatDetail = props => {
     }
     LoadingRef.current = report_user_loading;
   }, [report_user_success, report_user_loading]);
-
+  useEffect(() => {
+    if (loading) {
+      dispatch(showAppLoader());
+    } else {
+      dispatch(hideAppLoader());
+    }
+    LoadingRef.current = loading;
+  }, [loading]);
   const onSend = (messages = '') => {
     if (
       (parseInt(props.route.params.item.senderSubscription) === 0 ||

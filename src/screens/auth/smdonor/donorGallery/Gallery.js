@@ -35,6 +35,7 @@ import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
 import {BottomSheetComp} from '../../../../components';
 import {statusHide} from '../../../../utils/responsive';
+import ImageLoading from '../../../../components/ImageLoading';
 
 const images = [];
 const counter = 0;
@@ -307,7 +308,8 @@ const Gallery = () => {
                 key={img.id}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
-                <FastImage
+                <ImageLoading
+                  isFastImg={true}
                   key={img.id}
                   style={[styles.galleryImgView, styles.imageStyling]}
                   source={{
@@ -339,7 +341,7 @@ const Gallery = () => {
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
-                </FastImage>
+                </ImageLoading>
               </TouchableOpacity>
             ))}
           </View>
