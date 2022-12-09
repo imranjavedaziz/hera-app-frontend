@@ -37,6 +37,8 @@ import FastImage from 'react-native-fast-image';
 import RNSDWebImage from 'react-native-sdwebimage';
 import {Value} from '../../../constants/FixedValues';
 import {statusHide} from '../../../utils/responsive';
+import ImageLoading from '../../../components/ImageLoading';
+
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -330,7 +332,8 @@ const CreateGallery = () => {
                 activeOpacity={gIndex === index ? 0.1 : 1}
                 key={img.id}
                 onPress={() => ImageClick(index)}>
-                <FastImage
+                <ImageLoading
+                  isFastImg={true}
                   style={[styles.galleryImgView, styles.imageStyling]}
                   source={{
                     uri: img.uri,
@@ -365,7 +368,7 @@ const CreateGallery = () => {
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
-                </FastImage>
+                </ImageLoading>
               </TouchableOpacity>
             ))}
           </View>
