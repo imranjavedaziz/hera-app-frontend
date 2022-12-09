@@ -102,7 +102,11 @@ const DashboardDetailScreen = () => {
         setTimeout(() => {
           setIsVisibleLogo(false);
           setIslikedLogo('');
-          navigation.navigate(Routes.PtbDashboard);
+          if (smDetailRes?.profile_match_request?.status === 2) {
+            navigation.navigate(Routes.ProfileLikedSm, {item: smDetailRes});
+          } else {
+            navigation.navigate(Routes.PtbDashboard);
+          }
         }, 5000);
       } else {
         dispatch(hideAppLoader());
@@ -387,9 +391,9 @@ const DashboardDetailScreen = () => {
                   <Image source={Images.HEARTH_ICON} />
                   <Text style={styles.dateText}>
                     {Strings.PTB_Profile.YouMatched}{' '}
-                    {moment(smDetailRes?.profile_match_request?.updated_at).format(
-                      'MMM DD,YYYY',
-                    )}
+                    {moment(
+                      smDetailRes?.profile_match_request?.updated_at,
+                    ).format('MMM DD,YYYY')}
                   </Text>
                 </View>
               )}

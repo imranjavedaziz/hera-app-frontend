@@ -85,7 +85,6 @@ const ChatDetail = props => {
   }, [subscriptionStatus]);
   useEffect(async () => {
     setLoader(true);
-    dispatch(showAppLoader());
     if (
       parseInt(props.route.params.item.senderSubscription) === 0 &&
       user?.role_id === 2
@@ -107,6 +106,7 @@ const ChatDetail = props => {
     console.log(user, receiver, 'user, receiver');
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
+    dispatch(showAppLoader());
     await fireDB.initMessages();
     await fireDB.readMessage();
     fireDB.lastIdInSnapshot = now;
@@ -151,14 +151,6 @@ const ChatDetail = props => {
     }
     LoadingRef.current = report_user_loading;
   }, [report_user_success, report_user_loading]);
-  useEffect(() => {
-    if (loading) {
-      dispatch(showAppLoader());
-    } else {
-      dispatch(hideAppLoader());
-    }
-    LoadingRef.current = loading;
-  }, [loading]);
   const onSend = (messages = '') => {
     if (
       (parseInt(props.route.params.item.senderSubscription) === 0 ||
@@ -172,6 +164,8 @@ const ChatDetail = props => {
         parseInt(props.route.params.item.recieverSubscription) === 0)
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
+    } else if (messages.text.trim().length === 0) {
+      dispatch(showAppToast(true, Strings.Chat.PLEASE_ENTER_MESSAGE));
     } else {
       setTextData('');
       if (messages.text !== '') {
@@ -337,11 +331,6 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(
-    props?.route?.params?.item?.feedback_status,
-    'props?.route?.params?.item?.feedback_status',
-  );
-  console.log(db?.totalSize, 'db?.totalSize ');
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <View

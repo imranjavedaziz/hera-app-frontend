@@ -395,6 +395,8 @@ export default {
     HEY_ITS_MATCH: 'Hey, It’s a match!',
     PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
     INACTIVE_ACCOUNT: 'The account is inactive',
+    NICE_WATCH_FOUND:'Nice, Your match found!',
+    PLEASE_ENTER_MESSAGE:'Please Enter Message'
   },
   Sensory: {
     AS_PER_SEARCH:

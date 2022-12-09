@@ -8,9 +8,9 @@ import {
 import React from 'react';
 import styles from './styles';
 import FastImage from 'react-native-fast-image';
-import {Images} from '../../constants';
-import {Header} from '../../components';
-import { ScrollView } from 'react-native-gesture-handler';
+import {Images, Strings} from '../../constants';
+import {Routes} from '../../constants/Constants';
+import {ScrollView} from 'react-native-gesture-handler';
 const ProfileLikedSm = props => {
   const headerComp = () => (
     <TouchableOpacity
@@ -21,7 +21,6 @@ const ProfileLikedSm = props => {
       <Image source={Images.iconcross} />
     </TouchableOpacity>
   );
-  console.log(props.route.params.item,'props.Routes.params.item')
   return (
     <ImageBackground
       source={Images.BLUR_BACKGROUND}
@@ -29,35 +28,41 @@ const ProfileLikedSm = props => {
       style={{flex: 1}}>
       <View>{headerComp()}</View>
       <ScrollView>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          marginTop:97
-        }}>
-        <Text
-          style={styles.matchFoundText}>
-          Nice, Your match found!
-        </Text>
-        <View style={styles.profileLikeScree}>
-          <FastImage style={styles.userImg} source={{uri: ''}} />
-          <FastImage
-            style={styles.heartIcon}
-            source={Images.WHITE_GREEN_HEART}
-          />
-        </View>
-        <TouchableOpacity  onPress={() =>
-              navigation.navigate(Routes.ChatDetail, {
-                item:props.Routes.params.item,
-                isComingFrom: false,
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginTop: 90,
+          }}>
+          <Text style={styles.matchFoundText}>{Strings.Chat.NICE_WATCH_FOUND}</Text>
+          <View style={styles.profileLikeScree}>
+            <FastImage
+              style={styles.profileScreen}
+              source={{
+                uri: props?.route?.params?.item?.profile_match_request
+                  ?.recieverImage,
+              }}
+            />
+            <FastImage
+              style={styles.heartIcon}
+              source={Images.WHITE_GREEN_HEART}
+            />
+          </View>
+          <TouchableOpacity
+            onPress={() =>
+              props?.navigation?.navigate(Routes.ChatDetail, {
+                item: props?.route?.params?.item?.profile_match_request,
+                isComingFrom: true,
               })
             }>
-          <Image source={Images.button_like} />
-        </TouchableOpacity>
-        <TouchableOpacity style={{marginTop: 35, alignContent: 'center'}}>
-          <Text style={styles.SeeProfile}>See Profile</Text>
-        </TouchableOpacity>
-      </View>
+            <Image source={Images.button_like} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{marginTop: 35, alignContent: 'center'}} onPress={()=>{
+            props.navigation.navigate(Routes.DashboardDetailScreen,{userId:props?.route?.params?.item?.id})
+          }}>
+            <Text style={styles.SeeProfile}>See Profile</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </ImageBackground>
   );
