@@ -49,8 +49,8 @@ import {getStates} from '../../../redux/actions/Register';
 import openWebView from '../../../utils/openWebView';
 import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
-import { getSubscriptionStatus } from '../../../redux/actions/Subsctiption';
-import {empty} from '../../../redux/actions/Chat'
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
+import {empty} from '../../../redux/actions/Chat';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -149,19 +149,21 @@ const SetPreference = ({route, navigation}) => {
     stateLoadingRef.current = get_state_loading;
   }, [get_state_loading, get_state_success]);
   //GET PREFERENCE
-  useEffect(() => {
-    if (SetloadingRef.current && !get_preference_loading) {
-      dispatch(showAppLoader());
-      if (get_preference_success) {
-        dispatch(hideAppLoader());
-        EditPreferences === true && handelChange();
+  useFocusEffect(
+    useCallback(() => {
+      if (SetloadingRef.current && !get_preference_loading) {
+        dispatch(showAppLoader());
+        if (get_preference_success) {
+          dispatch(hideAppLoader());
+          EditPreferences === true && handelChange();
+        }
+        if (get_preference_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (get_preference_error_msg) {
-        dispatch(hideAppLoader());
-      }
-    }
-    SetloadingRef.current = get_preference_loading;
-  }, [get_preference_success, get_preference_loading, get_preference_res]);
+      SetloadingRef.current = get_preference_loading;
+    }, [get_preference_success, get_preference_loading, get_preference_res]),
+  );
   //SETTER FIELDS
   const handelChange = async value => {
     const HeightArr = get_preference_res?.height?.split('-');
@@ -192,7 +194,7 @@ const SetPreference = ({route, navigation}) => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
-        dispatch(empty())
+        dispatch(empty());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
       } else {
@@ -203,20 +205,22 @@ const SetPreference = ({route, navigation}) => {
     LogoutLoadingRef.current = log_out_loading;
   }, [log_out_success, log_out_loading]);
   //GET PREFERENCE
-  useEffect(() => {
-    if (loadingRef.current && !set_preference_loading) {
-      dispatch(showAppLoader());
-      if (set_preference_success) {
-        dispatch(hideAppLoader());
-        EditPreferences === true && handelChange();
-        setPreferencesData(set_preference_res);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !set_preference_loading) {
+        dispatch(showAppLoader());
+        if (set_preference_success) {
+          dispatch(hideAppLoader());
+          EditPreferences === true && handelChange();
+          setPreferencesData(set_preference_res);
+        }
+        if (set_preference_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (set_preference_error_msg) {
-        dispatch(hideAppLoader());
-      }
-    }
-    loadingRef.current = set_preference_loading;
-  }, [set_preference_success, set_preference_loading]);
+      loadingRef.current = set_preference_loading;
+    }, [set_preference_success, set_preference_loading]),
+  );
 
   // SAVE PREFERENCE
   useEffect(() => {
@@ -503,10 +507,12 @@ const SetPreference = ({route, navigation}) => {
                 </Text>
                 <Text style={styles.heightTextView}>
                   <Text>
-                    {height && parseInt(height[0] / 12)}'{height && parseInt(height[0] % 12)}" -{' '}
+                    {height && parseInt(height[0] / 12)}'
+                    {height && parseInt(height[0] % 12)}" -{' '}
                   </Text>
                   <Text>
-                    {height && parseInt(height[1] / 12)}'{height && parseInt(height[1] % 12)}"
+                    {height && parseInt(height[1] / 12)}'
+                    {height && parseInt(height[1] % 12)}"
                   </Text>
                 </Text>
               </View>

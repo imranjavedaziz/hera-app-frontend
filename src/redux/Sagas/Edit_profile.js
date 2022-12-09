@@ -12,6 +12,7 @@ import {takeLatest, put} from 'redux-saga/effects';
 import { showAppToast, showAppLoader,hideAppLoader } from '../actions/loader';
 import {HttpStatus} from '../../constants/Constants';
 import {getEditProfileApi, updateEditProfileApi,toggleNotificationApi} from '../../Api';
+import { ValidationMessages } from '../../constants/Strings';
 
 //GetUserGallery
 function* getEditProfile() {
@@ -25,7 +26,7 @@ function* getEditProfile() {
   } catch (err) {
     yield put({
       type: GET_USER_DETAIL_FAIL,
-      data: {msg: 'Seems like there is no internet connection.'},
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
     });
   }
 }
@@ -48,7 +49,7 @@ function* updateEditProfile(payload) {
   } catch (err) {
     yield put({
       type: UPDATE_USER_DETAIL_FAIL,
-      data: {msg: 'Seems like there is no internet connection.'},
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
     });
   }
 }

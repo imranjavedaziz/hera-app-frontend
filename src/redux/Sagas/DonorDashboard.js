@@ -6,6 +6,7 @@ import {
   DONOR_DASHBOARD_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
+import {ValidationMessages} from '../../constants/Strings'
 function* getDonorDashboard(payload) {
   try {
     const result = yield DonorDashboardApi(payload.data);
@@ -18,7 +19,7 @@ function* getDonorDashboard(payload) {
       });
     }
   } catch (err) {
-    yield put({type: DONOR_DASHBOARD_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: DONOR_DASHBOARD_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchGetDonorDashboard() {

@@ -6,6 +6,7 @@ import {
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
 import {HttpStatus} from '../../constants/Constants';
+import {ValidationMessages} from '../../constants/Strings'
 // Delete Account
 function* deleteAccount(payload) {
   try {
@@ -20,7 +21,7 @@ function* deleteAccount(payload) {
       });
     }
   } catch (err) {
-    yield put({type: DELETE_ACCOUNT_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: DELETE_ACCOUNT_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchDeleteAccount() {

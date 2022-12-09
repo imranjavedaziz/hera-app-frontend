@@ -47,7 +47,6 @@ import {
 import {ptbRegister} from '../../../redux/actions/Register';
 import {BottomSheetComp} from '../../../components';
 import openWebView from '../../../utils/openWebView';
-import DeviceInfo from 'react-native-device-info';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const validationType = {

@@ -21,7 +21,7 @@ import {
   getProfileSetterApi,
 } from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
-
+import {ValidationMessages} from '../../constants/Strings'
 function* ptbRegister(payload) {
   try {
     const result = yield ptbRegisterApi(payload.data);
@@ -58,7 +58,7 @@ function* saveBasicDetail(payload) {
       });
     }
   } catch (err) {
-    yield put({type: SAVE_BASIC_DETAIL_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SAVE_BASIC_DETAIL_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSaveBasicDetail() {
@@ -75,7 +75,7 @@ function* getStates() {
       yield put({type: GET_STATES_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: GET_STATES_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_STATES_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchGetStates() {
@@ -95,7 +95,7 @@ function* getProfileSetterDetail() {
       });
     }
   } catch (err) {
-    yield put({type: GET_PROFILE_SETTER_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_PROFILE_SETTER_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchGetProfileSetter() {

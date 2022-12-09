@@ -11,7 +11,7 @@ import {Routes, ABOUT_URL} from '../constants/Constants';
 import {deviceHandler} from '../utils/commonFunction';
 import openWebView from '../utils/openWebView';
 import {resetMobile} from '../redux/actions/Auth';
-// import {getStatusBarHeight} from 'react-native-safearea-height';
+
 const type = 1;
 const Landing = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Landing = () => {
   useEffect(() => {
     dispatch(resetMobile());
   }, []);
-  // console.log(getStatusBarHeight() + 10, 'console.log(getStatusBarHeight());');
+
   useEffect(() => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);

@@ -39,7 +39,7 @@ export const Subscribed = () => {
   }
   return (
     <View style={[styles.container, {height: 'auto', paddingBottom: 20}]}>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1,  }}>
         <View style={[styles.row, {justifyContent: 'space-between'}]}>
           <Text
             style={[

@@ -106,9 +106,9 @@ const ChatDetail = props => {
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
-    if (fireDB.messages.length > 1) {
+   
       await fireDB.readMessage();
-    }
+
 
     fireDB.lastIdInSnapshot = now;
     setDB(fireDB);
@@ -578,7 +578,7 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-               minComposerHeight={textData?.length > 75 ? 60 : 40}
+              minComposerHeight={textData?.length > 75 ? 60 : 40}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,

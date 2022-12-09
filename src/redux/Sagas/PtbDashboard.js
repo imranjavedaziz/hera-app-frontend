@@ -6,6 +6,7 @@ import {
   PTB_DASHBOARD_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
+import {ValidationMessages} from '../../constants/Strings'
 function* getPtbDashboard() {
   try {
     const result = yield PtbDashboardApi();
@@ -18,7 +19,7 @@ function* getPtbDashboard() {
       });
     }
   } catch (err) {
-    yield put({type: PTB_DASHBOARD_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: PTB_DASHBOARD_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchGetPtbDashboard() {
