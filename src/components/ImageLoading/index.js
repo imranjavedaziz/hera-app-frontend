@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 const Loader = ({style=null}) => {
   return (
     <View style={[...style, styles.loader]}>
-      <ActivityIndicator color={Colors.PURE_WHITE} large={'large'}/>
+      <ActivityIndicator color={Colors.PURE_WHITE}/>
     </View>
   );
 };
