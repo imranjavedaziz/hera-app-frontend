@@ -367,10 +367,7 @@ const Profile = props => {
                       required={true}
                       endComponent={() => (
                         <TouchableOpacity onPress={() => setShow(true)}>
-                          <Image
-                            source={Images.calendar}
-                            style={styles.calender}
-                          />
+                          <Image source={Images.calendar} />
                         </TouchableOpacity>
                       )}
                       editable={false}
