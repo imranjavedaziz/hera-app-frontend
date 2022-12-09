@@ -37,7 +37,7 @@ import {
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {logOut, signoutUser, updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
@@ -197,6 +197,7 @@ const SetPreference = ({route, navigation}) => {
       if (log_out_success) {
         dispatch(empty());
         dispatch(hideAppLoader());
+        dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));

@@ -116,7 +116,7 @@ const SmDonorSettings = () => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
-        dispatch(empty())
+        dispatch(empty());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
       } else {
