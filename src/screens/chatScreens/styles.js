@@ -204,8 +204,11 @@ export default {
     borderStyle: 'solid',
     borderWidth: px(Value.CONSTANT_VALUE_2),
     borderColor: Colors.WHITE,
+    backgroundColor:Colors.WHITE,
     marginVertical: px(Value.CONSTANT_VALUE_54),
     borderRadius: px(Value.CONSTANT_VALUE_90),
+    alignItems:Alignment.CENTER,
+    justifyContent:Alignment.CENTER,
   },
   matchFoundText: {
     fontFamily: Fonts.OpenSansBold,
@@ -213,4 +216,16 @@ export default {
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
+  profileScreen: {
+    width: px(Value.CONSTANT_VALUE_180),
+    height: px(Value.CONSTANT_VALUE_180),
+    borderRadius: px(Value.CONSTANT_VALUE_90),
+  },
+  heartIcon:{
+    width: px(Value.CONSTANT_VALUE_100),
+    height: px(Value.CONSTANT_VALUE_100),
+    position:Alignment.ABSOLUTE,
+    right:-30,
+    top:-15
+  }
 };

@@ -406,6 +406,9 @@ const SetPreference = ({route, navigation}) => {
                         <Text style={styles.lookingsm}>{whom.name}</Text>
                       </TouchableOpacity>
                     ))}
+                  <Text style={styles.errLooking}>
+                    {errors && errors.looking?.message}
+                  </Text>
                 </View>
               )}
               name={FormKey.looking}
@@ -596,7 +599,7 @@ const SetPreference = ({route, navigation}) => {
                       </TouchableOpacity>
                     ))}
                   <Text style={styles.errMessage}>
-                    {errors && errors.hair?.message}
+                    {EditPreferences && errors && errors.hair?.message}
                   </Text>
                 </View>
               )}
@@ -648,7 +651,7 @@ const SetPreference = ({route, navigation}) => {
                     </TouchableOpacity>
                   ))}
                 <Text style={styles.errMessage}>
-                  {errors && errors.eye?.message}
+                  {EditPreferences && errors && errors.eye?.message}
                 </Text>
               </View>
             )}

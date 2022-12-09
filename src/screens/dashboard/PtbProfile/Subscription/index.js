@@ -82,6 +82,7 @@ const Subscription = props => {
         dispatch(getSubscriptionStatus());
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
+        setCallApi(false);
         props.navigation.goBack();
       }
       dispatch(hideAppLoader());
@@ -109,7 +110,7 @@ const Subscription = props => {
 
   React.useEffect(() => {
     if (isCallApi) {
-      purchaseAPI(purchasereceipt);
+      purchaseAPI(_purchasereceipt);
     }
   }, [isCallApi]);
 
