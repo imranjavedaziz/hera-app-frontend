@@ -2,7 +2,7 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {height, width} from '../../../../utils/responsive';
+import {height, statusHide, width} from '../../../../utils/responsive';
 export default {
   mainContainer: {},
   conatiner: {
@@ -154,7 +154,6 @@ export default {
   },
   headerIconBack: {
     marginLeft: Value.CONSTANT_VALUE_30,
-    marginTop: Value.CONSTANT_VALUE_45,
   },
   CancelBack: {
     marginRight: Value.CONSTANT_VALUE_30,
@@ -165,7 +164,7 @@ export default {
     backgroundColor: Colors.BACKGROUND,
   },
   con: {
-    marginTop: Value.CONSTANT_VALUE_95,
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
     alignItems: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_1,
   },

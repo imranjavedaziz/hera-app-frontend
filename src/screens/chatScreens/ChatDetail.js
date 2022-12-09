@@ -167,7 +167,7 @@ const ChatDetail = props => {
     ) {
       navigation.navigate(Routes.Subscription);
     } else if (
-      props.route.params.item.status_id !== 1 ||
+      parseInt(props.route.params.item.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
         parseInt(props.route.params.item.recieverSubscription) === 0)
     ) {
@@ -337,10 +337,7 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(
-    props?.route?.params?.item?.feedback_status,
-    'props?.route?.params?.item?.feedback_status',
-  );
+
   console.log(db?.totalSize, 'db?.totalSize ');
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>

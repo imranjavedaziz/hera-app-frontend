@@ -351,8 +351,15 @@ const DashboardDetailScreen = () => {
                 VIEW_PASS
               )}
               {smDetailRes?.doner_attribute?.eye_colour && (
-                <View style={styles.eyeColorContainer}>
-                  <Text style={global?.tagText} numberOfLines={1}>
+                <View style={styles.nativeLong}>
+                  <Text
+                    style={[
+                      global?.tagText,
+                      {
+                        backgroundColor: Colors.RGBA_229_172_177,
+                        marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                      },
+                    ]}>
                     {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
                   </Text>
                 </View>
@@ -387,9 +394,9 @@ const DashboardDetailScreen = () => {
                   <Image source={Images.HEARTH_ICON} />
                   <Text style={styles.dateText}>
                     {Strings.PTB_Profile.YouMatched}{' '}
-                    {moment(smDetailRes?.profile_match_request?.updated_at).format(
-                      'MMM DD,YYYY',
-                    )}
+                    {moment(
+                      smDetailRes?.profile_match_request?.updated_at,
+                    ).format('MMM DD,YYYY')}
                   </Text>
                 </View>
               )}
