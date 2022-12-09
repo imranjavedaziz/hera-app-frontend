@@ -106,13 +106,9 @@ const ChatDetail = props => {
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
     await fireDB.initMessages();
-   
-      await fireDB.readMessage();
-
-
+    await fireDB.readMessage();
     fireDB.lastIdInSnapshot = now;
     setDB(fireDB);
-
     onChildAdd = fireDB.reference.on(
       'child_added',
       async (snapshot, _previousChildKey) => {
@@ -552,7 +548,7 @@ const ChatDetail = props => {
                 },
               }}
               maxInputLength={1024}
-              placeholder={'Write a message'}
+              placeholder={Strings.search_Bar.write_message}
             />
           </KeyboardAvoidingView>
         </View>
@@ -587,7 +583,7 @@ const ChatDetail = props => {
                 },
               }}
               maxInputLength={1024}
-              placeholder={'Write a message'}
+              placeholder={Strings.search_Bar.write_message}
             />
           </KeyboardAvoidingView>
         </View>
@@ -627,7 +623,7 @@ const ChatDetail = props => {
                   },
                 }}
                 maxInputLength={1024}
-                placeholder={'Write a message'}
+                placeholder={Strings.search_Bar.write_message}
               />
             </KeyboardAvoidingView>
           </View>

@@ -21,7 +21,6 @@ export default class FirebaseDB {
   onChildAdd;
   user = {};
   sender = {};
- 
 
   constructor(user, sender) {
     this.chatId = createChatId(user.user_id, sender.user_id);
