@@ -228,7 +228,7 @@ const ChangePassword = ({route}) => {
             <Button
               label={
                 type === 1
-                  ? Strings.preference.Save
+                  ? Strings.preference.SaveNewPassword
                   : Strings.preference.SaveNewPassword
               }
               style={styles.Btn}
