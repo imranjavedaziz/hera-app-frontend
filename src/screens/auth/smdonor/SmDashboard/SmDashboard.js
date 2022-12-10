@@ -305,7 +305,6 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
-
   const headerComp = () => (
     <IconHeader
       leftIcon={{uri: profileImg}}
@@ -319,7 +318,6 @@ const SmDashboard = ({route}) => {
       ApiImage={true}
     />
   );
-
 
   const renderEmptyCell = () => {
     if (!loaderState.loading) {

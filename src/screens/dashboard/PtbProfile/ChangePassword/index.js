@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Header, {CircleBtn} from '../../../../components/Header';
@@ -102,6 +102,7 @@ const ChangePassword = ({route}) => {
       <Header end={true}>
         <HeaderComp type={type} />
       </Header>
+      <KeyboardAvoidingView behavior={'height'}>
       <ScrollView
         showVerticalIndicatot={false}
         keyboardShouldPersistTaps="handled">
@@ -226,17 +227,14 @@ const ChangePassword = ({route}) => {
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              label={
-                type === 1
-                  ? Strings.preference.SaveNewPassword
-                  : Strings.preference.SaveNewPassword
-              }
+              label={Strings.preference.SaveNewPassword}
               style={styles.Btn}
               onPress={handleSubmit(onSubmit)}
             />
           </View>
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };

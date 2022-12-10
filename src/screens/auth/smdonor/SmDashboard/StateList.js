@@ -221,6 +221,14 @@ const StateList = props => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderState}
             showsVerticalScrollIndicator={false}
+            ListFooterComponent={
+              <View
+                style={{
+                  width: Value.CONSTANT_VALUE_15,
+                  height: Value.CONSTANT_VALUE_230,
+                }}
+              />
+            }
           />
         </View>
         <View style={Styles.btnView}>

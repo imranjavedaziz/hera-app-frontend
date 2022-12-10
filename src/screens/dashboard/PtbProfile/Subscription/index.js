@@ -41,8 +41,6 @@ const Subscription = props => {
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
   const IAPService = InAPPPurchase.getInstance();
-  let purchaseUpdateSubscription = null;
-  let purchaseErrorSubscription = null;
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
   const [isCallApi, setCallApi] = React.useState(false);
@@ -107,7 +105,6 @@ const Subscription = props => {
       setSelectCheckBox(item);
     }
   };
-
   React.useEffect(() => {
     if (isCallApi) {
       purchaseAPI(_purchasereceipt);
@@ -141,7 +138,6 @@ const Subscription = props => {
     }
     dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
-      console.log('LINE NUMBER 160 requestSubscriptionIOS');
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
     } else {
       requestSubscriptionAndroid(
@@ -156,11 +152,9 @@ const Subscription = props => {
     try {
       await RNIap.requestPurchase({sku})
         .then(async result => {
-          console.log('ANDROID LINE 185', result, 'Itemm', item, 'Type', type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
-          console.log(err?.message);
         });
     } catch (error) {
       console.warn(`err ${error.code}`, error.message);
@@ -183,7 +177,6 @@ const Subscription = props => {
     })
     .catch(err => {
       console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
-      console.log(err?.message);
       dispatch(hideAppLoader());
       dispatch(showAppToast(true,err.message));
     });
@@ -264,5 +257,4 @@ const Subscription = props => {
     </>
   );
 };
-
 export default React.memo(Subscription);

@@ -5,6 +5,7 @@ export const ValidationMessages = {
   PLEASE_ENTER_CURR_PASS: 'Please enter Current Password',
   PLEASE_ENTER_NEW_PASS: 'Please enter New Password',
   PLEASE_ENTER_CONFIRM_PASS: 'Please enter Confirm Password',
+  ALL_MANDATORY: 'Please provide all the mandatory details.',
   INVALID_MOBILE: 'Mobile number is not valid.',
   PICTURE_REQUIRE: 'Please upload a display picture',
   TERMS_OF_USE: 'Please accept the Terms of Use',
@@ -254,6 +255,9 @@ export default {
     Sorry: 'Sorry!',
     Para1: "You have exhausted\n today's limit.",
     Para2: 'Please come back tomorrow!',
+    SecondPara1:
+      'We tried to find the best matches for you but seems like no one is around.',
+    secondPara2: 'May be try again later or change your settings.',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
   },
@@ -394,8 +398,8 @@ export default {
     HEY_ITS_MATCH: 'Hey, It’s a match!',
     PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
     INACTIVE_ACCOUNT: 'The account is inactive',
-    NICE_WATCH_FOUND:'Nice, Your match found!',
-    PLEASE_ENTER_MESSAGE:'Please Enter Message'
+    NICE_WATCH_FOUND: 'Nice, Your match found!',
+    PLEASE_ENTER_MESSAGE: 'Please Enter Message',
   },
   Sensory: {
     AS_PER_SEARCH:

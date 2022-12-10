@@ -157,7 +157,6 @@ export default {
   },
   CancelBack: {
     marginRight: Value.CONSTANT_VALUE_30,
-    marginTop: Value.CONSTANT_VALUE_45,
   },
   upperContainer: {
     flex: Value.CONSTANT_VALUE_1,

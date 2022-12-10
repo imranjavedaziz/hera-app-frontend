@@ -17,7 +17,7 @@ export default {
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    color: '#ff4544',
+    color: Colors.COLOR_RED,
     marginRight: Value.CONSTANT_VALUE_30,
   },
   headingContainer: {
