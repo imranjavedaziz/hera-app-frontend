@@ -1,5 +1,5 @@
 // VIDEO UPLOADING COMPONENT
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Image,
   Text,
@@ -9,6 +9,7 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
@@ -16,8 +17,10 @@ import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
 import {Alignment, Colors} from '../constants';
 import {MaterialIndicator} from 'react-native-indicators';
+import { showAppLoader, hideAppLoader } from '../redux/actions/loader';
 
 const VideoUploading = props => {
+  const dispatch = useDispatch();
   const [loadingState, setLoadingState] = React.useState(false);
   const IMG_CONDI = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
@@ -27,6 +30,14 @@ const VideoUploading = props => {
     ? Images.iconRadiosel
     : Images.iconWhite;
   let boolTrue = true;
+  useEffect(()=>{
+    if(loadingState){
+      dispatch(showAppLoader());
+    }
+    else{
+      dispatch(hideAppLoader());
+    }
+  },[loadingState]);
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
       {props?.apply === true && props?.video?.loading && (
@@ -82,11 +93,6 @@ const VideoUploading = props => {
                     <Image source={Images.playButton} style={styles.playIcon} />
                   </TouchableOpacity>
                 )}
-              {loadingState && (
-                <View style={styles.videoCover}>
-                  <ActivityIndicator />
-                </View>
-              )}
             </View>
             {props?.apply === true && (
               <TouchableWithoutFeedback>
