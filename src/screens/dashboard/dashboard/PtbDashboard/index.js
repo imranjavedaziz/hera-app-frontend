@@ -95,6 +95,9 @@ const PtbDashboard = props => {
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
+          if (notification.data.notify_type === 'subscribe') {
+            navigation.navigate(Routes.PtbProfile);
+          }
           if (notification.data.notify_type === 'profile') {
             const {status} = JSON.parse(notification.data?.match_request);
             if (status === 2) {
@@ -148,6 +151,9 @@ const PtbDashboard = props => {
     messaging().onNotificationOpenedApp(remoteMessage => {
       const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
+        if (notification.data.notify_type === 'subscribe') {
+          navigation.navigate(Routes.PtbProfile);
+        }
         if (notification.data.notify_type === 'profile') {
           const {status} = JSON.parse(notification.data?.match_request);
           if (status === 2) {

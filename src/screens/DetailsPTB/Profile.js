@@ -191,6 +191,7 @@ const Profile = props => {
   };
   // Submit form
   const onSubmit = data => {
+    dispatch(showAppLoader());
     if (!userImage) {
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
@@ -217,7 +218,6 @@ const Profile = props => {
       type: file.mime,
       uri: file.path,
     });
-    dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
     dispatch(updateLocalImg(userImage));
   };
@@ -478,6 +478,7 @@ const Profile = props => {
               </View>
               <View style={styles.BtnContainer}>
                 <Button
+                  disabled={register_user_loading || register_user_success}
                   label={Strings.profile.Register}
                   style={styles.Btn}
                   onPress={handleSubmit(onSubmit)}

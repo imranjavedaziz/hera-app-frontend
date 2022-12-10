@@ -21,8 +21,11 @@ import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../Api/User';
-import { useSelector, useDispatch } from 'react-redux';
-import { getUserGallery, deleteGallery, } from '../../../../redux/actions/CreateGallery';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  getUserGallery,
+  deleteGallery,
+} from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
 import {CircleBtn} from '../../../../components/Header';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
@@ -46,12 +49,12 @@ const Gallery = () => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [gallery, setGallery] = useState([
-    { id: 0, uri: '', loading: false },
-    { id: 1, uri: '', loading: false },
-    { id: 2, uri: '', loading: false },
-    { id: 3, uri: '', loading: false },
-    { id: 4, uri: '', loading: false },
-    { id: 5, uri: '', loading: false },
+    {id: 0, uri: '', loading: false},
+    {id: 1, uri: '', loading: false},
+    {id: 2, uri: '', loading: false},
+    {id: 3, uri: '', loading: false},
+    {id: 4, uri: '', loading: false},
+    {id: 5, uri: '', loading: false},
   ]);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false, id: 0});
@@ -64,7 +67,7 @@ const Gallery = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-
+  const [loadScreen, setLoadScreen] = useState(true);
   const videoRef = useRef();
   const {
     gallery_success,
@@ -75,6 +78,7 @@ const Gallery = () => {
   } = useSelector(state => state.CreateGallery);
 
   useEffect(() => {
+    loadScreen && dispatch(showAppLoader());
     dispatch(getUserGallery());
   }, [dispatch]);
 
@@ -91,6 +95,7 @@ const Gallery = () => {
             loading: false,
             id: gallery_data?.doner_video_gallery?.id,
           });
+          setLoadScreen(false);
           dispatch(hideAppLoader());
         } else {
           dispatch(hideAppLoader());
@@ -287,7 +292,7 @@ const Gallery = () => {
     setOpen(true);
     setIsVideo(true);
   };
-
+  console.log(loadScreen, 'loadScreenloadScreen');
   return (
     <>
       <Container
@@ -296,95 +301,107 @@ const Gallery = () => {
         headerComp={headerComp}
         style={style.containerStyle}>
         <View style={[globalStyle.mainContainer, {marginTop: statusHide(105)}]}>
-          <Text style={globalStyle.screenTitle}>
-            {Strings.sm_create_gallery.myGallery}
-          </Text>
-          <View style={styles.galleryImgContainer}>
-            {gallery.map((img, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => ImageClick(index)}
-                activeOpacity={gIndex === index ? 0.1 : 1}>
-                <ImageLoading
-                  isFastImg={true}
-                  key={index}
-                  style={[styles.galleryImgView, styles.imageStyling]}
-                  source={{
-                    uri: img.uri,
-                    priority: FastImage.priority.normal,
-                    cache: FastImage.cacheControl.immutable,
-                  }}>
-                  {img.uri && (
-                    <TouchableOpacity
-                      onPress={() => { handelDel(img.id); }}>
-                      <RNSDWebImage
-                        source={
-                          remove.includes(img.id)
-                            ? Images.iconRadiosel
-                            : Images.iconWhite
-                        }
-                        style={styles.selectIcon}
-                      />
-                    </TouchableOpacity>
+          {loadScreen === false && (
+            <>
+              <Text style={globalStyle.screenTitle}>
+                {Strings.sm_create_gallery.myGallery}
+              </Text>
+              <View style={styles.galleryImgContainer}>
+                {gallery.map((img, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => ImageClick(index)}
+                    activeOpacity={gIndex === index ? 0.1 : 1}>
+                    <ImageLoading
+                      isFastImg={true}
+                      key={index}
+                      style={[styles.galleryImgView, styles.imageStyling]}
+                      source={{
+                        uri: img.uri,
+                        priority: FastImage.priority.normal,
+                        cache: FastImage.cacheControl.immutable,
+                      }}>
+                      {img.uri && (
+                        <TouchableOpacity
+                          onPress={() => {
+                            handelDel(img.id);
+                          }}>
+                          <RNSDWebImage
+                            source={
+                              remove.includes(img.id)
+                                ? Images.iconRadiosel
+                                : Images.iconWhite
+                            }
+                            style={styles.selectIcon}
+                          />
+                        </TouchableOpacity>
+                      )}
+                      {gIndex === index && (
+                        <TouchableOpacity
+                          onPress={() => {
+                            Platform.OS === 'ios'
+                              ? iosPhotoSheet()
+                              : setOpen(true);
+                          }}
+                          style={{}}>
+                          <RNSDWebImage
+                            source={Images.camera}
+                            style={styles.camIcon}
+                          />
+                        </TouchableOpacity>
+                      )}
+                      {img.loading && <ActivityIndicator />}
+                    </ImageLoading>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <VideoUploading
+                apply={true}
+                disabled={video?.file_url === '' ? false : true}
+                style={styles.videoContainer}
+                imageOverlay={styles.imageOverlayWrapper}
+                videoStyle={styles.video}
+                onEnd={() => setIsPlaying(false)}
+                onPress={() =>
+                  video?.file_url === ''
+                    ? bottomSheetVideo()
+                    : setIsPlaying(p => !p)
+                }
+                videoRef={videoRef}
+                isPlaying={isPlaying}
+                video={video}
+                selVideo={selVideo}
+                handelDel={handelDel}
+                rmvImgCount={rmvImgCount}
+                remove={remove}
+                counter={counter}
+              />
+              {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
+                <View style={styles.delContainer}>
+                  {rmvVideoCount > 0 && (
+                    <Text style={styles.selectedText}>
+                      {rmvVideoCount} Video Selected
+                    </Text>
                   )}
-                  {gIndex === index && (
-                    <TouchableOpacity
-                      onPress={() => { Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true) }}
-                      style={{}}>
-                      <RNSDWebImage
-                        source={Images.camera}
-                        style={styles.camIcon}
-                      />
-                    </TouchableOpacity>
+                  {rmvImgCount > 0 && (
+                    <Text style={styles.selectedText}>
+                      {rmvImgCount} Photos Selected
+                    </Text>
                   )}
-                  {img.loading && <ActivityIndicator />}
-                </ImageLoading>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <VideoUploading
-            apply={true}
-            disabled={video?.file_url === '' ? false : true}
-            style={styles.videoContainer}
-            imageOverlay={styles.imageOverlayWrapper}
-            videoStyle={styles.video}
-            onEnd={() => setIsPlaying(false)}
-            onPress={() =>
-              video?.file_url === ''
-                ? bottomSheetVideo()
-                : setIsPlaying(p => !p)
-            }
-            videoRef={videoRef}
-            isPlaying={isPlaying}
-            video={video}
-            selVideo={selVideo}
-            handelDel={handelDel}
-            rmvImgCount={rmvImgCount}
-            remove={remove}
-            counter={counter}
-          />
-          {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
-            <View style={styles.delContainer}>
-              {rmvVideoCount > 0 && (
-                <Text style={styles.selectedText}>
-                  {rmvVideoCount} Video Selected
-                </Text>
-              )}
-              {rmvImgCount > 0 && (
-                <Text style={styles.selectedText}>
-                  {rmvImgCount} Photos Selected
-                </Text>
-              )}
-              <TouchableOpacity
-                style={styles.deleteBtnContainer}
-                onPress={() => {
-                  Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
-                }}>
-                <Image source={Images.trashRed} style={{}} />
-                <Text style={styles.rmvText}>Remove From Gallery</Text>
-              </TouchableOpacity>
-            </View>
-          ) : null}
+                  <TouchableOpacity
+                    style={styles.deleteBtnContainer}
+                    onPress={() => {
+                      Platform.OS === 'ios'
+                        ? deleteAction()
+                        : setShowModal(true);
+                    }}>
+                    <Image source={Images.trashRed} style={{}} />
+                    <Text style={styles.rmvText}>Remove From Gallery</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+            </>
+          )}
         </View>
       </Container>
       <ActionSheet

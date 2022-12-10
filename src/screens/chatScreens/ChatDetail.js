@@ -26,6 +26,7 @@ import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 import moment from 'moment';
 import globalStyle from '../../styles/global';
 import {ReportUser} from '../../redux/actions/ReportUser';
+import {getMessageID} from '../../redux/actions/MessageId';
 
 let fireDB;
 let onChildAdd;
@@ -52,6 +53,7 @@ const ChatDetail = props => {
   const dispatch = useDispatch();
   useEffect(() => {
     const paramItem = props?.route?.params?.item;
+    dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
       user.role_id !== 2 &&
@@ -60,6 +62,7 @@ const ChatDetail = props => {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
   }, [props.route.params]);
+  
   const renderActions = message => {
     return (
       <View style={{flexDirection: 'row', margin: 10}}>
