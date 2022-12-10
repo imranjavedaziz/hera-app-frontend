@@ -18,6 +18,18 @@ export const Regx = {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 };
 
+const allMandatory = (value,ctx)=>{
+  console.info(value);
+  const {parent} = ctx;
+  let anyFilled = false;
+  Object.values(parent).forEach(data=>{
+    if(Boolean(data)){
+      anyFilled = true;
+    }
+  })
+  return anyFilled;
+}
+
 const REG_OBJ = {
   phone: yup
     .string()
@@ -266,29 +278,11 @@ export const deleteAccountPassword = yup.object().shape({
 export const changePasswordSchema = yup.object().shape({
   current_password: yup
     .string()
-    .test('current_password',ValidationMessages.ALL_MANDATORY,(value,ctx)=>{
-      const {parent} = ctx;
-      let anyFilled = false;
-      Object.values(parent).forEach(data=>{
-        if(Boolean(data)){
-          anyFilled = true;
-        }
-      })
-      return anyFilled;
-    })
+    .test('current_password',ValidationMessages.ALL_MANDATORY,allMandatory)
     .required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
   new_password: yup
     .string()
-    .test('new_password',ValidationMessages.ALL_MANDATORY,(value,ctx)=>{
-      const {parent} = ctx;
-      let anyFilled = false;
-      Object.values(parent).forEach(data=>{
-        if(Boolean(data)){
-          anyFilled = true;
-        }
-      })
-      return anyFilled;
-    })
+    .test('new_password',ValidationMessages.ALL_MANDATORY,allMandatory)
     .required(ValidationMessages.PLEASE_ENTER_NEW_PASS)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
@@ -313,16 +307,7 @@ export const changePasswordSchema = yup.object().shape({
     }),
   confirm_password: yup
     .string()
-    .test('confirm_password',ValidationMessages.ALL_MANDATORY,(value,ctx)=>{
-      const {parent} = ctx;
-      let anyFilled = false;
-      Object.values(parent).forEach(data=>{
-        if(Boolean(data)){
-          anyFilled = true;
-        }
-      })
-      return anyFilled;
-    })
+    .test('confirm_password',ValidationMessages.ALL_MANDATORY,allMandatory)
     .required(ValidationMessages.PLEASE_ENTER_CONFIRM_PASS)
     .oneOf([yup.ref('new_password'), null], 'Your password do not match.'),
 });
