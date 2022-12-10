@@ -48,10 +48,10 @@ const PtbDashboard = props => {
   const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
   const [cardIndex, setCardIndex] = useState(0);
-  const [empty, setEmpty] = useState(false);
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
+  const [statusRes, setStatusRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
@@ -198,9 +198,7 @@ const PtbDashboard = props => {
         dispatch(showAppLoader());
         if (get_ptb_dashboard_success) {
           dispatch(hideAppLoader());
-          if (_.isEmpty(get_ptb_dashboard_res?.data?.data?.data)) {
-            setEmpty(true);
-          }
+          setStatusRes(get_ptb_dashboard_res?.data?.status);
           setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
         } else {
           dispatch(hideAppLoader());
@@ -236,13 +234,9 @@ const PtbDashboard = props => {
     dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count >= ptbDashboardRes.length - 1) {
+    if (count >= ptbDashboardRes.total) {
       useSwiper?.current?.swipeLeft();
-      setTimeout(() => {
-        setEmpty(true);
-      }, 400);
     } else {
-      setEmpty(false);
       setTimeout(() => {
         useSwiper?.current?.swipeLeft();
       }, 1000);
@@ -261,13 +255,9 @@ const PtbDashboard = props => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
 
-    if (count >= ptbDashboardRes.length - 1) {
+    if (count >= ptbDashboardRes.total) {
       useSwiper?.current?.swipeRight();
-      setTimeout(() => {
-        setEmpty(true);
-      }, 400);
     } else {
-      setEmpty(false);
       setTimeout(() => {
         useSwiper?.current?.swipeRight();
       }, 1000);
@@ -277,7 +267,7 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 150);
   };
-
+  console.log('ptbDashboardRes', get_ptb_dashboard_res?.data);
   function renderCardData(item, index) {
     return (
       <>
@@ -411,14 +401,24 @@ const PtbDashboard = props => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        {empty === true ? (
+        {statusRes === 2 && (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
             <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
             <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
           </View>
-        ) : (
-          dashboardShow()
+        )}
+        {statusRes === 1 && dashboardShow()}
+        {statusRes === 3 && (
+          <View style={styles.emptyCardContainer}>
+            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+            <Text style={styles.innerText}>
+              {Strings.dashboard.SecondPara1}
+            </Text>
+            <Text style={styles.innerText2}>
+              {Strings.dashboard.secondPara2}
+            </Text>
+          </View>
         )}
       </Container>
       {modalVisible && (

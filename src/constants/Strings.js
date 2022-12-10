@@ -255,6 +255,9 @@ export default {
     Sorry: 'Sorry!',
     Para1: "You have exhausted\n today's limit.",
     Para2: 'Please come back tomorrow!',
+    SecondPara1:
+      'We tried to find the best matches for you but seems like no one is around.',
+    secondPara2: 'May be try again later or change your settings.',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
   },
@@ -395,8 +398,8 @@ export default {
     HEY_ITS_MATCH: 'Hey, It’s a match!',
     PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
     INACTIVE_ACCOUNT: 'The account is inactive',
-    NICE_WATCH_FOUND:'Nice, Your match found!',
-    PLEASE_ENTER_MESSAGE:'Please Enter Message'
+    NICE_WATCH_FOUND: 'Nice, Your match found!',
+    PLEASE_ENTER_MESSAGE: 'Please Enter Message',
   },
   Sensory: {
     AS_PER_SEARCH:
