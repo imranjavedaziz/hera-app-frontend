@@ -30,7 +30,6 @@ const StateList = props => {
   const [count, setCount] = useState(0);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
-  const [last, setLast] = useState(false);
   const dispatch = useDispatch();
   const {
     get_state_success,
@@ -197,7 +196,6 @@ const StateList = props => {
       )}
     </>
   );
-  console.log('get_state_res>>', get_state_res.length);
   return (
     <View
       style={{
@@ -223,10 +221,6 @@ const StateList = props => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderState}
             showsVerticalScrollIndicator={false}
-            onEndReached={() => {
-              setLast(true);
-            }}
-            style={last && {marginBottom: 230}}
           />
         </View>
         <View style={Styles.btnView}>
