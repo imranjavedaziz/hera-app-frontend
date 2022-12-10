@@ -233,7 +233,6 @@ const CreateGallery = () => {
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
-      return;
     } else {
       let payload = {
         ids: remove?.join(),
@@ -330,7 +329,7 @@ const CreateGallery = () => {
             {gallery.map((img, index) => (
               <TouchableOpacity
                 activeOpacity={gIndex === index ? 0.1 : 1}
-                key={img.id}
+                key={index}
                 onPress={() => ImageClick(index)}>
                 <ImageLoading
                   isFastImg={true}
@@ -340,7 +339,7 @@ const CreateGallery = () => {
                     priority: FastImage.priority.normal,
                     cache: FastImage.cacheControl.immutable,
                   }}
-                  key={img.id}>
+                  key={index}>
                   {img.uri && (
                     <TouchableOpacity
                       onPress={() => {

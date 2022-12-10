@@ -16,7 +16,6 @@ import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
 import {Alignment, Colors} from '../constants';
 import {MaterialIndicator} from 'react-native-indicators';
-import {Value} from '../constants/FixedValues';
 
 const VideoUploading = props => {
   const [loadingState, setLoadingState] = React.useState(false);
