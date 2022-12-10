@@ -19,6 +19,7 @@ import VerificationMail from './VerificationMail';
 import DeactivateAccount from './DeactivateAccount';
 import NavigationOnLanding from './NavigationOnLanding';
 import ReportUser from './ReportUser';
+import MessageId from './MessageId';
 
 const allReducers = combineReducers({
   Auth,
@@ -41,6 +42,7 @@ const allReducers = combineReducers({
   VerificationMail,
   NavigationOnLanding,
   ReportUser,
+  MessageId,
 });
 
 export default allReducers;

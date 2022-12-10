@@ -162,7 +162,7 @@ export default {
     subtitle1: 'Enter the 6-digit verification',
     subtitle2: 'code sent to your number',
     subtitle3: 'code sent to your email',
-    Btn: 'Verify Mobile Number',
+    Btn: 'VERIFY MOBILE NUMBER',
     Btn3: 'Verify Email Address',
     Trouble: 'Trouble receiving code?',
     SendAgain: 'Send Again',
