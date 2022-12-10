@@ -122,7 +122,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: Value.CONSTANT_VALUE_FRAC3_62,
     color: Colors.BLACK,
-    marginHorizontal: px(5),
+    left: 5,
   },
   textbtn2: {
     fontSize: Value.CONSTANT_VALUE_14,
@@ -155,6 +155,7 @@ export default {
     alignItems: Alignment.CENTER,
     width: scaleWidth(Value.CONSTANT_VALUE_211),
     justifyContent: Alignment.SPACE_BETWEEN,
+    marginRight: px(15),
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
