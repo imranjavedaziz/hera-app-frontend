@@ -139,7 +139,8 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_40,
     justifyContent: Alignment.CENTER,
     marginHorizontal: Value.CONSTANT_VALUE_20,
-    marginVertical: Value.CONSTANT_VALUE_50,
+    marginTop: Value.CONSTANT_VALUE_50,
+    marginBottom:Value.CONSTANT_VALUE_15,
     height: Value.CONSTANT_VALUE_80,
   },
   sendMsgBtnDis: {
@@ -151,6 +152,7 @@ export default {
     justifyContent: Alignment.CENTER,
     marginHorizontal: Value.CONSTANT_VALUE_20,
     height: Value.CONSTANT_VALUE_80,
+    marginBottom: Value.CONSTANT_VALUE_70,
   },
   sendMsgText: {
     letterSpacing: Value.CONSTANT_VALUE_FRAC36,
