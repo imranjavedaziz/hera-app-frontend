@@ -60,9 +60,8 @@ const PTB_profile = props => {
   ]);
   useEffect(() => {
     if (LoadinfRef.current && !send_like_ptb_loading) {
-      dispatch(showAppLoader());
-      if (send_like_ptb_success) {
-        dispatch(hideAppLoader());
+      if (send_like_ptb_loading) {
+        dispatch(showAppLoader());
       } else {
         dispatch(hideAppLoader());
       }
