@@ -137,7 +137,6 @@ export const smRegisterSchema = yup.object().shape({
           return true;
         }
       } else if (parent?.role === '5') {
-        console.log('LINE NO 138 ', parent.role, selectedAge);
         if (selectedAge >= 18 && selectedAge <= 40) {
           return true;
         }
@@ -267,9 +266,29 @@ export const deleteAccountPassword = yup.object().shape({
 export const changePasswordSchema = yup.object().shape({
   current_password: yup
     .string()
+    .test('current_password',ValidationMessages.ALL_MANDATORY,(value,ctx)=>{
+      const {parent} = ctx;
+      let anyFilled = false;
+      Object.values(parent).forEach(data=>{
+        if(Boolean(data)){
+          anyFilled = true;
+        }
+      })
+      return anyFilled;
+    })
     .required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
   new_password: yup
     .string()
+    .test('new_password',ValidationMessages.ALL_MANDATORY,(value,ctx)=>{
+      const {parent} = ctx;
+      let anyFilled = false;
+      Object.values(parent).forEach(data=>{
+        if(Boolean(data)){
+          anyFilled = true;
+        }
+      })
+      return anyFilled;
+    })
     .required(ValidationMessages.PLEASE_ENTER_NEW_PASS)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
@@ -294,6 +313,16 @@ export const changePasswordSchema = yup.object().shape({
     }),
   confirm_password: yup
     .string()
+    .test('confirm_password',ValidationMessages.ALL_MANDATORY,(value,ctx)=>{
+      const {parent} = ctx;
+      let anyFilled = false;
+      Object.values(parent).forEach(data=>{
+        if(Boolean(data)){
+          anyFilled = true;
+        }
+      })
+      return anyFilled;
+    })
     .required(ValidationMessages.PLEASE_ENTER_CONFIRM_PASS)
     .oneOf([yup.ref('new_password'), null], 'Your password do not match.'),
 });

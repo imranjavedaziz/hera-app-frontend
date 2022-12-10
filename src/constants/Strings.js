@@ -5,6 +5,7 @@ export const ValidationMessages = {
   PLEASE_ENTER_CURR_PASS: 'Please enter Current Password',
   PLEASE_ENTER_NEW_PASS: 'Please enter New Password',
   PLEASE_ENTER_CONFIRM_PASS: 'Please enter Confirm Password',
+  ALL_MANDATORY: 'Please provide all the mandatory details.',
   INVALID_MOBILE: 'Mobile number is not valid.',
   PICTURE_REQUIRE: 'Please upload a display picture',
   TERMS_OF_USE: 'Please accept the Terms of Use',
