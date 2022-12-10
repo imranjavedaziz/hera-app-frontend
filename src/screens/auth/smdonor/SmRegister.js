@@ -474,6 +474,7 @@ const SmRegister = () => {
             </View>
             <View style={styles.align}>
               <Button
+                disabled={register_user_loading || register_user_success}
                 label={Strings.sm_register.Btn}
                 onPress={handleSubmit(onSubmit)}
                 style={styles.Btn}

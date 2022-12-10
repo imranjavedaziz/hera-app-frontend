@@ -17,6 +17,7 @@ export default {
     width: Value.CONSTANT_VALUE_80,
     height: Value.CONSTANT_VALUE_80,
     borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: '#E2E1D8',
   },
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),

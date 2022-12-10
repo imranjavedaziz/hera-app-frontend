@@ -305,7 +305,6 @@ const SmDashboard = ({route}) => {
       </TouchableOpacity>
     );
   };
-
   const headerComp = () => (
     <IconHeader
       leftIcon={{uri: profileImg}}
@@ -319,11 +318,6 @@ const SmDashboard = ({route}) => {
       ApiImage={true}
     />
   );
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    setPage(1);
-  };
 
   const renderEmptyCell = () => {
     if (!loaderState.loading) {
@@ -419,7 +413,6 @@ const SmDashboard = ({route}) => {
                   ListEmptyComponent={renderEmptyCell}
                   ListFooterComponent={renderFooterCell}
                   refreshing={refreshing}
-                  onRefresh={onRefresh}
                   testID="flat-list"
                 />
               </View>

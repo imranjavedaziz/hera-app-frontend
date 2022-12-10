@@ -17,7 +17,7 @@ import {InputLabel} from '../../components';
 import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
 import normalizeInput from '../../utils/normalizeInput';
-import { statusHide } from '../../utils/responsive';
+import {statusHide} from '../../utils/responsive';
 
 const MobileNumber = ({route}) => {
   const navigation = useNavigation();
@@ -26,6 +26,7 @@ const MobileNumber = ({route}) => {
   const [isRouteData, setIsRouteData] = useState();
   const [phone, setPhone] = useState('');
   const {type} = route.params;
+
   const {
     handleSubmit,
     control,
@@ -43,12 +44,14 @@ const MobileNumber = ({route}) => {
 
   // send otp res
   useEffect(() => {
-    if (mobile_number_success) {
-      navigation.navigate(Routes.OTP, {
-        isRouteData,
-        type,
-        register_user_success_data,
-      });
+    if (loadingRef.current && !mobile_number_loading) {
+      if (mobile_number_success) {
+        navigation.navigate(Routes.OTP, {
+          isRouteData,
+          type,
+          register_user_success_data,
+        });
+      }
     }
     loadingRef.current = mobile_number_loading;
   }, [mobile_number_success, mobile_number_loading]);
@@ -144,11 +147,13 @@ const MobileNumber = ({route}) => {
             justifyContent: Alignment.FLEX_START,
             alignItems: Alignment.CENTER,
             marginTop: Value.CONSTANT_VALUE_48,
-            marginBottom: Value.CONSTANT_VALUE_148,
+            marginBottom: 148,
           }}>
           <Button
             style={styles.Btn}
-            label={type === 1 ? Strings.mobile.VERIFY: Strings.mobile.SEND_VERIFY}
+            label={
+              type === 1 ? Strings.mobile.VERIFY : Strings.mobile.SEND_VERIFY
+            }
             onPress={handleSubmit(onSubmit)}
           />
         </View>

@@ -94,7 +94,7 @@ export default {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
-    bottom: -25,
+    bottom: -30,
     right: 0,
   },
   errMessage_1: {
@@ -140,7 +140,7 @@ export default {
   linebelowFloat: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
     justifyContent: 'center',
-    top: Value.CONSTANT_VALUE_6,
+    top: Value.CONSTANT_VALUE_10,
   },
   red: {color: 'red'},
   left: {left: '90%'},

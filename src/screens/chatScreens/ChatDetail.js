@@ -28,6 +28,7 @@ import moment from 'moment';
 import globalStyle from '../../styles/global';
 import {ReportUser} from '../../redux/actions/ReportUser';
 import NetInfo from '@react-native-community/netinfo';
+import {getMessageID} from '../../redux/actions/MessageId';
 let fireDB;
 let onChildAdd;
 const ChatDetail = props => {
@@ -53,6 +54,7 @@ const ChatDetail = props => {
   const dispatch = useDispatch();
   useEffect(() => {
     const paramItem = props?.route?.params?.item;
+    dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
       user.role_id !== 2 &&
@@ -61,6 +63,7 @@ const ChatDetail = props => {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
   }, [props.route.params]);
+  
   const renderActions = message => {
     return (
       <View style={{flexDirection: 'row', margin: 10}}>
@@ -163,7 +166,7 @@ const ChatDetail = props => {
     ) {
       navigation.navigate(Routes.Subscription);
     } else if (
-      props.route.params.item.status_id !== 1 ||
+      parseInt(props.route.params.item.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
         parseInt(props.route.params.item.recieverSubscription) === 0)
     ) {
@@ -360,7 +363,7 @@ const ChatDetail = props => {
             style={styles.topContainer}
             disabled={
               parseInt(props?.route?.params?.item?.currentRole) === 1 ||
-              props?.route?.params?.item?.status_id !== 1
+              parseInt(props?.route?.params?.item?.status_id) !== 1
                 ? true
                 : false
             }
@@ -379,7 +382,8 @@ const ChatDetail = props => {
                       ? Images.ADMIN_ICON
                       : parseInt(
                           props?.route?.params?.item?.recieverSubscription,
-                        ) === 0 || props.route.params.item.status_id !== 1
+                        ) === 0 ||
+                        parseInt(props.route.params.item.status_id) !== 1
                       ? Images.defaultProfile
                       : {uri: props.route.params.item.recieverImage}
                   }
@@ -390,7 +394,7 @@ const ChatDetail = props => {
                 {(parseInt(props?.route?.params?.item?.recieverSubscription) ===
                   0 &&
                   parseInt(props?.route?.params?.item?.currentRole) !== 1) ||
-                props?.route?.params?.item?.status_id !== 1 ? (
+                parseInt(props?.route?.params?.item?.status_id) !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>

@@ -37,7 +37,7 @@ import {
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {logOut, signoutUser, updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
@@ -196,6 +196,7 @@ const SetPreference = ({route, navigation}) => {
       if (log_out_success) {
         dispatch(empty());
         dispatch(hideAppLoader());
+        dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
@@ -405,6 +406,9 @@ const SetPreference = ({route, navigation}) => {
                         <Text style={styles.lookingsm}>{whom.name}</Text>
                       </TouchableOpacity>
                     ))}
+                  <Text style={styles.errLooking}>
+                    {errors && errors.looking?.message}
+                  </Text>
                 </View>
               )}
               name={FormKey.looking}
@@ -595,7 +599,7 @@ const SetPreference = ({route, navigation}) => {
                       </TouchableOpacity>
                     ))}
                   <Text style={styles.errMessage}>
-                    {errors && errors.hair?.message}
+                    {EditPreferences && errors && errors.hair?.message}
                   </Text>
                 </View>
               )}
@@ -647,7 +651,7 @@ const SetPreference = ({route, navigation}) => {
                     </TouchableOpacity>
                   ))}
                 <Text style={styles.errMessage}>
-                  {errors && errors.eye?.message}
+                  {EditPreferences && errors && errors.eye?.message}
                 </Text>
               </View>
             )}

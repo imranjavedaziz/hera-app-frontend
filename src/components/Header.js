@@ -8,7 +8,7 @@ import {dynamicSize} from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
 import {getStatusBarHeight} from 'react-native-safearea-height';
 
-const MaxValueHeader = Math.abs(getStatusBarHeight() - 54);
+const MaxValueHeader = Math.abs(getStatusBarHeight() - 54); // Android working fine  // IOS we need ios 54 Fail
 const styles = {
   container: {
     width: Prencentage.PRECENTAGE_100,

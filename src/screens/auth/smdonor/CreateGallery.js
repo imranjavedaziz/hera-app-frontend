@@ -233,7 +233,6 @@ const CreateGallery = () => {
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
-      return;
     } else {
       let payload = {
         ids: remove?.join(),
@@ -324,13 +323,12 @@ const CreateGallery = () => {
               {Strings.sm_create_gallery.Subtitle3}
             </Text>
             <Text style={styles.p1}>{Strings.sm_create_gallery.maxUpload}</Text>
-            <Text style={styles.p2}>{Strings.sm_create_gallery.imagetype}</Text>
           </View>
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
                 activeOpacity={gIndex === index ? 0.1 : 1}
-                key={img.id}
+                key={index}
                 onPress={() => ImageClick(index)}>
                 <ImageLoading
                   isFastImg={true}
@@ -340,7 +338,7 @@ const CreateGallery = () => {
                     priority: FastImage.priority.normal,
                     cache: FastImage.cacheControl.immutable,
                   }}
-                  key={img.id}>
+                  key={index}>
                   {img.uri && (
                     <TouchableOpacity
                       onPress={() => {

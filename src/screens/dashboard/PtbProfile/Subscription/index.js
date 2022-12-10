@@ -41,8 +41,6 @@ const Subscription = props => {
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
   const IAPService = InAPPPurchase.getInstance();
-  let purchaseUpdateSubscription = null;
-  let purchaseErrorSubscription = null;
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
   const [isCallApi, setCallApi] = React.useState(false);
@@ -82,6 +80,7 @@ const Subscription = props => {
         dispatch(getSubscriptionStatus());
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
+        setCallApi(false);
         props.navigation.goBack();
       }
       dispatch(hideAppLoader());
@@ -106,45 +105,11 @@ const Subscription = props => {
       setSelectCheckBox(item);
     }
   };
-
   React.useEffect(() => {
     if (isCallApi) {
-      purchaseAPI(purchasereceipt);
+      purchaseAPI(_purchasereceipt);
     }
   }, [isCallApi]);
-
-  React.useEffect(() => {
-    purchaseUpdateSubscription = RNIap.purchaseUpdatedListener(
-      async purchase => {
-        const receipt = purchase.transactionReceipt;
-        if (receipt) {
-          try {
-            setPurchaseReceipt(purchase);
-            setCallApi(true);
-            await RNIap.finishTransaction({purchase, isConsumable: true});
-            if (Platform.OS === 'android') {
-              await RNIap.flushFailedPurchasesCachedAsPendingAndroid();
-            }
-          } catch (ackErr) {
-            console.log('ERROR LINE NO 101', ackErr);
-          }
-        }
-      },
-    );
-    purchaseErrorSubscription = RNIap.purchaseErrorListener(error => {
-      console.log('ERROR LINE NO 101', error);
-    });
-    return () => {
-      if (purchaseUpdateSubscription) {
-        purchaseUpdateSubscription.remove();
-        purchaseUpdateSubscription = null;
-      }
-      if (purchaseErrorSubscription) {
-        purchaseErrorSubscription.remove();
-        purchaseErrorSubscription = null;
-      }
-    };
-  }, []);
   const purchaseAPI = item => {
     console.log("CHECKING CREATE SUB LINE NO 141");
     let payload = {
@@ -173,7 +138,6 @@ const Subscription = props => {
     }
     dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
-      console.log('LINE NUMBER 160 requestSubscriptionIOS');
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
     } else {
       requestSubscriptionAndroid(
@@ -188,30 +152,34 @@ const Subscription = props => {
     try {
       await RNIap.requestPurchase({sku})
         .then(async result => {
-          console.log('ANDROID LINE 185', result, 'Itemm', item, 'Type', type);
         })
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
-          console.log(err?.message);
         });
     } catch (error) {
       console.warn(`err ${error.code}`, error.message);
     }
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
-    try {
-      await RNIap.requestSubscription({sku})
-        .then(async result => {
-          console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
-        })
-        .catch(err => {
-          console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
-          console.log(err?.message);
-          dispatch(hideAppLoader());
-        });
-    } catch (error) {
-      console.warn(`err ${error.code}`, error.message);
-    }
+    RNIap.requestSubscription({sku})
+    .then(async result => {
+      console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
+      const receipt = result.transactionReceipt;
+      if (receipt) {
+        try {
+          setPurchaseReceipt(result);
+          setCallApi(true);
+          await RNIap.finishTransaction({result, isConsumable: true});
+        } catch (ackErr) {
+          console.log('ERROR LINE NO 101', ackErr);
+        }
+      }
+    })
+    .catch(err => {
+      console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true,err.message));
+    });
   };
   return (
     <>
@@ -289,5 +257,4 @@ const Subscription = props => {
     </>
   );
 };
-
 export default React.memo(Subscription);
