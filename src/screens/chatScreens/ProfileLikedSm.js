@@ -8,72 +8,63 @@ import {
 import React from 'react';
 import styles from './styles';
 import FastImage from 'react-native-fast-image';
-import {Images} from '../../constants';
-import {Header} from '../../components';
+import {Images, Strings} from '../../constants';
+import {Routes} from '../../constants/Constants';
+import {ScrollView} from 'react-native-gesture-handler';
 const ProfileLikedSm = props => {
   const headerComp = () => (
     <TouchableOpacity
       style={styles.headersm}
       onPress={() => {
-        props?.navigation?.navigate?.goBack();
+        props?.navigation?.goBack();
       }}>
       <Image source={Images.iconcross} />
     </TouchableOpacity>
   );
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        blurType: 'light',
-        blurAmount: 5,
-      }}>
-      <ImageBackground
-        source={Images.BLUR_BACKGROUND}
-        resizeMode="cover"
-        style={{blurAmount: 5, blurType: 'light'}}>
-        <Header end={true}>{headerComp()}</Header>
-        <Text
-          style={{
-            fontFamily: 'OpenSans',
-            fontSize: 35,
-            fontWeight: 'bold',
-            fontStyle: 'normal',
-            letterSpacing: 0,
-            textAlign: 'center',
-            color: '#353a3a',
-          }}>
-          Nice, Your match found!
-        </Text>
-        <View style={styles.ImgView}>
-          <FastImage style={styles.userImg} source={{uri: ''}} />
-          <FastImage
-            style={styles.heartIcon}
-            source={Images.WHITE_GREEN_HEART}
-          />
-        </View>
+    <ImageBackground
+      source={Images.BLUR_BACKGROUND}
+      resizeMode="cover"
+      style={{flex: 1}}>
+      <View>{headerComp()}</View>
+      <ScrollView>
         <View
           style={{
-            width: 296.7,
-            height: 80,
-            borderRadius: 40,
-            backgroundColor: '#ffffff',
-            borderStyle: 'solid',
-            borderWidth: 1,
-            borderColor: '#a3c6c4',
-            justifyContent: 'center',
+            flex: 1,
             alignItems: 'center',
-            flexDirection: 'row',
+            marginTop: 90,
           }}>
-          <Image style={{tintColor: '#000000'}} source={Images.iconChat} />
-          <Text>SEND MESSAGE</Text>
+          <Text style={styles.matchFoundText}>{Strings.Chat.NICE_WATCH_FOUND}</Text>
+          <View style={styles.profileLikeScree}>
+            <FastImage
+              style={styles.profileScreen}
+              source={{
+                uri: props?.route?.params?.item?.profile_match_request
+                  ?.recieverImage,
+              }}
+            />
+            <FastImage
+              style={styles.heartIcon}
+              source={Images.WHITE_GREEN_HEART}
+            />
+          </View>
+          <TouchableOpacity
+            onPress={() =>
+              props?.navigation?.navigate(Routes.ChatDetail, {
+                item: props?.route?.params?.item?.profile_match_request,
+                isComingFrom: true,
+              })
+            }>
+            <Image source={Images.button_like} />
+          </TouchableOpacity>
+          <TouchableOpacity style={{marginTop: 35, alignContent: 'center'}} onPress={()=>{
+            props.navigation.navigate(Routes.DashboardDetailScreen,{userId:props?.route?.params?.item?.id})
+          }}>
+            <Text style={styles.SeeProfile}>See Profile</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{marginTop: 35}}>
-          <Text style={styles.SeeProfile}>See Profile</Text>
-        </TouchableOpacity>
-      </ImageBackground>
-    </View>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 export default React.memo(ProfileLikedSm);

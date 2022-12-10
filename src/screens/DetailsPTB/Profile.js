@@ -345,6 +345,27 @@ const Profile = props => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
+                      label={Strings.profile.DateOfBirth}
+                      value={value}
+                      onChangeText={v => onChange(v)}
+                      endComponentPress={() => setShow(true)}
+                      error={errors && errors.date_of_birth?.message}
+                      required={true}
+                      endComponent={() => (
+                        <TouchableOpacity onPress={() => setShow(true)}>
+                          <Image source={Images.calendar} />
+                        </TouchableOpacity>
+                      )}
+                      editable={false}
+                      onPressIn={() => setShow(true)}
+                    />
+                  )}
+                  name={FormKey.date_of_birth}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
                       label={Strings.profile.EmailAddress}
                       value={value}
                       onChangeText={v => onChange(v)}
@@ -354,30 +375,6 @@ const Profile = props => {
                     />
                   )}
                   name={FormKey.email}
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <FloatingLabelInput
-                      label={Strings.profile.DateOfBirth}
-                      value={value}
-                      onChangeText={v => onChange(v)}
-                      endComponentPress={() => setShow(true)}
-                      error={errors && errors.date_of_birth?.message}
-                      required={true}
-                      endComponent={() => (
-                        <TouchableOpacity onPress={() => setShow(true)}>
-                          <Image
-                            source={Images.calendar}
-                            style={styles.calender}
-                          />
-                        </TouchableOpacity>
-                      )}
-                      editable={false}
-                      onPressIn={() => setShow(true)}
-                    />
-                  )}
-                  name={FormKey.date_of_birth}
                 />
                 <Controller
                   control={control}

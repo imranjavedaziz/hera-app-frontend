@@ -33,10 +33,7 @@ const VideoUploading = props => {
       {props?.apply === true && props?.video?.loading && (
         <MaterialIndicator
           color={Colors.COLOR_A3C6C4}
-          style={{
-            width: Value.CONSTANT_VALUE_50,
-            height: Value.CONSTANT_VALUE_50,
-          }}
+          style={styles.materialIcon}
           size={25}
         />
       )}
@@ -82,7 +79,9 @@ const VideoUploading = props => {
               {Platform.OS === 'android' &&
                 !props?.isPlaying &&
                 props?.counter === 0 && (
-                  <Image source={Images.playButton} style={styles.playIcon} />
+                  <TouchableOpacity onPress={props.onPress} style={{flex: 1,position: 'absolute',width: '100%'}}>
+                    <Image source={Images.playButton} style={styles.playIcon} />
+                  </TouchableOpacity>
                 )}
               {loadingState && (
                 <View style={styles.videoCover}>

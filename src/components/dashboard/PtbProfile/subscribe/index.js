@@ -11,6 +11,8 @@ import styles from './style';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
+import { Colors } from '../../../../constants';
+import {Fonts} from '../../../../constants/Constants';
 
 const cancelURL = Platform.select({
   ios: 'https://apps.apple.com/account/subscriptions',
@@ -38,13 +40,13 @@ export const Subscribed = () => {
     return null;
   }
   return (
-    <View style={[styles.container, {height: 'auto', paddingBottom: 20}]}>
+    <View style={[styles.container, {height: 'auto', paddingVertical: 17,borderColor: Colors.COLOR_A3C6C4,}]}>
       <View style={{flex: 1,  }}>
         <View style={[styles.row, {justifyContent: 'space-between'}]}>
           <Text
             style={[
               styles.mainText,
-              {marginLeft: 0, fontSize: 22, fontWeight: '400'},
+              {marginLeft: 0, fontSize: 20, fontWeight: '400',fontFamily: Fonts.OpenSansRegular,},
             ]}>
             You are Subscribed
           </Text>
@@ -54,11 +56,8 @@ export const Subscribed = () => {
         </View>
         <Text style={[styles.price, {marginTop: 5}]}>{`$${
           get_user_detail_res.subscription.price
-        }/${get_user_detail_res.subscription.subscription_interval.substring(
-          0,
-          2,
-        )}`}</Text>
-        <Text style={[styles.price, {fontWeight: '500', marginTop: 15}]}>
+        }/${get_user_detail_res.subscription.subscription_interval==='month'?'mo':'yr'}`}</Text>
+        <Text style={[styles.price, {fontWeight: '500', marginTop: 10,fontFamily: Fonts.OpenSansBold}]}>
           Next Due On:{' '}
           {moment(
             new Date(get_user_detail_res.subscription.current_period_end),

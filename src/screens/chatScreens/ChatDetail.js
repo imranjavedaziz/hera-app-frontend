@@ -33,7 +33,8 @@ const ChatDetail = props => {
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
-  const [_loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [db, setDB] = useState({messages: [], loading: true});
   const {log_in_data, user} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(
@@ -48,7 +49,6 @@ const ChatDetail = props => {
   );
   const {report_user_success, report_user_loading, report_user_error} =
     useSelector(state => state.ReportUser);
-  let bootTrueVal = true;
   const dispatch = useDispatch();
   useEffect(() => {
     const paramItem = props?.route?.params?.item;
@@ -84,6 +84,7 @@ const ChatDetail = props => {
     }
   }, [subscriptionStatus]);
   useEffect(async () => {
+    setLoader(true);
     if (
       parseInt(props.route.params.item.senderSubscription) === 0 &&
       user?.role_id === 2
@@ -105,14 +106,13 @@ const ChatDetail = props => {
     console.log(user, receiver, 'user, receiver');
     fireDB = new FirebaseDB(user, receiver);
     await fireDB.setTotalSize();
+    dispatch(showAppLoader());
     await fireDB.initMessages();
-   
-      await fireDB.readMessage();
-
-
+    await fireDB.readMessage();
     fireDB.lastIdInSnapshot = now;
     setDB(fireDB);
-
+    dispatch(hideAppLoader());
+    setLoader(false);
     onChildAdd = fireDB.reference.on(
       'child_added',
       async (snapshot, _previousChildKey) => {
@@ -120,15 +120,15 @@ const ChatDetail = props => {
         const messageItem = fireDB.parseMessages(snapshot);
         if (messageItem.createdAt > now) {
           fireDB.lastKey = snapshot.key;
+          fireDB.totalSize = fireDB.totalSize + 1;
           fireDB.prependMessage(messageItem);
           await fireDB.readAll();
           fireDB.lastIdInSnapshot = snapshot.key;
-          setLoading(false);
         }
+        setLoading(false);
       },
     );
   }, []);
-  console.log(db?.messages, 'db?.messages');
   useEffect(async () => {
     const unsubscribe = () => {
       setDB({messages: [], loading: false});
@@ -151,21 +151,21 @@ const ChatDetail = props => {
     }
     LoadingRef.current = report_user_loading;
   }, [report_user_success, report_user_loading]);
-
   const onSend = (messages = '') => {
     if (
       (parseInt(props.route.params.item.senderSubscription) === 0 ||
         !subscriptionStatus?.data?.status) &&
       parseInt(user?.role_id) === 2
     ) {
-      dispatch(showAppToast(true, Strings.Chat.YOUR_SUBSCRIPTION_EXPIRED));
       navigation.navigate(Routes.Subscription);
     } else if (
-      props.route.params.item.status_id !== 1 ||
+      parseInt(props.route.params.item.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
         parseInt(props.route.params.item.recieverSubscription) === 0)
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
+    } else if (messages.text.trim().length === 0) {
+      dispatch(showAppToast(true, Strings.Chat.PLEASE_ENTER_MESSAGE));
     } else {
       setTextData('');
       if (messages.text !== '') {
@@ -356,7 +356,7 @@ const ChatDetail = props => {
             style={styles.topContainer}
             disabled={
               parseInt(props?.route?.params?.item?.currentRole) === 1 ||
-              props?.route?.params?.item?.status_id !== 1
+              parseInt(props?.route?.params?.item?.status_id) !== 1
                 ? true
                 : false
             }
@@ -375,7 +375,8 @@ const ChatDetail = props => {
                       ? Images.ADMIN_ICON
                       : parseInt(
                           props?.route?.params?.item?.recieverSubscription,
-                        ) === 0 || props.route.params.item.status_id !== 1
+                        ) === 0 ||
+                        parseInt(props.route.params.item.status_id) !== 1
                       ? Images.defaultProfile
                       : {uri: props.route.params.item.recieverImage}
                   }
@@ -386,7 +387,7 @@ const ChatDetail = props => {
                 {(parseInt(props?.route?.params?.item?.recieverSubscription) ===
                   0 &&
                   parseInt(props?.route?.params?.item?.currentRole) !== 1) ||
-                props?.route?.params?.item?.status_id !== 1 ? (
+                parseInt(props?.route?.params?.item?.status_id) !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
@@ -438,9 +439,9 @@ const ChatDetail = props => {
       {showFeedback &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
         parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
-        ((db?.messages?.length === 20 &&
+        ((db?.totalSize === 20 &&
           parseInt(props?.route?.params?.item?.feedback_status) !== 2) ||
-          db?.messages?.length >= 30) &&
+          db?.totalSize >= 50) &&
         log_in_data?.role_id === 2 && (
           <View
             style={{
@@ -448,24 +449,26 @@ const ChatDetail = props => {
               width: '100%',
               backgroundColor: Colors.WHITE,
               zIndex: 1,
-              top: 150,
+              top: 80,
               position: 'absolute',
+              justifyContent: 'center',
             }}>
-            <TouchableOpacity
-              style={{
-                right: 8,
-                width: 30,
-                height: 30,
-                top: 8,
-                alignSelf: 'flex-end',
-              }}
-              disabled={db?.messages.length >= 30 && bootTrueVal}
-              onPress={() => {
-                setSendFeedback(2);
-                feedback(0, 1);
-              }}>
-              <Image source={Images.iconcross} style={styles.crossImage} />
-            </TouchableOpacity>
+            {db?.totalSize < 50 && (
+              <TouchableOpacity
+                style={{
+                  right: 8,
+                  top: 8,
+                  zIndex: 1,
+                  position: 'absolute',
+                  alignSelf: 'flex-end',
+                }}
+                onPress={() => {
+                  setSendFeedback(2);
+                  feedback(0, 1);
+                }}>
+                <Image source={Images.iconcross} style={styles.crossImage} />
+              </TouchableOpacity>
+            )}
             <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
             <View style={styles.thumbInnerContain}>
               <TouchableOpacity
@@ -489,18 +492,21 @@ const ChatDetail = props => {
             </View>
           </View>
         )}
-      {log_in_data?.role_id === 2 && db?.messages.length === 0 && (
-        <View style={styles.smDonorEmptyView}>
-          <EmptySmDonor
-            image={Images.conversation2}
-            title={Strings.Chat.START_CONVERSATION}
-            midTitle=""
-          />
-        </View>
-      )}
+      {log_in_data?.role_id === 2 &&
+        db?.messages.length === 0 &&
+        loader !== true && (
+          <View style={styles.smDonorEmptyView}>
+            <EmptySmDonor
+              image={Images.conversation2}
+              title={Strings.Chat.START_CONVERSATION}
+              midTitle=""
+            />
+          </View>
+        )}
 
       {parseInt(props?.route?.params?.item?.currentRole) === 1 &&
-        db?.messages.length === 0 && (
+        db?.messages.length === 0 &&
+        loader !== true && (
           <View style={styles.smDonorEmptyView}>
             <EmptySmDonor
               image={Images.conversation2}
@@ -511,7 +517,8 @@ const ChatDetail = props => {
         )}
       {log_in_data?.role_id !== 2 &&
         db?.messages.length === 0 &&
-        parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
+        parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
+        loader !== true && (
           <EmptySmDonor
             image={Images.conversation2}
             title={Strings.Chat.YOU_MATCHED}
@@ -540,10 +547,8 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              textInputProps={{
-                autoCorrect: false,
-              }}
-              minComposerHeight={textData?.length > 75 ? 60 : 40}
+              textInputProps={styles.textInput}
+              minComposerHeight={textData?.length > 75 ? 60 : 34}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -552,7 +557,7 @@ const ChatDetail = props => {
                 },
               }}
               maxInputLength={1024}
-              placeholder={'Write a message'}
+              placeholder={Strings.search_Bar.write_message}
             />
           </KeyboardAvoidingView>
         </View>
@@ -578,7 +583,8 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              minComposerHeight={textData?.length > 75 ? 60 : 40}
+              textInputProps={styles.textInput}
+              minComposerHeight={textData?.length > 75 ? 60 : 34}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -587,7 +593,7 @@ const ChatDetail = props => {
                 },
               }}
               maxInputLength={1024}
-              placeholder={'Write a message'}
+              placeholder={Strings.search_Bar.write_message}
             />
           </KeyboardAvoidingView>
         </View>
@@ -615,10 +621,8 @@ const ChatDetail = props => {
                 }}
                 containerStyle={styles.mainContainerDetail}
                 renderAvatar={null}
-                minComposerHeight={textData?.length > 75 ? 60 : 40}
-                textInputProps={{
-                  autoCorrect: false,
-                }}
+                minComposerHeight={textData?.length > 75 ? 60 : 34}
+                textInputProps={styles.textInput}
                 listViewProps={{
                   scrollEventThrottle: 400,
                   marginBottom: 10,
@@ -627,7 +631,7 @@ const ChatDetail = props => {
                   },
                 }}
                 maxInputLength={1024}
-                placeholder={'Write a message'}
+                placeholder={Strings.search_Bar.write_message}
               />
             </KeyboardAvoidingView>
           </View>

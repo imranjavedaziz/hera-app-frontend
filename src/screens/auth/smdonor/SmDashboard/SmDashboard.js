@@ -40,6 +40,8 @@ import {Colors} from '../../../../constants';
 import {dynamicSize, statusHide} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
+import ImageLoading from '../../../../components/ImageLoading';
+
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -272,7 +274,8 @@ const SmDashboard = ({route}) => {
         }
         style={styles.mainContainer}>
         <View style={styles.conatiner}>
-          <FastImage
+          <ImageLoading
+            isFastImg={true}
             style={[
               styles.profileImgView,
               {borderRadius: Value.CONSTANT_VALUE_18},
@@ -288,7 +291,7 @@ const SmDashboard = ({route}) => {
               colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
               style={styles.gradient}
             />
-          </FastImage>
+          </ImageLoading>
           <View style={styles.locationContainer}>
             <Text style={styles.profileName}>{item.first_name}</Text>
             <View style={styles.profileFooter}>

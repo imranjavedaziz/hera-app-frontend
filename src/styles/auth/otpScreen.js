@@ -1,20 +1,20 @@
 import {Colors, Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
-import {dynamicSize} from '../../utils/responsive';
 
 export default {
   troubleRow: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_15,
     justifyContent: 'center',
+    marginTop: 72,
+    marginBottom: 40,
   },
-  troubleKeyRow: {
-    marginTop: 80,
-    flexDirection: 'row',
-    alignItems: 'center',
+  troubleRowKey: {
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
     justifyContent: 'center',
+    marginTop: 72,
   },
   leftIcon: {
     marginLeft: Value.CONSTANT_VALUE_30,
@@ -30,7 +30,6 @@ export default {
   },
   trouble: {
     fontSize: Value.CONSTANT_VALUE_16,
-    lineHeight: Value.CONSTANT_VALUE_25,
     textAlignVertical: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
@@ -38,7 +37,6 @@ export default {
   },
   resend: {
     fontSize: Value.CONSTANT_VALUE_16,
-    lineHeight: Value.CONSTANT_VALUE_25,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
     textAlignVertical: Alignment.CENTER,
@@ -48,6 +46,20 @@ export default {
   errMsg: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
-    // marginTop:50
+  },
+  btnTouch: {
+    width: 305,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#a3c6c4',
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+  },
+  btn: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: 14,
+    letterSpacing: 1.8,
+    textAlign: Alignment.CENTER,
+    color: '#353a3a',
   },
 };

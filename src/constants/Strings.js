@@ -55,7 +55,7 @@ export const ValidationMessages = {
   SELECT_HAIR_1: 'Please enter Hair color',
   SELECT_EYE_1: 'Please enter Eye color',
   SELECT_WEIGHT: 'Please enter Weight',
-  CAPSLOCK: 'Atleast 1 upper case letter',
+  CAPSLOCK: 'Must have atleast 1 upper case letter',
   OTP_REQUIRED: 'Required!',
   USER_TYPE: 'Please select a user type',
   Name: 'Please enter your Name',
@@ -394,6 +394,8 @@ export default {
     HEY_ITS_MATCH: 'Hey, It’s a match!',
     PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
     INACTIVE_ACCOUNT: 'The account is inactive',
+    NICE_WATCH_FOUND:'Nice, Your match found!',
+    PLEASE_ENTER_MESSAGE:'Please Enter Message'
   },
   Sensory: {
     AS_PER_SEARCH:

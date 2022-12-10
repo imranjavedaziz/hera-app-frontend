@@ -186,7 +186,6 @@ const SmBasicDetails = () => {
   const logOutScreen = () => {
     dispatch(showAppLoader());
     dispatch(logOut());
-    navigation.navigate(Routes.Landing);
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);

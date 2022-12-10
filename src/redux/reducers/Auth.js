@@ -319,10 +319,8 @@ export default (state = initState, action) => {
         log_out_success: true,
         log_out_loading: false,
         log_out_error_msg: '',
-        token: '',
-        log_in_data: '',
         user: initState.user,
-        registerUser: '',
+        gallery: initState.gallery,
         register_user_success: false,
       };
     }
