@@ -324,7 +324,6 @@ const CreateGallery = () => {
               {Strings.sm_create_gallery.Subtitle3}
             </Text>
             <Text style={styles.p1}>{Strings.sm_create_gallery.maxUpload}</Text>
-            <Text style={styles.p2}>{Strings.sm_create_gallery.imagetype}</Text>
           </View>
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
