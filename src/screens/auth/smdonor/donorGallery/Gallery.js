@@ -46,12 +46,12 @@ const Gallery = () => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [gallery, setGallery] = useState([
-    { id: 0, uri: '', loading: true },
-    { id: 1, uri: '', loading: true },
-    { id: 2, uri: '', loading: true },
-    { id: 3, uri: '', loading: true },
-    { id: 4, uri: '', loading: true },
-    { id: 5, uri: '', loading: true },
+    { id: 0, uri: '', loading: false },
+    { id: 1, uri: '', loading: false },
+    { id: 2, uri: '', loading: false },
+    { id: 3, uri: '', loading: false },
+    { id: 4, uri: '', loading: false },
+    { id: 5, uri: '', loading: false },
   ]);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false, id: 0});
@@ -302,12 +302,12 @@ const Gallery = () => {
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
-                key={img.id}
+                key={index}
                 onPress={() => ImageClick(index)}
                 activeOpacity={gIndex === index ? 0.1 : 1}>
                 <ImageLoading
                   isFastImg={true}
-                  key={img.id}
+                  key={index}
                   style={[styles.galleryImgView, styles.imageStyling]}
                   source={{
                     uri: img.uri,
