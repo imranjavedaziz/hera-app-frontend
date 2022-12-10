@@ -103,7 +103,7 @@ export default {
     textDecorationLine: Alignment.UNDERLINE,
   },
   parentBtn: {
-    fontWeight: Alignment.BOLD,
+    fontFamily: Fonts.OpenSansBold,
     alignSelf: Alignment.CENTER,
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,

@@ -61,6 +61,7 @@ export default {
     marginTop: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_13,
   },
   p2: {
     textAlign: Alignment.CENTER,
