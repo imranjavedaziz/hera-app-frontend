@@ -34,6 +34,8 @@ import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
+
+const images = [];
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
@@ -42,7 +44,6 @@ const DashboardDetailScreen = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-  const [images, _setImages] = useState([]);
   const [islikedLogo, setIslikedLogo] = useState('');
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const {
@@ -143,19 +144,17 @@ const DashboardDetailScreen = () => {
         style={{
           ...props.style,
           opacity: fadeAnim,
+          flex: 1,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: width,
+          zIndex: 99999,
+          alignItems: 'center',
+          justifyContent: 'center'
         }}>
-        <ImageBackground
-          style={{
-            flex: 1,
-            position: 'absolute',
-            left: 80,
-            top: 0,
-            bottom: 0,
-            width: width,
-          }}
-          source={IMG_CONDI}>
           <Image style={styles.iconImage} source={IMG_CONDI} />
-        </ImageBackground>
       </Animated.View>
     );
   };
@@ -278,7 +277,6 @@ const DashboardDetailScreen = () => {
               </View>
 
               <View style={global.dynamicMarginBottom(8)}>
-                {isVisibleLogo && <FadeInView />}
                 <ImageBackground
                   imageStyle={styles.backgroundImage}
                   source={Images.iconComma}>
@@ -453,6 +451,7 @@ const DashboardDetailScreen = () => {
             />
           </View>
         )}
+        {isVisibleLogo && <FadeInView />}
         <ImageView
           images={images}
           imageIndex={imgPreviewindex}
