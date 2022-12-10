@@ -227,11 +227,7 @@ const ChangePassword = ({route}) => {
           </View>
           <View style={styles.buttonContainer}>
             <Button
-              label={
-                type === 1
-                  ? Strings.preference.SaveNewPassword
-                  : Strings.preference.SaveNewPassword
-              }
+              label={Strings.preference.SaveNewPassword}
               style={styles.Btn}
               onPress={handleSubmit(onSubmit)}
             />
