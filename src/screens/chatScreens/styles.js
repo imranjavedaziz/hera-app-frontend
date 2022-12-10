@@ -80,7 +80,6 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_16,
-    width: 128,
   },
   descText: {
     fontFamily: Fonts.OpenSansRegular,
@@ -89,9 +88,9 @@ export default {
   },
   topContainer: {
     flexDirection: Alignment.ROW,
-    alignItems: Alignment.FLEX_START,
-    flex: 2,
-    justifyContent: Alignment.FLEX_START,
+    alignItems: Alignment.CENTER,
+    flex: 0.8,
+    justifyContent: Alignment.CENTER,
   },
   avatar: {
     width: Value.CONSTANT_VALUE_40,
@@ -204,11 +203,11 @@ export default {
     borderStyle: 'solid',
     borderWidth: px(Value.CONSTANT_VALUE_2),
     borderColor: Colors.WHITE,
-    backgroundColor:Colors.WHITE,
+    backgroundColor: Colors.WHITE,
     marginVertical: px(Value.CONSTANT_VALUE_54),
     borderRadius: px(Value.CONSTANT_VALUE_90),
-    alignItems:Alignment.CENTER,
-    justifyContent:Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
   },
   matchFoundText: {
     fontFamily: Fonts.OpenSansBold,
@@ -221,11 +220,11 @@ export default {
     height: px(Value.CONSTANT_VALUE_180),
     borderRadius: px(Value.CONSTANT_VALUE_90),
   },
-  heartIcon:{
+  heartIcon: {
     width: px(Value.CONSTANT_VALUE_100),
     height: px(Value.CONSTANT_VALUE_100),
-    position:Alignment.ABSOLUTE,
-    right:-30,
-    top:-15
-  }
+    position: Alignment.ABSOLUTE,
+    right: -30,
+    top: -15,
+  },
 };

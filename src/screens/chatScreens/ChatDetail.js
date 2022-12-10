@@ -341,7 +341,7 @@ const ChatDetail = props => {
           backgroundColor: Colors.BACKGROUND,
         }}>
         <View style={styles.outerContainer}>
-          <View style={{flex: 1, zIndex: 9999}}>
+          <View style={{zIndex: 9999}}>
             <TouchableOpacity
               hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
               onPress={() => {
@@ -531,7 +531,7 @@ const ChatDetail = props => {
       {log_in_data?.role_id === 2 && (
         <View style={{flex: 1, marginBottom: 10}}>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={-210}
+            keyboardVerticalOffset={-230}
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GiftedChat
@@ -568,7 +568,7 @@ const ChatDetail = props => {
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
         <View style={{flex: 1, marginBottom: 10}}>
           <KeyboardAvoidingView
-            keyboardVerticalOffset={-210}
+            keyboardVerticalOffset={-230}
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GiftedChat
@@ -606,7 +606,7 @@ const ChatDetail = props => {
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
           <View style={{flex: 1, marginBottom: 10}}>
             <KeyboardAvoidingView
-              keyboardVerticalOffset={-210}
+              keyboardVerticalOffset={-230}
               style={{flex: 1}}
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
               <GiftedChat
