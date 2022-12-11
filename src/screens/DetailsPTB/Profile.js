@@ -59,6 +59,7 @@ import {
 } from '../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NotificationContext} from '../../context/NotificationContextManager';
+import debounce from '../../utils/debounce';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -481,7 +482,7 @@ const Profile = props => {
                   disabled={register_user_loading || register_user_success}
                   label={Strings.profile.Register}
                   style={styles.Btn}
-                  onPress={handleSubmit(onSubmit)}
+                  onPress={debounce(handleSubmit(onSubmit), 1000)}
                 />
               </View>
               <Pressable

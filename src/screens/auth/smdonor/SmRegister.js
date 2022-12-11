@@ -48,6 +48,7 @@ import {ptbRegister} from '../../../redux/actions/Register';
 import {BottomSheetComp} from '../../../components';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
+import debounce from '../../../utils/debounce';
 
 const validationType = {
   LEN: 'LEN',
@@ -476,7 +477,7 @@ const SmRegister = () => {
               <Button
                 disabled={register_user_loading || register_user_success}
                 label={Strings.sm_register.Btn}
-                onPress={handleSubmit(onSubmit)}
+                onPress={debounce(handleSubmit(onSubmit), 1000)}
                 style={styles.Btn}
               />
             </View>

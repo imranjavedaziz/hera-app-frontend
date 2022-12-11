@@ -85,7 +85,6 @@ const SmDashboard = ({route}) => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(showAppLoader());
       fetchData();
       let payload = {
         keyword: search ? search : '',
@@ -238,7 +237,6 @@ const SmDashboard = ({route}) => {
       setSearching(false);
       return;
     }
-
     setSearch(value);
     setSearching(true);
   };
@@ -254,7 +252,6 @@ const SmDashboard = ({route}) => {
     setSearching(false);
     setSearch('');
     setFocused(false);
-    dispatch(showAppLoader());
     let payload = {
       keyword: '',
       state_ids:
@@ -266,7 +263,7 @@ const SmDashboard = ({route}) => {
     };
     dispatch(getDonorDashboard(payload));
   };
-  const renderProfile = ({item, index}) => {
+  const renderProfile = ({item}) => {
     return (
       <TouchableOpacity
         onPress={() =>
@@ -393,29 +390,38 @@ const SmDashboard = ({route}) => {
                   isFocused={isFocused}
                 />
               </View>
-              <View>
-                <FlatList
-                  keyboardShouldPersistTaps="handled"
-                  contentContainerStyle={Styles.flatlist}
-                  columnWrapperStyle={{
-                    justifyContent: Alignment.SPACE_BETWEEN,
-                  }}
-                  data={cards}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={renderProfile}
-                  numColumns={2}
-                  showsVerticalScrollIndicator={false}
-                  onEndReached={() => {
-                    route.params?.informationDetail !== undefined &&
-                      onEndReached();
-                    searching && onEndReached();
-                  }}
-                  ListEmptyComponent={renderEmptyCell}
-                  ListFooterComponent={renderFooterCell}
-                  refreshing={refreshing}
-                  testID="flat-list"
-                />
-              </View>
+              {!get_donor_dashboard_loading ? (
+                <View>
+                  <FlatList
+                    keyboardShouldPersistTaps="handled"
+                    contentContainerStyle={Styles.flatlist}
+                    columnWrapperStyle={{
+                      justifyContent: Alignment.SPACE_BETWEEN,
+                    }}
+                    data={cards}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={renderProfile}
+                    numColumns={2}
+                    showsVerticalScrollIndicator={false}
+                    onEndReached={() => {
+                      route.params?.informationDetail !== undefined &&
+                        onEndReached();
+                      searching && onEndReached();
+                    }}
+                    ListEmptyComponent={renderEmptyCell}
+                    ListFooterComponent={renderFooterCell}
+                    refreshing={refreshing}
+                    testID="flat-list"
+                  />
+                </View>
+              ) : (
+                <View style={styles.loaderContainer}>
+                  <MaterialIndicator
+                    color={Colors.COLOR_A3C6C4}
+                    size={dynamicSize(25)}
+                  />
+                </View>
+              )}
             </View>
           </View>
         </View>

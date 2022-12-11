@@ -272,9 +272,12 @@ const SetPreference = ({route, navigation}) => {
         navigateSupport();
         break;
       case Strings.preference.About:
+        openWebView(ABOUT_URL);
         break;
       case Strings.preference.Logout:
         logOutScreen();
+        break;
+      case Strings.Subscription.Cancel:
         break;
     }
   };
@@ -283,6 +286,7 @@ const SetPreference = ({route, navigation}) => {
       Strings.smSetting.Inquiry,
       Strings.preference.About,
       Strings.preference.Logout,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();

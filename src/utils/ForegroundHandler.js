@@ -11,8 +11,6 @@ const ForegroundHandler = () => {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(remoteMessage => {
       console.log('Notification Method Unsubscribe', remoteMessage);
-      const {recieverId} = remoteMessage?.data?.recieverId;
-      const showNotification = messageIdRx?.data === parseInt(recieverId);
       const {notification, messageId} = remoteMessage;
       if (Platform.OS === 'ios') {
         PushNotificationIOS.addNotificationRequest({

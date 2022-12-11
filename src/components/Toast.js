@@ -21,7 +21,6 @@ const styles = {
     position: Alignment.ABSOLUTE,
     top: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
-    // height: Value.CONSTANT_VALUE_134,
   },
   safe: {
     flex: Value.CONSTANT_VALUE_1,

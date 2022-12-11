@@ -35,6 +35,8 @@ export default {
     textAlignVertical: 'top',
     paddingVertical: Value.CONSTANT_VALUE_18,
     paddingHorizontal: Value.CONSTANT_VALUE_18,
+    width: '100%',
+    height: '100%',
   },
   label: {
     marginBottom: px(14),

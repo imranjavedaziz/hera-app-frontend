@@ -196,9 +196,12 @@ const SmBasicDetails = () => {
         navigateSupport();
         break;
       case Strings.preference.About:
+        openWebView(ABOUT_URL);
         break;
       case Strings.preference.Logout:
         logOutScreen();
+        break;
+      case Strings.Subscription.Cancel:
         break;
     }
   };
@@ -207,12 +210,16 @@ const SmBasicDetails = () => {
       Strings.smSetting.Inquiry,
       Strings.preference.About,
       Strings.preference.Logout,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
     }, 300);
   };
-
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <StatusBar
@@ -281,7 +288,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <Dropdown
-                        containerStyle={{marginTop: 20}}
+                        containerStyle={Style}
                         label={Strings.sm_basic.State}
                         data={stateRes}
                         onSelect={selectedItem => {
@@ -297,7 +304,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={{marginTop: 10}}
+                        containerStyle={Style}
                         label={Strings.sm_basic.Zip}
                         value={value}
                         onChangeText={v => onChange(v)}
@@ -314,6 +321,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Dropdown
+                        containerStyle={Style}
                         label={Strings.sm_basic.SexualOrientation}
                         data={profileRes?.sexual_orientation}
                         onSelect={selectedItem => {
@@ -329,6 +337,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange}}) => (
                       <Dropdown
+                        containerStyle={Style}
                         label={Strings.sm_basic.RelationshipStatus}
                         data={profileRes?.relationship_status}
                         onSelect={selectedItem => {
@@ -344,9 +353,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={{
-                          marginTop: Value.CONSTANT_VALUE_30,
-                        }}
+                        containerStyle={Style}
                         label={Strings.sm_basic.Occupation}
                         value={value}
                         onChangeText={v => onChange(v)}
@@ -360,7 +367,6 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <MultiTextInput
-                        containerStyle={{marginTop: 30}}
                         title={Strings.sm_basic.Bio}
                         required={true}
                         value={value}
@@ -376,7 +382,7 @@ const SmBasicDetails = () => {
                   <View
                     style={{
                       alignItems: Alignment.CENTER,
-                      marginTop: Value.CONSTANT_VALUE_40,
+                      marginTop: Value.CONSTANT_VALUE_26,
                     }}>
                     <Button
                       style={styles.Btn}
