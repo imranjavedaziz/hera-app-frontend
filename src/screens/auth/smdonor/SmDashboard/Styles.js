@@ -2,7 +2,7 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {height, statusHide, width} from '../../../../utils/responsive';
+import {dynamicSize, height, normalizeFont, statusHide, width} from '../../../../utils/responsive';
 export default {
   mainContainer: {},
   conatiner: {
@@ -75,7 +75,6 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     justifyContent: 'flex-start',
-    // backgroundColor: 'pink',
   },
   sel: {
     paddingVertical: Value.CONSTANT_VALUE_10,
@@ -171,4 +170,30 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
   }
+  emptyCardContainer: {
+    marginTop: Value.CONSTANT_VALUE_110,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    paddingHorizontal: Value.CONSTANT_VALUE_30,
+  },
+  sryText: {
+    textAlign: Alignment.CENTER,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  innerText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    textAlign: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+  },
+  innerText2: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    fontFamily: Fonts.OpenSansRegular,
+  },
 };

@@ -5,13 +5,15 @@ import {
   Platform,
   ScrollView,
   SafeAreaView,
+  Modal,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import Header, {IconHeader} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import Strings from '../../../../constants/Strings';
+import Strings, { ValidationMessages } from '../../../../constants/Strings';
 import Styles from './Styles';
 import {
   Routes,
@@ -52,6 +54,7 @@ const SmDonorSettings = () => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [avaiableVideo, setVideoAviable] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const GetLoadingRef = useRef(false);
   const loadingGalleryRef = useRef(false);
   const {
@@ -184,6 +187,22 @@ const SmDonorSettings = () => {
   const logoutScreen = () => {
     dispatch(logOut());
   };
+  const iosAlert = () => {
+    Alert.alert(ValidationMessages.LOG_OUT, ValidationMessages.LOGOUT_TEXT, [
+      {
+        text: Strings.smSetting.Yes_Logout,
+        onPress: () => {
+          logoutScreen();
+        },
+      },
+      {
+        text: Strings.profile.ModalOption2,
+        onPress: () => null,
+      },
+    ]);
+    return true;
+  };
+
   return (
     <>
       <SafeAreaView style={Styles.flex}>
@@ -272,7 +291,9 @@ const SmDonorSettings = () => {
             <View style={Styles.buttoncontainer}>
               <TouchableOpacity
                 style={Styles.button}
-                onPress={() => logoutScreen()}>
+                onPress={() => {
+                  Platform.OS === 'ios' ? iosAlert() : setShowModal(true);
+                }}>
                 <Text style={Styles.buttonText}>{Strings.smSetting.Btn}</Text>
               </TouchableOpacity>
               <Text style={Styles.AppVersion}>
@@ -309,6 +330,38 @@ const SmDonorSettings = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[Styles.centeredView]}>
+          <View style={Styles.modalView}>
+            <Text style={Styles.modalHeader}>{Strings.smSetting.Log_Out}</Text>
+            <Text style={Styles.modalSubHeader}>
+              {Strings.smSetting.LogoutContent}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                logoutScreen();
+              }}>
+              <Text style={Styles.modalOption1}>
+                {Strings.smSetting.Yes_Logout}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={Styles.modalOption2}>
+                {Strings.sm_create_gallery.StayHera}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };

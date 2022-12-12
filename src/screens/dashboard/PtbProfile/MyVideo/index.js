@@ -53,7 +53,7 @@ const MyVideo = () => {
     delete_gallery_loading,
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
-    dispatch(showAppLoader());
+    isLoader && dispatch(showAppLoader());
     dispatch(getUserGallery());
   }, [dispatch]);
 
