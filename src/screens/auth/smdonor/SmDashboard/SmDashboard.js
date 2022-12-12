@@ -59,7 +59,6 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_error_msg,
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
-  const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const [msgRead, setMsgRead] = useState(false);

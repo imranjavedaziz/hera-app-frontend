@@ -169,7 +169,7 @@ export default {
   containrMain:{
     flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
-  }
+  },
   emptyCardContainer: {
     marginTop: Value.CONSTANT_VALUE_110,
     alignItems: Alignment.CENTER,
