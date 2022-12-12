@@ -18,6 +18,11 @@ export default {
     resizeMode: 'cover',
     height: scaleWidth(Value.CONSTANT_VALUE_25),
   },
+  inputRow: {
+    flexDirection: Alignment.ROW,
+    marginTop: Value.CONSTANT_VALUE_40,
+    justifyContent: 'flex-start',
+  },
   radioLabel: {
     marginLeft: Value.CONSTANT_VALUE_10,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),

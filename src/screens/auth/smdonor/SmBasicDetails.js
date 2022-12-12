@@ -286,6 +286,38 @@ const SmBasicDetails = () => {
                   />
                   <Controller
                     control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                        containerStyle={Style}
+                        label={Strings.sm_basic.SexualOrientation}
+                        data={profileRes?.sexual_orientation}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        error={errors && errors.sexual_orientations_id?.message}
+                      />
+                    )}
+                    name="sexual_orientations_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                        containerStyle={Style}
+                        label={Strings.sm_basic.RelationshipStatus}
+                        data={profileRes?.relationship_status}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        error={errors && errors.relationship_status_id?.message}
+                      />
+                    )}
+                    name="relationship_status_id"
+                  />
+                  <Controller
+                    control={control}
                     render={({field: {onChange, value}}) => (
                       <Dropdown
                         containerStyle={Style}
@@ -316,38 +348,6 @@ const SmBasicDetails = () => {
                       />
                     )}
                     name="zipcode"
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Dropdown
-                        containerStyle={Style}
-                        label={Strings.sm_basic.SexualOrientation}
-                        data={profileRes?.sexual_orientation}
-                        onSelect={selectedItem => {
-                          onChange(selectedItem.id);
-                        }}
-                        required={true}
-                        error={errors && errors.sexual_orientations_id?.message}
-                      />
-                    )}
-                    name="sexual_orientations_id"
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Dropdown
-                        containerStyle={Style}
-                        label={Strings.sm_basic.RelationshipStatus}
-                        data={profileRes?.relationship_status}
-                        onSelect={selectedItem => {
-                          onChange(selectedItem.id);
-                        }}
-                        required={true}
-                        error={errors && errors.relationship_status_id?.message}
-                      />
-                    )}
-                    name="relationship_status_id"
                   />
                   <Controller
                     control={control}

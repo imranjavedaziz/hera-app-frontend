@@ -400,7 +400,7 @@ const CreateGallery = () => {
               )}
               {rmvImgCount > 0 && (
                 <Text style={styles.selectedText}>
-                  {rmvImgCount} Item Selected
+                  {rmvImgCount} Items Selected
                 </Text>
               )}
               <TouchableOpacity

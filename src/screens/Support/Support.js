@@ -31,7 +31,7 @@ import {
   showAppToast,
 } from '../../redux/actions/loader';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {MultiTextInput} from '../../components';
+import {InputLabel, MultiTextInput} from '../../components';
 import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import moment from 'moment-timezone';
@@ -189,8 +189,9 @@ export default function Support() {
                     <FloatingLabelInput
                       label={Strings.inqueryForm.Name}
                       value={value}
+                      maxLength={30}
                       autoCorrect={false}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => onChange(v.trim())}
                       error={errors && errors.name?.message}
                       required={true}
                     />
@@ -225,23 +226,26 @@ export default function Support() {
                   )}
                   name={FormKey.email}
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <FloatingLabelInput
-                      label={Strings.inqueryForm.MobileNumber}
-                      value={phone}
-                      keyboardType="numeric"
-                      onChangeText={v => {
-                        handelChange(v);
-                      }}
-                      error={errors && errors.phone_no?.message}
-                      required={true}
-                      maxLength={14}
-                    />
-                  )}
-                  name={FormKey.phone_no}
-                />
+                <View style={styles.inputRow}>
+                  <InputLabel Code={true} label={Strings.mobile.Code} />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <InputLabel
+                        value={phone}
+                        number={true}
+                        label={Strings.inqueryForm.MobileNumber}
+                        onChangeText={v => {
+                          handelChange(v);
+                        }}
+                        maxLength={14}
+                        keyboardType="numeric"
+                        error={errors && errors.phone_no?.message}
+                      />
+                    )}
+                    name={FormKey.phone_no}
+                  />
+                </View>
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (
