@@ -151,9 +151,7 @@ const MobileNumber = ({route}) => {
           }}>
           <Button
             style={styles.Btn}
-            label={
-              type === 1 ? Strings.mobile.VERIFY : Strings.mobile.SEND_VERIFY
-            }
+            label={Strings.mobile.SEND_VERIFY}
             onPress={handleSubmit(onSubmit)}
           />
         </View>
