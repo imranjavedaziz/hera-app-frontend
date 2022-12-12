@@ -167,4 +167,8 @@ export default {
     alignItems: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_1,
   },
+  containrMain:{
+    flex: Value.CONSTANT_VALUE_1,
+    backgroundColor: Colors.BACKGROUND,
+  }
 };

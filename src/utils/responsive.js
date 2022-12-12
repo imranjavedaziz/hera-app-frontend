@@ -21,6 +21,16 @@ const STANDARD_WIDTH = DEFAULT.width;
 const CURRENT_WIDTH = width;
 const K = CURRENT_WIDTH / STANDARD_WIDTH;
 
+
+export const  normalize = (size) => {
+  const newSize = size * scale;
+  if (Platform.OS === "ios") {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+}
+
 export const normalizeFont = size => {
   const newSize = size * ScaleWidth;
   if (Platform.OS === 'ios') {
