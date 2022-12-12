@@ -115,17 +115,13 @@ const StateList = props => {
     setAllState(oldData => {
       return oldData.map(old => {
         if (item.id === old.id) {
-          return {
-            code: old.code,
-            id: old.id,
-            isActive: !old.isActive,
-            name: old.name,
-          };
+          return { code: old.code,id: old.id,isActive: !old.isActive, name: old.name, };
         } else {
           return old;
         }
       });
     });
+    
   };
 
   const renderState = ({ item, index }) => {
@@ -136,7 +132,7 @@ const StateList = props => {
           onPress={() => selectState(item)}>
           <View style={Styles.stateItemContainer}>
             <Text style={[item.isActive !== true ? Styles.unSel : Styles.sel]}>
-              {item.name}{' '}
+              {item.name}
             </Text>
             {item.isActive && (
               <Image style={Styles.imgSel} source={Images.path} />
@@ -176,6 +172,7 @@ const StateList = props => {
     selectState('');
     setCount(0);
   };
+  
   const headerComp = () => (
     <>
       <CircleBtn
