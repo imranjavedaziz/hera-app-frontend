@@ -115,11 +115,7 @@ const MobileNumber = ({route}) => {
                 ? Strings.mobile.AccountVerification
                 : Strings.forgotPassword.forgot}
             </Text>
-            <Text style={styles.mainTitle}>
-              {type === 1
-                ? Strings.mobile.mainTitle
-                : Strings.forgotPassword.title}
-            </Text>
+            <Text style={styles.mainTitle}>{Strings.forgotPassword.title}</Text>
           </View>
           <View style={styles.inputRow}>
             <InputLabel Code={true} label={Strings.mobile.Code} />
@@ -147,7 +143,7 @@ const MobileNumber = ({route}) => {
             justifyContent: Alignment.FLEX_START,
             alignItems: Alignment.CENTER,
             marginTop: Value.CONSTANT_VALUE_48,
-            marginBottom: 148,
+            marginBottom: Value.CONSTANT_VALUE_148,
           }}>
           <Button
             style={styles.Btn}

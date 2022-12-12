@@ -292,7 +292,6 @@ const Gallery = () => {
     setOpen(true);
     setIsVideo(true);
   };
-  console.log(loadScreen, 'loadScreenloadScreen');
   return (
     <>
       <Container

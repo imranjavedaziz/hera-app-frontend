@@ -195,7 +195,6 @@ const SmDonorSettings = () => {
                 alignItems: Alignment.CENTER,
               }}>
               <ProfileImage
-                // smProfile={true}
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}

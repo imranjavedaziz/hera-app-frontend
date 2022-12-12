@@ -41,6 +41,7 @@ export default {
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
   },
   mapIcon: {
     left: Value.CONSTANT_VALUE_3,

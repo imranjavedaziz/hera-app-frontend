@@ -661,22 +661,13 @@ const SetPreference = ({route, navigation}) => {
             )}
             name={FormKey.eye}
           />
-          {EditPreferences === true ? (
-            <Button
-              label={Strings.preference.SAVE_PREFERENCES}
-              style={styles.Btn2}
-              onPress={handleSubmit(onSubmit)}
-            />
-          ) : (
-            <Button
-              label={Strings.preference.Save}
-              style={styles.Btn}
-              onPress={handleSubmit(onSubmit)}
-            />
-          )}
+          <Button
+            label={Strings.preference.SAVE_PREFERENCES}
+            style={styles.Btn2}
+            onPress={handleSubmit(onSubmit)}
+          />
         </View>
       </Container>
-
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
         lineStyle={globalStyle.lineStyle}
