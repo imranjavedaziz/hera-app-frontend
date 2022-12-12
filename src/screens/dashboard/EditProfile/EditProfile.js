@@ -343,7 +343,7 @@ const EditProfile = props => {
                   <FloatingLabelInput
                     label={Strings.profile.FirstName}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    onChangeText={v => onChange(v.trim())}
                     required={true}
                     error={errors && errors.first_name?.message}
                   />
@@ -356,7 +356,7 @@ const EditProfile = props => {
                   <FloatingLabelInput
                     label={Strings.profile.MiddleName}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    onChangeText={v => onChange(v.trim())}
                     fontWeight={Alignment.BOLD}
                     error={errors && errors.middle_name?.message}
                   />
@@ -369,7 +369,7 @@ const EditProfile = props => {
                   <FloatingLabelInput
                     label={Strings.profile.LastName}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    onChangeText={v => onChange(v.trim())}
                     fontWeight={Alignment.BOLD}
                     required={true}
                     error={errors && errors.last_name?.message}

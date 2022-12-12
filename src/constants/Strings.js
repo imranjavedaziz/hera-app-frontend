@@ -310,6 +310,7 @@ export default {
     donerType: 'Sperm Donor',
     like_this_profile: ' LIKE THIS PROFILE',
     Not_interested: 'NOT INTERESTED',
+    Race: 'Race is',
   },
   search_Bar: {
     search: 'Search',
