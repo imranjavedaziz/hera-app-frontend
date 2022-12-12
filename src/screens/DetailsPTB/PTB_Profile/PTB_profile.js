@@ -24,7 +24,7 @@ import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();

@@ -30,6 +30,7 @@ import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
+import { getSubscriptionStatus } from '../../redux/actions/Subsctiption';
 
 const type = 2;
 const Login = props => {
@@ -68,6 +69,7 @@ const Login = props => {
         };
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(getSubscriptionStatus());
         navigation.reset({
           index: 0,
           routes: [
