@@ -5,7 +5,6 @@ import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {Fonts} from '../constants/Constants';
-import style from '../screens/dashboard/PtbProfile/MyVideo/style';
 
 const styles = {
   focusBorder: {

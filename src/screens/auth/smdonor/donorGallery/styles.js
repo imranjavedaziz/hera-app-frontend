@@ -46,7 +46,6 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_52,
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   tmc: {

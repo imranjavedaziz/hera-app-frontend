@@ -32,12 +32,13 @@ import {
   saveAttribute,
 } from '../../../redux/actions/SetAttribute';
 import {logOut, updateRegStep} from '../../../redux/actions/Auth';
-import {Routes} from '../../../constants/Constants';
+import {ABOUT_URL, Routes} from '../../../constants/Constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
 import {Alignment} from '../../../constants';
 import {dynamicSize, statusHide} from '../../../utils/responsive';
+import openWebView from '../../../utils/openWebView';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -205,9 +206,12 @@ const SetAttributes = ({route}) => {
         navigateSupport();
         break;
       case Strings.preference.About:
+        openWebView(ABOUT_URL);
         break;
       case Strings.preference.Logout:
         logOutScreen();
+        break;
+      case Strings.Subscription.Cancel:
         break;
     }
   };
@@ -216,6 +220,7 @@ const SetAttributes = ({route}) => {
       Strings.smSetting.Inquiry,
       Strings.preference.About,
       Strings.preference.Logout,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -323,7 +328,10 @@ const SetAttributes = ({route}) => {
   const logOutScreen = () => {
     dispatch(logOut());
   };
-
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <View
@@ -350,7 +358,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   heightprop={true}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   defaultValue={value}
                   heighter={true}
                   label={Strings.sm_set_attributes.Height}
@@ -379,7 +387,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   label={Strings.sm_set_attributes.Race}
                   data={attributeData?.race}
                   onSelect={selectedItem => {
@@ -396,7 +404,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   label={Strings.sm_set_attributes.MotherEthnicity}
                   data={attributeData?.ethnicity}
                   onSelect={selectedItem => {
@@ -413,7 +421,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   label={Strings.sm_set_attributes.FatheEthnicity}
                   data={attributeData?.ethnicity}
                   onSelect={selectedItem => {
@@ -430,7 +438,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   weight={true}
                   label={Strings.sm_set_attributes.Weight}
                   data={attributeData?.weight}
@@ -454,7 +462,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   label={Strings.sm_set_attributes.EyeColor}
                   data={attributeData?.eye_colour}
                   onSelect={selectedItem => {
@@ -471,7 +479,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   label={Strings.preference.HairColor}
                   data={attributeData?.hair_colour}
                   onSelect={selectedItem => {
@@ -488,7 +496,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 30}}
+                  containerStyle={Style}
                   label={Strings.sm_set_attributes.Education}
                   data={attributeData?.education}
                   onSelect={selectedItem => {
@@ -534,7 +542,11 @@ const SetAttributes = ({route}) => {
               {Strings.bottomSheet.Inquiry_Form}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.heraBtn}>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}
+            onPress={() => {
+              openWebView(ABOUT_URL);
+            }}>
             <Text style={globalStyle.heraText}>
               {Strings.bottomSheet.About_HERA}
             </Text>

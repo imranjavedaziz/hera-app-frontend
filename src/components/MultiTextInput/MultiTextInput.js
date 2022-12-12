@@ -24,7 +24,6 @@ export default function MultiTextInput({
   const [isFocused, setFocused] = useState(false);
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
-  console.log(isFocused,'isfocusedd');
   return (
     <React.Fragment>
       <View style={containerStyle}>
