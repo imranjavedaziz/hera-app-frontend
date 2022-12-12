@@ -74,6 +74,8 @@ export const ValidationMessages = {
   DELETE_TEXT:
     'Once you delete, your data will be removed and cannot be retrieved later.',
   REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
+  LOG_OUT: 'Log Out?',
+  LOGOUT_TEXT: 'Do you wish to log out of the application?',
   //Error
   NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
 };
@@ -337,6 +339,9 @@ export default {
     AppVersion: 'App Version 0.5',
     RemoveVideo: 'REMOVE VIDEO',
     Remove_Video: 'Remove Video?',
+    Log_Out: 'Log Out?',
+    LogoutContent: 'Do you wish to log out of the application?',
+    Yes_Logout: 'Yes, Log Out',
   },
   subscribe: {
     Subscribe_Now: 'Subscribe Now',
