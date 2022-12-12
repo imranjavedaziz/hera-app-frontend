@@ -36,7 +36,7 @@ import {ABOUT_URL, Routes} from '../../../constants/Constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp} from '../../../components';
-import {Alignment} from '../../../constants';
+import {Alignment, Colors} from '../../../constants';
 import {dynamicSize, statusHide} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 
@@ -578,6 +578,12 @@ const SetAttributes = ({route}) => {
               <Text style={globalStyle.modalOption1}>
                 {Strings.profile.ModalOption1}
               </Text>
+              <View
+                style={{
+                  borderBottomWidth: Value.CONSTANT_VALUE_1,
+                  borderBottomColor: Colors.ModalBorder,
+                }}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {

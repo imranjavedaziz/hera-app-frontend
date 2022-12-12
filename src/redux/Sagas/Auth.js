@@ -29,8 +29,8 @@ import {
   deviceRegisterApi,
 } from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
-import { showAppLoader,hideAppLoader } from '../actions/loader';
-import {ValidationMessages} from '../../constants/Strings'
+import {showAppLoader, hideAppLoader} from '../actions/loader';
+import {ValidationMessages} from '../../constants/Strings';
 //LogIn
 function* logIn(payload) {
   try {
@@ -41,7 +41,10 @@ function* logIn(payload) {
       yield put({type: AUTH_LOG_IN_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: AUTH_LOG_IN_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
+    yield put({
+      type: AUTH_LOG_IN_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchLogIn() {
@@ -58,7 +61,10 @@ function* deviceRegister(payload) {
       yield put({type: DEVICE_REGISTER_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: DEVICE_REGISTER_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
+    yield put({
+      type: DEVICE_REGISTER_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchdeviceRegister() {
@@ -79,9 +85,11 @@ function* mobileNumber(payload) {
       });
     }
   } catch (err) {
-    yield put({type: AUTH_MOBILE_NUMBER_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
-  }
-  finally{
+    yield put({
+      type: AUTH_MOBILE_NUMBER_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
+  } finally {
     yield put(hideAppLoader());
   }
 }
@@ -102,7 +110,10 @@ function* verifyOtp(payload) {
       });
     }
   } catch (err) {
-    yield put({type: AUTH_VERIFY_OTP_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
+    yield put({
+      type: AUTH_VERIFY_OTP_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchVerifyOtp() {
@@ -144,7 +155,10 @@ function* updateProfileImg(payload) {
       });
     }
   } catch (err) {
-    yield put({type: UPDATE_PROFILE_IMG_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
+    yield put({
+      type: UPDATE_PROFILE_IMG_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchupdateProfileImg() {

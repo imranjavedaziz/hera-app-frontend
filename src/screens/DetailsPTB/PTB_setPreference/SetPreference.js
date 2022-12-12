@@ -715,6 +715,12 @@ const SetPreference = ({route, navigation}) => {
               <Text style={globalStyle.modalOption1}>
                 {Strings.profile.ModalOption1}
               </Text>
+              <View
+                style={{
+                  borderBottomWidth: Value.CONSTANT_VALUE_1,
+                  borderBottomColor: Colors.ModalBorder,
+                }}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
