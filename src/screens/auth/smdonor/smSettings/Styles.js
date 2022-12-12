@@ -2,7 +2,12 @@ import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import {Fonts} from '../../../../constants/Constants';
-import {dynamicSize, normalizeFont, px, statusHide} from '../../../../utils/responsive';
+import {
+  dynamicSize,
+  normalizeFont,
+  px,
+  statusHide,
+} from '../../../../utils/responsive';
 
 export default {
   headerContainer: {
@@ -168,5 +173,50 @@ export default {
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
+  },
+  centeredView: {
+    flex: Value.CONSTANT_VALUE_1,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  modalView: {
+    height: dynamicSize(Value.CONSTANT_VALUE_230),
+    width: dynamicSize(Value.CONSTANT_VALUE_283),
+    backgroundColor: Colors.WHITE,
+    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_23),
+    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_20),
+    alignItems: Alignment.CENTER,
+    borderWidth: dynamicSize(Value.CONSTANT_VALUE_1),
+    borderColor: Colors.SEARCH_BOX,
+  },
+  modalHeader: {
+    lineHeight: Value.CONSTANT_VALUE_21,
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_16,
+    paddingBottom: dynamicSize(Value.CONSTANT_VALUE_5),
+    color: Colors.COLOR_535858,
+  },
+  modalSubHeader: {
+    textAlign: Alignment.CENTER,
+    lineHeight: Value.CONSTANT_VALUE_18,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_1),
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_13,
+  },
+  modalOption1: {
+    color: Colors.RED,
+    fontSize: Value.CONSTANT_VALUE_16,
+    paddingBottom: dynamicSize(Value.CONSTANT_VALUE_10),
+    marginVertical: dynamicSize(Value.CONSTANT_VALUE_27),
+    letterSpacing: Value.CONSTANT_VALUE_1,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  modalOption2: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontWeight: Alignment.BOLD,
+    letterSpacing: Value.CONSTANT_VALUE_1,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
   },
 };
