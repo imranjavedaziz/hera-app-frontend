@@ -314,6 +314,7 @@ export default {
   search_Bar: {
     search: 'Search',
     write_message: 'Write a message',
+    Inactive:'User is Inactive'
   },
   smSetting: {
     profile: 'Profile',
