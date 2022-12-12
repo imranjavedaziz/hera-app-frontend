@@ -18,14 +18,14 @@ export default {
     shadowRadius: Value.CONSTANT_VALUE_18,
     shadowOpacity: 0.5,
     elevation: Value.CONSTANT_VALUE_5,
-    marginTop: Value.CONSTANT_VALUE_60,
+    marginTop: Value.CONSTANT_VALUE_70,
   },
   bgImage: {
-    height: px(380),
+    height: px(370),
     width: dynamicSize(240),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginRight: Value.CONSTANT_VALUE_20,
+    marginRight: Value.CONSTANT_VALUE_40,
   },
   iconContainer: {
     flex: Value.CONSTANT_VALUE_FRAC88,

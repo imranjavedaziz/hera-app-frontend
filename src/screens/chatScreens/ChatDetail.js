@@ -30,6 +30,8 @@ import {ReportUser} from '../../redux/actions/ReportUser';
 import NetInfo from '@react-native-community/netinfo';
 import {getMessageID} from '../../redux/actions/MessageId';
 import {Value} from '../../constants/FixedValues';
+import {deviceHandler} from '../../utils/commonFunction';
+
 let fireDB;
 let onChildAdd;
 const ChatDetail = props => {
@@ -50,10 +52,14 @@ const ChatDetail = props => {
   const {feedback_data, feedback_success, feedback_loading} = useSelector(
     state => state.Chat,
   );
+  useEffect(() => {
+    deviceHandler(navigation, 'deviceGoBack');
+  }, [navigation]);
   const {report_user_success, report_user_loading, report_user_error} =
     useSelector(state => state.ReportUser);
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     if (
@@ -67,7 +73,13 @@ const ChatDetail = props => {
 
   const renderActions = message => {
     return (
-      <View style={{flexDirection: 'row', margin: 10}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          position: 'absolute',
+          top: 10,
+          right: -30,
+        }}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
           <Image source={Images.ICON_SEND} style={{width: 30, height: 30}} />
         </TouchableOpacity>
@@ -134,6 +146,7 @@ const ChatDetail = props => {
       },
     );
   }, []);
+  console.log(db.totalSize, 'fireDB.totalSize');
   useEffect(async () => {
     const unsubscribe = () => {
       setDB({messages: [], loading: false});
@@ -166,7 +179,7 @@ const ChatDetail = props => {
     ) {
       navigation.navigate(Routes.Subscription);
     } else if (
-      parseInt(props.route.params.item.status_id) !== 1 ||
+      props.route.params.item.status_id !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
         parseInt(props.route.params.item.recieverSubscription) === 0)
     ) {
@@ -382,8 +395,7 @@ const ChatDetail = props => {
                       ? Images.ADMIN_ICON
                       : parseInt(
                           props?.route?.params?.item?.recieverSubscription,
-                        ) === 0 ||
-                        parseInt(props.route.params.item.status_id) !== 1
+                        ) === 0 || props.route.params.item.status_id !== 1
                       ? Images.defaultProfile
                       : {uri: props.route.params.item.recieverImage}
                   }
@@ -394,7 +406,7 @@ const ChatDetail = props => {
                 {(parseInt(props?.route?.params?.item?.recieverSubscription) ===
                   0 &&
                   parseInt(props?.route?.params?.item?.currentRole) !== 1) ||
-                parseInt(props?.route?.params?.item?.status_id) !== 1 ? (
+                props?.route?.params?.item?.status_id !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
@@ -446,7 +458,7 @@ const ChatDetail = props => {
       {showFeedback &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
         parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
-        ((db?.totalSize === 20 &&
+        ((db?.totalSize >= 20 &&
           parseInt(props?.route?.params?.item?.feedback_status) !== 2) ||
           db?.totalSize >= 50) &&
         log_in_data?.role_id === 2 && (
@@ -541,12 +553,19 @@ const ChatDetail = props => {
             <GiftedChat
               messages={db?.messages}
               onSend={messages => onSend(messages)}
-              renderSend={message => renderActions(message)}
+              renderSend={message =>
+                props.route.params.item.status_id !== 1
+                  ? null
+                  : renderActions(message)
+              }
               renderBubble={customSystemMessage}
               scrollToBottom
               infiniteScroll
               onInputTextChanged={text => setTextData(text)}
               text={textData}
+              disableComposer={
+                props.route.params.item.status_id !== 1 ? true : false
+              }
               user={{
                 _id: parseInt(props?.route?.params?.item?.senderId),
                 name: props?.route?.params?.item?.senderName,
@@ -555,7 +574,7 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : 34}
+              minComposerHeight={textData?.length > 75 ? 60 : 44}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -564,7 +583,11 @@ const ChatDetail = props => {
                 },
               }}
               maxInputLength={1024}
-              placeholder={Strings.search_Bar.write_message}
+              placeholder={
+                props.route.params.item.status_id !== 1
+                  ? Strings.search_Bar.Inactive
+                  : Strings.search_Bar.write_message
+              }
             />
           </KeyboardAvoidingView>
         </View>
@@ -591,7 +614,7 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : 34}
+              minComposerHeight={textData?.length > 75 ? 60 : 44}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -608,7 +631,7 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1}}>
+          <View style={{flex: 1, marginBottom: 10}}>
             <KeyboardAvoidingView
               keyboardVerticalOffset={-190}
               style={{flex: 1}}
@@ -616,7 +639,11 @@ const ChatDetail = props => {
               <GiftedChat
                 messages={db?.messages}
                 onSend={messages => onSend(messages)}
-                renderSend={message => renderActions(message)}
+                renderSend={message =>
+                  props.route.params.item.status_id !== 1
+                    ? null
+                    : renderActions(message)
+                }
                 renderBubble={customSystemMessage}
                 scrollToBottom
                 onInputTextChanged={text => setTextData(text)}
@@ -628,8 +655,11 @@ const ChatDetail = props => {
                 }}
                 containerStyle={styles.mainContainerDetail}
                 renderAvatar={null}
-                minComposerHeight={textData?.length > 75 ? 60 : 34}
+                minComposerHeight={textData?.length > 75 ? 60 : 44}
                 textInputProps={styles.textInput}
+                disableComposer={
+                  props.route.params.item.status_id !== 1 ? true : false
+                }
                 listViewProps={{
                   scrollEventThrottle: 400,
                   marginBottom: 10,
@@ -638,7 +668,11 @@ const ChatDetail = props => {
                   },
                 }}
                 maxInputLength={1024}
-                placeholder={Strings.search_Bar.write_message}
+                placeholder={
+                  props.route.params.item.status_id !== 1
+                    ? Strings.search_Bar.Inactive
+                    : Strings.search_Bar.write_message
+                }
               />
             </KeyboardAvoidingView>
           </View>

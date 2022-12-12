@@ -7,32 +7,28 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   createSubscription,
   getSubscriptionPlan,
   getSubscriptionStatus,
 } from '../../../../redux/actions/Subsctiption';
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../../../redux/actions/loader';
+import { hideAppLoader, showAppLoader, showAppToast } from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import {IconHeader} from '../../../../components/Header';
-import {TERMS_OF_USE_URL, PRIVACY_URL} from '../../../../constants/Constants';
+import { IconHeader } from '../../../../components/Header';
+import { TERMS_OF_USE_URL, PRIVACY_URL } from '../../../../constants/Constants';
 import openWebView from '../../../../utils/openWebView';
 
 const Subscription = props => {
@@ -51,7 +47,7 @@ const Subscription = props => {
     subscription_plan_loading,
     subscription_plan_res,
   } = useSelector(state => state.Subscription);
-  const {create_subscription_success, create_subscription_loading} =
+  const { create_subscription_success, create_subscription_loading } =
     useSelector(state => state.Subscription);
 
   React.useEffect(() => {
@@ -124,18 +120,15 @@ const Subscription = props => {
   React.useEffect(async () => {
     IAPService.initializeConnection();
     const allProducts = await IAPService.getIAPProducts();
-    console.log('ALL PRODUCT ID LINE NO 58', allProducts);
+    console.log('ALL PRODUCT ID LINE NO 127', allProducts);
     return () => {
       IAPService.endIAPConnection();
     };
   }, []);
 
   const subscribePlan = (item, type) => {
-    console.log('LINE NUMBER 154 item', item, selectCheckBox?.ios_product);
-    if (item === null) {
-      dispatch(showAppToast(true, 'Please choose a plan!'));
-      return;
-    }
+    console.log('LINE NUMBER 134 item', item, selectCheckBox?.ios_product);
+    if (item === null) dispatch(showAppToast(true, 'Please choose a plan!'));
     dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
@@ -150,7 +143,7 @@ const Subscription = props => {
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
     try {
-      await RNIap.requestPurchase({sku})
+      await RNIap.requestPurchase({ sku })
         .then(async result => {
         })
         .catch(err => {
@@ -161,25 +154,25 @@ const Subscription = props => {
     }
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
-    RNIap.requestSubscription({sku})
-    .then(async result => {
-      console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
-      const receipt = result.transactionReceipt;
-      if (receipt) {
-        try {
-          setPurchaseReceipt(result);
-          setCallApi(true);
-          await RNIap.finishTransaction({result, isConsumable: true});
-        } catch (ackErr) {
-          console.log('ERROR LINE NO 101', ackErr);
+    RNIap.requestSubscription({ sku })
+      .then(async result => {
+        console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
+        const receipt = result.transactionReceipt;
+        if (receipt) {
+          try {
+            setPurchaseReceipt(result);
+            setCallApi(true);
+            await RNIap.finishTransaction({ result, isConsumable: true });
+          } catch (ackErr) {
+            console.log('ERROR LINE NO 101', ackErr);
+          }
         }
-      }
-    })
-    .catch(err => {
-      console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(true,err.message));
-    });
+      })
+      .catch(err => {
+        console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(true, err.message));
+      });
   };
   return (
     <>
@@ -227,10 +220,10 @@ const Subscription = props => {
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>
-                  <Text style={{color: 'red'}}>*</Text>
+                  <Text style={{ color: 'red' }}>*</Text>
                   {Strings.Subscription.BySubs}
                   <TouchableOpacity
-                    style={{top: 2}}
+                    style={{ top: 2 }}
                     onPress={() => openWebView(TERMS_OF_USE_URL)}>
                     <Text style={styles.terms}>
                       {Strings.Subscription.TermsServices}

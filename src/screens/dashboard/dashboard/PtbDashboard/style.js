@@ -53,7 +53,7 @@ export default {
   },
   ImageSize: {
     height: dynamicSize(450),
-    width: dynamicSize(320),
+    width: dynamicSize(310),
   },
   emptyCardContainer: {
     marginTop: Value.CONSTANT_VALUE_263,
