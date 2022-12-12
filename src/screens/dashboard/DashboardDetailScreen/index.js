@@ -152,9 +152,9 @@ const DashboardDetailScreen = () => {
           width: width,
           zIndex: 99999,
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}>
-          <Image style={styles.iconImage} source={IMG_CONDI} />
+        <Image style={styles.iconImage} source={IMG_CONDI} />
       </Animated.View>
     );
   };
@@ -202,18 +202,6 @@ const DashboardDetailScreen = () => {
   };
   let VIEW_PASS = (
     <View style={styles.nativeLong}>
-      {smDetailRes?.doner_attribute?.hair_colour && (
-        <Text
-          style={[
-            global?.tagText,
-            {
-              backgroundColor: Colors.RGBA_229_172_177,
-              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-            },
-          ]}>
-          {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-        </Text>
-      )}
       {smDetailRes?.doner_attribute?.mother_ethnicity && (
         <Text
           style={[
@@ -224,6 +212,18 @@ const DashboardDetailScreen = () => {
             },
           ]}>
           {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
+        </Text>
+      )}
+      {smDetailRes?.doner_attribute?.hair_colour && (
+        <Text
+          style={[
+            global?.tagText,
+            {
+              backgroundColor: Colors.RGBA_229_172_177,
+              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+            },
+          ]}>
+          {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
         </Text>
       )}
     </View>
@@ -291,7 +291,7 @@ const DashboardDetailScreen = () => {
                   {smDetailRes?.doner_attribute?.race && (
                     <View style={styles.nativePlace}>
                       <Text style={global?.tagText}>
-                        {smDetailRes?.doner_attribute?.race}
+                        {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
                       </Text>
                     </View>
                   )}
@@ -314,7 +314,7 @@ const DashboardDetailScreen = () => {
                           marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
                         },
                       ]}>
-                      {smDetailRes?.doner_attribute?.race}
+                      {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
                     </Text>
                   )}
                   {smDetailRes?.doner_attribute?.father_ethnicity && (
@@ -334,17 +334,17 @@ const DashboardDetailScreen = () => {
               {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`
                 .length < 20 ? (
                 <View style={styles.nativeMainContainer}>
-                  {smDetailRes?.doner_attribute?.hair_colour && (
-                    <View style={styles.motherPlace}>
-                      <Text style={global?.tagText}>
-                        {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-                      </Text>
-                    </View>
-                  )}
                   {smDetailRes?.doner_attribute?.mother_ethnicity && (
                     <View style={styles.hairColor}>
                       <Text style={global?.tagText}>
                         {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
+                      </Text>
+                    </View>
+                  )}
+                  {smDetailRes?.doner_attribute?.hair_colour && (
+                    <View style={styles.motherPlace}>
+                      <Text style={global?.tagText}>
+                        {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
                       </Text>
                     </View>
                   )}
