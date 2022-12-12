@@ -389,10 +389,8 @@ const ChatDetail = props => {
                   source={
                     parseInt(props?.route?.params?.item?.currentRole) === 1
                       ? Images.ADMIN_ICON
-                      : parseInt(
-                          props?.route?.params?.item?.recieverSubscription,
-                        ) === 0 ||
-                        parseInt(props.route.params.item.status_id) !== 1
+                      : parseInt(props?.route?.params?.item?.recieverSubscription) === 0 ||
+                        props.route.params.item.status_id !== 1
                       ? Images.defaultProfile
                       : {uri: props.route.params.item.recieverImage}
                   }
@@ -403,7 +401,7 @@ const ChatDetail = props => {
                 {(parseInt(props?.route?.params?.item?.recieverSubscription) ===
                   0 &&
                   parseInt(props?.route?.params?.item?.currentRole) !== 1) ||
-                parseInt(props?.route?.params?.item?.status_id) !== 1 ? (
+                props?.route?.params?.item?.status_id !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
