@@ -12,7 +12,7 @@ import {
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
 import {Images, Strings, Colors} from '../../constants';
-import {ValidationMessages} from '../../constants/Strings'
+import {ValidationMessages} from '../../constants/Strings';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import styles from './styles';
 import {useDispatch, useSelector} from 'react-redux';
@@ -63,7 +63,7 @@ const ChatDetail = props => {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
   }, [props.route.params]);
-  
+
   const renderActions = message => {
     return (
       <View style={{flexDirection: 'row', margin: 10}}>
@@ -155,11 +155,10 @@ const ChatDetail = props => {
     }
     LoadingRef.current = report_user_loading;
   }, [report_user_success, report_user_loading]);
-  const onSend = async(messages = '') => {
-    if(await NetInfo.isConnected.fetch()!==true){
+  const onSend = async (messages = '') => {
+    if ((await NetInfo.isConnected.fetch()) !== true) {
       dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
-    }
-    else if (
+    } else if (
       (parseInt(props.route.params.item.senderSubscription) === 0 ||
         !subscriptionStatus?.data?.status) &&
       parseInt(user?.role_id) === 2

@@ -5,14 +5,12 @@ const INITIAL = {
 };
 
 export default (state = INITIAL, action) => {
-  switch (action.type) {
-    case MESSAGE_ID_DETAIL: {
-      return {
-        ...state,
-        messageIdRx: action.payload,
-      };
-    }
-    default:
-      return state;
+  if (action.type === MESSAGE_ID_DETAIL) {
+    return {
+      ...state,
+      messageIdRx: action.payload,
+    };
+  } else {
+    return state;
   }
 };

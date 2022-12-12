@@ -219,17 +219,19 @@ const EditProfile = props => {
     );
     return true;
   };
+  const platform = () => {
+    Platform.OS === 'ios' ? backAction() : setShowModal(true);
+  };
+  const navCondition = () => {
+    props.route?.params?.smProfile
+      ? navigation.navigate(Routes.SmSetting)
+      : navigation.navigate(Routes.PtbProfile);
+  };
   const headerComp = () => (
     <View style={styles.cancelAndroidsbtn}>
       <TouchableOpacity
         onPress={() => {
-          isDirty === true
-            ? Platform.OS === 'ios'
-              ? backAction()
-              : setShowModal(true)
-            : props.route?.params?.smProfile
-            ? navigation.navigate(Routes.SmSetting)
-            : navigation.navigate(Routes.PtbProfile);
+          isDirty === true ? platform() : navCondition();
         }}
         style={styles.clearView}>
         <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>
