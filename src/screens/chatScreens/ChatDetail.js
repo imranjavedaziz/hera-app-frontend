@@ -628,7 +628,7 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1}}>
+          <View style={{flex: 1,marginBottom:10}}>
             <KeyboardAvoidingView
               keyboardVerticalOffset={-190}
               style={{flex: 1}}
