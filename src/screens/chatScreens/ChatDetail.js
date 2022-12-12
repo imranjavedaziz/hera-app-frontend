@@ -144,6 +144,7 @@ const ChatDetail = props => {
       },
     );
   }, []);
+  console.log(db.totalSize,'fireDB.totalSize')
   useEffect(async () => {
     const unsubscribe = () => {
       setDB({messages: [], loading: false});
@@ -391,7 +392,7 @@ const ChatDetail = props => {
                     parseInt(props?.route?.params?.item?.currentRole) === 1
                       ? Images.ADMIN_ICON
                       : parseInt(props?.route?.params?.item?.recieverSubscription) === 0 ||
-                        props.route.params.item.status_id !== 1
+                    props.route.params.item.status_id !== 1
                       ? Images.defaultProfile
                       : {uri: props.route.params.item.recieverImage}
                   }
@@ -454,7 +455,7 @@ const ChatDetail = props => {
       {showFeedback &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
         parseInt(props?.route?.params?.item?.feedback_status) !== 1 &&
-        ((db?.totalSize === 20 &&
+        ((db?.totalSize >= 20 &&
           parseInt(props?.route?.params?.item?.feedback_status) !== 2) ||
           db?.totalSize >= 50) &&
         log_in_data?.role_id === 2 && (
