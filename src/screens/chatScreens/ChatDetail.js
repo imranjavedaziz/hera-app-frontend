@@ -57,7 +57,7 @@ const ChatDetail = props => {
     useSelector(state => state.ReportUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("CHAT DETAILS",loading);
+    console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     if (
@@ -144,7 +144,7 @@ const ChatDetail = props => {
       },
     );
   }, []);
-  console.log(db.totalSize,'fireDB.totalSize')
+  console.log(db.totalSize, 'fireDB.totalSize');
   useEffect(async () => {
     const unsubscribe = () => {
       setDB({messages: [], loading: false});
@@ -391,8 +391,9 @@ const ChatDetail = props => {
                   source={
                     parseInt(props?.route?.params?.item?.currentRole) === 1
                       ? Images.ADMIN_ICON
-                      : parseInt(props?.route?.params?.item?.recieverSubscription) === 0 ||
-                    props.route.params.item.status_id !== 1
+                      : parseInt(
+                          props?.route?.params?.item?.recieverSubscription,
+                        ) === 0 || props.route.params.item.status_id !== 1
                       ? Images.defaultProfile
                       : {uri: props.route.params.item.recieverImage}
                   }
@@ -628,7 +629,7 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1,marginBottom:10}}>
+          <View style={{flex: 1, marginBottom: 10}}>
             <KeyboardAvoidingView
               keyboardVerticalOffset={-190}
               style={{flex: 1}}
