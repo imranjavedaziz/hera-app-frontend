@@ -12,7 +12,6 @@ const MaxValueHeader = Math.abs(getStatusBarHeight() - 54); // Android working f
 const styles = {
   container: {
     width: Prencentage.PRECENTAGE_100,
-    // paddingVertical: Value.CONSTANT_VALUE_10,
     marginTop: MaxValueHeader,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.CLEAR,

@@ -56,6 +56,7 @@ const PtbDashboard = props => {
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
   const {fcmToken} = useContext(NotificationContext);
+  const [empty, setEmpty] = useState(false);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
@@ -79,10 +80,12 @@ const PtbDashboard = props => {
   }, [chats]);
   useFocusEffect(
     useCallback(() => {
-      dispatch(getPtbDashboard());
       fetchData();
-    }, [dispatch]),
+    }, []),
   );
+  useEffect(() => {
+    dispatch(getPtbDashboard());
+  }, [dispatch]);
 
   //Push Notification
   useEffect(() => {
@@ -198,40 +201,40 @@ const PtbDashboard = props => {
     profile_match_loading,
     profile_match_error_msg,
   } = useSelector(state => state.Profile_Match);
-  useFocusEffect(
-    useCallback(() => {
-      if (loadingRef.current && !get_ptb_dashboard_loading) {
-        dispatch(showAppLoader());
-        if (get_ptb_dashboard_success) {
-          dispatch(hideAppLoader());
-          setStatusRes(get_ptb_dashboard_res?.data?.status);
-          setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
-        } else {
-          dispatch(hideAppLoader());
+  useEffect(() => {
+    if (loadingRef.current && !get_ptb_dashboard_loading) {
+      dispatch(showAppLoader());
+      if (get_ptb_dashboard_success) {
+        dispatch(hideAppLoader());
+        setStatusRes(get_ptb_dashboard_res?.data?.status);
+        if (get_ptb_dashboard_res?.data?.status === 3) {
+          setEmpty(false);
         }
+        setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
+      } else {
+        dispatch(hideAppLoader());
       }
-      loadingRef.current = get_ptb_dashboard_loading;
-    }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
-  );
-  useFocusEffect(
-    useCallback(() => {
-      if (loadingMatchRef.current && !profile_match_loading) {
-        dispatch(showAppLoader());
-        if (profile_match_success) {
-          dispatch(hideAppLoader());
-        }
-        if (profile_match_error_msg) {
-          dispatch(hideAppLoader());
-        }
+    }
+    loadingRef.current = get_ptb_dashboard_loading;
+  }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]);
+
+  useEffect(() => {
+    if (loadingMatchRef.current && !profile_match_loading) {
+      dispatch(showAppLoader());
+      if (profile_match_success) {
+        dispatch(hideAppLoader());
       }
-      loadingMatchRef.current = profile_match_loading;
-    }, [
-      profile_match_success,
-      profile_match_loading,
-      dispatch,
-      profile_match_error_msg,
-    ]),
-  );
+      if (profile_match_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingMatchRef.current = profile_match_loading;
+  }, [
+    profile_match_success,
+    profile_match_loading,
+    dispatch,
+    profile_match_error_msg,
+  ]);
   const handleOnSwipedLeft = () => {
     const payload = {
       to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
@@ -240,8 +243,9 @@ const PtbDashboard = props => {
     dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count >= ptbDashboardRes.total) {
+    if (count === get_ptb_dashboard_res?.data?.data?.total) {
       useSwiper?.current?.swipeLeft();
+      setEmpty(true);
     } else {
       setTimeout(() => {
         useSwiper?.current?.swipeLeft();
@@ -260,9 +264,9 @@ const PtbDashboard = props => {
     dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-
-    if (count >= ptbDashboardRes.total) {
+    if (count === get_ptb_dashboard_res?.data?.data?.total) {
       useSwiper?.current?.swipeRight();
+      setEmpty(true);
     } else {
       setTimeout(() => {
         useSwiper?.current?.swipeRight();
@@ -273,8 +277,9 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 150);
   };
-  console.log('ptbDashboardRes', get_ptb_dashboard_res?.data);
+  console.log('ptbDashboardRes', get_ptb_dashboard_res?.data?.data?.dta);
   function renderCardData(item, index) {
+    console.log('ptbDashboardResitem', item);
     return (
       <>
         <ImageComp
@@ -399,7 +404,6 @@ const PtbDashboard = props => {
       </>
     );
   };
-
   return (
     <>
       <Container
@@ -407,14 +411,14 @@ const PtbDashboard = props => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        {statusRes === 2 && (
+        {(statusRes === 2 || empty === true) && (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
             <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
             <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
           </View>
         )}
-        {statusRes === 1 && dashboardShow()}
+        {statusRes === 1 && empty === false && dashboardShow()}
         {statusRes === 3 && (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>

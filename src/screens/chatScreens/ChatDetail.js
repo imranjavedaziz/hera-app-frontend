@@ -29,7 +29,9 @@ import globalStyle from '../../styles/global';
 import {ReportUser} from '../../redux/actions/ReportUser';
 import NetInfo from '@react-native-community/netinfo';
 import {getMessageID} from '../../redux/actions/MessageId';
+import {Value} from '../../constants/FixedValues';
 import {deviceHandler} from '../../utils/commonFunction';
+
 let fireDB;
 let onChildAdd;
 const ChatDetail = props => {
@@ -713,6 +715,12 @@ const ChatDetail = props => {
               <Text style={globalStyle.modalOption1}>
                 {Strings.ReportUser.Yes_Report}
               </Text>
+              <View
+                style={{
+                  borderBottomWidth: Value.CONSTANT_VALUE_1,
+                  borderBottomColor: Colors.ModalBorder,
+                }}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {

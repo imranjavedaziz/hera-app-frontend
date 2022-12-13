@@ -14,6 +14,7 @@ export default function MultiTextInput({
   required,
   blurOnSubmit,
   containerStyle,
+  lineColor = false,
   error = '',
   inputStyle = {
     fontFamily: Fonts.OpenSansBold,
@@ -36,8 +37,10 @@ export default function MultiTextInput({
         <View
           style={[
             styles.container,
-            styles.border,
             isFocused ? styles.focusBorder : styles.blurBorder,
+            lineColor
+              ? {borderBottomColor: Colors.LIGHT_BLACK47}
+              : styles.border,
             error ? styles.bottom : null,
           ]}>
           <TextInput

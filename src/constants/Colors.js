@@ -53,4 +53,5 @@ export default {
   hypenColor: '#1b1b1b',
   textPLace: 'rgb(166,161,150)',
   BACKGROUND_WHOLE: 'rgb(247,245,240)',
+  ModalBorder: '#f2f2f2',
 };

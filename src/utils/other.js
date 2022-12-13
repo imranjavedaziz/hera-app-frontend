@@ -1,6 +1,6 @@
 export function getRoleType(id) {
   if (id === 2) {
-    return 'Parent To Be';
+    return 'Intended Parent';
   }
   if (id === 3) {
     return 'Surrogate Mother';

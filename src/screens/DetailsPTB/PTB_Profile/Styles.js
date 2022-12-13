@@ -207,12 +207,12 @@ export default {
     zIndex: Value.CONSTANT_VALUE_999999,
   },
   dateText: {
-    fontFamily: Fonts.OpenSansLightItalic,
+    fontFamily: Fonts.OpenSansItalic,
     fontSize: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
     marginLeft: 7,
   },
-  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 21},
   imgCondi: {
     flex: 1,
     position: 'absolute',

@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -43,6 +43,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
 import {dynamicSize} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -51,16 +52,12 @@ const SmBasicDetails = () => {
   const [profileRes, setProfileRes] = useState();
   const [payloadData, setPayloadData] = useState([]);
   const [threeOption, setThreeOption] = useState([]);
-
+  const {Device_ID} = useContext(NotificationContext);
   const dispatch = useDispatch();
   let actionSheet = useRef();
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef();
-  useEffect(() => {
-    dispatch(getStates());
-    dispatch(getProfileSetterDetail());
-  }, []);
   const {
     get_state_res,
     get_profile_setter_res,
@@ -82,11 +79,20 @@ const SmBasicDetails = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
-
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      reset();
+    });
+  }, [navigation, reset]);
+  useEffect(() => {
+    dispatch(getStates());
+    dispatch(getProfileSetterDetail());
+  }, []);
   //GET STATE
   useEffect(() => {
     if (loadingRef.current && !get_state_loading) {
@@ -94,6 +100,7 @@ const SmBasicDetails = () => {
       if (get_state_success) {
         dispatch(hideAppLoader());
         setStateRes(get_state_res);
+        // reset()
       }
       if (get_state_error_msg) {
         dispatch(hideAppLoader());
@@ -184,8 +191,10 @@ const SmBasicDetails = () => {
   );
 
   const logOutScreen = () => {
-    dispatch(showAppLoader());
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -228,7 +237,7 @@ const SmBasicDetails = () => {
         animated={true}
         hidden={false}
       />
-      <View style={styles.flex_1}>
+      <View style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -264,7 +273,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <View style={styles.radioContainer}>
-                        {profileRes?.gender.map(gender => (
+                        {Strings?.STATIC_GENDER.map(gender => (
                           <TouchableOpacity
                             style={styles.radioBtn}
                             key={gender.id}
@@ -286,7 +295,7 @@ const SmBasicDetails = () => {
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Dropdown
                         containerStyle={Style}
                         label={Strings.sm_basic.SexualOrientation}
@@ -296,6 +305,7 @@ const SmBasicDetails = () => {
                         }}
                         required={true}
                         error={errors && errors.sexual_orientations_id?.message}
+                        lineColor={isOpen}
                       />
                     )}
                     name="sexual_orientations_id"
@@ -307,18 +317,21 @@ const SmBasicDetails = () => {
                         containerStyle={Style}
                         label={Strings.sm_basic.RelationshipStatus}
                         data={profileRes?.relationship_status}
+                        error={errors && errors.relationship_status_id?.message}
                         onSelect={selectedItem => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        error={errors && errors.relationship_status_id?.message}
+                        keyboardType="number-pad"
+                        maxLength={5}
                       />
                     )}
                     name="relationship_status_id"
                   />
+
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({field: {onChange}}) => (
                       <Dropdown
                         containerStyle={Style}
                         label={Strings.sm_basic.State}
@@ -327,6 +340,7 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
+                        lineColor={isOpen}
                         error={errors && errors.state_id?.message}
                       />
                     )}
@@ -336,15 +350,14 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={Style}
+                        containerStyle={value ? {marginTop: 34} : Style}
                         label={Strings.sm_basic.Zip}
                         value={value}
                         onChangeText={v => onChange(v)}
                         error={errors && errors.zipcode?.message}
                         required={true}
-                        keyboardType="number-pad"
-                        maxLength={5}
                         lineColor={isOpen}
+                        maxLength={5}
                       />
                     )}
                     name="zipcode"
@@ -358,7 +371,6 @@ const SmBasicDetails = () => {
                         value={value}
                         onChangeText={v => onChange(v)}
                         error={errors && errors.occupation?.message}
-                        lineColor={isOpen}
                       />
                     )}
                     name="occupation"
@@ -371,6 +383,7 @@ const SmBasicDetails = () => {
                         required={true}
                         value={value}
                         maxLength={250}
+                        lineColor={isOpen}
                         onChangeText={v => {
                           onChange(v);
                         }}
@@ -382,7 +395,8 @@ const SmBasicDetails = () => {
                   <View
                     style={{
                       alignItems: Alignment.CENTER,
-                      marginTop: Value.CONSTANT_VALUE_26,
+                      marginTop: Value.CONSTANT_VALUE_46,
+                      marginBottom: Value.CONSTANT_VALUE_96,
                     }}>
                     <Button
                       style={styles.Btn}
@@ -406,6 +420,7 @@ const SmBasicDetails = () => {
             style={globalStyle.formBtn}
             onPress={() => {
               navigation.navigate('Support');
+              setOpen(false);
             }}>
             <Text style={globalStyle.formText}>
               {Strings.smSetting.Inquiry}

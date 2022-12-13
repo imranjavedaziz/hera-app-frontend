@@ -24,13 +24,14 @@ export const ToggleNotification = () => {
   const notification = useSelector(
     state => state.Edit_profile.get_user_detail_res?.notification_setting,
   );
-  const [switchValue, setSwitchValue] = useState(Boolean(notification?.notify_status));
+  const [switchValue, setSwitchValue] = useState(
+    Boolean(notification?.notify_status),
+  );
   const toggleSwitch = () => {
     setChanged(true);
     setSwitchValue(old => !old);
   };
   useEffect(() => {
-    console.log('notification',notification);
     setSwitchValue(Boolean(notification?.notify_status));
   }, [notification]);
   useEffect(() => {
@@ -54,6 +55,7 @@ export const ToggleNotification = () => {
             value={switchValue}
             onValueChange={toggleSwitch}
             trackColor={{true: '#5abdec'}}
+            thumbColor={'white'}
           />
         </View>
       </View>

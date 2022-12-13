@@ -25,6 +25,7 @@ import {Routes} from '../../../constants/Constants';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {width} from '../../../utils/responsive';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
@@ -149,15 +150,15 @@ const PTB_profile = props => {
                   {stateRes?.location?.name}
                 </Text>
               </View>
-              <Text style={styles.profileName}>{stateRes?.first_name}</Text>
-              {stateRes?.middle_name !== null &&
-                stateRes?.middle_name !== '' &&
-                stateRes?.middle_name !== undefined && (
-                  <Text style={styles.profileName}>
-                    {stateRes?.middle_name}
-                  </Text>
-                )}
-              <Text style={styles.profileName}>{stateRes?.last_name}</Text>
+              <View style={{width: width - 160}}>
+                <Text style={styles.profileName}>{`${stateRes?.first_name} ${
+                  stateRes?.middle_name === null ||
+                  stateRes?.middle_name === '' ||
+                  stateRes?.middle_name === undefined
+                    ? ''
+                    : stateRes?.middle_name
+                } ${stateRes?.last_name}`}</Text>
+              </View>
               <View style={styles.profileImg}>
                 <FastImage
                   style={styles.profileLogo}
