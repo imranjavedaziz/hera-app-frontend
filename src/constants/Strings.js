@@ -8,7 +8,7 @@ export const ValidationMessages = {
   ALL_MANDATORY: 'Please provide all the mandatory details.',
   INVALID_MOBILE: 'Mobile number is not valid.',
   PICTURE_REQUIRE: 'Please upload a display picture',
-  TERMS_OF_USE: 'Please accept the Terms of Use',
+  TERMS_CONDITIONS: 'Please accept the Terms & Conditions and Privacy Policy',
   FIRST_NAME: 'Please enter your First Name',
   LAST_NAME: 'Please enter your Last Name',
   EMPTY_EMAIL: 'Please enter your Email ID',
@@ -108,7 +108,7 @@ export default {
     mainTitle: 'Before we proceed,\n please verify your number',
   },
   forgotPassword: {
-    forgot: 'Forgot Password?',
+    forgot: 'FORGOT PASSWORD?',
     title: 'Enter your mobile number to\nreceive a verification code',
   },
   profile: {
@@ -458,7 +458,7 @@ export default {
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
     Confirm_Password: CONFIRM_CONST,
-    PASSWORD_UPDATED: 'Your Password has been changed successfully.',
+    PASSWORD_UPDATED: 'Password Changed Successfully!',
   },
   //Edit Profile
   EDITPROFILE: {

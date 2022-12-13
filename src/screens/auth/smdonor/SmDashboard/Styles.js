@@ -178,9 +178,9 @@ export default {
   },
   emptyCardContainer: {
     marginTop: Value.CONSTANT_VALUE_110,
-    alignItems: Alignment.CENTER,
+    alignSelf: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
+    paddingHorizontal: Value.CONSTANT_VALUE_10,
   },
   sryText: {
     textAlign: Alignment.CENTER,
