@@ -172,7 +172,7 @@ const SmRegister = () => {
     }
     if (check) {
       dispatch(hideAppLoader());
-      dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
+      dispatch(showAppToast(true, ValidationMessages.TERMS_CONDITIONS));
       return;
     }
     const reqData = new FormData();

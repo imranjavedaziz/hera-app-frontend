@@ -48,8 +48,6 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     bottom: Value.CONSTANT_VALUE_40,
-    marginLeft: 10,
-    marginRight: 10,
   },
   ImageSize: {
     height: px(450),

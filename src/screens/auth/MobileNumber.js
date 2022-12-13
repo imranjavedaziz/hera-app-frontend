@@ -99,7 +99,8 @@ const MobileNumber = ({route}) => {
       <Header end={true}>{headerComp()}</Header>
       <ScrollView
         style={{flex: Value.CONSTANT_VALUE_1}}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <View
           style={{
             justifyContent: Alignment.FLEX_START,

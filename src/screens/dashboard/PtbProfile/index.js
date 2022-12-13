@@ -49,7 +49,6 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
-import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
 import {empty} from '../../../redux/actions/Chat';
 import {NotificationContext} from '../../../context/NotificationContextManager';
