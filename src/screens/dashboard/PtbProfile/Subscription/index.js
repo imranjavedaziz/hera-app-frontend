@@ -114,7 +114,7 @@ const Subscription = props => {
       purchase_token: item?.transactionReceipt,
     };
     console.log('LINE NUMBER 143 PAYLOAD', payload);
-    dispatch(createSubscription(payload));
+    // dispatch(createSubscription(payload));
   };
 
   React.useEffect(async () => {
@@ -141,19 +141,24 @@ const Subscription = props => {
       } else {
         dispatch(showAppLoader());
         console.log('LINE NUMBER ANDROID 143 item', item, selectCheckBox?.ios_product);
-        dispatch(showAppToast(true, 'Please uploaded updated build on Playstore'));
+        requestSubscriptionAndroid("hera_monthly",selectCheckBox,type,);
       }
       ;
     }
   };
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
+    console.log("LINE NO 154",sku);
+    const subscriptionOffers = {subscriptionOffers: [{sku, offerToken:"AUj/YhjKo1IFDPfpnM3TCAqQZOHjNw9eqXmcM20vgxL7FuF6Olk+DdR3hubDfLGbpL9pj1Gyp8jTJpR/ucxjhp3um2Gds5oz/vhMWt06Zb/Sagwpc+j0m18iww=="}]};
     try {
-      await RNIap.requestPurchase({ sku })
+      await RNIap.requestSubscription({ sku ,...subscriptionOffers})
         .then(async result => {
+          console.log('LINE NUMBER IOS 154 item', result);
         })
         .catch(err => {
-          console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
+          console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
+          dispatch(hideAppLoader());
+          dispatch(showAppToast(true, err.message));
         });
     } catch (error) {
       console.warn(`err ${error.code}`, error.message);
@@ -180,6 +185,8 @@ const Subscription = props => {
         dispatch(showAppToast(true, err.message));
       });
   };
+
+  console.log("Line no 188 subscriptionPlan",subscriptionPlan.data);
   return (
     <>
       <Container

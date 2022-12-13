@@ -20,7 +20,7 @@ const environment = {
     chat: 'stage',
   },
 };
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, api_url, chat} = environment.dev;
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
 export const PRIVACY_URL = `${WEB_BASE_URL}privacy-policy`;
@@ -799,7 +799,7 @@ export const creditProductsIds = Platform.select({
     HeraDevYearly,
     HeraDevWeekly,
   ],
-  android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
+  android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly, HeraDevWeekly,"hera_monthly"],
 });
 
 export const productsIds = Platform.select({
@@ -810,7 +810,7 @@ export const productsIds = Platform.select({
     HeraDevMonthly,
     HeraDevWeekly,
   ],
-  android: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevWeekly],
+  android: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevWeekly,"hera_monthly"],
 });
 
 export const SUBSCRIPTION_PLAN = [

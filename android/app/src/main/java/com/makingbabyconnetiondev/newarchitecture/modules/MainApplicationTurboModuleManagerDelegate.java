@@ -1,4 +1,4 @@
-package com.mbc.newarchitecture.modules;
+package com.makingbabyconnetiondev.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

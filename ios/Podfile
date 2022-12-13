@@ -6,7 +6,7 @@ platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 production = ENV["PRODUCTION"] == "1"
 
-target 'MBC' do
+target 'Hera' do
   config = use_native_modules!
 
 
@@ -37,7 +37,7 @@ target 'MBC' do
   pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
   $RNFirebaseAsStaticFramework = true
-  target 'MBCTests' do
+  target 'HeraTests' do
     inherit! :complete
     # Pods for testing
   end

@@ -1,4 +1,4 @@
-package com.mbc.newarchitecture.components;
+package com.makingbabyconnetiondev.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
