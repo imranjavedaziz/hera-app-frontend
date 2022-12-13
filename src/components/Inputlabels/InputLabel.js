@@ -16,6 +16,7 @@ const InputLabel = props => {
     lineColor,
     Code = false,
     number = false,
+    support = false,
     endComponentPress,
     ...textInputProps
   } = props;
@@ -53,7 +54,12 @@ const InputLabel = props => {
               {...textInputProps}
             />
           </View>
-          {error && <Text style={styles.errMessage}>{error}</Text>}
+          {error && (
+            <Text
+              style={support ? styles.errMessageSupport : styles.errMessage}>
+              {error}
+            </Text>
+          )}
         </>
       )}
       {labelsINput && (

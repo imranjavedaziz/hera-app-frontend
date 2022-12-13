@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -43,6 +43,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
 import {dynamicSize} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -51,16 +52,12 @@ const SmBasicDetails = () => {
   const [profileRes, setProfileRes] = useState();
   const [payloadData, setPayloadData] = useState([]);
   const [threeOption, setThreeOption] = useState([]);
-
+  const {Device_ID} = useContext(NotificationContext);
   const dispatch = useDispatch();
   let actionSheet = useRef();
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef();
-  useEffect(() => {
-    dispatch(getStates());
-    dispatch(getProfileSetterDetail());
-  }, []);
   const {
     get_state_res,
     get_profile_setter_res,
@@ -82,11 +79,20 @@ const SmBasicDetails = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
-
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      reset();
+    });
+  }, [navigation, reset]);
+  useEffect(() => {
+    dispatch(getStates());
+    dispatch(getProfileSetterDetail());
+  }, []);
   //GET STATE
   useEffect(() => {
     if (loadingRef.current && !get_state_loading) {
@@ -94,6 +100,7 @@ const SmBasicDetails = () => {
       if (get_state_success) {
         dispatch(hideAppLoader());
         setStateRes(get_state_res);
+        // reset()
       }
       if (get_state_error_msg) {
         dispatch(hideAppLoader());
@@ -184,8 +191,10 @@ const SmBasicDetails = () => {
   );
 
   const logOutScreen = () => {
-    dispatch(showAppLoader());
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -217,10 +226,9 @@ const SmBasicDetails = () => {
     }, 300);
   };
   const StyleIOS = {
-    marginTop: 44,
+    marginTop: 30,
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
-  const StyleDrop = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <StatusBar
@@ -229,8 +237,7 @@ const SmBasicDetails = () => {
         animated={true}
         hidden={false}
       />
-      <View
-        style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
+      <View style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -290,26 +297,27 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <Dropdown
-                        // containerStyle={Style}
+                        containerStyle={Style}
                         label={Strings.sm_basic.SexualOrientation}
                         data={profileRes?.sexual_orientation}
                         onSelect={selectedItem => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        error={errors && errors.state_id?.message}
+                        error={errors && errors.sexual_orientations_id?.message}
                         lineColor={isOpen}
                       />
                     )}
-                    name="state_id"
+                    name="sexual_orientations_id"
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Dropdown
-                        // containerStyle={Style}
+                        containerStyle={Style}
                         label={Strings.sm_basic.RelationshipStatus}
                         data={profileRes?.relationship_status}
+                        error={errors && errors.relationship_status_id?.message}
                         onSelect={selectedItem => {
                           onChange(selectedItem.id);
                         }}
@@ -318,13 +326,14 @@ const SmBasicDetails = () => {
                         maxLength={5}
                       />
                     )}
-                    name="zipcode"
+                    name="relationship_status_id"
                   />
+
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (
                       <Dropdown
-                        // containerStyle={Style}
+                        containerStyle={Style}
                         label={Strings.sm_basic.State}
                         data={stateRes}
                         onSelect={selectedItem => {
@@ -332,10 +341,10 @@ const SmBasicDetails = () => {
                         }}
                         required={true}
                         lineColor={isOpen}
-                        error={errors && errors.sexual_orientations_id?.message}
+                        error={errors && errors.state_id?.message}
                       />
                     )}
-                    name="sexual_orientations_id"
+                    name="state_id"
                   />
                   <Controller
                     control={control}
@@ -348,16 +357,16 @@ const SmBasicDetails = () => {
                         error={errors && errors.zipcode?.message}
                         required={true}
                         lineColor={isOpen}
-                        error={errors && errors.relationship_status_id?.message}
+                        maxLength={5}
                       />
                     )}
-                    name="relationship_status_id"
+                    name="zipcode"
                   />
                   <Controller
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        // containerStyle={Style}
+                        containerStyle={Style}
                         label={Strings.sm_basic.Occupation}
                         value={value}
                         onChangeText={v => onChange(v)}

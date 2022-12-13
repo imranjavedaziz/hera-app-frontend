@@ -73,7 +73,7 @@ export const ValidationMessages = {
     'Once you deactivate, users will not be able to see your profile. You can always come back later to activate.',
   DELETE_TEXT:
     'Once you delete, your data will be removed and cannot be retrieved later.',
-  REJECT_DISCARD: 'You don not wish to send any inquiry to Hera?',
+  REJECT_DISCARD: 'You do not wish to send any inquiry to Hera?',
   LOG_OUT: 'Log Out?',
   LOGOUT_TEXT: 'Do you wish to log out of the application?',
   //Error
@@ -113,7 +113,7 @@ export default {
   },
   profile: {
     makeAccountFor: 'Make Account For',
-    parentToBe: 'Parent To Be',
+    parentToBe: 'Intended Parent',
     uploadImage: '  Upload Display Picture',
     FirstName: 'First Name',
     MiddleName: 'Middle Name (Optional)',

@@ -103,7 +103,12 @@ const OTP = ({route}) => {
   useEffect(() => {
     if (loadingRef.current && !mobile_number_loading) {
       if (mobile_number_success) {
-        dispatch(showAppToast(false, 'OTP send again successfully!'));
+        dispatch(
+          showAppToast(
+            false,
+            'Verification code has been sent successfully on your mobile number.',
+          ),
+        );
       }
     }
     loadingRef.current = mobile_number_loading;
@@ -132,7 +137,12 @@ const OTP = ({route}) => {
   ]);
   const onSubmit = data => {
     if (data.otp.length < 6) {
-      dispatch(showAppToast(true, 'Please fill OTP!'));
+      dispatch(
+        showAppToast(
+          true,
+          'You have entered invalid verification code. Please enter a valid verification code & try again.',
+        ),
+      );
       return;
     }
     if (type === 1 || type === 2) {

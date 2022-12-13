@@ -27,11 +27,6 @@ const Dropdown = ({
   defaultValue,
   heighter,
   weight,
-  lineColor = false,
-  education,
-  first = false,
-  containerStyleDrop,
-  dropDownStyle,
   ...dropdownProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -50,7 +45,6 @@ const Dropdown = ({
   useEffect(() => {
     return navigation.addListener('focus', () => {
       setCome(true);
-      setValue('');
     });
   }, [navigation, setValue]);
   const STYLE_ONE = {
@@ -67,38 +61,36 @@ const Dropdown = ({
   };
   const IOSfloated = {
     fontFamily: Fonts.OpenSansRegular,
+    lineHeight: 21,
     letterSpacing: 0,
     color: '#000000',
-    top: 5,
+    top: Value.CONSTANT_VALUE_8,
     fontSize: Value.CONSTANT_VALUE_14,
   };
   const unIosfloated = {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_16,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 21,
     letterSpacing: 0,
     color: Colors.BLACK_0,
     top: 22,
   };
   const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
   const STYLE_CONDITION = value ? STYLE_ONE : STYLE_TWO;
-
   return (
-    <View>
+    <View style={[styles.container, containerStyle]}>
       <View style={containerStyle}>
         {Platform.OS === 'ios' ? (
-          <View
-            style={[
-              value ? styles.bottomMargin : styles.bottom,
-              dropDownStyle,
-            ]}>
+          <View style={styles.bottom}>
             <TouchableOpacity
               onPress={() => {
                 setVisibility(true);
                 setCome(false);
                 setFocused(true);
               }}>
-              <View
-                style={value ? styles.marginBottomValue : styles.marginBottom}>
+              <View style={styles.marginBottom}>
                 <Text
                   style={STYLE_CONDITION_THREE}
                   accessible={true}
@@ -156,7 +148,7 @@ const Dropdown = ({
             />
           </View>
         ) : (
-          <View style={styles.container}>
+          <>
             <Text
               style={STYLE_CONDITION_THREE}
               accessible={true}
@@ -189,11 +181,7 @@ const Dropdown = ({
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
-                borderColor: error
-                  ? Colors.RED
-                  : lineColor
-                  ? Colors.LIGHT_BLACK47
-                  : Colors.INPUT_BORDER,
+                borderColor: error ? Colors.RED : Colors.INPUT_BORDER,
               }}
               buttonTextStyle={{
                 ...styles.buttonTextStyle,
@@ -203,11 +191,10 @@ const Dropdown = ({
               renderDropdownIcon={() => <Image source={Images.arrowDown} />}
               {...dropdownProps}
             />
-          </View>
+          </>
         )}
       </View>
-      {error && !education && <Text style={styles.errMessage}>{error}</Text>}
-      {error && education && <Text style={styles.errMessage_1}>{error}</Text>}
+      {error && <Text style={styles.errMessage}>{error}</Text>}
     </View>
   );
 };

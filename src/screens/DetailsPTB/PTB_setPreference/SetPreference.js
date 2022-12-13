@@ -8,7 +8,13 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
@@ -51,6 +57,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import {empty} from '../../../redux/actions/Chat';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -84,7 +91,7 @@ const SetPreference = ({route, navigation}) => {
   );
   const SetloadingRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
-
+  const {Device_ID} = useContext(NotificationContext);
   const {
     set_preference_success,
     set_preference_loading,
@@ -261,7 +268,10 @@ const SetPreference = ({route, navigation}) => {
 
   const logOutScreen = () => {
     dispatch(showAppLoader());
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);

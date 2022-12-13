@@ -9,8 +9,7 @@ export default {
     flex: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
   },
-  bottom: {marginTop: 54},
-  bottomMargin: {marginTop: 30},
+  bottom: {bottom: 10},
   label: {
     position: Alignment.ABSOLUTE,
     left: Value.CONSTANT_VALUE_0,
@@ -19,7 +18,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   marginBottom: {marginBottom: 10},
-  marginBottomValue: {marginBottom: 8},
+
   iosFloatingText: {
     top: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -95,17 +94,7 @@ export default {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
-    bottom: -30,
-    right: 0,
-  },
-  errMessage_1: {
-    color: 'red',
-    textAlign: Alignment.RIGHT,
-    marginTop: Value.CONSTANT_VALUE_5,
-    fontSize: Value.CONSTANT_VALUE_14,
-    lineHeight: Value.CONSTANT_VALUE_21,
-    textVerticleAlignment: Alignment.CENTER,
-    fontFamily: Fonts.OpenSansRegular,
+    bottom: -25,
     right: 0,
   },
   rowStyle: {
@@ -132,7 +121,6 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     marginHorizontal: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_100,
-    bottom: 5,
   },
   linebelow: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
@@ -142,6 +130,7 @@ export default {
   linebelowFloat: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
     justifyContent: 'center',
+    top: Value.CONSTANT_VALUE_6,
   },
   red: {color: 'red'},
   left: {left: '90%'},

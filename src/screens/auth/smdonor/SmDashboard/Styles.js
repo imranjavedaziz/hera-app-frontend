@@ -2,7 +2,13 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {dynamicSize, height, normalizeFont, statusHide, width} from '../../../../utils/responsive';
+import {
+  dynamicSize,
+  height,
+  normalizeFont,
+  statusHide,
+  width,
+} from '../../../../utils/responsive';
 export default {
   mainContainer: {},
   conatiner: {
@@ -58,7 +64,7 @@ export default {
     paddingHorizontal: 30,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
-  search: {},
+  search: {alignItems: Alignment.CENTER, justifyContent: Alignment.CENTER},
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',
@@ -166,7 +172,7 @@ export default {
     alignItems: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_1,
   },
-  containrMain:{
+  containrMain: {
     flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
   },

@@ -103,6 +103,7 @@ const EditProfile = props => {
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
+  console.log(control,'controlprops')
   useEffect(() => {
     if (loadingRef.current && !send_verification_loading) {
       dispatch(showAppLoader());
@@ -583,6 +584,12 @@ const EditProfile = props => {
                   onPress={handleSubmit(onSubmit)}
                 />
               </View>
+              {/* <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View> */}
             </View>
             <DateTimePickerModal
               value={date}

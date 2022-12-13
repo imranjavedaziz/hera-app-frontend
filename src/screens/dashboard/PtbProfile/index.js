@@ -7,7 +7,13 @@ import {
   Modal,
   Alert,
 } from 'react-native';
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import styles from './style';
@@ -21,7 +27,11 @@ import PtbAccount, {
   ToggleNotification,
 } from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
-import {logOut, updateProfileImg} from '../../../redux/actions/Auth';
+import {
+  logOut,
+  updateName,
+  updateProfileImg,
+} from '../../../redux/actions/Auth';
 import {
   Routes,
   ABOUT_URL,
@@ -42,6 +52,7 @@ import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import _ from 'lodash';
 import openWebView from '../../../utils/openWebView';
 import {empty} from '../../../redux/actions/Chat';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -56,6 +67,7 @@ const PtbProfile = () => {
   const GetLoadingRef = useRef(false);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
+  const middle_name = useSelector(state => state?.Auth?.user?.middle_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const subscriptionStatus = useSelector(
     state => state.Subscription?.subscription_status_res,
@@ -67,12 +79,11 @@ const PtbProfile = () => {
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
   const {gallery_data} = useSelector(state => state.CreateGallery);
-
+  const {Device_ID} = useContext(NotificationContext);
   useFocusEffect(
     useCallback(() => {
       dispatch(getEditProfile());
       dispatch(getUserGallery());
-      videoAvaible();
     }, [dispatch]),
   );
   const LogoutLoadingRef = useRef(false);
@@ -85,6 +96,13 @@ const PtbProfile = () => {
       if (GetLoadingRef.current && !get_user_detail_loading) {
         dispatch(showAppLoader());
         if (get_user_detail_success) {
+          const data = {
+            first_name: get_user_detail_res.first_name,
+            last_name: get_user_detail_res.last_name,
+            middle_name: get_user_detail_res.middle_name,
+          };
+          videoAvaible();
+          dispatch(updateName(data));
           setName(get_user_detail_res);
           dispatch(hideAppLoader());
         }
@@ -173,10 +191,16 @@ const PtbProfile = () => {
     dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const videoAvaible = () => {
-    if (gallery_data?.doner_video_gallery === null) {
+    if (
+      gallery_data?.doner_video_gallery === null ||
+      gallery_data?.doner_video_gallery === undefined
+    ) {
       setVideoAviable(true);
     } else {
       setVideoAviable(false);
@@ -198,7 +222,6 @@ const PtbProfile = () => {
     ]);
     return true;
   };
-
   return (
     <>
       <View style={styles.flex}>
@@ -216,9 +239,9 @@ const PtbProfile = () => {
                 Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
                 } ${
-                  name?.middle_name === undefined || name?.middle_name === null
+                  middle_name === null || middle_name === undefined
                     ? ''
-                    : name?.middle_name
+                    : middle_name
                 }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
@@ -234,16 +257,16 @@ const PtbProfile = () => {
                 typeof subscriptionStatus.data === 'object' &&
                 Boolean(subscriptionStatus.data?.status) &&
                 !subscriptionStatus.data?.is_trial && <Subscribed />}
-              {typeof subscriptionStatus === 'object' &&
+              {((typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
-                (subscriptionStatus.data?.is_trial ||
-                  !Boolean(subscriptionStatus.data?.status)) && (
-                  <Subscribe
-                    Icon={Images.STAR}
-                    MainText={Strings.subscribe.Subscribe_Now}
-                    InnerText={Strings.subscribe.Plans}
-                  />
-                )}
+                subscriptionStatus.data?.is_trial) ||
+                !Boolean(subscriptionStatus.data?.status)) && (
+                <Subscribe
+                  Icon={Images.STAR}
+                  MainText={Strings.subscribe.Subscribe_Now}
+                  InnerText={Strings.subscribe.Plans}
+                />
+              )}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
