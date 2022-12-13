@@ -86,7 +86,11 @@ const PTB_profile = props => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={() => {
-        navigation.navigate(Routes.SmDashboard);
+        if (props?.route?.params?.coming === true) {
+          navigation.goBack();
+        } else {
+          navigation.navigate(Routes.SmDashboard);
+        }
       }}
       style={styles.androidHeaderIcons}
     />

@@ -74,6 +74,7 @@ const Chat_Request = props => {
     navigation.navigate(Routes.ProfileDetails, {
       userid: props?.route?.params?.item?.recieverId,
       seeAll: true,
+      coming:true
     });
   };
   const headerComp = () => (
