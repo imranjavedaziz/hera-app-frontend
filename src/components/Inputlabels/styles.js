@@ -16,6 +16,18 @@ export default {
     bottom: -25,
     right: 40,
   },
+  errMessageSupport: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    position: 'absolute',
+    bottom: -25,
+    right: 0,
+  },
   labelView: {flex: Value.CONSTANT_VALUE_1, marginTop: Value.CONSTANT_VALUE_30},
   numberView: {height: 50, flex: 1, marginLeft: 17.3},
   codeText: {

@@ -99,6 +99,7 @@ const FloatingLabelInput = props => {
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
+
   return (
     <View
       style={[

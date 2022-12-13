@@ -249,6 +249,7 @@ const SmDashboard = ({route}) => {
     }
   };
   const onClear = () => {
+    Keyboard.dismiss();
     setSearching(false);
     setSearch('');
     setFocused(false);
@@ -354,8 +355,6 @@ const SmDashboard = ({route}) => {
     }
     return null;
   };
-  console.log(isFocused, 'isFocused');
-  console.log('statusRes', statusRes);
   return (
     <View style={styles.upperContainer}>
       {!searching && isFocused === false && (
@@ -366,7 +365,10 @@ const SmDashboard = ({route}) => {
           <View
             style={{
               marginBottom: Value.CONSTANT_VALUE_150,
-              paddingTop: statusHide(Value.CONSTANT_VALUE_105),
+              paddingTop:
+                !searching && isFocused === false
+                  ? statusHide(Value.CONSTANT_VALUE_105)
+                  : statusHide(Value.CONSTANT_VALUE_54),
             }}>
             {search === '' && isFocused === false ? (
               <>
@@ -405,39 +407,29 @@ const SmDashboard = ({route}) => {
                   isFocused={isFocused}
                 />
               </View>
-              {!get_donor_dashboard_loading ? (
-                <View>
-                  <FlatList
-                    keyboardShouldPersistTaps="handled"
-                    contentContainerStyle={Styles.flatlist}
-                    columnWrapperStyle={{
-                      justifyContent: Alignment.SPACE_BETWEEN,
-                    }}
-                    data={cards}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={renderProfile}
-                    numColumns={2}
-                    showsVerticalScrollIndicator={false}
-                    onEndReached={() => {
-                      route.params?.informationDetail !== undefined &&
-                        onEndReached();
-                      searching && onEndReached();
-                    }}
-                    ListEmptyComponent={renderEmptyCell}
-                    ListFooterComponent={renderFooterCell}
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                    testID="flat-list"
-                  />
-                </View>
-              ) : (
-                <View style={styles.loaderContainer}>
-                  <MaterialIndicator
-                    color={Colors.COLOR_A3C6C4}
-                    size={dynamicSize(25)}
-                  />
-                </View>
-              )}
+              <View>
+                <FlatList
+                  keyboardShouldPersistTaps="handled"
+                  contentContainerStyle={Styles.flatlist}
+                  columnWrapperStyle={{
+                    justifyContent: Alignment.SPACE_BETWEEN,
+                  }}
+                  data={cards}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderProfile}
+                  numColumns={2}
+                  showsVerticalScrollIndicator={false}
+                  onEndReached={() => {
+                    route.params?.informationDetail !== undefined &&
+                      onEndReached();
+                    searching && onEndReached();
+                  }}
+                  ListEmptyComponent={renderEmptyCell}
+                  ListFooterComponent={renderFooterCell}
+                  refreshing={refreshing}
+                  testID="flat-list"
+                />
+              </View>
             </View>
           </View>
         </View>

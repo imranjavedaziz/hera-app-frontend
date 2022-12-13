@@ -8,7 +8,13 @@ import {
   Alert,
   Modal,
 } from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
@@ -51,6 +57,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import {empty} from '../../../redux/actions/Chat';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -84,7 +91,7 @@ const SetPreference = ({route, navigation}) => {
   );
   const SetloadingRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
-
+  const {Device_ID} = useContext(NotificationContext);
   const {
     set_preference_success,
     set_preference_loading,
@@ -261,7 +268,10 @@ const SetPreference = ({route, navigation}) => {
 
   const logOutScreen = () => {
     dispatch(showAppLoader());
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -354,6 +364,10 @@ const SetPreference = ({route, navigation}) => {
       )}
     </>
   );
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <Container
@@ -392,24 +406,23 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <View style={{}}>
-                  {preferencesData?.role?.length > 0 &&
-                    preferencesData?.role.map(whom => (
-                      <TouchableOpacity
-                        style={styles.flexRow}
-                        key={whom.id}
-                        activeOpacity={1}
-                        onPress={() => onChange(whom.id)}>
-                        <Image
-                          style={{resizeMode: 'contain'}}
-                          source={
-                            value === whom.id
-                              ? Images.iconRadiosel
-                              : Images.iconRadiounsel
-                          }
-                        />
-                        <Text style={styles.lookingsm}>{whom.name}</Text>
-                      </TouchableOpacity>
-                    ))}
+                  {Strings?.STATIC_ROLE.map(whom => (
+                    <TouchableOpacity
+                      style={styles.flexRow}
+                      key={whom.id}
+                      activeOpacity={1}
+                      onPress={() => onChange(whom.id)}>
+                      <Image
+                        style={{resizeMode: 'contain'}}
+                        source={
+                          value === whom.id
+                            ? Images.iconRadiosel
+                            : Images.iconRadiounsel
+                        }
+                      />
+                      <Text style={styles.lookingsm}>{whom.name}</Text>
+                    </TouchableOpacity>
+                  ))}
                   <Text style={styles.errLooking}>
                     {errors && errors.looking?.message}
                   </Text>
@@ -421,8 +434,8 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown
+                  dropDownStyle={{marginTop: Value.CONSTANT_VALUE_0}}
                   defaultValue={value}
-                  containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
                   label={Strings.preference.Location}
                   data={stateRess}
                   onSelect={(selectedItem, index) => {
@@ -439,6 +452,7 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown
+                  containerStyleDrop={Style}
                   defaultValue={value}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
@@ -543,7 +557,7 @@ const SetPreference = ({route, navigation}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 10}}
+                  dropDownStyle={{marginTop: 30}}
                   label={Strings.preference.Race}
                   data={preferencesData?.race}
                   onSelect={(selectedItem, index) => {

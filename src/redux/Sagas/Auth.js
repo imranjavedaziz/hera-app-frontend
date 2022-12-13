@@ -120,9 +120,9 @@ export function* watchVerifyOtp() {
   yield takeLatest(AUTH_VERIFY_OTP, verifyOtp);
 }
 
-function* logOut() {
+function* logOut(payload) {
   try {
-    const result = yield logOutApi();
+    const result = yield logOutApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: AUTH_LOG_OUT_SUCCESS, data: result});
     } else {

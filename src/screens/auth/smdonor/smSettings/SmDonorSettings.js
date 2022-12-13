@@ -8,12 +8,18 @@ import {
   Modal,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState, useRef, useCallback} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useContext,
+} from 'react';
 import Header, {IconHeader} from '../../../../components/Header';
 import Images from '../../../../constants/Images';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import Strings, { ValidationMessages } from '../../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../../constants/Strings';
 import Styles from './Styles';
 import {
   Routes,
@@ -21,7 +27,11 @@ import {
   TERMS_OF_USE_URL,
   PRIVACY_URL,
 } from '../../../../constants/Constants';
-import {updateProfileImg, logOut} from '../../../../redux/actions/Auth';
+import {
+  updateProfileImg,
+  logOut,
+  updateName,
+} from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import ActionSheet from 'react-native-actionsheet';
@@ -42,12 +52,15 @@ import PtbAccount, {
   ToggleNotification,
 } from '../../../../components/dashboard/PtbProfile/PtbAccount';
 import {empty} from '../../../../redux/actions/Chat';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
+  const middle_name = useSelector(state => state?.Auth?.user?.middle_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
+  const role_id = useSelector(state => state?.Auth?.user?.role_id);
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [name, setName] = useState('');
@@ -63,6 +76,7 @@ const SmDonorSettings = () => {
     get_user_detail_loading,
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
+  const {Device_ID} = useContext(NotificationContext);
   const LogoutLoadingRef = useRef(false);
   const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
@@ -102,6 +116,12 @@ const SmDonorSettings = () => {
       if (GetLoadingRef.current && !get_user_detail_loading) {
         dispatch(showAppLoader());
         if (get_user_detail_success) {
+          const data = {
+            first_name: get_user_detail_res.first_name,
+            last_name: get_user_detail_res.last_name,
+            middle_name: get_user_detail_res.middle_name,
+          };
+          dispatch(updateName(data));
           setName(get_user_detail_res);
           dispatch(hideAppLoader());
         }
@@ -183,7 +203,10 @@ const SmDonorSettings = () => {
   }, [file, dispatch]);
 
   const logoutScreen = () => {
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const iosAlert = () => {
     Alert.alert(ValidationMessages.LOG_OUT, ValidationMessages.LOGOUT_TEXT, [
@@ -219,14 +242,14 @@ const SmDonorSettings = () => {
                 Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
                 } ${
-                  name?.middle_name === undefined || name?.middle_name === null
+                  middle_name === null || middle_name === undefined
                     ? ''
-                    : name?.middle_name
+                    : middle_name
                 }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
-                roleId={getRoleType(name?.role_id)}
+                roleId={getRoleType(role_id)}
                 source={{
                   uri: profileImg,
                 }}
@@ -277,7 +300,7 @@ const SmDonorSettings = () => {
             />
             <PtbAccount
               leftIcon={Images.file}
-              title={Strings.smSetting.Terms}
+              title={Strings.Subscription.TermsServices}
               onPress={() => openWebView(TERMS_OF_USE_URL)}
             />
             <PtbAccount

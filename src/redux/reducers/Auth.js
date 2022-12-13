@@ -6,6 +6,7 @@ import {
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
   USE_LOCAL_IMAGE,
+  USE_NAME,
 } from '../constants';
 
 import {
@@ -164,7 +165,17 @@ export default (state = initState, action) => {
         },
       };
     }
-
+    case USE_NAME: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          first_name: action.data.first_name,
+          last_name: action.data.last_name,
+          middle_name: action.data.middle_name,
+        },
+      };
+    }
     // DEVICE REGISTER
     case DEVICE_REGISTER: {
       return {

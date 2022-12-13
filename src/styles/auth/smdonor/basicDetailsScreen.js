@@ -28,7 +28,6 @@ export default {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
-    lineHeight: 21,
     letterSpacing: 0,
   },
   radioContainer: {

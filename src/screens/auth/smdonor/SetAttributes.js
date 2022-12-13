@@ -535,7 +535,7 @@ const SetAttributes = ({route}) => {
         <View style={globalStyle.basicSheetContainer}>
           <TouchableOpacity style={globalStyle.formBtn}>
             <Text style={globalStyle.formText}>
-              {Strings.bottomSheet.Inquiry_Form}
+              {Strings.smSetting.Inquiry}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
