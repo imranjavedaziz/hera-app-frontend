@@ -200,7 +200,7 @@ export default {
     Occupation: 'Occupation (Optional)',
     SexualOrientation: 'Sexual Orientation',
     RelationshipStatus: 'Relationship Status',
-    Bio: 'Add a Short Bio (Max 250 Char)',
+    Bio: 'Add a Short Bio (Max 250 Characters)',
     Btn: 'Save Profile',
     Save: 'SAVE',
     SAVE_PROFILE: 'SAVE PROFILE',

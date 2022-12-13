@@ -220,6 +220,7 @@ const SmBasicDetails = () => {
     marginTop: 30,
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
+  const StyleDrop = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <StatusBar
@@ -228,7 +229,8 @@ const SmBasicDetails = () => {
         animated={true}
         hidden={false}
       />
-      <View style={styles.flex_1}>
+      <View
+        style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -286,41 +288,9 @@ const SmBasicDetails = () => {
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
-                      <Dropdown
-                        containerStyle={Style}
-                        label={Strings.sm_basic.SexualOrientation}
-                        data={profileRes?.sexual_orientation}
-                        onSelect={selectedItem => {
-                          onChange(selectedItem.id);
-                        }}
-                        required={true}
-                        error={errors && errors.sexual_orientations_id?.message}
-                      />
-                    )}
-                    name="sexual_orientations_id"
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Dropdown
-                        containerStyle={Style}
-                        label={Strings.sm_basic.RelationshipStatus}
-                        data={profileRes?.relationship_status}
-                        onSelect={selectedItem => {
-                          onChange(selectedItem.id);
-                        }}
-                        required={true}
-                        error={errors && errors.relationship_status_id?.message}
-                      />
-                    )}
-                    name="relationship_status_id"
-                  />
-                  <Controller
-                    control={control}
                     render={({field: {onChange, value}}) => (
                       <Dropdown
-                        containerStyle={Style}
+                        containerStyle={StyleDrop}
                         label={Strings.sm_basic.State}
                         data={stateRes}
                         onSelect={selectedItem => {
@@ -328,6 +298,7 @@ const SmBasicDetails = () => {
                         }}
                         required={true}
                         error={errors && errors.state_id?.message}
+                        lineColor={isOpen}
                       />
                     )}
                     name="state_id"
@@ -350,6 +321,40 @@ const SmBasicDetails = () => {
                   />
                   <Controller
                     control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                        containerStyle={StyleDrop}
+                        label={Strings.sm_basic.SexualOrientation}
+                        data={profileRes?.sexual_orientation}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        lineColor={isOpen}
+                        error={errors && errors.sexual_orientations_id?.message}
+                      />
+                    )}
+                    name="sexual_orientations_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                        containerStyle={StyleDrop}
+                        label={Strings.sm_basic.RelationshipStatus}
+                        data={profileRes?.relationship_status}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        lineColor={isOpen}
+                        error={errors && errors.relationship_status_id?.message}
+                      />
+                    )}
+                    name="relationship_status_id"
+                  />
+                  <Controller
+                    control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
                         containerStyle={Style}
@@ -369,6 +374,7 @@ const SmBasicDetails = () => {
                         required={true}
                         value={value}
                         maxLength={250}
+                        lineColor={isOpen}
                         onChangeText={v => {
                           onChange(v);
                         }}
@@ -380,7 +386,7 @@ const SmBasicDetails = () => {
                   <View
                     style={{
                       alignItems: Alignment.CENTER,
-                      marginTop: Value.CONSTANT_VALUE_26,
+                      paddingTop: Value.CONSTANT_VALUE_17,
                     }}>
                     <Button
                       style={styles.Btn}
