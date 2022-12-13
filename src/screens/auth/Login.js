@@ -30,7 +30,8 @@ import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
-import { getSubscriptionStatus } from '../../redux/actions/Subsctiption';
+import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
+import {InputLabel} from '../../components';
 
 const type = 2;
 const Login = props => {
@@ -134,7 +135,27 @@ const Login = props => {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.mainContainer}>
               <Image source={Images.LOGO} style={styles.logo} />
-              <Controller
+              <View style={styles.inputRow}>
+                <InputLabel Code={true} label={Strings.mobile.Code} />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <InputLabel
+                      value={phone}
+                      number={true}
+                      label={Strings.inqueryForm.MobileNumber}
+                      onChangeText={v => {
+                        handelChange(v);
+                      }}
+                      maxLength={14}
+                      keyboardType="numeric"
+                      error={errors && errors.phone?.message}
+                    />
+                  )}
+                  name="phone"
+                />
+              </View>
+              {/* <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
@@ -149,7 +170,7 @@ const Login = props => {
                   />
                 )}
                 name="phone"
-              />
+              /> */}
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (

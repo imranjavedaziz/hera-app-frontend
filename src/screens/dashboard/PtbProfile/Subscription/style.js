@@ -42,7 +42,7 @@ export default {
     color: Colors.COLOR_535858,
   },
   textView: {
-    width: scaleWidth(Value.CONSTANT_VALUE_332),
+    width: scaleWidth(Value.CONSTANT_VALUE_300),
     marginBottom: Value.CONSTANT_VALUE_50,
   },
   payButton: {

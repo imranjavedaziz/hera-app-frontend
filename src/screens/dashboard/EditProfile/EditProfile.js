@@ -219,17 +219,19 @@ const EditProfile = props => {
     );
     return true;
   };
+  const platform = () => {
+    Platform.OS === 'ios' ? backAction() : setShowModal(true);
+  };
+  const navCondition = () => {
+    props.route?.params?.smProfile
+      ? navigation.navigate(Routes.SmSetting)
+      : navigation.navigate(Routes.PtbProfile);
+  };
   const headerComp = () => (
     <View style={styles.cancelAndroidsbtn}>
       <TouchableOpacity
         onPress={() => {
-          isDirty === true
-            ? Platform.OS === 'ios'
-              ? backAction()
-              : setShowModal(true)
-            : props.route?.params?.smProfile
-            ? navigation.navigate(Routes.SmSetting)
-            : navigation.navigate(Routes.PtbProfile);
+          isDirty === true ? platform() : navCondition();
         }}
         style={styles.clearView}>
         <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>
@@ -341,8 +343,9 @@ const EditProfile = props => {
                   <FloatingLabelInput
                     label={Strings.profile.FirstName}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    onChangeText={v => onChange(v.trim())}
                     required={true}
+                    maxLength={30}
                     error={errors && errors.first_name?.message}
                   />
                 )}
@@ -354,7 +357,8 @@ const EditProfile = props => {
                   <FloatingLabelInput
                     label={Strings.profile.MiddleName}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    maxLength={30}
+                    onChangeText={v => onChange(v.trim())}
                     fontWeight={Alignment.BOLD}
                     error={errors && errors.middle_name?.message}
                   />
@@ -367,7 +371,8 @@ const EditProfile = props => {
                   <FloatingLabelInput
                     label={Strings.profile.LastName}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    maxLength={30}
+                    onChangeText={v => onChange(v.trim())}
                     fontWeight={Alignment.BOLD}
                     required={true}
                     error={errors && errors.last_name?.message}

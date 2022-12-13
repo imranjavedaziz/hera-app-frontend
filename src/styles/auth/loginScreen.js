@@ -19,6 +19,11 @@ export default {
     marginBottom: 35,
     alignSelf: Alignment.CENTER,
   },
+  inputRow: {
+    flexDirection: Alignment.ROW,
+    marginTop: Value.CONSTANT_VALUE_40,
+    justifyContent: 'flex-start',
+  },
   margin: {marginHorizontal: 0},
   underlineBtn: {
     ...global.underlineText,

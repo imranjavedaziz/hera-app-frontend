@@ -10,6 +10,7 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_15,
   },
+  fixedheaderStyle: {marginRight: Value.CONSTANT_VALUE_20},
   zeromargin: {marginHorizontal: Value.CONSTANT_VALUE_0},
   profileImg: {
     width: Value.CONSTANT_VALUE_40,

@@ -310,9 +310,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.FirstName}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => onChange(v.trim())}
                   error={errors && errors.first_name?.message}
                   required={true}
+                  maxLength={30}
                 />
               )}
               name="first_name"
@@ -323,7 +324,8 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.MiddleName}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  maxLength={30}
+                  onChangeText={v => onChange(v.trim())}
                   error={errors && errors.middle_name?.message}
                 />
               )}
@@ -335,9 +337,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.LastName}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => onChange(v.trim())}
                   error={errors && errors.last_name?.message}
                   required={true}
+                  maxLength={30}
                 />
               )}
               name="last_name"

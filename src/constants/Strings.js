@@ -39,7 +39,7 @@ export const ValidationMessages = {
   // PASSWORD_MIN: 'Minimum 8 characters',
   SPECIAL_CHAR: 'Must have atleast 1 special character',
   // SPECIAL_CHAR: 'Atleast 1 special character',
-  ALPHA_NUM: 'Must be Alphanumeric and 1st letter as alphabet',
+  ALPHA_NUM: 'Must be alphanumeric and 1st letter as alphabet',
   INVALID_OTP: 'OTP is not valid',
   LOCATION: 'Please select your Location preference',
   MAX_FIRST_NAME: 'First name must be at most 30 characters',
@@ -225,7 +225,7 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
-    maxUpload: 'This step is optional. Maximum 6 photos.',
+    maxUpload: 'This step is optional. Maximum 5 photos and 1 video.',
     Btn: 'GO TO DASHBOARD',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",
@@ -312,10 +312,12 @@ export default {
     donerType: 'Sperm Donor',
     like_this_profile: ' LIKE THIS PROFILE',
     Not_interested: 'NOT INTERESTED',
+    Race: 'Race is',
   },
   search_Bar: {
     search: 'Search',
     write_message: 'Write a message',
+    Inactive:'User is Inactive'
   },
   smSetting: {
     profile: 'Profile',
@@ -370,8 +372,8 @@ export default {
     MidHeader: '(Use-it-or-lose it)',
     SubscribeButton: 'SUBSCRIBE & PAY',
     BySubs: 'By subscribing, you agree to HERA’s ',
-    TermsServices: 'Terms of Service',
-    PrivacyPolicy: 'Privacy Policy. ',
+    TermsServices: 'Terms & Conditions',
+    PrivacyPolicy: 'Privacy Policy.',
     And: ' and ',
     SubscribePolicy:
       'Your subscription will be billed monthly and can be canceled anytime.',

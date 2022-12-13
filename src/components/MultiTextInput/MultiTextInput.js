@@ -62,7 +62,6 @@ export default function MultiTextInput({
             onFocus={handleFocus}
             onBlur={handleBlur}
             blurOnSubmit={false}
-            keyboardAppearance="light"
             {...textInputProps}
           />
           {error && <Text style={styles.errMessage}>{error}</Text>}

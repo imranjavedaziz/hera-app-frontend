@@ -50,7 +50,7 @@ export const ToggleNotification = () => {
             <Text style={styles.title}>{Strings.PTB_Profile.ReceiveNoti}</Text>
           </View>
           <Switch
-            style={{left: 9}}
+            style={{left: 7}}
             value={switchValue}
             onValueChange={toggleSwitch}
             trackColor={{true: '#5abdec'}}

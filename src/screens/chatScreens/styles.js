@@ -63,6 +63,7 @@ export default {
     borderTopColor: '#E8E8E8',
     borderRadius: 24,
     marginHorizontal: 15,
+    paddingRight: 40,
     paddingLeft: 10,
     justifyContent: Alignment.CENTER,
     textAlign: Alignment.CENTER,
