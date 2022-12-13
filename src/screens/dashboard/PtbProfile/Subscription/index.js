@@ -127,17 +127,23 @@ const Subscription = props => {
   }, []);
 
   const subscribePlan = (item, type) => {
-    console.log('LINE NUMBER 134 item', item, selectCheckBox?.ios_product);
-    if (item === null) dispatch(showAppToast(true, 'Please choose a plan!'));
-    dispatch(showAppLoader());
     if (Platform.OS === 'ios') {
-      requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
-    } else {
-      requestSubscriptionAndroid(
-        selectCheckBox?.play_store_id,
-        selectCheckBox,
-        type,
-      );
+      if (item === null) {
+        dispatch(showAppToast(true, 'Please choose a plan!'));
+      } else {
+        console.log('LINE NUMBER IOS 134 item', item, selectCheckBox?.ios_product);
+        dispatch(showAppLoader());
+        requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
+      }
+    } else if (Platform.OS === "android") {
+      if (item === null) {
+        dispatch(showAppToast(true, 'Please choose a plan!'));
+      } else {
+        dispatch(showAppLoader());
+        console.log('LINE NUMBER ANDROID 143 item', item, selectCheckBox?.ios_product);
+        dispatch(showAppToast(true, 'Please uploaded updated build on Playstore'));
+      }
+      ;
     }
   };
 
@@ -197,7 +203,7 @@ const Subscription = props => {
                 subscriptionPlan?.data?.map((item, index) => (
                   <Commitment
                     key={index}
-                    MainText={`$${item?.price}/${item?.interval}`}
+                    MainText={`$${item?.price}/${item?.interval === "month" && "mo"}`}
                     Months={item.description}
                     Icon={
                       selectCheckBox?.id === item?.id
