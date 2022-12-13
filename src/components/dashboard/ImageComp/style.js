@@ -18,7 +18,7 @@ export default {
     shadowRadius: Value.CONSTANT_VALUE_18,
     shadowOpacity: 0.5,
     elevation: Value.CONSTANT_VALUE_5,
-    marginTop: Value.CONSTANT_VALUE_70,
+    marginTop: dynamicSize(65),
   },
   bgImage: {
     height: px(370),
