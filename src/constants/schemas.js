@@ -274,30 +274,32 @@ export const deleteAccountPassword = yup.object().shape({
 export const changePasswordSchema = yup.object().shape({
   current_password: yup
     .string()
+    .test('current_password', ValidationMessages.ALL_MANDATORY, allMandatory)
     .required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
   new_password: yup
     .string()
+    .test('new_password', ValidationMessages.ALL_MANDATORY, allMandatory)
     .required(ValidationMessages.PLEASE_ENTER_NEW_PASS)
-    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .min(Value.CONSTANT_VALUE_8, 'noError')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_START, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     }),
   confirm_password: yup
     .string()
@@ -310,26 +312,26 @@ export const forgetPasswordSchema = yup.object().shape({
   new_password: yup
     .string()
     .required(ValidationMessages.COMMON_REQUIRED)
-    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .min(Value.CONSTANT_VALUE_8, 'noError')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_START, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     }),
   confirm_password: yup
     .string()

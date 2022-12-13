@@ -70,7 +70,9 @@ const ChangePassword = ({route}) => {
     control,
     handleSubmit,
     formState: {errors},
+    clearErrors,
   } = useForm({
+    reValidateMode: 'onSubmit',
     resolver: yupResolver(
       type === 1 ? changePasswordSchema : forgetPasswordSchema,
     ),
@@ -148,7 +150,10 @@ const ChangePassword = ({route}) => {
                             containerStyle={{
                               marginTop: Value.CONSTANT_VALUE_35,
                             }}
-                            onChangeText={v => onChange(v)}
+                            onChangeText={v => {
+                              onChange(v);
+                              clearErrors('current_password');
+                            }}
                             required={true}
                             secureTextEntry={!show}
                             minLength={8}
@@ -174,7 +179,10 @@ const ChangePassword = ({route}) => {
                           <FloatingLabelInput
                             label={Strings.ChangePassword.Set_New_Password}
                             value={value}
-                            onChangeText={v => onChange(v)}
+                            onChangeText={v => {
+                              onChange(v);
+                              clearErrors('new_password');
+                            }}
                             required={true}
                             secureTextEntry={true}
                             containerStyle={{
@@ -182,6 +190,9 @@ const ChangePassword = ({route}) => {
                               marginTop: Value.CONSTANT_VALUE_30,
                             }}
                             error={errors && errors.new_password?.message}
+                            hideErrorText={
+                              errors?.new_password?.message === 'noError'
+                            }
                           />
                           {pwdErrMsg.map(msg => (
                             <View style={styles.passwordCheck} key={msg.type}>
@@ -233,7 +244,10 @@ const ChangePassword = ({route}) => {
                           containerStyle={{
                             marginTop: Value.CONSTANT_VALUE_29,
                           }}
-                          onChangeText={v => onChange(v)}
+                          onChangeText={v => {
+                            onChange(v);
+                            clearErrors('confirm_password');
+                          }}
                           secureTextEntry={true}
                           minLength={8}
                           error={errors && errors.confirm_password?.message}

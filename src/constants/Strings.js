@@ -460,7 +460,7 @@ export default {
     Current_Password: 'Current Password',
     Set_New_Password: 'Set New Password',
     Confirm_Password: CONFIRM_CONST,
-    PASSWORD_UPDATED: 'Your Password has been changed successfully.',
+    PASSWORD_UPDATED: 'Password Changed Successfully!',
   },
   //Edit Profile
   EDITPROFILE: {

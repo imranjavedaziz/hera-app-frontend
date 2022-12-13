@@ -95,6 +95,7 @@ const FloatingLabelInput = props => {
     onPressVerify,
     endComponentPress,
     lineColor = false,
+    hideErrorText = false,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
@@ -182,7 +183,9 @@ const FloatingLabelInput = props => {
           <View style={styles.endComponent}>{endComponent()}</View>
         )}
       </View>
-      {error && <Text style={styles.errMessage}>{error}</Text>}
+      {!hideErrorText && error && (
+        <Text style={styles.errMessage}>{error}</Text>
+      )}
     </View>
   );
 };
