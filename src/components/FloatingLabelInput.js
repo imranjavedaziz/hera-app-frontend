@@ -48,7 +48,7 @@ const styles = {
 
   firstName: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 21,
     letterSpacing: 0,
     color: '#000000',
@@ -96,10 +96,12 @@ const FloatingLabelInput = props => {
     onPressVerify,
     endComponentPress,
     lineColor = false,
+    show,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
+  console.log(isFocused, 'isFocused');
   return (
     <View
       style={[
@@ -150,7 +152,10 @@ const FloatingLabelInput = props => {
           </>
         )}
         {endComponent && (
-          <TouchableOpacity onPress={endComponentPress}>
+          <TouchableOpacity
+            onPress={() => {
+              endComponentPress;
+            }}>
             <TextInput
               style={[
                 styles.InputTextField,
@@ -180,7 +185,9 @@ const FloatingLabelInput = props => {
           />
         )}
         {endComponent && (
-          <View style={styles.endComponent}>{endComponent()}</View>
+          <TouchableOpacity onPress={handleBlur}>
+            <View style={styles.endComponent}>{endComponent()}</View>
+          </TouchableOpacity>
         )}
       </View>
       {error && <Text style={styles.errMessage}>{error}</Text>}

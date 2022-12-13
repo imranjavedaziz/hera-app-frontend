@@ -57,16 +57,19 @@ const ChatDetail = props => {
     useSelector(state => state.ReportUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('CHAT DETAILS', loading);
+    // console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
-    console.log(parseInt(paramItem?.recieverSubscription),'parseInt(paramItem?.recieverSubscription)2')
-    console.log(user.role_id,'user.role_id3')
-    console.log(paramItem.currentRole,'paramItem.currentRole2')
+    console.log(
+      parseInt(paramItem?.recieverSubscription),
+      'parseInt(paramItem?.recieverSubscription)2',
+    );
+    console.log(user.role_id, 'user.role_id3');
+    console.log(paramItem.currentRole, 'paramItem.currentRole2');
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
-      user.role_id !== 2 &&
-      paramItem.currentRole !== 1
+      user?.role_id !== 2 &&
+      paramItem?.currentRole !== 1
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
@@ -78,7 +81,7 @@ const ChatDetail = props => {
         style={{
           flexDirection: 'row',
           position: 'absolute',
-          top: 10,
+          top: Platform.OS === 'ios'?5:10,
           right: -30,
         }}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
@@ -89,6 +92,7 @@ const ChatDetail = props => {
   };
   useEffect(() => {
     if (subscriptionStatus && subscriptionStatus.data) {
+      console.log(subscriptionStatus?.data,'subscriptionStatus?.data')
       if (!subscriptionStatus?.data.status) {
         dispatch(
           showAppToast(
@@ -171,9 +175,15 @@ const ChatDetail = props => {
     LoadingRef.current = report_user_loading;
   }, [report_user_success, report_user_loading]);
   const onSend = async (messages = '') => {
-    console.log(parseInt(props.route.params.item.senderSubscription),'props.route.params.item.senderSubscription')
-    console.log(subscriptionStatus?.data?.status,'subscriptionStatus?.data?.status')
-    console.log(parseInt(user?.role_id),'parseInt(user?.role_id)')
+    console.log(
+      parseInt(props.route.params.item.senderSubscription),
+      'props.route.params.item.senderSubscription',
+    );
+    console.log(
+      subscriptionStatus?.data?.status,
+      'subscriptionStatus?.data?.status',
+    );
+    console.log(parseInt(user?.role_id), 'parseInt(user?.role_id)');
     if ((await NetInfo.isConnected.fetch()) !== true) {
       dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
     } else if (
@@ -578,7 +588,7 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : 44}
+              minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -618,7 +628,7 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : 44}
+              minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -659,7 +669,7 @@ const ChatDetail = props => {
                 }}
                 containerStyle={styles.mainContainerDetail}
                 renderAvatar={null}
-                minComposerHeight={textData?.length > 75 ? 60 : 44}
+                minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
                 textInputProps={styles.textInput}
                 disableComposer={
                   props.route.params.item.status_id !== 1 ? true : false
