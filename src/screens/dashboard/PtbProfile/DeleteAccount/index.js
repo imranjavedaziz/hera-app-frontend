@@ -18,6 +18,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {deleteAccountPassword} from '../../../../constants/schemas';
 import {signoutUser} from '../../../../redux/actions/Auth';
+import {empty} from '../../../../redux/actions/Chat'
 
 const DeleteAccount = () => {
   const navigation = useNavigation();
@@ -50,6 +51,7 @@ const DeleteAccount = () => {
       dispatch(showAppLoader());
       if (delete_account_success) {
         dispatch(hideAppLoader());
+        dispatch(empty());
         dispatch(showAppToast(false, delete_account_res));
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
