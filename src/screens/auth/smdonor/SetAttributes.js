@@ -1,5 +1,11 @@
 // SetAttributes
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Text,
   View,
@@ -39,6 +45,7 @@ import {BottomSheetComp} from '../../../components';
 import {Alignment, Colors} from '../../../constants';
 import {dynamicSize, statusHide} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -49,6 +56,7 @@ const SetAttributes = ({route}) => {
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const {Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
@@ -326,7 +334,10 @@ const SetAttributes = ({route}) => {
   };
 
   const logOutScreen = () => {
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const StyleIOS = {
     marginTop: 30,

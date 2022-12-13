@@ -10,6 +10,7 @@ import {
 } from '../../../utils/responsive';
 
 export default {
+  flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
@@ -38,8 +39,7 @@ export default {
     color: Colors.BLACK_0,
   },
   containerView: {
-    marginBottom: -40,
-    marginHorizontal: scaleWidth(37),
+    marginHorizontal: scaleWidth(40),
     backgroundColor: Colors.BACKGROUND,
     marginTop: statusHide(105),
   },
