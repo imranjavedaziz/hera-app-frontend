@@ -470,7 +470,7 @@ const Profile = props => {
                       <Text
                         style={styles.tmcLink1}
                         onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        {Strings.profile.tmc2}
+                        {Strings.Subscription.TermsServices}
                       </Text>{' '}
                       and{' '}
                       <Text

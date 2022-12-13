@@ -266,6 +266,7 @@ export default function Support() {
                   style={{
                     alignItems: Alignment.CENTER,
                     marginBottom: Value.CONSTANT_VALUE_75,
+                    marginTop: 46,
                   }}>
                   <Button
                     label={Strings.inqueryForm.SendInquiry}

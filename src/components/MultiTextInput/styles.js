@@ -7,7 +7,6 @@ import {px} from '../../utils/responsive';
 export default {
   container: {
     borderRadius: px(18),
-    marginBottom: px(Value.CONSTANT_VALUE_20),
   },
   row: {
     paddingTop: Value.CONSTANT_VALUE_30,
@@ -35,7 +34,7 @@ export default {
     textAlignVertical: 'top',
     paddingVertical: Value.CONSTANT_VALUE_18,
     paddingHorizontal: Value.CONSTANT_VALUE_18,
-    width: '100%',
+    width: '98%',
     height: '100%',
   },
   label: {
