@@ -356,7 +356,7 @@ export default {
     USER_TYPE: 'User Type',
     MobileNumber: MOBILE_CONST,
     Message: 'Message',
-    SendInquiry: 'SEND INQUIRY',
+    SendInquiry: 'SEND QUERY',
     Title: 'SUPPORT',
     LEFT_ARROW_BUTTON: 'Left arrow Button, Press to go back',
   },

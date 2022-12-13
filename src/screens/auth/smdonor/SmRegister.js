@@ -36,6 +36,7 @@ import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
 import updateRegStep, {
   deviceRegister,
+  ptbRegister,
   updateLocalImg,
 } from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
@@ -44,7 +45,6 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import {ptbRegister} from '../../../redux/actions/Register';
 import {BottomSheetComp} from '../../../components';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
@@ -119,7 +119,6 @@ const SmRegister = () => {
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
-    dispatch(updateLocalImg(image.path));
     setFile(image);
   };
   const {
@@ -139,7 +138,7 @@ const SmRegister = () => {
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
-        dispatch(updateLocalImg(file.path));
+        dispatch(updateLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
@@ -165,10 +164,12 @@ const SmRegister = () => {
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
     if (!userImage) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
     }
     if (check) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
@@ -192,7 +193,7 @@ const SmRegister = () => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
-    dispatch(updateLocalImg(file.path));
+    dispatch(updateLocalImg(userImage));
   };
   const headerComp = () => (
     <CircleBtn

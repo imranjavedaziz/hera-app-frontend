@@ -44,6 +44,7 @@ import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import normalizeInput from '../../../utils/normalizeInput';
+import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -59,6 +60,7 @@ const EditProfile = props => {
   const [showModal, setShowModal] = useState(false);
   const [phone, setPhone] = useState('');
   const [datePicked, onDateChange] = useState();
+  const [clipdrop, setClickDrop] = useState(false);
   useFocusEffect(
     useCallback(() => {
       dispatch(getStates());
@@ -369,6 +371,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    clipdrop={clipdrop}
                     label={Strings.profile.LastName}
                     value={value}
                     maxLength={30}
@@ -477,6 +480,7 @@ const EditProfile = props => {
                     data={stateRes}
                     onSelect={selectedItem => {
                       onChange(selectedItem.id);
+                      setClickDrop(true);
                     }}
                     required={true}
                     error={errors && errors.state_id?.message}
@@ -616,7 +620,10 @@ const EditProfile = props => {
                 {Strings.profile.ModalOption1}
               </Text>
               <View
-                style={{borderBottomWidth: 1, borderBottomColor: '#f2f2f2'}}
+                style={{
+                  borderBottomWidth: Value.CONSTANT_VALUE_1,
+                  borderBottomColor: Colors.ModalBorder,
+                }}
               />
             </TouchableOpacity>
             <TouchableOpacity

@@ -81,6 +81,7 @@ const Dropdown = ({
   };
   const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
   const STYLE_CONDITION = value ? STYLE_ONE : STYLE_TWO;
+
   return (
     <View style={[styles.container, containerStyle]}>
       <View style={containerStyle}>

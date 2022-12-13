@@ -9,10 +9,14 @@ import {
   TOGGLE_NOTIFICATION_FAIL,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-import { showAppToast, showAppLoader,hideAppLoader } from '../actions/loader';
+import {showAppToast, hideAppLoader} from '../actions/loader';
 import {HttpStatus} from '../../constants/Constants';
-import {getEditProfileApi, updateEditProfileApi,toggleNotificationApi} from '../../Api';
-import { ValidationMessages } from '../../constants/Strings';
+import {
+  getEditProfileApi,
+  updateEditProfileApi,
+  toggleNotificationApi,
+} from '../../Api';
+import {ValidationMessages} from '../../constants/Strings';
 
 //GetUserGallery
 function* getEditProfile() {
@@ -59,13 +63,15 @@ export function* watchUpdateEditProfile() {
 // Toggle Notification
 function* updateNotification(payload) {
   try {
-    yield put(showAppLoader());
     const result = yield toggleNotificationApi(payload.data);
     yield put(hideAppLoader());
     if (result?.status !== HttpStatus.SUCCESS_REQUEST) {
-      yield put({type: TOGGLE_NOTIFICATION_FAIL, data: !payload.data.notify_status});
+      yield put({
+        type: TOGGLE_NOTIFICATION_FAIL,
+        data: !payload.data.notify_status,
+      });
     } else {
-      yield put(showAppToast(false,result.data.message));
+      yield put(showAppToast(false, result.data.message));
     }
   } catch (err) {
     yield put(hideAppLoader());

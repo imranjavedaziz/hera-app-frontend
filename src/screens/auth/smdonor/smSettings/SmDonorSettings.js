@@ -80,15 +80,13 @@ const SmDonorSettings = () => {
     if (loadingGalleryRef.current && !gallery_loading) {
       dispatch(showAppLoader());
       if (gallery_success) {
-        {
-          if (_.isEmpty(gallery_data?.doner_video_gallery)) {
-            setVideoAviable(true);
-          }
-          if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
-            setVideoAviable(true);
-          } else {
-            setVideoAviable(false);
-          }
+        if (gallery_data?.doner_video_gallery === null) {
+          setVideoAviable(false);
+        }
+        if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
+          setVideoAviable(true);
+        } else {
+          setVideoAviable(false);
         }
         dispatch(hideAppLoader());
       } else {

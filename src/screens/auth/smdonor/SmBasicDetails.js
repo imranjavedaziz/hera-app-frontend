@@ -315,7 +315,6 @@ const SmBasicDetails = () => {
                         required={true}
                         keyboardType="number-pad"
                         maxLength={5}
-                        lineColor={isOpen}
                       />
                     )}
                     name="zipcode"
@@ -363,7 +362,6 @@ const SmBasicDetails = () => {
                         value={value}
                         onChangeText={v => onChange(v)}
                         error={errors && errors.occupation?.message}
-                        lineColor={isOpen}
                       />
                     )}
                     name="occupation"
@@ -412,6 +410,7 @@ const SmBasicDetails = () => {
             style={globalStyle.formBtn}
             onPress={() => {
               navigation.navigate('Support');
+              setOpen(false);
             }}>
             <Text style={globalStyle.formText}>
               {Strings.smSetting.Inquiry}

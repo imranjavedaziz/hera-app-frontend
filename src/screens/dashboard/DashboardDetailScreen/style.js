@@ -186,7 +186,12 @@ export default {
     fontFamily: Fonts.OpenSansLightItalic,
     fontSize: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
-    marginLeft: 7,
+    marginLeft: Value.CONSTANT_VALUE_7,
   },
   dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
+  videoContainer: {
+    height: Value.CONSTANT_VALUE_200,
+    backgroundColor: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_15,
+  },
 };

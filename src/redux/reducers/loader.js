@@ -1,4 +1,4 @@
-import { SHOW_LOADER, HIDE_LOADER, SHOW_TOAST, HIDE_TOAST } from "../constants";
+import {SHOW_LOADER, HIDE_LOADER, SHOW_TOAST, HIDE_TOAST} from '../constants';
 
 const initState = {
   loading: false,
@@ -6,9 +6,11 @@ const initState = {
   showToast: false,
   isErrToast: true,
   toastText: '',
+  push: false,
+  pushRes: '',
 };
 
-export default (state = initState, { type = '', payload = null } = {}) => {
+export default (state = initState, {type = '', payload = null} = {}) => {
   switch (type) {
     case SHOW_LOADER:
       return {
@@ -27,6 +29,8 @@ export default (state = initState, { type = '', payload = null } = {}) => {
         showToast: true,
         isErrToast: payload.isErrToast,
         toastText: payload.text,
+        pushRes: payload.pushRes,
+        push: payload.push,
       };
     case HIDE_TOAST:
       return {

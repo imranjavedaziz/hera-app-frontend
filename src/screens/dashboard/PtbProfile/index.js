@@ -176,7 +176,7 @@ const PtbProfile = () => {
     dispatch(logOut());
   };
   const videoAvaible = () => {
-    if (_.isEmpty(gallery_data?.doner_video_gallery)) {
+    if (gallery_data?.doner_video_gallery === null) {
       setVideoAviable(true);
     } else {
       setVideoAviable(false);

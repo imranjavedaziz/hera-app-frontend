@@ -46,7 +46,7 @@ const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const LoadingRef = useRef(false);
-  const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
+  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
@@ -71,7 +71,6 @@ const SmDashboard = ({route}) => {
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
-
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
