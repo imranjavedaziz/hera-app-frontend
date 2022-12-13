@@ -20,7 +20,6 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: dynamicSize(50),
     paddingVertical: Value.CONSTANT_VALUE_12,
     marginTop: Value.CONSTANT_VALUE_10,
   },
@@ -28,7 +27,6 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: dynamicSize(10),
     bottom: px(25),
   },
   androidInnerContainer: {
@@ -36,7 +34,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    bottom: px(30),
+    bottom: px(45),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -49,11 +47,13 @@ export default {
   mainImageContainer: {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    bottom: Value.CONSTANT_VALUE_30,
+    bottom: Value.CONSTANT_VALUE_40,
+    marginLeft: 10,
+    marginRight: 10,
   },
   ImageSize: {
-    height: dynamicSize(450),
-    width: dynamicSize(320),
+    height: px(450),
+    width: px(310),
   },
   emptyCardContainer: {
     marginTop: Value.CONSTANT_VALUE_263,

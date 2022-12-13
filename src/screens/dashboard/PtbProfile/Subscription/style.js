@@ -21,7 +21,6 @@ export default {
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_25,
-    marginTop: Value.CONSTANT_VALUE_20,
   },
 
   headerText: {
@@ -43,16 +42,17 @@ export default {
     color: Colors.COLOR_535858,
   },
   textView: {
-    width: scaleWidth(Value.CONSTANT_VALUE_332),
+    width: scaleWidth(Value.CONSTANT_VALUE_300),
     marginBottom: Value.CONSTANT_VALUE_50,
   },
   payButton: {
-    marginTop: dynamicSize(36),
+    marginTop: dynamicSize(26),
     marginBottom: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.COLOR_163198196,
     textAlign: Alignment.CENTER,
-    width: dynamicSize(236),
-    height: dynamicSize(80),
+    alignItems: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_236,
+    height: Value.CONSTANT_VALUE_80,
     borderRadius: dynamicSize(40),
     paddingHorizontal: 0,
     paddingVertical: 0,
@@ -68,6 +68,6 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_5,
   },
   commitment: {
-    marginTop: Value.CONSTANT_VALUE_10,
+    bottom: Value.CONSTANT_VALUE_10,
   },
 };

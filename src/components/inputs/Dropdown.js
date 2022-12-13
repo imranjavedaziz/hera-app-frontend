@@ -27,6 +27,7 @@ const Dropdown = ({
   defaultValue,
   heighter,
   weight,
+  lineColor = false,
   education,
   first = false,
   containerStyleDrop,
@@ -80,8 +81,6 @@ const Dropdown = ({
   };
   const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
   const STYLE_CONDITION = value ? STYLE_ONE : STYLE_TWO;
-  const styleDrop = isFocused ? Colors.SKY_BLUE : Colors.INPUT_BORDER;
-  const errorMsg = error ? Colors.RED : styleDrop;
 
   return (
     <View>
@@ -190,7 +189,11 @@ const Dropdown = ({
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
-                borderColor: errorMsg,
+                borderColor: error
+                  ? Colors.RED
+                  : lineColor
+                  ? Colors.LIGHT_BLACK47
+                  : Colors.INPUT_BORDER,
               }}
               buttonTextStyle={{
                 ...styles.buttonTextStyle,

@@ -220,6 +220,7 @@ const SmBasicDetails = () => {
     marginTop: 44,
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
+  const StyleDrop = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <StatusBar
@@ -228,7 +229,8 @@ const SmBasicDetails = () => {
         animated={true}
         hidden={false}
       />
-      <View style={styles.flex_1}>
+      <View
+        style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -286,7 +288,7 @@ const SmBasicDetails = () => {
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({field: {onChange, value}}) => (
                       <Dropdown
                         // containerStyle={Style}
                         label={Strings.sm_basic.SexualOrientation}
@@ -295,10 +297,11 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        error={errors && errors.sexual_orientations_id?.message}
+                        error={errors && errors.state_id?.message}
+                        lineColor={isOpen}
                       />
                     )}
-                    name="sexual_orientations_id"
+                    name="state_id"
                   />
                   <Controller
                     control={control}
@@ -311,14 +314,15 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        error={errors && errors.relationship_status_id?.message}
+                        keyboardType="number-pad"
+                        maxLength={5}
                       />
                     )}
-                    name="relationship_status_id"
+                    name="zipcode"
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange, value}}) => (
+                    render={({field: {onChange}}) => (
                       <Dropdown
                         // containerStyle={Style}
                         label={Strings.sm_basic.State}
@@ -327,10 +331,11 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        error={errors && errors.state_id?.message}
+                        lineColor={isOpen}
+                        error={errors && errors.sexual_orientations_id?.message}
                       />
                     )}
-                    name="state_id"
+                    name="sexual_orientations_id"
                   />
                   <Controller
                     control={control}
@@ -342,11 +347,11 @@ const SmBasicDetails = () => {
                         onChangeText={v => onChange(v)}
                         error={errors && errors.zipcode?.message}
                         required={true}
-                        keyboardType="number-pad"
-                        maxLength={5}
+                        lineColor={isOpen}
+                        error={errors && errors.relationship_status_id?.message}
                       />
                     )}
-                    name="zipcode"
+                    name="relationship_status_id"
                   />
                   <Controller
                     control={control}
@@ -369,6 +374,7 @@ const SmBasicDetails = () => {
                         required={true}
                         value={value}
                         maxLength={250}
+                        lineColor={isOpen}
                         onChangeText={v => {
                           onChange(v);
                         }}

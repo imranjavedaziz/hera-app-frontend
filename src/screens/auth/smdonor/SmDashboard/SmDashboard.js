@@ -59,13 +59,13 @@ const SmDashboard = ({route}) => {
     get_donor_dashboard_error_msg,
     get_donor_dashboard_res,
   } = useSelector(state => state.DonorDashBoard);
-  const loaderState = useSelector(state => state.loader);
   const [loadMore, setLoadMore] = useState(false);
   const {fcmToken} = useContext(NotificationContext);
   const [msgRead, setMsgRead] = useState(false);
   const chats = useSelector(state => state.Chat.chats);
   const chatData = chatHistory();
   const [isFocused, setFocused] = useState(false);
+  const [statusRes, setStatusRes] = useState([]);
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
   const fetchData = useCallback(() => {
@@ -206,6 +206,7 @@ const SmDashboard = ({route}) => {
         dispatch(showAppLoader());
         if (get_donor_dashboard_success) {
           dispatch(hideAppLoader());
+          setStatusRes(get_donor_dashboard_res?.status);
           const {current_page, last_page, data} = get_donor_dashboard_res.data;
           if (current_page > 1) {
             data.length > 0 && setLoadMore(false);
@@ -229,7 +230,7 @@ const SmDashboard = ({route}) => {
       get_donor_dashboard_error_msg,
     ]),
   );
-
+  console.log('get_donor_dashboard_res', get_donor_dashboard_res?.status);
   const onSearch = value => {
     if (value === '' && value.length < 3) {
       setSearch('');
@@ -316,8 +317,22 @@ const SmDashboard = ({route}) => {
     />
   );
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    setPage(1);
+  };
+
   const renderEmptyCell = () => {
-    if (!loaderState.loading) {
+    if (statusRes === 3) {
+      return (
+        <View style={styles.emptyCardContainer}>
+          <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+          <Text style={styles.innerText}>{Strings.dashboard.SecondPara1}</Text>
+          <Text style={styles.innerText2}>{Strings.dashboard.secondPara2}</Text>
+        </View>
+      );
+    }
+    if (statusRes === 2) {
       return (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>{Strings.dashboard.noResult}</Text>

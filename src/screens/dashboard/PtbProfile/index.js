@@ -1,11 +1,19 @@
-import {View, Text, TouchableOpacity, Platform, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  ScrollView,
+  Modal,
+  Alert,
+} from 'react-native';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import styles from './style';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
-import Strings from '../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Subscribe, {
   Subscribed,
 } from '../../../components/dashboard/PtbProfile/subscribe';
@@ -44,7 +52,7 @@ const PtbProfile = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [avaiableVideo, setVideoAviable] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   const GetLoadingRef = useRef(false);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
@@ -140,7 +148,7 @@ const PtbProfile = () => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
-        dispatch(empty())
+        dispatch(empty());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
       } else {
@@ -173,6 +181,22 @@ const PtbProfile = () => {
     } else {
       setVideoAviable(false);
     }
+  };
+
+  const iosAlert = () => {
+    Alert.alert(ValidationMessages.LOG_OUT, ValidationMessages.LOGOUT_TEXT, [
+      {
+        text: Strings.smSetting.Yes_Logout,
+        onPress: () => {
+          logoutScreen();
+        },
+      },
+      {
+        text: Strings.profile.ModalOption2,
+        onPress: () => null,
+      },
+    ]);
+    return true;
   };
 
   return (
@@ -269,7 +293,9 @@ const PtbProfile = () => {
             <View style={styles.buttoncontainer}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => logoutScreen()}>
+                onPress={() => {
+                  Platform.OS === 'ios' ? iosAlert() : setShowModal(true);
+                }}>
                 <Text style={styles.buttonText}>{Strings.smSetting.Btn}</Text>
               </TouchableOpacity>
               <Text style={styles.AppVersion}>
@@ -310,6 +336,38 @@ const PtbProfile = () => {
           </BottomSheetComp>
         </ScrollView>
       </View>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}>
+        <View style={[styles.centeredView]}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalHeader}>{Strings.smSetting.Log_Out}</Text>
+            <Text style={styles.modalSubHeader}>
+              {Strings.smSetting.LogoutContent}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+                logoutScreen();
+              }}>
+              <Text style={styles.modalOption1}>
+                {Strings.smSetting.Yes_Logout}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setShowModal(false);
+              }}>
+              <Text style={styles.modalOption2}>
+                {Strings.sm_create_gallery.StayHera}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
