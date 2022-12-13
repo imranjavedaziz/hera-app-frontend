@@ -213,6 +213,7 @@ const SmDonorSettings = () => {
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
+          dispatch(empty());
           logoutScreen();
         },
       },

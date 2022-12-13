@@ -211,6 +211,7 @@ const PtbProfile = () => {
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
+          dispatch(empty());
           logoutScreen();
         },
       },
