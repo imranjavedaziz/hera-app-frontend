@@ -354,6 +354,10 @@ const SetPreference = ({route, navigation}) => {
       )}
     </>
   );
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <Container
@@ -392,24 +396,23 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <View style={{}}>
-                  {preferencesData?.role?.length > 0 &&
-                    preferencesData?.role.map(whom => (
-                      <TouchableOpacity
-                        style={styles.flexRow}
-                        key={whom.id}
-                        activeOpacity={1}
-                        onPress={() => onChange(whom.id)}>
-                        <Image
-                          style={{resizeMode: 'contain'}}
-                          source={
-                            value === whom.id
-                              ? Images.iconRadiosel
-                              : Images.iconRadiounsel
-                          }
-                        />
-                        <Text style={styles.lookingsm}>{whom.name}</Text>
-                      </TouchableOpacity>
-                    ))}
+                  {Strings?.STATIC_ROLE.map(whom => (
+                    <TouchableOpacity
+                      style={styles.flexRow}
+                      key={whom.id}
+                      activeOpacity={1}
+                      onPress={() => onChange(whom.id)}>
+                      <Image
+                        style={{resizeMode: 'contain'}}
+                        source={
+                          value === whom.id
+                            ? Images.iconRadiosel
+                            : Images.iconRadiounsel
+                        }
+                      />
+                      <Text style={styles.lookingsm}>{whom.name}</Text>
+                    </TouchableOpacity>
+                  ))}
                   <Text style={styles.errLooking}>
                     {errors && errors.looking?.message}
                   </Text>
@@ -421,8 +424,8 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown
+                  dropDownStyle={{marginTop: Value.CONSTANT_VALUE_0}}
                   defaultValue={value}
-                  containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
                   label={Strings.preference.Location}
                   data={stateRess}
                   onSelect={(selectedItem, index) => {
@@ -439,6 +442,7 @@ const SetPreference = ({route, navigation}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown
+                  containerStyleDrop={Style}
                   defaultValue={value}
                   label={Strings.preference.Education}
                   data={preferencesData?.education}
@@ -543,7 +547,7 @@ const SetPreference = ({route, navigation}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={{marginTop: 10}}
+                  dropDownStyle={{marginTop: 30}}
                   label={Strings.preference.Race}
                   data={preferencesData?.race}
                   onSelect={(selectedItem, index) => {

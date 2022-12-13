@@ -28,6 +28,9 @@ const Dropdown = ({
   heighter,
   weight,
   education,
+  first = false,
+  containerStyleDrop,
+  dropDownStyle,
   ...dropdownProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -46,6 +49,7 @@ const Dropdown = ({
   useEffect(() => {
     return navigation.addListener('focus', () => {
       setCome(true);
+      setValue('');
     });
   }, [navigation, setValue]);
   const STYLE_ONE = {
@@ -62,18 +66,14 @@ const Dropdown = ({
   };
   const IOSfloated = {
     fontFamily: Fonts.OpenSansRegular,
-    lineHeight: 21,
     letterSpacing: 0,
     color: '#000000',
-    top: Value.CONSTANT_VALUE_8,
+    top: 5,
     fontSize: Value.CONSTANT_VALUE_14,
   };
   const unIosfloated = {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_16,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 21,
     letterSpacing: 0,
     color: Colors.BLACK_0,
     top: 22,
@@ -84,17 +84,22 @@ const Dropdown = ({
   const errorMsg = error ? Colors.RED : styleDrop;
 
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View>
       <View style={containerStyle}>
         {Platform.OS === 'ios' ? (
-          <View style={styles.bottom}>
+          <View
+            style={[
+              value ? styles.bottomMargin : styles.bottom,
+              dropDownStyle,
+            ]}>
             <TouchableOpacity
               onPress={() => {
                 setVisibility(true);
                 setCome(false);
                 setFocused(true);
               }}>
-              <View style={styles.marginBottom}>
+              <View
+                style={value ? styles.marginBottomValue : styles.marginBottom}>
                 <Text
                   style={STYLE_CONDITION_THREE}
                   accessible={true}
@@ -152,7 +157,7 @@ const Dropdown = ({
             />
           </View>
         ) : (
-          <>
+          <View style={styles.container}>
             <Text
               style={STYLE_CONDITION_THREE}
               accessible={true}
@@ -195,7 +200,7 @@ const Dropdown = ({
               renderDropdownIcon={() => <Image source={Images.arrowDown} />}
               {...dropdownProps}
             />
-          </>
+          </View>
         )}
       </View>
       {error && !education && <Text style={styles.errMessage}>{error}</Text>}
