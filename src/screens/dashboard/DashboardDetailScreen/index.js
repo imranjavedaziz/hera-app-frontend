@@ -325,7 +325,6 @@ const DashboardDetailScreen = () => {
                   />
                 )}
               </View>
-
               <View style={global.dynamicMarginBottom(8)}>
                 <ImageBackground
                   imageStyle={styles.backgroundImage}
@@ -385,14 +384,14 @@ const DashboardDetailScreen = () => {
                 .length < 20 ? (
                 <View style={styles.nativeMainContainer}>
                   {smDetailRes?.doner_attribute?.mother_ethnicity && (
-                    <View style={styles.hairColor}>
+                    <View style={styles.motherPlace}>
                       <Text style={global?.tagText}>
                         {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
                       </Text>
                     </View>
                   )}
                   {smDetailRes?.doner_attribute?.hair_colour && (
-                    <View style={styles.motherPlace}>
+                    <View style={styles.hairColor}>
                       <Text style={global?.tagText}>
                         {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
                       </Text>
@@ -421,9 +420,10 @@ const DashboardDetailScreen = () => {
                   </Text>
                   <Video
                     controls={true}
-                    source={{uri: smDetailRes?.doner_video_gallery?.file_url}}
-                    onError={err => console.log(err)}
-                    style={styles.imageDemo2}
+                    source={{
+                      uri: smDetailRes?.doner_video_gallery?.file_url,
+                    }}
+                    style={styles.videoContainer}
                     paused={true}
                   />
                 </View>

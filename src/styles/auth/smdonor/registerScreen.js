@@ -15,6 +15,20 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_15,
     marginTop: Value.CONSTANT_VALUE_60,
   },
+  centeredView: {
+    flex: Value.CONSTANT_VALUE_1,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  modalView: {
+    height: Value.CONSTANT_VALUE_230,
+    width: Value.CONSTANT_VALUE_283,
+    backgroundColor: Colors.WHITE,
+    paddingHorizontal: Value.CONSTANT_VALUE_23,
+    paddingVertical: Value.CONSTANT_VALUE_20,
+    alignItems: Alignment.CENTER,
+  },
   radioContainer: {
     flex: Value.CONSTANT_VALUE_1,
     flexDirection: Alignment.ROW,

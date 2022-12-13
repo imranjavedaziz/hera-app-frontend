@@ -115,7 +115,8 @@ export default {
   },
   btnView: {
     alignItems: Alignment.CENTER,
-    marginBottom: Value.CONSTANT_VALUE_185,
+    marginBottom: 96,
+    marginTop: 46,
   },
   centeredView: {
     flex: Value.CONSTANT_VALUE_1,

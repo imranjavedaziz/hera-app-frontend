@@ -20,7 +20,9 @@ const environment = {
     chat: 'stage',
   },
 };
-export const {bucket, api_url, chat} = environment.qa;
+
+export const {bucket, api_url, chat} = environment.stage;
+
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
 export const PRIVACY_URL = `${WEB_BASE_URL}privacy-policy`;

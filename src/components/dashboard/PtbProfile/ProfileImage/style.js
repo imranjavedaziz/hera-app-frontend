@@ -31,8 +31,8 @@ export default {
     elevation: Value.CONSTANT_VALUE_1,
     shadowRadius: Value.CONSTANT_VALUE_34,
     borderRadius: dynamicSize(100),
-    width: Value.CONSTANT_VALUE_86,
-    height: Value.CONSTANT_VALUE_86,
+    width: Value.CONSTANT_VALUE_95,
+    height: Value.CONSTANT_VALUE_95,
   },
   SmImage: {
     height: Value.CONSTANT_VALUE_86,

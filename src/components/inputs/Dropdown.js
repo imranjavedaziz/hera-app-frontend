@@ -27,8 +27,6 @@ const Dropdown = ({
   defaultValue,
   heighter,
   weight,
-  lineColor = false,
-  education,
   ...dropdownProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -183,11 +181,7 @@ const Dropdown = ({
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
-                borderColor: error
-                  ? Colors.RED
-                  : lineColor
-                  ? Colors.LIGHT_BLACK47
-                  : Colors.INPUT_BORDER,
+                borderColor: error ? Colors.RED : Colors.INPUT_BORDER,
               }}
               buttonTextStyle={{
                 ...styles.buttonTextStyle,
@@ -200,8 +194,7 @@ const Dropdown = ({
           </>
         )}
       </View>
-      {error && !education && <Text style={styles.errMessage}>{error}</Text>}
-      {error && education && <Text style={styles.errMessage_1}>{error}</Text>}
+      {error && <Text style={styles.errMessage}>{error}</Text>}
     </View>
   );
 };

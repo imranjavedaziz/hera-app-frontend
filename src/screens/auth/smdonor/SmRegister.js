@@ -9,6 +9,8 @@ import {
   ImageBackground,
   Pressable,
   ScrollView,
+  Alert,
+  Modal,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
@@ -36,6 +38,7 @@ import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
 import updateRegStep, {
   deviceRegister,
+  ptbRegister,
   updateLocalImg,
 } from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
@@ -44,12 +47,10 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import {ptbRegister} from '../../../redux/actions/Register';
 import {BottomSheetComp} from '../../../components';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import debounce from '../../../utils/debounce';
-
 const validationType = {
   LEN: 'LEN',
   ALPHA_NUM: 'ALPHA_NUM',
@@ -103,6 +104,7 @@ const SmRegister = () => {
   const [check, setCheck] = useState(true);
   const [threeOption, setThreeOption] = useState([]);
   const [datePicked, onDateChange] = useState();
+  const [showModal, setShowModal] = useState(false);
   const {fcmToken, Device_ID} = useContext(NotificationContext);
   let actionSheet = useRef();
   const {
@@ -119,7 +121,6 @@ const SmRegister = () => {
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
-    dispatch(updateLocalImg(image.path));
     setFile(image);
   };
   const {
@@ -139,7 +140,7 @@ const SmRegister = () => {
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
-        dispatch(updateLocalImg(file.path));
+        dispatch(updateLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
@@ -165,10 +166,12 @@ const SmRegister = () => {
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
     if (!userImage) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
     }
     if (check) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.TERMS_CONDITIONS));
       return;
     }
@@ -192,16 +195,37 @@ const SmRegister = () => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
-    dispatch(updateLocalImg(file.path));
+    dispatch(updateLocalImg(userImage));
   };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => navigation.navigate(Routes.Profile, {isRouteData})}
+      onPress={() =>
+        Platform.OS === 'ios' ? backAction() : setShowModal(true)
+      }
       accessibilityLabel="Left arrow Button, Press to go back"
       style={styles.headerIcon}
     />
   );
+  const backAction = () => {
+    Alert.alert(Strings.profile.ModalHeader, Strings.profile.ModalSubheader, [
+      {
+        text: Strings.profile.ModalOption1,
+        onPress: () => {
+          logoutScreen();
+          navigation.navigate(Routes.Landing);
+        },
+      },
+      {
+        text: Strings.profile.ModalOption2,
+        onPress: () => null,
+      },
+    ]);
+    return true;
+  };
+  const logoutScreen = () => {
+    navigation.navigate(Routes.Landing);
+  };
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
@@ -461,7 +485,7 @@ const SmRegister = () => {
                   <Text
                     style={styles.tmcLink1}
                     onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                    {Strings.profile.tmc2}
+                    {Strings.Subscription.TermsServices}
                   </Text>{' '}
                   and{' '}
                   <Text
@@ -491,6 +515,47 @@ const SmRegister = () => {
               <Text style={styles.parentBtn}>Register as Parent To Be</Text>
             </Pressable>
           </View>
+          <Modal
+            transparent={true}
+            visible={showModal}
+            onRequestClose={() => {
+              setShowModal(!showModal);
+            }}>
+            <View style={[styles.centeredView]}>
+              <View style={styles.modalView}>
+                <Text style={globalStyle.modalHeader}>
+                  {Strings.profile.ModalHeader}
+                </Text>
+                <Text style={globalStyle.modalSubHeader}>
+                  {Strings.profile.ModalSubheader}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowModal(false);
+                    logoutScreen();
+                    navigation.navigate(Routes.Landing);
+                  }}>
+                  <Text style={globalStyle.modalOption1}>
+                    {Strings.profile.ModalOption1}
+                  </Text>
+                  <View
+                    style={{
+                      borderBottomWidth: Value.CONSTANT_VALUE_1,
+                      borderBottomColor: Colors.ModalBorder,
+                    }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowModal(false);
+                  }}>
+                  <Text style={globalStyle.modalOption2}>
+                    {Strings.profile.ModalOption2}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </ScrollView>
       </View>
       <ActionSheet

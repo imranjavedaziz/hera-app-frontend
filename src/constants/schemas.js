@@ -263,7 +263,13 @@ export const inqueryFormSchema = yup.object().shape({
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_EMAIL,
     }),
-  phone_no: yup.number().required(ValidationMessages.MOBILE_NUMBER),
+  phone_no: yup
+    .string()
+    .required(ValidationMessages.MOBILE_REQUIRED)
+    .matches(Regx.MOBILE_REGEX, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    }),
   message: yup.string().required(ValidationMessages.ENTER_Message),
 });
 
