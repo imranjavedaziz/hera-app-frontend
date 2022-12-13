@@ -27,6 +27,7 @@ const Dropdown = ({
   defaultValue,
   heighter,
   weight,
+  lineColor = false,
   education,
   ...dropdownProps
 }) => {
@@ -182,7 +183,11 @@ const Dropdown = ({
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
-                borderColor: error ? Colors.RED : Colors.INPUT_BORDER,
+                borderColor: error
+                  ? Colors.RED
+                  : lineColor
+                  ? Colors.LIGHT_BLACK47
+                  : Colors.INPUT_BORDER,
               }}
               buttonTextStyle={{
                 ...styles.buttonTextStyle,

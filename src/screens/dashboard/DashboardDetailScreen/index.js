@@ -152,9 +152,9 @@ const DashboardDetailScreen = () => {
           width: width,
           zIndex: 99999,
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}>
-          <Image style={styles.iconImage} source={IMG_CONDI} />
+        <Image style={styles.iconImage} source={IMG_CONDI} />
       </Animated.View>
     );
   };
