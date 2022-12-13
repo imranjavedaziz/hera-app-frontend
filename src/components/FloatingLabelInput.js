@@ -67,7 +67,6 @@ const styles = {
     fontSize: 16,
     letterSpacing: 0,
     color: '#353a3a',
-    top: 2,
     minHeight: 40,
   },
   verifiedEmail: {
@@ -101,7 +100,6 @@ const FloatingLabelInput = props => {
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
-  console.log(isFocused, 'isFocused');
   return (
     <View
       style={[

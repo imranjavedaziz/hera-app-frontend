@@ -15,6 +15,7 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: 'center',
     marginTop: 72,
+    marginBottom: 30,
   },
   leftIcon: {
     marginLeft: Value.CONSTANT_VALUE_30,

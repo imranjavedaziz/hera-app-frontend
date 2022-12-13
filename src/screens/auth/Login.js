@@ -155,22 +155,6 @@ const Login = props => {
                   name="phone"
                 />
               </View>
-              {/* <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <FloatingLabelInput
-                    label={Strings.login.MobileNumber}
-                    value={phone}
-                    onChangeText={v => {
-                      handelChange(v);
-                    }}
-                    keyboardType="number-pad"
-                    maxLength={14}
-                    error={errors && errors.phone?.message}
-                  />
-                )}
-                name="phone"
-              /> */}
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (

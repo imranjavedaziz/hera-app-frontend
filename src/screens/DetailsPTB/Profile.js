@@ -194,10 +194,12 @@ const Profile = props => {
   const onSubmit = data => {
     dispatch(showAppLoader());
     if (!userImage) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
     }
     if (check) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
       return;
     }
@@ -468,7 +470,7 @@ const Profile = props => {
                       <Text
                         style={styles.tmcLink1}
                         onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        {Strings.profile.tmc2}
+                        {Strings.Subscription.TermsServices}
                       </Text>{' '}
                       and{' '}
                       <Text
@@ -567,6 +569,12 @@ const Profile = props => {
                       <Text style={globalStyle.modalOption1}>
                         {Strings.profile.ModalOption1}
                       </Text>
+                      <View
+                        style={{
+                          borderBottomWidth: Value.CONSTANT_VALUE_1,
+                          borderBottomColor: Colors.ModalBorder,
+                        }}
+                      />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {

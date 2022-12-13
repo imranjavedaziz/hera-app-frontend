@@ -44,6 +44,7 @@ import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import normalizeInput from '../../../utils/normalizeInput';
+import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -59,6 +60,7 @@ const EditProfile = props => {
   const [showModal, setShowModal] = useState(false);
   const [phone, setPhone] = useState('');
   const [datePicked, onDateChange] = useState();
+  const [clipdrop, setClickDrop] = useState(false);
   useFocusEffect(
     useCallback(() => {
       dispatch(getStates());
@@ -101,6 +103,7 @@ const EditProfile = props => {
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
+  console.log(control,'controlprops')
   useEffect(() => {
     if (loadingRef.current && !send_verification_loading) {
       dispatch(showAppLoader());
@@ -206,9 +209,7 @@ const EditProfile = props => {
         {
           text: Strings.profile.ModalOption1,
           onPress: () => {
-            props.route?.params?.smProfile
-              ? navigation.navigate(Routes.SmSetting)
-              : navigation.navigate(Routes.PtbProfile);
+            navCondition();
           },
         },
         {
@@ -314,6 +315,10 @@ const EditProfile = props => {
   const onPressVerify = () => {
     dispatch(sendVerificationMail());
   };
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -369,6 +374,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    clipdrop={clipdrop}
                     label={Strings.profile.LastName}
                     value={value}
                     maxLength={30}
@@ -415,7 +421,6 @@ const EditProfile = props => {
                 )}
                 name="phone"
               />
-
               <Text style={styles.label}>
                 Gender
                 <Text style={[{color: Colors.RED}]}>*</Text>
@@ -472,11 +477,15 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <Dropdown
+                    containerStyleDrop={
+                      Platform.OS === 'ios' && {marginTop: 10, marginBottom: 10}
+                    }
                     defaultValue={value}
                     label={Strings.sm_basic.State}
                     data={stateRes}
                     onSelect={selectedItem => {
                       onChange(selectedItem.id);
+                      setClickDrop(true);
                     }}
                     required={true}
                     error={errors && errors.state_id?.message}
@@ -488,6 +497,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    containerStyle={Style}
                     label={Strings.sm_basic.Zip}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -515,6 +525,9 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <Dropdown
+                    containerStyleDrop={
+                      Platform.OS === 'ios' && {marginTop: 10}
+                    }
                     defaultValue={value}
                     label={Strings.sm_basic.RelationshipStatus}
                     data={profileRes?.relationship_status}
@@ -531,6 +544,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <Dropdown
+                    containerStyleDrop={Style}
                     defaultValue={value}
                     label={Strings.sm_basic.SexualOrientation}
                     data={profileRes?.sexual_orientation}
@@ -570,6 +584,12 @@ const EditProfile = props => {
                   onPress={handleSubmit(onSubmit)}
                 />
               </View>
+              {/* <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View> */}
             </View>
             <DateTimePickerModal
               value={date}
@@ -616,7 +636,10 @@ const EditProfile = props => {
                 {Strings.profile.ModalOption1}
               </Text>
               <View
-                style={{borderBottomWidth: 1, borderBottomColor: '#f2f2f2'}}
+                style={{
+                  borderBottomWidth: Value.CONSTANT_VALUE_1,
+                  borderBottomColor: Colors.ModalBorder,
+                }}
               />
             </TouchableOpacity>
             <TouchableOpacity
