@@ -34,6 +34,7 @@ import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
+import {Alignment} from '../../../constants';
 
 const images = [];
 const DashboardDetailScreen = () => {
@@ -214,17 +215,66 @@ const DashboardDetailScreen = () => {
           {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
         </Text>
       )}
-      {smDetailRes?.doner_attribute?.hair_colour && (
-        <Text
-          style={[
-            global?.tagText,
-            {
-              backgroundColor: Colors.RGBA_229_172_177,
-              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-            },
-          ]}>
-          {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-        </Text>
+      {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`
+        .length < 20 ? (
+        <View style={styles.nativeMainContainer}>
+          {smDetailRes?.doner_attribute?.hair_colour && (
+            <Text
+              style={[
+                global?.tagText,
+                {
+                  backgroundColor: Colors.RGBA_229_172_177,
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                },
+              ]}>
+              {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+            </Text>
+          )}
+          {smDetailRes?.doner_attribute?.eye_colour && (
+            <View
+              style={[styles.nativeLong, {marginLeft: Value.CONSTANT_VALUE_8}]}>
+              <Text
+                style={[
+                  global?.tagText,
+                  {
+                    backgroundColor: Colors.RGBA_229_172_177,
+                    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                  },
+                ]}>
+                {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
+              </Text>
+            </View>
+          )}
+        </View>
+      ) : (
+        <>
+          {smDetailRes?.doner_attribute?.hair_colour && (
+            <Text
+              style={[
+                global?.tagText,
+                {
+                  backgroundColor: Colors.RGBA_229_172_177,
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                },
+              ]}>
+              {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+            </Text>
+          )}
+          {smDetailRes?.doner_attribute?.eye_colour && (
+            <View style={styles.nativeLong}>
+              <Text
+                style={[
+                  global?.tagText,
+                  {
+                    backgroundColor: Colors.RGBA_229_172_177,
+                    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                  },
+                ]}>
+                {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
+              </Text>
+            </View>
+          )}
+        </>
       )}
     </View>
   );
@@ -352,20 +402,7 @@ const DashboardDetailScreen = () => {
               ) : (
                 VIEW_PASS
               )}
-              {smDetailRes?.doner_attribute?.eye_colour && (
-                <View style={styles.nativeLong}>
-                  <Text
-                    style={[
-                      global?.tagText,
-                      {
-                        backgroundColor: Colors.RGBA_229_172_177,
-                        marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-                      },
-                    ]}>
-                    {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
-                  </Text>
-                </View>
-              )}
+
               {smDetailRes?.doner_photo_gallery?.length > 0 && (
                 <View style={styles.imageMainContainer}>
                   <FlatList
@@ -457,6 +494,12 @@ const DashboardDetailScreen = () => {
           imageIndex={imgPreviewindex}
           visible={visible}
           onRequestClose={() => setIsVisible(false)}
+          isPinchZoomEnabled={false}
+          isTapZoomEnabled={true}
+          style={{
+            alignItems: Alignment.CENTER,
+            justifyContent: Alignment.CENTER,
+          }}
         />
       </View>
     </>

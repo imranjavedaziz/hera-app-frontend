@@ -198,7 +198,6 @@ const PtbProfile = () => {
     ]);
     return true;
   };
-
   return (
     <>
       <View style={styles.flex}>

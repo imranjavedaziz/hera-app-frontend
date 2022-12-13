@@ -1,14 +1,19 @@
 import {Alignment, Colors} from '../../../../constants';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, normalizeFont, statusHide} from '../../../../utils/responsive';
+import {
+  dynamicSize,
+  normalizeFont,
+  statusHide,
+} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
-    backgroundColor: Colors.BACKGROUND_WHOLE,
+    backgroundColor: Colors.BACKGROUND,
   },
   flex: {
     flex: 1,
+    backgroundColor: Colors.BACKGROUND,
   },
   header: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
@@ -23,6 +28,7 @@ export default {
   headingContainer: {
     alignItems: Alignment.CENTER,
     marginTop: statusHide(Value.CONSTANT_VALUE_105),
+    backgroundColor: Colors.BACKGROUND,
   },
   changePassword: {
     color: Colors.BLACK,
@@ -34,6 +40,7 @@ export default {
   innerHeading: {
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_8,
+    backgroundColor: Colors.BACKGROUND,
   },
   setANew: {
     color: Colors.BLACK,

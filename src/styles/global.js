@@ -123,6 +123,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
     paddingHorizontal: Value.CONSTANT_VALUE_5,
+    color: Colors.BLACK_0,
     lineHeight: 21,
   },
   modal: {

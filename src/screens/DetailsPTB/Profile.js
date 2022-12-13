@@ -198,7 +198,7 @@ const Profile = props => {
       return;
     }
     if (check) {
-      dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
+      dispatch(showAppToast(true, ValidationMessages.TERMS_CONDITIONS));
       return;
     }
     const reqData = new FormData();

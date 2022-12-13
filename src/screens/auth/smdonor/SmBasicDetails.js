@@ -229,8 +229,7 @@ const SmBasicDetails = () => {
         animated={true}
         hidden={false}
       />
-      <View
-        style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
+      <View style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}

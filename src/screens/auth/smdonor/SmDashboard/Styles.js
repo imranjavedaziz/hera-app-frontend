@@ -166,15 +166,15 @@ export default {
     alignItems: Alignment.CENTER,
     flex: Value.CONSTANT_VALUE_1,
   },
-  containrMain:{
+  containrMain: {
     flex: Value.CONSTANT_VALUE_1,
     backgroundColor: Colors.BACKGROUND,
   },
   emptyCardContainer: {
     marginTop: Value.CONSTANT_VALUE_110,
-    alignItems: Alignment.CENTER,
+    alignSelf: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
+    paddingHorizontal: Value.CONSTANT_VALUE_10,
   },
   sryText: {
     textAlign: Alignment.CENTER,

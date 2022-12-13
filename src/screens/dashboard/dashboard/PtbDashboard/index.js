@@ -373,7 +373,7 @@ const PtbDashboard = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  if (subscriptionStatus?.data?.status) {
+                  if (!subscriptionStatus?.data?.status) {
                     setIsVisibleLogo(true);
                     setIslikedLogo('liked');
                     handleOnSwipedRight();
