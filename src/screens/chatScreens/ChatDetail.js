@@ -62,6 +62,9 @@ const ChatDetail = props => {
     console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
+    console.log(parseInt(paramItem?.recieverSubscription),'parseInt(paramItem?.recieverSubscription)2')
+    console.log(user.role_id,'user.role_id3')
+    console.log(paramItem.currentRole,'paramItem.currentRole2')
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
       user.role_id !== 2 &&
@@ -170,6 +173,9 @@ const ChatDetail = props => {
     LoadingRef.current = report_user_loading;
   }, [report_user_success, report_user_loading]);
   const onSend = async (messages = '') => {
+    console.log(parseInt(props.route.params.item.senderSubscription),'props.route.params.item.senderSubscription')
+    console.log(subscriptionStatus?.data?.status,'subscriptionStatus?.data?.status')
+    console.log(parseInt(user?.role_id),'parseInt(user?.role_id)')
     if ((await NetInfo.isConnected.fetch()) !== true) {
       dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
     } else if (
