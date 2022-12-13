@@ -257,7 +257,7 @@ const PtbProfile = () => {
               />
               <PtbAccount
                 leftIcon={Images.file}
-                title={Strings.smSetting.Terms}
+                title={Strings.Subscription.TermsServices}
                 onPress={() => openWebView(TERMS_OF_USE_URL)}
               />
               <PtbAccount

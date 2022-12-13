@@ -127,7 +127,6 @@ export default {
     ModalOption1: 'Yes, Discard',
     ModalOption2: 'Stay on Page',
     tmc1: "By continuing, you agree to HERA's ",
-    tmc2: 'Terms & Conditions',
     tmc3: 'Privacy Policy',
     desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',
     phone_no: 'Phone Number',
@@ -332,7 +331,6 @@ export default {
     Settings: 'Settings',
     Inquiry: 'Support',
     AboutUs: 'About Us',
-    Terms: 'Terms & Conditions',
     Privacy: 'Privacy Policy',
     Btn: 'LOG OUT',
     AppVersion: 'App Version 0.5',
@@ -471,4 +469,15 @@ export default {
     Yes_Report: 'Yes, Report',
     Not_Now: 'Not Now',
   },
+
+  STATIC_GENDER: [
+    {id: 1, name: 'Male'},
+    {id: 2, name: 'Female'},
+    {id: 3, name: 'Other'},
+  ],
+  STATIC_ROLE: [
+    {id: 3, name: 'Surrogate Mother'},
+    {id: 4, name: 'Egg Donor'},
+    {id: 5, name: 'Sperm Donor'},
+  ],
 };
