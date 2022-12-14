@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Modal,
   Alert,
   Platform,
 } from 'react-native';
@@ -20,7 +19,6 @@ import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
-import sty from '../../auth/smdonor/donorGallery/styles';
 import User from '../../../Api/User';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -32,7 +30,7 @@ import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import FastImage from 'react-native-fast-image';
 import RNSDWebImage from 'react-native-sdwebimage';
 import {Value} from '../../../constants/FixedValues';
@@ -462,40 +460,24 @@ const CreateGallery = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        visible={showModal}
-        transparent={true}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[sty.centeredView]}>
-          <View style={sty.modalView}>
-            <Text style={sty.modalHeader}>
-              {Strings.sm_create_gallery.modalTitle}
-            </Text>
-            <Text style={sty.modalSubHeader}>
-              {Strings.sm_create_gallery.modalsubTitle}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                deleteImg(selVideo);
-              }}>
-              <Text style={sty.modalOption1}>
-                {Strings.sm_create_gallery.modalText}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={sty.modalOption2}>
-                {Strings.sm_create_gallery.modalText_2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.sm_create_gallery.modalTitle}
+        String_2={Strings.sm_create_gallery.modalsubTitle}
+        String_3={Strings.sm_create_gallery.modalText}
+        String_4={Strings.sm_create_gallery.modalText_2}
+        onPressNav={() => {
+          setShowModal(false);
+          deleteImg(selVideo);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
+
       <ImageView
         images={images}
         imageIndex={imgPreviewindex}

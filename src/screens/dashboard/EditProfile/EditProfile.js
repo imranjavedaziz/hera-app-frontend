@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Keyboard,
   Image,
-  Modal,
   Alert,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
@@ -15,6 +14,7 @@ import {
   Button,
   FloatingLabelInput,
   Header,
+  ModalMiddle,
   MultiTextInput,
 } from '../../../components';
 import styles from './styles';
@@ -44,7 +44,6 @@ import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import normalizeInput from '../../../utils/normalizeInput';
-import {Value} from '../../../constants/FixedValues';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -103,7 +102,7 @@ const EditProfile = props => {
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
-  console.log(control,'controlprops')
+  console.log(control, 'controlprops');
   useEffect(() => {
     if (loadingRef.current && !send_verification_loading) {
       dispatch(showAppLoader());
@@ -195,7 +194,9 @@ const EditProfile = props => {
     }
     GetLoadingRef.current = get_user_detail_loading;
   }, [get_user_detail_success, get_user_detail_loading]);
-
+  useEffect(()=>{
+    handelChange();
+  },[get_user_detail_res]);
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
@@ -324,7 +325,6 @@ const EditProfile = props => {
       <Header end={true}>{headerComp()}</Header>
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
-        resetScrollToCoords={{x: 0, y: 10}}
         keyboardOpeningTime={0}
         scrollEnabled={true}
         extraHeight={180}
@@ -584,12 +584,6 @@ const EditProfile = props => {
                   onPress={handleSubmit(onSubmit)}
                 />
               </View>
-              {/* <View style={styles.loaderContainer}>
-            <MaterialIndicator
-              color={Colors.COLOR_A3C6C4}
-              size={dynamicSize(25)}
-            />
-          </View> */}
             </View>
             <DateTimePickerModal
               value={date}
@@ -611,48 +605,25 @@ const EditProfile = props => {
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[styles.centeredView]}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>
-              {Strings.EDITPROFILE.DiscardEdit}
-            </Text>
-            <Text style={styles.modalSubHeader}>
-              {Strings.EDITPROFILE.DiscardEditDisc}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                props.route?.params?.smProfile
-                  ? navigation.navigate(Routes.SmSetting)
-                  : navigation.navigate(Routes.PtbProfile);
-              }}>
-              <Text style={styles.modalOption1}>
-                {Strings.profile.ModalOption1}
-              </Text>
-              <View
-                style={{
-                  borderBottomWidth: Value.CONSTANT_VALUE_1,
-                  borderBottomColor: Colors.ModalBorder,
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={styles.modalOption2}>
-                {Strings.profile.ModalOption2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.EDITPROFILE.DiscardEdit}
+        String_2={Strings.EDITPROFILE.DiscardEditDisc}
+        String_3={Strings.profile.ModalOption1}
+        String_4={Strings.profile.ModalOption2}
+        onPressNav={() => {
+          setShowModal(false);
+          props.route?.params?.smProfile
+            ? navigation.navigate(Routes.SmSetting)
+            : navigation.navigate(Routes.PtbProfile);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </View>
   );
 };

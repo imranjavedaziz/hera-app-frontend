@@ -1,5 +1,11 @@
 // SetAttributes
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Text,
   View,
@@ -7,7 +13,6 @@ import {
   Platform,
   ScrollView,
   Alert,
-  Modal,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -35,10 +40,11 @@ import {logOut, updateRegStep} from '../../../redux/actions/Auth';
 import {ABOUT_URL, Routes} from '../../../constants/Constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../components';
-import {Alignment, Colors} from '../../../constants';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
+import {Alignment} from '../../../constants';
 import {dynamicSize, statusHide} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -49,6 +55,7 @@ const SetAttributes = ({route}) => {
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const {Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
@@ -113,11 +120,13 @@ const SetAttributes = ({route}) => {
   const UserLoadingRef = useRef(false);
   const LogoutLoadingRef = useRef(false);
   const SubmitLoadingRef = useRef(false);
-  useEffect(() => {
-    return navigation.addListener('focus', () => {
-      reset();
-    });
-  }, [navigation, reset]);
+  useFocusEffect(
+    useCallback(() => {
+      return navigation.addListener('focus', () => {
+        reset();
+      });
+    }, [navigation, reset]),
+  );
 
   //GET User Attributes
   useEffect(() => {
@@ -326,7 +335,10 @@ const SetAttributes = ({route}) => {
   };
 
   const logOutScreen = () => {
-    dispatch(logOut());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const StyleIOS = {
     marginTop: 30,
@@ -556,46 +568,23 @@ const SetAttributes = ({route}) => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[globalStyle.centeredView]}>
-          <View style={globalStyle.modalView}>
-            <Text style={globalStyle.modalHeader}>
-              {Strings.EDITPROFILE.DiscardEdit}
-            </Text>
-            <Text style={globalStyle.modalSubHeader}>
-              {Strings.EDITPROFILE.DiscardEditDisc}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                navigation.navigate(Routes.SmSetting);
-              }}>
-              <Text style={globalStyle.modalOption1}>
-                {Strings.profile.ModalOption1}
-              </Text>
-              <View
-                style={{
-                  borderBottomWidth: Value.CONSTANT_VALUE_1,
-                  borderBottomColor: Colors.ModalBorder,
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={globalStyle.modalOption2}>
-                {Strings.profile.ModalOption2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.EDITPROFILE.DiscardEdit}
+        String_2={Strings.EDITPROFILE.DiscardEditDisc}
+        String_3={Strings.profile.ModalOption1}
+        String_4={Strings.profile.ModalOption2}
+        onPressNav={() => {
+          setShowModal(false);
+          navigation.navigate(Routes.SmSetting);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 };

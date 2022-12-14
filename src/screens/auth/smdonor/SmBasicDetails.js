@@ -322,8 +322,6 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        keyboardType="number-pad"
-                        maxLength={5}
                       />
                     )}
                     name="relationship_status_id"
@@ -357,6 +355,7 @@ const SmBasicDetails = () => {
                         error={errors && errors.zipcode?.message}
                         required={true}
                         lineColor={isOpen}
+                        keyboardType="number-pad"
                         maxLength={5}
                       />
                     )}

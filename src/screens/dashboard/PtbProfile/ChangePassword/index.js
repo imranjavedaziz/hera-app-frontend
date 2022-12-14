@@ -1,4 +1,13 @@
-import {View, Text, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Header, {CircleBtn} from '../../../../components/Header';
@@ -8,6 +17,7 @@ import {useNavigation, StackActions} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Value} from '../../../../constants/FixedValues';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   validatePassword,
   pwdErrMsg,
@@ -60,7 +70,9 @@ const ChangePassword = ({route}) => {
     control,
     handleSubmit,
     formState: {errors},
+    clearErrors,
   } = useForm({
+    reValidateMode: 'onSubmit',
     resolver: yupResolver(
       type === 1 ? changePasswordSchema : forgetPasswordSchema,
     ),
@@ -102,139 +114,161 @@ const ChangePassword = ({route}) => {
       <Header end={true}>
         <HeaderComp type={type} />
       </Header>
-      <KeyboardAvoidingView behavior={'height'}>
       <ScrollView
         showVerticalIndicatot={false}
         keyboardShouldPersistTaps="handled">
-        <View style={styles.mainContainer}>
-          <View style={styles.headingContainer}>
-            <Text style={styles.changePassword}>
-              {type === 1
-                ? Strings.ChangePassword.CHANGE_PASSWORD
-                : Strings.forgotPassword.forgot}
-            </Text>
-          </View>
-          <View style={styles.innerHeading}>
-            <Text style={styles.setANew}>
-              {type === 1
-                ? Strings.ChangePassword.SET_A
-                : Strings.ChangePassword.SET_B}
-            </Text>
-          </View>
-          <View style={styles.flex}>
-            <View style={styles.innerView}>
-              <View style={styles.fullWidth}>
-                {type === 1 && (
-                  <Controller
-                    control={control}
-                    render={({field: {onChange, value}}) => (
-                      <FloatingLabelInput
-                        label={Strings.ChangePassword.Current_Password}
-                        value={value}
-                        containerStyle={{
-                          marginTop: Value.CONSTANT_VALUE_35,
-                        }}
-                        onChangeText={v => onChange(v)}
-                        required={true}
-                        secureTextEntry={!show}
-                        minLength={8}
-                        error={errors && errors.current_password?.message}
-                        endComponent={() => (
-                          <TouchableOpacity
-                            onPress={() => setShow(!show)}
-                            style={styles.psswrdInput}>
-                            <Image source={show ? Images.eye2 : Images.eye} />
-                          </TouchableOpacity>
+        <KeyboardAwareScrollView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.flex}
+          keyboardShouldPersistTaps="handled">
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.mainContainer}>
+              <View style={styles.headingContainer}>
+                <Text style={styles.changePassword}>
+                  {type === 1
+                    ? Strings.ChangePassword.CHANGE_PASSWORD
+                    : Strings.forgotPassword.forgot}
+                </Text>
+              </View>
+              <View style={styles.innerHeading}>
+                <Text style={styles.setANew}>
+                  {type === 1
+                    ? Strings.ChangePassword.SET_A
+                    : Strings.ChangePassword.SET_B}
+                </Text>
+              </View>
+              <View style={styles.flex}>
+                <View style={styles.innerView}>
+                  <View style={styles.fullWidth}>
+                    {type === 1 && (
+                      <Controller
+                        control={control}
+                        render={({field: {onChange, value}}) => (
+                          <FloatingLabelInput
+                            label={Strings.ChangePassword.Current_Password}
+                            value={value}
+                            containerStyle={{
+                              marginTop: Value.CONSTANT_VALUE_35,
+                            }}
+                            onChangeText={v => {
+                              onChange(v);
+                              clearErrors('current_password');
+                            }}
+                            required={true}
+                            secureTextEntry={!show}
+                            minLength={8}
+                            error={errors && errors.current_password?.message}
+                            endComponent={() => (
+                              <TouchableOpacity
+                                onPress={() => setShow(!show)}
+                                style={styles.psswrdInput}>
+                                <Image
+                                  source={show ? Images.eye2 : Images.eye}
+                                />
+                              </TouchableOpacity>
+                            )}
+                          />
                         )}
+                        name="current_password"
                       />
                     )}
-                    name="current_password"
-                  />
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <View>
-                      <FloatingLabelInput
-                        label={Strings.ChangePassword.Set_New_Password}
-                        value={value}
-                        onChangeText={v => onChange(v)}
-                        required={true}
-                        secureTextEntry={true}
-                        containerStyle={{
-                          marginBottom: Value.CONSTANT_VALUE_10,
-                          marginTop: Value.CONSTANT_VALUE_30,
-                        }}
-                        error={errors && errors.new_password?.message}
-                      />
-                      {pwdErrMsg.map(msg => (
-                        <View style={styles.passwordCheck} key={msg.type}>
-                          <Text
-                            style={{
-                              fontSize: Value.CONSTANT_VALUE_13,
-                              fontFamily: Fonts.OpenSansBold,
-                              color:
-                                validatePassword(value, msg.type) ||
-                                validatePassword(value, msg.type) === null
-                                  ? Colors.GRAY2
-                                  : Colors.RED,
-                            }}>
-                            {msg.msg}
-                          </Text>
-                          {validatePassword(value, msg.type) !== null && (
-                            <Image
-                              style={[
-                                styles.ValidPwd,
-                                {
-                                  tintColor: validatePassword(value, msg.type)
-                                    ? Colors.BLACK
-                                    : Colors.RED,
-                                },
-                              ]}
-                              source={
-                                validatePassword(value, msg.type)
-                                  ? Images.path
-                                  : Images.warning
-                              }
-                            />
-                          )}
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <View>
+                          <FloatingLabelInput
+                            label={Strings.ChangePassword.Set_New_Password}
+                            value={value}
+                            onChangeText={v => {
+                              onChange(v);
+                              clearErrors('new_password');
+                            }}
+                            required={true}
+                            secureTextEntry={true}
+                            containerStyle={{
+                              marginBottom: Value.CONSTANT_VALUE_10,
+                              marginTop: Value.CONSTANT_VALUE_30,
+                            }}
+                            error={errors && errors.new_password?.message}
+                            hideErrorText={
+                              errors?.new_password?.message === 'noError'
+                            }
+                          />
+                          {pwdErrMsg.map(msg => (
+                            <View style={styles.passwordCheck} key={msg.type}>
+                              <Text
+                                style={{
+                                  fontSize: Value.CONSTANT_VALUE_13,
+                                  fontFamily: Fonts.OpenSansBold,
+                                  color:
+                                    validatePassword(value, msg.type) ||
+                                    validatePassword(value, msg.type) === null
+                                      ? Colors.GRAY2
+                                      : Colors.RED,
+                                }}>
+                                {msg.msg}
+                              </Text>
+                              {validatePassword(value, msg.type) !== null && (
+                                <Image
+                                  style={[
+                                    styles.ValidPwd,
+                                    {
+                                      tintColor: validatePassword(
+                                        value,
+                                        msg.type,
+                                      )
+                                        ? Colors.BLACK
+                                        : Colors.RED,
+                                    },
+                                  ]}
+                                  source={
+                                    validatePassword(value, msg.type)
+                                      ? Images.path
+                                      : Images.warning
+                                  }
+                                />
+                              )}
+                            </View>
+                          ))}
                         </View>
-                      ))}
-                    </View>
-                  )}
-                  name="new_password"
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <FloatingLabelInput
-                      label={Strings.ChangePassword.Confirm_Password}
-                      value={value}
-                      required={true}
-                      containerStyle={{
-                        marginTop: Value.CONSTANT_VALUE_29,
-                      }}
-                      onChangeText={v => onChange(v)}
-                      secureTextEntry={true}
-                      minLength={8}
-                      error={errors && errors.confirm_password?.message}
+                      )}
+                      name="new_password"
                     />
-                  )}
-                  name="confirm_password"
+                    <Controller
+                      control={control}
+                      render={({field: {onChange, value}}) => (
+                        <FloatingLabelInput
+                          label={Strings.ChangePassword.Confirm_Password}
+                          value={value}
+                          required={true}
+                          containerStyle={{
+                            marginTop: Value.CONSTANT_VALUE_29,
+                          }}
+                          onChangeText={v => {
+                            onChange(v);
+                            clearErrors('confirm_password');
+                          }}
+                          secureTextEntry={true}
+                          minLength={8}
+                          error={errors && errors.confirm_password?.message}
+                        />
+                      )}
+                      name="confirm_password"
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Button
+                  label={Strings.preference.SaveNewPassword}
+                  style={styles.Btn}
+                  onPress={handleSubmit(onSubmit)}
                 />
               </View>
             </View>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              label={Strings.preference.SaveNewPassword}
-              style={styles.Btn}
-              onPress={handleSubmit(onSubmit)}
-            />
-          </View>
-        </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
       </ScrollView>
-      </KeyboardAvoidingView>
     </View>
   );
 };

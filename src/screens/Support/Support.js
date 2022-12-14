@@ -4,8 +4,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  TouchableOpacity,
-  Modal,
   Platform,
   ScrollView,
 } from 'react-native';
@@ -31,7 +29,7 @@ import {
   showAppToast,
 } from '../../redux/actions/loader';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {InputLabel, MultiTextInput} from '../../components';
+import {InputLabel, ModalMiddle, MultiTextInput} from '../../components';
 import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import moment from 'moment-timezone';
@@ -279,40 +277,23 @@ export default function Support() {
           </TouchableWithoutFeedback>
         </KeyboardAwareScrollView>
       </View>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[styles.centeredView]}>
-          <View style={styles.modalView}>
-            <Text style={styles.modal_Headertext}>
-              {ValidationMessages.DISCARD_INQUIRY}
-            </Text>
-            <Text style={styles.modal_SubHeadertext}>
-              {ValidationMessages.REJECT_DISCARD}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                navigation.goBack();
-              }}>
-              <Text style={styles.modal_text_1}>
-                {Strings.sm_create_gallery.modalText}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={styles.modal_text_2}>
-                {Strings.sm_create_gallery.modalText_2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={ValidationMessages.DISCARD_INQUIRY}
+        String_2={ValidationMessages.REJECT_DISCARD}
+        String_3={Strings.sm_create_gallery.modalText}
+        String_4={Strings.sm_create_gallery.modalText_2}
+        onPressNav={() => {
+          setShowModal(false);
+          navigation.goBack();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 }
