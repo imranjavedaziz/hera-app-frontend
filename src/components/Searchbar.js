@@ -20,7 +20,9 @@ const Searchbar = props => {
   const navigation = useNavigation();
   return (
     <>
-      {props.editing && props.isFocused === false ? null : (
+      {props.clearVisible === false &&
+      props.editing &&
+      props.isFocused === false ? null : (
         <View style={styles.cancelbtn}>
           <TouchableOpacity onPress={props.onClear} style={styles.clearView}>
             <Text style={styles.clearText}>Cancel</Text>

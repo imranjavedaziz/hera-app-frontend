@@ -146,7 +146,7 @@ const Login = props => {
                       maxLength={14}
                       keyboardType="numeric"
                       error={errors && errors.phone?.message}
-                      NumVal={phone}
+                      NumVal={value}
                     />
                   )}
                   name="phone"

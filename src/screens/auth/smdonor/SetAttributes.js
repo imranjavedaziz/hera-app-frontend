@@ -120,11 +120,13 @@ const SetAttributes = ({route}) => {
   const UserLoadingRef = useRef(false);
   const LogoutLoadingRef = useRef(false);
   const SubmitLoadingRef = useRef(false);
-  useEffect(() => {
-    return navigation.addListener('focus', () => {
-      reset();
-    });
-  }, [navigation, reset]);
+  useFocusEffect(
+    useCallback(() => {
+      return navigation.addListener('focus', () => {
+        reset();
+      });
+    }, [navigation, reset]),
+  );
 
   //GET User Attributes
   useEffect(() => {
