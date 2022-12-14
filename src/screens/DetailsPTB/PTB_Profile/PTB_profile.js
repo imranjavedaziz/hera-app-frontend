@@ -128,14 +128,14 @@ const PTB_profile = props => {
 
   const onPressLike = () => {
     const payload = {
-      id: userid,
+      id: props?.route?.params?.id,
       status: 2,
     };
     dispatch(profileMatchResponse(payload));
   };
   const onPressDislike = () => {
     const payload = {
-      id: userid,
+      id: props?.route?.params?.id,
       status: 4,
     };
     dispatch(profileMatchResponse(payload));
