@@ -271,17 +271,13 @@ const PtbProfile = () => {
               {typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
                 Boolean(subscriptionStatus.data?.status) &&
-                !subscriptionStatus.data?.is_trial && <Subscribed />}
-              {((typeof subscriptionStatus === 'object' &&
-                typeof subscriptionStatus.data === 'object' &&
-                subscriptionStatus.data?.is_trial) ||
-                !Boolean(subscriptionStatus.data?.status)) && (
-                <Subscribe
-                  Icon={Images.STAR}
-                  MainText={Strings.subscribe.Subscribe_Now}
-                  InnerText={Strings.subscribe.Plans}
-                />
-              )}
+                !subscriptionStatus.data?.is_trial ? <Subscribed /> : (
+                  <Subscribe
+                    Icon={Images.STAR}
+                    MainText={Strings.subscribe.Subscribe_Now}
+                    InnerText={Strings.subscribe.Plans}
+                  />
+                )}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
