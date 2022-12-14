@@ -36,7 +36,6 @@ axiosRequest.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && originalRequest._retry === false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
-      console.log(tokenRes, 'tokenRes.data');
       store.dispatch(updateToken(tokenRes.data.token));
       // get access token from refresh token and retry
       originalRequest._retry = true;
