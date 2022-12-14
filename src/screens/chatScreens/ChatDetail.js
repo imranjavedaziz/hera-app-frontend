@@ -438,7 +438,7 @@ const ChatDetail = props => {
                             ? props?.route?.params?.item?.recieverName
                             : getRoleData(
                                 parseInt(
-                                  props?.route?.params?.item?.currentRole,
+                                props?.route?.params?.item?.currentRole,
                                 ),
                               )}
                         </Text>
