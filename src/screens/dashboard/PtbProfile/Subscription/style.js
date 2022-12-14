@@ -70,4 +70,15 @@ export default {
   commitment: {
     bottom: Value.CONSTANT_VALUE_10,
   },
+  txting: (font,padd) => ({ color: "#fff", fontSize: 15, letterSpacing: 0, fontFamily: font, paddingLeft: dynamicSize(padd) }),
+  blueContain: {
+    backgroundColor: "rgb(90,188,236)",
+    width: Value.CONSTANT_VALUE_324,
+    height: Value.CONSTANT_VALUE_64,
+    borderRadius: Value.CONSTANT_VALUE_11,
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    marginBottom:Value.CONSTANT_VALUE_30
+  }
 };
