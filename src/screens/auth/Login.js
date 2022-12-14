@@ -52,6 +52,9 @@ const Login = props => {
   });
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
+  const {
+    subscription_status_success
+  } = useSelector(state => state.Subscription);
   useEffect(() => {
     deviceHandler(props.navigation, 'exit');
   }, [props.navigation]);
@@ -66,28 +69,30 @@ const Login = props => {
           device_type: Platform.OS,
         };
         dispatch(deviceRegister(_deviceInfo));
-        dispatch(hideAppLoader());
         dispatch(getSubscriptionStatus());
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: getRoute(
-                log_in_data.access_token,
-                log_in_data.role_id,
-                log_in_data.registration_step,
-              ),
-              params: {payloadData},
-            },
-          ],
-        });
+        if(subscription_status_success){
+          dispatch(hideAppLoader());
+          navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: getRoute(
+                  log_in_data.access_token,
+                  log_in_data.role_id,
+                  log_in_data.registration_step,
+                ),
+                params: {payloadData},
+              },
+            ],
+          });
+        }
       }
       if (log_in_error_msg) {
         dispatch(hideAppLoader());
       }
     }
     loadingRef.current = log_in_loading;
-  }, [log_in_success, log_in_loading]);
+  }, [log_in_success, log_in_loading,subscription_status_success]);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
