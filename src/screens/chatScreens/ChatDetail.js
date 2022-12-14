@@ -61,7 +61,7 @@ const ChatDetail = props => {
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     console.log(
-      parseInt(paramItem?.recieverSubscription),
+      parseInt(paramItem?.recieverSubscription,loading),
       'parseInt(paramItem?.recieverSubscription)2',
     );
     console.log(user.role_id, 'user.role_id3');
