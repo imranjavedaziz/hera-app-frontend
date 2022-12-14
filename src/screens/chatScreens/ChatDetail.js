@@ -57,6 +57,7 @@ const ChatDetail = props => {
     useSelector(state => state.ReportUser);
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     console.log(
@@ -460,7 +461,7 @@ const ChatDetail = props => {
             </View>
           </TouchableOpacity>
           {props?.route?.params?.item?.currentRole !== 1 &&
-            props?.route?.params?.item?.status_id !== 1 && (
+            props?.route?.params?.item?.status_id === 1 && (
               <TouchableOpacity onPress={() => navReport()}>
                 <Image source={Images.iconDarkMore} />
               </TouchableOpacity>

@@ -70,9 +70,7 @@ const VideoUploading = props => {
               {Platform.OS === 'android' &&
                 !props?.isPlaying &&
                 props?.counter === 0 && (
-                  <TouchableOpacity
-                    onPress={props.onPress}
-                    style={{flex: 1, position: 'absolute', width: '100%'}}>
+                  <TouchableOpacity onPress={props.onPress}>
                     <Image source={Images.playButton} style={styles.playIcon} />
                   </TouchableOpacity>
                 )}

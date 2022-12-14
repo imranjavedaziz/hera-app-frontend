@@ -101,6 +101,7 @@ const FloatingLabelInput = props => {
   } = props;
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
+  console.log(isFocused,'isFocused')
   return (
     <View
       style={[
@@ -184,7 +185,7 @@ const FloatingLabelInput = props => {
           />
         )}
         {endComponent && (
-          <TouchableOpacity onPress={handleBlur}>
+          <TouchableOpacity onPress={()=>handleBlur}>
             <View style={styles.endComponent}>{endComponent()}</View>
           </TouchableOpacity>
         )}
