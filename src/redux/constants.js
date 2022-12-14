@@ -15,3 +15,4 @@ export const PTB_DETAIL = 'PTB_DETAIL';
 export const NAVIGATION_ON_LANDING = 'NAVIGATION_ON_LANDING';
 export const USE_LOCAL_IMAGE = 'USE_LOCAL_IMAGE';
 export const USE_NAME = 'USE_NAME';
+export const IMAGE_STORE = 'IMAGE_STORE';

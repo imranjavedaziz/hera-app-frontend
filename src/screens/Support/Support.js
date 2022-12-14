@@ -167,7 +167,6 @@ export default function Support() {
       <View style={Styles.flex}>
         <Header end={true}>{headerComp()}</Header>
         <KeyboardAwareScrollView
-          resetScrollToCoords={{x: 0, y: 10}}
           keyboardOpeningTime={0}
           scrollEnabled={true}
           extraHeight={180}

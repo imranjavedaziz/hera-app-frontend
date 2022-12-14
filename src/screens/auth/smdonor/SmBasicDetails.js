@@ -326,7 +326,6 @@ const SmBasicDetails = () => {
                     )}
                     name="relationship_status_id"
                   />
-
                   <Controller
                     control={control}
                     render={({field: {onChange}}) => (

@@ -123,7 +123,7 @@ const SetAttributes = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       return navigation.addListener('focus', () => {
-        reset();
+        EditAttributes !== true && reset();
       });
     }, [navigation, reset]),
   );
@@ -369,35 +369,6 @@ const SetAttributes = ({route}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown
-                  heightprop={true}
-                  containerStyle={Style}
-                  defaultValue={value}
-                  heighter={true}
-                  label={Strings.sm_set_attributes.Height}
-                  data={attributeData?.height}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.height_id?.message}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    return `${parseInt(selectedItem.name / 12)} ft ${
-                      selectedItem.name % 12
-                    } in`;
-                  }}
-                  rowTextForSelection={(item, index) => {
-                    return `${parseInt(item.name / 12)} ft ${
-                      item.name % 12
-                    } in`;
-                  }}
-                />
-              )}
-              name="height_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
                   defaultValue={value}
                   containerStyle={Style}
                   label={Strings.sm_set_attributes.Race}
@@ -444,6 +415,35 @@ const SetAttributes = ({route}) => {
                 />
               )}
               name="father_ethnicity_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Dropdown
+                  heightprop={true}
+                  containerStyle={Style}
+                  defaultValue={value}
+                  heighter={true}
+                  label={Strings.sm_set_attributes.Height}
+                  data={attributeData?.height}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.height_id?.message}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return `${parseInt(selectedItem.name / 12)} ft ${
+                      selectedItem.name % 12
+                    } in`;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return `${parseInt(item.name / 12)} ft ${
+                      item.name % 12
+                    } in`;
+                  }}
+                />
+              )}
+              name="height_id"
             />
             <Controller
               control={control}

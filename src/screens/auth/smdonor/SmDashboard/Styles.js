@@ -19,6 +19,24 @@ export default {
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
   },
+  clearView: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+  },
+  clearText: {
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: 16,
+    letterSpacing: 0,
+    color: 'rgb(255,69,68)',
+    height: 22,
+  },
+  cancelbtn: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.FLEXEND,
+    marginBottom: Value.CONSTANT_VALUE_25,
+    marginRight: 20
+  },
   profileImg: {
     width: Value.CONSTANT_VALUE_40,
     height: Value.CONSTANT_VALUE_40,

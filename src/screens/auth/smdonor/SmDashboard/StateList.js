@@ -204,6 +204,7 @@ const StateList = props => {
           state={state}
           setState={setState}
           allState={allstate}
+          sm={false}
         />
         <View style={Styles.flexRow}>
           <FlatList

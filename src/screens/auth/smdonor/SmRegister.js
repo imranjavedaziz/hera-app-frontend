@@ -38,7 +38,6 @@ import {Value} from '../../../constants/FixedValues';
 import updateRegStep, {
   deviceRegister,
   ptbRegister,
-  updateLocalImg,
 } from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
@@ -50,6 +49,8 @@ import {BottomSheetComp, ModalMiddle} from '../../../components';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import debounce from '../../../utils/debounce';
+import {saveLocalImg} from '../../../redux/actions/profileImg';
+
 const validationType = {
   LEN: 'LEN',
   ALPHA_NUM: 'ALPHA_NUM',
@@ -120,6 +121,7 @@ const SmRegister = () => {
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
+    dispatch(saveLocalImg(image.path));
     setFile(image);
   };
   const {
@@ -139,7 +141,7 @@ const SmRegister = () => {
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
-        dispatch(updateLocalImg(userImage));
+        dispatch(saveLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
@@ -194,7 +196,7 @@ const SmRegister = () => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
-    dispatch(updateLocalImg(userImage));
+    dispatch(saveLocalImg(userImage));
   };
   const headerComp = () => (
     <CircleBtn
