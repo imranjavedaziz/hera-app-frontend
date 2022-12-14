@@ -59,10 +59,6 @@ const ChatDetail = props => {
   useEffect(() => {
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
-    console.log(
-      parseInt(paramItem?.recieverSubscription),
-      'parseInt(paramItem?.recieverSubscription)2',
-    );
     console.log(user.role_id, 'user.role_id3');
     console.log(paramItem.currentRole, 'paramItem.currentRole2');
     if (
@@ -192,7 +188,7 @@ const ChatDetail = props => {
     ) {
       navigation.navigate(Routes.Subscription);
     } else if (
-      props.route.params.item.status_id !== 1 ||
+      parseInt(props.route.params.item.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
         parseInt(props.route.params.item.recieverSubscription) === 0)
     ) {
@@ -347,7 +343,7 @@ const ChatDetail = props => {
   function getRoleData(roleId, role) {
     switch (true) {
       case roleId === 2:
-        role = 'Parent-To-Be';
+        role = 'Intended Parent';
         break;
       case roleId === 3:
         role = 'Surrogate Mother';
@@ -408,7 +404,8 @@ const ChatDetail = props => {
                       ? Images.ADMIN_ICON
                       : parseInt(
                           props?.route?.params?.item?.recieverSubscription,
-                        ) === 0 || props.route.params.item.status_id !== 1
+                        ) === 0 ||
+                        parseInt(props.route.params.item.status_id) !== 1
                       ? Images.defaultProfile
                       : {uri: props.route.params.item.recieverImage}
                   }
@@ -419,7 +416,7 @@ const ChatDetail = props => {
                 {(parseInt(props?.route?.params?.item?.recieverSubscription) ===
                   0 &&
                   parseInt(props?.route?.params?.item?.currentRole) !== 1) ||
-                props?.route?.params?.item?.status_id !== 1 ? (
+                parseInt(props?.route?.params?.item?.status_id) !== 1 ? (
                   <Text style={styles.titleText}>
                     {Strings.Chat.INACTIVE_USER}
                   </Text>
@@ -439,7 +436,9 @@ const ChatDetail = props => {
                           2
                             ? props?.route?.params?.item?.recieverName
                             : getRoleData(
-                                props?.route?.params?.item?.currentRole,
+                                parseInt(
+                                  props?.route?.params?.item?.currentRole,
+                                ),
                               )}
                         </Text>
                         <Text numberOfLines={1} style={styles.descText}>
@@ -567,7 +566,7 @@ const ChatDetail = props => {
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message =>
-                props.route.params.item.status_id !== 1
+                parseInt(props.route.params.item.status_id) !== 1
                   ? null
                   : renderActions(message)
               }
@@ -577,7 +576,7 @@ const ChatDetail = props => {
               onInputTextChanged={text => setTextData(text)}
               text={textData}
               disableComposer={
-                props.route.params.item.status_id !== 1 ? true : false
+                parseInt(props.route.params.item.status_id) !== 1 ? true : false
               }
               user={{
                 _id: parseInt(props?.route?.params?.item?.senderId),
@@ -599,7 +598,7 @@ const ChatDetail = props => {
               }}
               maxInputLength={1024}
               placeholder={
-                props.route.params.item.status_id !== 1
+                parseInt(props.route.params.item.status_id) !== 1
                   ? Strings.search_Bar.Inactive
                   : Strings.search_Bar.write_message
               }
@@ -657,7 +656,7 @@ const ChatDetail = props => {
                 messages={db?.messages}
                 onSend={messages => onSend(messages)}
                 renderSend={message =>
-                  props.route.params.item.status_id !== 1
+                  parseInt(props.route.params.item.status_id) !== 1
                     ? null
                     : renderActions(message)
                 }
@@ -677,7 +676,9 @@ const ChatDetail = props => {
                 }
                 textInputProps={styles.textInput}
                 disableComposer={
-                  props.route.params.item.status_id !== 1 ? true : false
+                  parseInt(props.route.params.item.status_id) !== 1
+                    ? true
+                    : false
                 }
                 listViewProps={{
                   scrollEventThrottle: 400,

@@ -376,10 +376,11 @@ const SetPreference = ({route, navigation}) => {
   const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <View style={isOpen === true ? globalStyle.modalColor : styles.flex}>
-      <Header end={false}>{headerComp()}</Header>
+      <Header end={EditPreferences === true ? true : false}>
+        {headerComp()}
+      </Header>
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
-        resetScrollToCoords={{x: 0, y: 10}}
         keyboardOpeningTime={0}
         scrollEnabled={true}
         extraHeight={180}

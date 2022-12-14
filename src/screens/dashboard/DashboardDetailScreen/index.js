@@ -35,7 +35,7 @@ import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
 import {Alignment} from '../../../constants';
-
+import _ from 'lodash';
 const images = [];
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -64,6 +64,13 @@ const DashboardDetailScreen = () => {
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
   }, [dispatch, userId]);
+  useFocusEffect(
+    useCallback(() => {
+      return navigation.addListener('focus', () => {
+        images.length = 0;
+      });
+    }, []),
+  );
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_sm_donor_loading) {
@@ -181,7 +188,6 @@ const DashboardDetailScreen = () => {
     setIslikedLogo('disliked');
   };
   const ImageClick = index => {
-    console.log(index, 'index???');
     setImgPreviewIndex(index);
     setIsVisible(true);
   };
@@ -401,7 +407,6 @@ const DashboardDetailScreen = () => {
               ) : (
                 VIEW_PASS
               )}
-
               {smDetailRes?.doner_photo_gallery?.length > 0 && (
                 <View style={styles.imageMainContainer}>
                   <FlatList
@@ -458,7 +463,6 @@ const DashboardDetailScreen = () => {
                       </View>
                     </TouchableOpacity>
                   </View>
-
                   <View style={styles.crossIconContainer}>
                     <TouchableOpacity
                       onPress={onPressDislike}

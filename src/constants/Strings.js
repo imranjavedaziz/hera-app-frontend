@@ -224,7 +224,7 @@ export default {
     Subtitle1: 'To match with a parent,',
     Subtitle2: 'upload photos that speak',
     Subtitle3: 'about you!',
-    maxUpload: 'This step is optional. Maximum 5 photos and 1 video.',
+    maxUpload: 'This step is optional. Maximum 6 photos and 1 video.',
     Btn: 'GO TO DASHBOARD',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",

@@ -125,14 +125,6 @@ const PtbDashboard = props => {
             });
           }
         }
-        if (notification.userInteraction === false) {
-          if (notification.data.notify_type === 'chat') {
-            setMsgRead(true);
-          }
-          if (notification.data.notify_type === 'profile') {
-            setMsgRead(true);
-          }
-        }
         console.log('NOTIFICATION2nd:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
@@ -178,14 +170,6 @@ const PtbDashboard = props => {
             isComingFrom: false,
             chatPush: true,
           });
-        }
-      }
-      if (notification.userInteraction === false) {
-        if (notification.data.notify_type === 'chat') {
-          setMsgRead(true);
-        }
-        if (notification.data.notify_type === 'profile') {
-          setMsgRead(true);
         }
       }
     });
@@ -277,9 +261,7 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 150);
   };
-  console.log('ptbDashboardRes', get_ptb_dashboard_res?.data?.data?.dta);
   function renderCardData(item, index) {
-    console.log('ptbDashboardResitem', item);
     return (
       <>
         <ImageComp
@@ -294,6 +276,9 @@ const PtbDashboard = props => {
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
           onPress={() => {
+            navigation.navigate('DashboardDetailScreen', {
+              userId: item?.user?.id,
+            });
             if (subscriptionStatus?.data?.status) {
               navigation.navigate('DashboardDetailScreen', {
                 userId: item?.user?.id,
@@ -378,7 +363,7 @@ const PtbDashboard = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  if (!subscriptionStatus?.data?.status) {
+                  if (subscriptionStatus?.data?.status) {
                     setIsVisibleLogo(true);
                     setIslikedLogo('liked');
                     handleOnSwipedRight();

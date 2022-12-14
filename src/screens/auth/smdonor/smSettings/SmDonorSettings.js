@@ -90,26 +90,32 @@ const SmDonorSettings = () => {
       dispatch(getUserGallery());
     }, [dispatch]),
   );
-  useEffect(() => {
-    if (loadingGalleryRef.current && !gallery_loading) {
-      dispatch(showAppLoader());
-      if (gallery_success) {
-        if (gallery_data?.doner_video_gallery === null) {
-          setVideoAviable(false);
-        }
-        if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
-          setVideoAviable(true);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingGalleryRef.current && !gallery_loading) {
+        dispatch(showAppLoader());
+        if (gallery_success) {
+          videoAvaible();
+          dispatch(hideAppLoader());
         } else {
-          setVideoAviable(false);
+          dispatch(hideAppLoader());
         }
-        dispatch(hideAppLoader());
-      } else {
-        dispatch(hideAppLoader());
       }
+      loadingGalleryRef.current = gallery_loading;
+    }, [gallery_success, gallery_loading]),
+  );
+  const videoAvaible = () => {
+    if (
+      gallery_data?.doner_video_gallery === null ||
+      gallery_data?.doner_video_gallery === undefined
+    ) {
+      setVideoAviable(true);
+    } else if (_.isEmpty(gallery_data)) {
+      setVideoAviable(true);
+    } else {
+      setVideoAviable(false);
     }
-    loadingGalleryRef.current = gallery_loading;
-  }, [gallery_success, gallery_loading]);
-
+  };
   //GET USER DETAIL
   useFocusEffect(
     useCallback(() => {

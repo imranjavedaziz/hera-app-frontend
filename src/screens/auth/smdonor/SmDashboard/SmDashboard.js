@@ -132,15 +132,6 @@ const SmDashboard = ({route}) => {
               isComingFrom: false,
               chatPush: true,
             });
-            setMsgRead(false);
-          }
-        }
-        if (notification.userInteraction === false) {
-          if (notification.data.notify_type === 'chat') {
-            setMsgRead(true);
-          }
-          if (notification.data.notify_type === 'profile') {
-            setMsgRead(true);
           }
         }
         console.log('NOTIFICATION2nd:', notification);
@@ -185,15 +176,6 @@ const SmDashboard = ({route}) => {
             isComingFrom: false,
             chatPush: true,
           });
-          setMsgRead(false);
-        }
-      }
-      if (notification.userInteraction === false) {
-        if (notification.data.notify_type === 'chat') {
-          setMsgRead(true);
-        }
-        if (notification.data.notify_type === 'profile') {
-          setMsgRead(true);
         }
       }
     });
@@ -230,7 +212,6 @@ const SmDashboard = ({route}) => {
       get_donor_dashboard_error_msg,
     ]),
   );
-  console.log('get_donor_dashboard_res', get_donor_dashboard_res?.status);
   const onSearch = value => {
     if (value === '' && value.length < 3) {
       setSearch('');
@@ -321,7 +302,6 @@ const SmDashboard = ({route}) => {
     setRefreshing(true);
     setPage(1);
   };
-
   const renderEmptyCell = () => {
     if (statusRes === 3) {
       return (

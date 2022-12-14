@@ -35,8 +35,7 @@ axiosRequest.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config;
     console.log(error.response.status, 'error.response.status::::::');
-    console.log(error.response.data, 
-    'error.response.data');
+    console.log(error.response.data, 'error.response.data');
 
     if (error.response.status === 401 && originalRequest._retry === false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
@@ -45,8 +44,6 @@ axiosRequest.interceptors.response.use(
       // get access token from refresh token and retry
       originalRequest._retry = true;
       return axiosRequest(originalRequest);
-    } else if (error.response.status === 0) {
-      store.dispatch(showAppToast(true, 'Seems like there is no internet'));
     } else if (error.response.status === 404 && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
     } else if (
