@@ -460,7 +460,7 @@ const ChatDetail = props => {
             </View>
           </TouchableOpacity>
           {props?.route?.params?.item?.currentRole !== 1 &&
-            props?.route?.params?.item?.status_id !== 1 && (
+            props?.route?.params?.item?.status_id === 1 && (
               <TouchableOpacity onPress={() => navReport()}>
                 <Image source={Images.iconDarkMore} />
               </TouchableOpacity>
