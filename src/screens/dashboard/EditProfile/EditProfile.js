@@ -421,6 +421,30 @@ const EditProfile = props => {
                 )}
                 name="phone"
               />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <FloatingLabelInput
+                    label={Strings.profile.DateOfBirth}
+                    value={value}
+                    onChangeText={v => onChange(v)}
+                    endComponentPress={() => setShow(true)}
+                    error={errors && errors.dob?.message}
+                    required={true}
+                    endComponent={() => (
+                      <TouchableOpacity onPress={() => setShow(true)}>
+                        <Image
+                          source={Images.calendar}
+                          style={styles.calender}
+                        />
+                      </TouchableOpacity>
+                    )}
+                    editable={false}
+                    onPressIn={() => setShow(true)}
+                  />
+                )}
+                name="dob"
+              />
               <Text style={styles.label}>
                 Gender
                 <Text style={[{color: Colors.RED}]}>*</Text>
@@ -452,27 +476,40 @@ const EditProfile = props => {
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
-                  <FloatingLabelInput
-                    label={Strings.profile.DateOfBirth}
-                    value={value}
-                    onChangeText={v => onChange(v)}
-                    endComponentPress={() => setShow(true)}
-                    error={errors && errors.dob?.message}
+                  <Dropdown
+                    containerStyleDrop={
+                      Platform.OS === 'ios' && {marginTop: 10}
+                    }
+                    defaultValue={value}
+                    label={Strings.sm_basic.RelationshipStatus}
+                    data={profileRes?.relationship_status}
+                    onSelect={selectedItem => {
+                      onChange(selectedItem.id);
+                    }}
                     required={true}
-                    endComponent={() => (
-                      <TouchableOpacity onPress={() => setShow(true)}>
-                        <Image
-                          source={Images.calendar}
-                          style={styles.calender}
-                        />
-                      </TouchableOpacity>
-                    )}
-                    editable={false}
-                    onPressIn={() => setShow(true)}
+                    error={errors && errors.relationship_status_id?.message}
                   />
                 )}
-                name="dob"
+                name="relationship_status_id"
               />
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <Dropdown
+                    containerStyleDrop={Style}
+                    defaultValue={value}
+                    label={Strings.sm_basic.SexualOrientation}
+                    data={profileRes?.sexual_orientation}
+                    onSelect={selectedItem => {
+                      onChange(selectedItem.id);
+                    }}
+                    required={true}
+                    error={errors && errors.sexual_orientations_id?.message}
+                  />
+                )}
+                name="sexual_orientations_id"
+              />
+              
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
@@ -521,42 +558,7 @@ const EditProfile = props => {
                 )}
                 name="occupation"
               />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Dropdown
-                    containerStyleDrop={
-                      Platform.OS === 'ios' && {marginTop: 10}
-                    }
-                    defaultValue={value}
-                    label={Strings.sm_basic.RelationshipStatus}
-                    data={profileRes?.relationship_status}
-                    onSelect={selectedItem => {
-                      onChange(selectedItem.id);
-                    }}
-                    required={true}
-                    error={errors && errors.relationship_status_id?.message}
-                  />
-                )}
-                name="relationship_status_id"
-              />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Dropdown
-                    containerStyleDrop={Style}
-                    defaultValue={value}
-                    label={Strings.sm_basic.SexualOrientation}
-                    data={profileRes?.sexual_orientation}
-                    onSelect={selectedItem => {
-                      onChange(selectedItem.id);
-                    }}
-                    required={true}
-                    error={errors && errors.sexual_orientations_id?.message}
-                  />
-                )}
-                name="sexual_orientations_id"
-              />
+              
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (

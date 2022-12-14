@@ -45,6 +45,7 @@ const Dropdown = ({
   useEffect(() => {
     return navigation.addListener('focus', () => {
       setCome(true);
+      defaultValue === undefined && setValue('');
     });
   }, [navigation, setValue]);
   const STYLE_ONE = {

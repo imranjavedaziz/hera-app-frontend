@@ -20,6 +20,7 @@ import DeactivateAccount from './DeactivateAccount';
 import NavigationOnLanding from './NavigationOnLanding';
 import ReportUser from './ReportUser';
 import MessageId from './MessageId';
+import profileImg from './profileImg';
 
 const allReducers = combineReducers({
   Auth,
@@ -43,6 +44,7 @@ const allReducers = combineReducers({
   NavigationOnLanding,
   ReportUser,
   MessageId,
+  profileImg,
 });
 
 export default allReducers;

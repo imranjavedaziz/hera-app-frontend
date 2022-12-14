@@ -2,33 +2,36 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   ScrollView,
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   createSubscription,
   getSubscriptionPlan,
   getSubscriptionStatus,
 } from '../../../../redux/actions/Subsctiption';
-import { hideAppLoader, showAppLoader, showAppToast } from '../../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import { IconHeader } from '../../../../components/Header';
-import { TERMS_OF_USE_URL, PRIVACY_URL } from '../../../../constants/Constants';
+import {IconHeader} from '../../../../components/Header';
+import {TERMS_OF_USE_URL, PRIVACY_URL} from '../../../../constants/Constants';
 import openWebView from '../../../../utils/openWebView';
 
 const Subscription = props => {
@@ -47,7 +50,7 @@ const Subscription = props => {
     subscription_plan_loading,
     subscription_plan_res,
   } = useSelector(state => state.Subscription);
-  const { create_subscription_success, create_subscription_loading } =
+  const {create_subscription_success, create_subscription_loading} =
     useSelector(state => state.Subscription);
 
   React.useEffect(() => {
@@ -67,12 +70,12 @@ const Subscription = props => {
   }, [subscription_plan_success, subscription_plan_loading]);
 
   React.useEffect(() => {
-    console.log("CHECKING CREATE SUB LINE NO 74");
+    console.log('CHECKING CREATE SUB LINE NO 74');
     if (loadingRef.current && !create_subscription_loading) {
-      console.log("CHECKING CREATE SUB LINE NO 75");
+      console.log('CHECKING CREATE SUB LINE NO 75');
       dispatch(showAppLoader());
       if (create_subscription_success) {
-        console.log("CHECKING CREATE SUB LINE NO 77");
+        console.log('CHECKING CREATE SUB LINE NO 77');
         dispatch(getSubscriptionStatus());
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
@@ -107,7 +110,7 @@ const Subscription = props => {
     }
   }, [isCallApi]);
   const purchaseAPI = item => {
-    console.log("CHECKING CREATE SUB LINE NO 141");
+    console.log('CHECKING CREATE SUB LINE NO 141');
     let payload = {
       device_type: Platform.OS === 'android' ? 'android' : 'ios',
       product_id: item?.productId,
@@ -131,27 +134,39 @@ const Subscription = props => {
       if (item === null) {
         dispatch(showAppToast(true, 'Please choose a plan!'));
       } else {
-        console.log('LINE NUMBER IOS 134 item', item, selectCheckBox?.ios_product);
+        console.log(
+          'LINE NUMBER IOS 134 item',
+          item,
+          selectCheckBox?.ios_product,
+        );
         dispatch(showAppLoader());
-        requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
+        requestSubscriptionIOS(
+          selectCheckBox?.ios_product,
+          selectCheckBox,
+          type,
+        );
       }
-    } else if (Platform.OS === "android") {
+    } else if (Platform.OS === 'android') {
       if (item === null) {
         dispatch(showAppToast(true, 'Please choose a plan!'));
       } else {
         dispatch(showAppLoader());
-        console.log('LINE NUMBER ANDROID 143 item', item, selectCheckBox?.ios_product);
-        dispatch(showAppToast(true, 'Please uploaded updated build on Playstore'));
+        console.log(
+          'LINE NUMBER ANDROID 143 item',
+          item,
+          selectCheckBox?.ios_product,
+        );
+        dispatch(
+          showAppToast(true, 'Please uploaded updated build on Playstore'),
+        );
       }
-      ;
     }
   };
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
     try {
-      await RNIap.requestPurchase({ sku })
-        .then(async result => {
-        })
+      await RNIap.requestPurchase({sku})
+        .then(async result => {})
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
         });
@@ -160,7 +175,7 @@ const Subscription = props => {
     }
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
-    RNIap.requestSubscription({ sku })
+    RNIap.requestSubscription({sku})
       .then(async result => {
         console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         const receipt = result.transactionReceipt;
@@ -168,7 +183,7 @@ const Subscription = props => {
           try {
             setPurchaseReceipt(result);
             setCallApi(true);
-            await RNIap.finishTransaction({ result, isConsumable: true });
+            await RNIap.finishTransaction({result, isConsumable: true});
           } catch (ackErr) {
             console.log('ERROR LINE NO 101', ackErr);
           }
@@ -203,7 +218,9 @@ const Subscription = props => {
                 subscriptionPlan?.data?.map((item, index) => (
                   <Commitment
                     key={index}
-                    MainText={`$${item?.price}/${item?.interval === "month" && "mo"}`}
+                    MainText={`$${item?.price}/${
+                      item?.interval === 'month' && 'mo'
+                    }`}
                     Months={item.description}
                     Icon={
                       selectCheckBox?.id === item?.id
@@ -226,21 +243,19 @@ const Subscription = props => {
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>
-                  <Text style={{ color: 'red' }}>*</Text>
+                  <Text style={{color: 'red'}}>*</Text>
                   {Strings.Subscription.BySubs}
-                  <TouchableOpacity
-                    style={{ top: 2 }}
+                  <Text
+                    style={styles.terms}
                     onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                    <Text style={styles.terms}>
-                      {Strings.Subscription.TermsServices}
-                    </Text>
-                  </TouchableOpacity>
+                    {Strings.Subscription.TermsServices}
+                  </Text>
                   {Strings.Subscription.And}
-                  <TouchableOpacity onPress={() => openWebView(PRIVACY_URL)}>
-                    <Text style={styles.terms}>
-                      {Strings.Subscription.PrivacyPolicy}
-                    </Text>
-                  </TouchableOpacity>
+                  <Text
+                    style={styles.terms}
+                    onPress={() => openWebView(PRIVACY_URL)}>
+                    {Strings.Subscription.PrivacyPolicy}
+                  </Text>
                   {Strings.Subscription.SubscribePolicy}
                 </Text>
               </View>

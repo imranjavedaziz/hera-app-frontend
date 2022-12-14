@@ -65,7 +65,7 @@ export default {
   playIcon: {
     position: Alignment.ABSOLUTE,
     alignSelf: Alignment.CENTER,
-    top: 180 / 2,
+    top: 180 / 3,
   },
   videoSel: {
     position: Alignment.ABSOLUTE,

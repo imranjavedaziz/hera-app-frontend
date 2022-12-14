@@ -60,6 +60,7 @@ const PtbProfile = () => {
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [name, setName] = useState('');
+  const loadingGalleryRef = useRef(false);
   const [avaiableVideo, setVideoAviable] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const GetLoadingRef = useRef(false);
@@ -76,7 +77,9 @@ const PtbProfile = () => {
     get_user_detail_loading,
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
-  const {gallery_data} = useSelector(state => state.CreateGallery);
+  const {gallery_success, gallery_loading, gallery_data} = useSelector(
+    state => state.CreateGallery,
+  );
   const {Device_ID} = useContext(NotificationContext);
   useFocusEffect(
     useCallback(() => {
@@ -87,6 +90,20 @@ const PtbProfile = () => {
   const LogoutLoadingRef = useRef(false);
   const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
+  );
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingGalleryRef.current && !gallery_loading) {
+        dispatch(showAppLoader());
+        if (gallery_success) {
+          videoAvaible();
+          dispatch(hideAppLoader());
+        } else {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingGalleryRef.current = gallery_loading;
+    }, [gallery_success, gallery_loading]),
   );
   //GET USER DETAIL
   useFocusEffect(
@@ -99,7 +116,6 @@ const PtbProfile = () => {
             last_name: get_user_detail_res.last_name,
             middle_name: get_user_detail_res.middle_name,
           };
-          videoAvaible();
           dispatch(updateName(data));
           setName(get_user_detail_res);
           dispatch(hideAppLoader());
@@ -363,8 +379,8 @@ const PtbProfile = () => {
         onRequestClose={() => {
           setShowModal(!showModal);
         }}
-        String_1={Strings.smSetting.LogoutContent}
-        String_2={Strings.smSetting.Yes_Logout}
+        String_1={Strings.smSetting.Log_Out}
+        String_2={Strings.smSetting.LogoutContent}
         String_3={Strings.smSetting.Yes_Logout}
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {

@@ -6,6 +6,7 @@ const openCamera = (index, cb) => {
   const options = {
     width: 1000,
     height: 950,
+    cropping: true,
     compressImageQuality: 0.5,
   };
   myAction(options).then(image => {

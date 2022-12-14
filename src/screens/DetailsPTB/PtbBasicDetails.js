@@ -54,7 +54,6 @@ const PtbBasicDetails = ({route}) => {
         headerComp={headerComp}>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
-          resetScrollToCoords={{x: 0, y: 10}}
           keyboardOpeningTime={0}
           scrollEnabled={true}
           extraHeight={180}

@@ -24,6 +24,8 @@ export const ToggleNotification = () => {
   const notification = useSelector(
     state => state.Edit_profile.get_user_detail_res?.notification_setting,
   );
+  const user = useSelector(state => state.Auth.user);
+
   const [switchValue, setSwitchValue] = useState(
     Boolean(notification?.notify_status),
   );
@@ -61,7 +63,9 @@ export const ToggleNotification = () => {
       </View>
       <Text style={[styles.toggle, {marginLeft: 33, marginTop: 5}]}>
         <Text style={{color: 'red'}}>*</Text>
-        {Strings.PTB_Profile.ReceiveNotiDesc}
+        {user?.role_id === 2
+          ? Strings.PTB_Profile.ReceiveNotiDesc
+          : Strings.PTB_Profile.ReceiveNotiDescSM}
       </Text>
     </>
   );
