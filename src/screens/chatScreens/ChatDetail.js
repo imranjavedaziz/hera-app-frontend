@@ -576,7 +576,7 @@ const ChatDetail = props => {
                   : renderActions(message)
               }
               renderBubble={customSystemMessage}
-              scrollToBottom
+              scrollToBottom={true}
               infiniteScroll
               onInputTextChanged={text => setTextData(text)}
               text={textData}
@@ -622,7 +622,7 @@ const ChatDetail = props => {
               onSend={messages => onSend(messages)}
               renderSend={message => renderActions(message)}
               renderBubble={customSystemMessage}
-              scrollToBottom
+              scrollToBottom={true}
               onInputTextChanged={text => setTextData(text)}
               text={textData}
               user={{
@@ -666,7 +666,7 @@ const ChatDetail = props => {
                     : renderActions(message)
                 }
                 renderBubble={customSystemMessage}
-                scrollToBottom
+                scrollToBottom={true}
                 onInputTextChanged={text => setTextData(text)}
                 text={textData}
                 user={{
