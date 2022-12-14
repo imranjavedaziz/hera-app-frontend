@@ -7,7 +7,6 @@ import {
   Platform,
   KeyboardAvoidingView,
   Alert,
-  Modal,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -25,12 +24,11 @@ import {chatFeedback, pushNotification} from '../../redux/actions/Chat';
 import {Routes} from '../../constants/Constants/';
 import EmptySmDonor from '../../components/Chat/EmptySmDonor';
 import moment from 'moment';
-import globalStyle from '../../styles/global';
 import {ReportUser} from '../../redux/actions/ReportUser';
 import NetInfo from '@react-native-community/netinfo';
 import {getMessageID} from '../../redux/actions/MessageId';
-import {Value} from '../../constants/FixedValues';
 import {deviceHandler} from '../../utils/commonFunction';
+import {ModalMiddle} from '../../components';
 
 let fireDB;
 let onChildAdd;
@@ -59,7 +57,6 @@ const ChatDetail = props => {
     useSelector(state => state.ReportUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    // console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     console.log(
@@ -83,7 +80,7 @@ const ChatDetail = props => {
         style={{
           flexDirection: 'row',
           position: 'absolute',
-          top: Platform.OS === 'ios'?5:10,
+          top: Platform.OS === 'ios' ? 5 : 10,
           right: -30,
         }}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
@@ -94,7 +91,7 @@ const ChatDetail = props => {
   };
   useEffect(() => {
     if (subscriptionStatus && subscriptionStatus.data) {
-      console.log(subscriptionStatus?.data,'subscriptionStatus?.data')
+      console.log(subscriptionStatus?.data, 'subscriptionStatus?.data');
       if (!subscriptionStatus?.data.status) {
         dispatch(
           showAppToast(
@@ -590,7 +587,9 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
+              minComposerHeight={
+                textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+              }
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -630,7 +629,9 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
+              minComposerHeight={
+                textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+              }
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -671,7 +672,9 @@ const ChatDetail = props => {
                 }}
                 containerStyle={styles.mainContainerDetail}
                 renderAvatar={null}
-                minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
+                minComposerHeight={
+                  textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+                }
                 textInputProps={styles.textInput}
                 disableComposer={
                   props.route.params.item.status_id !== 1 ? true : false
@@ -693,46 +696,23 @@ const ChatDetail = props => {
             </KeyboardAvoidingView>
           </View>
         )}
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[globalStyle.centeredView]}>
-          <View style={globalStyle.modalView}>
-            <Text style={globalStyle.modalHeader}>
-              {Strings.ReportUser.Report_this_User}
-            </Text>
-            <Text style={globalStyle.modalSubHeader}>
-              {Strings.ReportUser.ReportConfirm}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                toastFunc();
-              }}>
-              <Text style={globalStyle.modalOption1}>
-                {Strings.ReportUser.Yes_Report}
-              </Text>
-              <View
-                style={{
-                  borderBottomWidth: Value.CONSTANT_VALUE_1,
-                  borderBottomColor: Colors.ModalBorder,
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={globalStyle.modalOption2}>
-                {Strings.ReportUser.Not_Now}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.ReportUser.Report_this_User}
+        String_2={Strings.ReportUser.ReportConfirm}
+        String_3={Strings.ReportUser.Yes_Report}
+        String_4={Strings.ReportUser.Not_Now}
+        onPressNav={() => {
+          setShowModal(false);
+          toastFunc();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </View>
   );
 };
