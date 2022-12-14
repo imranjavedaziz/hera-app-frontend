@@ -6,7 +6,6 @@ import {
   ScrollView,
   Platform,
   Alert,
-  Modal,
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -51,7 +50,7 @@ import {
   SavePreference,
   GetPreferenceRes,
 } from '../../../redux/actions/SetPreference';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {getStates} from '../../../redux/actions/Register';
 import openWebView from '../../../utils/openWebView';
 import {useFocusEffect} from '@react-navigation/native';
@@ -747,46 +746,23 @@ const SetPreference = ({route, navigation}) => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[globalStyle.centeredView]}>
-          <View style={globalStyle.modalView}>
-            <Text style={globalStyle.modalHeader}>
-              {Strings.EDITPROFILE.DiscardEdit}
-            </Text>
-            <Text style={globalStyle.modalSubHeader}>
-              {Strings.EDITPROFILE.DiscardEditDisc}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                navigation.navigate(Routes.PtbProfile);
-              }}>
-              <Text style={globalStyle.modalOption1}>
-                {Strings.profile.ModalOption1}
-              </Text>
-              <View
-                style={{
-                  borderBottomWidth: Value.CONSTANT_VALUE_1,
-                  borderBottomColor: Colors.ModalBorder,
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={globalStyle.modalOption2}>
-                {Strings.profile.ModalOption2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.EDITPROFILE.DiscardEdit}
+        String_2={Strings.EDITPROFILE.DiscardEditDisc}
+        String_3={Strings.profile.ModalOption1}
+        String_4={Strings.profile.ModalOption2}
+        onPressNav={() => {
+          setShowModal(false);
+          navigation.navigate(Routes.PtbProfile);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </View>
   );
 };

@@ -5,7 +5,6 @@ import {
   Platform,
   ScrollView,
   SafeAreaView,
-  Modal,
   Alert,
 } from 'react-native';
 import React, {
@@ -35,7 +34,7 @@ import {
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../../components';
 import ProfileImage from '../../../../components/dashboard/PtbProfile/ProfileImage';
 import {Alignment} from '../../../../constants';
 import {getEditProfile} from '../../../../redux/actions/Edit_profile';
@@ -53,6 +52,7 @@ import PtbAccount, {
 } from '../../../../components/dashboard/PtbProfile/PtbAccount';
 import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
+
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -351,38 +351,23 @@ const SmDonorSettings = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[Styles.centeredView]}>
-          <View style={Styles.modalView}>
-            <Text style={Styles.modalHeader}>{Strings.smSetting.Log_Out}</Text>
-            <Text style={Styles.modalSubHeader}>
-              {Strings.smSetting.LogoutContent}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                logoutScreen();
-              }}>
-              <Text style={Styles.modalOption1}>
-                {Strings.smSetting.Yes_Logout}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={Styles.modalOption2}>
-                {Strings.sm_create_gallery.StayHera}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.smSetting.Log_Out}
+        String_2={Strings.smSetting.LogoutContent}
+        String_3={Strings.smSetting.Yes_Logout}
+        String_4={Strings.sm_create_gallery.StayHera}
+        onPressNav={() => {
+          setShowModal(false);
+          logoutScreen();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 };

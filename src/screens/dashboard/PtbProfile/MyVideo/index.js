@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Modal,
   Platform,
   Alert,
 } from 'react-native';
@@ -25,7 +24,7 @@ import {
 import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../../components';
 import {Colors} from '../../../../constants';
 import {statusHide} from '../../../../utils/responsive';
 
@@ -287,40 +286,23 @@ const MyVideo = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[styles.centeredView]}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>
-              {Strings.smSetting.Remove_Video}
-            </Text>
-            <Text style={styles.modalSubHeader}>
-              {Strings.sm_create_gallery.modalsubTitle}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                deleteVideo();
-              }}>
-              <Text style={styles.modalOption1}>
-                {Strings.sm_create_gallery.modalText}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={styles.modalOption2}>
-                {Strings.sm_create_gallery.modalText_2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.smSetting.Remove_Video}
+        String_2={Strings.sm_create_gallery.modalsubTitle}
+        String_3={Strings.sm_create_gallery.modalText}
+        String_4={Strings.sm_create_gallery.modalText_2}
+        onPressNav={() => {
+          setShowModal(false);
+          deleteVideo();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 };

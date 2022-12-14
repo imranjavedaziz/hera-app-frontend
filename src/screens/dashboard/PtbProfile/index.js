@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Platform,
   ScrollView,
-  Modal,
   Alert,
 } from 'react-native';
 import React, {
@@ -41,7 +40,7 @@ import {
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {getEditProfile} from '../../../redux/actions/Edit_profile';
 import {
   hideAppLoader,
@@ -359,38 +358,23 @@ const PtbProfile = () => {
           </BottomSheetComp>
         </ScrollView>
       </View>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[styles.centeredView]}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>{Strings.smSetting.Log_Out}</Text>
-            <Text style={styles.modalSubHeader}>
-              {Strings.smSetting.LogoutContent}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                logoutScreen();
-              }}>
-              <Text style={styles.modalOption1}>
-                {Strings.smSetting.Yes_Logout}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={styles.modalOption2}>
-                {Strings.sm_create_gallery.StayHera}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.smSetting.LogoutContent}
+        String_2={Strings.smSetting.Yes_Logout}
+        String_3={Strings.smSetting.Yes_Logout}
+        String_4={Strings.sm_create_gallery.StayHera}
+        onPressNav={() => {
+          setShowModal(false);
+          logoutScreen();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 };

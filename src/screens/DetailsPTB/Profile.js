@@ -7,7 +7,6 @@ import {
   Image,
   Pressable,
   ImageBackground,
-  Modal,
   Platform,
   Alert,
   ScrollView,
@@ -51,7 +50,7 @@ import openWebView from '../../utils/openWebView';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {deviceHandler} from '../../utils/commonFunction';
-import {BottomSheetComp} from '../../components';
+import {BottomSheetComp, ModalMiddle} from '../../components';
 import {
   deviceRegister,
   updateLocalImg,
@@ -546,47 +545,24 @@ const Profile = props => {
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 positiveButtonLabel="DONE"
               />
-              <Modal
-                transparent={true}
-                visible={showModal}
+              <ModalMiddle
+                showModal={showModal}
                 onRequestClose={() => {
                   setShowModal(!showModal);
-                }}>
-                <View style={[styles.centeredView]}>
-                  <View style={styles.modalView}>
-                    <Text style={globalStyle.modalHeader}>
-                      {Strings.profile.ModalHeader}
-                    </Text>
-                    <Text style={globalStyle.modalSubHeader}>
-                      {Strings.profile.ModalSubheader}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setShowModal(false);
-                        logoutScreen();
-                        navigation.navigate(Routes.Landing);
-                      }}>
-                      <Text style={globalStyle.modalOption1}>
-                        {Strings.profile.ModalOption1}
-                      </Text>
-                      <View
-                        style={{
-                          borderBottomWidth: Value.CONSTANT_VALUE_1,
-                          borderBottomColor: Colors.ModalBorder,
-                        }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setShowModal(false);
-                      }}>
-                      <Text style={globalStyle.modalOption2}>
-                        {Strings.profile.ModalOption2}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </Modal>
+                }}
+                String_1={Strings.profile.ModalHeader}
+                String_2={Strings.profile.ModalSubheader}
+                String_3={Strings.profile.ModalOption1}
+                String_4={Strings.profile.ModalOption2}
+                onPressNav={() => {
+                  setShowModal(false);
+                  logoutScreen();
+                  navigation.navigate(Routes.Landing);
+                }}
+                onPressOff={() => {
+                  setShowModal(false);
+                }}
+              />
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>

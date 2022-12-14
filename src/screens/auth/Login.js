@@ -45,14 +45,11 @@ const Login = props => {
   const {
     handleSubmit,
     control,
-    getValues,
     setValue,
-    reset,
     formState: {errors},
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
-
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
   useEffect(() => {
@@ -111,7 +108,6 @@ const Login = props => {
   };
 
   const handelChange = async value => {
-    reset({phone: '', password: getValues('password')});
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
     for (let i = 0; i < value.length; i++) {
@@ -150,6 +146,7 @@ const Login = props => {
                       maxLength={14}
                       keyboardType="numeric"
                       error={errors && errors.phone?.message}
+                      NumVal={value}
                     />
                   )}
                   name="phone"
