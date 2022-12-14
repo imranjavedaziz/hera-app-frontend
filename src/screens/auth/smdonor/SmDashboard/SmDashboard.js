@@ -393,6 +393,7 @@ const SmDashboard = ({route}) => {
                   handleFocus={handleFocus}
                   handleBlur={handleBlur}
                   isFocused={false}
+                  sm={true}
                 />
               </View>
               <View>

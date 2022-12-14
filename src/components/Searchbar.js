@@ -43,7 +43,9 @@ const Searchbar = props => {
             style={styles.searchBar}
             onChangeText={props.onChangeText}
             value={props.value}
-            placeholder={Strings.search_Bar.search}
+            placeholder={
+              props.sm ? Strings.search_Bar.smSearch : Strings.search_Bar.search
+            }
             placeholderTextColor={Colors.BLACK}
             keyboardType={'web-search'}
             autoCorrect={false}

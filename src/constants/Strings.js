@@ -242,7 +242,7 @@ export default {
     videoFormat: '(AVI, MOV, MP4 format)',
   },
   bottomSheet: {
-    Inquiry_Form: 'Inquiry Form',
+    Inquiry_Form: 'Support',
     About_HERA: 'About HERA',
     Log_Out: 'Log Out',
   },
@@ -271,7 +271,7 @@ export default {
     State: 'USA',
     first_name: 'Meryl',
     second_name: 'Anderson',
-    type: 'Parent to be',
+    type: 'Intended Parent',
     age: '29',
     yrs: ' yrs',
     bio: 'I give priority to health and play wide range of sports. I have a good exposure to different cultures of the world. I value the donations programmes & every parent who need support ',
@@ -286,6 +286,7 @@ export default {
     YouMatched: 'You had matched on',
     ReceiveNotiDesc:
       'You can choose to turn off notifications. However, you will still receive subscription notifications.',
+    ReceiveNotiDescSM: 'You can choose to turn off notifications.',
   },
   donorPofile: {
     Age: 'Age: ',
@@ -316,7 +317,8 @@ export default {
   search_Bar: {
     search: 'Search',
     write_message: 'Write a message',
-    Inactive:'User is Inactive'
+    Inactive: 'User is Inactive',
+    smSearch: 'Search by name',
   },
   smSetting: {
     profile: 'Profile',

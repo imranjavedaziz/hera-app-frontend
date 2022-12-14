@@ -14,7 +14,7 @@ export default {
     width: Value.CONSTANT_VALUE_283,
     backgroundColor: Colors.WHITE,
     paddingHorizontal: Value.CONSTANT_VALUE_23,
-    paddingVertical: Value.CONSTANT_VALUE_20,
+    paddingVertical: Value.CONSTANT_VALUE_30,
     alignItems: Alignment.CENTER,
   },
   modalHeader: {
