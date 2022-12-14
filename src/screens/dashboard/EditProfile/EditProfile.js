@@ -558,7 +558,6 @@ const EditProfile = props => {
                 )}
                 name="occupation"
               />
-              
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
