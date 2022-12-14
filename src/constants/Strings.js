@@ -228,7 +228,8 @@ export default {
     Btn: 'GO TO DASHBOARD',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",
-    modalsubTitleTwo: "If you remove the video, it won't be visible on your profile.",
+    modalsubTitleTwo:
+      "If you remove the video, it won't be visible on your profile.",
     modalText: 'Yes, Remove',
     deleteModal: 'Yes, Delete',
     deactivateModal: 'Yes, Deactivate',
@@ -241,6 +242,8 @@ export default {
     uploadVideo: 'Upload Video',
     videoDuration: 'Add a short 60 sec video',
     videoFormat: '(AVI, MOV, MP4 format)',
+    Item: 'Item Selected',
+    Items: 'Items Selected',
   },
   bottomSheet: {
     Inquiry_Form: 'Support',

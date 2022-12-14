@@ -86,6 +86,7 @@ const PtbDashboard = props => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getPtbDashboard());
+      setCardIndex(0);
     }, [dispatch]),
   );
 
