@@ -394,17 +394,25 @@ const SmDashboard = ({route}) => {
                 </View>
               </>
             ) : null}
+            {search === '' && isFocused === false ? null : (
+              <View style={styles.cancelbtn}>
+                <TouchableOpacity onPress={onClear} style={styles.clearView}>
+                  <Text style={styles.clearText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             <View>
               <View style={styles.search}>
                 <Searchbar
                   value={search}
                   onChangeText={onSearch}
-                  editing={search === ''}
-                  onClear={onClear}
+                  editing={true}
+                  // onClear={onClear}
+                  clearVisible={false}
                   selectedStates={route?.params?.informationDetail}
                   handleFocus={handleFocus}
                   handleBlur={handleBlur}
-                  isFocused={isFocused}
+                  isFocused={false}
                 />
               </View>
               <View>
@@ -427,6 +435,7 @@ const SmDashboard = ({route}) => {
                   ListEmptyComponent={renderEmptyCell}
                   ListFooterComponent={renderFooterCell}
                   refreshing={refreshing}
+                  onRefresh={onRefresh}
                   testID="flat-list"
                 />
               </View>

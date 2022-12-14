@@ -95,6 +95,7 @@ const FloatingLabelInput = props => {
     onPressVerify,
     endComponentPress,
     lineColor = false,
+    hideErrorText = false,
     show,
     ...textInputProps
   } = props;
@@ -189,7 +190,9 @@ const FloatingLabelInput = props => {
           </TouchableOpacity>
         )}
       </View>
-      {error && <Text style={styles.errMessage}>{error}</Text>}
+      {!hideErrorText && error && (
+        <Text style={styles.errMessage}>{error}</Text>
+      )}
     </View>
   );
 };

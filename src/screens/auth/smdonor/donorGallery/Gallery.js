@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Modal,
   Alert,
   Platform,
 } from 'react-native';
@@ -33,7 +32,7 @@ import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
-import {BottomSheetComp} from '../../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../../components';
 import {statusHide} from '../../../../utils/responsive';
 import ImageLoading from '../../../../components/ImageLoading';
 
@@ -435,40 +434,23 @@ const Gallery = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[style.centeredView]}>
-          <View style={style.modalView}>
-            <Text style={style.modalHeader}>
-              {Strings.sm_create_gallery.modalTitle}
-            </Text>
-            <Text style={style.modalSubHeader}>
-              {Strings.sm_create_gallery.modalsubTitle}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                deleteImg(selVideo);
-              }}>
-              <Text style={style.modalOption1}>
-                {Strings.sm_create_gallery.modalText}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={style.modalOption2}>
-                {Strings.sm_create_gallery.modalText_2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.sm_create_gallery.modalTitle}
+        String_2={Strings.sm_create_gallery.modalsubTitle}
+        String_3={Strings.sm_create_gallery.modalText}
+        String_4={Strings.sm_create_gallery.modalText_2}
+        onPressNav={() => {
+          setShowModal(false);
+          deleteImg(selVideo);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
       <ImageView
         images={images}
         imageIndex={imgPreviewindex}

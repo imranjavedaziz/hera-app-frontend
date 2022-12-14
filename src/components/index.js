@@ -6,6 +6,7 @@ import FloatingLabelInput from './FloatingLabelInput';
 import Header from './Header';
 import InputLabel from './Inputlabels/InputLabel';
 import Loader from './Loader';
+import ModalMiddle from './ModalMiddle';
 import MultiTextInput from './MultiTextInput/MultiTextInput';
 import OtpInputs from './OtpInputs';
 import RangeSlider from './RangeSlider';
@@ -28,4 +29,5 @@ export {
   MultiTextInput,
   Chat_listing_Comp,
   InputLabel,
+  ModalMiddle,
 };
