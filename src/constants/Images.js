@@ -91,4 +91,5 @@ export default {
   iconDarkMore: require('../assets/icons/iconDarkMore/iconDarkMore.png'),
   iconBig: require('../assets/icons/iconBig/iconbigheart.png'),
   button_like: require('../assets/Images/button/button.png'),
+  whiteTick: require('../assets/icons/whiteTick/whiteTick.png'),
 };
