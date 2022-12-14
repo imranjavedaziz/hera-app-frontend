@@ -83,7 +83,7 @@ const ChatDetail = props => {
         style={{
           flexDirection: 'row',
           position: 'absolute',
-          top: Platform.OS === 'ios'?5:10,
+          top: Platform.OS === 'ios' ? 5 : 10,
           right: -30,
         }}>
         <TouchableOpacity style={styles.select} onPress={() => onSend(message)}>
@@ -94,7 +94,7 @@ const ChatDetail = props => {
   };
   useEffect(() => {
     if (subscriptionStatus && subscriptionStatus.data) {
-      console.log(subscriptionStatus?.data,'subscriptionStatus?.data')
+      console.log(subscriptionStatus?.data, 'subscriptionStatus?.data');
       if (!subscriptionStatus?.data.status) {
         dispatch(
           showAppToast(
@@ -144,7 +144,7 @@ const ChatDetail = props => {
         const messageItem = fireDB.parseMessages(snapshot);
         if (messageItem._id > now) {
           fireDB.lastKey = snapshot.key;
-          fireDB.totalSize = fireDB.totalSize + 1;
+          await fireDB.messageLength();
           fireDB.prependMessage(messageItem);
           await fireDB.readAll();
           fireDB.lastIdInSnapshot = snapshot.key;
@@ -462,11 +462,12 @@ const ChatDetail = props => {
               </View>
             </View>
           </TouchableOpacity>
-          {parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-            <TouchableOpacity onPress={() => navReport()}>
-              <Image source={Images.iconDarkMore} />
-            </TouchableOpacity>
-          )}
+          {props?.route?.params?.item?.currentRole !== 1 &&
+            props?.route?.params?.item?.status_id !== 1 && (
+              <TouchableOpacity onPress={() => navReport()}>
+                <Image source={Images.iconDarkMore} />
+              </TouchableOpacity>
+            )}
           <View />
         </View>
         <View style={styles.border} />
@@ -590,7 +591,9 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
+              minComposerHeight={
+                textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+              }
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -630,7 +633,9 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               textInputProps={styles.textInput}
-              minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
+              minComposerHeight={
+                textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+              }
               listViewProps={{
                 scrollEventThrottle: 400,
                 marginBottom: 10,
@@ -671,7 +676,9 @@ const ChatDetail = props => {
                 }}
                 containerStyle={styles.mainContainerDetail}
                 renderAvatar={null}
-                minComposerHeight={textData?.length > 75 ? 60 : Platform.OS === 'ios'?30:44}
+                minComposerHeight={
+                  textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+                }
                 textInputProps={styles.textInput}
                 disableComposer={
                   props.route.params.item.status_id !== 1 ? true : false
