@@ -57,6 +57,7 @@ const ChatDetail = props => {
     useSelector(state => state.ReportUser);
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     console.log(user.role_id, 'user.role_id3');
@@ -137,7 +138,7 @@ const ChatDetail = props => {
         const messageItem = fireDB.parseMessages(snapshot);
         if (messageItem._id > now) {
           fireDB.lastKey = snapshot.key;
-          fireDB.totalSize = fireDB.totalSize + 1;
+          await fireDB.messageLength();
           fireDB.prependMessage(messageItem);
           await fireDB.readAll();
           fireDB.lastIdInSnapshot = snapshot.key;
@@ -458,11 +459,12 @@ const ChatDetail = props => {
               </View>
             </View>
           </TouchableOpacity>
-          {parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-            <TouchableOpacity onPress={() => navReport()}>
-              <Image source={Images.iconDarkMore} />
-            </TouchableOpacity>
-          )}
+          {props?.route?.params?.item?.currentRole !== 1 &&
+            props?.route?.params?.item?.status_id === 1 && (
+              <TouchableOpacity onPress={() => navReport()}>
+                <Image source={Images.iconDarkMore} />
+              </TouchableOpacity>
+            )}
           <View />
         </View>
         <View style={styles.border} />

@@ -155,7 +155,7 @@ const MyVideo = () => {
   const backAction = () => {
     Alert.alert(
       Strings.smSetting.Remove_Video,
-      Strings.sm_create_gallery.modalsubTitle,
+      Strings.sm_create_gallery.modalsubTitleTwo,
       [
         {
           text: Strings.sm_create_gallery.modalText,
@@ -292,7 +292,7 @@ const MyVideo = () => {
           setShowModal(!showModal);
         }}
         String_1={Strings.smSetting.Remove_Video}
-        String_2={Strings.sm_create_gallery.modalsubTitle}
+        String_2={Strings.sm_create_gallery.modalsubTitleTwo}
         String_3={Strings.sm_create_gallery.modalText}
         String_4={Strings.sm_create_gallery.modalText_2}
         onPressNav={() => {

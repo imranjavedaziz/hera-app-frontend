@@ -26,6 +26,7 @@ import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {width} from '../../../utils/responsive';
+import {profileMatchResponse} from '../../../redux/actions/Profile_Match';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
@@ -112,17 +113,7 @@ const PTB_profile = props => {
   };
   const IMG_CONDI =
     islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
-  const onPressDislike = () => {
-    const payload = {to_user_id: userid, status: 3};
-    dispatch(sendLikePtb(payload));
-    setIsVisibleLogo(true);
-    setIslikedLogo('disliked');
-    setTimeout(() => {
-      setIsVisibleLogo(false);
-      setIslikedLogo('');
-      navigation.navigate(Routes.SmDashboard);
-    }, 3000);
-  };
+
   const onPresslike = () => {
     const payload = {to_user_id: userid, status: 1};
     dispatch(sendLikePtb(payload));
@@ -135,6 +126,22 @@ const PTB_profile = props => {
     }, 3000);
   };
 
+  const onPressLike = () => {
+    const payload = {
+      id: props?.route?.params?.id,
+      status: 2,
+    };
+    dispatch(profileMatchResponse(payload));
+  };
+  const onPressDislike = () => {
+    const payload = {
+      id: props?.route?.params?.id,
+      status: 4,
+    };
+    dispatch(profileMatchResponse(payload));
+    setIsVisibleLogo(true);
+    setIslikedLogo('disliked');
+  };
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -237,7 +244,7 @@ const PTB_profile = props => {
               <TouchableOpacity
                 style={styles.sendMsgBtn}
                 onPress={() => {
-                  onPresslike();
+                  props?.route?.params?.seeAll? onPressLike() :onPresslike();
                 }}>
                 <Image source={Images.HEARTH_ICON} />
                 <Text style={styles.sendMsgText}>
