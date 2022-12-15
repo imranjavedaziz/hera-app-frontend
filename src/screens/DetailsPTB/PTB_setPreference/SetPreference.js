@@ -212,6 +212,7 @@ const SetPreference = ({route, navigation}) => {
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       } else {
+        dispatch(empty());
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
       }
@@ -276,6 +277,7 @@ const SetPreference = ({route, navigation}) => {
     const data = {
       device_id: Device_ID,
     };
+    dispatch(empty());
     dispatch(logOut(data));
   };
   const navigateSupport = () => {
