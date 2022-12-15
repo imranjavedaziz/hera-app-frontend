@@ -22,7 +22,7 @@ import Images from '../../../constants/Images';
 import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings, {ValidationMessages} from '../../../constants/Strings';
-import {smRegisterSchema, Regx} from '../../../constants/schemas';
+import {smRegisterSchema} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
 import {
@@ -30,6 +30,8 @@ import {
   Routes,
   PRIVACY_URL,
   TERMS_OF_USE_URL,
+  validatePassword,
+  pwdErrMsg
 } from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
@@ -51,50 +53,10 @@ import {NotificationContext} from '../../../context/NotificationContextManager';
 import debounce from '../../../utils/debounce';
 import {saveLocalImg} from '../../../redux/actions/profileImg';
 
-const validationType = {
-  LEN: 'LEN',
-  ALPHA_NUM: 'ALPHA_NUM',
-  SPECIAL: 'SPECIAL',
-};
-const pwdErrMsg = [
-  {
-    type: validationType.LEN,
-    msg: ValidationMessages.PASSWORD_MIN,
-  },
-  {
-    type: validationType.ALPHA_NUM,
-    msg: ValidationMessages.ALPHA_NUM,
-  },
-  {
-    type: validationType.SPECIAL,
-    msg: ValidationMessages.SPECIAL_CHAR,
-  },
-  {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
-];
-const validatePassword = (value, type) => {
-  if (value) {
-    switch (type) {
-      case validationType.LEN:
-        return value.length >= 8 ? Colors.BLACK : Colors.RED;
-      case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) &&
-          Regx.ALPHA_CAP.test(value) &&
-          Regx.NUM.test(value)
-          ? Colors.BLACK
-          : 'red';
-      case validationType.SPECIAL:
-        return Regx.SPECIAL_CHAR.test(value) ? Colors.BLACK : 'red';
-      case validationType.CAPSLOCK:
-        return Regx.ALPHA_CAP.test(value) ? Colors.BLACK : 'red';
-      default:
-        return Colors.BORDER_LINE;
-    }
-  }
-  return Colors.BORDER_LINE;
-};
 const SmRegister = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [isPressed,setPressed] = useState(false);
   const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
   const [isOpen, setOpen] = useState(false);
@@ -259,6 +221,10 @@ const SmRegister = () => {
     setOpen(true);
     askCameraPermission();
   };
+  const onPressSubmit = ()=>{
+    setPressed(true);
+    debounce(handleSubmit(onSubmit), 1000)();
+  }
 
   return (
     <>
@@ -283,6 +249,7 @@ const SmRegister = () => {
                       key={role.id}
                       onPress={() => {
                         onChange(role.id);
+                        setPressed(false);
                       }}>
                       <Image
                         style={styles.radio}
@@ -335,7 +302,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.FirstName}
                   value={value}
-                  onChangeText={v => onChange(v.trim())}
+                  onChangeText={v => {
+                    onChange(v.trim());
+                    setPressed(false);
+                  }}
                   error={errors && errors.first_name?.message}
                   required={true}
                   maxLength={30}
@@ -350,7 +320,10 @@ const SmRegister = () => {
                   label={Strings.sm_register.MiddleName}
                   value={value}
                   maxLength={30}
-                  onChangeText={v => onChange(v.trim())}
+                  onChangeText={v => {
+                    onChange(v.trim());
+                    setPressed(false);
+                  }}
                   error={errors && errors.middle_name?.message}
                 />
               )}
@@ -362,7 +335,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.LastName}
                   value={value}
-                  onChangeText={v => onChange(v.trim())}
+                  onChangeText={v => {
+                    onChange(v.trim());
+                    setPressed(false);
+                  }}
                   error={errors && errors.last_name?.message}
                   required={true}
                   maxLength={30}
@@ -376,7 +352,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.DOB}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => {
+                    onChange(v);
+                    setPressed(false);
+                  }}
                   error={errors && errors.dob?.message}
                   // error={(value || !isValid) && validateDateofBirth()}
                   required={true}
@@ -398,7 +377,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.profile.EmailAddress}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => {
+                    onChange(v.trim());
+                    setPressed(false);
+                  }}
                   required={true}
                   error={errors && errors.email?.message}
                 />
@@ -412,7 +394,10 @@ const SmRegister = () => {
                   <FloatingLabelInput
                     label={Strings.sm_register.Password}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    onChangeText={v => {
+                      onChange(v);
+                      setPressed(false);
+                    }}
                     required={true}
                     containerStyle={styles.pwdInputContainer}
                     secureTextEntry={true}
@@ -423,7 +408,7 @@ const SmRegister = () => {
                         style={[
                           styles.pwdErrText,
                           {
-                            color: validatePassword(value, msg.type),
+                            color: validatePassword(value, msg.type,isPressed),
                           },
                         ]}>
                         {msg.msg}
@@ -433,11 +418,11 @@ const SmRegister = () => {
                           style={[
                             styles.pwdErrIcon,
                             {
-                              tintColor: validatePassword(value, msg.type),
+                              tintColor: validatePassword(value, msg.type,isPressed),
                             },
                           ]}
                           source={
-                            validatePassword(value, msg.type) === Colors.BLACK
+                            validatePassword(value, msg.type,isPressed) === Colors.BLACK
                               ? Images.path
                               : Images.warning
                           }
@@ -456,7 +441,10 @@ const SmRegister = () => {
                   containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
                   label={Strings.sm_register.Confirm}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => {
+                    onChange(v);
+                    setPressed(false);
+                  }}
                   error={errors && errors.confirm_password?.message}
                   required={true}
                   secureTextEntry={true}
@@ -505,7 +493,7 @@ const SmRegister = () => {
               <Button
                 disabled={register_user_loading || register_user_success}
                 label={Strings.sm_register.Btn}
-                onPress={debounce(handleSubmit(onSubmit), 1000)}
+                onPress={onPressSubmit}
                 style={styles.Btn}
               />
             </View>

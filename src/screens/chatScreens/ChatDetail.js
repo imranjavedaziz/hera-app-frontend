@@ -89,7 +89,7 @@ const ChatDetail = props => {
   useEffect(() => {
     if (subscriptionStatus && subscriptionStatus.data) {
       console.log(subscriptionStatus?.data, 'subscriptionStatus?.data');
-      if (!subscriptionStatus?.data.status) {
+      if (!subscriptionStatus?.data.status && parseInt(user?.role_id) === 2) {
         dispatch(
           showAppToast(
             true,
