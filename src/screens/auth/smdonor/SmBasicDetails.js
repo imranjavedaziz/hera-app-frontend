@@ -1,5 +1,5 @@
 // SmBasicDetails
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -20,7 +21,7 @@ import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
-import {Routes} from '../../../constants/Constants';
+import {Routes, ABOUT_URL} from '../../../constants/Constants';
 import Dropdown from '../../../components/inputs/Dropdown';
 import styles from '../../../styles/auth/smdonor/basicDetailsScreen';
 import {Value} from '../../../constants/FixedValues';
@@ -41,6 +42,8 @@ import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
 import {dynamicSize} from '../../../utils/responsive';
+import openWebView from '../../../utils/openWebView';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -49,16 +52,12 @@ const SmBasicDetails = () => {
   const [profileRes, setProfileRes] = useState();
   const [payloadData, setPayloadData] = useState([]);
   const [threeOption, setThreeOption] = useState([]);
-
+  const {Device_ID} = useContext(NotificationContext);
   const dispatch = useDispatch();
   let actionSheet = useRef();
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
   const SubmitLoadingRef = useRef();
-  useEffect(() => {
-    dispatch(getStates());
-    dispatch(getProfileSetterDetail());
-  }, []);
   const {
     get_state_res,
     get_profile_setter_res,
@@ -80,11 +79,20 @@ const SmBasicDetails = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: {errors, isValid},
   } = useForm({
     resolver: yupResolver(smBasicSchema),
   });
-
+  useEffect(() => {
+    return navigation.addListener('focus', () => {
+      reset();
+    });
+  }, [navigation, reset]);
+  useEffect(() => {
+    dispatch(getStates());
+    dispatch(getProfileSetterDetail());
+  }, []);
   //GET STATE
   useEffect(() => {
     if (loadingRef.current && !get_state_loading) {
@@ -92,6 +100,7 @@ const SmBasicDetails = () => {
       if (get_state_success) {
         dispatch(hideAppLoader());
         setStateRes(get_state_res);
+        // reset()
       }
       if (get_state_error_msg) {
         dispatch(hideAppLoader());
@@ -164,7 +173,7 @@ const SmBasicDetails = () => {
     <>
       <CircleBtn
         icon={Images.iconSettings}
-        Fixedstyle={{marginRight: dynamicSize(20), marginTop: dynamicSize(45)}}
+        Fixedstyle={{marginRight: dynamicSize(20)}}
         onPress={() => {
           Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
         }}
@@ -182,9 +191,10 @@ const SmBasicDetails = () => {
   );
 
   const logOutScreen = () => {
-    dispatch(showAppLoader());
-    dispatch(logOut());
-    navigation.navigate(Routes.Landing);
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -195,9 +205,12 @@ const SmBasicDetails = () => {
         navigateSupport();
         break;
       case Strings.preference.About:
+        openWebView(ABOUT_URL);
         break;
       case Strings.preference.Logout:
         logOutScreen();
+        break;
+      case Strings.Subscription.Cancel:
         break;
     }
   };
@@ -206,15 +219,25 @@ const SmBasicDetails = () => {
       Strings.smSetting.Inquiry,
       Strings.preference.About,
       Strings.preference.Logout,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
     }, 300);
   };
-
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
-      <View style={styles.flex_1}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.BACKGROUND}
+        animated={true}
+        hidden={false}
+      />
+      <View style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -250,7 +273,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <View style={styles.radioContainer}>
-                        {profileRes?.gender.map(gender => (
+                        {Strings?.STATIC_GENDER.map(gender => (
                           <TouchableOpacity
                             style={styles.radioBtn}
                             key={gender.id}
@@ -274,13 +297,47 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <Dropdown
-                        containerStyle={{marginTop: 20}}
+                        containerStyle={Style}
+                        label={Strings.sm_basic.SexualOrientation}
+                        data={profileRes?.sexual_orientation}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                        error={errors && errors.sexual_orientations_id?.message}
+                        lineColor={isOpen}
+                      />
+                    )}
+                    name="sexual_orientations_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                        containerStyle={Style}
+                        label={Strings.sm_basic.RelationshipStatus}
+                        data={profileRes?.relationship_status}
+                        error={errors && errors.relationship_status_id?.message}
+                        onSelect={selectedItem => {
+                          onChange(selectedItem.id);
+                        }}
+                        required={true}
+                      />
+                    )}
+                    name="relationship_status_id"
+                  />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Dropdown
+                        containerStyle={Style}
                         label={Strings.sm_basic.State}
                         data={stateRes}
                         onSelect={selectedItem => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
+                        lineColor={isOpen}
                         error={errors && errors.state_id?.message}
                       />
                     )}
@@ -290,58 +347,28 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={{marginTop: 10}}
+                        containerStyle={value ? {marginTop: 34} : Style}
                         label={Strings.sm_basic.Zip}
                         value={value}
                         onChangeText={v => onChange(v)}
                         error={errors && errors.zipcode?.message}
                         required={true}
+                        lineColor={isOpen}
                         keyboardType="number-pad"
                         maxLength={5}
-                        lineColor={isOpen}
                       />
                     )}
                     name="zipcode"
                   />
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
-                      <Dropdown
-                        label={Strings.sm_basic.SexualOrientation}
-                        data={profileRes?.sexual_orientation}
-                        onSelect={selectedItem => {
-                          onChange(selectedItem.id);
-                        }}
-                        required={true}
-                        error={errors && errors.sexual_orientations_id?.message}
-                      />
-                    )}
-                    name="sexual_orientations_id"
-                  />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange}}) => (
-                      <Dropdown
-                        label={Strings.sm_basic.RelationshipStatus}
-                        data={profileRes?.relationship_status}
-                        onSelect={selectedItem => {
-                          onChange(selectedItem.id);
-                        }}
-                        required={true}
-                        error={errors && errors.relationship_status_id?.message}
-                      />
-                    )}
-                    name="relationship_status_id"
-                  />
-                  <Controller
-                    control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
+                        containerStyle={Style}
                         label={Strings.sm_basic.Occupation}
                         value={value}
                         onChangeText={v => onChange(v)}
                         error={errors && errors.occupation?.message}
-                        lineColor={isOpen}
                       />
                     )}
                     name="occupation"
@@ -350,11 +377,11 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <MultiTextInput
-                        containerStyle={{marginTop: 30}}
                         title={Strings.sm_basic.Bio}
                         required={true}
                         value={value}
                         maxLength={250}
+                        lineColor={isOpen}
                         onChangeText={v => {
                           onChange(v);
                         }}
@@ -367,6 +394,7 @@ const SmBasicDetails = () => {
                     style={{
                       alignItems: Alignment.CENTER,
                       marginTop: Value.CONSTANT_VALUE_46,
+                      marginBottom: Value.CONSTANT_VALUE_96,
                     }}>
                     <Button
                       style={styles.Btn}
@@ -386,12 +414,21 @@ const SmBasicDetails = () => {
         isOpen={isOpen}
         setOpen={setOpen}>
         <View style={globalStyle.basicSheetContainer}>
-          <TouchableOpacity style={globalStyle.formBtn}>
+          <TouchableOpacity
+            style={globalStyle.formBtn}
+            onPress={() => {
+              navigation.navigate('Support');
+              setOpen(false);
+            }}>
             <Text style={globalStyle.formText}>
-              {Strings.bottomSheet.Inquiry_Form}
+              {Strings.smSetting.Inquiry}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.heraBtn}>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}
+            onPress={() => {
+              openWebView(ABOUT_URL);
+            }}>
             <Text style={globalStyle.heraText}>
               {Strings.bottomSheet.About_HERA}
             </Text>

@@ -5,7 +5,8 @@ import {
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
-  USE_LOCAL_IMAGE
+  USE_LOCAL_IMAGE,
+  USE_NAME,
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -15,6 +16,7 @@ import {
   AUTH_REGISTER,
   UPDATE_PROFILE_IMG,
   DEVICE_REGISTER,
+  AUTH_MOBILE_NUMBER_RESET,
 } from '../Type';
 
 export const logIn = userInfo => {
@@ -64,6 +66,10 @@ export const mobileNumber = payload => {
   };
 };
 
+export const resetMobile = () => ({
+  type: AUTH_MOBILE_NUMBER_RESET,
+});
+
 export const verifyOtp = payload => {
   return {
     type: AUTH_VERIFY_OTP,
@@ -71,9 +77,10 @@ export const verifyOtp = payload => {
   };
 };
 
-export const logOut = () => {
+export const logOut = payload => {
   return {
     type: AUTH_LOG_OUT,
+    data: payload,
   };
 };
 
@@ -93,6 +100,12 @@ export const updateProfileImg = payload => {
 export const updateLocalImg = img => {
   return {
     type: USE_LOCAL_IMAGE,
+    data: img,
+  };
+};
+export const updateName = img => {
+  return {
+    type: USE_NAME,
     data: img,
   };
 };

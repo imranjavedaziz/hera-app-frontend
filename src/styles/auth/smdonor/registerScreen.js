@@ -4,7 +4,9 @@ import {Fonts} from '../../../constants/Constants';
 import {dynamicSize} from '../../../utils/responsive';
 
 export default {
-  main: {paddingHorizontal: 40, marginTop: Value.CONSTANT_VALUE_54},
+  main: {
+    paddingHorizontal: Value.CONSTANT_VALUE_40,
+  },
   title: {
     fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
@@ -12,6 +14,20 @@ export default {
     width: Prencentage.PRECENTAGE_100,
     marginBottom: Value.CONSTANT_VALUE_15,
     marginTop: Value.CONSTANT_VALUE_60,
+  },
+  centeredView: {
+    flex: Value.CONSTANT_VALUE_1,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  modalView: {
+    height: Value.CONSTANT_VALUE_230,
+    width: Value.CONSTANT_VALUE_283,
+    backgroundColor: Colors.WHITE,
+    paddingHorizontal: Value.CONSTANT_VALUE_23,
+    paddingVertical: Value.CONSTANT_VALUE_20,
+    alignItems: Alignment.CENTER,
   },
   radioContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -101,7 +117,7 @@ export default {
     textDecorationLine: Alignment.UNDERLINE,
   },
   parentBtn: {
-    fontWeight: Alignment.BOLD,
+    fontFamily: Fonts.OpenSansBold,
     alignSelf: Alignment.CENTER,
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
@@ -129,7 +145,7 @@ export default {
   ImageText: {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.DARKBLACK,
+    color: Colors.BLACK_KEY,
     lineHeight: Value.CONSTANT_VALUE_21,
   },
   Btn: {
@@ -157,7 +173,6 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
   },
   align: {alignItems: 'center'},

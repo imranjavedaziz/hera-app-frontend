@@ -2,27 +2,41 @@ import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, scaleWidth} from '../../../utils/responsive';
+
+import {
+  dynamicSize,
+  scaleWidth,
+  height,
+  width,
+  px,
+  statusHide,
+} from '../../../utils/responsive';
 
 export default {
   profileLogo: {
     width: Value.CONSTANT_VALUE_80,
     height: Value.CONSTANT_VALUE_80,
     borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: '#E2E1D8',
   },
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
     marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
   },
+  mainAndroidContainer: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
+    marginTop: statusHide(105),
+  },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   colorText: {color: Colors.BLACK},
   location: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
+    marginTop: px(Value.CONSTANT_VALUE_13),
   },
-  headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+  androidHeaderIcons: {
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   locationText: {
@@ -53,6 +67,7 @@ export default {
     flexDirection: Alignment.ROW,
     marginVertical: Value.CONSTANT_VALUE_15,
     marginBottom: Value.CONSTANT_VALUE_52,
+    marginTop: Value.CONSTANT_VALUE_25,
   },
   ageYrs: {
     fontFamily: Fonts.OpenSansRegular,
@@ -70,7 +85,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_22,
   },
   highlits: {
-    backgroundColor: Colors.HIGHLIGHT_PINK,
+    backgroundColor: Colors.TAGCOLOR,
     marginRight: Value.CONSTANT_VALUE_8,
     height: Value.CONSTANT_VALUE_31,
     alignContent: Alignment.CENTER,
@@ -82,6 +97,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     marginVertical: Value.CONSTANT_VALUE_15,
     fontWeight: Alignment.BOLD,
+    color: Colors.BLACK_KEY,
   },
   videoContainer: {
     height: Value.CONSTANT_VALUE_200,
@@ -124,9 +140,9 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_40,
     justifyContent: Alignment.CENTER,
     marginHorizontal: Value.CONSTANT_VALUE_20,
-    marginVertical: Value.CONSTANT_VALUE_50,
+    marginTop: Value.CONSTANT_VALUE_50,
+    marginBottom:Value.CONSTANT_VALUE_15,
     height: Value.CONSTANT_VALUE_80,
-    //width:Value.CONSTANT_VALUE_296,
   },
   sendMsgBtnDis: {
     flexDirection: Alignment.ROW,
@@ -137,15 +153,20 @@ export default {
     justifyContent: Alignment.CENTER,
     marginHorizontal: Value.CONSTANT_VALUE_20,
     height: Value.CONSTANT_VALUE_80,
+    marginBottom: Value.CONSTANT_VALUE_70,
   },
   sendMsgText: {
     letterSpacing: Value.CONSTANT_VALUE_FRAC36,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    marginHorizontal: Value.CONSTANT_VALUE_10,
+    marginHorizontal: px(5),
+    left: px(5),
   },
   highlitsText: {
     fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_KEY,
+    opacity: 1,
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -174,5 +195,35 @@ export default {
   textInnerContainer: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
+  },
+  loaderContainer: {
+    position: Alignment.ABSOLUTE,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
+  },
+  dateText: {
+    fontFamily: Fonts.OpenSansItalic,
+    fontSize: Value.CONSTANT_VALUE_15,
+    color: Colors.BLACK,
+    marginLeft: 7,
+  },
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 21},
+  imgCondi: {
+    flex: 1,
+    position: 'absolute',
+    left: 80,
+    top: 0,
+    bottom: 0,
+    width: width,
+  },
+  indicator: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    marginTop: height / 2.5,
   },
 };

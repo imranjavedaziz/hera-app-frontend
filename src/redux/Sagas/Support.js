@@ -9,7 +9,7 @@ import {
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
 import {supportApi, userTypeApi} from '../../Api';
-
+import {ValidationMessages} from '../../constants/Strings'
 function* SupportForm(payload) {
   try {
     const result = yield supportApi(payload.data);
@@ -23,7 +23,7 @@ function* SupportForm(payload) {
     }
   } catch (err) {
     console.log('err', err);
-    yield put({type: SUPPORT_FORM_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SUPPORT_FORM_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSupportForm() {
@@ -42,7 +42,7 @@ function* UserType() {
       });
     }
   } catch (err) {
-    yield put({type: GET_USER_TYPE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_USER_TYPE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchUserType() {

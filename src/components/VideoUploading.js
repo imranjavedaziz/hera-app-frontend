@@ -7,16 +7,13 @@ import {
   View,
   TouchableWithoutFeedback,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
 import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
-import { Alignment, Colors } from '../constants';
-import { MaterialIndicator } from 'react-native-indicators';
-import { Value } from '../constants/FixedValues';
+import {Alignment} from '../constants';
 
 const VideoUploading = props => {
   const [loadingState, setLoadingState] = React.useState(false);
@@ -26,21 +23,10 @@ const VideoUploading = props => {
 
   const IMG_CONDITWO = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
-    : Images.iconRadiounsel;
+    : Images.iconWhite;
   let boolTrue = true;
-  console.log("LINE NO 30 props?.counter", props?.counter);
   return (
     <TouchableOpacity onPress={() => props?.onPress()}>
-      {props?.apply === true && props?.video?.loading && (
-        <MaterialIndicator
-          color={Colors.COLOR_A3C6C4}
-          style={{
-            width: Value.CONSTANT_VALUE_50,
-            height: Value.CONSTANT_VALUE_50,
-          }}
-          size={25}
-        />
-      )}
       <FastImage style={props?.style}>
         {props?.video?.file_url !== '' ? (
           <>
@@ -55,7 +41,7 @@ const VideoUploading = props => {
             )}
             <View style={props?.imageOverlay}>
               <Video
-                source={{ uri: `${props?.video?.file_url}` }}
+                source={{uri: `${props?.video?.file_url}`}}
                 style={props?.videoStyle}
                 audioOnly
                 controls={props?.counter > 0 && boolTrue}
@@ -79,17 +65,15 @@ const VideoUploading = props => {
                 onVideoBuffer={() => {
                   setLoadingState(!loadingState);
                 }}
+                onReadyForDisplay={()=>setLoadingState(false)}
               />
               {Platform.OS === 'android' &&
                 !props?.isPlaying &&
                 props?.counter === 0 && (
-                  <Image source={Images.playButton} style={styles.playIcon} />
+                  <TouchableOpacity onPress={props.onPress}>
+                    <Image source={Images.playButton} style={styles.playIcon} />
+                  </TouchableOpacity>
                 )}
-              {loadingState && (
-                <View style={styles.videoCover}>
-                  <ActivityIndicator />
-                </View>
-              )}
             </View>
             {props?.apply === true && (
               <TouchableWithoutFeedback>

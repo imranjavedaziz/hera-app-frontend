@@ -14,8 +14,9 @@ import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
 import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
+import {statusHide} from '../../utils/responsive';
 
-const ChatListing = props => {
+const ChatListing = () => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
   const [refreshing, setRefreshing] = useState(false);
@@ -29,10 +30,8 @@ const ChatListing = props => {
   const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
-    if (props?.route?.name === 'PtbDashboard') {
-      deviceHandler(navigation, 'exit');
-    }
-  });
+    deviceHandler(navigation, 'deviceGoBack');
+  }, []);
   useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
@@ -47,7 +46,6 @@ const ChatListing = props => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => NavigateFunc()}
-      style={{paddingTop: 5}}
     />
   );
 
@@ -103,6 +101,7 @@ const ChatListing = props => {
     let day = date.getDate();
     return year + '-' + month + '-' + day;
   }
+
   const renderChatList = ({item}) => {
     return (
       <>
@@ -173,7 +172,7 @@ const ChatListing = props => {
       {loader === false && (
         <>
           {chats && chats?.length > 0 ? (
-            <View style={{flex: 1, marginTop: 60}}>
+            <View style={{flex: 1, marginTop: statusHide(105)}}>
               <View style={styles.mainContainer}>
                 <Text style={styles.Inbox}> {ROLL_ID_INBOX}</Text>
                 <Text style={styles.Match}>{ROLL_ID_2}</Text>

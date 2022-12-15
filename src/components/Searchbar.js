@@ -20,7 +20,9 @@ const Searchbar = props => {
   const navigation = useNavigation();
   return (
     <>
-      {props.editing ? null : (
+      {props.clearVisible === false &&
+      props.editing &&
+      props.isFocused === false ? null : (
         <View style={styles.cancelbtn}>
           <TouchableOpacity onPress={props.onClear} style={styles.clearView}>
             <Text style={styles.clearText}>Cancel</Text>
@@ -41,10 +43,14 @@ const Searchbar = props => {
             style={styles.searchBar}
             onChangeText={props.onChangeText}
             value={props.value}
-            placeholder={Strings.search_Bar.search}
+            placeholder={
+              props.sm ? Strings.search_Bar.smSearch : Strings.search_Bar.search
+            }
             placeholderTextColor={Colors.BLACK}
             keyboardType={'web-search'}
             autoCorrect={false}
+            onFocus={props?.handleFocus}
+            onBlur={props?.handleBlur}
           />
 
           {!props.editing && (

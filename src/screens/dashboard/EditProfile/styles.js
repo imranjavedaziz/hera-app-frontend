@@ -6,6 +6,7 @@ import {
   normalizeFont,
   px,
   scaleHeight,
+  statusHide,
 } from '../../../utils/responsive';
 
 export default {
@@ -15,6 +16,12 @@ export default {
     marginTop: scaleHeight(Value.CONSTANT_VALUE_40),
     marginRight: Value.CONSTANT_VALUE_30,
   },
+  cancelAndroidsbtn: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.FLEXEND,
+    marginRight: Value.CONSTANT_VALUE_30,
+  },
+
   clearView: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -40,6 +47,10 @@ export default {
     marginTop: scaleHeight(Value.CONSTANT_VALUE_95),
     paddingHorizontal: px(Value.CONSTANT_VALUE_40),
   },
+  mainAndroidContainer: {
+    marginTop: statusHide(Value.CONSTANT_VALUE_104),
+    paddingHorizontal: px(Value.CONSTANT_VALUE_40),
+  },
   headingStyle: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
@@ -62,7 +73,6 @@ export default {
     marginTop: px(Value.CONSTANT_VALUE_8),
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_23,
-    letterSpacing: px(Value.CONSTANT_VALUE_0),
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
@@ -105,53 +115,8 @@ export default {
   },
   btnView: {
     alignItems: Alignment.CENTER,
-    marginBottom: Value.CONSTANT_VALUE_185,
-  },
-  centeredView: {
-    flex: Value.CONSTANT_VALUE_1,
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-  },
-  modalView: {
-    height: Value.CONSTANT_VALUE_230,
-    width: Value.CONSTANT_VALUE_283,
-    backgroundColor: Colors.WHITE,
-    paddingHorizontal: Value.CONSTANT_VALUE_23,
-    paddingVertical: Value.CONSTANT_VALUE_20,
-    alignItems: Alignment.CENTER,
-  },
-  modalHeader: {
-    lineHeight: Value.CONSTANT_VALUE_21,
-    fontWeight: Alignment.BOLD,
-    fontSize: Value.CONSTANT_VALUE_16,
-    fontFamily: Fonts.OpenSansRegular,
-    paddingBottom: Value.CONSTANT_VALUE_5,
-    color: Colors.BLACK,
-  },
-  modalSubHeader: {
-    textAlign: Alignment.CENTER,
-    lineHeight: Value.CONSTANT_VALUE_18,
-    marginTop: Value.CONSTANT_VALUE_1,
-    fontSize: Value.CONSTANT_VALUE_13,
-    color: Colors.BLACK,
-    fontFamily: Fonts.OpenSansRegular,
-  },
-  modalOption1: {
-    color: Colors.RED,
-    fontSize: Value.CONSTANT_VALUE_16,
-    marginVertical: Value.CONSTANT_VALUE_20,
-    letterSpacing: Value.CONSTANT_VALUE_1,
-    fontFamily: Fonts.OpenSansBold,
-    width: Value.CONSTANT_VALUE_234,
-    textAlign: Alignment.CENTER,
-  },
-  modalOption2: {
-    marginVertical: Value.CONSTANT_VALUE_20,
-    fontWeight: Alignment.BOLD,
-    fontSize: Value.CONSTANT_VALUE_16,
-    letterSpacing: Value.CONSTANT_VALUE_1,
-    fontFamily: Fonts.OpenSansBold,
+    marginBottom: 96,
+    marginTop: 46,
   },
   loaderContainer: {
     top: height / 2.5,

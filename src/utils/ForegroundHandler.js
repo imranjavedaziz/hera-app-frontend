@@ -3,11 +3,14 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging from '@react-native-firebase/messaging';
 import {Platform} from 'react-native';
 import PushNotification, {Importance} from 'react-native-push-notification';
+import {useSelector} from 'react-redux';
 
 const ForegroundHandler = () => {
+  const {messageIdRx} = useSelector(state => state.MessageId);
+  console.log(messageIdRx?.data, 'message_id_resmessage_id_resmessage_id_res');
   useEffect(() => {
     const unsubscribe = messaging().onMessage(remoteMessage => {
-      console.log('Notification Unsubscribe', remoteMessage);
+      console.log('Notification Method Unsubscribe', remoteMessage);
       const {notification, messageId} = remoteMessage;
       if (Platform.OS === 'ios') {
         PushNotificationIOS.addNotificationRequest({

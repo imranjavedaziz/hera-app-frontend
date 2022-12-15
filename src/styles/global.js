@@ -123,6 +123,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
     paddingHorizontal: Value.CONSTANT_VALUE_5,
+    color: Colors.BLACK_0,
     lineHeight: 21,
   },
   modal: {
@@ -170,18 +171,16 @@ export default {
   modalOption1: {
     color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_16,
-    paddingBottom: Value.CONSTANT_VALUE_10,
-    marginVertical: Value.CONSTANT_VALUE_27,
+    marginVertical: Value.CONSTANT_VALUE_20,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
     width: Value.CONSTANT_VALUE_234,
     textAlign: Alignment.CENTER,
   },
   modalOption2: {
-    fontSize: Value.CONSTANT_VALUE_16,
+    marginVertical: Value.CONSTANT_VALUE_20,
     fontWeight: Alignment.BOLD,
+    fontSize: Value.CONSTANT_VALUE_16,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
   },
@@ -194,7 +193,11 @@ export default {
   cancelbtn: {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
-    marginTop: Value.CONSTANT_VALUE_54,
+    marginRight: Value.CONSTANT_VALUE_30,
+  },
+  cancelAndroidbtn: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.FLEXEND,
     marginRight: Value.CONSTANT_VALUE_30,
   },
   clearView: {

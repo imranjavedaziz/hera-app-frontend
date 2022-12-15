@@ -14,6 +14,7 @@ export default function MultiTextInput({
   required,
   blurOnSubmit,
   containerStyle,
+  lineColor = false,
   error = '',
   inputStyle = {
     fontFamily: Fonts.OpenSansBold,
@@ -24,7 +25,6 @@ export default function MultiTextInput({
   const [isFocused, setFocused] = useState(false);
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
-  console.log(isFocused,'isfocusedd');
   return (
     <React.Fragment>
       <View style={containerStyle}>
@@ -37,8 +37,10 @@ export default function MultiTextInput({
         <View
           style={[
             styles.container,
-            styles.border,
             isFocused ? styles.focusBorder : styles.blurBorder,
+            lineColor
+              ? {borderBottomColor: Colors.LIGHT_BLACK47}
+              : styles.border,
             error ? styles.bottom : null,
           ]}>
           <TextInput
@@ -60,8 +62,6 @@ export default function MultiTextInput({
             onFocus={handleFocus}
             onBlur={handleBlur}
             blurOnSubmit={false}
-            keyboardType="name-phone-pad"
-            // returnKeyType='next'
             {...textInputProps}
           />
           {error && <Text style={styles.errMessage}>{error}</Text>}

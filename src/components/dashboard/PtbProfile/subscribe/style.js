@@ -5,17 +5,17 @@ import {Value} from '../../../../constants/FixedValues';
 import {px} from '../../../../utils/responsive';
 
 export default {
-  container: {
+  container: (is_trial)=>({
     height: px(Value.CONSTANT_VALUE_110),
     borderWidth: Value.CONSTANT_VALUE_2,
     borderRadius: Value.CONSTANT_VALUE_11,
-    borderColor: Colors.PINK,
+    borderColor: is_trial ?Colors.GREEN:Colors.COLOR_F18D93,
     marginTop: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.SEARCH_BOX,
-  },
+    justifyContent: Alignment.CENTER,
+  }),
   row: {
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_17,
     alignItems: Alignment.CENTER,
     marginHorizontal: Value.CONSTANT_VALUE_25,
   },
@@ -29,7 +29,7 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_25,
     marginRight: Value.CONSTANT_VALUE_25,
     fontSize: Value.CONSTANT_VALUE_16,
-    fontFamily: Fonts.OpenSansLight,
+    fontFamily: Fonts.OpenSansRegular,
     marginTop: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
     textAlign: Alignment.LEFT,
@@ -38,14 +38,14 @@ export default {
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
+    color: Colors.COLOR_RED,
   },
   price: {
-    fontSize: Value.CONSTANT_VALUE_20,
-    fontFamily: Fonts.OpenSansLight,
+    fontSize: Value.CONSTANT_VALUE_15,
+    fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
     marginLeft: Value.CONSTANT_VALUE_25,
     marginRight: Value.CONSTANT_VALUE_25,
     textAlign: Alignment.LEFT,
-  }
+  },
 };

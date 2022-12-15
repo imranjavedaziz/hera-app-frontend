@@ -6,11 +6,13 @@ import {Value, Prencentage} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {dynamicSize} from '../utils/responsive';
 import {Fonts} from '../constants/Constants';
+import {getStatusBarHeight} from 'react-native-safearea-height';
 
+const MaxValueHeader = Math.abs(getStatusBarHeight() - 54); // Android working fine  // IOS we need ios 54 Fail
 const styles = {
   container: {
     width: Prencentage.PRECENTAGE_100,
-    paddingVertical: Value.CONSTANT_VALUE_10,
+    marginTop: MaxValueHeader,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.CLEAR,
     position: Alignment.ABSOLUTE,
@@ -26,10 +28,8 @@ const styles = {
   },
   circle: {
     flex: Value.CONSTANT_VALUE_0,
-    marginTop: Value.CONSTANT_VALUE_4,
   },
   img: {
-    maxWidth: Value.CONSTANT_VALUE_50,
     resizeMode: Alignment.COVER,
     maxHeight: Value.CONSTANT_VALUE_50,
     flex: Value.CONSTANT_VALUE_0,
@@ -38,6 +38,7 @@ const styles = {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: '#E2E1D8',
   },
   profileImg: {
     width: Value.CONSTANT_VALUE_35,
@@ -75,7 +76,19 @@ const styles = {
     zIndex: 9999,
     borderStyle: Alignment.SOLID,
     borderWidth: Value.CONSTANT_VALUE_1,
-    top: Value.CONSTANT_VALUE_5,
+    borderColor: Colors.WHITE,
+    marginRight: Value.CONSTANT_VALUE_30,
+  },
+  blankContainerptb: {
+    width: Value.CONSTANT_VALUE_12,
+    height: Value.CONSTANT_VALUE_12,
+    backgroundColor: Colors.COLOR_RED,
+    borderRadius: Value.CONSTANT_VALUE_6,
+    position: Alignment.ABSOLUTE,
+    right: Value.CONSTANT_VALUE_0,
+    zIndex: 9999,
+    borderStyle: Alignment.SOLID,
+    borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.WHITE,
   },
 };
@@ -104,6 +117,7 @@ export const IconHeader = props => {
     txt,
     txtPress,
     chat,
+    chatptb,
     ...otherProps
   } = props;
   const STYLE_ONE =
@@ -157,6 +171,7 @@ export const IconHeader = props => {
           accessible={true}
           accessibilityRole="button">
           {chat === true && <View style={styles.blankContainer} />}
+          {chatptb === true && <View style={styles.blankContainerptb} />}
           <Image accessible={false} source={rightIcon} style={styles.img} />
         </TouchableOpacity>
       </View>

@@ -48,12 +48,12 @@ export default {
     backgroundColor: Colors.WHITE,
     alignItems: Alignment.CENTER,
     marginRight: 20,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
   },
   receiverID: {
     alignSelf: Alignment.FLEX_START,
     flexDirection: Alignment.ROW,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     marginLeft: 10,
     backgroundColor: Colors.GREEN,
@@ -61,20 +61,26 @@ export default {
   mainContainerDetail: {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',
-    borderRadius: 15,
+    borderRadius: 24,
     marginHorizontal: 15,
-
+    paddingRight: 40,
+    paddingLeft: 10,
+    justifyContent: Alignment.CENTER,
+    textAlign: Alignment.CENTER,
+  },
+  textInput: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK,
   },
   border: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
     borderBottomColor: Colors.COLOR_228226216,
-    marginTop: Value.CONSTANT_VALUE_16,
   },
   titleText: {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_16,
-    width: 128,
   },
   descText: {
     fontFamily: Fonts.OpenSansRegular,
@@ -83,21 +89,21 @@ export default {
   },
   topContainer: {
     flexDirection: Alignment.ROW,
-    alignItems: Alignment.FLEX_START,
-    flex: 2,
-    justifyContent: Alignment.FLEX_START,
+    alignItems: Alignment.CENTER,
+    flex: 0.8,
+    justifyContent: Alignment.CENTER,
   },
   avatar: {
-    width: Value.CONSTANT_VALUE_35,
-    height: Value.CONSTANT_VALUE_35,
+    width: Value.CONSTANT_VALUE_40,
+    height: Value.CONSTANT_VALUE_40,
 
-    borderRadius: Value.CONSTANT_VALUE_35 / 2,
+    borderRadius: Value.CONSTANT_VALUE_40 / 2,
   },
   outerContainer: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
-    justifyContent: 'space-between',
-    marginTop: 40,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    paddingVertical: 20,
     paddingHorizontal: 20,
   },
   thumbContain: color => ({
@@ -163,7 +169,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-    marginTop: px(Value.CONSTANT_VALUE_10),
+    textAlign: Alignment.CENTER,
   },
   userImg: {
     width: px(Value.CONSTANT_VALUE_60),
@@ -184,12 +190,42 @@ export default {
   headersm: {
     marginTop: 45,
     marginRight: 20,
+    alignSelf: Alignment.FLEXEND,
   },
-  warningImage:{
+  warningImage: {
     position: Alignment.ABSOLUTE,
     alignSelf: Alignment.FLEXEND,
     marginLeft: -30,
-    left:0,
-
-  }
+    left: 0,
+  },
+  profileLikeScree: {
+    width: px(Value.CONSTANT_VALUE_190),
+    height: px(Value.CONSTANT_VALUE_190),
+    borderStyle: 'solid',
+    borderWidth: px(Value.CONSTANT_VALUE_2),
+    borderColor: Colors.WHITE,
+    backgroundColor: Colors.WHITE,
+    marginVertical: px(Value.CONSTANT_VALUE_54),
+    borderRadius: px(Value.CONSTANT_VALUE_90),
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+  },
+  matchFoundText: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: px(Value.CONSTANT_VALUE_35),
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+  },
+  profileScreen: {
+    width: px(Value.CONSTANT_VALUE_180),
+    height: px(Value.CONSTANT_VALUE_180),
+    borderRadius: px(Value.CONSTANT_VALUE_90),
+  },
+  heartIcon: {
+    width: px(Value.CONSTANT_VALUE_100),
+    height: px(Value.CONSTANT_VALUE_100),
+    position: Alignment.ABSOLUTE,
+    right: -30,
+    top: -15,
+  },
 };

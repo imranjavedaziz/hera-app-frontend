@@ -1,14 +1,14 @@
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, normalizeFont} from '../../../utils/responsive';
+import {dynamicSize, normalizeFont, px} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
 
 export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    bottom: dynamicSize(Value.CONSTANT_VALUE_30),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_80),
     right: dynamicSize(Value.CONSTANT_VALUE_15),
     shadowColor: 'rgba(0, 0, 0, 0.09)',
     shadowOffset: {
@@ -18,12 +18,14 @@ export default {
     shadowRadius: Value.CONSTANT_VALUE_18,
     shadowOpacity: 0.5,
     elevation: Value.CONSTANT_VALUE_5,
+    marginTop: dynamicSize(65),
   },
   bgImage: {
-    height: Value.CONSTANT_VALUE_395,
-    width: dynamicSize(Value.CONSTANT_VALUE_250),
+    height: px(370),
+    width: dynamicSize(240),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
+    marginRight: Value.CONSTANT_VALUE_40,
   },
   iconContainer: {
     flex: Value.CONSTANT_VALUE_FRAC88,
@@ -39,6 +41,7 @@ export default {
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
   },
   mapIcon: {
     left: Value.CONSTANT_VALUE_3,
@@ -69,7 +72,7 @@ export default {
   linearGradient: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     width: dynamicSize(Value.CONSTANT_VALUE_250),
-    height: dynamicSize(Value.CONSTANT_VALUE_395),
+    height: '100%',
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_20),
     justifyContent: Alignment.CENTER,
   },

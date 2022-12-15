@@ -9,6 +9,7 @@ import {
   SEND_LIKE_PTB_FAIL,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
+import {ValidationMessages} from '../../constants/Strings'
 function* getPtbProfileDetail(payload) {
   try {
     const result = yield PtbProfileDetailApi(payload.data);
@@ -21,7 +22,7 @@ function* getPtbProfileDetail(payload) {
       });
     }
   } catch (err) {
-    yield put({type: PTB_PROFILE_DETAI_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: PTB_PROFILE_DETAI_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchGetPtbProfileDetail() {
@@ -39,7 +40,7 @@ function* sendLikePtb(payload) {
       });
     }
   } catch (err) {
-    yield put({type: SEND_LIKE_PTB_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SEND_LIKE_PTB_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchsendLikePtb() {

@@ -6,15 +6,11 @@ import Colors from '../../../../constants/Colors';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
-  headingContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_16),
-  },
+
   heading: {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_11,
@@ -69,7 +65,7 @@ export default {
   playIcon: {
     position: Alignment.ABSOLUTE,
     alignSelf: Alignment.CENTER,
-    top: 180 / 2,
+    top: 180 / 3,
   },
   videoSel: {
     position: Alignment.ABSOLUTE,
@@ -142,4 +138,9 @@ export default {
     backgroundColor: 'transparent',
     height: '100%',
   },
+  materialIcon:{
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignSelf: "center"
+  }
 };

@@ -12,11 +12,12 @@ import {mobileSchema} from '../../constants/schemas';
 import styles from '../../styles/auth/mobileNumberScreen';
 import {mobileNumber} from '../../redux/actions/Auth';
 import {useDispatch, useSelector} from 'react-redux';
-import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {InputLabel} from '../../components';
 import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
+import normalizeInput from '../../utils/normalizeInput';
+import {statusHide} from '../../utils/responsive';
 
 const MobileNumber = ({route}) => {
   const navigation = useNavigation();
@@ -25,6 +26,7 @@ const MobileNumber = ({route}) => {
   const [isRouteData, setIsRouteData] = useState();
   const [phone, setPhone] = useState('');
   const {type} = route.params;
+
   const {
     handleSubmit,
     control,
@@ -37,24 +39,18 @@ const MobileNumber = ({route}) => {
   const {
     mobile_number_success,
     mobile_number_loading,
-    mobile_number_error_msg,
     register_user_success_data,
   } = useSelector(state => state.Auth);
 
   // send otp res
   useEffect(() => {
     if (loadingRef.current && !mobile_number_loading) {
-      dispatch(showAppLoader());
       if (mobile_number_success) {
-        dispatch(hideAppLoader());
         navigation.navigate(Routes.OTP, {
           isRouteData,
           type,
           register_user_success_data,
         });
-      }
-      if (mobile_number_error_msg) {
-        dispatch(hideAppLoader());
       }
     }
     loadingRef.current = mobile_number_loading;
@@ -68,7 +64,6 @@ const MobileNumber = ({route}) => {
       type,
     };
     setIsRouteData(payload);
-    dispatch(showAppLoader());
     dispatch(mobileNumber(payload));
   };
 
@@ -76,7 +71,6 @@ const MobileNumber = ({route}) => {
     <CircleBtn
       icon={Images.iconcross}
       Fixedstyle={{
-        marginTop: Value.CONSTANT_VALUE_45,
         alignItems: Alignment.FLEXEND,
         marginRight: Value.CONSTANT_VALUE_20,
       }}
@@ -84,30 +78,6 @@ const MobileNumber = ({route}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  const normalizeInput = (value, previousValue) => {
-    console.log(value, previousValue);
-    const deleting = previousValue && previousValue.length > value.length;
-    if (deleting) {
-      return value.replace(/[^\w]/g, '');
-    }
-    if (!value) {
-      return value;
-    }
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length;
-    if (!previousValue || value.length > previousValue.length) {
-      if (cvLength < 4) {
-        return currentValue;
-      }
-      if (cvLength < 7) {
-        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
-      }
-      return `${currentValue.slice(0, 3)} ${currentValue.slice(
-        3,
-        6,
-      )} (${currentValue.slice(6, 10)})`;
-    }
-  };
   const handelChange = async value => {
     reset({phone: ''});
 
@@ -129,7 +99,8 @@ const MobileNumber = ({route}) => {
       <Header end={true}>{headerComp()}</Header>
       <ScrollView
         style={{flex: Value.CONSTANT_VALUE_1}}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <View
           style={{
             justifyContent: Alignment.FLEX_START,
@@ -138,18 +109,14 @@ const MobileNumber = ({route}) => {
             style={{
               alignItems: Alignment.CENTER,
               justifyContent: Alignment.CENTER,
-              marginTop: Value.CONSTANT_VALUE_95,
+              marginTop: statusHide(Value.CONSTANT_VALUE_105),
             }}>
             <Text style={styles.screenTitle}>
               {type === 1
                 ? Strings.mobile.AccountVerification
                 : Strings.forgotPassword.forgot}
             </Text>
-            <Text style={styles.mainTitle}>
-              {type === 1
-                ? Strings.mobile.mainTitle
-                : Strings.forgotPassword.title}
-            </Text>
+            <Text style={styles.mainTitle}>{Strings.forgotPassword.title}</Text>
           </View>
           <View style={styles.inputRow}>
             <InputLabel Code={true} label={Strings.mobile.Code} />
@@ -181,7 +148,7 @@ const MobileNumber = ({route}) => {
           }}>
           <Button
             style={styles.Btn}
-            label={type === 1 ? Strings.mobile.VERIFY: Strings.mobile.SEND_VERIFY}
+            label={Strings.mobile.SEND_VERIFY}
             onPress={handleSubmit(onSubmit)}
           />
         </View>

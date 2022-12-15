@@ -1,23 +1,30 @@
 // Landing
 import React, {useEffect} from 'react';
-import {View, Image, Text, TouchableOpacity} from 'react-native';
+import {View, Image, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 import Button from '../components/Button';
 import Images from '../constants/Images';
 import styles from '../styles/landingScreen';
 import Strings from '../constants/Strings';
-import {Routes,ABOUT_URL} from '../constants/Constants';
+import {Routes, ABOUT_URL} from '../constants/Constants';
 import {deviceHandler} from '../utils/commonFunction';
 import openWebView from '../utils/openWebView';
+import {resetMobile} from '../redux/actions/Auth';
 
 const type = 1;
 const Landing = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  useEffect(() => {
+    dispatch(resetMobile());
+  }, []);
+
   useEffect(() => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);
   return (
-    <View style={styles.flex}>
+    <SafeAreaView style={styles.flex}>
       <View style={styles.bgContainer}>
         <Image source={Images.LANDING_BG} style={styles.bgImg} />
       </View>
@@ -45,7 +52,7 @@ const Landing = () => {
       <View style={styles.footer}>
         <TouchableOpacity
           accessible={true}
-          onPress={()=>openWebView(ABOUT_URL)}
+          onPress={() => openWebView(ABOUT_URL)}
           accessibilityLabel={Strings.landing.AboutUs}>
           <Text style={styles.footerBtn} accessible={false}>
             {Strings.landing.AboutUs}
@@ -60,7 +67,7 @@ const Landing = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 export default React.memo(Landing);

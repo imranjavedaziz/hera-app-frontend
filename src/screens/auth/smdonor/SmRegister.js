@@ -1,5 +1,5 @@
 // SmRegister
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Pressable,
   ScrollView,
+  Alert,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
@@ -34,16 +35,21 @@ import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
-import updateRegStep, {updateLocalImg} from '../../../redux/actions/Auth';
+import updateRegStep, {
+  deviceRegister,
+  ptbRegister,
+} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import {ptbRegister} from '../../../redux/actions/Register';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import openWebView from '../../../utils/openWebView';
+import {NotificationContext} from '../../../context/NotificationContextManager';
+import debounce from '../../../utils/debounce';
+import {saveLocalImg} from '../../../redux/actions/profileImg';
 
 const validationType = {
   LEN: 'LEN',
@@ -98,6 +104,8 @@ const SmRegister = () => {
   const [check, setCheck] = useState(true);
   const [threeOption, setThreeOption] = useState([]);
   const [datePicked, onDateChange] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const {fcmToken, Device_ID} = useContext(NotificationContext);
   let actionSheet = useRef();
   const {
     handleSubmit,
@@ -113,6 +121,7 @@ const SmRegister = () => {
   const cb = image => {
     setOpen(false);
     setUserImage(image.path);
+    dispatch(saveLocalImg(image.path));
     setFile(image);
   };
   const {
@@ -124,9 +133,15 @@ const SmRegister = () => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
       if (register_user_success) {
+        const _deviceInfo = {
+          device_id: Device_ID,
+          device_token: fcmToken,
+          device_type: Platform.OS,
+        };
+        dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
-        dispatch(updateLocalImg(file.path));
+        dispatch(saveLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       }
       if (register_user_error_msg) {
@@ -152,11 +167,13 @@ const SmRegister = () => {
   }, [dispatch, errors, isValid]);
   const onSubmit = data => {
     if (!userImage) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
     }
     if (check) {
-      dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true, ValidationMessages.TERMS_CONDITIONS));
       return;
     }
     const reqData = new FormData();
@@ -179,16 +196,37 @@ const SmRegister = () => {
     });
     dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
-    dispatch(updateLocalImg(file.path));
+    dispatch(saveLocalImg(userImage));
   };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => navigation.navigate(Routes.Profile, {isRouteData})}
+      onPress={() =>
+        Platform.OS === 'ios' ? backAction() : setShowModal(true)
+      }
       accessibilityLabel="Left arrow Button, Press to go back"
       style={styles.headerIcon}
     />
   );
+  const backAction = () => {
+    Alert.alert(Strings.profile.ModalHeader, Strings.profile.ModalSubheader, [
+      {
+        text: Strings.profile.ModalOption1,
+        onPress: () => {
+          logoutScreen();
+          navigation.navigate(Routes.Landing);
+        },
+      },
+      {
+        text: Strings.profile.ModalOption2,
+        onPress: () => null,
+      },
+    ]);
+    return true;
+  };
+  const logoutScreen = () => {
+    navigation.navigate(Routes.Landing);
+  };
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
@@ -297,9 +335,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.FirstName}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => onChange(v.trim())}
                   error={errors && errors.first_name?.message}
                   required={true}
+                  maxLength={30}
                 />
               )}
               name="first_name"
@@ -310,7 +349,8 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.MiddleName}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  maxLength={30}
+                  onChangeText={v => onChange(v.trim())}
                   error={errors && errors.middle_name?.message}
                 />
               )}
@@ -322,9 +362,10 @@ const SmRegister = () => {
                 <FloatingLabelInput
                   label={Strings.sm_register.LastName}
                   value={value}
-                  onChangeText={v => onChange(v)}
+                  onChangeText={v => onChange(v.trim())}
                   error={errors && errors.last_name?.message}
                   required={true}
+                  maxLength={30}
                 />
               )}
               name="last_name"
@@ -412,7 +453,7 @@ const SmRegister = () => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <FloatingLabelInput
-                  containerStyle={{marginTop: 10}}
+                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
                   label={Strings.sm_register.Confirm}
                   value={value}
                   onChangeText={v => onChange(v)}
@@ -445,7 +486,7 @@ const SmRegister = () => {
                   <Text
                     style={styles.tmcLink1}
                     onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                    {Strings.profile.tmc2}
+                    {Strings.Subscription.TermsServices}
                   </Text>{' '}
                   and{' '}
                   <Text
@@ -462,8 +503,9 @@ const SmRegister = () => {
             </View>
             <View style={styles.align}>
               <Button
+                disabled={register_user_loading || register_user_success}
                 label={Strings.sm_register.Btn}
-                onPress={handleSubmit(onSubmit)}
+                onPress={debounce(handleSubmit(onSubmit), 1000)}
                 style={styles.Btn}
               />
             </View>
@@ -474,6 +516,24 @@ const SmRegister = () => {
               <Text style={styles.parentBtn}>Register as Parent To Be</Text>
             </Pressable>
           </View>
+          <ModalMiddle
+            showModal={showModal}
+            onRequestClose={() => {
+              setShowModal(!showModal);
+            }}
+            String_1={Strings.profile.ModalHeader}
+            String_2={Strings.profile.ModalSubheader}
+            String_3={Strings.profile.ModalOption1}
+            String_4={Strings.profile.ModalOption2}
+            onPressNav={() => {
+              setShowModal(false);
+              logoutScreen();
+              navigation.navigate(Routes.Landing);
+            }}
+            onPressOff={() => {
+              setShowModal(false);
+            }}
+          />
         </ScrollView>
       </View>
       <ActionSheet

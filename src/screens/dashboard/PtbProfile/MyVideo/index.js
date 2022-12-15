@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Modal,
   Platform,
   Alert,
 } from 'react-native';
@@ -25,8 +24,9 @@ import {
 import User from '../../../../Api/User';
 import VideoUploading from '../../../../components/VideoUploading';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../../components';
 import {Colors} from '../../../../constants';
+import {statusHide} from '../../../../utils/responsive';
 
 const MyVideo = () => {
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -52,7 +52,7 @@ const MyVideo = () => {
     delete_gallery_loading,
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
-    dispatch(showAppLoader());
+    isLoader && dispatch(showAppLoader());
     dispatch(getUserGallery());
   }, [dispatch]);
 
@@ -155,7 +155,7 @@ const MyVideo = () => {
   const backAction = () => {
     Alert.alert(
       Strings.smSetting.Remove_Video,
-      Strings.sm_create_gallery.modalsubTitle,
+      Strings.sm_create_gallery.modalsubTitleTwo,
       [
         {
           text: Strings.sm_create_gallery.modalText,
@@ -207,11 +207,11 @@ const MyVideo = () => {
         showHeader={true}
         fixedHeader={true}
         profileLoad={true}
-        style={{backgroundColor: Colors.BACKGROUND}}
+        style={{backgroundColor: Colors.BACKGROUND, marginTop: statusHide(105)}}
         showsVerticalScrollIndicator={true}
         headerComp={headerComp}>
         <View style={styles.mainContainer}>
-          <View style={styles.headingContainer}>
+          <View>
             <Text style={styles.heading}>{Strings.smSetting.MyVideo}</Text>
           </View>
           <View style={styles.innerHeadingContainer}>
@@ -286,40 +286,23 @@ const MyVideo = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[styles.centeredView]}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>
-              {Strings.smSetting.Remove_Video}
-            </Text>
-            <Text style={styles.modalSubHeader}>
-              {Strings.sm_create_gallery.modalsubTitle}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                deleteVideo();
-              }}>
-              <Text style={styles.modalOption1}>
-                {Strings.sm_create_gallery.modalText}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={styles.modalOption2}>
-                {Strings.sm_create_gallery.modalText_2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.smSetting.Remove_Video}
+        String_2={Strings.sm_create_gallery.modalsubTitleTwo}
+        String_3={Strings.sm_create_gallery.modalText}
+        String_4={Strings.sm_create_gallery.modalText_2}
+        onPressNav={() => {
+          setShowModal(false);
+          deleteVideo();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 };

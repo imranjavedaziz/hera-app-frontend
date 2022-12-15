@@ -1,5 +1,11 @@
 // SetAttributes
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Text,
   View,
@@ -7,7 +13,6 @@ import {
   Platform,
   ScrollView,
   Alert,
-  Modal,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -31,13 +36,15 @@ import {
   getUserAttribute,
   saveAttribute,
 } from '../../../redux/actions/SetAttribute';
-import {logOut} from '../../../redux/actions/Auth';
-import {Routes} from '../../../constants/Constants';
+import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {ABOUT_URL, Routes} from '../../../constants/Constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {Alignment} from '../../../constants';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, statusHide} from '../../../utils/responsive';
+import openWebView from '../../../utils/openWebView';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -48,6 +55,7 @@ const SetAttributes = ({route}) => {
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const {Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
@@ -82,6 +90,7 @@ const SetAttributes = ({route}) => {
     EditAttributes === true
       ? dispatch(saveAttribute(payload))
       : dispatch(saveAttribute(data));
+    EditAttributes !== true && dispatch(updateRegStep());
   };
   useFocusEffect(
     useCallback(() => {
@@ -111,11 +120,13 @@ const SetAttributes = ({route}) => {
   const UserLoadingRef = useRef(false);
   const LogoutLoadingRef = useRef(false);
   const SubmitLoadingRef = useRef(false);
-  useEffect(() => {
-    return navigation.addListener('focus', () => {
-      reset();
-    });
-  }, [navigation, reset]);
+  useFocusEffect(
+    useCallback(() => {
+      return navigation.addListener('focus', () => {
+        EditAttributes !== true && reset();
+      });
+    }, [navigation, reset]),
+  );
 
   //GET User Attributes
   useEffect(() => {
@@ -204,9 +215,12 @@ const SetAttributes = ({route}) => {
         navigateSupport();
         break;
       case Strings.preference.About:
+        openWebView(ABOUT_URL);
         break;
       case Strings.preference.Logout:
         logOutScreen();
+        break;
+      case Strings.Subscription.Cancel:
         break;
     }
   };
@@ -215,6 +229,7 @@ const SetAttributes = ({route}) => {
       Strings.smSetting.Inquiry,
       Strings.preference.About,
       Strings.preference.Logout,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -275,17 +290,16 @@ const SetAttributes = ({route}) => {
     setValue('hair_colour_id', hair_colour_id);
     setValue('education_id', education_id);
   };
-
+  const ternaryEXT = () =>
+    Platform.OS === 'ios' ? backAction() : setShowModal(true);
   const headerComp = () => {
-    if(EditAttributes){
+    if (EditAttributes) {
       return (
-        <View style={globalStyle.cancelbtn}>
+        <View style={globalStyle.cancelAndroidbtn}>
           <TouchableOpacity
             onPress={() => {
               isDirty === true
-                ? Platform.OS === 'ios'
-                  ? backAction()
-                  : setShowModal(true)
+                ? ternaryEXT()
                 : navigation.navigate(Routes.SmSetting);
             }}
             style={globalStyle.clearView}>
@@ -294,7 +308,7 @@ const SetAttributes = ({route}) => {
             </Text>
           </TouchableOpacity>
         </View>
-      )
+      );
     }
     return (
       <>
@@ -304,7 +318,6 @@ const SetAttributes = ({route}) => {
             Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
           }}
           Fixedstyle={{
-            marginTop: dynamicSize(Value.CONSTANT_VALUE_45),
             marginRight: dynamicSize(Value.CONSTANT_VALUE_20),
           }}
         />
@@ -318,14 +331,19 @@ const SetAttributes = ({route}) => {
           }}
         />
       </>
-    )
+    );
   };
 
   const logOutScreen = () => {
-    dispatch(logOut());
-    navigation.navigate(Routes.Landing);
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
-
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
       <View
@@ -337,7 +355,7 @@ const SetAttributes = ({route}) => {
           <View
             style={{
               paddingHorizontal: Value.CONSTANT_VALUE_40,
-              marginTop: Value.CONSTANT_VALUE_95,
+              marginTop: statusHide(Value.CONSTANT_VALUE_105),
             }}>
             <Text style={globalStyle.screenTitle}>
               {EditAttributes === true
@@ -351,7 +369,59 @@ const SetAttributes = ({route}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown
+                  defaultValue={value}
+                  containerStyle={Style}
+                  label={Strings.sm_set_attributes.Race}
+                  data={attributeData?.race}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.race_id?.message}
+                />
+              )}
+              name="race_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Dropdown
+                  defaultValue={value}
+                  containerStyle={Style}
+                  label={Strings.sm_set_attributes.MotherEthnicity}
+                  data={attributeData?.ethnicity}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.mother_ethnicity_id?.message}
+                />
+              )}
+              name="mother_ethnicity_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Dropdown
+                  defaultValue={value}
+                  containerStyle={Style}
+                  label={Strings.sm_set_attributes.FatheEthnicity}
+                  data={attributeData?.ethnicity}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.father_ethnicity_id?.message}
+                />
+              )}
+              name="father_ethnicity_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Dropdown
                   heightprop={true}
+                  containerStyle={Style}
                   defaultValue={value}
                   heighter={true}
                   label={Strings.sm_set_attributes.Height}
@@ -380,54 +450,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  label={Strings.sm_set_attributes.Race}
-                  data={attributeData?.race}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.race_id?.message}
-                />
-              )}
-              name="race_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  label={Strings.sm_set_attributes.MotherEthnicity}
-                  data={attributeData?.ethnicity}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.mother_ethnicity_id?.message}
-                />
-              )}
-              name="mother_ethnicity_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  label={Strings.sm_set_attributes.FatheEthnicity}
-                  data={attributeData?.ethnicity}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.father_ethnicity_id?.message}
-                />
-              )}
-              name="father_ethnicity_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
+                  containerStyle={Style}
                   weight={true}
                   label={Strings.sm_set_attributes.Weight}
                   data={attributeData?.weight}
@@ -451,6 +474,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
+                  containerStyle={Style}
                   label={Strings.sm_set_attributes.EyeColor}
                   data={attributeData?.eye_colour}
                   onSelect={selectedItem => {
@@ -467,6 +491,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
+                  containerStyle={Style}
                   label={Strings.preference.HairColor}
                   data={attributeData?.hair_colour}
                   onSelect={selectedItem => {
@@ -483,6 +508,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
+                  containerStyle={Style}
                   label={Strings.sm_set_attributes.Education}
                   data={attributeData?.education}
                   onSelect={selectedItem => {
@@ -490,6 +516,7 @@ const SetAttributes = ({route}) => {
                   }}
                   required={true}
                   error={errors && errors.education_id?.message}
+                  education={true}
                 />
               )}
               name="education_id"
@@ -505,11 +532,7 @@ const SetAttributes = ({route}) => {
                   marginTop: Value.CONSTANT_VALUE_46,
                   marginBottom: Value.CONSTANT_VALUE_50,
                 }}
-                label={
-                  EditAttributes === true
-                    ? Strings.sm_set_attributes.EditAttribute
-                    : Strings.sm_set_attributes.Btn
-                }
+                label={Strings.sm_set_attributes.EditAttribute}
                 onPress={handleSubmit(onSubmit)}
               />
             </View>
@@ -524,10 +547,14 @@ const SetAttributes = ({route}) => {
         <View style={globalStyle.basicSheetContainer}>
           <TouchableOpacity style={globalStyle.formBtn}>
             <Text style={globalStyle.formText}>
-              {Strings.bottomSheet.Inquiry_Form}
+              {Strings.smSetting.Inquiry}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={globalStyle.heraBtn}>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}
+            onPress={() => {
+              openWebView(ABOUT_URL);
+            }}>
             <Text style={globalStyle.heraText}>
               {Strings.bottomSheet.About_HERA}
             </Text>
@@ -541,41 +568,24 @@ const SetAttributes = ({route}) => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[globalStyle.centeredView]}>
-          <View style={globalStyle.modalView}>
-            <Text style={globalStyle.modalHeader}>
-              {Strings.EDITPROFILE.DiscardEdit}
-            </Text>
-            <Text style={globalStyle.modalSubHeader}>
-              {Strings.EDITPROFILE.DiscardEditDisc}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                navigation.navigate(Routes.SmSetting);
-              }}>
-              <Text style={globalStyle.modalOption1}>
-                {Strings.profile.ModalOption1}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={globalStyle.modalOption2}>
-                {Strings.profile.ModalOption2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.EDITPROFILE.DiscardEdit}
+        String_2={Strings.EDITPROFILE.DiscardEditDisc}
+        String_3={Strings.profile.ModalOption1}
+        String_4={Strings.profile.ModalOption2}
+        onPressNav={() => {
+          setShowModal(false);
+          navigation.navigate(Routes.SmSetting);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </>
   );
 };
-export default SetAttributes;
+export default React.memo(SetAttributes);

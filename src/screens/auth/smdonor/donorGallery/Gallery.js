@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Modal,
   Alert,
   Platform,
 } from 'react-native';
@@ -33,8 +32,12 @@ import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
-import {BottomSheetComp} from '../../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../../components';
+import {statusHide} from '../../../../utils/responsive';
+import ImageLoading from '../../../../components/ImageLoading';
 
+const images = [];
+const counter = 0;
 const Gallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -59,13 +62,11 @@ const Gallery = () => {
   const [rmvImgCount, setRmvImgCount] = useState(0);
   const [rmvVideoCount, setRmvVideoCount] = useState(0);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
-  const [images, _setImages] = useState([]);
   const [remove, setRemove] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
-  const [counter, _setCounter] = useState(0);
-
+  const [loadScreen, setLoadScreen] = useState(true);
   const videoRef = useRef();
   const {
     gallery_success,
@@ -74,9 +75,12 @@ const Gallery = () => {
     delete_gallery_success,
     delete_gallery_loading,
   } = useSelector(state => state.CreateGallery);
+
   useEffect(() => {
+    loadScreen && dispatch(showAppLoader());
     dispatch(getUserGallery());
   }, [dispatch]);
+
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -90,6 +94,7 @@ const Gallery = () => {
             loading: false,
             id: gallery_data?.doner_video_gallery?.id,
           });
+          setLoadScreen(false);
           dispatch(hideAppLoader());
         } else {
           dispatch(hideAppLoader());
@@ -168,6 +173,7 @@ const Gallery = () => {
       return;
     }
   };
+
   const deleteAction = () => {
     Alert.alert(
       Strings.sm_create_gallery.modalTitle,
@@ -205,11 +211,8 @@ const Gallery = () => {
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
-      return;
     } else {
-      let payload = {
-        ids: remove?.join(),
-      };
+      let payload = {ids: remove?.join()};
       dispatch(showAppLoader());
       dispatch(deleteGallery(payload));
       setDel(false);
@@ -288,7 +291,6 @@ const Gallery = () => {
     setOpen(true);
     setIsVideo(true);
   };
-  console.log(video, 'video');
   return (
     <>
       <Container
@@ -296,100 +298,111 @@ const Gallery = () => {
         headerEnd={false}
         headerComp={headerComp}
         style={style.containerStyle}>
-        <View style={globalStyle.mainContainer}>
-          <Text style={globalStyle.screenTitle}>
-            {Strings.sm_create_gallery.myGallery}
-          </Text>
-          <View style={styles.galleryImgContainer}>
-            {gallery.map((img, index) => (
-              <TouchableOpacity
-                key={img.id}
-                onPress={() => ImageClick(index)}
-                activeOpacity={gIndex === index ? 0.1 : 1}>
-                <FastImage
-                  key={img.id}
-                  style={[styles.galleryImgView, styles.imageStyling]}
-                  source={{
-                    uri: img.uri,
-                    priority: FastImage.priority.normal,
-                    cache: FastImage.cacheControl.immutable,
-                  }}>
-                  {img.uri ? (
-                    <TouchableOpacity
-                      onPress={() => {
-                        handelDel(img.id);
-                      }}
-                      style={{}}>
-                      <RNSDWebImage
-                        source={
-                          remove.includes(img.id)
-                            ? Images.iconRadiosel
-                            : Images.iconWhite
-                        }
-                        style={styles.selectIcon}
-                      />
-                    </TouchableOpacity>
-                  ) : null}
-                  {gIndex === index && (
-                    <TouchableOpacity
-                      onPress={() => {
-                        Platform.OS === 'ios' ? iosPhotoSheet() : setOpen(true);
-                      }}
-                      style={{}}>
-                      <RNSDWebImage
-                        source={Images.camera}
-                        style={styles.camIcon}
-                      />
-                    </TouchableOpacity>
+        <View style={[globalStyle.mainContainer, {marginTop: statusHide(105)}]}>
+          {loadScreen === false && (
+            <>
+              <Text style={globalStyle.screenTitle}>
+                {Strings.sm_create_gallery.myGallery}
+              </Text>
+              <View style={styles.galleryImgContainer}>
+                {gallery.map((img, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => ImageClick(index)}
+                    activeOpacity={gIndex === index ? 0.1 : 1}>
+                    <ImageLoading
+                      isFastImg={true}
+                      key={index}
+                      style={[styles.galleryImgView, styles.imageStyling]}
+                      source={{
+                        uri: img.uri,
+                        priority: FastImage.priority.normal,
+                        cache: FastImage.cacheControl.immutable,
+                      }}>
+                      {img.uri && (
+                        <TouchableOpacity
+                          onPress={() => {
+                            handelDel(img.id);
+                          }}>
+                          <RNSDWebImage
+                            source={
+                              remove.includes(img.id)
+                                ? Images.iconRadiosel
+                                : Images.iconWhite
+                            }
+                            style={styles.selectIcon}
+                          />
+                        </TouchableOpacity>
+                      )}
+                      {gIndex === index && (
+                        <TouchableOpacity
+                          onPress={() => {
+                            Platform.OS === 'ios'
+                              ? iosPhotoSheet()
+                              : setOpen(true);
+                          }}
+                          style={{}}>
+                          <RNSDWebImage
+                            source={Images.camera}
+                            style={styles.camIcon}
+                          />
+                        </TouchableOpacity>
+                      )}
+                      {img.loading && <ActivityIndicator />}
+                    </ImageLoading>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <VideoUploading
+                apply={true}
+                disabled={video?.file_url === '' ? false : true}
+                style={styles.videoContainer}
+                imageOverlay={styles.imageOverlayWrapper}
+                videoStyle={styles.video}
+                onEnd={() => setIsPlaying(false)}
+                onPress={() =>
+                  video?.file_url === ''
+                    ? bottomSheetVideo()
+                    : setIsPlaying(p => !p)
+                }
+                videoRef={videoRef}
+                isPlaying={isPlaying}
+                video={video}
+                selVideo={selVideo}
+                handelDel={handelDel}
+                rmvImgCount={rmvImgCount}
+                remove={remove}
+                counter={counter}
+              />
+              {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
+                <View style={styles.delContainer}>
+                  {rmvVideoCount > 0 && (
+                    <Text style={styles.selectedText}>
+                      {rmvVideoCount} Video Selected
+                    </Text>
                   )}
-                  {img.loading && <ActivityIndicator />}
-                </FastImage>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <VideoUploading
-            apply={true}
-            disabled={video?.file_url === '' ? false : true}
-            style={styles.videoContainer}
-            imageOverlay={styles.imageOverlayWrapper}
-            videoStyle={styles.video}
-            onEnd={() => setIsPlaying(false)}
-            onPress={() =>
-              video?.file_url === ''
-                ? bottomSheetVideo()
-                : setIsPlaying(p => !p)
-            }
-            videoRef={videoRef}
-            isPlaying={isPlaying}
-            video={video}
-            selVideo={selVideo}
-            handelDel={handelDel}
-            rmvImgCount={rmvImgCount}
-            remove={remove}
-            counter={counter}
-          />
-          {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
-            <View style={styles.delContainer}>
-              {rmvVideoCount > 0 && (
-                <Text style={styles.selectedText}>
-                  {rmvVideoCount} Video Selected
-                </Text>
-              )}
-              {rmvImgCount > 0 && (
-                <Text style={styles.selectedText}>
-                  {rmvImgCount} Photos Selected
-                </Text>
-              )}
-              <TouchableOpacity
-                style={styles.deleteBtnContainer}
-                onPress={() => {
-                  Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
-                }}>
-                <Image source={Images.trashRed} style={{}} />
-                <Text style={styles.rmvText}>Remove From Gallery</Text>
-              </TouchableOpacity>
-            </View>
-          ) : null}
+                  {rmvImgCount > 0 && (
+                    <Text style={styles.selectedText}>
+                      {rmvImgCount}{' '}
+                      {rmvImgCount === 1
+                        ? Strings.sm_create_gallery.Item
+                        : Strings.sm_create_gallery.Items}
+                    </Text>
+                  )}
+                  <TouchableOpacity
+                    style={styles.deleteBtnContainer}
+                    onPress={() => {
+                      Platform.OS === 'ios'
+                        ? deleteAction()
+                        : setShowModal(true);
+                    }}>
+                    <Image source={Images.trashRed} style={{}} />
+                    <Text style={styles.rmvText}>Remove From Gallery</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+            </>
+          )}
         </View>
       </Container>
       <ActionSheet
@@ -423,40 +436,23 @@ const Gallery = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[style.centeredView]}>
-          <View style={style.modalView}>
-            <Text style={style.modalHeader}>
-              {Strings.sm_create_gallery.modalTitle}
-            </Text>
-            <Text style={style.modalSubHeader}>
-              {Strings.sm_create_gallery.modalsubTitle}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                deleteImg(selVideo);
-              }}>
-              <Text style={style.modalOption1}>
-                {Strings.sm_create_gallery.modalText}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={style.modalOption2}>
-                {Strings.sm_create_gallery.modalText_2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.sm_create_gallery.modalTitle}
+        String_2={Strings.sm_create_gallery.modalsubTitle}
+        String_3={Strings.sm_create_gallery.modalText}
+        String_4={Strings.sm_create_gallery.modalText_2}
+        onPressNav={() => {
+          setShowModal(false);
+          deleteImg(selVideo);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
       <ImageView
         images={images}
         imageIndex={imgPreviewindex}
@@ -466,5 +462,4 @@ const Gallery = () => {
     </>
   );
 };
-
-export default Gallery;
+export default React.memo(Gallery);

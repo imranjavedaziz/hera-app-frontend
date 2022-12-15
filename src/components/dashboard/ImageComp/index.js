@@ -3,7 +3,7 @@ import React, {useEffect, useRef} from 'react';
 import Images from '../../../constants/Images';
 import styles from './style';
 import LinearGradient from 'react-native-linear-gradient';
-import FastImage from 'react-native-fast-image';
+import ImageLoading from '../../ImageLoading';
 
 const FadeInView = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -41,10 +41,11 @@ const ImageComp = ({
   return (
     <View style={styles.mainContainer}>
       <TouchableOpacity activeOpacity={activeOpacity} onPress={onPress}>
-        <FastImage
+        <ImageLoading
           source={image}
           style={[styles.bgImage, styles.imageStyle]}
-          resizeMode="cover">
+          resizeMode="cover"
+          isFastImg={true}>
           <LinearGradient
             colors={['rgba(0, 0, 0, 0)', 'rgb(0, 0, 0)']}
             style={styles.linearGradient}
@@ -68,7 +69,7 @@ const ImageComp = ({
               </View>
             </View>
           </LinearGradient>
-        </FastImage>
+        </ImageLoading>
       </TouchableOpacity>
     </View>
   );

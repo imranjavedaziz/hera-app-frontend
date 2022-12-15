@@ -33,7 +33,10 @@ import {Routes} from '../../../constants/Constants';
 import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
+import moment from 'moment';
+import {Alignment} from '../../../constants';
 
+const images = [];
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
@@ -42,7 +45,6 @@ const DashboardDetailScreen = () => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-  const [images, _setImages] = useState([]);
   const [islikedLogo, setIslikedLogo] = useState('');
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const {
@@ -62,7 +64,13 @@ const DashboardDetailScreen = () => {
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
   }, [dispatch, userId]);
-  console.log('LINE NO 63', _setImages);
+  useFocusEffect(
+    useCallback(() => {
+      return navigation.addListener('focus', () => {
+        images.length = 0;
+      });
+    }, []),
+  );
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_sm_donor_loading) {
@@ -103,7 +111,11 @@ const DashboardDetailScreen = () => {
         setTimeout(() => {
           setIsVisibleLogo(false);
           setIslikedLogo('');
-          navigation.navigate(Routes.PtbDashboard);
+          if (smDetailRes?.profile_match_request?.status === 2) {
+            navigation.navigate(Routes.ProfileLikedSm, {item: smDetailRes});
+          } else {
+            navigation.navigate(Routes.PtbDashboard);
+          }
         }, 5000);
       } else {
         dispatch(hideAppLoader());
@@ -131,7 +143,7 @@ const DashboardDetailScreen = () => {
     useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: true,
       }).start();
     }, [fadeAnim]);
@@ -140,19 +152,17 @@ const DashboardDetailScreen = () => {
         style={{
           ...props.style,
           opacity: fadeAnim,
+          flex: 1,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: width,
+          zIndex: 99999,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
-        <ImageBackground
-          style={{
-            flex: 1,
-            position: 'absolute',
-            left: 80,
-            top: 0,
-            bottom: 0,
-            width: width,
-          }}
-          source={IMG_CONDI}>
-          <Image style={styles.iconImage} source={IMG_CONDI} />
-        </ImageBackground>
+        <Image style={styles.iconImage} source={IMG_CONDI} />
       </Animated.View>
     );
   };
@@ -178,7 +188,6 @@ const DashboardDetailScreen = () => {
     setIslikedLogo('disliked');
   };
   const ImageClick = index => {
-    console.log(index, 'index???');
     setImgPreviewIndex(index);
     setIsVisible(true);
   };
@@ -187,7 +196,8 @@ const DashboardDetailScreen = () => {
       <>
         <TouchableOpacity
           onPress={() => ImageClick(item?.index)}
-          key={item?.id}>
+          key={item?.id}
+          style={styles.imagePlaceholder}>
           <RNSDWebImage
             resizeMode="cover"
             source={{uri: item?.item?.file_url}}
@@ -197,21 +207,8 @@ const DashboardDetailScreen = () => {
       </>
     );
   };
-
   let VIEW_PASS = (
     <View style={styles.nativeLong}>
-      {smDetailRes?.doner_attribute?.hair_colour && (
-        <Text
-          style={[
-            global?.tagText,
-            {
-              backgroundColor: Colors.RGBA_229_172_177,
-              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-            },
-          ]}>
-          {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-        </Text>
-      )}
       {smDetailRes?.doner_attribute?.mother_ethnicity && (
         <Text
           style={[
@@ -223,6 +220,67 @@ const DashboardDetailScreen = () => {
           ]}>
           {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
         </Text>
+      )}
+      {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`
+        .length < 20 ? (
+        <View style={styles.nativeMainContainer}>
+          {smDetailRes?.doner_attribute?.hair_colour && (
+            <Text
+              style={[
+                global?.tagText,
+                {
+                  backgroundColor: Colors.RGBA_229_172_177,
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                },
+              ]}>
+              {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+            </Text>
+          )}
+          {smDetailRes?.doner_attribute?.eye_colour && (
+            <View
+              style={[styles.nativeLong, {marginLeft: Value.CONSTANT_VALUE_8}]}>
+              <Text
+                style={[
+                  global?.tagText,
+                  {
+                    backgroundColor: Colors.RGBA_229_172_177,
+                    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                  },
+                ]}>
+                {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
+              </Text>
+            </View>
+          )}
+        </View>
+      ) : (
+        <>
+          {smDetailRes?.doner_attribute?.hair_colour && (
+            <Text
+              style={[
+                global?.tagText,
+                {
+                  backgroundColor: Colors.RGBA_229_172_177,
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                },
+              ]}>
+              {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+            </Text>
+          )}
+          {smDetailRes?.doner_attribute?.eye_colour && (
+            <View style={styles.nativeLong}>
+              <Text
+                style={[
+                  global?.tagText,
+                  {
+                    backgroundColor: Colors.RGBA_229_172_177,
+                    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                  },
+                ]}>
+                {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
+              </Text>
+            </View>
+          )}
+        </>
       )}
     </View>
   );
@@ -273,19 +331,14 @@ const DashboardDetailScreen = () => {
                   />
                 )}
               </View>
-
               <View style={global.dynamicMarginBottom(8)}>
-                {isVisibleLogo ? (
-                  <FadeInView />
-                ) : (
-                  <ImageBackground
-                    imageStyle={styles.backgroundImage}
-                    source={Images.iconComma}>
-                    <Text style={styles.Description}>
-                      {smDetailRes?.user_profile?.bio}
-                    </Text>
-                  </ImageBackground>
-                )}
+                <ImageBackground
+                  imageStyle={styles.backgroundImage}
+                  source={Images.iconComma}>
+                  <Text style={styles.Description}>
+                    {smDetailRes?.user_profile?.bio}
+                  </Text>
+                </ImageBackground>
               </View>
               {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
                 .length < 20 ? (
@@ -293,7 +346,7 @@ const DashboardDetailScreen = () => {
                   {smDetailRes?.doner_attribute?.race && (
                     <View style={styles.nativePlace}>
                       <Text style={global?.tagText}>
-                        {smDetailRes?.doner_attribute?.race}
+                        {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
                       </Text>
                     </View>
                   )}
@@ -316,7 +369,7 @@ const DashboardDetailScreen = () => {
                           marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
                         },
                       ]}>
-                      {smDetailRes?.doner_attribute?.race}
+                      {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
                     </Text>
                   )}
                   {smDetailRes?.doner_attribute?.father_ethnicity && (
@@ -336,30 +389,23 @@ const DashboardDetailScreen = () => {
               {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`
                 .length < 20 ? (
                 <View style={styles.nativeMainContainer}>
-                  {smDetailRes?.doner_attribute?.hair_colour && (
+                  {smDetailRes?.doner_attribute?.mother_ethnicity && (
                     <View style={styles.motherPlace}>
                       <Text style={global?.tagText}>
-                        {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+                        {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
                       </Text>
                     </View>
                   )}
-                  {smDetailRes?.doner_attribute?.mother_ethnicity && (
+                  {smDetailRes?.doner_attribute?.hair_colour && (
                     <View style={styles.hairColor}>
                       <Text style={global?.tagText}>
-                        {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
+                        {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
                       </Text>
                     </View>
                   )}
                 </View>
               ) : (
                 VIEW_PASS
-              )}
-              {smDetailRes?.doner_attribute?.eye_colour && (
-                <View style={styles.eyeColorContainer}>
-                  <Text style={global?.tagText}>
-                    {`${smDetailRes?.doner_attribute?.eye_colour} ${Strings.donorPofile.eyeColor}`}
-                  </Text>
-                </View>
               )}
               {smDetailRes?.doner_photo_gallery?.length > 0 && (
                 <View style={styles.imageMainContainer}>
@@ -379,11 +425,23 @@ const DashboardDetailScreen = () => {
                   </Text>
                   <Video
                     controls={true}
-                    source={{uri: smDetailRes?.doner_video_gallery?.file_url}}
-                    onError={err => console.log(err)}
-                    style={styles.imageDemo2}
+                    source={{
+                      uri: smDetailRes?.doner_video_gallery?.file_url,
+                    }}
+                    style={styles.videoContainer}
                     paused={true}
                   />
+                </View>
+              )}
+              {smDetailRes?.profile_match_request?.status === 2 && (
+                <View style={styles.dateTextView}>
+                  <Image source={Images.HEARTH_ICON} />
+                  <Text style={styles.dateText}>
+                    {Strings.PTB_Profile.YouMatched}{' '}
+                    {moment(
+                      smDetailRes?.profile_match_request?.updated_at,
+                    ).format('MMM DD,YYYY')}
+                  </Text>
                 </View>
               )}
               {smDetailRes?.profile_match_request?.status !== 2 && (
@@ -405,7 +463,6 @@ const DashboardDetailScreen = () => {
                       </View>
                     </TouchableOpacity>
                   </View>
-
                   <View style={styles.crossIconContainer}>
                     <TouchableOpacity
                       onPress={onPressDislike}
@@ -435,11 +492,18 @@ const DashboardDetailScreen = () => {
             />
           </View>
         )}
+        {isVisibleLogo && <FadeInView />}
         <ImageView
           images={images}
           imageIndex={imgPreviewindex}
           visible={visible}
           onRequestClose={() => setIsVisible(false)}
+          isPinchZoomEnabled={false}
+          isTapZoomEnabled={true}
+          style={{
+            alignItems: Alignment.CENTER,
+            justifyContent: Alignment.CENTER,
+          }}
         />
       </View>
     </>

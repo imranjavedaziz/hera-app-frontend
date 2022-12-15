@@ -4,8 +4,8 @@ import {
   height,
   normalizeFont,
   px,
-  scaleHeight,
   scaleWidth,
+  statusHide,
 } from '../../../../utils/responsive';
 import {Value} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
@@ -14,13 +14,12 @@ import {Colors} from '../../../../constants';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_40),
+    marginTop: statusHide(105),
   },
   innerContainer: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: dynamicSize(50),
     paddingVertical: Value.CONSTANT_VALUE_12,
     marginTop: Value.CONSTANT_VALUE_10,
   },
@@ -28,14 +27,14 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    paddingHorizontal: dynamicSize(10),
+    bottom: px(25),
   },
   androidInnerContainer: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    marginTop: px(Value.CONSTANT_VALUE_10),
+    bottom: px(45),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -48,40 +47,36 @@ export default {
   mainImageContainer: {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    bottom: Value.CONSTANT_VALUE_2_34,
+    bottom: Value.CONSTANT_VALUE_40,
   },
   ImageSize: {
-    height: scaleHeight(445),
-    width: scaleWidth(340),
+    height: px(450),
+    width: px(310),
   },
   emptyCardContainer: {
+    marginTop: Value.CONSTANT_VALUE_263,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_263,
   },
   sryText: {
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
-    fontFamily: Fonts.OpenSansBold,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
   },
   innerText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
     textAlign: Alignment.CENTER,
     fontFamily: Fonts.OpenSansBold,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     color: Colors.BLACK,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
   },
   innerText2: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.BLACK,
-  },
-  headerIcon: {
-    // paddingTop: Value.CONSTANT_VALUE_5,
-    bottom: 10,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

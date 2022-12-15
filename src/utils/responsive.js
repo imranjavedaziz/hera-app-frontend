@@ -1,6 +1,6 @@
 // responsive
 import {Dimensions, PixelRatio, Platform} from 'react-native';
-
+import {getStatusBarHeight} from 'react-native-safearea-height';
 export const {width, height} = Dimensions.get('window');
 let max;
 if (width > height) {
@@ -21,6 +21,16 @@ const STANDARD_WIDTH = DEFAULT.width;
 const CURRENT_WIDTH = width;
 const K = CURRENT_WIDTH / STANDARD_WIDTH;
 
+
+export const  normalize = (size) => {
+  const newSize = size * scale;
+  if (Platform.OS === "ios") {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+}
+
 export const normalizeFont = size => {
   const newSize = size * ScaleWidth;
   if (Platform.OS === 'ios') {
@@ -39,3 +49,7 @@ export function px(size) {
     return size;
   }
 }
+
+export const statusHide = maxNum => {
+  return Math.abs(getStatusBarHeight() - maxNum);
+};

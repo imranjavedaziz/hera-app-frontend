@@ -1,27 +1,18 @@
 // OTP
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {Text, TouchableOpacity, View, Keyboard, ScrollView} from 'react-native';
 import {useNavigation, useRoute, StackActions} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Button from '../../components/Button';
 import Images from '../../constants/Images';
 import Header, {CircleBtn} from '../../components/Header';
 import globalStyle from '../../styles/global';
 import Strings from '../../constants/Strings';
 import OtpInputs from '../../components/OtpInputs';
 import {otpSchema} from '../../constants/schemas';
-import {height} from '../../utils/responsive';
+import {height, statusHide} from '../../utils/responsive';
 import styles from '../../styles/auth/otpScreen';
-import {verifyOtp, mobileNumber} from '../../redux/actions/Auth';
+import {verifyOtp, mobileNumber, resetMobile} from '../../redux/actions/Auth';
 import {
   verifyEmail,
   sendVerificationMail,
@@ -34,8 +25,7 @@ import {
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {Colors} from '../../constants';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Alignment, Colors} from '../../constants';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
@@ -59,14 +49,11 @@ const OTP = ({route}) => {
     useSelector(state => state.Auth);
   const {verify_mail_success, verify_mail_loading, verify_mail_error_msg} =
     useSelector(state => state.VerificationMail);
-
   const {
     mobile_number_success,
     mobile_number_loading,
-    mobile_number_error_msg,
     register_user_success_data,
   } = useSelector(state => state.Auth);
-
   const {
     send_verification_success,
     send_verification_loading,
@@ -115,13 +102,13 @@ const OTP = ({route}) => {
   }, [verify_mail_success, verify_mail_loading, verify_mail_error_msg]);
   useEffect(() => {
     if (loadingRef.current && !mobile_number_loading) {
-      dispatch(showAppLoader());
       if (mobile_number_success) {
-        dispatch(hideAppLoader());
-        dispatch(showAppToast(false, 'OTP send again successfully!'));
-      }
-      if (mobile_number_error_msg) {
-        dispatch(hideAppLoader());
+        dispatch(
+          showAppToast(
+            false,
+            'Verification code has been sent successfully on your mobile number.',
+          ),
+        );
       }
     }
     loadingRef.current = mobile_number_loading;
@@ -150,7 +137,12 @@ const OTP = ({route}) => {
   ]);
   const onSubmit = data => {
     if (data.otp.length < 6) {
-      dispatch(showAppToast(true, 'Please fill OTP!'));
+      dispatch(
+        showAppToast(
+          true,
+          'You have entered invalid verification code. Please enter a valid verification code & try again.',
+        ),
+      );
       return;
     }
     if (type === 1 || type === 2) {
@@ -162,9 +154,7 @@ const OTP = ({route}) => {
       dispatch(showAppLoader());
       dispatch(verifyOtp(payload));
     } else {
-      const payload = {
-        code: data.otp,
-      };
+      const payload = {code: data.otp};
       dispatch(showAppLoader());
       dispatch(verifyEmail(payload));
     }
@@ -182,7 +172,6 @@ const OTP = ({route}) => {
         setKeyboardVisible(false); // or some other action
       },
     );
-
     return () => {
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
@@ -192,7 +181,10 @@ const OTP = ({route}) => {
     <CircleBtn
       icon={Images.iconBack}
       Fixedstyle={styles.leftIcon}
-      onPress={navigation.goBack}
+      onPress={() => {
+        dispatch(resetMobile());
+        navigation.goBack();
+      }}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
@@ -203,7 +195,6 @@ const OTP = ({route}) => {
         phone_no: isRouteData.phone_no,
         type,
       };
-      dispatch(showAppLoader());
       dispatch(mobileNumber(payload));
     } else {
       dispatch(sendVerificationMail());
@@ -224,80 +215,91 @@ const OTP = ({route}) => {
         backgroundColor: Colors.BACKGROUND,
       }}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <KeyboardAwareScrollView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.container}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View
-              style={[
-                globalStyle.mainContainer,
-                {minHeight: height * 0.8, marginTop: Value.CONSTANT_VALUE_95},
-              ]}>
-              <Text style={globalStyle.screenTitle}>{getScreenTitle()}</Text>
-              <View
-                style={{}}
-                accessible={true}
-                accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
-                <Text
-                  style={globalStyle.screenSubTitle}
-                  numberOfLines={2}
-                  accessible={false}>
-                  {Strings.otp.subtitle1}
-                </Text>
-                <Text
-                  style={globalStyle.screenSubTitle}
-                  accessible={false}
-                  numberOfLines={1}>
-                  {type === 1 || type === 2
-                    ? Strings.otp.subtitle2
-                    : Strings.otp.subtitle3}
-                </Text>
-              </View>
-              <View style={styles.errMsg}>
-                {!isValid && errors.otp?.message && (
-                  <Text style={styles.redColor}>{errors.otp?.message}</Text>
-                )}
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value, onBlur}}) => (
-                    <OtpInputs
-                      onBlur={() => clearErrors()}
-                      value={value}
-                      onChange={onChange}
-                      isValid={errors.otp === undefined}
-                    />
-                  )}
-                  name="otp"
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        <View
+          style={[
+            globalStyle.mainContainer,
+            {
+              minHeight: height * 0.9,
+              marginTop: statusHide(Value.CONSTANT_VALUE_105),
+            },
+          ]}>
+          <Text style={globalStyle.screenTitle}>{getScreenTitle()}</Text>
+          <View
+            style={{}}
+            accessible={true}
+            accessibilityLabel={`${Strings.mobile.BeforProceed} ${Strings.mobile.VerifyNumber}`}>
+            <Text
+              style={globalStyle.screenSubTitle}
+              numberOfLines={2}
+              accessible={false}>
+              {Strings.otp.subtitle1}
+            </Text>
+            <Text
+              style={globalStyle.screenSubTitle}
+              accessible={false}
+              numberOfLines={1}>
+              {type === 1 || type === 2
+                ? Strings.otp.subtitle2
+                : Strings.otp.subtitle3}
+            </Text>
+          </View>
+          <View style={styles.errMsg}>
+            {!isValid && errors.otp?.message && (
+              <Text style={styles.redColor}>{errors.otp?.message}</Text>
+            )}
+            <Controller
+              control={control}
+              render={({field: {onChange, value, onBlur}}) => (
+                <OtpInputs
+                  onBlur={() => clearErrors()}
+                  value={value}
+                  onChange={onChange}
+                  isValid={errors.otp === undefined}
                 />
-                <View
-                  style={{
-                    position: isKeyboardVisible ? 'relative' : 'absolute',
-                    bottom: 0,
-                    marginTop: 20,
-                  }}>
-                  <Button
-                    label={type === 3 ? Strings.otp.Btn3 : Strings.otp.Btn}
-                    onPress={handleSubmit(onSubmit)}
-                  />
-                  <View
-                    style={
-                      isKeyboardVisible
-                        ? styles.troubleKeyRow
-                        : styles.troubleRow
-                    }>
-                    <Text style={styles.trouble}>{Strings.otp.Trouble}</Text>
-                    <TouchableOpacity onPress={resendOTP}>
-                      <Text style={styles.resend}>{Strings.otp.SendAgain}</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+              )}
+              name="otp"
+            />
+          </View>
+          <View
+            style={{
+              flex: Value.CONSTANT_VALUE_1,
+              alignItems: Alignment.CENTER,
+              marginBottom: Value.CONSTANT_VALUE_40,
+            }}>
+            <View
+              style={{
+                position: isKeyboardVisible
+                  ? Alignment.RELATIVE
+                  : Alignment.ABSOLUTE,
+                bottom: Value.CONSTANT_VALUE_0,
+                marginTop: Value.CONSTANT_VALUE_35,
+                justifyContent: Alignment.CENTER,
+                alignItems: Alignment.CENTER,
+              }}>
+              <TouchableOpacity
+                style={styles.btnTouch}
+                onPress={handleSubmit(onSubmit)}>
+                <Text style={styles.btn}>
+                  {type === 3 ? Strings.otp.Btn3 : Strings.otp.Btn}
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={
+                  isKeyboardVisible ? styles.troubleRow : styles.troubleRowKey
+                }>
+                <Text style={styles.trouble}>{Strings.otp.Trouble}</Text>
+                <TouchableOpacity onPress={resendOTP}>
+                  <Text style={styles.resend}>{Strings.otp.SendAgain}</Text>
+                </TouchableOpacity>
               </View>
             </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
+          </View>
+        </View>
       </ScrollView>
     </View>
   );
 };
-export default OTP;
+export default React.memo(OTP);

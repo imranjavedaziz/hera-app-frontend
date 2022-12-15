@@ -1,14 +1,19 @@
 import {Alignment, Colors} from '../../../../constants';
 import {Value} from '../../../../constants/FixedValues';
-import {dynamicSize, normalizeFont} from '../../../../utils/responsive';
+import {
+  dynamicSize,
+  normalizeFont,
+  statusHide,
+} from '../../../../utils/responsive';
 import {Fonts} from '../../../../constants/Constants';
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
-    backgroundColor: Colors.BACKGROUND_WHOLE,
+    backgroundColor: Colors.BACKGROUND,
   },
   flex: {
     flex: 1,
+    backgroundColor: Colors.BACKGROUND,
   },
   header: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
@@ -17,12 +22,13 @@ export default {
     textDecorationLine: Alignment.UNDERLINE,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    color: '#ff4544',
+    color: Colors.COLOR_RED,
     marginRight: Value.CONSTANT_VALUE_30,
   },
   headingContainer: {
     alignItems: Alignment.CENTER,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_95),
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
+    backgroundColor: Colors.BACKGROUND,
   },
   changePassword: {
     color: Colors.BLACK,
@@ -34,6 +40,7 @@ export default {
   innerHeading: {
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_8,
+    backgroundColor: Colors.BACKGROUND,
   },
   setANew: {
     color: Colors.BLACK,
@@ -62,7 +69,7 @@ export default {
   },
   passwordCheck: {
     flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
+    alignItems: Alignment.FLEX_START,
   },
   fullWidth: {
     paddingHorizontal: Value.CONSTANT_VALUE_40,

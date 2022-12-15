@@ -2,8 +2,14 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
-import {height, width} from '../../../../utils/responsive';
-
+import {
+  dynamicSize,
+  height,
+  normalizeFont,
+  px,
+  statusHide,
+  width,
+} from '../../../../utils/responsive';
 export default {
   mainContainer: {},
   conatiner: {
@@ -14,6 +20,24 @@ export default {
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
   },
+  clearView: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+  },
+  clearText: {
+    fontFamily: Fonts.OpenSansBold,
+    textDecorationLine: Alignment.UNDERLINE,
+    fontSize: 16,
+    letterSpacing: 0,
+    color: 'rgb(255,69,68)',
+    height: 22,
+  },
+  cancelbtn: {
+    justifyContent: Alignment.FLEXEND,
+    alignItems: Alignment.FLEXEND,
+    marginBottom: Value.CONSTANT_VALUE_25,
+    marginRight: 20
+  },
   profileImg: {
     width: Value.CONSTANT_VALUE_40,
     height: Value.CONSTANT_VALUE_40,
@@ -23,7 +47,7 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: (width - 70) / 2,
+    width: (width - px(70)) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
@@ -52,11 +76,14 @@ export default {
     alignSelf: Alignment.CENTER,
   },
   headerIcon: {
-    // paddingTop: Value.CONSTANT_VALUE_10,
-    bottom: 10,
+    marginTop: Value.CONSTANT_VALUE_40,
+    paddingHorizontal: 30,
+  },
+  androidIconHeader: {
+    paddingHorizontal: 30,
   },
   title: {marginBottom: Value.CONSTANT_VALUE_8},
-  search: {},
+  search: {alignItems: Alignment.CENTER, justifyContent: Alignment.CENTER},
   subTitle: {marginBottom: Value.CONSTANT_VALUE_32},
   stateItem: {
     flexDirection: 'row',
@@ -151,10 +178,47 @@ export default {
   },
   headerIconBack: {
     marginLeft: Value.CONSTANT_VALUE_30,
-    marginTop: Value.CONSTANT_VALUE_45,
   },
   CancelBack: {
     marginRight: Value.CONSTANT_VALUE_30,
-    marginTop: Value.CONSTANT_VALUE_45,
+  },
+  upperContainer: {
+    flex: Value.CONSTANT_VALUE_1,
+    backgroundColor: Colors.BACKGROUND,
+  },
+  con: {
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
+    alignItems: Alignment.CENTER,
+    flex: Value.CONSTANT_VALUE_1,
+  },
+  containrMain: {
+    flex: Value.CONSTANT_VALUE_1,
+    backgroundColor: Colors.BACKGROUND,
+  },
+  emptyCardContainer: {
+    marginTop: Value.CONSTANT_VALUE_110,
+    alignSelf: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    paddingHorizontal: Value.CONSTANT_VALUE_10,
+  },
+  sryText: {
+    textAlign: Alignment.CENTER,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  innerText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    textAlign: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+  },
+  innerText2: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    fontFamily: Fonts.OpenSansRegular,
   },
 };

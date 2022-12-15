@@ -2,13 +2,12 @@ import {Colors, Alignment} from '../../constants';
 import global from '../global';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
-import {dynamicSize} from '../../utils/responsive';
-
+import {statusHide} from '../../utils/responsive';
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.FLEX_START,
-    marginTop: Value.CONSTANT_VALUE_95,
+    marginTop: statusHide(94),
     paddingHorizontal: Value.CONSTANT_VALUE_40,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
@@ -17,8 +16,13 @@ export default {
     height: Value.CONSTANT_VALUE_120,
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
-    marginBottom: Value.CONSTANT_VALUE_30,
+    marginBottom: 35,
     alignSelf: Alignment.CENTER,
+  },
+  inputRow: {
+    flexDirection: Alignment.ROW,
+    marginTop: Value.CONSTANT_VALUE_40,
+    justifyContent: 'flex-start',
   },
   margin: {marginHorizontal: 0},
   underlineBtn: {
@@ -40,7 +44,7 @@ export default {
     marginRight: Value.CONSTANT_VALUE_5,
   },
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    // paddingTop: dynamicSize(Value.CONSTANT_VALUE_13),
     paddingHorizontal: Value.CONSTANT_VALUE_25,
   },
 };

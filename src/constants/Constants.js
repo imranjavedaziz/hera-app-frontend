@@ -20,7 +20,8 @@ const environment = {
     chat: 'stage',
   },
 };
-export const {bucket, api_url, chat} = environment.qa;
+
+export const {bucket, api_url, chat} = environment.stage;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -157,7 +158,11 @@ export const validatePassword = (value, type) => {
       case validationType.LEN:
         return value.length >= 8;
       case validationType.ALPHA_NUM:
-        return Regx.ALPHA_LOWER.test(value) && Regx.NUM.test(value);
+        return (
+          Regx.ALPHA_LOWER.test(value) &&
+          Regx.NUM.test(value) &&
+          Regx.ALPHA_START.test(value)
+        );
       case validationType.SPECIAL:
         return Regx.SPECIAL_CHAR.test(value);
       case validationType.CAPSLOCK:
@@ -787,14 +792,27 @@ const CreditRichMonthly = 'com.CreditRich.Monthly';
 const CreditRichYearly = 'com.CreditRich.Yearly';
 const HeraDevMonthly = 'com.HeraDev.Monthly';
 const HeraDevYearly = 'com.HeraDev.Yearly';
+const HeraDevWeekly = 'com.HeraDev.Weekly';
 export const creditProductsIds = Platform.select({
-  ios: [CreditRichMonthly, CreditRichYearly, HeraDevMonthly, HeraDevYearly],
-  android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly],
+  ios: [
+    CreditRichMonthly,
+    CreditRichYearly,
+    HeraDevMonthly,
+    HeraDevYearly,
+    HeraDevWeekly,
+  ],
+  android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
 });
 
 export const productsIds = Platform.select({
-  ios: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevMonthly],
-  android: [CreditRichMonthly, 'Hera_002_2m', HeraDevYearly],
+  ios: [
+    CreditRichMonthly,
+    CreditRichYearly,
+    HeraDevYearly,
+    HeraDevMonthly,
+    HeraDevWeekly,
+  ],
+  android: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevWeekly],
 });
 
 export const SUBSCRIPTION_PLAN = [

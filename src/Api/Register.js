@@ -2,7 +2,7 @@ import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 
 export const ptbRegisterApi = data => {
-  return axiosRequest.post(ApiPath.register, data,{
+  return axiosRequest.post(ApiPath.register, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -17,7 +17,6 @@ export const getStateApi = () => {
   return axiosRequest.get(ApiPath.states);
 };
 export const getProfileSetterApi = () => {
-  console.log("APICALL SETTER")
   return axiosRequest.get(ApiPath.profile_setter_data);
 };
 export const donorProfileDetailApi = userid => {

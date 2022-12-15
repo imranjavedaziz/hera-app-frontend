@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-  Platform,
-  Alert,
-} from 'react-native';
+import {View, Text, Platform, Alert} from 'react-native';
 import React, {useState} from 'react';
 import Header, {IconHeader} from '../../../../components/Header';
 import styles from './style';
@@ -14,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import AccountSetting from '../../../../components/dashboard/PtbProfile/AccountSettings';
 import {ValidationMessages} from '../../../../constants/Strings';
 import {Routes} from '../../../../constants/Constants';
+import {ModalMiddle} from '../../../../components';
 
 const Settings = () => {
   const navigation = useNavigation();
@@ -22,7 +16,7 @@ const Settings = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      style={styles.headerIcon}
+      style={styles.headerIconAndroid}
       leftPress={() => navigation.goBack()}
     />
   );
@@ -74,7 +68,7 @@ const Settings = () => {
     <>
       <View style={styles.mainContainer}>
         <Header end={false}>{headerComp()}</Header>
-        <View style={styles.headingContainer}>
+        <View style={styles.headingAndroidContainer}>
           <Text style={styles.Settings}>{Strings.Settings.SETTINGS}</Text>
         </View>
         <View style={styles.innerHeading}>
@@ -118,50 +112,39 @@ const Settings = () => {
           </View>
         </View>
       </View>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[styles.centeredView]}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalHeader}>
-              {deactivate
-                ? ValidationMessages.Deactivate_Account
-                : ValidationMessages.DELETE_ACCOUNT}
-            </Text>
-            <Text style={styles.modalSubHeader}>
-              {deactivate
-                ? ValidationMessages.DEACTIVATE_TEXT
-                : ValidationMessages.DELETE_TEXT}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                deactivate
-                  ? navigation.navigate(Routes.DeactivateAccount)
-                  : navigation.navigate(Routes.DeleteAccount);
-                setDeactivate(false);
-              }}>
-              <Text style={styles.modalOption1}>
-                {deactivate
-                  ? Strings.sm_create_gallery.deactivateModal
-                  : Strings.sm_create_gallery.deleteModal}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                setDeactivate(false);
-              }}>
-              <Text style={styles.modalOption2}>
-                {Strings.sm_create_gallery.StayHera}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={
+          deactivate
+            ? ValidationMessages.Deactivate_Account
+            : ValidationMessages.DELETE_ACCOUNT
+        }
+        String_2={
+          deactivate
+            ? ValidationMessages.DEACTIVATE_TEXT
+            : ValidationMessages.DELETE_TEXT
+        }
+        String_3={
+          deactivate
+            ? Strings.sm_create_gallery.deactivateModal
+            : Strings.sm_create_gallery.deleteModal
+        }
+        String_4={Strings.sm_create_gallery.StayHera}
+        onPressNav={() => {
+          setShowModal(false);
+          deactivate
+            ? navigation.navigate(Routes.DeactivateAccount)
+            : navigation.navigate(Routes.DeleteAccount);
+          setDeactivate(false);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+          setDeactivate(false);
+        }}
+      />
     </>
   );
 };

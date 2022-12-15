@@ -6,10 +6,16 @@ import {
   ScrollView,
   Platform,
   Alert,
-  Modal,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import Container from '../../../components/Container';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import {
@@ -18,7 +24,7 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
-import {CircleBtn} from '../../../components/Header';
+import Header, {IconHeader} from '../../../components/Header';
 import Button from '../../../components/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {useForm, Controller} from 'react-hook-form';
@@ -37,18 +43,24 @@ import {
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {logOut, signoutUser, updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
   SavePreference,
   GetPreferenceRes,
 } from '../../../redux/actions/SetPreference';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {getStates} from '../../../redux/actions/Register';
 import openWebView from '../../../utils/openWebView';
 import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
+import {empty} from '../../../redux/actions/Chat';
+import {NotificationContext} from '../../../context/NotificationContextManager';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import CustomModal from '../../../components/CustomModal/CustomModal';
+import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -82,7 +94,7 @@ const SetPreference = ({route, navigation}) => {
   );
   const SetloadingRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
-
+  const {Device_ID} = useContext(NotificationContext);
   const {
     set_preference_success,
     set_preference_loading,
@@ -105,6 +117,7 @@ const SetPreference = ({route, navigation}) => {
   } = useSelector(state => state.Register);
   const loadingRef = useRef(false);
   const stateLoadingRef = useRef(false);
+  const [modalVisible, setModalVisible] = useState(false);
   useFocusEffect(
     useCallback(() => {
       if (EditPreferences === true) {
@@ -147,19 +160,21 @@ const SetPreference = ({route, navigation}) => {
     stateLoadingRef.current = get_state_loading;
   }, [get_state_loading, get_state_success]);
   //GET PREFERENCE
-  useEffect(() => {
-    if (SetloadingRef.current && !get_preference_loading) {
-      dispatch(showAppLoader());
-      if (get_preference_success) {
-        dispatch(hideAppLoader());
-        EditPreferences === true && handelChange();
+  useFocusEffect(
+    useCallback(() => {
+      if (SetloadingRef.current && !get_preference_loading) {
+        dispatch(showAppLoader());
+        if (get_preference_success) {
+          dispatch(hideAppLoader());
+          EditPreferences === true && handelChange();
+        }
+        if (get_preference_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (get_preference_error_msg) {
-        dispatch(hideAppLoader());
-      }
-    }
-    SetloadingRef.current = get_preference_loading;
-  }, [get_preference_success, get_preference_loading, get_preference_res]);
+      SetloadingRef.current = get_preference_loading;
+    }, [get_preference_success, get_preference_loading, get_preference_res]),
+  );
   //SETTER FIELDS
   const handelChange = async value => {
     const HeightArr = get_preference_res?.height?.split('-');
@@ -190,7 +205,9 @@ const SetPreference = ({route, navigation}) => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
+        dispatch(empty());
         dispatch(hideAppLoader());
+        dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
@@ -200,26 +217,29 @@ const SetPreference = ({route, navigation}) => {
     LogoutLoadingRef.current = log_out_loading;
   }, [log_out_success, log_out_loading]);
   //GET PREFERENCE
-  useEffect(() => {
-    if (loadingRef.current && !set_preference_loading) {
-      dispatch(showAppLoader());
-      if (set_preference_success) {
-        dispatch(hideAppLoader());
-        EditPreferences === true && handelChange();
-        setPreferencesData(set_preference_res);
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !set_preference_loading) {
+        dispatch(showAppLoader());
+        if (set_preference_success) {
+          dispatch(hideAppLoader());
+          EditPreferences === true && handelChange();
+          setPreferencesData(set_preference_res);
+        }
+        if (set_preference_error_msg) {
+          dispatch(hideAppLoader());
+        }
       }
-      if (set_preference_error_msg) {
-        dispatch(hideAppLoader());
-      }
-    }
-    loadingRef.current = set_preference_loading;
-  }, [set_preference_success, set_preference_loading]);
+      loadingRef.current = set_preference_loading;
+    }, [set_preference_success, set_preference_loading]),
+  );
 
   // SAVE PREFERENCE
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
       dispatch(showAppLoader());
       if (save_preference_success) {
+        dispatch(getSubscriptionStatus());
         dispatch(hideAppLoader());
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
@@ -251,9 +271,11 @@ const SetPreference = ({route, navigation}) => {
   };
 
   const logOutScreen = () => {
-    // dispatch(showAppLoader());
-    dispatch(logOut());
-    navigation.navigate(Routes.Landing);
+    dispatch(showAppLoader());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -264,9 +286,12 @@ const SetPreference = ({route, navigation}) => {
         navigateSupport();
         break;
       case Strings.preference.About:
+        openWebView(ABOUT_URL);
         break;
       case Strings.preference.Logout:
         logOutScreen();
+        break;
+      case Strings.Subscription.Cancel:
         break;
     }
   };
@@ -275,6 +300,7 @@ const SetPreference = ({route, navigation}) => {
       Strings.smSetting.Inquiry,
       Strings.preference.About,
       Strings.preference.Logout,
+      Strings.Subscription.Cancel,
     ]);
     setTimeout(() => {
       actionSheet.current.show();
@@ -322,12 +348,14 @@ const SetPreference = ({route, navigation}) => {
         </View>
       ) : (
         <>
-          <CircleBtn
-            Fixedstyle={styles.fixedheaderStyle}
-            icon={Images.iconSettings}
-            onPress={() => {
-              Platform.OS === 'ios' ? openActionSheet() : setOpen(true);
-            }}
+          <IconHeader
+            style={{paddingHorizontal: 20}}
+            leftIcon={Images.I_BUTTON}
+            leftPress={() => setModalVisible(!modalVisible)}
+            rightIcon={Images.iconSettings}
+            rightPress={() =>
+              Platform.OS === 'ios' ? openActionSheet() : setOpen(true)
+            }
           />
           <ActionSheet
             ref={actionSheet}
@@ -342,326 +370,358 @@ const SetPreference = ({route, navigation}) => {
       )}
     </>
   );
+  const StyleIOS = {
+    marginTop: 30,
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
   return (
-    <>
-      <Container
-        scroller={true}
-        fixedHeader={true}
-        showHeader={true}
-        headerComp={headerComp}
-        headerEnd={true}
-        safeAreViewStyle={
-          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
-        }
-        style={styles.containerView}>
-        <View style={styles.mainContainer}>
-          {EditPreferences === true ? (
-            <Text style={globalStyle.screenTitle}>
-              {Strings.preference.editPreference}
-            </Text>
-          ) : (
-            <Text style={globalStyle.screenTitle}>
-              {Strings.preference.setPreference}
-            </Text>
-          )}
-          <View
-            accessible={true}
-            accessibilityLabel={`${Strings.preference.filter}`}>
-            <Text style={globalStyle.screenSubTitle} accessible={false}>
-              {Strings.preference.SearchPrioritize}
-            </Text>
-          </View>
-          <View style={styles.lookingFor}>
-            <Text style={styles.lookingForText}>
-              {Strings.preference.lookingFor}
-              <Text style={styles.chipsRequiredText}>*</Text>
-            </Text>
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <View style={{}}>
-                  {preferencesData?.role?.length > 0 &&
-                    preferencesData?.role.map(whom => (
-                      <TouchableOpacity
-                        style={styles.flexRow}
-                        key={whom.id}
-                        activeOpacity={1}
-                        onPress={() => onChange(whom.id)}>
-                        <Image
-                          style={{resizeMode: 'contain'}}
-                          source={
-                            value === whom.id
-                              ? Images.iconRadiosel
-                              : Images.iconRadiounsel
-                          }
-                        />
-                        <Text style={styles.lookingsm}>{whom.name}</Text>
-                      </TouchableOpacity>
-                    ))}
+    <View style={isOpen === true ? globalStyle.modalColor : styles.flex}>
+      <Header end={EditPreferences === true ? true : false}>
+        {headerComp()}
+      </Header>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardOpeningTime={0}
+        scrollEnabled={true}
+        extraHeight={180}
+        showsVerticalScrollIndicator={false}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled">
+            <View
+              style={[
+                styles.containerView,
+                isOpen === true && globalStyle.modalColor,
+              ]}>
+              {EditPreferences === true ? (
+                <Text style={globalStyle.screenTitle}>
+                  {Strings.preference.editPreference}
+                </Text>
+              ) : (
+                <Text style={globalStyle.screenTitle}>
+                  {Strings.preference.setPreference}
+                </Text>
+              )}
+              <View
+                accessible={true}
+                accessibilityLabel={`${Strings.preference.filter}`}>
+                <Text style={globalStyle.screenSubTitle} accessible={false}>
+                  {Strings.preference.SearchPrioritize}
+                </Text>
+              </View>
+              <View style={styles.lookingFor}>
+                <Text style={styles.lookingForText}>
+                  {Strings.preference.lookingFor}
+                  <Text style={styles.chipsRequiredText}>*</Text>
+                </Text>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <View style={{}}>
+                      {Strings?.STATIC_ROLE.map(whom => (
+                        <TouchableOpacity
+                          style={styles.flexRow}
+                          key={whom.id}
+                          activeOpacity={1}
+                          onPress={() => onChange(whom.id)}>
+                          <Image
+                            style={{resizeMode: 'contain'}}
+                            source={
+                              value === whom.id
+                                ? Images.iconRadiosel
+                                : Images.iconRadiounsel
+                            }
+                          />
+                          <Text style={styles.lookingsm}>{whom.name}</Text>
+                        </TouchableOpacity>
+                      ))}
+                      <Text style={styles.errLooking}>
+                        {errors && errors.looking?.message}
+                      </Text>
+                    </View>
+                  )}
+                  name={FormKey.looking}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Dropdown
+                      dropDownStyle={{marginTop: Value.CONSTANT_VALUE_0}}
+                      defaultValue={value}
+                      label={Strings.preference.Location}
+                      data={stateRess}
+                      onSelect={(selectedItem, index) => {
+                        console.log(selectedItem, index);
+                        onChange(selectedItem);
+                      }}
+                      required={true}
+                      error={errors && errors.location?.message}
+                    />
+                  )}
+                  name={FormKey.location}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Dropdown
+                      containerStyleDrop={Style}
+                      defaultValue={value}
+                      label={Strings.preference.Education}
+                      data={preferencesData?.education}
+                      onSelect={(selectedItem, index) => {
+                        console.log(selectedItem, index);
+                        onChange(selectedItem);
+                      }}
+                      required={true}
+                      error={errors && errors.education?.message}
+                    />
+                  )}
+                  name={FormKey.education}
+                />
+                <Text style={styles.ageText}>
+                  {Strings.preference.AgeRange}
+                  <Text style={styles.chipsRequiredText}>*</Text>
+                </Text>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value = ''}}) => (
+                    <View style={styles.ageContainer}>
+                      <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}>
+                        {ageRange.map((item, index) => {
+                          return (
+                            <TouchableOpacity
+                              onPress={() => {
+                                onChange(onValueSelect(value, item.name));
+                              }}
+                              activeOpacity={0.8}
+                              key={item.id}>
+                              <View
+                                style={[
+                                  styles.ageRangeChip,
+                                  {
+                                    backgroundColor: isSelected(
+                                      value,
+                                      item.name,
+                                    )
+                                      ? Colors.COLOR_5ABCEC
+                                      : Colors.BACKGROUND,
+                                    borderWidth: isSelected(value, item.name)
+                                      ? 0
+                                      : 1,
+                                  },
+                                ]}>
+                                <Text
+                                  style={[
+                                    styles.chipInsideText,
+                                    {
+                                      color: isSelected(value, item.name)
+                                        ? Colors.WHITE
+                                        : Colors.BLACK_0,
+                                      fontFamily: isSelected(value, item.name)
+                                        ? Fonts.OpenSansBold
+                                        : Fonts.OpenSansRegular,
+                                    },
+                                  ]}>
+                                  {item.name} {Strings.preference.yrs}
+                                </Text>
+                              </View>
+                            </TouchableOpacity>
+                          );
+                        })}
+                      </ScrollView>
+                      <Text style={styles.errMessage}>
+                        {errors && errors.age_range?.message}
+                      </Text>
+                    </View>
+                  )}
+                  name={FormKey.age_range}
+                />
+                <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
+                  <View style={styles.heightContainer}>
+                    <Text style={styles.heightTextInner}>
+                      {Strings.preference.Height}
+                      <Text style={styles.heightText}>*</Text>
+                    </Text>
+                    <Text style={styles.heightTextView}>
+                      <Text>
+                        {height && parseInt(height[0] / 12)}'
+                        {height && parseInt(height[0] % 12)}" -{' '}
+                      </Text>
+                      <Text>
+                        {height && parseInt(height[1] / 12)}'
+                        {height && parseInt(height[1] % 12)}"
+                      </Text>
+                    </Text>
+                  </View>
+                  <Controller
+                    control={control}
+                    render={({field: {onChange}}) => (
+                      <Range
+                        value={height}
+                        setValue={setHeight}
+                        onValueChange={value => {
+                          onChange(value);
+                        }}
+                      />
+                    )}
+                    name={FormKey.height}
+                  />
                 </View>
-              )}
-              name={FormKey.looking}
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={{marginTop: Value.CONSTANT_VALUE_3}}
-                  label={Strings.preference.Location}
-                  data={stateRess}
-                  onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
-                    onChange(selectedItem);
-                  }}
-                  required={true}
-                  error={errors && errors.location?.message}
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <Dropdown
+                      defaultValue={value}
+                      dropDownStyle={{marginTop: 30}}
+                      label={Strings.preference.Race}
+                      data={preferencesData?.race}
+                      onSelect={(selectedItem, index) => {
+                        onChange(selectedItem);
+                      }}
+                      required={true}
+                      error={errors && errors.race?.message}
+                    />
+                  )}
+                  name={FormKey.race}
                 />
-              )}
-              name={FormKey.location}
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  label={Strings.preference.Education}
-                  data={preferencesData?.education}
-                  onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
-                    onChange(selectedItem);
-                  }}
-                  required={true}
-                  error={errors && errors.education?.message}
+                <Text style={styles.chipText}>
+                  {Strings.preference.HairColor}
+                </Text>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value = ''}}) => (
+                    <View style={styles.hairContainer}>
+                      {preferencesData?.hair_colour?.length > 0 &&
+                        preferencesData?.hair_colour.map((item, index) => (
+                          <TouchableOpacity
+                            onPress={() => {
+                              onChange(
+                                onValueSelect(value, item.id.toString()),
+                              );
+                            }}
+                            key={item.id}>
+                            <View
+                              style={[
+                                styles.chips,
+                                {
+                                  backgroundColor: isSelected(
+                                    value,
+                                    item.id.toString(),
+                                  )
+                                    ? Colors.COLOR_5ABCEC
+                                    : Colors.BACKGROUND,
+                                  borderWidth: isSelected(
+                                    value,
+                                    item.id.toString(),
+                                  )
+                                    ? 0
+                                    : 1,
+                                },
+                              ]}>
+                              <Text
+                                style={[
+                                  {
+                                    alignSelf: Alignment.CENTER,
+                                    fontFamily: isSelected(
+                                      value,
+                                      item.id.toString(),
+                                    )
+                                      ? Fonts.OpenSansBold
+                                      : Fonts.OpenSansRegular,
+                                    color: isSelected(value, item.id.toString())
+                                      ? Colors.WHITE
+                                      : Colors.BLACK_0,
+                                  },
+                                ]}>
+                                {item.name}
+                              </Text>
+                            </View>
+                          </TouchableOpacity>
+                        ))}
+                      <Text style={styles.errMessage}>
+                        {EditPreferences && errors && errors.hair?.message}
+                      </Text>
+                    </View>
+                  )}
+                  name={FormKey.hair}
                 />
-              )}
-              name={FormKey.education}
-            />
-            <Text style={styles.ageText}>
-              {Strings.preference.AgeRange}
-              <Text style={styles.chipsRequiredText}>*</Text>
-            </Text>
-            <Controller
-              control={control}
-              render={({field: {onChange, value = ''}}) => (
-                <View style={styles.ageContainer}>
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {ageRange.map((item, index) => {
-                      return (
+                <Text style={styles.chipText}>
+                  {Strings.preference.EyeColor}
+                </Text>
+              </View>
+              <Controller
+                control={control}
+                render={({field: {onChange, value = ''}}) => (
+                  <View style={styles.eyeContainer}>
+                    {preferencesData?.eye_colour?.length > 0 &&
+                      preferencesData?.eye_colour.map((item, index) => (
                         <TouchableOpacity
                           onPress={() => {
-                            onChange(onValueSelect(value, item.name));
+                            onChange(onValueSelect(value, item.id.toString()));
                           }}
-                          activeOpacity={0.8}
                           key={item.id}>
                           <View
                             style={[
-                              styles.ageRangeChip,
+                              styles.chips,
                               {
-                                backgroundColor: isSelected(value, item.name)
+                                backgroundColor: isSelected(
+                                  value,
+                                  item.id.toString(),
+                                )
                                   ? Colors.COLOR_5ABCEC
                                   : Colors.BACKGROUND,
-                                borderWidth: isSelected(value, item.name)
+                                borderWidth: isSelected(
+                                  value,
+                                  item.id.toString(),
+                                )
                                   ? 0
                                   : 1,
                               },
                             ]}>
                             <Text
                               style={[
-                                styles.chipInsideText,
                                 {
-                                  color: isSelected(value, item.name)
-                                    ? Colors.WHITE
-                                    : Colors.BLACK_0,
-                                  fontFamily: isSelected(value, item.name)
+                                  alignSelf: Alignment.CENTER,
+                                  fontFamily: isSelected(
+                                    value,
+                                    item.id.toString(),
+                                  )
                                     ? Fonts.OpenSansBold
                                     : Fonts.OpenSansRegular,
+                                  color: isSelected(value, item.id.toString())
+                                    ? Colors.WHITE
+                                    : Colors.BLACK_0,
                                 },
                               ]}>
-                              {item.name} {Strings.preference.yrs}
+                              {item.name}
                             </Text>
                           </View>
                         </TouchableOpacity>
-                      );
-                    })}
-                  </ScrollView>
-                  <Text style={styles.errMessage}>
-                    {errors && errors.age_range?.message}
-                  </Text>
-                </View>
-              )}
-              name={FormKey.age_range}
-            />
-            <View style={{marginTop: Value.CONSTANT_VALUE_25}}>
-              <View style={styles.heightContainer}>
-                <Text style={styles.heightTextInner}>
-                  {Strings.preference.Height}
-                  <Text style={styles.heightText}>*</Text>
-                </Text>
-                <Text style={styles.heightTextView}>
-                  <Text>
-                    {height && parseInt(height[0] / 12)}'
-                    {height && parseInt(height[0] % 12)}" -{' '}
-                  </Text>
-                  <Text>
-                    {height && parseInt(height[1] / 12)}'
-                    {height && parseInt(height[1] % 12)}"
-                  </Text>
-                </Text>
-              </View>
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Range
-                    value={height}
-                    setValue={setHeight}
-                    onValueChange={value => {
-                      onChange(value);
-                    }}
-                  />
+                      ))}
+                    <Text style={styles.errMessage}>
+                      {EditPreferences && errors && errors.eye?.message}
+                    </Text>
+                  </View>
                 )}
-                name={FormKey.height}
+                name={FormKey.eye}
+              />
+              <Button
+                label={Strings.preference.SAVE_PREFERENCES}
+                style={styles.Btn2}
+                onPress={handleSubmit(onSubmit)}
               />
             </View>
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={{marginTop: 10}}
-                  label={Strings.preference.Race}
-                  data={preferencesData?.race}
-                  onSelect={(selectedItem, index) => {
-                    onChange(selectedItem);
-                  }}
-                  required={true}
-                  error={errors && errors.race?.message}
-                />
-              )}
-              name={FormKey.race}
-            />
-            <Text style={styles.chipText}>{Strings.preference.HairColor}</Text>
-            <Controller
-              control={control}
-              render={({field: {onChange, value = ''}}) => (
-                <View style={styles.hairContainer}>
-                  {preferencesData?.hair_colour?.length > 0 &&
-                    preferencesData?.hair_colour.map((item, index) => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          onChange(onValueSelect(value, item.id.toString()));
-                        }}
-                        key={item.id}>
-                        <View
-                          style={[
-                            styles.chips,
-                            {
-                              backgroundColor: isSelected(
-                                value,
-                                item.id.toString(),
-                              )
-                                ? Colors.COLOR_5ABCEC
-                                : Colors.BACKGROUND,
-                              borderWidth: isSelected(value, item.id.toString())
-                                ? 0
-                                : 1,
-                            },
-                          ]}>
-                          <Text
-                            style={[
-                              {
-                                alignSelf: Alignment.CENTER,
-                                fontFamily: isSelected(
-                                  value,
-                                  item.id.toString(),
-                                )
-                                  ? Fonts.OpenSansBold
-                                  : Fonts.OpenSansRegular,
-                                color: isSelected(value, item.id.toString())
-                                  ? Colors.WHITE
-                                  : Colors.BLACK_0,
-                              },
-                            ]}>
-                            {item.name}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    ))}
-                  <Text style={styles.errMessage}>
-                    {errors && errors.hair?.message}
-                  </Text>
-                </View>
-              )}
-              name={FormKey.hair}
-            />
-            <Text style={styles.chipText}>{Strings.preference.EyeColor}</Text>
-          </View>
-          <Controller
-            control={control}
-            render={({field: {onChange, value = ''}}) => (
-              <View style={styles.eyeContainer}>
-                {preferencesData?.eye_colour?.length > 0 &&
-                  preferencesData?.eye_colour.map((item, index) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        onChange(onValueSelect(value, item.id.toString()));
-                      }}
-                      key={item.id}>
-                      <View
-                        style={[
-                          styles.chips,
-                          {
-                            backgroundColor: isSelected(
-                              value,
-                              item.id.toString(),
-                            )
-                              ? Colors.COLOR_5ABCEC
-                              : Colors.BACKGROUND,
-                            borderWidth: isSelected(value, item.id.toString())
-                              ? 0
-                              : 1,
-                          },
-                        ]}>
-                        <Text
-                          style={[
-                            {
-                              alignSelf: Alignment.CENTER,
-                              fontFamily: isSelected(value, item.id.toString())
-                                ? Fonts.OpenSansBold
-                                : Fonts.OpenSansRegular,
-                              color: isSelected(value, item.id.toString())
-                                ? Colors.WHITE
-                                : Colors.BLACK_0,
-                            },
-                          ]}>
-                          {item.name}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
-                <Text style={styles.errMessage}>
-                  {errors && errors.eye?.message}
-                </Text>
-              </View>
+            {modalVisible && (
+              <CustomModal>
+                <SensoryMatch onPress={() => setModalVisible(!modalVisible)} />
+              </CustomModal>
             )}
-            name={FormKey.eye}
-          />
-          {EditPreferences === true ? (
-            <Button
-              label={Strings.preference.SAVE_PREFERENCES}
-              style={styles.Btn2}
-              onPress={handleSubmit(onSubmit)}
-            />
-          ) : (
-            <Button
-              label={Strings.preference.Save}
-              style={styles.Btn}
-              onPress={handleSubmit(onSubmit)}
-            />
-          )}
-        </View>
-      </Container>
-
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
       <BottomSheetComp
         wrapperStyle={globalStyle.wrapperStyle}
         lineStyle={globalStyle.lineStyle}
@@ -687,41 +747,24 @@ const SetPreference = ({route, navigation}) => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        transparent={true}
-        visible={showModal}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[globalStyle.centeredView]}>
-          <View style={globalStyle.modalView}>
-            <Text style={globalStyle.modalHeader}>
-              {Strings.EDITPROFILE.DiscardEdit}
-            </Text>
-            <Text style={globalStyle.modalSubHeader}>
-              {Strings.EDITPROFILE.DiscardEditDisc}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                navigation.navigate(Routes.PtbProfile);
-              }}>
-              <Text style={globalStyle.modalOption1}>
-                {Strings.profile.ModalOption1}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={globalStyle.modalOption2}>
-                {Strings.profile.ModalOption2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </>
+        }}
+        String_1={Strings.EDITPROFILE.DiscardEdit}
+        String_2={Strings.EDITPROFILE.DiscardEditDisc}
+        String_3={Strings.profile.ModalOption1}
+        String_4={Strings.profile.ModalOption2}
+        onPressNav={() => {
+          setShowModal(false);
+          navigation.navigate(Routes.PtbProfile);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
+    </View>
   );
 };
 

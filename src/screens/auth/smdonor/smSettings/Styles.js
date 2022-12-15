@@ -2,13 +2,23 @@ import Colors from '../../../../constants/Colors';
 import {Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import {Fonts} from '../../../../constants/Constants';
-import {dynamicSize, px} from '../../../../utils/responsive';
+import {
+  dynamicSize,
+  normalizeFont,
+  px,
+  statusHide,
+} from '../../../../utils/responsive';
 
 export default {
   headerContainer: {
-    flex: Value.CONSTANT_VALUE_1,
     marginTop: Value.CONSTANT_VALUE_90,
+    flex: Value.CONSTANT_VALUE_1,
     paddingHorizontal: 30,
+  },
+  androidHeaderContainer: {
+    flex: Value.CONSTANT_VALUE_1,
+    paddingHorizontal: 30,
+    marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
   usernameText: {
     fontSize: Value.CONSTANT_VALUE_24,
@@ -67,8 +77,11 @@ export default {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
+  androidHeaderIcon: {
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
   text: {
-    marginLeft: Value.CONSTANT_VALUE_18,
+    marginLeft: dynamicSize(Value.CONSTANT_VALUE_16),
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
@@ -92,6 +105,7 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     marginTop: Value.CONSTANT_VALUE_35,
+    width: '100%',
   },
   BtnContainer: {
     alignItems: Alignment.CENTER,
@@ -132,7 +146,32 @@ export default {
     paddingBottom: Value.CONSTANT_VALUE_300,
   },
   extraTxt: {
-    marginLeft: 15,
+    // marginLeft: 12,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
+  emptyCardContainer: {
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    marginTop: Value.CONSTANT_VALUE_263,
+  },
+  sryText: {
+    textAlign: Alignment.CENTER,
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansBold,
+  },
+  innerText: {
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
+    textAlign: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansBold,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    color: Colors.BLACK,
+  },
+  innerText2: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
+    textAlign: Alignment.CENTER,
+    color: Colors.BLACK,
+    fontFamily: Fonts.OpenSansRegular,
+  },
 };

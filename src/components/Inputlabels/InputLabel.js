@@ -16,7 +16,9 @@ const InputLabel = props => {
     lineColor,
     Code = false,
     number = false,
+    support = false,
     endComponentPress,
+    NumVal,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
@@ -47,13 +49,18 @@ const InputLabel = props => {
                 styles.InputText,
                 isFocused ? styles.focusBorder : styles.blurBorder,
                 lineColor && {borderColor: Colors.LIGHT_BLACK47},
-                error ? {borderColor: Colors.RED} : null,
+                !isFocused && error ? {borderColor: Colors.RED} : null,
               ]}
               blurOnSubmit
               {...textInputProps}
             />
           </View>
-          {error && <Text style={styles.errMessage}>{error}</Text>}
+          {!isFocused && error && (
+            <Text
+              style={support ? styles.errMessageSupport : styles.errMessage}>
+              {error}
+            </Text>
+          )}
         </>
       )}
       {labelsINput && (

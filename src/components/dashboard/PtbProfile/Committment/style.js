@@ -13,9 +13,7 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     backgroundColor: Colors.SEARCH_BOX,
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_15),
-  },
-  innerView: {
-    paddingVertical: Value.CONSTANT_VALUE_22,
+    alignItems: Alignment.CENTER,
   },
   mainText: {
     fontSize: Value.CONSTANT_VALUE_23,
@@ -29,8 +27,15 @@ export default {
     fontWeight: Alignment.BOLD,
   },
   Icon: {
-    top: Value.CONSTANT_VALUE_36,
-    width: Value.CONSTANT_VALUE_33,
-    height: Value.CONSTANT_VALUE_33,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_34,
+    height: Value.CONSTANT_VALUE_34,
+  },
+  iconContainer: {
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
   },
 };

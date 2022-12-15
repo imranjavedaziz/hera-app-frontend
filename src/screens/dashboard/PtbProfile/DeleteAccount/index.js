@@ -1,13 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import Header from '../../../../components/Header';
 import {Images, Strings} from '../../../../constants';
@@ -26,7 +17,8 @@ import {
 } from '../../../../redux/actions/loader';
 import {useSelector, useDispatch} from 'react-redux';
 import {deleteAccountPassword} from '../../../../constants/schemas';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {signoutUser} from '../../../../redux/actions/Auth';
+import {empty} from '../../../../redux/actions/Chat'
 
 const DeleteAccount = () => {
   const navigation = useNavigation();
@@ -49,9 +41,7 @@ const DeleteAccount = () => {
   const [password, setPassword] = useState('');
   const headerComp = () => (
     <View>
-      <TouchableOpacity
-        style={styles.header}
-        onPress={() => navigation.goBack()}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
       </TouchableOpacity>
     </View>
@@ -61,7 +51,9 @@ const DeleteAccount = () => {
       dispatch(showAppLoader());
       if (delete_account_success) {
         dispatch(hideAppLoader());
+        dispatch(empty());
         dispatch(showAppToast(false, delete_account_res));
+        dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       }
       if (delete_account__error_msg) {
@@ -91,44 +83,38 @@ const DeleteAccount = () => {
             <Text style={styles.setANew}>{Strings.Settings.Enter_delete}</Text>
           </View>
           <View style={styles.flex}>
-            <KeyboardAwareScrollView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              style={styles.flex}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.innerView}>
-                  <View style={styles.fullWidth}>
-                    <Controller
-                      control={control}
-                      render={({field: {onChange, value}}) => (
-                        <FloatingLabelInput
-                          label={Strings.ChangePassword.Current_Password}
-                          value={value}
-                          containerStyle={{
-                            marginTop: Value.CONSTANT_VALUE_35,
-                          }}
-                          onChangeText={v => {
-                            setPassword(v);
-                            onChange(v);
-                          }}
-                          required={true}
-                          secureTextEntry={!show}
-                          minLength={8}
-                          error={errors && errors.current_password?.message}
-                          endComponent={() => (
-                            <TouchableOpacity
-                              onPress={() => setShow(!show)}
-                              style={styles.psswrdInput}>
-                              <Image source={show ? Images.eye2 : Images.eye} />
-                            </TouchableOpacity>
-                          )}
-                        />
+            <View style={styles.innerView}>
+              <View style={styles.fullWidth}>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.ChangePassword.Current_Password}
+                      value={value}
+                      containerStyle={{
+                        marginTop: Value.CONSTANT_VALUE_35,
+                      }}
+                      onChangeText={v => {
+                        setPassword(v);
+                        onChange(v);
+                      }}
+                      required={true}
+                      secureTextEntry={!show}
+                      minLength={8}
+                      error={errors && errors.current_password?.message}
+                      endComponent={() => (
+                        <TouchableOpacity
+                          onPress={() => setShow(!show)}
+                          style={styles.psswrdInput}>
+                          <Image source={show ? Images.eye2 : Images.eye} />
+                        </TouchableOpacity>
                       )}
-                      name="current_password"
                     />
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </KeyboardAwareScrollView>
+                  )}
+                  name="current_password"
+                />
+              </View>
+            </View>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity

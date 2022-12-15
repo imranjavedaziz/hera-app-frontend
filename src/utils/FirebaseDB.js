@@ -1,7 +1,7 @@
 import database from '@react-native-firebase/database';
 import {chat} from '../constants/Constants';
 import ApiPath from '../constants/ApiPath';
-const SIZE = 200;
+const SIZE = 10;
 const createChatId = (id1, id2) => {
   if (parseInt(id1) > parseInt(id2)) {
     return `${id1}-${id2}`;
@@ -100,7 +100,14 @@ export default class FirebaseDB {
       this.prependMessage(messageItem);
     });
   }
-
+  async messageLength() {
+    this.reference
+      .orderByKey()
+      .once('value')
+      .then(snapshot => {
+        this.totalSize = snapshot.numChildren();
+      });
+  }
   async sendMessage(msg) {
     const timestampRow = Date.now();
     const referenceDb = database().ref(
@@ -123,37 +130,48 @@ export default class FirebaseDB {
   }
 
   loadEarlier(cb) {
+    if (this.endReached || this.loading) {
+      return;
+    }
     this.loading = true;
     cb(true);
     this.reference
-      .orderByChild('time')
+      .orderByKey()
+      .endAt(
+        this.firstKey === undefined ? Date.now().toString() : this.firstKey,
+      )
       .limitToLast(SIZE)
-      .endAt(this?.messages[this?.messages?.length - 1]._id)
       .once('value')
       .then(async snapshot => {
-        console.log(snapshot.val(), 'snapshotmload earlier');
-        let childShot = Object.keys(snapshot.val());
-        console.log(childShot, 'childShot');
-        const ordered = Object.keys(snapshot.val()).reduce((obj, key) => {
-          obj[key] = snapshot.val()[key];
-          return obj;
-        }, {});
+        console.log(snapshot, 'snapshot');
+        this.loading = false;
+        const ordered = Object.keys(snapshot.val())
+          .sort((a, b) => b - a)
+          .reduce((obj, key) => {
+            obj[key] = snapshot.val()[key];
+            return obj;
+          }, {});
         const keys = Object.keys(ordered || {});
         const snapValues = Object.values(ordered || {});
-
+        if (snapValues.length < SIZE) {
+          this.endReached = true;
+        }
         snapValues.map(async (childSnapshot, index) => {
-          console.log(childSnapshot, 'childSnapshot');
-          const {time, text, from} = childSnapshot;
-          let messageItem = {
-            _id: keys[index],
-            text,
-            createdAt: time,
-            from,
-          };
-          console.log(messageItem, 'messageItem earlier');
-          this.appendMessage(messageItem);
+          if (parseInt(keys[index]) < parseInt(this.firstKey)) {
+            const {time, text, from} = childSnapshot;
+            const createdAt = new Date(time);
+            let messageItem = {
+              _id: keys[index],
+              text,
+              createdAt: createdAt,
+              from,
+            };
+
+            this.appendMessage(messageItem);
+          }
         });
         cb(false);
+        this.firstKey = keys[keys.length - 1];
       });
   }
 
@@ -184,10 +202,10 @@ export default class FirebaseDB {
     );
     try {
       await referenceUser.update({
-        read: 1,
+        read: 0,
       });
       await referenceSender.update({
-        read: 0,
+        read: 1,
       });
     } catch (e) {
       console.log(e);
@@ -205,7 +223,7 @@ export default class FirebaseDB {
       console.log(e);
     }
   }
-  async updateHistory(lastMsg, timestampRow) {
+  async updateHistory(lastMsg) {
     const referenceUser = database().ref(
       `/${chat}/Users/${this.user.user_id}/Friends/${this.sender.user_id}`,
     );
@@ -216,11 +234,13 @@ export default class FirebaseDB {
       message: lastMsg,
       chat_start: 1,
       time: Date.now(),
+      read: 1,
     });
     await referenceSender.update({
       message: lastMsg,
       chat_start: 1,
       time: Date.now(),
+      read: 0,
     });
   }
   async readAt(id, setLoading) {

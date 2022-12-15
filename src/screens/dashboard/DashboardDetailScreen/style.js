@@ -6,20 +6,18 @@ import {
   dynamicSize,
   height,
   normalizeFont,
+  px,
   scaleHeight,
   scaleWidth,
+  statusHide,
 } from '../../../utils/responsive';
 export default {
   mainContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_118),
+    marginTop: statusHide(105),
   },
   flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
-  imageOverlayWrapper: {
-    position: Alignment.RELATIVE,
-    overflow: Alignment.HIDDEN,
-  },
   bioContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_17),
   },
@@ -31,7 +29,6 @@ export default {
   },
   innerContainer: {},
   headerIcon: {
-    paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   nativeMainContainer: {
@@ -125,6 +122,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: Value.CONSTANT_VALUE_FRAC3_62,
     color: Colors.BLACK,
+    left: 5,
   },
   textbtn2: {
     fontSize: Value.CONSTANT_VALUE_14,
@@ -157,6 +155,7 @@ export default {
     alignItems: Alignment.CENTER,
     width: scaleWidth(Value.CONSTANT_VALUE_211),
     justifyContent: Alignment.SPACE_BETWEEN,
+    marginRight: px(15),
   },
   crossIconContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
@@ -179,5 +178,20 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_35,
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
+  },
+  imagePlaceholder: {
+    backgroundColor: '#E2E1D8',
+  },
+  dateText: {
+    fontFamily: Fonts.OpenSansLightItalic,
+    fontSize: Value.CONSTANT_VALUE_15,
+    color: Colors.BLACK,
+    marginLeft: Value.CONSTANT_VALUE_7,
+  },
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
+  videoContainer: {
+    height: Value.CONSTANT_VALUE_200,
+    backgroundColor: Colors.BLACK,
+    marginTop: Value.CONSTANT_VALUE_15,
   },
 };

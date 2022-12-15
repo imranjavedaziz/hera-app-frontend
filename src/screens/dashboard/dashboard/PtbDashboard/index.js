@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  Platform,
 } from 'react-native';
 import React, {
   useRef,
@@ -21,33 +20,27 @@ import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
-import { IconHeader } from '../../../../components/Header';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { getRoleType } from '../../../../utils/other';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPtbDashboard } from '../../../../redux/actions/PtbDashboard';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../../redux/actions/loader';
-import { deviceRegister } from '../../../../redux/actions/Auth';
-import { Routes } from '../../../../constants/Constants';
-import { deviceHandler } from '../../../../utils/commonFunction';
-import { MaterialIndicator } from 'react-native-indicators';
+import {IconHeader} from '../../../../components/Header';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {getRoleType} from '../../../../utils/other';
+import {useDispatch, useSelector} from 'react-redux';
+import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {Routes} from '../../../../constants/Constants';
+import {deviceHandler} from '../../../../utils/commonFunction';
+import {MaterialIndicator} from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
 import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import DeviceInfo from 'react-native-device-info';
-import { NotificationContext } from '../../../../context/NotificationContextManager';
-import { profileMatch } from '../../../../redux/actions/Profile_Match';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
+import {profileMatch} from '../../../../redux/actions/Profile_Match';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
-
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { dynamicSize, scaleWidth } from '../../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
+
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -55,14 +48,15 @@ const PtbDashboard = props => {
   const [islikedLogo, setIslikedLogo] = useState('');
   const useSwiper = useRef();
   const [cardIndex, setCardIndex] = useState(0);
-  const [empty, setEmpty] = useState(false);
   const [count, setCount] = useState(0);
   const navigation = useNavigation();
   const [ptbDashboardRes, setPtbDashboardRes] = useState([]);
+  const [statusRes, setStatusRes] = useState([]);
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-  const { fcmToken } = useContext(NotificationContext);
+  const {fcmToken} = useContext(NotificationContext);
+  const [empty, setEmpty] = useState(false);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
@@ -72,21 +66,8 @@ const PtbDashboard = props => {
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
+
   const [msgRead, setMsgRead] = useState(false);
-  useEffect(() => {
-    if (subscriptionStatus && subscriptionStatus.data) {
-      if (!subscriptionStatus?.data.status) {
-        dispatch(
-          showAppToast(
-            true,
-            subscriptionStatus.data.is_trial
-              ? Strings.Subscription.TrailOver
-              : Strings.Subscription.SubscriptionExpired,
-          ),
-        );
-      }
-    }
-  }, [subscriptionStatus]);
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -94,28 +75,21 @@ const PtbDashboard = props => {
     if (_.isEmpty(chats)) {
       setMsgRead(false);
     } else {
-      return chats.find(o => {
-        o?.read === 0 ? setMsgRead(true) : setMsgRead(false);
-      });
-
+      setMsgRead(chats.some(x => x?.read === 0));
     }
-  });
+  }, [chats]);
   useFocusEffect(
     useCallback(() => {
-      dispatch(showAppLoader())
-      dispatch(getPtbDashboard());
       fetchData();
+    }, []),
+  );
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getPtbDashboard());
+      setCardIndex(0);
     }, [dispatch]),
   );
-  //Get device Info
-  useEffect(() => {
-    const _deviceInfo = {
-      device_id: DeviceInfo.getDeviceId(),
-      device_token: fcmToken,
-      device_type: Platform.OS,
-    };
-    dispatch(deviceRegister(_deviceInfo));
-  }, []);
+
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -127,8 +101,11 @@ const PtbDashboard = props => {
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         if (notification.userInteraction === true) {
+          if (notification.data.notify_type === 'subscribe') {
+            navigation.navigate(Routes.PtbProfile);
+          }
           if (notification.data.notify_type === 'profile') {
-            const { status } = JSON.parse(notification.data?.match_request);
+            const {status} = JSON.parse(notification.data?.match_request);
             if (status === 2) {
               navigation.navigate(Routes.ChatDetail, {
                 item: notification?.data,
@@ -149,15 +126,6 @@ const PtbDashboard = props => {
               isComingFrom: false,
               chatPush: true,
             });
-            setMsgRead(false);
-          }
-        }
-        if (notification.userInteraction === false) {
-          if (notification.data.notify_type === 'chat') {
-            setMsgRead(true);
-          }
-          if (notification.data.notify_type === 'profile') {
-            setMsgRead(true);
           }
         }
         console.log('NOTIFICATION2nd:', notification);
@@ -179,10 +147,13 @@ const PtbDashboard = props => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      const { notification } = remoteMessage;
+      const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
+        if (notification.data.notify_type === 'subscribe') {
+          navigation.navigate(Routes.PtbProfile);
+        }
         if (notification.data.notify_type === 'profile') {
-          const { status } = JSON.parse(notification.data?.match_request);
+          const {status} = JSON.parse(notification.data?.match_request);
           if (status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
@@ -202,15 +173,6 @@ const PtbDashboard = props => {
             isComingFrom: false,
             chatPush: true,
           });
-          setMsgRead(false);
-        }
-      }
-      if (notification.userInteraction === false) {
-        if (notification.data.notify_type === 'chat') {
-          setMsgRead(true);
-        }
-        if (notification.data.notify_type === 'profile') {
-          setMsgRead(true);
         }
       }
     });
@@ -226,14 +188,16 @@ const PtbDashboard = props => {
     profile_match_loading,
     profile_match_error_msg,
   } = useSelector(state => state.Profile_Match);
+
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_ptb_dashboard_loading) {
         dispatch(showAppLoader());
         if (get_ptb_dashboard_success) {
           dispatch(hideAppLoader());
-          if (_.isEmpty(get_ptb_dashboard_res?.data?.data?.data)) {
-            setEmpty(true);
+          setStatusRes(get_ptb_dashboard_res?.data?.status);
+          if (get_ptb_dashboard_res?.data?.status === 3) {
+            setEmpty(false);
           }
           setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
         } else {
@@ -243,25 +207,23 @@ const PtbDashboard = props => {
       loadingRef.current = get_ptb_dashboard_loading;
     }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
   );
-  useFocusEffect(
-    useCallback(() => {
-      if (loadingMatchRef.current && !profile_match_loading) {
-        dispatch(showAppLoader());
-        if (profile_match_success) {
-          dispatch(hideAppLoader());
-        }
-        if (profile_match_error_msg) {
-          dispatch(hideAppLoader());
-        }
+  useEffect(() => {
+    if (loadingMatchRef.current && !profile_match_loading) {
+      dispatch(showAppLoader());
+      if (profile_match_success) {
+        dispatch(hideAppLoader());
       }
-      loadingMatchRef.current = profile_match_loading;
-    }, [
-      profile_match_success,
-      profile_match_loading,
-      dispatch,
-      profile_match_error_msg,
-    ]),
-  );
+      if (profile_match_error_msg) {
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingMatchRef.current = profile_match_loading;
+  }, [
+    profile_match_success,
+    profile_match_loading,
+    dispatch,
+    profile_match_error_msg,
+  ]);
   const handleOnSwipedLeft = () => {
     const payload = {
       to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
@@ -270,13 +232,10 @@ const PtbDashboard = props => {
     dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count >= ptbDashboardRes.length - 1) {
+    if (count === get_ptb_dashboard_res?.data?.data?.total) {
       useSwiper?.current?.swipeLeft();
-      setTimeout(() => {
-        setEmpty(true);
-      }, 400);
+      setEmpty(true);
     } else {
-      setEmpty(false);
       setTimeout(() => {
         useSwiper?.current?.swipeLeft();
       }, 1000);
@@ -294,14 +253,10 @@ const PtbDashboard = props => {
     dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-
-    if (count >= ptbDashboardRes.length - 1) {
+    if (count === get_ptb_dashboard_res?.data?.data?.total) {
       useSwiper?.current?.swipeRight();
-      setTimeout(() => {
-        setEmpty(true);
-      }, 400);
+      setEmpty(true);
     } else {
-      setEmpty(false);
       setTimeout(() => {
         useSwiper?.current?.swipeRight();
       }, 1000);
@@ -311,7 +266,6 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 150);
   };
-
   function renderCardData(item, index) {
     return (
       <>
@@ -320,7 +274,7 @@ const PtbDashboard = props => {
           code={item?.user?.username}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
-          image={{ uri: item?.user?.profile_pic }}
+          image={{uri: item?.user?.profile_pic}}
           fadeAnim={fadeAnim}
           isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
@@ -328,6 +282,7 @@ const PtbDashboard = props => {
           activeOpacity={1}
           onPress={() => {
             if (subscriptionStatus?.data?.status) {
+              setCardIndex(0);
               navigation.navigate('DashboardDetailScreen', {
                 userId: item?.user?.id,
               });
@@ -349,23 +304,19 @@ const PtbDashboard = props => {
         navigation.navigate('PtbProfile');
       }}
       rightIcon={Images.iconChat}
-      chat={msgRead === true ? true : false}
+      chatptb={msgRead === true ? true : false}
       rightPress={() =>
-        navigation.navigate(Routes.Chat_Listing, { ptbChat: true })
+        navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
       }
-      style={styles.headerIcon}
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}
-      rightImg={{ marginRight: scaleWidth(18) }}
+      rightImg={{marginRight: scaleWidth(18)}}
       rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
 
   const dashboardShow = () => {
-    const STYLE =
-      Platform.OS === 'ios'
-        ? styles.iosInnerContainer
-        : styles.androidInnerContainer;
+    const STYLE = styles.androidInnerContainer;
     return (
       <>
         {get_ptb_dashboard_res?.data?.data?.data.length > 0 ? (
@@ -441,7 +392,6 @@ const PtbDashboard = props => {
       </>
     );
   };
-
   return (
     <>
       <Container
@@ -449,14 +399,24 @@ const PtbDashboard = props => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        {empty === true ? (
+        {(statusRes === 2 || empty === true) && (
           <View style={styles.emptyCardContainer}>
             <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
             <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
             <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
           </View>
-        ) : (
-          dashboardShow()
+        )}
+        {statusRes === 1 && empty === false && dashboardShow()}
+        {statusRes === 3 && (
+          <View style={styles.emptyCardContainer}>
+            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+            <Text style={styles.innerText}>
+              {Strings.dashboard.SecondPara1}
+            </Text>
+            <Text style={styles.innerText2}>
+              {Strings.dashboard.secondPara2}
+            </Text>
+          </View>
         )}
       </Container>
       {modalVisible && (

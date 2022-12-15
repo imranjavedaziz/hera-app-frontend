@@ -1,6 +1,6 @@
 import Alignment from '../../../constants/Alignment';
 import {Value} from '../../../constants/FixedValues';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, statusHide} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 export default {
@@ -9,8 +9,16 @@ export default {
     marginTop: Value.CONSTANT_VALUE_95,
     paddingHorizontal: 30,
   },
+  andMainContainer: {
+    flex: dynamicSize(Value.CONSTANT_VALUE_1),
+    marginTop: statusHide(89.5),
+    paddingHorizontal: 30,
+  },
   headerIcon: {
     paddingTop: dynamicSize(Value.CONSTANT_VALUE_45),
+    marginLeft: Value.CONSTANT_VALUE_30,
+  },
+  andHeaderIcon: {
     marginLeft: Value.CONSTANT_VALUE_30,
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},

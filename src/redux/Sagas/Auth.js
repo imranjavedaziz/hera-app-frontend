@@ -29,6 +29,8 @@ import {
   deviceRegisterApi,
 } from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
+import {showAppLoader, hideAppLoader} from '../actions/loader';
+import {ValidationMessages} from '../../constants/Strings';
 //LogIn
 function* logIn(payload) {
   try {
@@ -39,7 +41,10 @@ function* logIn(payload) {
       yield put({type: AUTH_LOG_IN_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: AUTH_LOG_IN_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: AUTH_LOG_IN_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchLogIn() {
@@ -56,7 +61,10 @@ function* deviceRegister(payload) {
       yield put({type: DEVICE_REGISTER_FAIL, data: {msg: result.data.message}});
     }
   } catch (err) {
-    yield put({type: DEVICE_REGISTER_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: DEVICE_REGISTER_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchdeviceRegister() {
@@ -65,6 +73,7 @@ export function* watchdeviceRegister() {
 
 // mobile Number Registration
 function* mobileNumber(payload) {
+  yield put(showAppLoader());
   try {
     const result = yield mobileNumberApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
@@ -76,7 +85,12 @@ function* mobileNumber(payload) {
       });
     }
   } catch (err) {
-    yield put({type: AUTH_MOBILE_NUMBER_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: AUTH_MOBILE_NUMBER_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
+  } finally {
+    yield put(hideAppLoader());
   }
 }
 export function* watchMobileNumber() {
@@ -96,16 +110,19 @@ function* verifyOtp(payload) {
       });
     }
   } catch (err) {
-    yield put({type: AUTH_VERIFY_OTP_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: AUTH_VERIFY_OTP_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchVerifyOtp() {
   yield takeLatest(AUTH_VERIFY_OTP, verifyOtp);
 }
 
-function* logOut() {
+function* logOut(payload) {
   try {
-    const result = yield logOutApi();
+    const result = yield logOutApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: AUTH_LOG_OUT_SUCCESS, data: result});
     } else {
@@ -117,7 +134,7 @@ function* logOut() {
   } catch (err) {
     yield put({
       type: AUTH_LOG_OUT_FAIL,
-      data: {msg: 'Seems like there is no internet connection.'},
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
     });
   }
 }
@@ -138,7 +155,10 @@ function* updateProfileImg(payload) {
       });
     }
   } catch (err) {
-    yield put({type: UPDATE_PROFILE_IMG_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({
+      type: UPDATE_PROFILE_IMG_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchupdateProfileImg() {

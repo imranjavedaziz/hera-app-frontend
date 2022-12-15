@@ -22,7 +22,7 @@ export default {
   title: {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    marginLeft: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginLeft: Value.CONSTANT_VALUE_16,
     color: Colors.BLACK,
   },
   blueDot: {
@@ -40,5 +40,5 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
     color: 'rgb(53,58,58)',
-  }
+  },
 };

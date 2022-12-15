@@ -6,6 +6,7 @@ import {
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
   USE_LOCAL_IMAGE,
+  USE_NAME,
 } from '../constants';
 
 import {
@@ -15,6 +16,7 @@ import {
   AUTH_MOBILE_NUMBER,
   AUTH_MOBILE_NUMBER_SUCCESS,
   AUTH_MOBILE_NUMBER_FAIL,
+  AUTH_MOBILE_NUMBER_RESET,
   AUTH_VERIFY_OTP,
   AUTH_VERIFY_OTP_FAIL,
   AUTH_VERIFY_OTP_SUCCESS,
@@ -126,6 +128,7 @@ export default (state = initState, action) => {
         token: '',
         log_in_error_msg: '',
         log_in_data: {},
+        register_user_success: false,
       };
     }
     case AUTH_LOG_IN_FAIL: {
@@ -149,6 +152,7 @@ export default (state = initState, action) => {
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
         login: true,
+        register_user_success: false,
       };
     }
 
@@ -161,7 +165,17 @@ export default (state = initState, action) => {
         },
       };
     }
-
+    case USE_NAME: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          first_name: action.data.first_name,
+          last_name: action.data.last_name,
+          middle_name: action.data.middle_name,
+        },
+      };
+    }
     // DEVICE REGISTER
     case DEVICE_REGISTER: {
       return {
@@ -233,6 +247,8 @@ export default (state = initState, action) => {
         ...state,
         user: initState.user,
         gallery: initState.gallery,
+        register_user_success: false,
+        registration_step: 1,
       };
     case AUTH_MOBILE_NUMBER: {
       return {
@@ -240,6 +256,15 @@ export default (state = initState, action) => {
         mobile_number_success: false,
         mobile_number_loading: true,
         mobile_number_error_msg: '',
+      };
+    }
+    case AUTH_MOBILE_NUMBER_RESET: {
+      return {
+        ...state,
+        mobile_number_success: false,
+        mobile_number_loading: false,
+        mobile_number_error_msg: '',
+        register_user_success_data: null,
       };
     }
     case AUTH_MOBILE_NUMBER_FAIL: {
@@ -305,10 +330,9 @@ export default (state = initState, action) => {
         log_out_success: true,
         log_out_loading: false,
         log_out_error_msg: '',
-        token: '',
-        log_in_data: '',
         user: initState.user,
-        registerUser: '',
+        gallery: initState.gallery,
+        register_user_success: false,
       };
     }
     /**

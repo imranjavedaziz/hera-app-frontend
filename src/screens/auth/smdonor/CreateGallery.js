@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Modal,
   Alert,
   Platform,
 } from 'react-native';
@@ -20,7 +19,6 @@ import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
-import sty from '../../auth/smdonor/donorGallery/styles';
 import User from '../../../Api/User';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -32,10 +30,13 @@ import VideoUploading from '../../../components/VideoUploading';
 import {updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
-import {BottomSheetComp} from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import FastImage from 'react-native-fast-image';
 import RNSDWebImage from 'react-native-sdwebimage';
 import {Value} from '../../../constants/FixedValues';
+import {statusHide} from '../../../utils/responsive';
+import ImageLoading from '../../../components/ImageLoading';
+
 const CreateGallery = () => {
   const userService = User();
   const navigation = useNavigation();
@@ -53,7 +54,6 @@ const CreateGallery = () => {
     {id: 4, uri: '', loading: false},
     {id: 5, uri: '', loading: false},
   ]);
-  const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const loadingGalleryRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -68,6 +68,8 @@ const CreateGallery = () => {
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
   const [counter, _setCounter] = useState(0);
+  const profileImg = useSelector(state => state.profileImg?.imgStore);
+
   const {
     gallery_success,
     gallery_loading,
@@ -77,7 +79,7 @@ const CreateGallery = () => {
   } = useSelector(state => state.CreateGallery);
   useEffect(() => {
     dispatch(getUserGallery());
-    console.log(_setImages,_setCounter);
+    console.log(_setImages, _setCounter);
   }, [dispatch]);
   useFocusEffect(
     useCallback(() => {
@@ -230,7 +232,6 @@ const CreateGallery = () => {
       setDel(false);
       setRmvVideoCount(0);
       setSelVideo(false);
-      return;
     } else {
       let payload = {
         ids: remove?.join(),
@@ -242,7 +243,7 @@ const CreateGallery = () => {
       setRemove([]);
     }
   };
-  const headerComp = () => <View/>
+  const headerComp = () => <View />;
 
   const openBottomVideoSheet = () => {
     setOpen(true);
@@ -291,7 +292,7 @@ const CreateGallery = () => {
         headerEnd={true}
         headerComp={headerComp}
         style={styles.zeromargin}>
-        <View style={globalStyle.mainContainer}>
+        <View style={[globalStyle.mainContainer, {marginTop: statusHide(107)}]}>
           <View style={styles.profileImgContainner}>
             <Image source={{uri: profileImg}} style={styles.profileImg} />
           </View>
@@ -321,22 +322,22 @@ const CreateGallery = () => {
               {Strings.sm_create_gallery.Subtitle3}
             </Text>
             <Text style={styles.p1}>{Strings.sm_create_gallery.maxUpload}</Text>
-            <Text style={styles.p2}>{Strings.sm_create_gallery.imagetype}</Text>
           </View>
           <View style={styles.galleryImgContainer}>
             {gallery.map((img, index) => (
               <TouchableOpacity
                 activeOpacity={gIndex === index ? 0.1 : 1}
-                key={img.id}
+                key={index}
                 onPress={() => ImageClick(index)}>
-                <FastImage
+                <ImageLoading
+                  isFastImg={true}
                   style={[styles.galleryImgView, styles.imageStyling]}
                   source={{
                     uri: img.uri,
                     priority: FastImage.priority.normal,
                     cache: FastImage.cacheControl.immutable,
                   }}
-                  key={img.id}>
+                  key={index}>
                   {img.uri && (
                     <TouchableOpacity
                       onPress={() => {
@@ -364,7 +365,7 @@ const CreateGallery = () => {
                     </TouchableOpacity>
                   )}
                   {img.loading && <ActivityIndicator />}
-                </FastImage>
+                </ImageLoading>
               </TouchableOpacity>
             ))}
           </View>
@@ -398,7 +399,8 @@ const CreateGallery = () => {
               )}
               {rmvImgCount > 0 && (
                 <Text style={styles.selectedText}>
-                  {rmvImgCount} Photos Selected
+                  {rmvImgCount}{' '}
+                  {rmvImgCount === 1 ? 'Item Selected' : 'Items Selected'}
                 </Text>
               )}
               <TouchableOpacity
@@ -459,40 +461,24 @@ const CreateGallery = () => {
           </TouchableOpacity>
         </View>
       </BottomSheetComp>
-      <Modal
-        visible={showModal}
-        transparent={true}
+      <ModalMiddle
+        showModal={showModal}
         onRequestClose={() => {
           setShowModal(!showModal);
-        }}>
-        <View style={[sty.centeredView]}>
-          <View style={sty.modalView}>
-            <Text style={sty.modalHeader}>
-              {Strings.sm_create_gallery.modalTitle}
-            </Text>
-            <Text style={sty.modalSubHeader}>
-              {Strings.sm_create_gallery.modalsubTitle}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-                deleteImg(selVideo);
-              }}>
-              <Text style={sty.modalOption1}>
-                {Strings.sm_create_gallery.modalText}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setShowModal(false);
-              }}>
-              <Text style={sty.modalOption2}>
-                {Strings.sm_create_gallery.modalText_2}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        }}
+        String_1={Strings.sm_create_gallery.modalTitle}
+        String_2={Strings.sm_create_gallery.modalsubTitle}
+        String_3={Strings.sm_create_gallery.modalText}
+        String_4={Strings.sm_create_gallery.modalText_2}
+        onPressNav={() => {
+          setShowModal(false);
+          deleteImg(selVideo);
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
+
       <ImageView
         images={images}
         imageIndex={imgPreviewindex}

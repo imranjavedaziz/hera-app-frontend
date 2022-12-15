@@ -5,7 +5,6 @@ import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {Fonts} from '../constants/Constants';
-import style from '../screens/dashboard/PtbProfile/MyVideo/style';
 
 const styles = {
   focusBorder: {
@@ -49,7 +48,7 @@ const styles = {
 
   firstName: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 21,
     letterSpacing: 0,
     color: '#000000',
@@ -68,7 +67,6 @@ const styles = {
     fontSize: 16,
     letterSpacing: 0,
     color: '#353a3a',
-    top: 2,
     minHeight: 40,
   },
   verifiedEmail: {
@@ -97,6 +95,8 @@ const FloatingLabelInput = props => {
     onPressVerify,
     endComponentPress,
     lineColor = false,
+    hideErrorText = false,
+    show,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
@@ -184,7 +184,9 @@ const FloatingLabelInput = props => {
           <View style={styles.endComponent}>{endComponent()}</View>
         )}
       </View>
-      {error && <Text style={styles.errMessage}>{error}</Text>}
+      {!hideErrorText && error && (
+        <Text style={styles.errMessage}>{error}</Text>
+      )}
     </View>
   );
 };

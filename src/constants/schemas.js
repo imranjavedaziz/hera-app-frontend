@@ -8,6 +8,7 @@ export const Regx = {
   MOBILE_REGEX: /^[0]?[1-9]\d{9,10}$/,
   SPECIAL_CHAR: /[|#\\/~^:,;?!&%$@*+]/,
   ALPHA: /[a-zA-Z]/,
+  ALPHA_START: /^[A-Z]/i,
   ALPHA_LOWER: /[a-z]/,
   ALPHA_CAP: /[A-Z]/,
   NUM: /[0-9]/,
@@ -17,7 +18,19 @@ export const Regx = {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 };
 
-const REG_OBJ={
+const allMandatory = (value, ctx) => {
+  console.info(value);
+  const {parent} = ctx;
+  let anyFilled = false;
+  Object.values(parent).forEach(data => {
+    if (Boolean(data)) {
+      anyFilled = true;
+    }
+  });
+  return anyFilled;
+};
+
+const REG_OBJ = {
   phone: yup
     .string()
     .required(ValidationMessages.MOBILE_REQUIRED)
@@ -25,12 +38,22 @@ const REG_OBJ={
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_MOBILE,
     }),
-}
+};
+
 export const mobileSchema = yup.object().shape(REG_OBJ);
 export const otpSchema = yup.object().shape({
   otp: yup.string().required(ValidationMessages.OTP_REQUIRED),
 });
-export const loginSchema = yup.object().shape(REG_OBJ);
+export const loginSchema = yup.object().shape({
+  phone: yup
+    .string()
+    .required(ValidationMessages.MOBILE_REQUIRED)
+    .matches(Regx.MOBILE_REGEX, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    }),
+  password: yup.string().required(ValidationMessages.PASSWORD_REQUIRED),
+});
 export const parentRegisterSchema = yup.object().shape({
   first_name: yup
     .string()
@@ -68,11 +91,15 @@ export const parentRegisterSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: null,
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
@@ -80,7 +107,7 @@ export const parentRegisterSchema = yup.object().shape({
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
@@ -117,24 +144,20 @@ export const smRegisterSchema = yup.object().shape({
         if (selectedAge >= 21 && selectedAge <= 45) {
           return true;
         }
-      } else if (parent?.role === '4') {
-        if (selectedAge >= 18 && selectedAge <= 40) {
-          return true;
-        }
-      } else if (parent?.role === '5') {
-        console.log('LINE NO 138 ', parent.role, selectedAge);
+      } else if (parent?.role === '4' || parent?.role === '5') {
         if (selectedAge >= 18 && selectedAge <= 40) {
           return true;
         }
       }
-      return ctx.createError({
-        message:
-          parent?.role === '3'
-            ? Strings.sm_register.Surrogate_Mother_error
-            : parent?.role === '4'
-            ? Strings.sm_register.Egg_Donar_error
-            : Strings.sm_register.Sperm_Donar_error,
-      });
+      let message = '';
+      if (parent?.role === '3') {
+        message = Strings.sm_register.Surrogate_Mother_error;
+      } else if (parent?.role === '4') {
+        message = Strings.sm_register.Egg_Donar_error;
+      } else {
+        message = Strings.sm_register.Sperm_Donar_error;
+      }
+      return ctx.createError({message});
     }),
   email: yup
     .string()
@@ -149,19 +172,23 @@ export const smRegisterSchema = yup.object().shape({
     .min(Value.CONSTANT_VALUE_8, '')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: ' ',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: ' ',
     }),
   confirm_password: yup
     .string()
@@ -236,7 +263,13 @@ export const inqueryFormSchema = yup.object().shape({
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_EMAIL,
     }),
-  phone_no: yup.number().required(ValidationMessages.MOBILE_NUMBER),
+  phone_no: yup
+    .string()
+    .required(ValidationMessages.MOBILE_REQUIRED)
+    .matches(Regx.MOBILE_REGEX, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    }),
   message: yup.string().required(ValidationMessages.ENTER_Message),
 });
 
@@ -245,30 +278,39 @@ export const deleteAccountPassword = yup.object().shape({
 });
 
 export const changePasswordSchema = yup.object().shape({
-  current_password: yup.string().required(ValidationMessages.COMMON_REQUIRED),
+  current_password: yup
+    .string()
+    .test('current_password', ValidationMessages.ALL_MANDATORY, allMandatory)
+    .required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
   new_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
-    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .test('new_password', ValidationMessages.ALL_MANDATORY, allMandatory)
+    .required(ValidationMessages.PLEASE_ENTER_NEW_PASS)
+    .min(Value.CONSTANT_VALUE_8, 'noError')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: 'noError',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: 'noError',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: 'noError',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: 'noError',
     }),
   confirm_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .test('confirm_password', ValidationMessages.ALL_MANDATORY, allMandatory)
+    .required(ValidationMessages.PLEASE_ENTER_CONFIRM_PASS)
     .oneOf([yup.ref('new_password'), null], 'Your password do not match.'),
 });
 
@@ -276,22 +318,26 @@ export const forgetPasswordSchema = yup.object().shape({
   new_password: yup
     .string()
     .required(ValidationMessages.COMMON_REQUIRED)
-    .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
+    .min(Value.CONSTANT_VALUE_8, 'noError')
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
-      message: ' ',
+      message: 'noError',
     })
     .matches(Regx.ALPHA_LOWER, {
       excludeEmptyString: true,
-      message: '',
+      message: 'noError',
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: 'noError',
     })
     .matches(Regx.ALPHA_CAP, {
       excludeEmptyString: true,
-      message: '',
+      message: 'noError',
     })
     .matches(Regx.NUM, {
       excludeEmptyString: true,
-      message: '',
+      message: 'noError',
     }),
   confirm_password: yup
     .string()

@@ -1,6 +1,16 @@
 // Login
-import React, {useState, useEffect, useRef} from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -13,11 +23,15 @@ import styles from '../../styles/auth/loginScreen';
 import Strings from '../../constants/Strings';
 import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
-import {logIn} from '../../redux/actions/Auth';
+import {deviceRegister, logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
 import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
+import {NotificationContext} from '../../context/NotificationContextManager';
+import normalizeInput from '../../utils/normalizeInput';
+import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
+import {InputLabel} from '../../components';
 
 const type = 2;
 const Login = props => {
@@ -27,28 +41,33 @@ const Login = props => {
   const [show, setShow] = useState(false);
   const [payloadData, setPayloadData] = useState('');
   const [phone, setPhone] = useState('');
+  const {fcmToken, Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
-    getValues,
     setValue,
-    reset,
     formState: {errors},
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
-
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
   useEffect(() => {
-    deviceHandler(props.navigation, 'goBack');
+    deviceHandler(props.navigation, 'exit');
   }, [props.navigation]);
 
   useEffect(() => {
     if (loadingRef.current && !log_in_loading) {
       dispatch(showAppLoader());
       if (log_in_success) {
+        const _deviceInfo = {
+          device_id: Device_ID,
+          device_token: fcmToken,
+          device_type: Platform.OS,
+        };
+        dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(getSubscriptionStatus());
         navigation.reset({
           index: 0,
           routes: [
@@ -88,31 +107,7 @@ const Login = props => {
     dispatch(logIn(payload));
   };
 
-  const normalizeInput = (value, previousValue) => {
-    const deleting = previousValue && previousValue.length > value.length;
-    if (deleting) {
-      return value.replace(/[^\w]/g, '');
-    }
-    if (!value) {
-      return value;
-    }
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length;
-    if (!previousValue || value.length > previousValue.length) {
-      if (cvLength < 4) {
-        return currentValue;
-      }
-      if (cvLength < 7) {
-        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
-      }
-      return `${currentValue.slice(0, 3)} ${currentValue.slice(
-        3,
-        6,
-      )} (${currentValue.slice(6, 10)})`;
-    }
-  };
   const handelChange = async value => {
-    reset({phone: '', password: getValues('password')});
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
     for (let i = 0; i < value.length; i++) {
@@ -122,72 +117,90 @@ const Login = props => {
     }
     setValue('phone', a);
   };
+  console.log('errors.password?.message', errors.password?.message);
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled">
-        <View style={styles.mainContainer}>
-          <Image source={Images.LOGO} style={styles.logo} />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.login.MobileNumber}
-                value={phone}
-                onChangeText={v => {
-                  handelChange(v);
-                }}
-                keyboardType="number-pad"
-                maxLength={14}
-                error={errors && errors.phone?.message}
-              />
-            )}
-            name="phone"
-          />
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.login.Password}
-                value={value}
-                onChangeText={v => onChange(v)}
-                secureTextEntry={!show}
-                minLength={8}
-                error={errors && errors.password?.message}
-                endComponent={() => (
-                  <TouchableOpacity
-                    onPress={() => setShow(!show)}
-                    style={styles.psswrdInput}>
-                    <Image
-                      source={show ? Images.eye2 : Images.eye}
-                      style={{height: show ? 18 : 10, width: show ? 18 : 15}}
+        <KeyboardAwareScrollView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.flex}
+          keyboardShouldPersistTaps="handled">
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.mainContainer}>
+              <Image source={Images.LOGO} style={styles.logo} />
+              <View style={styles.inputRow}>
+                <InputLabel Code={true} label={Strings.mobile.Code} />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <InputLabel
+                      value={phone}
+                      number={true}
+                      label={Strings.inqueryForm.MobileNumber}
+                      onChangeText={v => {
+                        handelChange(v);
+                      }}
+                      maxLength={14}
+                      keyboardType="numeric"
+                      error={errors && errors.phone?.message}
+                      NumVal={value}
                     />
-                  </TouchableOpacity>
+                  )}
+                  name="phone"
+                />
+              </View>
+              <Controller
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <FloatingLabelInput
+                    label={Strings.login.Password}
+                    value={value}
+                    onChangeText={v => onChange(v)}
+                    secureTextEntry={!show}
+                    minLength={8}
+                    error={errors && errors.password?.message}
+                    endComponent={() => (
+                      <TouchableOpacity
+                        onPress={() => setShow(!show)}
+                        style={styles.psswrdInput}>
+                        <Image
+                          source={show ? Images.eye2 : Images.eye}
+                          style={{
+                            height: show ? 18 : 10,
+                            width: show ? 18 : 15,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  />
                 )}
+                name="password"
               />
-            )}
-            name="password"
-          />
-          <View style={{alignItems: Alignment.CENTER}}>
-            <Button
-              label={Strings.login.LOG_IN}
-              style={styles.loginBtn}
-              onPress={handleSubmit(onSubmit)}
-            />
-            <TouchableOpacity
-              onPress={() => navigation.navigate(Routes.MobileNumber, {type})}
-              style={styles.btnMargin}
-              accessible={true}
-              accessibilityRole="button"
-              accessibilityLabel={Strings.login.ForgotPassword}>
-              <Text style={styles.underlineBtn} accessible={false}>
-                {Strings.login.ForgotPassword}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+              <View style={{alignItems: Alignment.CENTER}}>
+                <Button
+                  label={Strings.login.LOG_IN}
+                  style={styles.loginBtn}
+                  onPress={handleSubmit(onSubmit)}
+                />
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(Routes.MobileNumber, {type})
+                  }
+                  style={styles.btnMargin}
+                  accessible={true}
+                  accessibilityRole="button"
+                  accessibilityLabel={Strings.login.ForgotPassword}>
+                  <Text style={styles.underlineBtn} accessible={false}>
+                    {Strings.login.ForgotPassword}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
       </ScrollView>
     </View>
   );

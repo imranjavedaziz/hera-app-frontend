@@ -1,7 +1,7 @@
 import {Colors, Alignment} from '../../../constants';
 import {Value, Prencentage} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
-import {scaleWidth, normalizeFont} from '../../../utils/responsive';
+import {scaleWidth, normalizeFont, statusHide} from '../../../utils/responsive';
 
 export default {
   flex_1: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
@@ -12,18 +12,22 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
-  mainComp_1: {marginTop: 108, marginHorizontal: 40},
+  mainComp_1: {marginTop: statusHide(105), marginHorizontal: 40},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
     height: scaleWidth(Value.CONSTANT_VALUE_25),
+  },
+  inputRow: {
+    flexDirection: Alignment.ROW,
+    marginTop: Value.CONSTANT_VALUE_40,
+    justifyContent: 'flex-start',
   },
   radioLabel: {
     marginLeft: Value.CONSTANT_VALUE_10,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
-    lineHeight: 21,
     letterSpacing: 0,
   },
   radioContainer: {
@@ -52,54 +56,14 @@ export default {
     width: Value.CONSTANT_VALUE_197,
     paddingVertical: Value.CONSTANT_VALUE_0,
     paddingHorizontal: Value.CONSTANT_VALUE_0,
+    marginBottom: 30,
   },
   fixedheaderStyle: {
     marginRight: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_45,
   },
+  andoridFixedheaderStyle: {
+    marginRight: Value.CONSTANT_VALUE_20,
+  },
   paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
-  centeredView: {
-    flex: Value.CONSTANT_VALUE_1,
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
-    marginTop: Value.CONSTANT_VALUE_52,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-  },
-  modalView: {
-    height: Value.CONSTANT_VALUE_230,
-    width: Value.CONSTANT_VALUE_283,
-    backgroundColor: Colors.WHITE,
-    paddingHorizontal: Value.CONSTANT_VALUE_23,
-    paddingVertical: Value.CONSTANT_VALUE_20,
-    alignItems: Alignment.CENTER,
-    borderWidth: Value.CONSTANT_VALUE_1,
-    borderColor: Colors.SEARCH_BOX,
-  },
-  modal_Headertext: {
-    lineHeight: Value.CONSTANT_VALUE_21,
-    fontFamily: Fonts.OpenSansBold,
-    fontSize: Value.CONSTANT_VALUE_16,
-    paddingBottom: Value.CONSTANT_VALUE_5,
-    color: Colors.COLOR_535858,
-  },
-  modal_SubHeadertext: {
-    textAlign: Alignment.CENTER,
-    lineHeight: Value.CONSTANT_VALUE_18,
-    marginTop: Value.CONSTANT_VALUE_1,
-    fontFamily: Fonts.OpenSansRegular,
-  },
-  modal_text_1: {
-    color: Colors.RED,
-    fontSize: Value.CONSTANT_VALUE_16,
-    paddingBottom: Value.CONSTANT_VALUE_10,
-    marginVertical: Value.CONSTANT_VALUE_27,
-    letterSpacing: Value.CONSTANT_VALUE_1,
-    fontFamily: Fonts.OpenSansBold,
-  },
-  modal_text_2: {
-    fontSize: Value.CONSTANT_VALUE_16,
-    fontWeight: Alignment.BOLD,
-    letterSpacing: Value.CONSTANT_VALUE_1,
-    fontFamily: Fonts.OpenSansBold,
-  },
 };

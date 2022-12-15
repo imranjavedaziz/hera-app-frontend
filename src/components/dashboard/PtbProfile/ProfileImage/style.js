@@ -18,6 +18,7 @@ export default {
     borderRadius: dynamicSize(90),
     width: Value.CONSTANT_VALUE_95,
     height: Value.CONSTANT_VALUE_95,
+    backgroundColor: '#E2E1D8',
   },
   mainContainer: {
     alignItems: Alignment.CENTER,
@@ -30,8 +31,8 @@ export default {
     elevation: Value.CONSTANT_VALUE_1,
     shadowRadius: Value.CONSTANT_VALUE_34,
     borderRadius: dynamicSize(100),
-    width: Value.CONSTANT_VALUE_86,
-    height: Value.CONSTANT_VALUE_86,
+    width: Value.CONSTANT_VALUE_95,
+    height: Value.CONSTANT_VALUE_95,
   },
   SmImage: {
     height: Value.CONSTANT_VALUE_86,
@@ -44,7 +45,7 @@ export default {
   Image: {
     height: Value.CONSTANT_VALUE_86,
     width: Value.CONSTANT_VALUE_86,
-    marginTop: Value.CONSTANT_VALUE_5,
+    marginTop: Value.CONSTANT_VALUE_4,
     borderRadius: dynamicSize(90),
     backgroundColor: 'rgb(226, 225, 216)',
   },

@@ -3,10 +3,10 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
   ScrollView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -17,6 +17,7 @@ import {useNavigation, StackActions} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Value} from '../../../../constants/FixedValues';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   validatePassword,
   pwdErrMsg,
@@ -30,7 +31,6 @@ import {
 import {Button, FloatingLabelInput} from '../../../../components';
 import User from '../../../../Api/User';
 import {logIn} from '../../../../redux/actions/Auth';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const HeaderComp = ({type}) => {
   const navigation = useNavigation();
@@ -39,7 +39,6 @@ const HeaderComp = ({type}) => {
       <CircleBtn
         icon={Images.iconcross}
         Fixedstyle={{
-          marginTop: Value.CONSTANT_VALUE_54,
           alignItems: Alignment.FLEXEND,
           marginRight: Value.CONSTANT_VALUE_20,
         }}
@@ -53,7 +52,7 @@ const HeaderComp = ({type}) => {
   }
   return (
     <View>
-      <TouchableOpacity style={styles.header} onPress={navigation.goBack}>
+      <TouchableOpacity onPress={navigation.goBack}>
         <Text style={styles.headerText}>{Strings.Subscription.Cancel}</Text>
       </TouchableOpacity>
     </View>
@@ -71,7 +70,9 @@ const ChangePassword = ({route}) => {
     control,
     handleSubmit,
     formState: {errors},
+    clearErrors,
   } = useForm({
+    reValidateMode: 'onSubmit',
     resolver: yupResolver(
       type === 1 ? changePasswordSchema : forgetPasswordSchema,
     ),
@@ -105,33 +106,38 @@ const ChangePassword = ({route}) => {
     }
   };
   return (
-    <>
+    <View
+      style={{
+        flex: Value.CONSTANT_VALUE_1,
+        backgroundColor: Colors.BACKGROUND,
+      }}>
       <Header end={true}>
-        <HeaderComp type={type}/>  
+        <HeaderComp type={type} />
       </Header>
       <ScrollView
         showVerticalIndicatot={false}
         keyboardShouldPersistTaps="handled">
-        <View style={styles.mainContainer}>
-          <View style={styles.headingContainer}>
-            <Text style={styles.changePassword}>
-              {type === 1
-                ? Strings.ChangePassword.CHANGE_PASSWORD
-                : Strings.forgotPassword.forgot}
-            </Text>
-          </View>
-          <View style={styles.innerHeading}>
-            <Text style={styles.setANew}>
-              {type === 1
-                ? Strings.ChangePassword.SET_A
-                : Strings.ChangePassword.SET_B}
-            </Text>
-          </View>
-          <View style={styles.flex}>
-            <KeyboardAwareScrollView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              style={styles.flex}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAwareScrollView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.flex}
+          keyboardShouldPersistTaps="handled">
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.mainContainer}>
+              <View style={styles.headingContainer}>
+                <Text style={styles.changePassword}>
+                  {type === 1
+                    ? Strings.ChangePassword.CHANGE_PASSWORD
+                    : Strings.forgotPassword.forgot}
+                </Text>
+              </View>
+              <View style={styles.innerHeading}>
+                <Text style={styles.setANew}>
+                  {type === 1
+                    ? Strings.ChangePassword.SET_A
+                    : Strings.ChangePassword.SET_B}
+                </Text>
+              </View>
+              <View style={styles.flex}>
                 <View style={styles.innerView}>
                   <View style={styles.fullWidth}>
                     {type === 1 && (
@@ -144,7 +150,10 @@ const ChangePassword = ({route}) => {
                             containerStyle={{
                               marginTop: Value.CONSTANT_VALUE_35,
                             }}
-                            onChangeText={v => onChange(v)}
+                            onChangeText={v => {
+                              onChange(v);
+                              clearErrors('current_password');
+                            }}
                             required={true}
                             secureTextEntry={!show}
                             minLength={8}
@@ -170,7 +179,10 @@ const ChangePassword = ({route}) => {
                           <FloatingLabelInput
                             label={Strings.ChangePassword.Set_New_Password}
                             value={value}
-                            onChangeText={v => onChange(v)}
+                            onChangeText={v => {
+                              onChange(v);
+                              clearErrors('new_password');
+                            }}
                             required={true}
                             secureTextEntry={true}
                             containerStyle={{
@@ -178,6 +190,9 @@ const ChangePassword = ({route}) => {
                               marginTop: Value.CONSTANT_VALUE_30,
                             }}
                             error={errors && errors.new_password?.message}
+                            hideErrorText={
+                              errors?.new_password?.message === 'noError'
+                            }
                           />
                           {pwdErrMsg.map(msg => (
                             <View style={styles.passwordCheck} key={msg.type}>
@@ -229,7 +244,10 @@ const ChangePassword = ({route}) => {
                           containerStyle={{
                             marginTop: Value.CONSTANT_VALUE_29,
                           }}
-                          onChangeText={v => onChange(v)}
+                          onChangeText={v => {
+                            onChange(v);
+                            clearErrors('confirm_password');
+                          }}
                           secureTextEntry={true}
                           minLength={8}
                           error={errors && errors.confirm_password?.message}
@@ -239,23 +257,19 @@ const ChangePassword = ({route}) => {
                     />
                   </View>
                 </View>
-              </TouchableWithoutFeedback>
-            </KeyboardAwareScrollView>
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              label={
-                type === 1
-                  ? Strings.preference.Save
-                  : Strings.preference.SaveNewPassword
-              }
-              style={styles.Btn}
-              onPress={handleSubmit(onSubmit)}
-            />
-          </View>
-        </View>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Button
+                  label={Strings.preference.SaveNewPassword}
+                  style={styles.Btn}
+                  onPress={handleSubmit(onSubmit)}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
       </ScrollView>
-    </>
+    </View>
   );
 };
 export default React.memo(ChangePassword);

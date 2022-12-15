@@ -2,9 +2,15 @@ import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 import Colors from '../../../constants/Colors';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, height, scaleWidth} from '../../../utils/responsive';
+import {
+  dynamicSize,
+  height,
+  scaleWidth,
+  statusHide,
+} from '../../../utils/responsive';
 
 export default {
+  flex: {flex: 1, backgroundColor: Colors.BACKGROUND},
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     alignItems: Alignment.CENTER,
@@ -19,6 +25,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_17,
     fontSize: Value.CONSTANT_VALUE_14,
     lineHeight: Value.CONSTANT_VALUE_21,
+    color: Colors.BLACK_KEY,
   },
   required: {
     color: Colors.RED,
@@ -32,9 +39,9 @@ export default {
     color: Colors.BLACK_0,
   },
   containerView: {
-    marginBottom: -40,
-    marginHorizontal: scaleWidth(37),
+    marginHorizontal: scaleWidth(40),
     backgroundColor: Colors.BACKGROUND,
+    marginTop: statusHide(105),
   },
   label: {
     position: Alignment.ABSOLUTE,
@@ -176,7 +183,19 @@ export default {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
-    bottom: -25,
+    bottom: -20,
+    right: 0,
+  },
+  errLooking: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    position: 'absolute',
+    bottom: 0,
     right: 0,
   },
   loaderContainer: {

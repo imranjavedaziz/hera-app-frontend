@@ -5,7 +5,7 @@ const initState = {
   report_user_loading: false,
   report_user_error: '',
 };
-export default (state = initState, action) => {
+export default (state = initState, action = null) => {
   switch (action.type) {
     case REPORT_USER:
       return {

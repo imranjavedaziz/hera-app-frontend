@@ -27,12 +27,12 @@ export default {
     flexDirection: Alignment.ROW,
     marginBottom: px(Value.CONSTANT_VALUE_18),
     flex: 1,
-    justifyContent:Alignment.SPACE_BETWEEN,
   },
   description: {
     marginLeft: px(Value.CONSTANT_VALUE_12),
-    maxWidth: px(Value.CONSTANT_VALUE_190),
-    alignItems: 'flex-start',
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    flex: 1,
   },
   userName: {
     fontFamily: Fonts.OpenSansRegular,
@@ -40,7 +40,7 @@ export default {
     color: Colors.BLACK,
     fontWeight: Alignment.BOLD,
     lineHeight: 21,
-    letterSpacing: 0
+    letterSpacing: 0,
   },
   msg: {
     fontFamily: Fonts.OpenSansRegular,
@@ -72,6 +72,7 @@ export default {
   },
   timeView: {
     alignItems: Alignment.FLEXEND,
+    justifyContent: Alignment.CENTER,
   },
   heartIcon: {
     height: Value.CONSTANT_VALUE_40,
@@ -80,18 +81,18 @@ export default {
     right: -13,
     bottom: -12,
   },
-  contain: {flexDirection: 'row'},
+  contain: {flexDirection: Alignment.ROW},
   seemsLikeYouHave: {
     width: 290,
     height: 64,
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: 23,
+    fontSize: Value.CONSTANT_VALUE_23,
     fontWeight: Alignment.BOLD,
     fontStyle: 'normal',
     letterSpacing: 0,
     textAlign: Alignment.CENTER,
     color: '#353a3a',
-    marginTop: 20,
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   heartImage: {
     width: 183.4,
@@ -105,5 +106,9 @@ export default {
     width: 282,
   },
   chatImage: {width: 160, height: 160, marginBottom: 27},
-  container: {flex: 1, justifyContent: Alignment.CENTER, alignItems: Alignment.CENTER},
+  container: {
+    flex: 1,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+  },
 };

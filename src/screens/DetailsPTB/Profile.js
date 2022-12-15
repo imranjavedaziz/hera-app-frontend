@@ -1,4 +1,5 @@
 // Parent to Be Screen
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -6,16 +7,12 @@ import {
   Image,
   Pressable,
   ImageBackground,
-  Modal,
   Platform,
   Alert,
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import moment from 'moment';
-import openCamera from '../../utils/openCamera';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -23,12 +20,14 @@ import {
   hideAppLoader,
   showAppLoader,
 } from '../../redux/actions/loader';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Header, {CircleBtn} from '../../components/Header';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import openCamera from '../../utils/openCamera';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
+import moment from 'moment';
 import {
   Fonts,
   FormKey,
@@ -39,21 +38,28 @@ import {
   TERMS_OF_USE_URL,
 } from '../../constants/Constants';
 import Strings, {ValidationMessages} from '../../constants/Strings';
+import {Value} from '../../constants/FixedValues';
+import {parentRegisterSchema} from '../../constants/schemas';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
-import {Value} from '../../constants/FixedValues';
 import Button from '../../components/Button';
-import {parentRegisterSchema} from '../../constants/schemas';
 import styles from './StylesProfile';
+import ActionSheet from 'react-native-actionsheet';
 import Alignment from '../../constants/Alignment';
+import openWebView from '../../utils/openWebView';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
 import {deviceHandler} from '../../utils/commonFunction';
-import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp} from '../../components';
-import openWebView from '../../utils/openWebView';
-import {updateLocalImg} from '../../redux/actions/Auth';
+import {BottomSheetComp, ModalMiddle} from '../../components';
+import {
+  deviceRegister,
+  updateLocalImg,
+  updateRegStep,
+} from '../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {NotificationContext} from '../../context/NotificationContextManager';
+import debounce from '../../utils/debounce';
+import { getSubscriptionStatus } from '../../redux/actions/Subsctiption';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -72,15 +78,14 @@ const Profile = props => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [datePicked, onDateChange] = useState();
+  const {fcmToken, Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
     reset,
     setValue,
     formState: {errors},
-  } = useForm({
-    resolver: yupResolver(parentRegisterSchema),
-  });
+  } = useForm({resolver: yupResolver(parentRegisterSchema)});
 
   const {
     register_user_success,
@@ -94,8 +99,16 @@ const Profile = props => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
       if (register_user_success) {
+        const _deviceInfo = {
+          device_id: Device_ID,
+          device_token: fcmToken,
+          device_type: Platform.OS,
+        };
+        dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(updateRegStep());
         dispatch(updateLocalImg(userImage));
+        dispatch(getSubscriptionStatus());
         navigation.navigate(Routes.SmBasicDetails);
       } else {
         dispatch(showAppToast(true, register_user_error_msg));
@@ -114,7 +127,6 @@ const Profile = props => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
-
   // Header Component
   const headerComp = () => (
     <CircleBtn
@@ -124,7 +136,6 @@ const Profile = props => {
       }}
       Fixedstyle={{
         marginRight: Value.CONSTANT_VALUE_20,
-        marginTop: Value.CONSTANT_VALUE_44,
       }}
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
@@ -182,12 +193,15 @@ const Profile = props => {
   };
   // Submit form
   const onSubmit = data => {
+    dispatch(showAppLoader());
     if (!userImage) {
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, ValidationMessages.PICTURE_REQUIRE));
       return;
     }
     if (check) {
-      dispatch(showAppToast(true, ValidationMessages.TERMS_OF_USE));
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true, ValidationMessages.TERMS_CONDITIONS));
       return;
     }
     const reqData = new FormData();
@@ -208,7 +222,6 @@ const Profile = props => {
       type: file.mime,
       uri: file.path,
     });
-    dispatch(showAppLoader());
     dispatch(ptbRegister(reqData));
     dispatch(updateLocalImg(userImage));
   };
@@ -298,8 +311,9 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.FirstName}
                       value={value}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => onChange(v.trim())}
                       required={true}
+                      maxLength={30}
                       error={errors && errors.first_name?.message}
                     />
                   )}
@@ -311,9 +325,10 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.MiddleName}
                       value={value}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => onChange(v.trim())}
                       fontWeight={Alignment.BOLD}
                       error={errors && errors.middle_name?.message}
+                      maxLength={30}
                     />
                   )}
                   name={FormKey.middle_name}
@@ -324,13 +339,35 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.LastName}
                       value={value}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => onChange(v.trim())}
                       fontWeight={Alignment.BOLD}
                       required={true}
+                      maxLength={30}
                       error={errors && errors.last_name?.message}
                     />
                   )}
                   name={FormKey.last_name}
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.profile.DateOfBirth}
+                      value={value}
+                      onChangeText={v => onChange(v)}
+                      endComponentPress={() => setShow(true)}
+                      error={errors && errors.date_of_birth?.message}
+                      required={true}
+                      endComponent={() => (
+                        <TouchableOpacity onPress={() => setShow(true)}>
+                          <Image source={Images.calendar} />
+                        </TouchableOpacity>
+                      )}
+                      editable={false}
+                      onPressIn={() => setShow(true)}
+                    />
+                  )}
+                  name={FormKey.date_of_birth}
                 />
                 <Controller
                   control={control}
@@ -345,30 +382,6 @@ const Profile = props => {
                     />
                   )}
                   name={FormKey.email}
-                />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <FloatingLabelInput
-                      label={Strings.profile.DateOfBirth}
-                      value={value}
-                      onChangeText={v => onChange(v)}
-                      endComponentPress={() => setShow(true)}
-                      error={errors && errors.date_of_birth?.message}
-                      required={true}
-                      endComponent={() => (
-                        <TouchableOpacity onPress={() => setShow(true)}>
-                          <Image
-                            source={Images.calendar}
-                            style={styles.calender}
-                          />
-                        </TouchableOpacity>
-                      )}
-                      editable={false}
-                      onPressIn={() => setShow(true)}
-                    />
-                  )}
-                  name={FormKey.date_of_birth}
                 />
                 <Controller
                   control={control}
@@ -458,7 +471,7 @@ const Profile = props => {
                       <Text
                         style={styles.tmcLink1}
                         onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        {Strings.profile.tmc2}
+                        {Strings.Subscription.TermsServices}
                       </Text>{' '}
                       and{' '}
                       <Text
@@ -472,9 +485,10 @@ const Profile = props => {
               </View>
               <View style={styles.BtnContainer}>
                 <Button
+                  disabled={register_user_loading || register_user_success}
                   label={Strings.profile.Register}
                   style={styles.Btn}
-                  onPress={handleSubmit(onSubmit)}
+                  onPress={debounce(handleSubmit(onSubmit), 1000)}
                 />
               </View>
               <Pressable
@@ -533,41 +547,24 @@ const Profile = props => {
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 positiveButtonLabel="DONE"
               />
-              <Modal
-                transparent={true}
-                visible={showModal}
+              <ModalMiddle
+                showModal={showModal}
                 onRequestClose={() => {
                   setShowModal(!showModal);
-                }}>
-                <View style={[styles.centeredView]}>
-                  <View style={styles.modalView}>
-                    <Text style={styles.modalHeader}>
-                      {Strings.profile.ModalHeader}
-                    </Text>
-                    <Text style={styles.modalSubHeader}>
-                      {Strings.profile.ModalSubheader}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setShowModal(false);
-                        logoutScreen();
-                        navigation.navigate(Routes.Landing);
-                      }}>
-                      <Text style={styles.modalOption1}>
-                        {Strings.profile.ModalOption1}
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setShowModal(false);
-                      }}>
-                      <Text style={styles.modalOption2}>
-                        {Strings.profile.ModalOption2}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </Modal>
+                }}
+                String_1={Strings.profile.ModalHeader}
+                String_2={Strings.profile.ModalSubheader}
+                String_3={Strings.profile.ModalOption1}
+                String_4={Strings.profile.ModalOption2}
+                onPressNav={() => {
+                  setShowModal(false);
+                  logoutScreen();
+                  navigation.navigate(Routes.Landing);
+                }}
+                onPressOff={() => {
+                  setShowModal(false);
+                }}
+              />
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>

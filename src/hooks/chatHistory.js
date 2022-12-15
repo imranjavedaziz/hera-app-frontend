@@ -13,6 +13,7 @@ const chatHistory = () => {
       .ref(`${chat}/Users/${log_in_data?.id}`)
       .once('value')
       .then(async snapshot => {
+        console.log(snapshot,'snapshot')
         snapshot.forEach(async childSnapshot => {
           const item = childSnapshot.val();
           dispatch(append(Object.values(item)));

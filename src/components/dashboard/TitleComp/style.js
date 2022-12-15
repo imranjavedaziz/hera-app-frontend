@@ -7,8 +7,7 @@ import {dynamicSize} from '../../../utils/responsive';
 export default {
   mainContainer: {
     height: Value.CONSTANT_VALUE_118,
-    paddingTop: Value.CONSTANT_VALUE_15,
-    marginBottom: Value.CONSTANT_VALUE_40,
+    marginBottom: Value.CONSTANT_VALUE_20,
   },
   screenTitle: {
     textTransform: 'uppercase',
@@ -24,7 +23,7 @@ export default {
     letterSpacing: Value.CONSTANT_VALUE_0,
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
-    marginVertical: Value.CONSTANT_VALUE_8,
+    marginTop: Value.CONSTANT_VALUE_8,
     fontFamily: Fonts.OpenSansRegular,
     fontWeight: Alignment.BOLD,
   },
@@ -39,6 +38,6 @@ export default {
 
   Icon: {
     left: dynamicSize(Value.CONSTANT_VALUE_263),
-    bottom: dynamicSize(Value.CONSTANT_VALUE_25),
+    bottom: dynamicSize(Value.CONSTANT_VALUE_15),
   },
 };

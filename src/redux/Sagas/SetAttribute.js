@@ -16,6 +16,7 @@ import {
   getUserAttributesApi,
   saveAttributes,
 } from '../../Api/SetAttribute';
+import {ValidationMessages} from '../../constants/Strings'
 function* SetAttributeRes() {
   try {
     const result = yield getAttributes();
@@ -28,7 +29,7 @@ function* SetAttributeRes() {
       });
     }
   } catch (err) {
-    yield put({type: GET_ATTRIBUTE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_ATTRIBUTE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSetAttribute() {
@@ -47,7 +48,7 @@ function* SaveAttributeRes(payload) {
       });
     }
   } catch (err) {
-    yield put({type: SAVE_ATTRIBUTE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: SAVE_ATTRIBUTE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSaveAttributeRes() {
@@ -67,7 +68,7 @@ function* getUserAttribute() {
       });
     }
   } catch (err) {
-    yield put({type: GET_USER_ATTRIBUTE_FAIL, data: {msg: 'NET ERROR'}});
+    yield put({type: GET_USER_ATTRIBUTE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchGetUserAttribute() {
