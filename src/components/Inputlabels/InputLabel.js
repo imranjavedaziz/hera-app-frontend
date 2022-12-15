@@ -18,6 +18,7 @@ const InputLabel = props => {
     number = false,
     support = false,
     endComponentPress,
+    inputRef,
     NumVal,
     ...textInputProps
   } = props;
@@ -44,6 +45,7 @@ const InputLabel = props => {
               editable={true}
               maxLength={maxLength}
               onFocus={handleFocus}
+              ref={inputRef}
               onBlur={handleBlur}
               style={[
                 styles.InputText,

@@ -36,7 +36,7 @@ export default {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.FLEXEND,
     marginBottom: Value.CONSTANT_VALUE_25,
-    marginRight: 20
+    marginRight: Value.CONSTANT_VALUE_20,
   },
   profileImg: {
     width: Value.CONSTANT_VALUE_40,
@@ -221,5 +221,8 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
     marginHorizontal: Value.CONSTANT_VALUE_40,
+  },
+  footerCon: {
+    paddingBottom: Value.CONSTANT_VALUE_236,
   },
 };

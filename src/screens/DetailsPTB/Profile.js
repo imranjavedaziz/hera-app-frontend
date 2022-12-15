@@ -385,7 +385,7 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.EmailAddress}
                       value={value}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => onChange(v.trim())}
                       fontWeight={Alignment.BOLD}
                       required={true}
                       inputRef={inputRef}
