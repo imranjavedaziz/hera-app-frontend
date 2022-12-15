@@ -69,6 +69,7 @@ const Searchbar = props => {
             })
           }>
           <Image source={Images.pin} />
+          {props.selectedStateList && <View style={styles.stateFilled} />}
         </TouchableOpacity>
       </View>
     </>
@@ -89,6 +90,20 @@ const styles = StyleSheet.create({
     marginLeft: Value.CONSTANT_VALUE_5,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
+  },
+  stateFilled: {
+    width: Value.CONSTANT_VALUE_10,
+    height: Value.CONSTANT_VALUE_10,
+    backgroundColor: Colors.COLOR_RED,
+    borderRadius: Value.CONSTANT_VALUE_6,
+    position: Alignment.ABSOLUTE,
+    left: Value.CONSTANT_VALUE_28,
+    top: 12,
+    zIndex: 9999,
+    borderStyle: Alignment.SOLID,
+    borderWidth: Value.CONSTANT_VALUE_1,
+    borderColor: Colors.WHITE,
+    marginRight: Value.CONSTANT_VALUE_30,
   },
   searchBarContainer: {
     backgroundColor: Colors.WHITE,

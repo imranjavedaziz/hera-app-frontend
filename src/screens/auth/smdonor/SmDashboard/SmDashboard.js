@@ -41,6 +41,7 @@ import {dynamicSize, statusHide} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
 import ImageLoading from '../../../../components/ImageLoading';
+import {getMessageID} from '../../../../redux/actions/MessageId';
 
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
@@ -86,6 +87,7 @@ const SmDashboard = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       fetchData();
+      dispatch(getMessageID(''));
       let payload = {
         keyword: search ? search : '',
         state_ids:
@@ -406,6 +408,7 @@ const SmDashboard = ({route}) => {
                   handleBlur={handleBlur}
                   isFocused={false}
                   sm={true}
+                  selectedStateList={route?.params?.informationDetail}
                 />
               </View>
               <View>

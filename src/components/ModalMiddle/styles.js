@@ -1,7 +1,6 @@
 import {Alignment, Colors} from '../../constants';
 import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {px} from '../../utils/responsive';
 
 export default {
   centeredView: {
@@ -11,7 +10,7 @@ export default {
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   modalView: {
-    height: px(Value.CONSTANT_VALUE_230),
+    height: Value.CONSTANT_VALUE_230,
     width: Value.CONSTANT_VALUE_283,
     backgroundColor: Colors.WHITE,
     paddingHorizontal: Value.CONSTANT_VALUE_23,
@@ -49,5 +48,6 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     letterSpacing: Value.CONSTANT_VALUE_1,
     fontFamily: Fonts.OpenSansBold,
+    color: '#353a3a',
   },
 };
