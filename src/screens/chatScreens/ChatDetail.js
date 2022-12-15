@@ -50,6 +50,7 @@ const ChatDetail = props => {
   const {feedback_data, feedback_success, feedback_loading} = useSelector(
     state => state.Chat,
   );
+  const giftedref = useRef(null)
   useEffect(() => {
     deviceHandler(navigation, 'deviceGoBack');
   }, [navigation]);
@@ -193,6 +194,7 @@ const ChatDetail = props => {
         db.sendMessage(messages.text)
           .then(() => {
             setTextData('');
+            giftedref?.current?._messageContainerRef?.current?._listRef?._scrollRef.scrollTo()
             let data = {
               title:
                 parseInt(props?.route?.params?.item?.currentRole) === 2
@@ -354,6 +356,7 @@ const ChatDetail = props => {
     }
     return role;
   }
+  console.log(giftedref?.current?._messageContainerRef?.current?._listRef?._scrollRef.scrollToEnd,'giftedref')
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <View
@@ -557,6 +560,7 @@ const ChatDetail = props => {
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GiftedChat
+             ref={giftedref}
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message =>
@@ -607,6 +611,7 @@ const ChatDetail = props => {
             style={{flex: 1}}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <GiftedChat
+             ref={giftedref}
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message => renderActions(message)}
@@ -647,6 +652,7 @@ const ChatDetail = props => {
               style={{flex: 1}}
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
               <GiftedChat
+              ref={giftedref}
                 messages={db?.messages}
                 onSend={messages => onSend(messages)}
                 renderSend={message =>
