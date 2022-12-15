@@ -83,9 +83,12 @@ const PtbDashboard = props => {
       fetchData();
     }, []),
   );
-  useEffect(() => {
-    dispatch(getPtbDashboard());
-  }, [dispatch]);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getPtbDashboard());
+      setCardIndex(0);
+    }, [dispatch]),
+  );
 
   //Push Notification
   useEffect(() => {
@@ -185,23 +188,25 @@ const PtbDashboard = props => {
     profile_match_loading,
     profile_match_error_msg,
   } = useSelector(state => state.Profile_Match);
-  useEffect(() => {
-    if (loadingRef.current && !get_ptb_dashboard_loading) {
-      dispatch(showAppLoader());
-      if (get_ptb_dashboard_success) {
-        dispatch(hideAppLoader());
-        setStatusRes(get_ptb_dashboard_res?.data?.status);
-        if (get_ptb_dashboard_res?.data?.status === 3) {
-          setEmpty(false);
-        }
-        setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
-      } else {
-        dispatch(hideAppLoader());
-      }
-    }
-    loadingRef.current = get_ptb_dashboard_loading;
-  }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]);
 
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !get_ptb_dashboard_loading) {
+        dispatch(showAppLoader());
+        if (get_ptb_dashboard_success) {
+          dispatch(hideAppLoader());
+          setStatusRes(get_ptb_dashboard_res?.data?.status);
+          if (get_ptb_dashboard_res?.data?.status === 3) {
+            setEmpty(false);
+          }
+          setPtbDashboardRes(get_ptb_dashboard_res?.data?.data?.data);
+        } else {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingRef.current = get_ptb_dashboard_loading;
+    }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
+  );
   useEffect(() => {
     if (loadingMatchRef.current && !profile_match_loading) {
       dispatch(showAppLoader());
@@ -280,6 +285,7 @@ const PtbDashboard = props => {
               userId: item?.user?.id,
             });
             if (subscriptionStatus?.data?.status) {
+              setCardIndex(0);
               navigation.navigate('DashboardDetailScreen', {
                 userId: item?.user?.id,
               });

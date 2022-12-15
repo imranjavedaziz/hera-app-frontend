@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgb(241,140,146)',
+    zIndex : -1
   },
 });
 const Loader = ({style=null}) => {

@@ -228,7 +228,8 @@ export default {
     Btn: 'GO TO DASHBOARD',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",
-    modalsubTitleTwo: "If you remove the video, it won't be visible on your profile.",
+    modalsubTitleTwo:
+      "If you remove the video, it won't be visible on your profile.",
     modalText: 'Yes, Remove',
     deleteModal: 'Yes, Delete',
     deactivateModal: 'Yes, Deactivate',
@@ -239,8 +240,10 @@ export default {
     bottomSheetGallery: 'Open Gallery',
     removeImg: 'Remove From Gallery',
     uploadVideo: 'Upload Video',
-    videoDuration: 'Add a short 60 sec video',
+    videoDuration: 'Maximum duration of video should be 60 seconds',
     videoFormat: '(AVI, MOV, MP4 format)',
+    Item: 'Item Selected',
+    Items: 'Items Selected',
   },
   bottomSheet: {
     Inquiry_Form: 'Support',
@@ -349,6 +352,8 @@ export default {
   subscribe: {
     Subscribe_Now: 'Subscribe Now',
     Plans: 'You can select any one of our plans & explore 5 profiles per day!',
+    Free: "Free Trial for 30 days",
+    Subscribe_Trial: " onwards, subscription will be mandatory to use the services."
   },
   inqueryForm: {
     Subtitle: 'Have a question? \n Write to us and we’ll get \nback to you',
@@ -480,13 +485,13 @@ export default {
   },
 
   STATIC_GENDER: [
-    {id: 1, name: 'Male'},
-    {id: 2, name: 'Female'},
-    {id: 3, name: 'Other'},
+    { id: 1, name: 'Male' },
+    { id: 2, name: 'Female' },
+    { id: 3, name: 'Other' },
   ],
   STATIC_ROLE: [
-    {id: 3, name: 'Surrogate Mother'},
-    {id: 4, name: 'Egg Donor'},
-    {id: 5, name: 'Sperm Donor'},
+    { id: 3, name: 'Surrogate Mother' },
+    { id: 4, name: 'Egg Donor' },
+    { id: 5, name: 'Sperm Donor' },
   ],
 };

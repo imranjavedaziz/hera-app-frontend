@@ -35,7 +35,7 @@ import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
 import {Alignment} from '../../../constants';
-import _ from 'lodash';
+
 const images = [];
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
