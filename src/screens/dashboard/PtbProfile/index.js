@@ -128,7 +128,6 @@ const PtbProfile = () => {
       GetLoadingRef.current = get_user_detail_loading;
     }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
   );
-  console.log('get_user_detail_res', get_user_detail_res);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
