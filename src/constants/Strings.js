@@ -391,8 +391,12 @@ export default {
     Cancel: 'Cancel',
     TrailOver:
       'Your trial period is over. Please subscribe now to find new match.',
+    ChatTrailOver:
+      'Your trial period is over. Please subscribe now to continue your conversation.',
     SubscriptionExpired:
       'Your subscription has expired. Please renew your subscription now to find new match.',
+    ChatSubscriptionExpired:
+      'Your subscription has expired. Please renew your subscription now to continue your conversation.',
   },
   Chat: {
     Chat: 'CHAT',
@@ -412,7 +416,7 @@ export default {
     PARENT_TO_BE_SEND_REQUEST: 'Intended Parent sent you a request',
     INACTIVE_ACCOUNT: 'This account is inactive',
     NICE_WATCH_FOUND: 'Nice, Your match found!',
-    PLEASE_ENTER_MESSAGE: 'Please Enter Message',
+    PLEASE_ENTER_MESSAGE: 'Please enter your message',
   },
   Sensory: {
     AS_PER_SEARCH:
