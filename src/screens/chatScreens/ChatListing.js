@@ -5,6 +5,7 @@ import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
 import {Routes} from '../../constants/Constants/';
@@ -15,24 +16,26 @@ import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
 import {showAppToast} from '../../redux/actions/loader';
-import {useDispatch, useSelector} from 'react-redux';
+import {getMessageID} from '../../redux/actions/MessageId';
+
 const ChatListing = () => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
   const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
+  const dispatch = useDispatch();
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
     setRefreshing(false);
   }, []);
-  const dispatch = useDispatch();
   const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
     deviceHandler(navigation, 'deviceGoBack');
   }, []);
   useEffect(() => {
+    dispatch(getMessageID(''));
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
   const NavigateFunc = () => {

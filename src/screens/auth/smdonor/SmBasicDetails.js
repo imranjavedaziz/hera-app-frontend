@@ -37,7 +37,7 @@ import {
   saveBasicDetail,
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
-import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {logOut} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
@@ -129,7 +129,6 @@ const SmBasicDetails = () => {
       dispatch(showAppLoader());
       if (save_basic_detail_success) {
         dispatch(hideAppLoader());
-        dispatch(updateRegStep());
         navigation.navigate(
           user?.role_id === 2 ? Routes.SetPreference : Routes.SetAttributes,
           payloadData,

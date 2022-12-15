@@ -65,9 +65,9 @@ const Login = props => {
           device_token: fcmToken,
           device_type: Platform.OS,
         };
+        dispatch(getSubscriptionStatus());
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
-        dispatch(getSubscriptionStatus());
         navigation.reset({
           index: 0,
           routes: [

@@ -128,7 +128,6 @@ const PtbProfile = () => {
       GetLoadingRef.current = get_user_detail_loading;
     }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
   );
-  console.log('get_user_detail_res', get_user_detail_res);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -271,16 +270,11 @@ const PtbProfile = () => {
               {typeof subscriptionStatus === 'object' &&
                 typeof subscriptionStatus.data === 'object' &&
                 Boolean(subscriptionStatus.data?.status) &&
-                !subscriptionStatus.data?.is_trial && <Subscribed />}
-              {((typeof subscriptionStatus === 'object' &&
-                typeof subscriptionStatus.data === 'object' &&
-                subscriptionStatus.data?.is_trial) ||
-                !Boolean(subscriptionStatus.data?.status)) && (
+                !subscriptionStatus.data?.is_trial ? <Subscribed /> : (
                   <Subscribe
                     Icon={Images.STAR}
-                    MainText={trialVar ? Strings?.subscribe.Free : Strings.subscribe.Subscribe_Now}
-                    InnerText={trialVar ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}` : Strings.subscribe.Plans}
-                    is_trial={trialVar}
+                    MainText={Strings.subscribe.Subscribe_Now}
+                    InnerText={Strings.subscribe.Plans}
                   />
                 )}
               <PtbAccount

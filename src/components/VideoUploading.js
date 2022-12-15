@@ -65,7 +65,7 @@ const VideoUploading = props => {
                 onVideoBuffer={() => {
                   setLoadingState(!loadingState);
                 }}
-                onReadyForDisplay={()=>setLoadingState(false)}
+                onReadyForDisplay={() => setLoadingState(false)}
               />
               {Platform.OS === 'android' &&
                 !props?.isPlaying &&

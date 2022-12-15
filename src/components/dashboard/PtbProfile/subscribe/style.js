@@ -1,15 +1,15 @@
 import Alignment from '../../../../constants/Alignment';
 import Colors from '../../../../constants/Colors';
-import {Fonts} from '../../../../constants/Constants';
-import {Value} from '../../../../constants/FixedValues';
-import {px} from '../../../../utils/responsive';
+import { Fonts } from '../../../../constants/Constants';
+import { Value } from '../../../../constants/FixedValues';
+import { px } from '../../../../utils/responsive';
 
 export default {
-  container: (is_trial)=>({
+  container: (is_trial) => ({
     height: px(Value.CONSTANT_VALUE_110),
     borderWidth: Value.CONSTANT_VALUE_2,
     borderRadius: Value.CONSTANT_VALUE_11,
-    borderColor: is_trial ?Colors.GREEN:Colors.COLOR_F18D93,
+    borderColor: is_trial ? Colors.GREEN : Colors.COLOR_F18D93,
     marginTop: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.SEARCH_BOX,
     justifyContent: Alignment.CENTER,
