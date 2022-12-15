@@ -60,7 +60,7 @@ const VideoUploading = props => {
               // audioOnly
               controls={props?.counter > 0 || boolTrue}
               ref={props?.videoRef}
-              resizeMode={Alignment.COVER}
+              resizeMode={Alignment.CONTAIN}
               onLoad={() => {
                 props?.videoRef?.current?.seek(0);
                 props?.videoRef?.current?.setNativeProps({
