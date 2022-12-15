@@ -370,17 +370,17 @@ const PtbDashboard = props => {
               <TouchableOpacity
                 onPress={() => {
                   if (subscriptionStatus?.data?.status) {
-                    if (ptbDashboardRes.match_request.status === 2) {
+                    if (ptbDashboardRes?.match_request?.status === 2) {
                       dispatch(
                         showAppToast(
-                          true,
+                          false,
                           Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
                         ),
                       );
                     } else {
                       dispatch(
                         showAppToast(
-                          true,
+                          false,
                           Strings.Chat.MATCH_SEND_SUCCESSFULLY,
                         ),
                       );
