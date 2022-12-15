@@ -46,7 +46,8 @@ const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const LoadingRef = useRef(false);
-  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const profileImgNew = useSelector(state => state.Auth?.user?.profile_pic);
+  const profileImg = useSelector(state => state.profileImg?.imgStore);
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
   const [searching, setSearching] = useState(false);
@@ -286,7 +287,7 @@ const SmDashboard = ({route}) => {
   };
   const headerComp = () => (
     <IconHeader
-      leftIcon={{uri: profileImg}}
+      leftIcon={{uri: profileImgNew === '' ? profileImg : profileImgNew}}
       leftPress={() => navigation.navigate(Routes.SmSetting)}
       rightIcon={Images.iconChat}
       chat={msgRead === true ? true : false}
@@ -387,7 +388,6 @@ const SmDashboard = ({route}) => {
                   value={search}
                   onChangeText={onSearch}
                   editing={true}
-                  // onClear={onClear}
                   clearVisible={false}
                   selectedStates={route?.params?.informationDetail}
                   handleFocus={handleFocus}

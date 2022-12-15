@@ -54,7 +54,6 @@ const CreateGallery = () => {
     {id: 4, uri: '', loading: false},
     {id: 5, uri: '', loading: false},
   ]);
-  const profileImg = useSelector(state => state?.Auth?.user?.profile_pic);
   const loadingGalleryRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
   const [video, setVideo] = useState({file_url: '', loading: false});
@@ -69,6 +68,8 @@ const CreateGallery = () => {
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
   const [counter, _setCounter] = useState(0);
+  const profileImg = useSelector(state => state.profileImg?.imgStore);
+
   const {
     gallery_success,
     gallery_loading,

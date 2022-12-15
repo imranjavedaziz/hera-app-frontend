@@ -245,7 +245,7 @@ const PTB_profile = props => {
               <TouchableOpacity
                 style={styles.sendMsgBtn}
                 onPress={() => {
-                  props?.route?.params?.seeAll? onPressLike() :onPresslike();
+                  props?.route?.params?.seeAll ? onPressLike() : onPresslike();
                 }}>
                 <Image source={Images.HEARTH_ICON} />
                 <Text style={styles.sendMsgText}>

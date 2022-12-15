@@ -26,6 +26,17 @@ const NotificationContextManager = props => {
   };
 
   const getFcmToken = async () => {
+    console.log(
+      'myMethod: ',
+      'isDeviceRegisteredForRemoteMessages', messaging().isDeviceRegisteredForRemoteMessages,
+    )
+    if (
+      Platform.OS === 'ios' &&
+      !messaging().isDeviceRegisteredForRemoteMessages
+    ) {
+      console.log('myMethod: ', 'registerDeviceForRemoteMessages')
+      await messaging().registerDeviceForRemoteMessages()
+    }
     const fcmToken = await messaging().getToken();
     setFcmToken(fcmToken);
     console.log(fcmToken, 'old Token');

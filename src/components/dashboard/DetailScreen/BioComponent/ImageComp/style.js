@@ -6,10 +6,8 @@ import {scaleHeight, width} from '../../../../../utils/responsive';
 
 export default {
   row: {
-    alignItems: Alignment.CENTER,
     flexDirection: Alignment.ROW,
-    // marginTop: Value.CONSTANT_VALUE_8,
-    width: width - 160,
+    width: width - 180,
   },
   text: {
     fontSize: FontSize.FONT_16,
