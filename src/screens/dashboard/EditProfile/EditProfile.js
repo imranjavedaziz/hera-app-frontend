@@ -102,7 +102,6 @@ const EditProfile = props => {
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
-  console.log(control, 'controlprops');
   useEffect(() => {
     if (loadingRef.current && !send_verification_loading) {
       dispatch(showAppLoader());
@@ -399,6 +398,7 @@ const EditProfile = props => {
                     editable={false}
                     error={errors && errors.email?.message}
                     onPressVerify={onPressVerify}
+                    edited={false}
                   />
                 )}
                 name="email"

@@ -5,6 +5,10 @@ import {scaleWidth, normalizeFont, statusHide} from '../../../utils/responsive';
 
 export default {
   flex_1: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
+  mobileView: {
+    flexDirection: 'row',
+    alignItems: 'space-between',
+  },
   radioBtn: {
     flex: Value.CONSTANT_VALUE_0,
     flexDirection: Alignment.ROW,
@@ -12,12 +16,17 @@ export default {
     justifyContent: Alignment.FLEX_START,
     marginRight: scaleWidth(Value.CONSTANT_VALUE_12),
   },
+  mobileBox: {marginRight: 10},
+  blurBorder: {
+    borderColor: Colors.INPUT_BORDER,
+  },
   mainComp_1: {marginTop: statusHide(105), marginHorizontal: 40},
   radioImg: {
     width: scaleWidth(Value.CONSTANT_VALUE_25),
     resizeMode: 'cover',
     height: scaleWidth(Value.CONSTANT_VALUE_25),
   },
+  bottom: {bottom: 26},
   inputRow: {
     flexDirection: Alignment.ROW,
     marginTop: Value.CONSTANT_VALUE_40,
@@ -34,6 +43,21 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     width: Prencentage.PRECENTAGE_100,
+  },
+  codeText: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 14,
+    top: 6,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    color: '#000000',
+  },
+  codeInputText: {
+    borderBottomWidth: Value.CONSTANT_VALUE_2,
+    minHeight: Value.CONSTANT_VALUE_40,
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.textPLace,
   },
   textArea: {
     borderWidth: Value.CONSTANT_VALUE_1,

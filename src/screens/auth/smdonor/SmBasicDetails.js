@@ -122,7 +122,6 @@ const SmBasicDetails = () => {
     }
     LoadingRef.current = get_profile_setter_loading;
   }, [get_profile_setter_success, get_profile_setter_loading]);
-
   //SAVE BASIC DETAIL DATA
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_basic_detail_loading) {
