@@ -317,7 +317,6 @@ const PtbDashboard = props => {
       rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
-
   const dashboardShow = () => {
     const STYLE = styles.androidInnerContainer;
     return (
