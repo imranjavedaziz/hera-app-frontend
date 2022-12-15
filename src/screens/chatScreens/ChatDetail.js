@@ -171,15 +171,6 @@ const ChatDetail = props => {
     LoadingRef.current = report_user_loading;
   }, [report_user_success, report_user_loading]);
   const onSend = async (messages = '') => {
-    console.log(
-      parseInt(props.route.params.item.senderSubscription),
-      'props.route.params.item.senderSubscription',
-    );
-    console.log(
-      subscriptionStatus?.data?.status,
-      'subscriptionStatus?.data?.status',
-    );
-    console.log(parseInt(user?.role_id), 'parseInt(user?.role_id)');
     if ((await NetInfo.isConnected.fetch()) !== true) {
       dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
     } else if (
@@ -306,10 +297,12 @@ const ChatDetail = props => {
     } else if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.DashboardDetailScreen, {
         userId: parseInt(props?.route?.params?.item?.recieverId),
+        coming:true
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
         userid: parseInt(props?.route?.params?.item?.recieverId),
+        coming:true
       });
     }
   };
@@ -477,22 +470,19 @@ const ChatDetail = props => {
           db?.totalSize >= 50) &&
         log_in_data?.role_id === 2 && (
           <View
-            style={{
-              height: 117,
+            style={[{
+              height: db?.totalSize < 50?130:117,
               width: '100%',
               backgroundColor: Colors.WHITE,
               zIndex: 1,
               top: 80,
               position: 'absolute',
-              justifyContent: 'center',
-            }}>
+            },db?.totalSize >50&& {justifyContent:'center'}]}>
             {db?.totalSize < 50 && (
               <TouchableOpacity
                 style={{
                   right: 8,
                   top: 8,
-                  zIndex: 1,
-                  position: 'absolute',
                   alignSelf: 'flex-end',
                 }}
                 onPress={() => {
@@ -502,6 +492,7 @@ const ChatDetail = props => {
                 <Image source={Images.iconcross} style={styles.crossImage} />
               </TouchableOpacity>
             )}
+            <View style={{justifyContent:'center'}}>
             <Text style={styles.matchTxt}>{Strings.Chat.WHAT_DO_YO}</Text>
             <View style={styles.thumbInnerContain}>
               <TouchableOpacity
@@ -523,8 +514,9 @@ const ChatDetail = props => {
                 <Text style={styles.thumbTxt}>{Strings.Chat.GOING_WELL}</Text>
               </TouchableOpacity>
             </View>
+            </View>
           </View>
-        )}
+       )}
       {log_in_data?.role_id === 2 &&
         db?.messages.length === 0 &&
         loader !== true && (
@@ -589,7 +581,7 @@ const ChatDetail = props => {
               renderAvatar={null}
               textInputProps={styles.textInput}
               minComposerHeight={
-                textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+                textData?.length > 75 ? 90 : Platform.OS === 'ios' ? 30 : 44
               }
               listViewProps={{
                 scrollEventThrottle: 400,
@@ -631,7 +623,7 @@ const ChatDetail = props => {
               renderAvatar={null}
               textInputProps={styles.textInput}
               minComposerHeight={
-                textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+                textData?.length > 75 ? 90 : Platform.OS === 'ios' ? 30 : 44
               }
               listViewProps={{
                 scrollEventThrottle: 400,
@@ -674,7 +666,7 @@ const ChatDetail = props => {
                 containerStyle={styles.mainContainerDetail}
                 renderAvatar={null}
                 minComposerHeight={
-                  textData?.length > 75 ? 60 : Platform.OS === 'ios' ? 30 : 44
+                  textData?.length > 75 ? 90 : Platform.OS === 'ios' ? 30 : 44
                 }
                 textInputProps={styles.textInput}
                 disableComposer={

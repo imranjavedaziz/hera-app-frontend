@@ -188,7 +188,7 @@ export default {
     color: Colors.BLACK,
     marginLeft: Value.CONSTANT_VALUE_7,
   },
-  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51},
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51,marginBottom:50},
   videoContainer: {
     height: Value.CONSTANT_VALUE_200,
     backgroundColor: Colors.BLACK,

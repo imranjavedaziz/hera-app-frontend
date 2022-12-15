@@ -212,7 +212,7 @@ export default {
     color: Colors.BLACK,
     marginLeft: 7,
   },
-  dateTextView: {flexDirection: Alignment.ROW, marginTop: 21},
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 21,marginBottom:40},
   imgCondi: {
     flex: 1,
     position: 'absolute',
