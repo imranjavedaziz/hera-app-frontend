@@ -235,12 +235,14 @@ export default class FirebaseDB {
       chat_start: 1,
       time: Date.now(),
       read: 1,
+      adminChatTime:Date.now()
     });
     await referenceSender.update({
       message: lastMsg,
       chat_start: 1,
       time: Date.now(),
       read: 0,
+      adminChatTime:Date.now()
     });
   }
   async readAt(id, setLoading) {
