@@ -447,7 +447,7 @@ const Profile = props => {
                   )}
                   name={FormKey.confirm_password}
                 />
-                <View style={styles.tmc}>
+                <View style={[styles.tmc]}>
                   <View style={styles.rowContainer}>
                     {check ? (
                       <Pressable
