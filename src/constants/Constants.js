@@ -21,7 +21,7 @@ const environment = {
   },
 };
 
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, api_url, chat} = environment.dev;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -152,21 +152,55 @@ export const pwdErrMsg = [
   {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 //validate password
-export const validatePassword = (value, type) => {
+const pwdLength = (value)=>{
+  return value.length >= 8;
+}
+const pwdAlphaNum = (value)=>{
+  return Regx.ALPHA_LOWER.test(value) &&
+  Regx.NUM.test(value) &&
+  Regx.ALPHA_START.test(value);
+}
+const pwdSpecialChar = value=>{
+  return Regx.SPECIAL_CHAR.test(value)
+}
+const pwdCapAlpha = value=>{
+  return Regx.ALPHA_CAP.test(value);
+}
+export const validatePassword = (value='', type, isPressed = true) => {
+  const pwdLen = pwdLength(value);
+  const alphaNum = pwdAlphaNum(value);
+  const specialChar = pwdSpecialChar(value);
+  const capAlpha = pwdCapAlpha(value);
   if (value) {
     switch (type) {
       case validationType.LEN:
-        return value.length >= 8;
+        if(isPressed){
+          return pwdLen
+        }
+        return pwdLen
+        ? pwdLen
+        : null;
       case validationType.ALPHA_NUM:
-        return (
-          Regx.ALPHA_LOWER.test(value) &&
-          Regx.NUM.test(value) &&
-          Regx.ALPHA_START.test(value)
-        );
+        if(isPressed){
+          return alphaNum
+        }
+        return alphaNum
+        ? alphaNum
+        : null;
       case validationType.SPECIAL:
-        return Regx.SPECIAL_CHAR.test(value);
+        if(isPressed){
+          return specialChar
+        }
+        return specialChar
+        ? specialChar
+        : null;
       case validationType.CAPSLOCK:
-        return Regx.ALPHA_CAP.test(value);
+        if(isPressed){
+          return capAlpha
+        }
+        return capAlpha
+        ? capAlpha
+        : null;
       default:
         break;
     }

@@ -47,11 +47,15 @@ const Login = props => {
     control,
     setValue,
     formState: {errors},
+    clearErrors,
   } = useForm({
+    reValidateMode: 'onSubmit',
+    all: 'onSubmit',
     resolver: yupResolver(loginSchema),
   });
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
+  const inputRef = useRef(null);
   useEffect(() => {
     deviceHandler(props.navigation, 'exit');
   }, [props.navigation]);
@@ -117,16 +121,15 @@ const Login = props => {
     }
     setValue('phone', a);
   };
-  console.log('errors.password?.message', errors.password?.message);
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
-        <KeyboardAwareScrollView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.flex}
+      <KeyboardAwareScrollView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardShouldPersistTaps="handled"
+        style={styles.flex}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.mainContainer}>
@@ -139,10 +142,13 @@ const Login = props => {
                     <InputLabel
                       value={phone}
                       number={true}
+                      inputRef={inputRef}
                       label={Strings.inqueryForm.MobileNumber}
                       onChangeText={v => {
                         handelChange(v);
+                        clearErrors('phone');
                       }}
+                      required={true}
                       maxLength={14}
                       keyboardType="numeric"
                       error={errors && errors.phone?.message}
@@ -158,7 +164,10 @@ const Login = props => {
                   <FloatingLabelInput
                     label={Strings.login.Password}
                     value={value}
-                    onChangeText={v => onChange(v)}
+                    onChangeText={v => {
+                      onChange(v);
+                      clearErrors('password');
+                    }}
                     secureTextEntry={!show}
                     minLength={8}
                     error={errors && errors.password?.message}
@@ -200,8 +209,8 @@ const Login = props => {
               </View>
             </View>
           </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

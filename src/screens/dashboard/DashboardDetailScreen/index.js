@@ -500,8 +500,8 @@ const DashboardDetailScreen = () => {
           imageIndex={imgPreviewindex}
           visible={visible}
           onRequestClose={() => setIsVisible(false)}
-          isPinchZoomEnabled={false}
-          isTapZoomEnabled={true}
+          isPinchZoomEnabled={true}
+          swipeToCloseEnabled={false}
           style={{
             alignItems: Alignment.CENTER,
             justifyContent: Alignment.CENTER,

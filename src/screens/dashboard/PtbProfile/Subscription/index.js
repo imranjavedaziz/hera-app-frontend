@@ -44,7 +44,9 @@ const Subscription = props => {
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
   const [isCallApi, setCallApi] = React.useState(false);
-
+  const {
+    subscription_status_success
+  } = useSelector(state => state.Subscription);
   const dispatch = useDispatch();
   const {
     subscription_plan_success,
@@ -84,15 +86,17 @@ const Subscription = props => {
       if (create_subscription_success) {
         console.log('CHECKING CREATE SUB LINE NO 77');
         dispatch(getSubscriptionStatus());
-        setSelectCheckBox(null);
-        dispatch(hideAppLoader());
         setCallApi(false);
-        props.navigation.goBack();
+        setSelectCheckBox(null);
+        if(subscription_status_success){
+          dispatch(hideAppLoader());
+          props.navigation.goBack();
+        }
       }
       dispatch(hideAppLoader());
     }
     loadingRef.current = create_subscription_loading;
-  }, [create_subscription_success, create_subscription_loading]);
+  }, [create_subscription_success, create_subscription_loading,subscription_status_success]);
 
   const headerComp = () => (
     <IconHeader

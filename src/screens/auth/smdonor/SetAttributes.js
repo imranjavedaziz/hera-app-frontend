@@ -390,23 +390,6 @@ const SetAttributes = ({route}) => {
                 <Dropdown
                   defaultValue={value}
                   containerStyle={Style}
-                  label={Strings.sm_set_attributes.MotherEthnicity}
-                  data={attributeData?.ethnicity}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.mother_ethnicity_id?.message}
-                />
-              )}
-              name="mother_ethnicity_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={Style}
                   label={Strings.sm_set_attributes.FatheEthnicity}
                   data={attributeData?.ethnicity}
                   onSelect={selectedItem => {
@@ -417,6 +400,23 @@ const SetAttributes = ({route}) => {
                 />
               )}
               name="father_ethnicity_id"
+            />
+            <Controller
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Dropdown
+                  defaultValue={value}
+                  containerStyle={Style}
+                  label={Strings.sm_set_attributes.MotherEthnicity}
+                  data={attributeData?.ethnicity}
+                  onSelect={selectedItem => {
+                    onChange(selectedItem.id);
+                  }}
+                  required={true}
+                  error={errors && errors.mother_ethnicity_id?.message}
+                />
+              )}
+              name="mother_ethnicity_id"
             />
             <Controller
               control={control}

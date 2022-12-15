@@ -63,9 +63,9 @@ export default {
     marginTop: Value.CONSTANT_VALUE_3,
   },
   playIcon: {
-    position: Alignment.ABSOLUTE,
+    // position: Alignment.ABSOLUTE,
     alignSelf: Alignment.CENTER,
-    top: 180 / 3,
+    // top: 180 / 3,
   },
   videoSel: {
     position: Alignment.ABSOLUTE,
