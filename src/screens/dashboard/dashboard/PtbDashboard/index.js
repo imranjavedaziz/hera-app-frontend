@@ -281,9 +281,6 @@ const PtbDashboard = props => {
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
           onPress={() => {
-            navigation.navigate('DashboardDetailScreen', {
-              userId: item?.user?.id,
-            });
             if (subscriptionStatus?.data?.status) {
               setCardIndex(0);
               navigation.navigate('DashboardDetailScreen', {
@@ -317,7 +314,6 @@ const PtbDashboard = props => {
       rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
-
   const dashboardShow = () => {
     const STYLE = styles.androidInnerContainer;
     return (

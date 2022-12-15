@@ -15,6 +15,7 @@ import database from '@react-native-firebase/database';
 import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
+import {showAppToast} from '../../redux/actions/loader';
 import {getMessageID} from '../../redux/actions/MessageId';
 
 const ChatListing = () => {
@@ -28,7 +29,6 @@ const ChatListing = () => {
     setLoader(false);
     setRefreshing(false);
   }, []);
-
   const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
@@ -104,6 +104,19 @@ const ChatListing = () => {
     let day = date.getDate();
     return year + '-' + month + '-' + day;
   }
+  function navigateToScreen(item) {
+    console.log(item,'item')
+    if (item?.status_id !== 1||item?.recieverSubscription===0) {
+      dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
+    } else if (item?.match_request?.status === 1) {
+      navigation.navigate(Routes.Chat_Request, {
+        user: item?.match_request,
+        item: item,
+      });
+    } else {
+      navigation.navigate(Routes.ChatDetail, {item: item});
+    }
+  }
 
   const renderChatList = ({item}) => {
     return (
@@ -113,6 +126,7 @@ const ChatListing = () => {
             currentRole={item?.currentRole}
             status_id={item?.status_id}
             chatStart={item?.chat_start}
+            recieverSubscription={item?.recieverSubscription}
             image={item?.recieverImage}
             name={
               log_in_data?.role_id === 2
@@ -137,6 +151,7 @@ const ChatListing = () => {
           item?.match_request?.status === 1 &&
           log_in_data.role_id !== 2 && (
             <Chat_listing_Comp
+              recieverSubscription={item?.recieverSubscription}
               status_id={item?.status_id}
               currentRole={item?.currentRole}
               image={item?.recieverImage}
@@ -145,14 +160,7 @@ const ChatListing = () => {
                   ? `#${item?.recieverUserName}`
                   : item?.recieverName
               }
-              onPress={() =>
-                item?.match_request?.status === 1
-                  ? navigation.navigate(Routes.Chat_Request, {
-                      user: item?.match_request,
-                      item: item,
-                    })
-                  : navigation.navigate(Routes.ChatDetail, {item: item})
-              }
+              onPress={() => navigateToScreen(item)}
               message={item?.message}
               read={item?.read}
               time={item?.time !== undefined && getChatDate(item?.time)}

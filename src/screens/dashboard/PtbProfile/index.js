@@ -206,6 +206,7 @@ const PtbProfile = () => {
     const data = {
       device_id: Device_ID,
     };
+    dispatch(empty());
     dispatch(logOut(data));
   };
   const videoAvaible = () => {

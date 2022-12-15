@@ -78,6 +78,8 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_5,
     maxWidth: Value.CONSTANT_VALUE_13,
     resizeMode: Alignment.CONTAIN,
+    maxHeight: Value.CONSTANT_VALUE_13,
+    marginTop: Value.CONSTANT_VALUE_3,
   },
   dashboardBtn: {
     width: Value.CONSTANT_VALUE_255,
