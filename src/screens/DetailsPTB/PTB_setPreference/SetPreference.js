@@ -456,6 +456,7 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
+                      lineColor={isOpen}
                       error={errors && errors.location?.message}
                     />
                   )}
@@ -474,6 +475,7 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
+                      lineColor={isOpen}
                       error={errors && errors.education?.message}
                     />
                   )}
@@ -582,14 +584,21 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
+                      lineColor ={isOpen}
                       error={errors && errors.race?.message}
                     />
                   )}
                   name={FormKey.race}
                 />
-                <Text style={styles.chipText}>
-                  {Strings.preference.HairColor}
-                </Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.chipText}>
+                    {Strings.preference.HairColor}
+                  </Text>
+                  <Text
+                    style={{color: Colors.RED, fontSize: 18, marginTop: 30}}>
+                    *
+                  </Text>
+                </View>
                 <Controller
                   control={control}
                   render={({field: {onChange, value = ''}}) => (
@@ -648,9 +657,15 @@ const SetPreference = ({route, navigation}) => {
                   )}
                   name={FormKey.hair}
                 />
-                <Text style={styles.chipText}>
-                  {Strings.preference.EyeColor}
-                </Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.chipText}>
+                    {Strings.preference.EyeColor}
+                  </Text>
+                  <Text
+                    style={{color: Colors.RED, fontSize: 18, marginTop: 30}}>
+                    *
+                  </Text>
+                </View>
               </View>
               <Controller
                 control={control}
