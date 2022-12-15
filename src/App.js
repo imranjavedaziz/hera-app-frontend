@@ -13,6 +13,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './redux/store';
 import Main from './navigations/Main';
 import Loader from './components/Loader';
+import FormLoader from './components/FormLoader'
 import Toast from './components/Toast';
 import NotificationContextManager from './context/NotificationContextManager';
 import {Colors} from './constants';
@@ -41,9 +42,12 @@ const App = () => {
             animated={true}
             hidden={false}
           />
+     
           <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
+         
           <Main />
           <Loader />
+          <FormLoader/>
           <Toast />
         </NotificationContextManager>
       </PersistGate>

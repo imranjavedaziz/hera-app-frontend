@@ -413,6 +413,8 @@ export default {
     INACTIVE_ACCOUNT: 'This account is inactive',
     NICE_WATCH_FOUND: 'Nice, Your match found!',
     PLEASE_ENTER_MESSAGE: 'Please Enter Message',
+    PLEASE_SEND_MESSAGE_INITIATE:'Please send a message to initiate the conversation.',
+    MATCH_SEND_SUCCESSFULLY:'Match request sent successfully.'
   },
   Sensory: {
     AS_PER_SEARCH:

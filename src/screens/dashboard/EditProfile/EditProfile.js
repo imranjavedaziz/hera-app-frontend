@@ -30,9 +30,11 @@ import {
   getStates,
 } from '../../../redux/actions/Register';
 import {
-  hideAppLoader,
+  showEditAppLoader,
   showAppLoader,
   showAppToast,
+  hideEditLoader,
+  hideAppLoader,
 } from '../../../redux/actions/loader';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Dropdown from '../../../components/inputs/Dropdown';
@@ -62,6 +64,7 @@ const EditProfile = props => {
   const [clipdrop, setClickDrop] = useState(false);
   useFocusEffect(
     useCallback(() => {
+      dispatch(showEditAppLoader());
       dispatch(getStates());
       dispatch(getProfileSetterDetail());
       dispatch(getEditProfile());
@@ -102,7 +105,6 @@ const EditProfile = props => {
   } = useForm({
     resolver: yupResolver(editProfileSchema),
   });
-  console.log(control, 'controlprops');
   useEffect(() => {
     if (loadingRef.current && !send_verification_loading) {
       dispatch(showAppLoader());
@@ -128,7 +130,6 @@ const EditProfile = props => {
     if (UpdateLoadingRef.current && !update_user_detail_loading) {
       dispatch(showAppLoader());
       if (update_user_detail_success) {
-        dispatch(hideAppLoader());
         dispatch(showAppToast(false, update_user_detail_res));
         setTimeout(() => {
           props.route?.params?.smProfile
@@ -146,15 +147,14 @@ const EditProfile = props => {
   //GET STATE
   useEffect(() => {
     if (loadingRef.current && !get_state_loading) {
-      dispatch(showAppLoader());
+      dispatch(showEditAppLoader());
       if (get_state_success) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
 
         setStateRes(get_state_res);
-        dispatch(hideAppLoader());
       }
       if (get_state_error_msg) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
       }
     }
     loadingRef.current = get_state_loading;
@@ -162,14 +162,14 @@ const EditProfile = props => {
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {
-      dispatch(showAppLoader());
+      dispatch(showEditAppLoader());
       if (get_profile_setter_success) {
         handelChange();
         setProfileRes(get_profile_setter_res);
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
       }
       if (get_profile_setter_error_msg) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
       }
     }
     LoadingRef.current = get_profile_setter_loading;
@@ -397,6 +397,7 @@ const EditProfile = props => {
                     fontWeight={Alignment.BOLD}
                     required={true}
                     editable={false}
+                    edited={false}
                     error={errors && errors.email?.message}
                     onPressVerify={onPressVerify}
                   />
