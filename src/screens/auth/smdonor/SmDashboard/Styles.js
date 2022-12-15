@@ -6,6 +6,7 @@ import {
   dynamicSize,
   height,
   normalizeFont,
+  px,
   statusHide,
   width,
 } from '../../../../utils/responsive';
@@ -46,7 +47,7 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: (width - 75) / 2,
+    width: (width - px(70)) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
