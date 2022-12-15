@@ -175,8 +175,7 @@ const ChatDetail = props => {
     if ((await NetInfo.isConnected.fetch()) !== true) {
       dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
     } else if (
-      (parseInt(props.route.params.item.senderSubscription) === 0 ||
-        !subscriptionStatus?.data?.status) &&
+      !subscriptionStatus?.data?.status &&
       parseInt(user?.role_id) === 2
     ) {
       navigation.navigate(Routes.Subscription);
