@@ -2,10 +2,11 @@
 import axios from 'axios';
 import {api_url} from '../constants/Constants';
 import {store} from '../redux/store';
-import {showAppToast} from '../redux/actions/loader';
+import {hideAppLoader, showAppToast} from '../redux/actions/loader';
 import {updateToken, signoutUser} from '../redux/actions/Auth';
 import ApiPath from '../constants/ApiPath';
-
+import NetInfo from '@react-native-community/netinfo';
+import {ValidationMessages} from '../constants/Strings';
 const axiosRequest = axios.create({
   baseURL: api_url,
 });
@@ -34,6 +35,12 @@ axiosRequest.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
+    if ((await NetInfo.isConnected.fetch()) !== true) {
+      store.dispatch(
+        showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION),
+      );
+      store.dispatch(hideAppLoader());
+    }
     if (error.response.status === 401 && originalRequest._retry === false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       store.dispatch(updateToken(tokenRes.data.token));

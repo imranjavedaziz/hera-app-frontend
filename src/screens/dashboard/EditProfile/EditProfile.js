@@ -400,7 +400,6 @@ const EditProfile = props => {
                     edited={false}
                     error={errors && errors.email?.message}
                     onPressVerify={onPressVerify}
-                    edited={false}
                   />
                 )}
                 name="email"

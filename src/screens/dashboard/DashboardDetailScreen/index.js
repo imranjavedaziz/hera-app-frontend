@@ -24,7 +24,7 @@ import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
-import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader,showAppToast} from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
@@ -108,15 +108,24 @@ const DashboardDetailScreen = () => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
-        setTimeout(() => {
           setIsVisibleLogo(false);
           setIslikedLogo('');
           if (smDetailRes?.profile_match_request?.status === 2) {
-            navigation.navigate(Routes.ProfileLikedSm, {item: smDetailRes});
+            dispatch(
+              showAppToast(
+                false,
+                Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
+              ),
+            );
           } else {
+            dispatch(
+              showAppToast(
+                false,
+                Strings.Chat.MATCH_SEND_SUCCESSFULLY,
+              ),
+            );
             navigation.navigate(Routes.PtbDashboard);
           }
-        }, 5000);
       } else {
         dispatch(hideAppLoader());
       }
@@ -162,7 +171,7 @@ const DashboardDetailScreen = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Image style={styles.iconImage} source={IMG_CONDI} />
+        <Image style={{height:250,width:250,resizeMode:'contain'}} source={IMG_CONDI} />
       </Animated.View>
     );
   };
