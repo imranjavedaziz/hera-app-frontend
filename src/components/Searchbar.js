@@ -53,7 +53,7 @@ const Searchbar = props => {
             onBlur={props?.handleBlur}
           />
 
-          {!props.editing && (
+          {props.editing && !props.croxxIcon && (
             <TouchableOpacity
               onPress={props.onClear}
               style={styles.crossIconContainer}>
