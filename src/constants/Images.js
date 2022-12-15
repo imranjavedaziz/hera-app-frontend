@@ -92,4 +92,5 @@ export default {
   iconBig: require('../assets/icons/iconBig/iconbigheart.png'),
   button_like: require('../assets/Images/button/button.png'),
   whiteTick: require('../assets/icons/whiteTick/whiteTick.png'),
+  starGreen: require('../assets/icons/starGreen/starGreen.png'),
 };

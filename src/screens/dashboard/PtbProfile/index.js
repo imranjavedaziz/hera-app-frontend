@@ -276,7 +276,7 @@ const PtbProfile = () => {
                 subscriptionStatus.data?.is_trial) ||
                 !Boolean(subscriptionStatus.data?.status)) && (
                   <Subscribe
-                    Icon={Images.STAR}
+                    Icon={trialVar ?Images.starGreen:Images.STAR}
                     MainText={trialVar ? Strings?.subscribe.Free : Strings.subscribe.Subscribe_Now}
                     InnerText={trialVar ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}` : Strings.subscribe.Plans}
                     is_trial={trialVar}
