@@ -55,7 +55,6 @@ import {getStates} from '../../../redux/actions/Register';
 import openWebView from '../../../utils/openWebView';
 import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
-import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import {empty} from '../../../redux/actions/Chat';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';

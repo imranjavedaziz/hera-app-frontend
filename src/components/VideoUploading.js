@@ -37,6 +37,11 @@ const VideoUploading = props => {
     : Images.iconWhite;
   let boolTrue = true;
   return (
+    <TouchableOpacity onPress={() => {
+      if(props.video?.file_url === ''){
+        props?.onPress();
+      }
+    }}>
     <FastImage style={props?.style}>
       {props?.video?.file_url !== '' ? (
         <>
@@ -115,6 +120,7 @@ const VideoUploading = props => {
         </>
       )}
     </FastImage>
+    </TouchableOpacity>
   );
 };
 
