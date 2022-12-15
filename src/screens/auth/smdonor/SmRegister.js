@@ -519,7 +519,7 @@ const SmRegister = () => {
               onPress={() => {
                 navigation.navigate(Routes.Profile, {isRouteData});
               }}>
-              <Text style={styles.parentBtn}>Register as Parent To Be</Text>
+              <Text style={styles.parentBtn}>Register as Intended Parent</Text>
             </Pressable>
           </View>
           <ModalMiddle
