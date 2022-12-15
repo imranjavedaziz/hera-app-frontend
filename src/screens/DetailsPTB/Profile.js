@@ -59,7 +59,8 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NotificationContext} from '../../context/NotificationContextManager';
 import debounce from '../../utils/debounce';
-import { getSubscriptionStatus } from '../../redux/actions/Subsctiption';
+import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
+import {empty} from '../../redux/actions/Chat';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -80,6 +81,7 @@ const Profile = props => {
   let actionSheet = useRef();
   const [datePicked, onDateChange] = useState();
   const {fcmToken, Device_ID} = useContext(NotificationContext);
+  const inputRef = useRef(null);
   const {
     handleSubmit,
     control,
@@ -141,7 +143,6 @@ const Profile = props => {
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
   );
-
   const logoutScreen = () => {
     navigation.navigate(Routes.Landing);
   };
@@ -181,8 +182,8 @@ const Profile = props => {
       {
         text: Strings.profile.ModalOption1,
         onPress: () => {
+          dispatch(empty());
           logoutScreen();
-          navigation.navigate(Routes.Landing);
         },
       },
       {
@@ -242,10 +243,15 @@ const Profile = props => {
     setPressed(true);
     debounce(handleSubmit(onSubmit), 1000)();
   }
+  const CalenderOn = () => {
+    inputRef.current.blur();
+    setShow(true);
+  };
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
       <KeyboardAwareScrollView
+        animated={true}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.flex}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -322,6 +328,7 @@ const Profile = props => {
                       }}
                       required={true}
                       maxLength={30}
+                      inputRef={inputRef}
                       error={errors && errors.first_name?.message}
                     />
                   )}
@@ -340,6 +347,7 @@ const Profile = props => {
                       fontWeight={Alignment.BOLD}
                       error={errors && errors.middle_name?.message}
                       maxLength={30}
+                      inputRef={inputRef}
                     />
                   )}
                   name={FormKey.middle_name}
@@ -358,6 +366,7 @@ const Profile = props => {
                       required={true}
                       maxLength={30}
                       error={errors && errors.last_name?.message}
+                      inputRef={inputRef}
                     />
                   )}
                   name={FormKey.last_name}
@@ -372,16 +381,16 @@ const Profile = props => {
                         onChange(v);
                         setPressed(false);
                       }}
-                      endComponentPress={() => setShow(true)}
+                      endComponentPress={() => CalenderOn()}
                       error={errors && errors.date_of_birth?.message}
                       required={true}
                       endComponent={() => (
-                        <TouchableOpacity onPress={() => setShow(true)}>
+                        <TouchableOpacity onPress={() => CalenderOn()}>
                           <Image source={Images.calendar} />
                         </TouchableOpacity>
                       )}
                       editable={false}
-                      onPressIn={() => setShow(true)}
+                      onPressIn={() => CalenderOn()}
                     />
                   )}
                   name={FormKey.date_of_birth}
@@ -398,6 +407,7 @@ const Profile = props => {
                       }}
                       fontWeight={Alignment.BOLD}
                       required={true}
+                      inputRef={inputRef}
                       error={errors && errors.email?.message}
                     />
                   )}
@@ -416,6 +426,7 @@ const Profile = props => {
                         }}
                         required={true}
                         secureTextEntry={true}
+                        inputRef={inputRef}
                         containerStyle={{marginBottom: Value.CONSTANT_VALUE_10}}
                       />
                       {pwdErrMsg.map(msg => (
@@ -467,13 +478,14 @@ const Profile = props => {
                       }}
                       required={true}
                       secureTextEntry={true}
+                      inputRef={inputRef}
                       containerStyle={{marginBottom: Value.CONSTANT_VALUE_40}}
                       error={errors && errors.confirm_password?.message}
                     />
                   )}
                   name={FormKey.confirm_password}
                 />
-                <View style={styles.tmc}>
+                <View style={[styles.tmc]}>
                   <View style={styles.rowContainer}>
                     {check ? (
                       <Pressable

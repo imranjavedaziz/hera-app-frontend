@@ -41,7 +41,7 @@ export const Subscribed = () => {
     return null;
   }
   return (
-    <View style={[styles.container, { height: 'auto', paddingVertical: 17, borderColor: Colors.COLOR_A3C6C4, }]}>
+    <View style={[styles.container(), { height: 'auto', paddingVertical: 17, borderColor: Colors.COLOR_A3C6C4, }]}>
       <View style={{ flex: 1, }}>
         <View style={[styles.row, { justifyContent: 'space-between' }]}>
           <Text

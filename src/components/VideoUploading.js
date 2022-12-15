@@ -7,6 +7,7 @@ import {
   View,
   TouchableWithoutFeedback,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
@@ -15,8 +16,18 @@ import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
 import {Alignment} from '../constants';
 
+const absoluteStyle = {
+  position: 'absolute',
+  alignItems: 'center',
+  justifyContent: 'center',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+}
 const VideoUploading = props => {
   const [loadingState, setLoadingState] = React.useState(false);
+  const [videoLoader,setVideoLoader] = React.useState(true);
   const IMG_CONDI = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
     : Images.iconWhite;
@@ -26,77 +37,84 @@ const VideoUploading = props => {
     : Images.iconWhite;
   let boolTrue = true;
   return (
-    <TouchableOpacity onPress={() => props?.onPress()}>
-      <FastImage style={props?.style}>
-        {props?.video?.file_url !== '' ? (
-          <>
-            {props?.apply === true && (
-              <TouchableWithoutFeedback>
-                <TouchableOpacity
-                  onPress={() => props?.handelDel(props?.video?.id, true)}
-                  style={styles.videoSel}>
-                  <Image source={IMG_CONDI} />
+    <FastImage style={props?.style}>
+      {props?.video?.file_url !== '' ? (
+        <>
+          {props?.apply === true && (
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => props?.handelDel(props?.video?.id, true)}
+                style={styles.videoSel}>
+                <Image source={IMG_CONDI} />
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
+          )}
+          <View style={props?.imageOverlay}>
+            <Video
+              source={{uri: `${props?.video?.file_url}`}}
+              style={props?.videoStyle}
+              audioOnly
+              controls={props?.counter > 0 && boolTrue}
+              ref={props?.videoRef}
+              resizeMode={Alignment.COVER}
+              onLoad={() => {
+                props?.videoRef?.current?.seek(0);
+                props?.videoRef?.current?.setNativeProps({
+                  paused: true,
+                });
+                setLoadingState(!loadingState);
+              }}
+              paused={!props?.isPlaying}
+              onEnd={() => {
+                props?.onEnd();
+                setLoadingState(!loadingState);
+              }}
+              onLoadStart={() => {
+                setLoadingState(!loadingState);
+              }}
+              onVideoBuffer={() => {
+                setLoadingState(!loadingState);
+              }}
+              onReadyForDisplay={()=>{
+                setLoadingState(false);
+                setVideoLoader(false);
+              }}
+            />
+            {videoLoader && <View style={[{
+                zIndex: -1,
+                backgroundColor: 'rgb(241,140,146)'
+              },absoluteStyle]}>
+              <ActivityIndicator/>
+            </View>}
+            { !videoLoader &&
+              !props?.isPlaying &&
+              props?.counter === 0 && (
+                <TouchableOpacity onPress={props.onPress} style={absoluteStyle}>
+                  <Image source={Images.playButton} style={styles.playIcon} />
                 </TouchableOpacity>
-              </TouchableWithoutFeedback>
-            )}
-            <View style={props?.imageOverlay}>
-              <Video
-                source={{uri: `${props?.video?.file_url}`}}
-                style={props?.videoStyle}
-                audioOnly
-                controls={props?.counter > 0 && boolTrue}
-                ref={props?.videoRef}
-                resizeMode={Alignment.COVER}
-                onLoad={() => {
-                  props?.videoRef?.current?.seek(0);
-                  props?.videoRef?.current?.setNativeProps({
-                    paused: true,
-                  });
-                  setLoadingState(!loadingState);
-                }}
-                paused={!props?.isPlaying}
-                onEnd={() => {
-                  props?.onEnd();
-                  setLoadingState(!loadingState);
-                }}
-                onLoadStart={() => {
-                  setLoadingState(!loadingState);
-                }}
-                onVideoBuffer={() => {
-                  setLoadingState(!loadingState);
-                }}
-                onReadyForDisplay={()=>setLoadingState(false)}
-              />
-              {Platform.OS === 'android' &&
-                !props?.isPlaying &&
-                props?.counter === 0 && (
-                  <TouchableOpacity onPress={props.onPress}>
-                    <Image source={Images.playButton} style={styles.playIcon} />
-                  </TouchableOpacity>
-                )}
-            </View>
-            {props?.apply === true && (
-              <TouchableWithoutFeedback>
-                <TouchableOpacity
-                  onPress={() => props?.handelDel(props?.video?.id, true)}
-                  style={styles.videoSel}>
-                  <Image source={IMG_CONDITWO} />
-                </TouchableOpacity>
-              </TouchableWithoutFeedback>
-            )}
-          </>
-        ) : (
-          <>
-            <View style={styles.innerVdo}>
-              <Text style={styles.vdoHeading}>
-                {Strings.smSetting.UploadVideo}
-              </Text>
-              <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
-            </View>
-          </>
-        )}
-      </FastImage>
-    </TouchableOpacity>
+              )}
+          </View>
+          {props?.apply === true && (
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => props?.handelDel(props?.video?.id, true)}
+                style={styles.videoSel}>
+                <Image source={IMG_CONDITWO} />
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
+          )}
+        </>
+      ) : (
+        <>
+          <View style={styles.innerVdo}>
+            <Text style={styles.vdoHeading}>
+              {Strings.smSetting.UploadVideo}
+            </Text>
+            <Text style={styles.content}>{Strings.smSetting.ShortVideo}</Text>
+          </View>
+        </>
+      )}
+    </FastImage>
   );
 };
 

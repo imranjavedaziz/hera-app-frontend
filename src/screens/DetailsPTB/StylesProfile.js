@@ -59,7 +59,7 @@ export default {
   },
   tmc: {
     flexDirection: Alignment.ROW,
-    width: Value.CONSTANT_VALUE_306,
+    width: Value.CONSTANT_VALUE_295,
     marginLeft: 10,
   },
   rowContainer: {

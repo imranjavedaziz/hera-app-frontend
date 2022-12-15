@@ -37,10 +37,7 @@ import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
-import updateRegStep, {
-  deviceRegister,
-  ptbRegister,
-} from '../../../redux/actions/Auth';
+import {deviceRegister, ptbRegister} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   hideAppLoader,
@@ -68,6 +65,7 @@ const SmRegister = () => {
   const [datePicked, onDateChange] = useState();
   const [showModal, setShowModal] = useState(false);
   const {fcmToken, Device_ID} = useContext(NotificationContext);
+  const inputRef = useRef(null);
   let actionSheet = useRef();
   const {
     handleSubmit,
@@ -102,7 +100,6 @@ const SmRegister = () => {
         };
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
-        dispatch(updateRegStep());
         dispatch(saveLocalImg(userImage));
         navigation.navigate(Routes.SmBasicDetails);
       }
@@ -225,7 +222,10 @@ const SmRegister = () => {
     setPressed(true);
     debounce(handleSubmit(onSubmit), 1000)();
   }
-
+  const CalenderOn = () => {
+    inputRef.current.blur();
+    setShow(true);
+  };
   return (
     <>
       <View
@@ -309,6 +309,7 @@ const SmRegister = () => {
                   error={errors && errors.first_name?.message}
                   required={true}
                   maxLength={30}
+                  inputRef={inputRef}
                 />
               )}
               name="first_name"
@@ -325,6 +326,7 @@ const SmRegister = () => {
                     setPressed(false);
                   }}
                   error={errors && errors.middle_name?.message}
+                  inputRef={inputRef}
                 />
               )}
               name="middle_name"
@@ -342,6 +344,7 @@ const SmRegister = () => {
                   error={errors && errors.last_name?.message}
                   required={true}
                   maxLength={30}
+                  inputRef={inputRef}
                 />
               )}
               name="last_name"
@@ -359,14 +362,14 @@ const SmRegister = () => {
                   error={errors && errors.dob?.message}
                   // error={(value || !isValid) && validateDateofBirth()}
                   required={true}
-                  endComponentPress={() => setShow(true)}
+                  endComponentPress={() => CalenderOn()}
                   endComponent={() => (
-                    <TouchableOpacity onPress={() => setShow(true)}>
+                    <TouchableOpacity onPress={() => CalenderOn()}>
                       <Image source={Images.calendar} />
                     </TouchableOpacity>
                   )}
                   editable={false}
-                  onPressIn={() => setShow(true)}
+                  onPressIn={() => CalenderOn()}
                 />
               )}
               name="dob"
@@ -383,6 +386,7 @@ const SmRegister = () => {
                   }}
                   required={true}
                   error={errors && errors.email?.message}
+                  inputRef={inputRef}
                 />
               )}
               name="email"
@@ -401,6 +405,7 @@ const SmRegister = () => {
                     required={true}
                     containerStyle={styles.pwdInputContainer}
                     secureTextEntry={true}
+                    inputRef={inputRef}
                   />
                   {pwdErrMsg.map(msg => (
                     <View style={styles.pwdErrContainer} key={msg.type}>
@@ -448,6 +453,7 @@ const SmRegister = () => {
                   error={errors && errors.confirm_password?.message}
                   required={true}
                   secureTextEntry={true}
+                  inputRef={inputRef}
                 />
               )}
               name="confirm_password"

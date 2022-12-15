@@ -199,7 +199,7 @@ export default {
     marginTop: Value.CONSTANT_VALUE_110,
     alignSelf: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    paddingHorizontal: Value.CONSTANT_VALUE_10,
+    paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
   sryText: {
     textAlign: Alignment.CENTER,
@@ -220,5 +220,6 @@ export default {
     color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
+    marginHorizontal: Value.CONSTANT_VALUE_40,
   },
 };

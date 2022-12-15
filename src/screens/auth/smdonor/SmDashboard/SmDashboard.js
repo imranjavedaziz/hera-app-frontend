@@ -41,6 +41,7 @@ import {dynamicSize, statusHide} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
 import ImageLoading from '../../../../components/ImageLoading';
+import {getMessageID} from '../../../../redux/actions/MessageId';
 
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
@@ -86,6 +87,7 @@ const SmDashboard = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       fetchData();
+      dispatch(getMessageID(''));
       let payload = {
         keyword: search ? search : '',
         state_ids:
@@ -302,15 +304,25 @@ const SmDashboard = ({route}) => {
   const onRefresh = () => {
     setRefreshing(true);
     setPage(1);
+    let payload = {
+      keyword: search,
+      state_ids:
+        route?.params?.informationDetail !== undefined
+          ? route?.params?.informationDetail.join()
+          : '',
+      page: 1,
+      limit: 10,
+    };
+    dispatch(getDonorDashboard(payload));
   };
   const renderEmptyCell = () => {
     if (statusRes === 3) {
       return (
-        <View style={styles.emptyCardContainer}>
+        <TouchableOpacity style={styles.emptyCardContainer} activeOpacity={1}>
           <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
           <Text style={styles.innerText}>{Strings.dashboard.SecondPara1}</Text>
           <Text style={styles.innerText2}>{Strings.dashboard.secondPara2}</Text>
-        </View>
+        </TouchableOpacity>
       );
     }
     if (statusRes === 2) {
@@ -388,12 +400,15 @@ const SmDashboard = ({route}) => {
                   value={search}
                   onChangeText={onSearch}
                   editing={true}
+                  croxxIcon={search === ''}
                   clearVisible={false}
+                  onClear={onClear}
                   selectedStates={route?.params?.informationDetail}
                   handleFocus={handleFocus}
                   handleBlur={handleBlur}
                   isFocused={false}
                   sm={true}
+                  selectedStateList={route?.params?.informationDetail}
                 />
               </View>
               <View>

@@ -314,7 +314,6 @@ const PtbDashboard = props => {
       rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
-
   const dashboardShow = () => {
     const STYLE = styles.androidInnerContainer;
     return (
@@ -331,7 +330,7 @@ const PtbDashboard = props => {
               <ImageBackground
                 source={Images.DASHBOARD_BG}
                 style={styles.ImageSize}
-                resizeMode={'center'}>
+                resizeMode={'contain'}>
                 <View>
                   <Swiper
                     infinite={true}
@@ -342,8 +341,9 @@ const PtbDashboard = props => {
                     verticalSwipe={false}
                     horizontalSwipe={false}
                     swipeAnimationDuration={500}
-                    showSecondCard={false}
-                    stackSize={2}
+                    showSecondCard={true}
+                    stackSeparation={0}
+                    stackSize={get_ptb_dashboard_res?.data?.data?.total}
                   />
                 </View>
               </ImageBackground>

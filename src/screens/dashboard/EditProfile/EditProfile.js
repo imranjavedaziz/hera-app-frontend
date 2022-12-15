@@ -323,7 +323,6 @@ const EditProfile = props => {
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
       <KeyboardAwareScrollView
-        keyboardShouldPersistTaps="handled"
         keyboardOpeningTime={0}
         scrollEnabled={true}
         extraHeight={180}
