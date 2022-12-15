@@ -260,7 +260,7 @@ const PtbProfile = () => {
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
-                roleId={'Parent To Be'}
+                roleId={'Intended Parent'}
                 source={{
                   uri: profileImg,
                 }}

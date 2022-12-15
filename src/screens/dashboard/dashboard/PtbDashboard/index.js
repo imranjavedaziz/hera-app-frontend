@@ -44,6 +44,8 @@ import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
+import { getSubscriptionStatus } from '../../../../redux/actions/Subsctiption';
+
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -410,6 +412,9 @@ const PtbDashboard = props => {
       </>
     );
   };
+  useEffect(()=>{
+    dispatch(getSubscriptionStatus());
+  },[]);
   return (
     <>
       <Container
