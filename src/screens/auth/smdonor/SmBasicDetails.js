@@ -189,10 +189,7 @@ const SmBasicDetails = () => {
   );
 
   const logOutScreen = () => {
-    const data = {
-      device_id: Device_ID,
-    };
-    dispatch(logOut(data));
+    dispatch(logOut(Device_ID));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);

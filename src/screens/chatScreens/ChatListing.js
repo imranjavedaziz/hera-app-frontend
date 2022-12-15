@@ -16,7 +16,7 @@ import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
 import {showAppToast} from '../../redux/actions/loader';
-import {getMessageID} from '../../redux/actions/MessageId';
+import {clearMessageID} from '../../redux/actions/MessageId';
 
 const ChatListing = () => {
   const navigation = useNavigation();
@@ -35,7 +35,7 @@ const ChatListing = () => {
     deviceHandler(navigation, 'deviceGoBack');
   }, []);
   useEffect(() => {
-    dispatch(getMessageID(''));
+    dispatch(clearMessageID());
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
   const NavigateFunc = () => {
@@ -105,8 +105,8 @@ const ChatListing = () => {
     return year + '-' + month + '-' + day;
   }
   function navigateToScreen(item) {
-    console.log(item,'item')
-    if (item?.status_id !== 1||item?.recieverSubscription===0) {
+    console.log(item, 'item');
+    if (item?.status_id !== 1 || item?.recieverSubscription === 0) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     } else if (item?.match_request?.status === 1) {
       navigation.navigate(Routes.Chat_Request, {

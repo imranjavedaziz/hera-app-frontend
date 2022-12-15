@@ -116,7 +116,7 @@ const DashboardDetailScreen = () => {
           } else {
             navigation.navigate(Routes.PtbDashboard);
           }
-        }, 5000);
+        }, 1000);
       } else {
         dispatch(hideAppLoader());
       }
@@ -143,7 +143,7 @@ const DashboardDetailScreen = () => {
     useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1000,
+        duration: 800,
         useNativeDriver: true,
       }).start();
     }, [fadeAnim]);

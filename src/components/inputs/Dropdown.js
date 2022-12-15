@@ -28,6 +28,7 @@ const Dropdown = ({
   defaultValue,
   heighter,
   weight,
+  education,
   ...dropdownProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -200,7 +201,11 @@ const Dropdown = ({
           </>
         )}
       </View>
-      {error && <Text style={styles.errMessage}>{error}</Text>}
+      {error && (
+        <Text style={education ? styles.errMessageEd : styles.errMessage}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 };

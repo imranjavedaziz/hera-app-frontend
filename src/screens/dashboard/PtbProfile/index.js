@@ -203,11 +203,8 @@ const PtbProfile = () => {
     dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
-    const data = {
-      device_id: Device_ID,
-    };
     dispatch(empty());
-    dispatch(logOut(data));
+    dispatch(logOut(Device_ID));
   };
   const videoAvaible = () => {
     if (

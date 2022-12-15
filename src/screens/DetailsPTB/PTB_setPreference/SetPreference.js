@@ -272,10 +272,7 @@ const SetPreference = ({route, navigation}) => {
 
   const logOutScreen = () => {
     dispatch(showAppLoader());
-    const data = {
-      device_id: Device_ID,
-    };
-    dispatch(logOut(data));
+    dispatch(logOut(Device_ID));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -474,6 +471,7 @@ const SetPreference = ({route, navigation}) => {
                         console.log(selectedItem, index);
                         onChange(selectedItem);
                       }}
+                      education={true}
                       required={true}
                       lineColor={isOpen}
                       error={errors && errors.education?.message}

@@ -92,4 +92,6 @@ export default {
   iconBig: require('../assets/icons/iconBig/iconbigheart.png'),
   button_like: require('../assets/Images/button/button.png'),
   whiteTick: require('../assets/icons/whiteTick/whiteTick.png'),
+  groupMessage: require('../assets/icons/groupMessage/groupMessage.png'),
+  groupLike: require('../assets/icons/groupLike/groupLike.png'),
 };

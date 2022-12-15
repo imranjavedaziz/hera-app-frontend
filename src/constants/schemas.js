@@ -57,7 +57,7 @@ export const loginSchema = yup.object().shape({
 export const parentRegisterSchema = yup.object().shape({
   first_name: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.FIRST_NAME)
     .max(30, ValidationMessages.MAX_FIRST_NAME)
     .matches(Regx.FIRST_NAME, {
       excludeEmptyString: true,
@@ -66,7 +66,7 @@ export const parentRegisterSchema = yup.object().shape({
   middle_name: yup.string().max(30, ValidationMessages.MAX_MIDDLE_NAME),
   last_name: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.LAST_NAME)
     .max(30, ValidationMessages.MAX_LAST_NAME)
     .matches(Regx.FIRST_NAME, {
       excludeEmptyString: true,
@@ -74,20 +74,20 @@ export const parentRegisterSchema = yup.object().shape({
     }),
   date_of_birth: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.ENTER_DOB)
     .test('DOB', 'Invalid Date', value => {
       return moment().diff(moment(value), 'years') >= 18;
     }),
   email: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.EMPTY_EMAIL)
     .matches(Regx.EMAIL, {
       excludeEmptyString: true,
       message: ValidationMessages.INVALID_EMAIL,
     }),
   set_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.PASSWORD)
     .min(Value.CONSTANT_VALUE_8, ValidationMessages.PASSWORD_MIN)
     .matches(Regx.SPECIAL_CHAR, {
       excludeEmptyString: true,
@@ -111,7 +111,7 @@ export const parentRegisterSchema = yup.object().shape({
     }),
   confirm_password: yup
     .string()
-    .required(ValidationMessages.COMMON_REQUIRED)
+    .required(ValidationMessages.PASSWORD_REQUIRED)
     .oneOf([yup.ref('set_password')], 'Your passwords do not match.'),
 });
 export const smRegisterSchema = yup.object().shape({
@@ -204,37 +204,37 @@ export const setPreferenceSchema = yup.object().shape({
   location: yup.lazy(value => {
     switch (typeof value) {
       case 'object':
-        return yup.object().required(ValidationMessages.LOCATION); // schema for object
+        return yup.object().required(ValidationMessages.LOCATION_PREF); // schema for object
       case 'string':
-        return yup.string().required(ValidationMessages.LOCATION); // schema for string
+        return yup.string().required(ValidationMessages.LOCATION_PREF); // schema for string
       default:
-        return yup.mixed().required(ValidationMessages.LOCATION); // here you can decide what is the default
+        return yup.mixed().required(ValidationMessages.LOCATION_PREF); // here you can decide what is the default
     }
   }),
   education: yup.lazy(value => {
     switch (typeof value) {
       case 'object':
-        return yup.object().required(ValidationMessages.Education); // schema for object
+        return yup.object().required(ValidationMessages.EducationPRE); // schema for object
       case 'string':
-        return yup.string().required(ValidationMessages.Education); // schema for string
+        return yup.string().required(ValidationMessages.EducationPRE); // schema for string
       default:
-        return yup.mixed().required(ValidationMessages.Education); // here you can decide what is the default
+        return yup.mixed().required(ValidationMessages.EducationPRE); // here you can decide what is the default
     }
   }),
   race: yup.lazy(value => {
     switch (typeof value) {
       case 'object':
-        return yup.object().required(ValidationMessages.RACE); // schema for object
+        return yup.object().required(ValidationMessages.RACE_PRE); // schema for object
       case 'string':
-        return yup.string().required(ValidationMessages.RACE); // schema for string
+        return yup.string().required(ValidationMessages.RACE_PRE); // schema for string
       default:
-        return yup.mixed().required(ValidationMessages.RACE); // here you can decide what is the default
+        return yup.mixed().required(ValidationMessages.RACE_PRE); // here you can decide what is the default
     }
   }),
-  hair: yup.string().required(ValidationMessages.SELECT_HAIR),
-  eye: yup.string().required(ValidationMessages.SELECT_EYE),
+  hair: yup.string().required(ValidationMessages.SELECT_HAIR_PRE),
+  eye: yup.string().required(ValidationMessages.SELECT_EYE_PRE),
   height: yup.array(),
-  age_range: yup.string().required(ValidationMessages.SELECT_AGE),
+  age_range: yup.string().required(ValidationMessages.SELECT_AGE_PRE),
 });
 export const smBasicSchema = yup.object().shape({
   gender_id: yup.string().required(ValidationMessages.ENTER_GENDER),

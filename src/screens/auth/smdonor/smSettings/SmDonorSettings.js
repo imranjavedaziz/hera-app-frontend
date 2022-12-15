@@ -210,10 +210,7 @@ const SmDonorSettings = () => {
   }, [file, dispatch]);
 
   const logoutScreen = () => {
-    const data = {
-      device_id: Device_ID,
-    };
-    dispatch(logOut(data));
+    dispatch(logOut(Device_ID));
   };
   const iosAlert = () => {
     Alert.alert(ValidationMessages.LOG_OUT, ValidationMessages.LOGOUT_TEXT, [

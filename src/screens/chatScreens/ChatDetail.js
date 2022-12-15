@@ -65,7 +65,7 @@ const ChatDetail = props => {
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
       user?.role_id !== 2 &&
-      paramItem?.currentRole !== 1
+      parseInt(paramItem?.currentRole) !== 1
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
@@ -354,7 +354,8 @@ const ChatDetail = props => {
             <TouchableOpacity
               hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
               onPress={() => {
-                props.route.params.isComingFrom === true
+                props.route.params.isComingFrom === true ||
+                props.route.params.chatPush === true
                   ? props.navigation.navigate(Routes.Chat_Listing)
                   : props.navigation.goBack();
               }}>
@@ -445,7 +446,7 @@ const ChatDetail = props => {
           </TouchableOpacity>
 
           {parseInt(props?.route?.params?.item?.recieverSubscription) === 0 ||
-            (props?.route?.params?.item?.currentRole !== 1 &&
+            (parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
               props?.route?.params?.item?.status_id === 1 && (
                 <TouchableOpacity onPress={() => navReport()}>
                   <Image source={Images.iconDarkMore} />
@@ -669,7 +670,7 @@ const ChatDetail = props => {
               }}
               maxInputLength={1024}
               placeholder={
-                props.route.params.item.status_id !== 1
+                parseInt(props.route.params.item.status_id) !== 1
                   ? Strings.search_Bar.Inactive
                   : Strings.search_Bar.write_message
               }

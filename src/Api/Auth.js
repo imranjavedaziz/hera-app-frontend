@@ -16,10 +16,9 @@ export const verifyOtpApi = data => {
   return axiosRequest.post(ApiPath.verifyOtp, data);
 };
 
-export const logOutApi = () => {
-  return axiosRequest.get(ApiPath.logout);
+export const logOutApi = data => {
+  return axiosRequest.get(`${ApiPath.logout}?device_id=${data}`);
 };
-
 export const updateProfileImgApi = data => {
   return axiosRequest.post(ApiPath.update_profile_img, data);
 };
