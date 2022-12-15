@@ -159,7 +159,6 @@ const EditProfile = props => {
     }
     loadingRef.current = get_state_loading;
   }, [get_state_loading, get_state_success]);
-  console.log(control, 'controller');
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !get_profile_setter_loading) {
@@ -194,9 +193,9 @@ const EditProfile = props => {
     }
     GetLoadingRef.current = get_user_detail_loading;
   }, [get_user_detail_success, get_user_detail_loading]);
-  useEffect(()=>{
+  useEffect(() => {
     handelChange();
-  },[get_user_detail_res]);
+  }, [get_user_detail_res]);
   const getDate = selectedDate => {
     let tempDate = selectedDate.toString().split(' ');
     return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
@@ -509,7 +508,6 @@ const EditProfile = props => {
                 )}
                 name="sexual_orientations_id"
               />
-              
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (
@@ -558,7 +556,6 @@ const EditProfile = props => {
                 )}
                 name="occupation"
               />
-              
               <Controller
                 control={control}
                 render={({field: {onChange, value}}) => (

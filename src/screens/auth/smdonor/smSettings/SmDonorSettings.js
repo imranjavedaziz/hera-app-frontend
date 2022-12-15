@@ -56,7 +56,8 @@ import {NotificationContext} from '../../../../context/NotificationContextManage
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const profileImgNew = useSelector(state => state.Auth?.user?.profile_pic);
+  const profileImg = useSelector(state => state.profileImg?.imgStore);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const middle_name = useSelector(state => state?.Auth?.user?.middle_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
@@ -257,7 +258,7 @@ const SmDonorSettings = () => {
                 }
                 roleId={getRoleType(role_id)}
                 source={{
-                  uri: profileImg,
+                  uri: profileImgNew === '' ? profileImg : profileImgNew,
                 }}
               />
             </View>
