@@ -83,6 +83,7 @@ const PTB_profile = props => {
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
   const navigation = useNavigation();
+  console.log(props?.route?.params ,'props?.route?.params?.coming')
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -143,7 +144,7 @@ const PTB_profile = props => {
     setIslikedLogo('disliked');
   };
   return (
-    <View style={styles.flex}>
+    <View style={[styles.flex]}>
       <Header end={false}>{headerComp()}</Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
