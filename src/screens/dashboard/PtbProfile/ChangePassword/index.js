@@ -63,6 +63,7 @@ const ChangePassword = ({route}) => {
   const {type} = route.params;
   const dispatch = useDispatch();
   const [isLogin, setLogin] = useState(false);
+  const [isPressed,setPressed] = useState(false);
   const {register_user_success_data, user, log_in_success, log_in_loading} =
     useSelector(state => state.Auth);
   const {changePassword, resetPassword} = User();
@@ -105,6 +106,10 @@ const ChangePassword = ({route}) => {
       resetPassword(reqData);
     }
   };
+  const onPressSubmit = ()=>{
+    setPressed(true);
+    handleSubmit(onSubmit)();
+  }
   return (
     <View
       style={{
@@ -151,6 +156,7 @@ const ChangePassword = ({route}) => {
                               marginTop: Value.CONSTANT_VALUE_35,
                             }}
                             onChangeText={v => {
+                              setPressed(false);
                               onChange(v);
                               clearErrors('current_password');
                             }}
@@ -180,6 +186,7 @@ const ChangePassword = ({route}) => {
                             label={Strings.ChangePassword.Set_New_Password}
                             value={value}
                             onChangeText={v => {
+                              setPressed(false);
                               onChange(v);
                               clearErrors('new_password');
                             }}
@@ -200,15 +207,16 @@ const ChangePassword = ({route}) => {
                                 style={{
                                   fontSize: Value.CONSTANT_VALUE_13,
                                   fontFamily: Fonts.OpenSansBold,
+                                  textAlignVertical: 'top',
                                   color:
-                                    validatePassword(value, msg.type) ||
-                                    validatePassword(value, msg.type) === null
+                                    validatePassword(value, msg.type,isPressed) ||
+                                    validatePassword(value, msg.type,isPressed) === null
                                       ? Colors.GRAY2
                                       : Colors.RED,
                                 }}>
                                 {msg.msg}
                               </Text>
-                              {validatePassword(value, msg.type) !== null && (
+                              {validatePassword(value, msg.type,isPressed) !== null && (
                                 <Image
                                   style={[
                                     styles.ValidPwd,
@@ -216,13 +224,14 @@ const ChangePassword = ({route}) => {
                                       tintColor: validatePassword(
                                         value,
                                         msg.type,
+                                        isPressed
                                       )
                                         ? Colors.BLACK
                                         : Colors.RED,
                                     },
                                   ]}
                                   source={
-                                    validatePassword(value, msg.type)
+                                    validatePassword(value, msg.type,isPressed)
                                       ? Images.path
                                       : Images.warning
                                   }
@@ -245,6 +254,7 @@ const ChangePassword = ({route}) => {
                             marginTop: Value.CONSTANT_VALUE_29,
                           }}
                           onChangeText={v => {
+                            setPressed(false);
                             onChange(v);
                             clearErrors('confirm_password');
                           }}
@@ -262,7 +272,7 @@ const ChangePassword = ({route}) => {
                 <Button
                   label={Strings.preference.SaveNewPassword}
                   style={styles.Btn}
-                  onPress={handleSubmit(onSubmit)}
+                  onPress={onPressSubmit}
                 />
               </View>
             </View>
