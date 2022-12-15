@@ -239,7 +239,6 @@ const SetPreference = ({route, navigation}) => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
       dispatch(showAppLoader());
       if (save_preference_success) {
-        dispatch(getSubscriptionStatus());
         dispatch(hideAppLoader());
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
