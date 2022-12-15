@@ -27,7 +27,6 @@ import {
 } from '../../../redux/actions/CreateGallery';
 import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
-import {updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
 import {BottomSheetComp, ModalMiddle} from '../../../components';
@@ -417,7 +416,6 @@ const CreateGallery = () => {
               style={styles.dashboardBtn}
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               onPress={() => {
-                dispatch(updateRegStep());
                 navigation.navigate(Routes.SmDashboard);
               }}>
               <Text

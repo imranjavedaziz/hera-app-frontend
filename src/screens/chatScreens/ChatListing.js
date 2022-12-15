@@ -5,7 +5,7 @@ import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
 import {Routes} from '../../constants/Constants/';
@@ -15,12 +15,14 @@ import database from '@react-native-firebase/database';
 import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
+import {getMessageID} from '../../redux/actions/MessageId';
 
 const ChatListing = () => {
   const navigation = useNavigation();
   const chats = useSelector(state => state.Chat.chats);
   const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
+  const dispatch = useDispatch();
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
@@ -33,6 +35,7 @@ const ChatListing = () => {
     deviceHandler(navigation, 'deviceGoBack');
   }, []);
   useEffect(() => {
+    dispatch(getMessageID(''));
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
   const NavigateFunc = () => {

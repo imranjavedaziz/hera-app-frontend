@@ -356,7 +356,7 @@ const ChatDetail = props => {
         role = 'Sperm Donor';
         break;
       default:
-        role = 'Parent-To-Be';
+        role = 'Intended Parent';
         break;
     }
     return role;

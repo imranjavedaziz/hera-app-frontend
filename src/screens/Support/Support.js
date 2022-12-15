@@ -235,6 +235,7 @@ export default function Support() {
                         onChangeText={v => {
                           handelChange(v);
                         }}
+                        NumVal={value}
                         maxLength={14}
                         keyboardType="numeric"
                         error={errors && errors.phone_no?.message}

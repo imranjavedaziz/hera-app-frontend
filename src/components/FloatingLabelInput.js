@@ -97,6 +97,7 @@ const FloatingLabelInput = props => {
     lineColor = false,
     hideErrorText = false,
     show,
+    inputRef,
     ...textInputProps
   } = props;
   const handleFocus = () => setFocused(true);
@@ -161,6 +162,7 @@ const FloatingLabelInput = props => {
               onFocus={handleFocus}
               onBlur={handleBlur}
               blurOnSubmit
+              ref={inputRef}
               {...textInputProps}
             />
           </TouchableOpacity>
@@ -177,6 +179,7 @@ const FloatingLabelInput = props => {
             onFocus={handleFocus}
             onBlur={handleBlur}
             blurOnSubmit
+            ref={inputRef}
             {...textInputProps}
           />
         )}
