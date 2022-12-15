@@ -59,6 +59,7 @@ const Toast = () => {
     ? Colors.COLOR_RED
     : Colors.GREEN;
   const icon = toastState.isErrToast ? Images.warning : Images.path;
+  const push = toastState.push && Images.iconChat;
   const hideToast = async () => {
     await dispatch(hideAppToast());
   };
@@ -80,7 +81,7 @@ const Toast = () => {
           <Pressable style={styles.safe} onPress={hideToast}>
             <View style={styles.row}>
               <Image
-                source={icon}
+                source={toastState.push ? push : icon}
                 style={
                   toastState.toastText.length > 10
                     ? {
