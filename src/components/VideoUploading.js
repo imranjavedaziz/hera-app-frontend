@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
   TouchableWithoutFeedback,
-  Platform,
   ActivityIndicator,
 } from 'react-native';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
@@ -37,6 +36,11 @@ const VideoUploading = props => {
     : Images.iconWhite;
   let boolTrue = true;
   return (
+    <TouchableOpacity onPress={() => {
+      if(props.video?.file_url === ''){
+        props?.onPress();
+      }
+    }}>
     <FastImage style={props?.style}>
       {props?.video?.file_url !== '' ? (
         <>
@@ -53,8 +57,8 @@ const VideoUploading = props => {
             <Video
               source={{uri: `${props?.video?.file_url}`}}
               style={props?.videoStyle}
-              audioOnly
-              controls={props?.counter > 0 && boolTrue}
+              // audioOnly
+              controls={props?.counter > 0 || boolTrue}
               ref={props?.videoRef}
               resizeMode={Alignment.COVER}
               onLoad={() => {
@@ -79,9 +83,10 @@ const VideoUploading = props => {
                 setLoadingState(false);
                 setVideoLoader(false);
               }}
+              repeat={true}
             />
             {videoLoader && <View style={[{
-                zIndex: -1,
+                zIndex: 1,
                 backgroundColor: 'rgb(241,140,146)'
               },absoluteStyle]}>
               <ActivityIndicator/>
@@ -115,6 +120,7 @@ const VideoUploading = props => {
         </>
       )}
     </FastImage>
+    </TouchableOpacity>
   );
 };
 
