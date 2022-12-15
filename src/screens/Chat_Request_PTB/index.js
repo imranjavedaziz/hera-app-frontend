@@ -1,6 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {Container} from '../../components';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
 import styles from './style';
@@ -86,64 +85,65 @@ const Chat_Request = props => {
     />
   );
   return (
-    <Container
-      mainStyle={true}
-      scroller={true}
-      showHeader={true}
-      headerComp={headerComp}>
-      <View style={styles.mainContainer}>
-        <ChatImagComp source={props?.route?.params?.item?.recieverImage} />
-        <User_detail
-          Name={props?.route?.params?.item?.recieverName}
-          Type={Strings.Type}
-        />
-        <LikeProfileDetail
-          likeProfile={Strings.Liked_your_profile}
-          Start_Converstation={Strings.Start_Converstation}
-        />
-        <View style={styles.heartIconContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              onPressLike();
-            }}
-            accessible={true}
-            style={styles.btn(Colors.GREEN)}
-            accessibilityRole={'button'}>
-            <View style={styles.heartIcon}>
-              <Image source={Images.HEARTH_ICON} />
-              <Text
-                accessible={false}
-                style={styles.textbtn1}
-                numberOfLines={Value.CONSTANT_VALUE_1}>
-                {Strings.donorPofile.like_this_profile}
-              </Text>
-            </View>
+    <View style={{backgroundColor: Colors.BACKGROUND}}>
+      <View style={{alignSelf: 'flex-end'}}>{headerComp()}</View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.mainContainer}>
+          <ChatImagComp source={props?.route?.params?.item?.recieverImage} />
+          <User_detail
+            Name={props?.route?.params?.item?.recieverName}
+            Type={Strings.Type}
+          />
+          <LikeProfileDetail
+            likeProfile={Strings.Liked_your_profile}
+            Start_Converstation={Strings.Start_Converstation}
+          />
+          <View style={styles.heartIconContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                onPressLike();
+              }}
+              accessible={true}
+              style={styles.btn(Colors.GREEN)}
+              accessibilityRole={'button'}>
+              <View style={styles.heartIcon}>
+                <Image source={Images.HEARTH_ICON} />
+                <Text
+                  accessible={false}
+                  style={styles.textbtn1}
+                  numberOfLines={Value.CONSTANT_VALUE_1}>
+                  {Strings.donorPofile.like_this_profile}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.crossIconContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                onPressDislike();
+              }}
+              style={styles.btn(Colors.RED)}
+              accessibilityRole={'button'}
+              accessible={true}>
+              <View style={styles.crossIcon}>
+                <Image source={Images.RED_CROSS_ICON} />
+                <Text
+                  style={styles.textbtn1}
+                  accessible={false}
+                  numberOfLines={Value.CONSTANT_VALUE_1}>
+                  {Strings.donorPofile.Not_interested}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity onPress={() => onNavigationDetail()}>
+            <Text style={styles.SeeProfile}>See Profile</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.crossIconContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              onPressDislike();
-            }}
-            style={styles.btn(Colors.RED)}
-            accessibilityRole={'button'}
-            accessible={true}>
-            <View style={styles.crossIcon}>
-              <Image source={Images.RED_CROSS_ICON} />
-              <Text
-                style={styles.textbtn1}
-                accessible={false}
-                numberOfLines={Value.CONSTANT_VALUE_1}>
-                {Strings.donorPofile.Not_interested}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={() => onNavigationDetail()}>
-          <Text style={styles.SeeProfile}>See Profile</Text>
-        </TouchableOpacity>
-      </View>
-    </Container>
+      </ScrollView>
+    </View>
   );
 };
 

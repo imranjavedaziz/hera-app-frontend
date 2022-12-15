@@ -135,8 +135,9 @@ const ChatDetail = props => {
           fireDB.prependMessage(messageItem);
           await fireDB.readAll();
           fireDB.lastIdInSnapshot = snapshot.key;
+          setLoading(false);
         }
-        setLoading(false);
+       
       },
     );
   }, []);
