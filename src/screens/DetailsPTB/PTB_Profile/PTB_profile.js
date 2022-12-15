@@ -102,7 +102,7 @@ const PTB_profile = props => {
     useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1000,
+        duration: 800,
         useNativeDriver: true,
       }).start();
     }, [fadeAnim]);
@@ -124,7 +124,7 @@ const PTB_profile = props => {
       setIsVisibleLogo(false);
       setIslikedLogo('');
       navigation.navigate(Routes.SmDashboard);
-    }, 3000);
+    }, 1000);
   };
 
   const onPressLike = () => {
