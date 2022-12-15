@@ -60,6 +60,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NotificationContext} from '../../context/NotificationContextManager';
 import debounce from '../../utils/debounce';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
+import {empty} from '../../redux/actions/Chat';
 
 const Profile = props => {
   const navigation = useNavigation();
@@ -180,8 +181,8 @@ const Profile = props => {
       {
         text: Strings.profile.ModalOption1,
         onPress: () => {
+          dispatch(empty());
           logoutScreen();
-          navigation.navigate(Routes.Landing);
         },
       },
       {

@@ -17,6 +17,7 @@ const Chat_listing_Comp = props => {
     roleId,
     chatStart,
     status_id,
+    recieverSubscription,
   } = props;
   const styleMatchOne = message !== '' ? message : Strings.Chat.HEY_ITS_MATCH;
   const styleMatchTwo = message !== '' ? message : '';
@@ -26,7 +27,6 @@ const Chat_listing_Comp = props => {
       ? Strings.Chat.PARENT_TO_BE_SEND_REQUEST
       : message;
 
-      console.log(match,chatStart,'match,chatstart')
   return (
     <>
       {currentRole !== 1 && roleId === 2 && (
@@ -39,13 +39,13 @@ const Chat_listing_Comp = props => {
                 ? styles.ImgView
                 : styles.unReadImgView
             }>
-            {status_id !== 1 && (
+            {status_id !== 1 ||
+            (recieverSubscription === 0 && currentRole === 2) ? (
               <FastImage
                 style={styles.userImg}
                 source={Images.defaultProfile}
               />
-            )}
-            {status_id === 1 && (
+            ) : (
               <FastImage style={styles.userImg} source={{uri: image}} />
             )}
 
@@ -58,7 +58,8 @@ const Chat_listing_Comp = props => {
           </View>
           <View style={[styles.description, {flexDirection: 'row'}]}>
             <View style={{maxWidth: 190}}>
-              {status_id !== 1 ? (
+              {status_id !== 1 ||
+              (recieverSubscription === 0 && currentRole === 2) ? (
                 <Text style={styles.userName}>
                   {Strings.Chat.INACTIVE_USER}
                 </Text>
@@ -95,13 +96,13 @@ const Chat_listing_Comp = props => {
                 ? styles.ImgView
                 : styles.unReadImgView
             }>
-            {status_id !== 1 && (
+            {status_id !== 1 ||
+            (recieverSubscription === 0 && currentRole === 2) ? (
               <FastImage
                 style={styles.userImg}
                 source={Images.defaultProfile}
               />
-            )}
-            {status_id === 1 && (
+            ) : (
               <FastImage
                 style={styles.userImg}
                 source={currentRole === 1 ? Images.ADMIN_ICON : {uri: image}}
@@ -117,7 +118,8 @@ const Chat_listing_Comp = props => {
           </View>
           <View style={[styles.description, {flexDirection: 'row'}]}>
             <View style={{maxWidth: 190}}>
-              {status_id !== 1 ? (
+              {status_id !== 1 ||
+              (recieverSubscription === 0 && currentRole === 2) ? (
                 <Text style={styles.userName}>
                   {Strings.Chat.INACTIVE_USER}
                 </Text>
