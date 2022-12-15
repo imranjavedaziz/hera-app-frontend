@@ -94,8 +94,8 @@ const ChatDetail = props => {
           showAppToast(
             true,
             subscriptionStatus.data.is_trial
-              ? Strings.Subscription.TrailOver
-              : Strings.Subscription.SubscriptionExpired,
+              ? Strings.Subscription.ChatTrailOver
+              : Strings.Subscription.ChatSubscriptionExpired,
           ),
         );
       }

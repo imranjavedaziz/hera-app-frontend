@@ -399,8 +399,12 @@ export default {
     Cancel: 'Cancel',
     TrailOver:
       'Your trial period is over. Please subscribe now to find new match.',
+    ChatTrailOver:
+      'Your trial period is over. Please subscribe now to continue your conversation.',
     SubscriptionExpired:
       'Your subscription has expired. Please renew your subscription now to find new match.',
+    ChatSubscriptionExpired:
+      'Your subscription has expired. Please renew your subscription now to continue your conversation.',
   },
   Chat: {
     Chat: 'CHAT',
@@ -413,17 +417,16 @@ export default {
       'Your subscription has expired. Please subscribe now.',
     SENDER_SUBSCRIPTION_EXPIRED: 'subscription has expired.',
     YOU_MATCHED: 'You Matched!',
-    PARENT_TO_BE_CONVERSATION: ' Parent To Be will start the conversation.',
+    PARENT_TO_BE_CONVERSATION: ' Intended Parent will start the conversation.',
     START_CONVERSATION: 'Start a conversation!',
     INACTIVE_USER: 'Inactive User',
     HEY_ITS_MATCH: 'Hey, It’s a match!',
-    PARENT_TO_BE_SEND_REQUEST: 'A Parent To Be sent you a request',
+    PARENT_TO_BE_SEND_REQUEST: 'Intended Parent sent you a request',
     INACTIVE_ACCOUNT: 'This account is inactive',
     NICE_WATCH_FOUND: 'Nice, Your match found!',
-    PLEASE_ENTER_MESSAGE: 'Please Enter Message',
-    PLEASE_SEND_MESSAGE_INITIATE:
-      'Please send a message to initiate the conversation.',
-    MATCH_SEND_SUCCESSFULLY: 'Match request sent successfully.',
+    PLEASE_ENTER_MESSAGE: 'Please enter your message',
+    PLEASE_SEND_MESSAGE_INITIATE:'Please send a message to initiate the conversation.',
+    MATCH_SEND_SUCCESSFULLY:'Match request sent successfully.'
   },
   Sensory: {
     AS_PER_SEARCH:

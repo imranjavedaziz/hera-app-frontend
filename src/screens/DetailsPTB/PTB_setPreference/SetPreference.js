@@ -23,7 +23,7 @@ import {
   showAppLoader,
   showAppToast,
   showEditAppLoader,
-  hideEditLoader
+  hideEditLoader,
 } from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
 import Header, {IconHeader} from '../../../components/Header';
@@ -211,6 +211,7 @@ const SetPreference = ({route, navigation}) => {
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       } else {
+        dispatch(empty());
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
       }
@@ -273,6 +274,7 @@ const SetPreference = ({route, navigation}) => {
   const logOutScreen = () => {
     dispatch(showAppLoader());
     dispatch(logOut(Device_ID));
+    dispatch(empty());
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
@@ -582,7 +584,7 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
-                      lineColor ={isOpen}
+                      lineColor={isOpen}
                       error={errors && errors.race?.message}
                     />
                   )}
