@@ -30,6 +30,8 @@ import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
+  showEditAppLoader,
+  hideEditLoader,
 } from '../../../redux/actions/loader';
 import {
   getAttribute,
@@ -95,7 +97,7 @@ const SetAttributes = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getAttribute());
-      dispatch(showAppLoader());
+      dispatch(showEditAppLoader());
       EditAttributes === true && dispatch(getUserAttribute());
     }, [dispatch]),
   );
@@ -131,12 +133,12 @@ const SetAttributes = ({route}) => {
   //GET User Attributes
   useEffect(() => {
     if (UserLoadingRef.current && !get_attribute_loading) {
-      dispatch(showAppLoader());
+      dispatch(showEditAppLoader());
       if (get_attribute_success) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
         EditAttributes === true && handelChange();
       } else {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
       }
     }
     UserLoadingRef.current = get_attribute_loading;
@@ -150,13 +152,13 @@ const SetAttributes = ({route}) => {
   //GET PROFILE SETTER
   useEffect(() => {
     if (LoadingRef.current && !set_attribute_loading) {
-      dispatch(showAppLoader());
+      dispatch(showEditAppLoader());
       if (set_attribute_success) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
         EditAttributes === true && handelChange();
         setAttributeData(set_attribute_res);
       } else {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
       }
     }
     LoadingRef.current = set_attribute_loading;
