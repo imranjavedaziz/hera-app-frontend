@@ -67,6 +67,7 @@ const Profile = props => {
   const {
     params: {isRouteData},
   } = useRoute();
+  const [isPressed,setPressed] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState();
   const [file, setFile] = useState(null);
@@ -237,6 +238,10 @@ const Profile = props => {
     setOpen(true);
     askCameraPermission();
   };
+  const onPressSubmit = ()=>{
+    setPressed(true);
+    debounce(handleSubmit(onSubmit), 1000)();
+  }
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -311,7 +316,10 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.FirstName}
                       value={value}
-                      onChangeText={v => onChange(v.trim())}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
                       required={true}
                       maxLength={30}
                       error={errors && errors.first_name?.message}
@@ -325,7 +333,10 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.MiddleName}
                       value={value}
-                      onChangeText={v => onChange(v.trim())}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
                       fontWeight={Alignment.BOLD}
                       error={errors && errors.middle_name?.message}
                       maxLength={30}
@@ -339,7 +350,10 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.LastName}
                       value={value}
-                      onChangeText={v => onChange(v.trim())}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
                       fontWeight={Alignment.BOLD}
                       required={true}
                       maxLength={30}
@@ -354,7 +368,10 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.DateOfBirth}
                       value={value}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => {
+                        onChange(v);
+                        setPressed(false);
+                      }}
                       endComponentPress={() => setShow(true)}
                       error={errors && errors.date_of_birth?.message}
                       required={true}
@@ -375,7 +392,10 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.EmailAddress}
                       value={value}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => {
+                        onChange(v);
+                        setPressed(false);
+                      }}
                       fontWeight={Alignment.BOLD}
                       required={true}
                       error={errors && errors.email?.message}
@@ -390,7 +410,10 @@ const Profile = props => {
                       <FloatingLabelInput
                         label={Strings.profile.setPassword}
                         value={value}
-                        onChangeText={v => onChange(v)}
+                        onChangeText={v => {
+                          onChange(v.trim());
+                          setPressed(false);
+                        }}
                         required={true}
                         secureTextEntry={true}
                         containerStyle={{marginBottom: Value.CONSTANT_VALUE_10}}
@@ -402,25 +425,25 @@ const Profile = props => {
                               fontSize: Value.CONSTANT_VALUE_13,
                               fontFamily: Fonts.OpenSansBold,
                               color:
-                                validatePassword(value, msg.type) ||
-                                validatePassword(value, msg.type) === null
+                                validatePassword(value, msg.type,isPressed) ||
+                                validatePassword(value, msg.type,isPressed) === null
                                   ? Colors.BLACK
                                   : Colors.RED,
                             }}>
                             {msg.msg}
                           </Text>
-                          {validatePassword(value, msg.type) !== null && (
+                          {validatePassword(value, msg.type,isPressed) !== null && (
                             <Image
                               style={[
                                 styles.ValidPwd,
                                 {
-                                  tintColor: validatePassword(value, msg.type)
+                                  tintColor: validatePassword(value, msg.type,isPressed)
                                     ? Colors.BLACK
                                     : Colors.RED,
                                 },
                               ]}
                               source={
-                                validatePassword(value, msg.type)
+                                validatePassword(value, msg.type,isPressed)
                                   ? Images.path
                                   : Images.warning
                               }
@@ -438,7 +461,10 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.confirmPassword}
                       value={value}
-                      onChangeText={v => onChange(v)}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
                       required={true}
                       secureTextEntry={true}
                       containerStyle={{marginBottom: Value.CONSTANT_VALUE_40}}
@@ -488,7 +514,7 @@ const Profile = props => {
                   disabled={register_user_loading || register_user_success}
                   label={Strings.profile.Register}
                   style={styles.Btn}
-                  onPress={debounce(handleSubmit(onSubmit), 1000)}
+                  onPress={onPressSubmit}
                 />
               </View>
               <Pressable
