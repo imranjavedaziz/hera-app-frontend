@@ -8,33 +8,33 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
 import Images from '../../../constants/Images';
-import Header, { IconHeader } from '../../../components/Header';
+import Header, {IconHeader} from '../../../components/Header';
 import DetailComp from '../../../components/dashboard/DetailScreen/DetailComp/ImageComp';
 import BioComponent from '../../../components/dashboard/DetailScreen/BioComponent/ImageComp';
 import styles from './style';
 import Strings from '../../../constants/Strings';
-import { Value } from '../../../constants/FixedValues';
+import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
-import { SmDonerDetail } from '../../../redux/actions/SmDonerDetail';
-import { useDispatch, useSelector } from 'react-redux';
-import { showAppLoader, hideAppLoader } from '../../../redux/actions/loader';
+import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
+import {useDispatch, useSelector} from 'react-redux';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
-import { profileMatch } from '../../../redux/actions/Profile_Match';
-import { Routes } from '../../../constants/Constants';
-import { MaterialIndicator } from 'react-native-indicators';
-import { dynamicSize, width } from '../../../utils/responsive';
+import {profileMatch} from '../../../redux/actions/Profile_Match';
+import {Routes} from '../../../constants/Constants';
+import {MaterialIndicator} from 'react-native-indicators';
+import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
-import { Alignment } from '../../../constants';
+import {Alignment} from '../../../constants';
 
 const images = [];
 const DashboardDetailScreen = () => {
@@ -59,7 +59,7 @@ const DashboardDetailScreen = () => {
     profile_match_error_msg,
   } = useSelector(state => state.Profile_Match);
   const {
-    params: { userId },
+    params: {userId},
   } = useRoute();
   useEffect(() => {
     dispatch(SmDonerDetail(userId));
@@ -100,7 +100,7 @@ const DashboardDetailScreen = () => {
         return item;
       });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({ uri: url[i]?.file_url });
+      images.push({uri: url[i]?.file_url});
     }
   };
   useEffect(() => {
@@ -112,7 +112,7 @@ const DashboardDetailScreen = () => {
           setIsVisibleLogo(false);
           setIslikedLogo('');
           if (smDetailRes?.profile_match_request?.status === 2) {
-            navigation.navigate(Routes.ProfileLikedSm, { item: smDetailRes });
+            navigation.navigate(Routes.ProfileLikedSm, {item: smDetailRes});
           } else {
             navigation.navigate(Routes.PtbDashboard);
           }
@@ -200,7 +200,7 @@ const DashboardDetailScreen = () => {
           style={styles.imagePlaceholder}>
           <RNSDWebImage
             resizeMode="cover"
-            source={{ uri: item?.item?.file_url }}
+            source={{uri: item?.item?.file_url}}
             style={styles.imageBox}
           />
         </TouchableOpacity>
@@ -238,7 +238,7 @@ const DashboardDetailScreen = () => {
           )}
           {smDetailRes?.doner_attribute?.eye_colour && (
             <View
-              style={[styles.nativeLong, { marginLeft: Value.CONSTANT_VALUE_8 }]}>
+              style={[styles.nativeLong, {marginLeft: Value.CONSTANT_VALUE_8}]}>
               <Text
                 style={[
                   global?.tagText,
@@ -295,7 +295,7 @@ const DashboardDetailScreen = () => {
                 Place={smDetailRes?.location?.name}
                 Code={smDetailRes?.username}
                 DonerType={smDetailRes?.role}
-                image={{ uri: smDetailRes?.profile_pic }}
+                image={{uri: smDetailRes?.profile_pic}}
               />
               <View style={styles.bioContainer}>
                 {smDetailRes?.age && (
@@ -340,7 +340,7 @@ const DashboardDetailScreen = () => {
                   </Text>
                 </ImageBackground>
               </View>
-              <View style={{width: width-Value.CONSTANT_VALUE_60}}>
+              <View style={{width: width - Value.CONSTANT_VALUE_60}}>
                 {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
                   .length < 20 ? (
                   <View style={styles.nativeMainContainer}>

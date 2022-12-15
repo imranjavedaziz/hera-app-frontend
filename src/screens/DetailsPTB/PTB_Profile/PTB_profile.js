@@ -83,7 +83,7 @@ const PTB_profile = props => {
     dispatch(getPtbProfileDetail(userid));
   }, [dispatch, userid]);
   const navigation = useNavigation();
-  console.log(props?.route?.params ,'props?.route?.params?.coming')
+  console.log(props?.route?.params, 'props?.route?.params?.coming');
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}

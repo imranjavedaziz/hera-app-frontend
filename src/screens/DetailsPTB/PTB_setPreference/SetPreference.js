@@ -22,6 +22,8 @@ import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
+  showEditAppLoader,
+  hideEditLoader
 } from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
 import Header, {IconHeader} from '../../../components/Header';
@@ -120,7 +122,7 @@ const SetPreference = ({route, navigation}) => {
   useFocusEffect(
     useCallback(() => {
       if (EditPreferences === true) {
-        dispatch(showAppLoader());
+        dispatch(showEditAppLoader());
         dispatch(GetPreferenceRes());
       }
       dispatch(getStates());
@@ -162,13 +164,13 @@ const SetPreference = ({route, navigation}) => {
   useFocusEffect(
     useCallback(() => {
       if (SetloadingRef.current && !get_preference_loading) {
-        dispatch(showAppLoader());
+        dispatch(showEditAppLoader());
         if (get_preference_success) {
-          dispatch(hideAppLoader());
+          dispatch(hideEditLoader());
           EditPreferences === true && handelChange();
         }
         if (get_preference_error_msg) {
-          dispatch(hideAppLoader());
+          dispatch(hideEditLoader());
         }
       }
       SetloadingRef.current = get_preference_loading;
