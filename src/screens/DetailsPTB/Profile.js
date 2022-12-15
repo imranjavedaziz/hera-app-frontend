@@ -68,7 +68,7 @@ const Profile = props => {
   const {
     params: {isRouteData},
   } = useRoute();
-  const [isPressed,setPressed] = useState(false);
+  const [isPressed, setPressed] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState();
   const [file, setFile] = useState(null);
@@ -239,10 +239,10 @@ const Profile = props => {
     setOpen(true);
     askCameraPermission();
   };
-  const onPressSubmit = ()=>{
+  const onPressSubmit = () => {
     setPressed(true);
     debounce(handleSubmit(onSubmit), 1000)();
-  }
+  };
   const CalenderOn = () => {
     inputRef.current.blur();
     setShow(true);
@@ -402,7 +402,7 @@ const Profile = props => {
                       label={Strings.profile.EmailAddress}
                       value={value}
                       onChangeText={v => {
-                        onChange(v);
+                        onChange(v.trim());
                         setPressed(false);
                       }}
                       fontWeight={Alignment.BOLD}
@@ -436,25 +436,31 @@ const Profile = props => {
                               fontSize: Value.CONSTANT_VALUE_13,
                               fontFamily: Fonts.OpenSansBold,
                               color:
-                                validatePassword(value, msg.type,isPressed) ||
-                                validatePassword(value, msg.type,isPressed) === null
+                                validatePassword(value, msg.type, isPressed) ||
+                                validatePassword(value, msg.type, isPressed) ===
+                                  null
                                   ? Colors.BLACK
                                   : Colors.RED,
                             }}>
                             {msg.msg}
                           </Text>
-                          {validatePassword(value, msg.type,isPressed) !== null && (
+                          {validatePassword(value, msg.type, isPressed) !==
+                            null && (
                             <Image
                               style={[
                                 styles.ValidPwd,
                                 {
-                                  tintColor: validatePassword(value, msg.type,isPressed)
+                                  tintColor: validatePassword(
+                                    value,
+                                    msg.type,
+                                    isPressed,
+                                  )
                                     ? Colors.BLACK
                                     : Colors.RED,
                                 },
                               ]}
                               source={
-                                validatePassword(value, msg.type,isPressed)
+                                validatePassword(value, msg.type, isPressed)
                                   ? Images.path
                                   : Images.warning
                               }
