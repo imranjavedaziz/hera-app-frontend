@@ -247,6 +247,7 @@ const Profile = props => {
       <Header end={true}>{headerComp()}</Header>
       <KeyboardAwareScrollView
         animated={true}
+        keyboardShouldPersistTaps="handled"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.flex}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

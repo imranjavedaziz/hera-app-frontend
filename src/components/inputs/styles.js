@@ -35,7 +35,6 @@ export default {
   },
   floated: {
     top: Value.CONSTANT_VALUE_0,
-
     fontSize: Value.CONSTANT_VALUE_14,
     color: Colors.BLACK_KEY,
   },
@@ -99,7 +98,6 @@ export default {
   },
   rowStyle: {
     width: Prencentage.PRECENTAGE_100,
-    borderBottomWidth: Value.CONSTANT_VALUE_0,
   },
   rowTextStyle: {textAlign: Alignment.CENTER, color: Colors.BLACK},
   dropdownStyle: {

@@ -117,7 +117,6 @@ const Login = props => {
     }
     setValue('phone', a);
   };
-  console.log('errors.password?.message', errors.password?.message);
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -143,6 +142,7 @@ const Login = props => {
                       onChangeText={v => {
                         handelChange(v);
                       }}
+                      required={true}
                       maxLength={14}
                       keyboardType="numeric"
                       error={errors && errors.phone?.message}
