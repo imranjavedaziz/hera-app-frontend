@@ -1,4 +1,11 @@
-import {SHOW_LOADER, HIDE_LOADER, SHOW_TOAST, HIDE_TOAST} from '../constants';
+import {
+  SHOW_LOADER,
+  HIDE_LOADER,
+  SHOW_TOAST,
+  HIDE_TOAST,
+  SHOW_EDIT_LOADER,
+  HIDE_EDIT_LOADER,
+} from '../constants';
 
 const initState = {
   loading: false,
@@ -8,6 +15,7 @@ const initState = {
   toastText: '',
   push: false,
   pushRes: '',
+  editLoading: false,
 };
 
 export default (state = initState, {type = '', payload = null} = {}) => {
@@ -36,6 +44,18 @@ export default (state = initState, {type = '', payload = null} = {}) => {
       return {
         ...state,
         showToast: false,
+      };
+
+    case SHOW_EDIT_LOADER:
+      return {
+        ...state,
+        editLoading: true,
+        text: payload.text,
+      };
+    case HIDE_EDIT_LOADER:
+      return {
+        ...state,
+        editLoading: false,
       };
     default:
       return state;

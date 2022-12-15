@@ -6,6 +6,7 @@ import {
   Alert,
   Platform,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Header, {CircleBtn} from '../../components/Header';
@@ -29,8 +30,8 @@ import {
   showAppToast,
 } from '../../redux/actions/loader';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {InputLabel, ModalMiddle, MultiTextInput} from '../../components';
-import {Alignment} from '../../constants';
+import {ModalMiddle, MultiTextInput} from '../../components';
+import {Alignment, Colors} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import moment from 'moment-timezone';
 import normalizeInput from '../../utils/normalizeInput';
@@ -170,6 +171,7 @@ export default function Support() {
           keyboardOpeningTime={0}
           scrollEnabled={true}
           extraHeight={180}
+          keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ScrollView
@@ -223,27 +225,41 @@ export default function Support() {
                   )}
                   name={FormKey.email}
                 />
-                <View style={styles.inputRow}>
-                  <InputLabel Code={true} label={Strings.mobile.Code} />
-                  <Controller
-                    control={control}
-                    render={({field: {onChange, value}}) => (
-                      <InputLabel
-                        value={phone}
-                        number={true}
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <View style={styles.mobileView}>
+                      <View
+                        style={[
+                          errors.phone_no?.message && styles.bottom,
+                          styles.mobileBox,
+                        ]}>
+                        <Text style={styles.codeText}>
+                          {Strings.mobile.Code}
+                        </Text>
+                        <TextInput
+                          editable={false}
+                          placeholder={ConstantsCode.Country_CODE}
+                          placeholderTextColor={Colors.textPLace}
+                          style={[styles.codeInputText, styles.blurBorder]}
+                        />
+                      </View>
+                      <FloatingLabelInput
                         label={Strings.inqueryForm.MobileNumber}
+                        value={phone}
                         onChangeText={v => {
                           handelChange(v);
                         }}
-                        NumVal={value}
+                        required={true}
                         maxLength={14}
+                        number={true}
                         keyboardType="numeric"
                         error={errors && errors.phone_no?.message}
                       />
-                    )}
-                    name={FormKey.phone_no}
-                  />
-                </View>
+                    </View>
+                  )}
+                  name={FormKey.phone_no}
+                />
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (

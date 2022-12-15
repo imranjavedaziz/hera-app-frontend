@@ -25,7 +25,11 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {getRoleType} from '../../../../utils/other';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
-import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
+import {
+  showAppLoader,
+  hideAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import {MaterialIndicator} from 'react-native-indicators';
@@ -368,6 +372,21 @@ const PtbDashboard = props => {
               <TouchableOpacity
                 onPress={() => {
                   if (subscriptionStatus?.data?.status) {
+                    if (ptbDashboardRes.match_request.status === 2) {
+                      dispatch(
+                        showAppToast(
+                          true,
+                          Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
+                        ),
+                      );
+                    } else {
+                      dispatch(
+                        showAppToast(
+                          true,
+                          Strings.Chat.MATCH_SEND_SUCCESSFULLY,
+                        ),
+                      );
+                    }
                     setIsVisibleLogo(true);
                     setIslikedLogo('liked');
                     handleOnSwipedRight();
