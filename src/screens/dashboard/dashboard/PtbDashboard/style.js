@@ -77,6 +77,7 @@ export default {
     color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
+    marginHorizontal: Value.CONSTANT_VALUE_40,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

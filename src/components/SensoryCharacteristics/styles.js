@@ -36,8 +36,16 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     textAlign: Alignment.CENTER,
     paddingTop: px(13),
+    paddingHorizontal: px(10),
+  },
+  hasThree: {
+    color: Colors.COLOR_535858,
+    fontSize: Value.CONSTANT_VALUE_23,
+    alignSelf: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    textAlign: Alignment.CENTER,
     paddingBottom: px(32),
-    paddingHorizontal: px(48),
+    paddingHorizontal: px(30),
   },
   btnContainer: {
     width: px(236),

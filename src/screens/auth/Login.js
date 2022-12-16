@@ -32,7 +32,7 @@ import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {InputLabel} from '../../components';
-import { empty } from '../../redux/actions/Chat';
+import {empty} from '../../redux/actions/Chat';
 const type = 2;
 const Login = props => {
   const navigation = useNavigation();
@@ -131,6 +131,7 @@ const Login = props => {
         <KeyboardAwareScrollView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
           style={styles.flex}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.mainContainer}>
@@ -190,7 +191,10 @@ const Login = props => {
                 )}
                 name="password"
               />
-              <View style={{alignItems: Alignment.CENTER}}>
+              <View
+                style={{
+                  alignItems: Alignment.CENTER,
+                }}>
                 <Button
                   label={Strings.login.LOG_IN}
                   style={styles.loginBtn}
