@@ -42,6 +42,7 @@ export default function Support() {
     handleSubmit,
     control,
     setValue,
+    clearErrors,
     formState: {errors, isValid, isDirty},
   } = useForm({
     resolver: yupResolver(inqueryFormSchema),
@@ -206,6 +207,7 @@ export default function Support() {
                       onSelect={selectedItem => {
                         onChange(selectedItem);
                       }}
+                      userType={true}
                       required={true}
                       error={errors && errors.user_type?.message}
                     />
@@ -249,6 +251,7 @@ export default function Support() {
                         value={phone}
                         onChangeText={v => {
                           handelChange(v);
+                          clearErrors('phone_no');
                         }}
                         required={true}
                         maxLength={14}

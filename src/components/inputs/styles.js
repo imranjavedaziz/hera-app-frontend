@@ -96,6 +96,18 @@ export default {
     bottom: -20,
     right: 0,
   },
+  errUserType: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    position: 'absolute',
+    bottom: -28,
+    right: 0,
+  },
   errMessageEd: {
     color: 'red',
     textAlign: Alignment.RIGHT,

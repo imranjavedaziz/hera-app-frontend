@@ -27,6 +27,7 @@ const Dropdown = ({
   cancelPress,
   defaultValue,
   heighter,
+  userType,
   weight,
   education,
   ...dropdownProps
@@ -202,7 +203,14 @@ const Dropdown = ({
         )}
       </View>
       {error && (
-        <Text style={education ? styles.errMessageEd : styles.errMessage}>
+        <Text
+          style={
+            education
+              ? styles.errMessageEd
+              : userType
+              ? styles.errUserType
+              : styles.errMessage
+          }>
           {error}
         </Text>
       )}
