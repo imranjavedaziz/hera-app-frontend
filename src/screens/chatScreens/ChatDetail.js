@@ -137,7 +137,6 @@ const ChatDetail = props => {
           fireDB.lastIdInSnapshot = snapshot.key;
           setLoading(false);
         }
-       
       },
     );
   }, []);
@@ -339,11 +338,17 @@ const ChatDetail = props => {
     }
     return role;
   }
-  console.log(
-    giftedref?.current?._messageContainerRef?.current?._listRef?._scrollRef
-      .scrollToEnd,
-    'giftedref',
-  );
+ async function arrowFunction() {
+    if (
+      props.route.params.isComingFrom === true ||
+      props.route.params.chatPush === true
+    ) {
+      props.navigation.navigate(Routes.Chat_Listing);
+    } else {
+      await fireDB.readMessage();
+      props.navigation.goBack();
+    }
+  }
   return (
     <View style={{flex: 1, backgroundColor: Colors.BACKGROUND}}>
       <View
@@ -354,12 +359,7 @@ const ChatDetail = props => {
           <View style={{zIndex: 9999}}>
             <TouchableOpacity
               hitSlop={{top: 20, bottom: 20, left: 10, right: 10}}
-              onPress={() => {
-                props.route.params.isComingFrom === true ||
-                props.route.params.chatPush === true
-                  ? props.navigation.navigate(Routes.Chat_Listing)
-                  : props.navigation.goBack();
-              }}>
+              onPress={() => arrowFunction()}>
               <Image
                 source={Images.BACK_PLAN_ARROW}
                 style={{width: 14.7, height: 12.6}}
