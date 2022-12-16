@@ -475,7 +475,7 @@ const SetPreference = ({route, navigation}) => {
                         console.log(selectedItem, index);
                         onChange(selectedItem);
                       }}
-                      education={true}
+                      educationStyle={true}
                       required={true}
                       lineColor={isOpen}
                       error={errors && errors.education?.message}
@@ -653,7 +653,7 @@ const SetPreference = ({route, navigation}) => {
                           </TouchableOpacity>
                         ))}
                       <Text style={styles.errMessage}>
-                        {EditPreferences && errors && errors.hair?.message}
+                        {errors && errors.hair?.message}
                       </Text>
                     </View>
                   )}
@@ -719,7 +719,7 @@ const SetPreference = ({route, navigation}) => {
                         </TouchableOpacity>
                       ))}
                     <Text style={styles.errMessage}>
-                      {EditPreferences && errors && errors.eye?.message}
+                      {errors && errors.eye?.message}
                     </Text>
                   </View>
                 )}

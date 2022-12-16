@@ -30,6 +30,7 @@ const Dropdown = ({
   userType,
   weight,
   education,
+  educationStyle,
   ...dropdownProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -207,6 +208,8 @@ const Dropdown = ({
           style={
             education
               ? styles.errMessageEd
+              : educationStyle
+              ? styles.errMessageEdCheck
               : userType
               ? styles.errUserType
               : styles.errMessage
