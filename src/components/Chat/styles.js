@@ -36,7 +36,7 @@ export default {
   },
   userName: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: px(Value.CONSTANT_VALUE_14),
+    fontSize: px(Value.CONSTANT_VALUE_16),
     color: Colors.BLACK,
     fontWeight: Alignment.BOLD,
     lineHeight: 21,
@@ -44,13 +44,13 @@ export default {
   },
   msg: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: px(Value.CONSTANT_VALUE_12),
+    fontSize: px(Value.CONSTANT_VALUE_14),
     color: Colors.BLACK_0,
     fontWeight: Alignment.BOLD,
   },
   msgRead: {
     fontFamily: Fonts.OpenSansRegular,
-    fontSize: px(Value.CONSTANT_VALUE_12),
+    fontSize: px(Value.CONSTANT_VALUE_14),
     color: Colors.BLACK_01,
   },
   time: {
