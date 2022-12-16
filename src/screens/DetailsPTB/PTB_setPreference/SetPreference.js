@@ -651,7 +651,7 @@ const SetPreference = ({route, navigation}) => {
                           </TouchableOpacity>
                         ))}
                       <Text style={styles.errMessage}>
-                        {EditPreferences && errors && errors.hair?.message}
+                        {errors && errors.hair?.message}
                       </Text>
                     </View>
                   )}
@@ -717,7 +717,7 @@ const SetPreference = ({route, navigation}) => {
                         </TouchableOpacity>
                       ))}
                     <Text style={styles.errMessage}>
-                      {EditPreferences && errors && errors.eye?.message}
+                      {errors && errors.eye?.message}
                     </Text>
                   </View>
                 )}
