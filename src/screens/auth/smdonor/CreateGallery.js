@@ -401,7 +401,10 @@ const CreateGallery = () => {
               style={styles.dashboardBtn}
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               onPress={() => {
-                navigation.navigate(Routes.SmDashboard);
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: Routes.SmDashboard }],
+                });
               }}>
               <Text
                 accessible={false}

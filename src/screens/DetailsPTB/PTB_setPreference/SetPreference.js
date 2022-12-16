@@ -235,7 +235,6 @@ const SetPreference = ({route, navigation}) => {
       loadingRef.current = set_preference_loading;
     }, [set_preference_success, set_preference_loading]),
   );
-
   // SAVE PREFERENCE
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
@@ -244,7 +243,10 @@ const SetPreference = ({route, navigation}) => {
         dispatch(hideAppLoader());
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
-          : navigation.navigate(Routes.PtbDashboard);
+          : navigation.reset({
+            index: 0,
+            routes: [{ name: Routes.PtbDashboard }],
+          });
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
