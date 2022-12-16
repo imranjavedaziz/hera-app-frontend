@@ -549,7 +549,7 @@ const ChatDetail = props => {
           />
         )}
       {log_in_data?.role_id === 2 && (
-        <View style={{flex: 1, marginBottom: 10}}>
+        <View style={{flex: 1}}>
           <GiftedChat
             ref={giftedref}
             messages={db?.messages}
@@ -596,7 +596,7 @@ const ChatDetail = props => {
         </View>
       )}
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
-        <View style={{flex: 1, marginBottom: 10}}>
+        <View style={{flex: 1}}>
           <GiftedChat
             ref={giftedref}
             messages={db?.messages}
@@ -633,7 +633,7 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1, marginBottom: 10}}>
+          <View style={{flex: 1}}>
             <GiftedChat
               ref={giftedref}
               scrollToBottom={true}
