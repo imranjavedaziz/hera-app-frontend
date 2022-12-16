@@ -360,7 +360,6 @@ const SmRegister = () => {
                     setPressed(false);
                   }}
                   error={errors && errors.dob?.message}
-                  // error={(value || !isValid) && validateDateofBirth()}
                   required={true}
                   endComponentPress={() => CalenderOn()}
                   endComponent={() => (
@@ -408,7 +407,7 @@ const SmRegister = () => {
                     inputRef={inputRef}
                   />
                   {pwdErrMsg.map(msg => (
-                    <View style={styles.passwordCheck} key={msg.type}>
+                    <View style={styles.pwdErrContainer} key={msg.type}>
                       <Text
                         style={[
                           styles.pwdErrText,
