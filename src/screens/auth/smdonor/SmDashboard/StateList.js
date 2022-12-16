@@ -20,6 +20,8 @@ import {Routes} from '../../../../constants/Constants';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from './Styles';
 import {Button} from '../../../../components';
+import styles from './Styles';
+import _ from 'lodash';
 const StateList = props => {
   const {selectedStateList} = props.route.params;
   const navigation = useNavigation();
@@ -36,6 +38,7 @@ const StateList = props => {
     get_state_error_msg,
     get_state_res,
   } = useSelector(st => st?.Register);
+
   //GET STATE
   useFocusEffect(
     useCallback(() => {
@@ -209,13 +212,22 @@ const StateList = props => {
           sm={false}
         />
         <View style={Styles.flexRow}>
-          <FlatList
-            data={state}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderState}
-            showsVerticalScrollIndicator={false}
-            ListFooterComponent={<View style={Styles.footerCon} />}
-          />
+          {_.isEmpty(state) && !get_state_loading ? (
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyText}>{Strings.dashboard.noResult}</Text>
+              <Text style={styles.content}>
+                {Strings.dashboard.emptyDashboard}
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              data={state}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderState}
+              showsVerticalScrollIndicator={false}
+              ListFooterComponent={<View style={Styles.footerCon} />}
+            />
+          )}
         </View>
         <View style={Styles.btnView}>
           {count > 0 && (
