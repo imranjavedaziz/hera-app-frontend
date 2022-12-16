@@ -58,6 +58,7 @@ const screens = [
 const Main = () => {
   const dispatch = useDispatch();
   const [statusFetched,setStatusFetched] = React.useState(false);
+  const [toastShowed,setToastShowed] = React.useState(false);
   const auth = useSelector(state => state.Auth.user);
   const {register_user_success} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(
@@ -94,11 +95,12 @@ const Main = () => {
       const createdAt = moment(new Date(auth.created_at));
       const fromNow = now.diff(createdAt,'days');
       if (
-        !subscriptionStatus?.data.status &&
+        !subscriptionStatus?.data.status && !toastShowed &&
         parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&
         ((register_user_success && parseInt(auth?.registration_step) > Value.CONSTANT_VALUE_3 && fromNow>Value.CONSTANT_VALUE_1) ||
           (!register_user_success && parseInt(auth?.registration_step) >= Value.CONSTANT_VALUE_3))
       ) {
+        setToastShowed(true);
         dispatch(
           showAppToast(
             true,
@@ -114,6 +116,7 @@ const Main = () => {
     auth?.role_id,
     auth?.registration_step,
     register_user_success,
+    toastShowed,
   ]);
   return (
     <NavigationContainer
