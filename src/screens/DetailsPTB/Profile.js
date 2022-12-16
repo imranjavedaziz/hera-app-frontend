@@ -442,7 +442,7 @@ const Profile = props => {
                                 validatePassword(value, msg.type, isPressed) ||
                                 validatePassword(value, msg.type, isPressed) ===
                                   null
-                                  ? Colors.BLACK
+                                  ? Colors.GRAY2
                                   : Colors.RED,
                             }}>
                             {msg.msg}

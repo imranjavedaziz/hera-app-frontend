@@ -63,7 +63,7 @@ const ChangePassword = ({route}) => {
   const {type} = route.params;
   const dispatch = useDispatch();
   const [isLogin, setLogin] = useState(false);
-  const [isPressed,setPressed] = useState(false);
+  const [isPressed, setPressed] = useState(false);
   const {register_user_success_data, user, log_in_success, log_in_loading} =
     useSelector(state => state.Auth);
   const {changePassword, resetPassword} = User();
@@ -106,10 +106,10 @@ const ChangePassword = ({route}) => {
       resetPassword(reqData);
     }
   };
-  const onPressSubmit = ()=>{
+  const onPressSubmit = () => {
     setPressed(true);
     handleSubmit(onSubmit)();
-  }
+  };
   return (
     <View
       style={{
@@ -209,14 +209,23 @@ const ChangePassword = ({route}) => {
                                   fontFamily: Fonts.OpenSansBold,
                                   textAlignVertical: 'top',
                                   color:
-                                    validatePassword(value, msg.type,isPressed) ||
-                                    validatePassword(value, msg.type,isPressed) === null
+                                    validatePassword(
+                                      value,
+                                      msg.type,
+                                      isPressed,
+                                    ) ||
+                                    validatePassword(
+                                      value,
+                                      msg.type,
+                                      isPressed,
+                                    ) === null
                                       ? Colors.GRAY2
                                       : Colors.RED,
                                 }}>
                                 {msg.msg}
                               </Text>
-                              {validatePassword(value, msg.type,isPressed) !== null && (
+                              {validatePassword(value, msg.type, isPressed) !==
+                                null && (
                                 <Image
                                   style={[
                                     styles.ValidPwd,
@@ -224,14 +233,14 @@ const ChangePassword = ({route}) => {
                                       tintColor: validatePassword(
                                         value,
                                         msg.type,
-                                        isPressed
+                                        isPressed,
                                       )
                                         ? Colors.BLACK
                                         : Colors.RED,
                                     },
                                   ]}
                                   source={
-                                    validatePassword(value, msg.type,isPressed)
+                                    validatePassword(value, msg.type, isPressed)
                                       ? Images.path
                                       : Images.warning
                                   }
