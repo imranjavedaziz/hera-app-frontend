@@ -87,6 +87,7 @@ const Profile = props => {
     control,
     reset,
     setValue,
+    clearErrors,
     formState: {errors},
   } = useForm({resolver: yupResolver(parentRegisterSchema)});
 
@@ -383,6 +384,7 @@ const Profile = props => {
                       onChangeText={v => {
                         onChange(v);
                         setPressed(false);
+                        clearErrors('date_of_birth');
                       }}
                       endComponentPress={() => CalenderOn()}
                       error={errors && errors.date_of_birth?.message}

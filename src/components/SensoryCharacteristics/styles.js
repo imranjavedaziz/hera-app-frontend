@@ -36,8 +36,16 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     textAlign: Alignment.CENTER,
     paddingTop: px(13),
+    paddingHorizontal: px(10),
+  },
+  hasThree: {
+    color: Colors.COLOR_535858,
+    fontSize: Value.CONSTANT_VALUE_23,
+    alignSelf: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    textAlign: Alignment.CENTER,
     paddingBottom: px(32),
-    paddingHorizontal: px(48),
+    paddingHorizontal: px(30),
   },
   btnContainer: {
     width: px(236),
@@ -49,7 +57,7 @@ export default {
     marginBottom: scaleHeight(25),
   },
   btnText: {
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
@@ -61,6 +69,6 @@ export default {
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_20,
-    alignSelf:"center",
+    alignSelf: Alignment.CENTER,
   },
 };
