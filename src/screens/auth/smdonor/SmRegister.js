@@ -31,7 +31,7 @@ import {
   PRIVACY_URL,
   TERMS_OF_USE_URL,
   validatePassword,
-  pwdErrMsg
+  pwdErrMsg,
 } from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
 import {askCameraPermission} from '../../../utils/permissionManager';
@@ -53,7 +53,7 @@ import {saveLocalImg} from '../../../redux/actions/profileImg';
 const SmRegister = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [isPressed,setPressed] = useState(false);
+  const [isPressed, setPressed] = useState(false);
   const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
   const [isOpen, setOpen] = useState(false);
@@ -218,10 +218,10 @@ const SmRegister = () => {
     setOpen(true);
     askCameraPermission();
   };
-  const onPressSubmit = ()=>{
+  const onPressSubmit = () => {
     setPressed(true);
     debounce(handleSubmit(onSubmit), 1000)();
-  }
+  };
   const CalenderOn = () => {
     inputRef.current.blur();
     setShow(true);
@@ -408,26 +408,38 @@ const SmRegister = () => {
                     inputRef={inputRef}
                   />
                   {pwdErrMsg.map(msg => (
-                    <View style={styles.pwdErrContainer} key={msg.type}>
+                    <View style={styles.passwordCheck} key={msg.type}>
                       <Text
                         style={[
                           styles.pwdErrText,
                           {
-                            color: validatePassword(value, msg.type,isPressed),
+                            color:
+                              validatePassword(value, msg.type, isPressed) ||
+                              validatePassword(value, msg.type, isPressed) ===
+                                null
+                                ? Colors.GRAY2
+                                : Colors.RED,
                           },
                         ]}>
                         {msg.msg}
                       </Text>
-                      {value && (
+                      {validatePassword(value, msg.type, isPressed) !==
+                        null && (
                         <Image
                           style={[
-                            styles.pwdErrIcon,
+                            styles.ValidPwd,
                             {
-                              tintColor: validatePassword(value, msg.type,isPressed),
+                              tintColor: validatePassword(
+                                value,
+                                msg.type,
+                                isPressed,
+                              )
+                                ? Colors.BLACK
+                                : Colors.RED,
                             },
                           ]}
                           source={
-                            validatePassword(value, msg.type,isPressed) === Colors.BLACK
+                            validatePassword(value, msg.type, isPressed)
                               ? Images.path
                               : Images.warning
                           }
