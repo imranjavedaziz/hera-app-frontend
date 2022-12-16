@@ -8,6 +8,7 @@ import {
   SUBSCRIPTION_STATUS,
   SUBSCRIPTION_STATUS_SUCCESS,
   SUBSCRIPTION_STATUS_FAIL,
+  UPDATE_SUBSCRIPTION_STATUS,
 } from '../Type';
 
 const initState = {
@@ -116,6 +117,18 @@ export default (state = initState, action) => {
         subscription_status_loading: false,
         subscription_status_error_msg: '',
       };
+    }
+    case UPDATE_SUBSCRIPTION_STATUS: {
+      return {
+        ...state,
+        subscription_status_res: {
+          ...state.subscription_status_res,
+          data: {
+            ...state.subscription_status_res.data,
+            status: action?.data,
+          }
+        }
+      }
     }
     default:
       return state;

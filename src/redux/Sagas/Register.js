@@ -21,11 +21,14 @@ import {
   getProfileSetterApi,
 } from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
-import {ValidationMessages} from '../../constants/Strings'
+import {ValidationMessages} from '../../constants/Strings';
+import { updateSubscriptionStatus } from '../actions/Subsctiption';
+
 function* ptbRegister(payload) {
   try {
     const result = yield ptbRegisterApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      yield put(updateSubscriptionStatus(1));
       yield put({type: AUTH_REGISTER_SUCCESS, data: result});
     } else {
       yield put({
