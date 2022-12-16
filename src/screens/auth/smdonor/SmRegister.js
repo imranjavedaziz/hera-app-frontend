@@ -220,7 +220,7 @@ const SmRegister = () => {
   };
   const onPressSubmit = ()=>{
     setPressed(true);
-    debounce(handleSubmit(onSubmit), 1000)();
+    handleSubmit(onSubmit)();
   }
   const CalenderOn = () => {
     inputRef.current.blur();
@@ -499,7 +499,7 @@ const SmRegister = () => {
               <Button
                 disabled={register_user_loading || register_user_success}
                 label={Strings.sm_register.Btn}
-                onPress={onPressSubmit}
+                onPress={debounce(onPressSubmit, 1000)}
                 style={styles.Btn}
               />
             </View>
