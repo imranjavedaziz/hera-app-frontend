@@ -122,9 +122,9 @@ const MyVideo = () => {
         type: v.mime,
         uri: v.path,
       });
-      userService.createGallery(reqData, loading =>
-        setVideo(old => ({...old, loading})),
-      );
+      userService.createGallery(reqData, () => {
+        setOpen(false);
+      });
     });
   };
   // HEADER COMPONENT
