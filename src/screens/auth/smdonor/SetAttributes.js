@@ -1,72 +1,21 @@
 // SetAttributes
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Platform,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import React from 'react';
+import {Text, View, ScrollView} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Button from '../../../components/Button';
-import Images from '../../../constants/Images';
-import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
 import Dropdown from '../../../components/inputs/Dropdown';
-import {Value} from '../../../constants/FixedValues';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-  showEditAppLoader,
-  hideEditLoader,
-} from '../../../redux/actions/loader';
-import {
-  getAttribute,
-  getUserAttribute,
-  saveAttribute,
-} from '../../../redux/actions/SetAttribute';
-import {logOut, updateRegStep} from '../../../redux/actions/Auth';
-import {ABOUT_URL, Routes} from '../../../constants/Constants';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp, ModalMiddle} from '../../../components';
-import {Alignment} from '../../../constants';
-import {dynamicSize, statusHide} from '../../../utils/responsive';
-import openWebView from '../../../utils/openWebView';
-import {NotificationContext} from '../../../context/NotificationContextManager';
-
 const SetAttributes = ({route}) => {
-  const navigation = useNavigation();
-  const [isOpen, setOpen] = useState(false);
-  const [attributeData, setAttributeData] = useState();
-  const [threeOption, setThreeOption] = useState([]);
   const EditAttributes = route.params?.EditAttributes;
-  let actionSheet = useRef();
-  const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
-  const {Device_ID} = useContext(NotificationContext);
   const {
-    handleSubmit,
     control,
-    reset,
-    setValue,
-    formState: {errors, isDirty, dirtyFields},
+    formState: {errors},
   } = useForm({
     resolver: yupResolver(smSetAttributesSchema),
   });
+<<<<<<< HEAD
   const onSubmit = data => {
     const payload = {
       education_id: dirtyFields?.education_id
@@ -343,19 +292,13 @@ const SetAttributes = ({route}) => {
     marginTop: 30,
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
+=======
+>>>>>>> e02f312e7c306daffa02950553263ffd05048da6
   return (
     <>
-      <View
-        style={
-          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
-        }>
-        <Header end={true}>{headerComp()}</Header>
+      <View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              paddingHorizontal: Value.CONSTANT_VALUE_40,
-              marginTop: statusHide(Value.CONSTANT_VALUE_105),
-            }}>
+          <View>
             <Text style={globalStyle.screenTitle}>
               {EditAttributes === true
                 ? Strings.sm_set_attributes.EditTitle
@@ -369,26 +312,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={Style}
-                  label={Strings.sm_set_attributes.Race}
-                  data={attributeData?.race}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.race_id?.message}
-                />
-              )}
-              name="race_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={Style}
                   label={Strings.sm_set_attributes.FatheEthnicity}
-                  data={attributeData?.ethnicity}
                   onSelect={selectedItem => {
                     onChange(selectedItem.id);
                   }}
@@ -403,79 +327,7 @@ const SetAttributes = ({route}) => {
               render={({field: {onChange, value}}) => (
                 <Dropdown
                   defaultValue={value}
-                  containerStyle={Style}
-                  label={Strings.sm_set_attributes.MotherEthnicity}
-                  data={attributeData?.ethnicity}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.mother_ethnicity_id?.message}
-                />
-              )}
-              name="mother_ethnicity_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  heightprop={true}
-                  containerStyle={Style}
-                  defaultValue={value}
-                  heighter={true}
-                  label={Strings.sm_set_attributes.Height}
-                  data={attributeData?.height}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.height_id?.message}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    return `${parseInt(selectedItem.name / 12)} ft ${
-                      selectedItem.name % 12
-                    } in`;
-                  }}
-                  rowTextForSelection={(item, index) => {
-                    return `${parseInt(item.name / 12)} ft ${
-                      item.name % 12
-                    } in`;
-                  }}
-                />
-              )}
-              name="height_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={Style}
-                  weight={true}
-                  label={Strings.sm_set_attributes.Weight}
-                  data={attributeData?.weight}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.weight_id?.message}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    return selectedItem.name + ' pounds';
-                  }}
-                  rowTextForSelection={(item, index) => {
-                    return item.name + ' pounds';
-                  }}
-                />
-              )}
-              name="weight_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={Style}
                   label={Strings.sm_set_attributes.EyeColor}
-                  data={attributeData?.eye_colour}
                   onSelect={selectedItem => {
                     onChange(selectedItem.id);
                   }}
@@ -485,105 +337,9 @@ const SetAttributes = ({route}) => {
               )}
               name="eye_colour_id"
             />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={Style}
-                  label={Strings.preference.HairColor}
-                  data={attributeData?.hair_colour}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.hair_colour_id?.message}
-                />
-              )}
-              name="hair_colour_id"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <Dropdown
-                  defaultValue={value}
-                  containerStyle={Style}
-                  label={Strings.sm_set_attributes.Education}
-                  data={attributeData?.education}
-                  onSelect={selectedItem => {
-                    onChange(selectedItem.id);
-                  }}
-                  required={true}
-                  error={errors && errors.education_id?.message}
-                  education={true}
-                />
-              )}
-              name="education_id"
-            />
-            <View
-              style={{
-                alignItems: Alignment.CENTER,
-                justifyContent: Alignment.CENTER,
-              }}>
-              <Button
-                style={{
-                  height: Value.CONSTANT_VALUE_80,
-                  marginTop: Value.CONSTANT_VALUE_46,
-                  marginBottom: Value.CONSTANT_VALUE_50,
-                }}
-                label={Strings.sm_set_attributes.EditAttribute}
-                onPress={handleSubmit(onSubmit)}
-              />
-            </View>
           </View>
         </ScrollView>
       </View>
-      <BottomSheetComp
-        wrapperStyle={globalStyle.wrapperStyle}
-        lineStyle={globalStyle.lineStyle}
-        isOpen={isOpen}
-        setOpen={setOpen}>
-        <View style={globalStyle.basicSheetContainer}>
-          <TouchableOpacity style={globalStyle.formBtn}>
-            <Text style={globalStyle.formText}>
-              {Strings.smSetting.Inquiry}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.heraBtn}
-            onPress={() => {
-              openWebView(ABOUT_URL);
-            }}>
-            <Text style={globalStyle.heraText}>
-              {Strings.bottomSheet.About_HERA}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.logoutBtn}
-            onPress={() => logOutScreen()}>
-            <Text style={globalStyle.logoutText}>
-              {Strings.bottomSheet.Log_Out}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheetComp>
-      <ModalMiddle
-        showModal={showModal}
-        onRequestClose={() => {
-          setShowModal(!showModal);
-        }}
-        String_1={Strings.EDITPROFILE.DiscardEdit}
-        String_2={Strings.EDITPROFILE.DiscardEditDisc}
-        String_3={Strings.profile.ModalOption1}
-        String_4={Strings.profile.ModalOption2}
-        onPressNav={() => {
-          setShowModal(false);
-          navigation.navigate(Routes.SmSetting);
-        }}
-        onPressOff={() => {
-          setShowModal(false);
-        }}
-      />
     </>
   );
 };

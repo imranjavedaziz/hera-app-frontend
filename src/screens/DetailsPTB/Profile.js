@@ -1,90 +1,40 @@
 // Parent to Be Screen
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   Text,
   TouchableOpacity,
   View,
   Image,
   Pressable,
-  ImageBackground,
-  Platform,
-  Alert,
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  showAppToast,
-  hideAppLoader,
-  showAppLoader,
-} from '../../redux/actions/loader';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import Header, {CircleBtn} from '../../components/Header';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import openCamera from '../../utils/openCamera';
 import Images from '../../constants/Images';
 import globalStyle from '../../styles/global';
-import moment from 'moment';
-import {
-  Fonts,
-  FormKey,
-  pwdErrMsg,
-  Routes,
-  validatePassword,
-  PRIVACY_URL,
-  TERMS_OF_USE_URL,
-} from '../../constants/Constants';
-import Strings, {ValidationMessages} from '../../constants/Strings';
+import {FormKey} from '../../constants/Constants';
+import Strings from '../../constants/Strings';
 import {Value} from '../../constants/FixedValues';
 import {parentRegisterSchema} from '../../constants/schemas';
 import FloatingLabelInput from '../../components/FloatingLabelInput';
 import Colors from '../../constants/Colors';
-import Button from '../../components/Button';
 import styles from './StylesProfile';
 import ActionSheet from 'react-native-actionsheet';
 import Alignment from '../../constants/Alignment';
-import openWebView from '../../utils/openWebView';
-import {askCameraPermission} from '../../utils/permissionManager';
-import {ptbRegister} from '../../redux/actions/Register';
-import {deviceHandler} from '../../utils/commonFunction';
-import {BottomSheetComp, ModalMiddle} from '../../components';
-import {
-  deviceRegister,
-  updateLocalImg,
-  updateRegStep,
-} from '../../redux/actions/Auth';
+import {BottomSheetComp} from '../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {NotificationContext} from '../../context/NotificationContextManager';
-import debounce from '../../utils/debounce';
-import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
-import {empty} from '../../redux/actions/Chat';
 
 const Profile = props => {
-  const navigation = useNavigation();
-  const loadingRef = useRef(false);
-  const {
-    params: {isRouteData},
-  } = useRoute();
-  const [isPressed, setPressed] = useState(false);
-  const [show, setShow] = useState(false);
-  const [date, setDate] = useState();
-  const [file, setFile] = useState(null);
-  const [userImage, setUserImage] = useState('');
   const [check, setCheck] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch();
   const [isOpen, setOpen] = useState(false);
-  const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
-  const [datePicked, onDateChange] = useState();
-  const {fcmToken, Device_ID} = useContext(NotificationContext);
   const inputRef = useRef(null);
   const {
-    handleSubmit,
     control,
+<<<<<<< HEAD
     reset,
     setValue,
     clearErrors,
@@ -133,18 +83,21 @@ const Profile = props => {
     return date !== '' ? `${tempDate[1]} ${tempDate[2]}, ${tempDate[3]}` : '';
   };
   // Header Component
+=======
+    formState: {errors},
+  } = useForm({resolver: yupResolver(parentRegisterSchema)});
+
+>>>>>>> e02f312e7c306daffa02950553263ffd05048da6
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={() => {
-        Platform.OS === 'ios' ? backAction() : setShowModal(true);
-      }}
       Fixedstyle={{
         marginRight: Value.CONSTANT_VALUE_20,
       }}
       accessibilityLabel={Strings.PTB_Profile.Cross_Button}
     />
   );
+<<<<<<< HEAD
   const logoutScreen = () => {
     navigation.navigate(Routes.Landing);
   };
@@ -250,14 +203,12 @@ const Profile = props => {
     inputRef.current.blur();
     setShow(true);
   };
+=======
+>>>>>>> e02f312e7c306daffa02950553263ffd05048da6
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <KeyboardAwareScrollView
-        animated={true}
-        keyboardShouldPersistTaps="handled"
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.flex}>
+      <KeyboardAwareScrollView style={styles.flex}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -276,48 +227,11 @@ const Profile = props => {
                     accessible={false}>
                     {Strings.profile.parentToBe}
                   </Text>
-                  {/* IMage Upload */}
-                  <View style={styles.profileContainer}>
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => {
-                        Platform.OS === 'ios'
-                          ? openIosSheet()
-                          : openAndroidSheet();
-                      }}>
-                      <ImageBackground
-                        source={userImage ? {uri: userImage} : null}
-                        style={styles.background}
-                        imageStyle={styles.imgBack}>
-                        <TouchableOpacity
-                          activeOpacity={1}
-                          style={[
-                            styles.uploadBackground,
-                            userImage ? styles.userImg : null,
-                          ]}
-                          onPress={() => {
-                            Platform.OS === 'ios'
-                              ? openIosSheet()
-                              : openAndroidSheet();
-                          }}>
-                          <Image
-                            source={Images.camera}
-                            style={
-                              userImage
-                                ? styles.profileUploadedStyle
-                                : styles.profileImg
-                            }
-                          />
-                        </TouchableOpacity>
-                      </ImageBackground>
-                    </TouchableOpacity>
-                  </View>
                 </View>
                 <Text style={styles.ImageText}>
                   {Strings.profile.uploadImage}
                   <Text style={[styles.label, {color: Colors.RED}]}>*</Text>
                 </Text>
-                {/* Image Upload End  */}
               </View>
               <View style={styles.fullWidth}>
                 <Controller
@@ -326,10 +240,6 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.FirstName}
                       value={value}
-                      onChangeText={v => {
-                        onChange(v.trim());
-                        setPressed(false);
-                      }}
                       required={true}
                       maxLength={30}
                       inputRef={inputRef}
@@ -344,10 +254,6 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.MiddleName}
                       value={value}
-                      onChangeText={v => {
-                        onChange(v.trim());
-                        setPressed(false);
-                      }}
                       fontWeight={Alignment.BOLD}
                       error={errors && errors.middle_name?.message}
                       maxLength={30}
@@ -362,10 +268,6 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.LastName}
                       value={value}
-                      onChangeText={v => {
-                        onChange(v.trim());
-                        setPressed(false);
-                      }}
                       fontWeight={Alignment.BOLD}
                       required={true}
                       maxLength={30}
@@ -379,6 +281,7 @@ const Profile = props => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
+<<<<<<< HEAD
                       label={Strings.profile.DateOfBirth}
                       value={value}
                       onChangeText={v => {
@@ -404,12 +307,10 @@ const Profile = props => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <FloatingLabelInput
+=======
+>>>>>>> e02f312e7c306daffa02950553263ffd05048da6
                       label={Strings.profile.EmailAddress}
                       value={value}
-                      onChangeText={v => {
-                        onChange(v.trim());
-                        setPressed(false);
-                      }}
                       fontWeight={Alignment.BOLD}
                       required={true}
                       inputRef={inputRef}
@@ -425,15 +326,14 @@ const Profile = props => {
                       <FloatingLabelInput
                         label={Strings.profile.setPassword}
                         value={value}
-                        onChangeText={v => {
-                          onChange(v.trim());
-                          setPressed(false);
-                        }}
                         required={true}
                         secureTextEntry={true}
                         inputRef={inputRef}
-                        containerStyle={{marginBottom: Value.CONSTANT_VALUE_10}}
+                        containerStyle={{
+                          marginBottom: Value.CONSTANT_VALUE_10,
+                        }}
                       />
+<<<<<<< HEAD
                       {pwdErrMsg.map(msg => (
                         <View style={styles.passwordCheck} key={msg.type}>
                           <Text
@@ -473,6 +373,8 @@ const Profile = props => {
                           )}
                         </View>
                       ))}
+=======
+>>>>>>> e02f312e7c306daffa02950553263ffd05048da6
                     </View>
                   )}
                   name={FormKey.set_password}
@@ -483,10 +385,6 @@ const Profile = props => {
                     <FloatingLabelInput
                       label={Strings.profile.confirmPassword}
                       value={value}
-                      onChangeText={v => {
-                        onChange(v.trim());
-                        setPressed(false);
-                      }}
                       required={true}
                       secureTextEntry={true}
                       inputRef={inputRef}
@@ -514,106 +412,28 @@ const Profile = props => {
                       </Pressable>
                     )}
                   </View>
-                  <View>
-                    <Text style={styles.tmc1}>
-                      {Strings.profile.tmc1}
-                      <Text
-                        style={styles.tmcLink1}
-                        onPress={() => openWebView(TERMS_OF_USE_URL)}>
-                        {Strings.Subscription.TermsServices}
-                      </Text>{' '}
-                      and{' '}
-                      <Text
-                        style={styles.tmcLink1}
-                        onPress={() => openWebView(PRIVACY_URL)}>
-                        {Strings.profile.tmc3}
-                      </Text>
-                    </Text>
-                  </View>
                 </View>
               </View>
-              <View style={styles.BtnContainer}>
-                <Button
-                  disabled={register_user_loading || register_user_success}
-                  label={Strings.profile.Register}
-                  style={styles.Btn}
-                  onPress={onPressSubmit}
-                />
-              </View>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate(Routes.SmRegister, {isRouteData});
-                }}>
-                <Text style={styles.smRegister}>
-                  {Strings.profile.RegisterAs}
-                </Text>
-              </Pressable>
               <ActionSheet
                 ref={actionSheet}
-                options={threeOption}
                 destructiveButtonIndex={2}
                 cancelButtonIndex={2}
-                onPress={index => {
-                  handleThreeOption(threeOption[index]);
-                }}
               />
               <BottomSheetComp isOpen={isOpen} setOpen={setOpen}>
                 <View style={styles.imgPickerContainer}>
                   <TouchableOpacity
-                    onPress={() => {
-                      openCamera(0, cb);
-                    }}
                     style={[styles.pickerBtn, styles.pickerBtnBorder]}>
                     <Text style={styles.pickerBtnLabel}>
                       {Strings.sm_create_gallery.bottomSheetCamera}
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      openCamera(1, cb);
-                    }}
-                    style={styles.pickerBtn}>
+                  <TouchableOpacity style={styles.pickerBtn}>
                     <Text style={styles.pickerBtnLabel}>
                       {Strings.sm_create_gallery.bottomSheetGallery}
                     </Text>
                   </TouchableOpacity>
                 </View>
               </BottomSheetComp>
-              <DateTimePickerModal
-                value={date}
-                isVisible={show}
-                mode={'date'}
-                date={datePicked ?? new Date()}
-                onConfirm={selectedDate => {
-                  setShow(false);
-                  setValue(FormKey.date_of_birth, getDate(selectedDate));
-                  setDate(getDate(selectedDate));
-                  onDateChange(selectedDate);
-                }}
-                onCancel={() => {
-                  setShow(false);
-                }}
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                positiveButtonLabel="DONE"
-              />
-              <ModalMiddle
-                showModal={showModal}
-                onRequestClose={() => {
-                  setShowModal(!showModal);
-                }}
-                String_1={Strings.profile.ModalHeader}
-                String_2={Strings.profile.ModalSubheader}
-                String_3={Strings.profile.ModalOption1}
-                String_4={Strings.profile.ModalOption2}
-                onPressNav={() => {
-                  setShowModal(false);
-                  logoutScreen();
-                  navigation.navigate(Routes.Landing);
-                }}
-                onPressOff={() => {
-                  setShowModal(false);
-                }}
-              />
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>

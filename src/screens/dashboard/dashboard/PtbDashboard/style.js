@@ -1,9 +1,8 @@
 import Alignment from '../../../../constants/Alignment';
 import {
   dynamicSize,
-  height,
   normalizeFont,
-  px,
+  scaleHeight,
   scaleWidth,
   statusHide,
 } from '../../../../utils/responsive';
@@ -20,21 +19,6 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     alignItems: Alignment.CENTER,
-    paddingVertical: Value.CONSTANT_VALUE_12,
-    marginTop: Value.CONSTANT_VALUE_10,
-  },
-  iosInnerContainer: {
-    flexDirection: Alignment.ROW,
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
-    bottom: px(25),
-  },
-  androidInnerContainer: {
-    flexDirection: Alignment.ROW,
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
-    paddingHorizontal: dynamicSize(10),
-    bottom: px(45),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -50,19 +34,15 @@ export default {
     bottom: Value.CONSTANT_VALUE_40,
   },
   ImageSize: {
-    height: px(450),
-    width: px(310),
+    height: scaleHeight(450),
+    width: scaleWidth(310),
   },
   emptyCardContainer: {
-    marginTop: Value.CONSTANT_VALUE_263,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
   },
   sryText: {
     textAlign: Alignment.CENTER,
-    fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
-    color: Colors.BLACK,
-    fontFamily: Fonts.OpenSansBold,
   },
   innerText: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_23),
@@ -88,17 +68,5 @@ export default {
     height: scaleWidth(Value.CONSTANT_VALUE_130),
     width: scaleWidth(Value.CONSTANT_VALUE_125),
     left: Value.CONSTANT_VALUE_5,
-  },
-  loaderContainer: {
-    position: Alignment.ABSOLUTE,
-    top: height / 2.5,
-    alignSelf: Alignment.CENTER,
-    width: Value.CONSTANT_VALUE_50,
-    height: Value.CONSTANT_VALUE_50,
-    alignItems: Alignment.CENTER,
-    justifyContent: Alignment.CENTER,
-    borderRadius: Value.CONSTANT_VALUE_35,
-    backgroundColor: Colors.WHITE,
-    zIndex: Value.CONSTANT_VALUE_999999,
   },
 };
