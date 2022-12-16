@@ -110,7 +110,6 @@ const Profile = props => {
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
         dispatch(updateLocalImg(userImage));
-        dispatch(getSubscriptionStatus());
         navigation.navigate(Routes.SmBasicDetails);
       } else {
         dispatch(showAppToast(true, register_user_error_msg));
