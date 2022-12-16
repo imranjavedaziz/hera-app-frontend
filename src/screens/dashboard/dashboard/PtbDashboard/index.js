@@ -44,8 +44,9 @@ import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
-import { getSubscriptionStatus } from '../../../../redux/actions/Subsctiption';
-
+import {getSubscriptionStatus} from '../../../../redux/actions/Subsctiption';
+import NoInternet from '../../../../components/NoInternet/NoInternet';
+import NetInfo from '@react-native-community/netinfo';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -62,6 +63,7 @@ const PtbDashboard = props => {
   const loadingMatchRef = useRef(false);
   const {fcmToken} = useContext(NotificationContext);
   const [empty, setEmpty] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
@@ -73,6 +75,7 @@ const PtbDashboard = props => {
   }, []);
 
   const [msgRead, setMsgRead] = useState(false);
+
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -83,6 +86,14 @@ const PtbDashboard = props => {
       setMsgRead(chats.some(x => x?.read === 0));
     }
   }, [chats]);
+  useEffect(async () => {
+    console.log((await NetInfo.isConnected.fetch()) ,'(await NetInfo.isConnected.fetch())')
+    if ((await NetInfo.isConnected.fetch()) !== true) {
+      setNetworkError(true);
+    } else {
+      setNetworkError(false);
+    }
+  }, [NetInfo]);
   useFocusEffect(
     useCallback(() => {
       fetchData();
@@ -413,6 +424,16 @@ const PtbDashboard = props => {
       </>
     );
   };
+async function retryData(){
+  if ((await NetInfo.isConnected.fetch()) !== true) {
+    setNetworkError(true);
+  } else {
+    setNetworkError(false);
+  }
+  dispatch(getSubscriptionStatus());
+  dispatch(getPtbDashboard());
+  setCardIndex(0);
+}
   return (
     <>
       <Container
@@ -420,24 +441,30 @@ const PtbDashboard = props => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        {(statusRes === 2 || empty === true) && (
-          <View style={styles.emptyCardContainer}>
-            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
-            <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
-            <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
-          </View>
-        )}
-        {statusRes === 1 && empty === false && dashboardShow()}
-        {statusRes === 3 && (
-          <View style={styles.emptyCardContainer}>
-            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
-            <Text style={styles.innerText}>
-              {Strings.dashboard.SecondPara1}
-            </Text>
-            <Text style={styles.innerText2}>
-              {Strings.dashboard.secondPara2}
-            </Text>
-          </View>
+        {networkError === true ? (
+          <NoInternet  onPress={()=> retryData()}/>
+        ) : (
+          <>
+            {(statusRes === 2 || empty === true) && (
+              <View style={styles.emptyCardContainer}>
+                <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+                <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
+                <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
+              </View>
+            )}
+            {statusRes === 1 && empty === false && dashboardShow()}
+            {statusRes === 3 && (
+              <View style={styles.emptyCardContainer}>
+                <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+                <Text style={styles.innerText}>
+                  {Strings.dashboard.SecondPara1}
+                </Text>
+                <Text style={styles.innerText2}>
+                  {Strings.dashboard.secondPara2}
+                </Text>
+              </View>
+            )}
+          </>
         )}
       </Container>
       {modalVisible && (

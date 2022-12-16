@@ -42,7 +42,8 @@ import chatHistory from '../../../../hooks/chatHistory';
 import _ from 'lodash';
 import ImageLoading from '../../../../components/ImageLoading';
 import {getMessageID} from '../../../../redux/actions/MessageId';
-
+import NetInfo from '@react-native-community/netinfo';
+import NoInternet from '../../../../components/NoInternet/NoInternet';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -68,10 +69,19 @@ const SmDashboard = ({route}) => {
   const chatData = chatHistory();
   const [isFocused, setFocused] = useState(false);
   const [statusRes, setStatusRes] = useState([]);
+  const [networkError, setNetworkError] = useState(false);
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
   const fetchData = useCallback(() => {
     chatData.update();
+  }, []);
+  useEffect(async () => {
+    console.log((await NetInfo.isConnected.fetch()) ,'(await NetInfo.isConnected.fetch()) ')
+    if ((await NetInfo.isConnected.fetch()) !== true) {
+      setNetworkError(true);
+    } else {
+      setNetworkError(false);
+    }
   }, []);
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
@@ -348,97 +358,116 @@ const SmDashboard = ({route}) => {
     }
     return null;
   };
+  async function retryData(){
+    if ((await NetInfo.isConnected.fetch()) !== true) {
+      setNetworkError(true);
+    } else {
+      setNetworkError(false);
+    }
+    onRefresh()
+  }
+    
   return (
     <View style={styles.upperContainer}>
       {!searching && isFocused === false && (
         <Header end={false}>{headerComp()}</Header>
       )}
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={globalStyle.mainContainer}>
-          <View
-            style={{
-              marginBottom: Value.CONSTANT_VALUE_150,
-              paddingTop:
-                !searching && isFocused === false
-                  ? statusHide(Value.CONSTANT_VALUE_105)
-                  : statusHide(Value.CONSTANT_VALUE_54),
-            }}>
-            {search === '' && isFocused === false ? (
-              <>
-                <Text style={[globalStyle.screenTitle]}>
-                  {Strings.landing.Like_Match_Connect}
-                </Text>
+      <>
+        {networkError === true ? (
+          <NoInternet />
+        ) : (
+          <>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View style={globalStyle.mainContainer}>
                 <View
-                  style={styles.subTitle}
-                  accessible={true}
-                  accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
-                  <Text
-                    style={globalStyle.screenSubTitle}
-                    numberOfLines={2}
-                    accessible={false}>
-                    {Strings.sm_dashboard.Subtitle1}
-                  </Text>
-                  <Text
-                    style={globalStyle.screenSubTitle}
-                    accessible={false}
-                    numberOfLines={1}>
-                    {Strings.sm_dashboard.Subtitle2}
-                  </Text>
+                  style={{
+                    marginBottom: Value.CONSTANT_VALUE_150,
+                    paddingTop:
+                      !searching && isFocused === false
+                        ? statusHide(Value.CONSTANT_VALUE_105)
+                        : statusHide(Value.CONSTANT_VALUE_54),
+                  }}>
+                  {search === '' && isFocused === false ? (
+                    <>
+                      <Text style={[globalStyle.screenTitle]}>
+                        {Strings.landing.Like_Match_Connect}
+                      </Text>
+                      <View
+                        style={styles.subTitle}
+                        accessible={true}
+                        accessibilityLabel={`${Strings.sm_dashboard.Subtitle1} ${Strings.sm_dashboard.Subtitle2}`}>
+                        <Text
+                          style={globalStyle.screenSubTitle}
+                          numberOfLines={2}
+                          accessible={false}>
+                          {Strings.sm_dashboard.Subtitle1}
+                        </Text>
+                        <Text
+                          style={globalStyle.screenSubTitle}
+                          accessible={false}
+                          numberOfLines={1}>
+                          {Strings.sm_dashboard.Subtitle2}
+                        </Text>
+                      </View>
+                    </>
+                  ) : null}
+                  {search === '' && isFocused === false ? null : (
+                    <View style={styles.cancelbtn}>
+                      <TouchableOpacity
+                        onPress={onClear}
+                        style={styles.clearView}>
+                        <Text style={styles.clearText}>Cancel</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  <View>
+                    <View style={styles.search}>
+                      <Searchbar
+                        value={search}
+                        onChangeText={onSearch}
+                        editing={true}
+                        croxxIcon={search === ''}
+                        clearVisible={false}
+                        onClear={onClear}
+                        selectedStates={route?.params?.informationDetail}
+                        handleFocus={handleFocus}
+                        handleBlur={handleBlur}
+                        isFocused={false}
+                        sm={true}
+                        selectedStateList={route?.params?.informationDetail}
+                      />
+                    </View>
+                    <View>
+                      <FlatList
+                        keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={Styles.flatlist}
+                        columnWrapperStyle={{
+                          justifyContent: Alignment.SPACE_BETWEEN,
+                        }}
+                        data={cards}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderProfile}
+                        numColumns={2}
+                        showsVerticalScrollIndicator={false}
+                        onEndReached={() => {
+                          route.params?.informationDetail !== undefined &&
+                            onEndReached();
+                          searching && onEndReached();
+                        }}
+                        ListEmptyComponent={renderEmptyCell}
+                        ListFooterComponent={renderFooterCell}
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        testID="flat-list"
+                      />
+                    </View>
+                  </View>
                 </View>
-              </>
-            ) : null}
-            {search === '' && isFocused === false ? null : (
-              <View style={styles.cancelbtn}>
-                <TouchableOpacity onPress={onClear} style={styles.clearView}>
-                  <Text style={styles.clearText}>Cancel</Text>
-                </TouchableOpacity>
               </View>
-            )}
-            <View>
-              <View style={styles.search}>
-                <Searchbar
-                  value={search}
-                  onChangeText={onSearch}
-                  editing={true}
-                  croxxIcon={search === ''}
-                  clearVisible={false}
-                  onClear={onClear}
-                  selectedStates={route?.params?.informationDetail}
-                  handleFocus={handleFocus}
-                  handleBlur={handleBlur}
-                  isFocused={false}
-                  sm={true}
-                  selectedStateList={route?.params?.informationDetail}
-                />
-              </View>
-              <View>
-                <FlatList
-                  keyboardShouldPersistTaps="handled"
-                  contentContainerStyle={Styles.flatlist}
-                  columnWrapperStyle={{
-                    justifyContent: Alignment.SPACE_BETWEEN,
-                  }}
-                  data={cards}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={renderProfile}
-                  numColumns={2}
-                  showsVerticalScrollIndicator={false}
-                  onEndReached={() => {
-                    route.params?.informationDetail !== undefined &&
-                      onEndReached();
-                    searching && onEndReached();
-                  }}
-                  ListEmptyComponent={renderEmptyCell}
-                  ListFooterComponent={renderFooterCell}
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                  testID="flat-list"
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+          </>
+        )}
+      </>
     </View>
   );
 };
