@@ -38,6 +38,7 @@ import {
 } from '../../../../constants/Constants';
 import openWebView from '../../../../utils/openWebView';
 import moment from 'moment';
+import { Value } from '../../../../constants/FixedValues';
 
 const Subscription = props => {
   const navigation = useNavigation();
@@ -220,9 +221,7 @@ const Subscription = props => {
         dispatch(showAppToast(true, err.message));
       });
   };
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format(
-    'MMM DD,YYYY',
-  );
+  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY')
   return (
     <>
       <Container
@@ -237,12 +236,11 @@ const Subscription = props => {
             <Image source={Images.LOGO} style={styles.logo} />
             {subscriptionStatus?.data?.is_trial && (
               <View style={styles.blueContain}>
-                <Image source={Images.whiteTick} />
+                <Image source={Images.whiteTick} style={{paddingLeft:Value.CONSTANT_VALUE_5}} />
                 <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>
                   Your free trial expires on
-                  <Text style={styles.txting(Fonts.OpenSansBold, 0)}>
-                    {' '}
-                    {formatedDate}{' '}
+                  <Text style={[styles.txting(Fonts.OpenSansBold, 0),,{marginRight:Value.CONSTANT_VALUE_5}]}>
+                    {formatedDate}
                   </Text>
                 </Text>
               </View>
