@@ -42,7 +42,7 @@ export const ValidationMessages = {
   SELECT_ETHNICITY: 'Please select your ethnicity',
   PASSWORD_MIN: 'Must have minimum 8 characters',
   // PASSWORD_MIN: 'Minimum 8 characters',
-  SPECIAL_CHAR: 'Must have atleast 1 special character',
+  SPECIAL_CHAR: 'Must have at least 1 special character',
   // SPECIAL_CHAR: 'Atleast 1 special character',
   ALPHA_NUM: 'Must be alphanumeric and 1st letter as alphabet',
   INVALID_OTP: 'OTP is not valid',
@@ -63,7 +63,7 @@ export const ValidationMessages = {
   SELECT_HAIR_1: 'Please select hair color',
   SELECT_EYE_1: 'Please select eye color',
   SELECT_WEIGHT: 'Please select weight',
-  CAPSLOCK: 'Must have atleast 1 upper case letter',
+  CAPSLOCK: 'Must have at least 1 upper case letter',
   OTP_REQUIRED: 'Required!',
   USER_TYPE: 'Please select user type',
   Name: 'Please enter your name',
@@ -137,7 +137,7 @@ export default {
     ModalOption2: 'Stay on Page',
     tmc1: "By continuing, you agree to HERA's ",
     tmc3: 'Privacy Policy',
-    desc: 'We Value your privacy so we will not disclose your name to the parents. An ID will be displayed on your profile (eg. SM1234)',
+    desc: 'We Value your privacy so we will not disclose your name to the intended parents. An ID will be displayed on your profile (eg. SM1234)',
     phone_no: 'Phone Number',
   },
   preference: {
@@ -228,10 +228,9 @@ export default {
   },
   sm_create_gallery: {
     Title: 'Create your gallery',
-    Subtitle1: 'To match with a parent,',
-    Subtitle2: 'upload photos that speak',
-    Subtitle3: 'about you!',
-    maxUpload: 'This step is optional. Maximum 6 photos and 1 video.',
+    Subtitle1:
+      'To match with an intended parent, upload photos that speak about you!',
+    maxUpload: 'Maximum 6 photos and 1 video.',
     Btn: 'GO TO DASHBOARD',
     modalTitle: 'Remove from gallery?',
     modalsubTitle: "If you remove, it won't be visible on your profile.",
@@ -381,11 +380,22 @@ export default {
     Subtitle: 'Search in any state',
     iconText: 'Clear',
   },
+
   Subscription: {
     SubHeader: 'See 5 profiles per day',
     MidHeader: '(Use-it-or-lose it)',
     SubscribeButton: 'SUBSCRIBE & PAY',
-    BySubs: 'By subscribing, you agree to HERA’s ',
+    BySubs:
+      'HERA subscriptions period begin once your purchase has been confirmed with your',
+    AndroidStoreName: 'Play Store Account',
+    IOSStoreName: 'iTunes Account',
+    RenewText: '. Your subscription will renew automatically.',
+    TimePeriodText:
+      ' Time period for HERA subscription is 1 month and allow you to access 5 cards on the dashboard & chat feature. ',
+    PaymentCharge: 'Payments will be charged to your ',
+    CONFIRMTEXT: 'at confirmation of purchase.',
+    YOUR: 'Your',
+    LastmainText: ` will be charged for the upcoming period unless you disable auto-renew or cancel subscription in your account settings at least 24-hours prior to the end of the current period. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. By subscribing you agree to HERA's`,
     TermsServices: 'Terms & Conditions',
     PrivacyPolicy: 'Privacy Policy.',
     And: ' and ',
@@ -425,8 +435,9 @@ export default {
     INACTIVE_ACCOUNT: 'This account is inactive',
     NICE_WATCH_FOUND: 'Nice, Your match found!',
     PLEASE_ENTER_MESSAGE: 'Please enter your message',
-    PLEASE_SEND_MESSAGE_INITIATE:'Please send a message to initiate the conversation.',
-    MATCH_SEND_SUCCESSFULLY:'Match request sent successfully.'
+    PLEASE_SEND_MESSAGE_INITIATE:
+      'Please send a message to initiate the conversation.',
+    MATCH_SEND_SUCCESSFULLY: 'Match request sent successfully.',
   },
   Sensory: {
     AS_PER_SEARCH:
