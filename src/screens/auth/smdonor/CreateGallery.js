@@ -194,11 +194,7 @@ const CreateGallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
       gallery_data?.doner_photo_gallery.map((item, i) => {
-        if (!images.includes(item)){
-          return item;
-        } else {
-          return null;
-        }
+        return item;
       });
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
@@ -208,7 +204,9 @@ const CreateGallery = () => {
         return {id: i, uri: '', loading: false};
       });
     });
-    _setImages([...url].map(e=> {return {uri: e.file_url}}));
+    for (let i = 0; i < url?.length; ++i) {
+      images.push({uri: url[i]?.file_url});
+    }
     if (url?.length === undefined) {
       setGIndex(0);
       return;
