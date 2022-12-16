@@ -32,7 +32,7 @@ import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {InputLabel} from '../../components';
-
+import { empty } from '../../redux/actions/Chat';
 const type = 2;
 const Login = props => {
   const navigation = useNavigation();
@@ -72,6 +72,7 @@ const Login = props => {
         dispatch(getSubscriptionStatus());
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(empty());
         navigation.reset({
           index: 0,
           routes: [
