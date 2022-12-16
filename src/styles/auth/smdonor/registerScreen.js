@@ -21,6 +21,15 @@ export default {
     alignItems: Alignment.CENTER,
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
+  passwordCheck: {
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+  },
+  ValidPwd: {
+    marginLeft: Value.CONSTANT_VALUE_5,
+    maxWidth: Value.CONSTANT_VALUE_13,
+    resizeMode: Alignment.CONTAIN,
+  },
   modalView: {
     height: Value.CONSTANT_VALUE_230,
     width: Value.CONSTANT_VALUE_283,

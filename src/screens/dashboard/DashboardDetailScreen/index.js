@@ -119,8 +119,14 @@ const DashboardDetailScreen = () => {
             showAppToast(false, Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE),
           );
         } else {
-          dispatch(showAppToast(false, Strings.Chat.MATCH_SEND_SUCCESSFULLY));
+          if(islikedLogo !== 'disliked')
+          {
+            dispatch(showAppToast(false, Strings.Chat.MATCH_SEND_SUCCESSFULLY));
           navigation.navigate(Routes.PtbDashboard);
+          }
+          else{
+            navigation.navigate(Routes.PtbDashboard);
+          }    
         }
       } else {
         dispatch(hideAppLoader());
