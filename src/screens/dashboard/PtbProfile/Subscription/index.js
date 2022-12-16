@@ -63,10 +63,6 @@ const Subscription = props => {
   console.log(_purchasereceipt, '_purchasereceipt');
 
   React.useEffect(() => {
-    console.log('subscriptionStatus Line no 63', subscriptionStatus.data.is_trial);
-  }, [subscriptionStatus]);
-
-  React.useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
       if (subscription_plan_success) {
         dispatch(hideAppLoader());
@@ -131,14 +127,14 @@ const Subscription = props => {
     dispatch(createSubscription(payload));
   };
 
-  React.useEffect(async () => {
-    IAPService.initializeConnection();
-    const allProducts = await IAPService.getIAPProducts();
-    console.log('ALL PRODUCT ID LINE NO 127', allProducts);
-    return () => {
-      IAPService.endIAPConnection();
-    };
-  }, []);
+  // React.useEffect(async () => {
+  //   IAPService.initializeConnection();
+  //   const allProducts = await IAPService.getIAPProducts();
+  //   console.log('ALL PRODUCT ID LINE NO 127', allProducts);
+  //   return () => {
+  //     IAPService.endIAPConnection();
+  //   };
+  // }, []);
 
   const subscribePlan = (item, type) => {
     if (Platform.OS === 'ios') {
@@ -206,7 +202,7 @@ const Subscription = props => {
         dispatch(showAppToast(true, err.message));
       });
   };
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD,YYYY')
+  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY')
   return (
     <>
       <Container
@@ -221,9 +217,9 @@ const Subscription = props => {
             <Image source={Images.LOGO} style={styles.logo} />
             {subscriptionStatus?.data?.is_trial && (
               <View style={styles.blueContain}>
-                <Image source={Images.whiteTick} />
+                <Image source={Images.whiteTick} style={{paddingLeft:5}}/>
                 <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>Your free trial expires on
-                  <Text style={styles.txting(Fonts.OpenSansBold, 0)}> {formatedDate} </Text>
+                  <Text style={[styles.txting(Fonts.OpenSansBold, 0),{marginRight:5}]}> {formatedDate} </Text>
                 </Text>
               </View>
             )}
