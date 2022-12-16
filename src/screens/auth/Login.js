@@ -148,6 +148,7 @@ const Login = props => {
                         handelChange(v);
                         clearErrors('phone');
                       }}
+                      support={true}
                       required={true}
                       maxLength={14}
                       keyboardType="numeric"

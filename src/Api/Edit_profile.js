@@ -10,4 +10,4 @@ export const updateEditProfileApi = data => {
 
 export const toggleNotificationApi = data => {
   return axiosRequest.post(ApiPath.updateNotifyStatus, data);
-}
+};

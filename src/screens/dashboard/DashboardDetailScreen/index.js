@@ -24,7 +24,11 @@ import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
-import {showAppLoader, hideAppLoader,showAppToast} from '../../../redux/actions/loader';
+import {
+  showAppLoader,
+  hideAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
@@ -108,24 +112,16 @@ const DashboardDetailScreen = () => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
-          setIsVisibleLogo(false);
-          setIslikedLogo('');
-          if (smDetailRes?.profile_match_request?.status === 2) {
-            dispatch(
-              showAppToast(
-                false,
-                Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
-              ),
-            );
-          } else {
-            dispatch(
-              showAppToast(
-                false,
-                Strings.Chat.MATCH_SEND_SUCCESSFULLY,
-              ),
-            );
-            navigation.navigate(Routes.PtbDashboard);
-          }
+        setIsVisibleLogo(false);
+        setIslikedLogo('');
+        if (smDetailRes?.profile_match_request?.status === 2) {
+          dispatch(
+            showAppToast(false, Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE),
+          );
+        } else {
+          dispatch(showAppToast(false, Strings.Chat.MATCH_SEND_SUCCESSFULLY));
+          navigation.navigate(Routes.PtbDashboard);
+        }
       } else {
         dispatch(hideAppLoader());
       }
@@ -152,7 +148,7 @@ const DashboardDetailScreen = () => {
     useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1000,
+        duration: 800,
         useNativeDriver: true,
       }).start();
     }, [fadeAnim]);
@@ -171,7 +167,10 @@ const DashboardDetailScreen = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Image style={{height:250,width:250,resizeMode:'contain'}} source={IMG_CONDI} />
+        <Image
+          style={{height: 250, width: 250, resizeMode: 'contain'}}
+          source={IMG_CONDI}
+        />
       </Animated.View>
     );
   };

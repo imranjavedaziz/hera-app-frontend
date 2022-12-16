@@ -337,10 +337,7 @@ const SetAttributes = ({route}) => {
   };
 
   const logOutScreen = () => {
-    const data = {
-      device_id: Device_ID,
-    };
-    dispatch(logOut(data));
+    dispatch(logOut(Device_ID));
   };
   const StyleIOS = {
     marginTop: 30,
