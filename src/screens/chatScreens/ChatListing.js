@@ -17,6 +17,7 @@ import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
 import {showAppToast} from '../../redux/actions/loader';
 import {clearMessageID} from '../../redux/actions/MessageId';
+import { getSubscriptionStatus } from '../../redux/actions/Subsctiption';
 
 const ChatListing = () => {
   const navigation = useNavigation();
@@ -25,6 +26,7 @@ const ChatListing = () => {
   const chatData = chatHistory();
   const dispatch = useDispatch();
   const fetchData = useCallback(() => {
+    dispatch(getSubscriptionStatus());
     chatData.update();
     setLoader(false);
     setRefreshing(false);

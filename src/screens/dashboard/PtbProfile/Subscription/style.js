@@ -37,7 +37,7 @@ export default {
     color: Colors.BLACK,
   },
   mainText: {
-    textAlign: Alignment.CENTER,
+    textAlign: Alignment.LEFT,
     fontSize: Value.CONSTANT_VALUE_13,
     color: Colors.COLOR_535858,
   },
