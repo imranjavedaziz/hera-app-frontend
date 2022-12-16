@@ -2,47 +2,27 @@
 import React, {useRef, useState} from 'react';
 import {Text, TouchableOpacity, View, Image, ScrollView} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
-import {useDispatch, useSelector} from 'react-redux';
 import {yupResolver} from '@hookform/resolvers/yup';
-import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
-import Strings, {ValidationMessages} from '../../../constants/Strings';
+import Strings from '../../../constants/Strings';
 import {smRegisterSchema} from '../../../constants/schemas';
 import Colors from '../../../constants/Colors';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
 import styles from '../../../styles/auth/smdonor/registerScreen';
 import {Value} from '../../../constants/FixedValues';
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
-import debounce from '../../../utils/debounce';
 
 const SmRegister = () => {
-  const dispatch = useDispatch();
   const [check, setCheck] = useState(true);
   const inputRef = useRef(null);
   const {
-    handleSubmit,
     control,
     formState: {errors},
   } = useForm({
     resolver: yupResolver(smRegisterSchema),
   });
-  const {register_user_success, register_user_loading} = useSelector(
-    state => state.Register,
-  );
-  const onSubmit = data => {
-    if (check) {
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(true, ValidationMessages.TERMS_CONDITIONS));
-      return;
-    }
-    dispatch(showAppLoader());
-  };
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -50,9 +30,6 @@ const SmRegister = () => {
       style={styles.headerIcon}
     />
   );
-  const onPressSubmit = () => {
-    debounce(handleSubmit(onSubmit), 1000)();
-  };
   return (
     <>
       <View
@@ -142,14 +119,6 @@ const SmRegister = () => {
             <View style={styles.starContainer}>
               <Text style={styles.starColor}>*</Text>
               <Text style={styles.descText}>{Strings.profile.desc}</Text>
-            </View>
-            <View style={styles.align}>
-              <Button
-                disabled={register_user_loading || register_user_success}
-                label={Strings.sm_register.Btn}
-                onPress={onPressSubmit}
-                style={styles.Btn}
-              />
             </View>
           </View>
         </ScrollView>
