@@ -267,8 +267,8 @@ export default {
     Para1: "You have exhausted\n today's limit.",
     Para2: 'Please come back tomorrow!',
     SecondPara1:
-      'We tried to find the best matches for you but seems like no one is around.',
-    secondPara2: 'May be try again later or change your settings.',
+      'We tried to find the best matches for you but it seems like no one is around.',
+    secondPara2: 'Maybe try again later or change your settings.',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
   },
@@ -450,7 +450,9 @@ export default {
     OKAY_GOT_IT: 'OKAY, GOT IT!',
     WHY_SUBSCRIBE: 'Why Subscribe?',
     HERA_HASTWO:
-      'HERA has 2 subscription models for you. You can select any plan to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile. Please note: Subscribed users have a daily limit of 5 swipes.',
+      'Subscribe to be able to see a full profile of the Surrogate/Donor or send a like to you preferred profile.',
+    HERA_HASHTHREE:
+      ' Please note: Subscribed users have a daily limit of 5 swipes.',
     FIND_THE_PERFECT: 'Find the Perfect Match',
     FIND_YOUR_MATCH:
       'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
