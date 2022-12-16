@@ -102,6 +102,7 @@ const Profile = props => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
       if (register_user_success) {
+        dispatch(empty());
         const _deviceInfo = {
           device_id: Device_ID,
           device_token: fcmToken,
@@ -241,6 +242,7 @@ const Profile = props => {
   };
   const onPressSubmit = () => {
     setPressed(true);
+
     debounce(handleSubmit(onSubmit), 1000)();
   };
   const CalenderOn = () => {
