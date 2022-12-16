@@ -473,7 +473,7 @@ const SetPreference = ({route, navigation}) => {
                         console.log(selectedItem, index);
                         onChange(selectedItem);
                       }}
-                      education={true}
+                      educationStyle={true}
                       required={true}
                       lineColor={isOpen}
                       error={errors && errors.education?.message}
