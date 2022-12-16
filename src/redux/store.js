@@ -10,7 +10,14 @@ import rootSaga from './Sagas';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['Auth', 'profileImg'],
+  whitelist: [
+    'Auth',
+    'profileImg',
+    'Subscription',
+    'SetAttribute',
+    'Edit_profile',
+    'SetPreference',
+  ],
   blacklist: ['loader'],
 };
 const persistedReducer = persistReducer(persistConfig, allReducers);
