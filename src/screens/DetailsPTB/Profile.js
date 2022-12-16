@@ -226,7 +226,7 @@ const Profile = props => {
     });
     dispatch(ptbRegister(reqData));
     dispatch(updateLocalImg(userImage));
-  };
+  }
   useEffect(() => {
     return navigation.addListener('focus', () => {
       reset();
@@ -241,8 +241,7 @@ const Profile = props => {
   };
   const onPressSubmit = () => {
     setPressed(true);
-
-    debounce(handleSubmit(onSubmit), 1000)();
+    handleSubmit(onSubmit)();
   };
   const CalenderOn = () => {
     inputRef.current.blur();
@@ -534,7 +533,7 @@ const Profile = props => {
                   disabled={register_user_loading || register_user_success}
                   label={Strings.profile.Register}
                   style={styles.Btn}
-                  onPress={onPressSubmit}
+                  onPress={debounce(onPressSubmit, 1000)}
                 />
               </View>
               <Pressable

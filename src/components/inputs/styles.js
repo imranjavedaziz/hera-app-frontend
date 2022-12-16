@@ -93,7 +93,7 @@ export default {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
-    bottom: -20,
+    bottom: -30,
     right: 0,
   },
   errUserType: {
@@ -118,6 +118,18 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
     bottom: -40,
+    right: 0,
+  },
+  errMessageEdCheck: {
+    color: 'red',
+    textAlign: Alignment.RIGHT,
+    marginTop: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    textVerticleAlignment: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    position: 'absolute',
+    bottom: -50,
     right: 0,
   },
   rowStyle: {

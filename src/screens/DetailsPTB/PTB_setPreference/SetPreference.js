@@ -235,7 +235,6 @@ const SetPreference = ({route, navigation}) => {
       loadingRef.current = set_preference_loading;
     }, [set_preference_success, set_preference_loading]),
   );
-
   // SAVE PREFERENCE
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
@@ -244,7 +243,10 @@ const SetPreference = ({route, navigation}) => {
         dispatch(hideAppLoader());
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
-          : navigation.navigate(Routes.PtbDashboard);
+          : navigation.reset({
+            index: 0,
+            routes: [{ name: Routes.PtbDashboard }],
+          });
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
@@ -473,7 +475,7 @@ const SetPreference = ({route, navigation}) => {
                         console.log(selectedItem, index);
                         onChange(selectedItem);
                       }}
-                      education={true}
+                      educationStyle={true}
                       required={true}
                       lineColor={isOpen}
                       error={errors && errors.education?.message}
@@ -651,7 +653,7 @@ const SetPreference = ({route, navigation}) => {
                           </TouchableOpacity>
                         ))}
                       <Text style={styles.errMessage}>
-                        {EditPreferences && errors && errors.hair?.message}
+                        {errors && errors.hair?.message}
                       </Text>
                     </View>
                   )}
@@ -717,7 +719,7 @@ const SetPreference = ({route, navigation}) => {
                         </TouchableOpacity>
                       ))}
                     <Text style={styles.errMessage}>
-                      {EditPreferences && errors && errors.eye?.message}
+                      {errors && errors.eye?.message}
                     </Text>
                   </View>
                 )}

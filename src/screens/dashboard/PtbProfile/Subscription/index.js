@@ -6,17 +6,17 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   createSubscription,
   getSubscriptionPlan,
@@ -30,10 +30,15 @@ import {
 import * as RNIap from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import { IconHeader } from '../../../../components/Header';
-import { TERMS_OF_USE_URL, PRIVACY_URL, Fonts } from '../../../../constants/Constants';
+import {IconHeader} from '../../../../components/Header';
+import {
+  TERMS_OF_USE_URL,
+  PRIVACY_URL,
+  Fonts,
+} from '../../../../constants/Constants';
 import openWebView from '../../../../utils/openWebView';
 import moment from 'moment';
+import { Value } from '../../../../constants/FixedValues';
 
 const Subscription = props => {
   const navigation = useNavigation();
@@ -44,17 +49,20 @@ const Subscription = props => {
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
   const [isCallApi, setCallApi] = React.useState(false);
-  const {
-    subscription_status_success
-  } = useSelector(state => state.Subscription);
+  const {subscription_status_success} = useSelector(
+    state => state.Subscription,
+  );
   const dispatch = useDispatch();
   const {
     subscription_plan_success,
     subscription_plan_loading,
     subscription_plan_res,
   } = useSelector(state => state.Subscription);
-  const { create_subscription_success, create_subscription_loading } = useSelector(state => state.Subscription);
-  const subscriptionStatus = useSelector(state => state.Subscription?.subscription_status_res);
+  const {create_subscription_success, create_subscription_loading} =
+    useSelector(state => state.Subscription);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription?.subscription_status_res,
+  );
 
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
@@ -63,7 +71,10 @@ const Subscription = props => {
   console.log(_purchasereceipt, '_purchasereceipt');
 
   React.useEffect(() => {
-    console.log('subscriptionStatus Line no 63', subscriptionStatus.data.is_trial);
+    console.log(
+      'subscriptionStatus Line no 63',
+      subscriptionStatus.data.is_trial,
+    );
   }, [subscriptionStatus]);
 
   React.useEffect(() => {
@@ -88,7 +99,7 @@ const Subscription = props => {
         dispatch(getSubscriptionStatus());
         setCallApi(false);
         setSelectCheckBox(null);
-        if(subscription_status_success){
+        if (subscription_status_success) {
           dispatch(hideAppLoader());
           props.navigation.goBack();
         }
@@ -96,7 +107,11 @@ const Subscription = props => {
       dispatch(hideAppLoader());
     }
     loadingRef.current = create_subscription_loading;
-  }, [create_subscription_success, create_subscription_loading,subscription_status_success]);
+  }, [
+    create_subscription_success,
+    create_subscription_loading,
+    subscription_status_success,
+  ]);
 
   const headerComp = () => (
     <IconHeader
@@ -176,8 +191,8 @@ const Subscription = props => {
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
     try {
-      await RNIap.requestPurchase({ sku })
-        .then(async result => { })
+      await RNIap.requestPurchase({sku})
+        .then(async result => {})
         .catch(err => {
           console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
         });
@@ -186,7 +201,7 @@ const Subscription = props => {
     }
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
-    RNIap.requestSubscription({ sku })
+    RNIap.requestSubscription({sku})
       .then(async result => {
         console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         const receipt = result.transactionReceipt;
@@ -194,7 +209,7 @@ const Subscription = props => {
           try {
             setPurchaseReceipt(result);
             setCallApi(true);
-            await RNIap.finishTransaction({ result, isConsumable: true });
+            await RNIap.finishTransaction({result, isConsumable: true});
           } catch (ackErr) {
             console.log('ERROR LINE NO 101', ackErr);
           }
@@ -206,7 +221,7 @@ const Subscription = props => {
         dispatch(showAppToast(true, err.message));
       });
   };
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD,YYYY')
+  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY')
   return (
     <>
       <Container
@@ -221,16 +236,20 @@ const Subscription = props => {
             <Image source={Images.LOGO} style={styles.logo} />
             {subscriptionStatus?.data?.is_trial && (
               <View style={styles.blueContain}>
-                <Image source={Images.whiteTick} />
-                <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>Your free trial expires on
-                  <Text style={styles.txting(Fonts.OpenSansBold, 0)}> {formatedDate} </Text>
+                <Image source={Images.whiteTick} style={{paddingLeft:Value.CONSTANT_VALUE_5}} />
+                <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>
+                  Your free trial expires on
+                  <Text style={[styles.txting(Fonts.OpenSansBold, 0),,{marginRight:Value.CONSTANT_VALUE_5}]}>
+                    {formatedDate}
+                  </Text>
                 </Text>
               </View>
             )}
             <TitleComp
+              containerStyle={{marginBottom: 0}}
               Title={Strings.subscribe.Subscribe_Now}
               Subtitle={Strings.Subscription.SubHeader}
-              Midtitle={Strings.Subscription.MidHeader}
+              // Midtitle={Strings.Subscription.MidHeader}
               isCenter={true}
             />
             <View style={styles.commitment}>
@@ -238,8 +257,9 @@ const Subscription = props => {
                 subscriptionPlan?.data?.map((item, index) => (
                   <Commitment
                     key={index}
-                    MainText={`$${item?.price}/${item?.interval === 'month' && 'mo'
-                      }`}
+                    MainText={`$${item?.price}/${
+                      item?.interval === 'month' && 'mo'
+                    }`}
                     Months={item.description}
                     Icon={
                       selectCheckBox?.id === item?.id
@@ -262,8 +282,24 @@ const Subscription = props => {
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>
-                  <Text style={{ color: 'red' }}>*</Text>
-                  {Strings.Subscription.BySubs}
+                  <Text style={{color: 'red'}}>*</Text>
+                  {`${Strings.Subscription.BySubs} ${
+                    Platform.OS === 'ios'
+                      ? Strings.Subscription.IOSStoreName
+                      : Strings.Subscription.AndroidStoreName
+                  }${Strings.Subscription.RenewText} ${
+                    Strings.Subscription.TimePeriodText
+                  }${Strings.Subscription.PaymentCharge}${
+                    Platform.OS === 'ios'
+                      ? Strings.Subscription.IOSStoreName
+                      : Strings.Subscription.AndroidStoreName
+                  } ${Strings.Subscription.CONFIRMTEXT} ${
+                    Strings.Subscription.YOUR
+                  } ${
+                    Platform.OS === 'ios'
+                      ? Strings.Subscription.IOSStoreName
+                      : Strings.Subscription.AndroidStoreName
+                  }${Strings.Subscription.LastmainText} `}
                   <Text
                     style={styles.terms}
                     onPress={() => openWebView(TERMS_OF_USE_URL)}>
@@ -275,7 +311,6 @@ const Subscription = props => {
                     onPress={() => openWebView(PRIVACY_URL)}>
                     {Strings.Subscription.PrivacyPolicy}
                   </Text>
-                  {Strings.Subscription.SubscribePolicy}
                 </Text>
               </View>
             </View>

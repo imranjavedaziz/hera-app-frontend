@@ -37,7 +37,7 @@ export default {
     color: Colors.BLACK,
   },
   mainText: {
-    textAlign: Alignment.CENTER,
+    textAlign: Alignment.LEFT,
     fontSize: Value.CONSTANT_VALUE_13,
     color: Colors.COLOR_535858,
   },
@@ -73,7 +73,8 @@ export default {
   txting: (font,padd) => ({ color: "#fff", fontSize: 15, letterSpacing: 0, fontFamily: font, paddingLeft: dynamicSize(padd) }),
   blueContain: {
     backgroundColor: "rgb(90,188,236)",
-    width: Value.CONSTANT_VALUE_324,
+    minWidth: Value.CONSTANT_VALUE_324,
+    maxWidth: Value.CONSTANT_VALUE_344,
     height: Value.CONSTANT_VALUE_64,
     borderRadius: Value.CONSTANT_VALUE_11,
     flexDirection: Alignment.ROW,

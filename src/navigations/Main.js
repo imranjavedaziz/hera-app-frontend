@@ -91,13 +91,10 @@ const Main = () => {
       dispatch(getSubscriptionStatus());
     }
     if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
-      const now = moment(new Date());
-      const createdAt = moment(new Date(auth.created_at));
-      const fromNow = now.diff(createdAt,'days');
       if (
         !subscriptionStatus?.data.status && !toastShowed &&
         parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&
-        ((register_user_success && parseInt(auth?.registration_step) > Value.CONSTANT_VALUE_3 && fromNow>Value.CONSTANT_VALUE_1) ||
+        ((register_user_success && parseInt(auth?.registration_step) > Value.CONSTANT_VALUE_3) ||
           (!register_user_success && parseInt(auth?.registration_step) >= Value.CONSTANT_VALUE_3))
       ) {
         setToastShowed(true);

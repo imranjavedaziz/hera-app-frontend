@@ -233,7 +233,7 @@ const PtbProfile = () => {
     ]);
     return true;
   };
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD,YYYY')
+  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY')
   const trialVar = subscriptionStatus?.data?.is_trial;
   return (
     <>
@@ -268,12 +268,13 @@ const PtbProfile = () => {
                 typeof subscriptionStatus.data === 'object' &&
                 Boolean(subscriptionStatus.data?.status) &&
                 !subscriptionStatus.data?.is_trial ? <Subscribed /> : (
-                  <Subscribe
-                    Icon={Images.STAR}
-                    MainText={Strings.subscribe.Subscribe_Now}
-                    InnerText={Strings.subscribe.Plans}
-                  />
-                )}
+                <Subscribe
+                  Icon={trialVar ? Images.starGreen : Images.STAR}
+                  MainText={trialVar ? Strings?.subscribe.Free : Strings.subscribe.Subscribe_Now}
+                  InnerText={trialVar ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}` : Strings.subscribe.Plans}
+                  is_trial={trialVar}
+                />
+              )}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}

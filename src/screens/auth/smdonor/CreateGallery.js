@@ -229,7 +229,7 @@ const CreateGallery = () => {
   const deleteImg = selVideo => {
     if (selVideo) {
       setDel(false);
-      setRmvVideoCount(0);
+      setRmvVideoCount(0); 
       setSelVideo(false);
     } else {
       let payload = {
@@ -302,23 +302,8 @@ const CreateGallery = () => {
             style={[globalStyle.screenSubTitle, styles.subTitle]}
             accessible={true}
             accessibilityLabel={`${Strings.sm_create_gallery.Subtitle1} ${Strings.sm_create_gallery.Subtitle2} ${Strings.sm_create_gallery.Subtitle3}`}>
-            <Text
-              style={globalStyle.screenSubTitle}
-              numberOfLines={2}
-              accessible={false}>
+            <Text style={globalStyle.screenSubTitle} accessible={false}>
               {Strings.sm_create_gallery.Subtitle1}
-            </Text>
-            <Text
-              style={globalStyle.screenSubTitle}
-              accessible={false}
-              numberOfLines={1}>
-              {Strings.sm_create_gallery.Subtitle2}
-            </Text>
-            <Text
-              style={globalStyle.screenSubTitle}
-              accessible={false}
-              numberOfLines={1}>
-              {Strings.sm_create_gallery.Subtitle3}
             </Text>
             <Text style={styles.p1}>{Strings.sm_create_gallery.maxUpload}</Text>
           </View>
@@ -416,7 +401,10 @@ const CreateGallery = () => {
               style={styles.dashboardBtn}
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               onPress={() => {
-                navigation.navigate(Routes.SmDashboard);
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: Routes.SmDashboard }],
+                });
               }}>
               <Text
                 accessible={false}
