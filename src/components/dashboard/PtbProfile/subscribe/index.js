@@ -11,7 +11,7 @@ import styles from './style';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { Colors } from '../../../../constants';
+import { Colors, Images, Strings } from '../../../../constants';
 import { Fonts } from '../../../../constants/Constants';
 
 const cancelURL = Platform.select({
@@ -38,7 +38,13 @@ const Subscribe = ({ MainText, InnerText, Icon, is_trial }) => {
 export const Subscribed = () => {
   const { get_user_detail_res } = useSelector(state => state.Edit_profile);
   if (!get_user_detail_res || !get_user_detail_res.subscription) {
-    return null;
+    return (
+      <Subscribe
+        Icon={Images.STAR}
+        MainText={Strings.subscribe.Subscribe_Now}
+        InnerText={Strings.subscribe.Plans}
+      />
+    );
   }
   return (
     <View style={[styles.container(), { height: 'auto', paddingVertical: 17, borderColor: Colors.COLOR_A3C6C4, }]}>
