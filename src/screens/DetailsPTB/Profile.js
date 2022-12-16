@@ -102,6 +102,7 @@ const Profile = props => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
       if (register_user_success) {
+        dispatch(empty());
         const _deviceInfo = {
           device_id: Device_ID,
           device_token: fcmToken,
@@ -111,7 +112,6 @@ const Profile = props => {
         dispatch(hideAppLoader());
         dispatch(updateRegStep());
         dispatch(updateLocalImg(userImage));
-        dispatch(getSubscriptionStatus());
         navigation.navigate(Routes.SmBasicDetails);
       } else {
         dispatch(showAppToast(true, register_user_error_msg));
@@ -241,6 +241,7 @@ const Profile = props => {
   };
   const onPressSubmit = () => {
     setPressed(true);
+
     debounce(handleSubmit(onSubmit), 1000)();
   };
   const CalenderOn = () => {
@@ -440,7 +441,7 @@ const Profile = props => {
                                 validatePassword(value, msg.type, isPressed) ||
                                 validatePassword(value, msg.type, isPressed) ===
                                   null
-                                  ? Colors.BLACK
+                                  ? Colors.GRAY2
                                   : Colors.RED,
                             }}>
                             {msg.msg}

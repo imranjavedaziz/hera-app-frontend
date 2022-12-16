@@ -18,7 +18,7 @@ import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
 import normalizeInput from '../../utils/normalizeInput';
 import {statusHide} from '../../utils/responsive';
-
+import {empty} from '../../redux/actions/Chat';
 const MobileNumber = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ const MobileNumber = ({route}) => {
   useEffect(() => {
     if (loadingRef.current && !mobile_number_loading) {
       if (mobile_number_success) {
+        dispatch(empty());
         navigation.navigate(Routes.OTP, {
           isRouteData,
           type,

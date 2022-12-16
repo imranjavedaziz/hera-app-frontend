@@ -1,4 +1,4 @@
-import { CREATE_SUBSCRIPTION, SUBSCRIPTION_PLAN, SUBSCRIPTION_STATUS, } from '../Type';
+import { CREATE_SUBSCRIPTION, SUBSCRIPTION_PLAN, SUBSCRIPTION_STATUS,UPDATE_SUBSCRIPTION_STATUS, } from '../Type';
 
 export const createSubscription = data => {
   return {
@@ -20,3 +20,7 @@ export const getSubscriptionStatus = data => {
     data,
   };
 };
+export const updateSubscriptionStatus = data => ({
+  type: UPDATE_SUBSCRIPTION_STATUS,
+  data,
+})

@@ -90,6 +90,7 @@ const PtbDashboard = props => {
   );
   useFocusEffect(
     useCallback(() => {
+      dispatch(getSubscriptionStatus());
       dispatch(getPtbDashboard());
       setCardIndex(0);
     }, [dispatch]),
@@ -412,9 +413,6 @@ const PtbDashboard = props => {
       </>
     );
   };
-  useEffect(()=>{
-    dispatch(getSubscriptionStatus());
-  },[]);
   return (
     <>
       <Container

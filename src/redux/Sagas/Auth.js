@@ -31,11 +31,14 @@ import {
 import {HttpStatus} from '../../constants/Constants';
 import {showAppLoader, hideAppLoader} from '../actions/loader';
 import {ValidationMessages} from '../../constants/Strings';
+import { updateSubscriptionStatus } from '../actions/Subsctiption';
 //LogIn
 function* logIn(payload) {
   try {
     const result = yield loginInApi(payload.data);
     if (result?.data?.data?.access_token) {
+      console.log('login',result?.data?.data);
+      yield put(updateSubscriptionStatus(result?.data?.data?.subscription_status))
       yield put({type: AUTH_LOG_IN_SUCCESS, data: result});
     } else {
       yield put({type: AUTH_LOG_IN_FAIL, data: {msg: result.data.message}});

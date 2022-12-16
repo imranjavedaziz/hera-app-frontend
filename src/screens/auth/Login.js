@@ -32,7 +32,7 @@ import {NotificationContext} from '../../context/NotificationContextManager';
 import normalizeInput from '../../utils/normalizeInput';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {InputLabel} from '../../components';
-
+import { empty } from '../../redux/actions/Chat';
 const type = 2;
 const Login = props => {
   const navigation = useNavigation();
@@ -72,6 +72,7 @@ const Login = props => {
         dispatch(getSubscriptionStatus());
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
+        dispatch(empty());
         navigation.reset({
           index: 0,
           routes: [
@@ -124,13 +125,13 @@ const Login = props => {
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <KeyboardAwareScrollView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardShouldPersistTaps="handled"
-        style={styles.flex}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        <KeyboardAwareScrollView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardShouldPersistTaps="handled"
+          style={styles.flex}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.mainContainer}>
               <Image source={Images.LOGO} style={styles.logo} />
@@ -210,8 +211,8 @@ const Login = props => {
               </View>
             </View>
           </TouchableWithoutFeedback>
-        </ScrollView>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </ScrollView>
     </View>
   );
 };

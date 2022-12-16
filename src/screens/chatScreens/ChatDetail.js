@@ -135,8 +135,9 @@ const ChatDetail = props => {
           fireDB.prependMessage(messageItem);
           await fireDB.readAll();
           fireDB.lastIdInSnapshot = snapshot.key;
+          setLoading(false);
         }
-        setLoading(false);
+       
       },
     );
   }, []);
@@ -575,7 +576,7 @@ const ChatDetail = props => {
             renderAvatar={null}
             textInputProps={styles.textInput}
             minComposerHeight={
-              textData?.length > 75 ? 75 : Platform.OS === 'ios' ? 30 : 44
+              textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
             }
             listViewProps={{
               scrollEventThrottle: 400,
@@ -590,7 +591,7 @@ const ChatDetail = props => {
                 ? Strings.search_Bar.Inactive
                 : Strings.search_Bar.write_message
             }
-            bottomOffset={textData?.length > 75 ? -50 : 20}
+            bottomOffset={textData?.length > 30 ? -50 : 20}
           />
         </View>
       )}
@@ -614,7 +615,7 @@ const ChatDetail = props => {
             renderAvatar={null}
             textInputProps={styles.textInput}
             minComposerHeight={
-              textData?.length > 75 ? 75 : Platform.OS === 'ios' ? 30 : 44
+              textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
             }
             listViewProps={{
               scrollEventThrottle: 400,
@@ -623,7 +624,7 @@ const ChatDetail = props => {
                 db.loadEarlier(setLoading);
               },
             }}
-            bottomOffset={textData?.length > 75 ? -50 : 20}
+            bottomOffset={textData?.length > 30 ? -50 : 20}
             maxInputLength={1024}
             placeholder={Strings.search_Bar.write_message}
           />
@@ -636,7 +637,7 @@ const ChatDetail = props => {
             <GiftedChat
               ref={giftedref}
               scrollToBottom={true}
-              bottomOffset={textData?.length > 75 ? -50 : 20}
+              bottomOffset={textData?.length > 30 ? -50 : 20}
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message =>
@@ -655,7 +656,7 @@ const ChatDetail = props => {
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
               minComposerHeight={
-                textData?.length > 75 ? 75 : Platform.OS === 'ios' ? 30 : 44
+                textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
               }
               textInputProps={styles.textInput}
               disableComposer={
