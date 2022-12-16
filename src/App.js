@@ -32,9 +32,7 @@ const App = () => {
             animated={true}
             hidden={false}
           />
-
           <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
-
           <Main />
           <Loader />
           <FormLoader />

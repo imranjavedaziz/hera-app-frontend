@@ -111,7 +111,8 @@ const SmDonorSettings = () => {
       gallery_data?.doner_video_gallery === undefined
     ) {
       setVideoAviable(true);
-    } else if (_.isEmpty(gallery_data)) {
+    }
+    if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
       setVideoAviable(true);
     } else {
       setVideoAviable(false);
