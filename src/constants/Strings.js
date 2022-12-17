@@ -521,4 +521,7 @@ export default {
     {id: 4, name: 'Egg Donor'},
     {id: 5, name: 'Sperm Donor'},
   ],
+  NO_INTERNET_CONNECTION:'No Internet Connection',
+  UNABLE_TO_SHOW_DATA:'Unable to show data as your internet might be turned off.',
+  RETRY:'Retry'
 };
