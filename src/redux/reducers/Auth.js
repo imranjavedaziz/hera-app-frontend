@@ -249,6 +249,7 @@ export default (state = initState, action) => {
         gallery: initState.gallery,
         register_user_success: false,
         registration_step: 1,
+        token: '',
       };
     case AUTH_MOBILE_NUMBER: {
       return {
@@ -333,6 +334,8 @@ export default (state = initState, action) => {
         user: initState.user,
         gallery: initState.gallery,
         register_user_success: false,
+        token: '',
+        registration_step: 1,
       };
     }
     /**
