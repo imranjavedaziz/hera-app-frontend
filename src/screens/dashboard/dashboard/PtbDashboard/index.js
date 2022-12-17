@@ -227,6 +227,21 @@ const PtbDashboard = props => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
+        if (islikedLogo === 'liked') {
+          if (ptbDashboardRes?.match_request?.status === 2) {
+            dispatch(
+              showAppToast(false, Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE),
+            );
+          } else {
+            dispatch(showAppToast(false, Strings.Chat.MATCH_SEND_SUCCESSFULLY));
+          }
+          setIsVisibleLogo(true);
+          handleOnSwipedRight();
+        }
+        if (islikedLogo === 'disliked') {
+          setIsVisibleLogo(true);
+          handleOnSwipedLeft();
+        }
       }
       if (profile_match_error_msg) {
         dispatch(hideAppLoader());
@@ -241,11 +256,6 @@ const PtbDashboard = props => {
     profile_match_error_msg,
   ]);
   const handleOnSwipedLeft = () => {
-    const payload = {
-      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
-      status: 3,
-    };
-    dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
     if (count === get_ptb_dashboard_res?.data?.data?.total) {
@@ -298,9 +308,9 @@ const PtbDashboard = props => {
           activeOpacity={1}
           onPress={() => {
             setCardIndex(0);
-              navigation.navigate('DashboardDetailScreen', {
-                userId: item?.user?.id,
-              });
+            navigation.navigate('DashboardDetailScreen', {
+              userId: item?.user?.id,
+            });
           }}
         />
       </>
@@ -363,9 +373,12 @@ const PtbDashboard = props => {
             <View style={STYLE}>
               <TouchableOpacity
                 onPress={() => {
-                  setIsVisibleLogo(true);
-                    setIslikedLogo('disliked');
-                    handleOnSwipedLeft();
+                  setIslikedLogo('disliked');
+                  const payload = {
+                    to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                    status: 3,
+                  };
+                  dispatch(profileMatch(payload));
                 }}>
                 <Image
                   style={styles.dislikeButton}
@@ -374,24 +387,12 @@ const PtbDashboard = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  if (ptbDashboardRes?.match_request?.status === 2) {
-                    dispatch(
-                      showAppToast(
-                        false,
-                        Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
-                      ),
-                    );
-                  } else {
-                    dispatch(
-                      showAppToast(
-                        false,
-                        Strings.Chat.MATCH_SEND_SUCCESSFULLY,
-                      ),
-                    );
-                  }
-                  setIsVisibleLogo(true);
                   setIslikedLogo('liked');
-                  handleOnSwipedRight();
+                  const payload = {
+                    to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                    status: 1,
+                  };
+                  dispatch(profileMatch(payload));
                 }}>
                 <Image
                   style={styles.likeButton}
