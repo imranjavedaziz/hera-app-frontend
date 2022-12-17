@@ -86,21 +86,18 @@ const PtbDashboard = props => {
       setMsgRead(chats.some(x => x?.read === 0));
     }
   }, [chats]);
-  useEffect(async () => {
-    console.log((await NetInfo.isConnected.fetch()) ,'(await NetInfo.isConnected.fetch())')
-    if ((await NetInfo.isConnected.fetch()) !== true) {
-      setNetworkError(true);
-    } else {
-      setNetworkError(false);
-    }
-  }, [NetInfo]);
   useFocusEffect(
     useCallback(() => {
       fetchData();
     }, []),
   );
   useFocusEffect(
-    useCallback(() => {
+    useCallback(async () => {
+      if ((await NetInfo.isConnected.fetch()) !== true) {
+        setNetworkError(true);
+      } else {
+        setNetworkError(false);
+      }
       dispatch(getSubscriptionStatus());
       dispatch(getPtbDashboard());
       setCardIndex(0);
@@ -220,6 +217,7 @@ const PtbDashboard = props => {
         } else {
           dispatch(hideAppLoader());
         }
+        dispatch(hideAppLoader());
       }
       loadingRef.current = get_ptb_dashboard_loading;
     }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
@@ -233,6 +231,7 @@ const PtbDashboard = props => {
       if (profile_match_error_msg) {
         dispatch(hideAppLoader());
       }
+      dispatch(hideAppLoader());
     }
     loadingMatchRef.current = profile_match_loading;
   }, [
@@ -424,16 +423,19 @@ const PtbDashboard = props => {
       </>
     );
   };
-async function retryData(){
-  if ((await NetInfo.isConnected.fetch()) !== true) {
-    setNetworkError(true);
-  } else {
-    setNetworkError(false);
+  async function retryData() {
+    if ((await NetInfo.isConnected.fetch()) !== true) {
+      setNetworkError(true);
+      dispatch(getSubscriptionStatus());
+      dispatch(getPtbDashboard());
+      setCardIndex(0);
+    } else {
+      setNetworkError(false);
+      dispatch(getSubscriptionStatus());
+      dispatch(getPtbDashboard());
+      setCardIndex(0);
+    }
   }
-  dispatch(getSubscriptionStatus());
-  dispatch(getPtbDashboard());
-  setCardIndex(0);
-}
   return (
     <>
       <Container
@@ -442,7 +444,7 @@ async function retryData(){
         showHeader={true}
         headerComp={headerComp}>
         {networkError === true ? (
-          <NoInternet  onPress={()=> retryData()}/>
+          <NoInternet onPress={retryData} />
         ) : (
           <>
             {(statusRes === 2 || empty === true) && (

@@ -75,14 +75,15 @@ const SmDashboard = ({route}) => {
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
-  useEffect(async () => {
-    console.log((await NetInfo.isConnected.fetch()) ,'(await NetInfo.isConnected.fetch()) ')
+   useFocusEffect(
+    useCallback(async() => {
     if ((await NetInfo.isConnected.fetch()) !== true) {
       setNetworkError(true);
     } else {
       setNetworkError(false);
     }
-  }, []);
+  }, []),
+  );
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
@@ -374,7 +375,7 @@ const SmDashboard = ({route}) => {
       )}
       <>
         {networkError === true ? (
-          <NoInternet />
+          <NoInternet  onPress={retryData}/>
         ) : (
           <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
