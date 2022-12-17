@@ -72,6 +72,7 @@ const SmRegister = () => {
     control,
     formState: {errors, isValid},
     setValue,
+    clearErrors,
   } = useForm({
     resolver: yupResolver(smRegisterSchema),
   });
@@ -221,7 +222,7 @@ const SmRegister = () => {
   const onPressSubmit = () => {
     setPressed(true);
     handleSubmit(onSubmit)();
-  }
+  };
   const CalenderOn = () => {
     inputRef.current.blur();
     setShow(true);
@@ -412,12 +413,12 @@ const SmRegister = () => {
                         style={[
                           styles.pwdErrText,
                           {
-                            color:
-                              validatePassword(value, msg.type, isPressed) ||
-                              validatePassword(value, msg.type, isPressed) ===
+                            color: validatePassword(value, msg.type, isPressed)
+                              ? Colors.BLACK
+                              : validatePassword(value, msg.type, isPressed) ===
                                 null
-                                ? Colors.GRAY2
-                                : Colors.RED,
+                              ? Colors.GRAY2
+                              : Colors.RED,
                           },
                         ]}>
                         {msg.msg}
@@ -574,6 +575,7 @@ const SmRegister = () => {
         mode={'date'}
         onConfirm={selectedDate => {
           setShow(false);
+          clearErrors('dob');
           setValue('dob', moment(selectedDate).format('MMM DD, YYYY'));
           setDate(selectedDate);
           onDateChange(selectedDate);
