@@ -7,6 +7,10 @@ import {updateToken, signoutUser} from '../redux/actions/Auth';
 import ApiPath from '../constants/ApiPath';
 import NetInfo from '@react-native-community/netinfo';
 import {ValidationMessages} from '../constants/Strings';
+import { navigationRef } from '../navigations/Main';
+import { Routes } from '../constants/Constants';
+import {StackActions} from '@react-navigation/native';
+
 const axiosRequest = axios.create({
   baseURL: api_url,
 });
@@ -41,7 +45,18 @@ axiosRequest.interceptors.response.use(
       );
       store.dispatch(hideAppLoader());
     }
-    if (error.response.status === 401 && originalRequest._retry === false) {
+    if(error.response.status === 421 || error.response.status === 422){
+      if(error.response.status === 422){
+        const popAction = StackActions.replace(Routes.Subscription);
+        navigationRef.current?.dispatch(popAction);
+      }
+      else{
+        navigationRef.current?.navigate(Routes.Subscription);
+      }
+      store.dispatch(updateSubscriptionStatus(0));
+      return Promise.reject(error);
+    }
+    else if (error.response.status === 401 && !Boolean(originalRequest._retry)) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       store.dispatch(updateToken(tokenRes.data.token));
       // get access token from refresh token and retry
@@ -55,6 +70,10 @@ axiosRequest.interceptors.response.use(
     ) {
       store.dispatch(showAppToast(true, error.response.data.message));
       store.dispatch(signoutUser());
+      navigationRef.current?.reset({
+        index: 0,
+        routes: [{name: Routes.Landing}],
+      });
     } else if (error.response.status === 417 && error.response.data.message) {
       return error.response.data.message;
     }

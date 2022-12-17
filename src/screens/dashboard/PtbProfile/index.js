@@ -52,6 +52,7 @@ import openWebView from '../../../utils/openWebView';
 import { empty } from '../../../redux/actions/Chat';
 import { NotificationContext } from '../../../context/NotificationContextManager';
 import moment from 'moment';
+import { getSubscriptionStatus } from '../../../redux/actions/Subsctiption';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -85,6 +86,7 @@ const PtbProfile = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getEditProfile());
+      dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
     }, [dispatch]),
   );
