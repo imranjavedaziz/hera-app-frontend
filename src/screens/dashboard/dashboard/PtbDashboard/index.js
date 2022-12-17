@@ -297,14 +297,10 @@ const PtbDashboard = props => {
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
           onPress={() => {
-            if (subscriptionStatus?.data?.status) {
-              setCardIndex(0);
+            setCardIndex(0);
               navigation.navigate('DashboardDetailScreen', {
                 userId: item?.user?.id,
               });
-            } else {
-              navigation.navigate(Routes.Subscription);
-            }
           }}
         />
       </>
@@ -367,13 +363,9 @@ const PtbDashboard = props => {
             <View style={STYLE}>
               <TouchableOpacity
                 onPress={() => {
-                  if (subscriptionStatus?.data?.status) {
-                    setIsVisibleLogo(true);
+                  setIsVisibleLogo(true);
                     setIslikedLogo('disliked');
                     handleOnSwipedLeft();
-                  } else {
-                    navigation.navigate(Routes.Subscription);
-                  }
                 }}>
                 <Image
                   style={styles.dislikeButton}
@@ -382,28 +374,24 @@ const PtbDashboard = props => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  if (subscriptionStatus?.data?.status) {
-                    if (ptbDashboardRes?.match_request?.status === 2) {
-                      dispatch(
-                        showAppToast(
-                          false,
-                          Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
-                        ),
-                      );
-                    } else {
-                      dispatch(
-                        showAppToast(
-                          false,
-                          Strings.Chat.MATCH_SEND_SUCCESSFULLY,
-                        ),
-                      );
-                    }
-                    setIsVisibleLogo(true);
-                    setIslikedLogo('liked');
-                    handleOnSwipedRight();
+                  if (ptbDashboardRes?.match_request?.status === 2) {
+                    dispatch(
+                      showAppToast(
+                        false,
+                        Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
+                      ),
+                    );
                   } else {
-                    navigation.navigate(Routes.Subscription);
+                    dispatch(
+                      showAppToast(
+                        false,
+                        Strings.Chat.MATCH_SEND_SUCCESSFULLY,
+                      ),
+                    );
                   }
+                  setIsVisibleLogo(true);
+                  setIslikedLogo('liked');
+                  handleOnSwipedRight();
                 }}>
                 <Image
                   style={styles.likeButton}
