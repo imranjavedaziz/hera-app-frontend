@@ -52,6 +52,7 @@ import openWebView from '../../../utils/openWebView';
 import { empty } from '../../../redux/actions/Chat';
 import { NotificationContext } from '../../../context/NotificationContextManager';
 import moment from 'moment';
+import { getSubscriptionStatus } from '../../../redux/actions/Subsctiption';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -85,6 +86,7 @@ const PtbProfile = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(getEditProfile());
+      dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
     }, [dispatch]),
   );
@@ -269,10 +271,10 @@ const PtbProfile = () => {
                 Boolean(subscriptionStatus.data?.status) &&
                 !subscriptionStatus.data?.is_trial ? <Subscribed /> : (
                 <Subscribe
-                  Icon={trialVar ? Images.starGreen : Images.STAR}
-                  MainText={trialVar ? Strings?.subscribe.Free : Strings.subscribe.Subscribe_Now}
-                  InnerText={trialVar ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}` : Strings.subscribe.Plans}
-                  is_trial={trialVar}
+                  Icon={trialVar && subscriptionStatus.data?.status  ? Images.starGreen : Images.STAR}
+                  MainText={trialVar  && subscriptionStatus.data?.status ? Strings?.subscribe.Free : Strings.subscribe.Subscribe_Now}
+                  InnerText={trialVar  && subscriptionStatus.data?.status ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}` : Strings.subscribe.Plans}
+                  is_trial={trialVar && subscriptionStatus.data?.status} 
                 />
               )}
               <PtbAccount

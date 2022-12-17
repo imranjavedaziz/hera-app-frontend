@@ -238,9 +238,9 @@ const Subscription = props => {
               <View style={styles.blueContain}>
                 <Image source={Images.whiteTick} style={{paddingLeft:Value.CONSTANT_VALUE_5}} />
                 <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>
-                  Your free trial expires on
-                  <Text style={[styles.txting(Fonts.OpenSansBold, 0),,{marginRight:Value.CONSTANT_VALUE_5}]}>
-                    {formatedDate}
+                  Your free trial expires on 
+                  <Text style={[styles.txting(Fonts.OpenSansBold, 0),{marginRight:Value.CONSTANT_VALUE_5}]}>
+                    {` ${formatedDate}`}
                   </Text>
                 </Text>
               </View>
