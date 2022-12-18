@@ -273,12 +273,7 @@ const ChatDetail = props => {
     }, [feedback_success, feedback_loading]),
   );
   const navigateDetailScreen = () => {
-    console.log(log_in_data?.role_id, 'log_in_data?.role_id ');
-    if (parseInt(props?.route?.params?.item?.match_request?.status) === 1) {
-      navigation.navigate(Routes.Chat_Request, {
-        item: props.route.params.item,
-      });
-    } else if (log_in_data?.role_id === 2) {
+    if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.DashboardDetailScreen, {
         userId: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
@@ -338,7 +333,7 @@ const ChatDetail = props => {
     }
     return role;
   }
- async function arrowFunction() {
+  async function arrowFunction() {
     if (
       props.route.params.isComingFrom === true ||
       props.route.params.chatPush === true
