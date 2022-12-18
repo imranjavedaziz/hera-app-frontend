@@ -155,6 +155,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     marginHorizontal: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_90,
+    marginTop:10
   },
   linebelow: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,

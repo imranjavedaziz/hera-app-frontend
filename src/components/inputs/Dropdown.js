@@ -102,7 +102,7 @@ const Dropdown = ({
                 setCome(false);
                 setFocused(true);
               }}>
-              <View style={[{height: 60, justifyContent: 'space-between'}]}>
+              <View style={[{height: 40, justifyContent: 'space-between'}]}>
                 {value ? (
                   <View>
                     <Text
