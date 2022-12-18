@@ -88,6 +88,7 @@ const Profile = props => {
     reset,
     setValue,
     formState: {errors},
+    clearErrors,
   } = useForm({resolver: yupResolver(parentRegisterSchema)});
 
   const {
@@ -98,6 +99,7 @@ const Profile = props => {
   useEffect(() => {
     deviceHandler(props.navigation, Routes.Landing);
   }, [props.navigation]);
+
   useEffect(() => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
@@ -226,7 +228,7 @@ const Profile = props => {
     });
     dispatch(ptbRegister(reqData));
     dispatch(updateLocalImg(userImage));
-  }
+  };
   useEffect(() => {
     return navigation.addListener('focus', () => {
       reset();
@@ -247,6 +249,7 @@ const Profile = props => {
     inputRef.current.blur();
     setShow(true);
   };
+  console.log('errors.date_of_birth?.message', errors.date_of_birth?.message);
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -436,12 +439,19 @@ const Profile = props => {
                             style={{
                               fontSize: Value.CONSTANT_VALUE_13,
                               fontFamily: Fonts.OpenSansBold,
-                              color:
-                                validatePassword(value, msg.type, isPressed) ||
-                                validatePassword(value, msg.type, isPressed) ===
-                                  null
-                                  ? Colors.GRAY2
-                                  : Colors.RED,
+                              color: validatePassword(
+                                value,
+                                msg.type,
+                                isPressed,
+                              )
+                                ? Colors.BLACK
+                                : validatePassword(
+                                    value,
+                                    msg.type,
+                                    isPressed,
+                                  ) === null
+                                ? Colors.GRAY2
+                                : Colors.RED,
                             }}>
                             {msg.msg}
                           </Text>
@@ -581,6 +591,7 @@ const Profile = props => {
                 mode={'date'}
                 date={datePicked ?? new Date()}
                 onConfirm={selectedDate => {
+                  clearErrors(FormKey.date_of_birth);
                   setShow(false);
                   setValue(FormKey.date_of_birth, getDate(selectedDate));
                   setDate(getDate(selectedDate));

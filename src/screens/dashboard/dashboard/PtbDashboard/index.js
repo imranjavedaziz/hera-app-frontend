@@ -44,8 +44,9 @@ import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { dynamicSize, scaleWidth } from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
-import { getSubscriptionStatus } from '../../../../redux/actions/Subsctiption';
-
+import {getSubscriptionStatus} from '../../../../redux/actions/Subsctiption';
+import NoInternet from '../../../../components/NoInternet/NoInternet';
+import NetInfo from '@react-native-community/netinfo';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -62,6 +63,7 @@ const PtbDashboard = props => {
   const loadingMatchRef = useRef(false);
   const { fcmToken } = useContext(NotificationContext);
   const [empty, setEmpty] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const [disable, setDisable] = useState(false);
 
@@ -75,6 +77,7 @@ const PtbDashboard = props => {
   }, []);
 
   const [msgRead, setMsgRead] = useState(false);
+
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -91,7 +94,12 @@ const PtbDashboard = props => {
     }, []),
   );
   useFocusEffect(
-    useCallback(() => {
+    useCallback(async () => {
+      if ((await NetInfo.isConnected.fetch()) !== true) {
+        setNetworkError(true);
+      } else {
+        setNetworkError(false);
+      }
       dispatch(getSubscriptionStatus());
       dispatch(getPtbDashboard());
       setCardIndex(0);
@@ -211,6 +219,7 @@ const PtbDashboard = props => {
         } else {
           dispatch(hideAppLoader());
         }
+        dispatch(hideAppLoader());
       }
       loadingRef.current = get_ptb_dashboard_loading;
     }, [get_ptb_dashboard_success, get_ptb_dashboard_loading]),
@@ -223,10 +232,27 @@ const PtbDashboard = props => {
         setTimeout(() => {
           setDisable(false);
         }, 1100);
+
+        if (islikedLogo === 'liked') {
+          if (ptbDashboardRes?.match_request?.status === 2) {
+            dispatch(
+              showAppToast(false, Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE),
+            );
+          } else {
+            dispatch(showAppToast(false, Strings.Chat.MATCH_SEND_SUCCESSFULLY));
+          }
+          setIsVisibleLogo(true);
+          handleOnSwipedRight();
+        }
+        if (islikedLogo === 'disliked') {
+          setIsVisibleLogo(true);
+          handleOnSwipedLeft();
+        }
       }
       if (profile_match_error_msg) {
         dispatch(hideAppLoader());
       }
+      dispatch(hideAppLoader());
     }
     loadingMatchRef.current = profile_match_loading;
   }, [
@@ -236,11 +262,6 @@ const PtbDashboard = props => {
     profile_match_error_msg,
   ]);
   const handleOnSwipedLeft = () => {
-    const payload = {
-      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
-      status: 3,
-    };
-    dispatch(profileMatch(payload));
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
     if (count === get_ptb_dashboard_res?.data?.data?.total) {
@@ -292,14 +313,10 @@ const PtbDashboard = props => {
           category={getRoleType(item?.user?.role_id)}
           activeOpacity={1}
           onPress={() => {
-            if (subscriptionStatus?.data?.status) {
-              setCardIndex(0);
-              navigation.navigate('DashboardDetailScreen', {
-                userId: item?.user?.id,
-              });
-            } else {
-              navigation.navigate(Routes.Subscription);
-            }
+            setCardIndex(0);
+            navigation.navigate('DashboardDetailScreen', {
+              userId: item?.user?.id,
+            });
           }}
         />
       </>
@@ -370,6 +387,12 @@ const PtbDashboard = props => {
                   } else {
                     navigation.navigate(Routes.Subscription);
                   }
+                  setIslikedLogo('disliked');
+                  const payload = {
+                    to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                    status: 3,
+                  };
+                  dispatch(profileMatch(payload));
                 }}>
                 <Image
                   style={styles.dislikeButton}
@@ -399,6 +422,12 @@ const PtbDashboard = props => {
                   } else {
                     navigation.navigate(Routes.Subscription);
                   }
+                  setIslikedLogo('liked');
+                  const payload = {
+                    to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                    status: 1,
+                  };
+                  dispatch(profileMatch(payload));
                 }}>
                 <Image
                   style={styles.likeButton}
@@ -419,6 +448,19 @@ const PtbDashboard = props => {
       </>
     );
   };
+  async function retryData() {
+    if ((await NetInfo.isConnected.fetch()) !== true) {
+      setNetworkError(true);
+      dispatch(getSubscriptionStatus());
+      dispatch(getPtbDashboard());
+      setCardIndex(0);
+    } else {
+      setNetworkError(false);
+      dispatch(getSubscriptionStatus());
+      dispatch(getPtbDashboard());
+      setCardIndex(0);
+    }
+  }
   return (
     <>
       <Container
@@ -426,24 +468,30 @@ const PtbDashboard = props => {
         scroller={false}
         showHeader={true}
         headerComp={headerComp}>
-        {(statusRes === 2 || empty === true) && (
-          <View style={styles.emptyCardContainer}>
-            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
-            <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
-            <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
-          </View>
-        )}
-        {statusRes === 1 && empty === false && dashboardShow()}
-        {statusRes === 3 && (
-          <View style={styles.emptyCardContainer}>
-            <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
-            <Text style={styles.innerText}>
-              {Strings.dashboard.SecondPara1}
-            </Text>
-            <Text style={styles.innerText2}>
-              {Strings.dashboard.secondPara2}
-            </Text>
-          </View>
+        {networkError === true ? (
+          <NoInternet onPress={retryData} />
+        ) : (
+          <>
+            {(statusRes === 2 || empty === true) && (
+              <View style={styles.emptyCardContainer}>
+                <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+                <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
+                <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
+              </View>
+            )}
+            {statusRes === 1 && empty === false && dashboardShow()}
+            {statusRes === 3 && (
+              <View style={styles.emptyCardContainer}>
+                <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
+                <Text style={styles.innerText}>
+                  {Strings.dashboard.SecondPara1}
+                </Text>
+                <Text style={styles.innerText2}>
+                  {Strings.dashboard.secondPara2}
+                </Text>
+              </View>
+            )}
+          </>
         )}
       </Container>
       {modalVisible && (

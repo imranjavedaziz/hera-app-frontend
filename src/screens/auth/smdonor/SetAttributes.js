@@ -528,7 +528,7 @@ const SetAttributes = ({route}) => {
               <Button
                 style={{
                   height: Value.CONSTANT_VALUE_80,
-                  marginTop: Value.CONSTANT_VALUE_46,
+                  marginTop: Value.CONSTANT_VALUE_50,
                   marginBottom: Value.CONSTANT_VALUE_50,
                 }}
                 label={Strings.sm_set_attributes.EditAttribute}

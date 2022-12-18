@@ -63,7 +63,7 @@ export const ValidationMessages = {
   SELECT_HAIR_1: 'Please select hair color',
   SELECT_EYE_1: 'Please select eye color',
   SELECT_WEIGHT: 'Please select weight',
-  CAPSLOCK: 'Must have at least 1 upper case letter',
+  CAPSLOCK: 'Must have at least 1 uppercase character',
   OTP_REQUIRED: 'Required!',
   USER_TYPE: 'Please select user type',
   Name: 'Please enter your name',
@@ -521,4 +521,7 @@ export default {
     {id: 4, name: 'Egg Donor'},
     {id: 5, name: 'Sperm Donor'},
   ],
+  NO_INTERNET_CONNECTION:'No Internet Connection',
+  UNABLE_TO_SHOW_DATA:'Unable to show data as your internet might be turned off.',
+  RETRY:'Retry'
 };

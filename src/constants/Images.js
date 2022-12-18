@@ -94,5 +94,6 @@ export default {
   whiteTick: require('../assets/icons/whiteTick/whiteTick.png'),
   groupMessage: require('../assets/icons/groupMessage/groupMessage.png'),
   groupLike: require('../assets/icons/groupLike/groupLike.png'),
+  no_internet: require('../assets/Images/no_internet/no_internet.png'),
   starGreen: require('../assets/icons/starGreen/starGreen.png'),
 };
