@@ -5,6 +5,8 @@ import {
   HIDE_TOAST,
   SHOW_EDIT_LOADER,
   HIDE_EDIT_LOADER,
+  SHOW_MESSAGE_TOAST,
+  HIDE_MESSAGE_TOAST,
 } from '../constants';
 
 const initState = {
@@ -16,6 +18,9 @@ const initState = {
   push: false,
   pushRes: '',
   editLoading: false,
+  showMessageToast: false,
+  isMessageErrToast: '',
+  toastMessageText: '',
 };
 
 export default (state = initState, {type = '', payload = null} = {}) => {
@@ -37,8 +42,6 @@ export default (state = initState, {type = '', payload = null} = {}) => {
         showToast: true,
         isErrToast: payload.isErrToast,
         toastText: payload.text,
-        pushRes: payload.pushRes,
-        push: payload.push,
       };
     case HIDE_TOAST:
       return {
@@ -56,6 +59,26 @@ export default (state = initState, {type = '', payload = null} = {}) => {
       return {
         ...state,
         editLoading: false,
+      };
+    case SHOW_MESSAGE_TOAST:
+      return {
+        ...state,
+        showMessageToast: true,
+        isMessageErrToast: payload.isMessageErrToast,
+        toastMessageText: payload.toastMessageText,
+        pushRes: payload.pushRes,
+        push: payload.push,
+        navigation: payload.navigation,
+      };
+    case HIDE_MESSAGE_TOAST:
+      return {
+        ...state,
+        showMessageToast: false,
+        isMessageErrToast: initState.isMessageErrToast,
+        toastMessageText: initState.toastMessageText,
+        pushRes: initState.pushRes,
+        push: initState.push,
+        navigation: initState.navigation,
       };
     default:
       return state;
