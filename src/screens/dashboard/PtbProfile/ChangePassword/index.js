@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Platform,
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -120,12 +119,12 @@ const ChangePassword = ({route}) => {
         <HeaderComp type={type} />
       </Header>
       <ScrollView
-        showVerticalIndicatot={false}
+        showVerticalIndicator={false}
         keyboardShouldPersistTaps="handled">
         <KeyboardAwareScrollView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.flex}
-          keyboardShouldPersistTaps="handled">
+          keyboardShouldPersistTaps="handled"
+          showVerticalIndicator={false}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.mainContainer}>
               <View style={styles.headingContainer}>
@@ -208,19 +207,20 @@ const ChangePassword = ({route}) => {
                                   fontSize: Value.CONSTANT_VALUE_13,
                                   fontFamily: Fonts.OpenSansBold,
                                   textAlignVertical: 'top',
-                                  color:
-                                    validatePassword(
-                                      value,
-                                      msg.type,
-                                      isPressed,
-                                    ) ||
-                                    validatePassword(
-                                      value,
-                                      msg.type,
-                                      isPressed,
-                                    ) === null
-                                      ? Colors.GRAY2
-                                      : Colors.RED,
+                                  paddingVertical: 1,
+                                  color: validatePassword(
+                                    value,
+                                    msg.type,
+                                    isPressed,
+                                  )
+                                    ? Colors.BLACK
+                                    : validatePassword(
+                                        value,
+                                        msg.type,
+                                        isPressed,
+                                      ) === null
+                                    ? Colors.GRAY2
+                                    : Colors.RED,
                                 }}>
                                 {msg.msg}
                               </Text>

@@ -117,7 +117,7 @@ export default {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
-    bottom: -40,
+    bottom: -49,
     right: 0,
   },
   errMessageEdCheck: {
@@ -154,18 +154,14 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginHorizontal: Value.CONSTANT_VALUE_0,
-    width: Prencentage.PRECENTAGE_100,
-    marginBottom: 10,
+    width: Prencentage.PRECENTAGE_90,
   },
   linebelow: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
     justifyContent: 'center',
-    // top: Value.CONSTANT_VALUE_17,
   },
   linebelowFloat: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
-    // justifyContent: 'center',
-    // top: Value.CONSTANT_VALUE_6,
   },
   red: {color: 'red'},
   left: {left: '90%'},

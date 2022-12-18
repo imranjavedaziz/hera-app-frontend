@@ -86,16 +86,16 @@ const Main = () => {
       auth?.role_id,
       auth?.registration_step,
     );
-    if (path !== Routes.Landing && auth?.role_id === Value.CONSTANT_VALUE_2 && !statusFetched) {
+    if (path !== Routes.Landing && auth?.role_id === Value.CONSTANT_VALUE_2 && !statusFetched && (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)) {
       setStatusFetched(true);
       dispatch(getSubscriptionStatus());
     }
+    const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
       if (
         !subscriptionStatus?.data.status && !toastShowed &&
         parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&
-        ((register_user_success && parseInt(auth?.registration_step) > Value.CONSTANT_VALUE_3) ||
-          (!register_user_success && parseInt(auth?.registration_step) >= Value.CONSTANT_VALUE_3))
+        (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)
       ) {
         setToastShowed(true);
         dispatch(
