@@ -1,6 +1,13 @@
 // Dropdown
 import React, {useEffect, useState} from 'react';
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Colors from '../../constants/Colors';
 import Images from '../../constants/Images';
@@ -61,7 +68,7 @@ const Dropdown = ({
   const STYLE_TWO = {
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_0,
-    bottom: Value.CONSTANT_VALUE_0,
+    bottom: Value.CONSTANT_VALUE_10,
     zIndex: Value.CONSTANT_VALUE_2,
   };
   const IOSfloated = {
@@ -95,40 +102,64 @@ const Dropdown = ({
                 setCome(false);
                 setFocused(true);
               }}>
-              <View style={styles.marginBottom}>
-                <Text
-                  style={STYLE_CONDITION_THREE}
-                  accessible={true}
-                  accessibilityLabel={label}>
-                  {label}
-                  {required && (
-                    <Text style={[styles.label, styles.red]}>*</Text>
+              <View style={[{height: 60, justifyContent: 'space-between'}]}>
+                {value ? (
+                  <View>
+                    <Text
+                      style={IOSfloated}
+                      accessible={true}
+                      accessibilityLabel={label}>
+                      {label}
+                      {required && (
+                        <Text style={[styles.label, styles.red]}>*</Text>
+                      )}
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
+
+                <Image source={Images.arrowDown} style={STYLE_CONDITION} />
+                <View>
+                  {value ? (
+                    <>
+                      {!heighter && !weight && value && (
+                        <Text
+                          style={[styles.buttonTextStyle]}
+                          numberOfLines={1}>
+                          {value?.name}
+                        </Text>
+                      )}
+                      {heighter && value && (
+                        <Text style={styles.buttonTextStyle} numberOfLines={1}>
+                          {parseInt(value?.name / 12)} ft {value?.name % 12} in
+                        </Text>
+                      )}
+                      {!heighter && weight && value && (
+                        <Text style={styles.buttonTextStyle} numberOfLines={1}>
+                          {value?.name + ' pounds'}
+                        </Text>
+                      )}
+                    </>
+                  ) : (
+                    <Text style={styles.buttonTextStyle} numberOfLines={1}>
+                      {label}
+                    </Text>
                   )}
-                </Text>
+
+                  <View
+                    style={[
+                      value ? styles.linebelowFloat : styles.linebelow,
+                      {
+                        borderBottomColor: error
+                          ? Colors.RED
+                          : Colors.INPUT_BORDER,
+                      },
+                      isFocused && {borderBottomColor: Colors.SKY_BLUE},
+                    ]}
+                  />
+                </View>
               </View>
-              <Image source={Images.arrowDown} style={STYLE_CONDITION} />
-              {!heighter && !weight && value && (
-                <Text style={styles.buttonTextStyle} numberOfLines={1}>
-                  {value?.name}
-                </Text>
-              )}
-              {heighter && value && (
-                <Text style={styles.buttonTextStyle} numberOfLines={1}>
-                  {parseInt(value?.name / 12)} ft {value?.name % 12} in
-                </Text>
-              )}
-              {!heighter && weight && value && (
-                <Text style={styles.buttonTextStyle} numberOfLines={1}>
-                  {value?.name + ' pounds'}
-                </Text>
-              )}
-              <View
-                style={[
-                  value ? styles.linebelowFloat : styles.linebelow,
-                  {borderBottomColor: error ? Colors.RED : Colors.INPUT_BORDER},
-                  isFocused && {borderBottomColor: Colors.SKY_BLUE},
-                ]}
-              />
             </TouchableOpacity>
             <CustomPicker
               isVisible={isVisible}

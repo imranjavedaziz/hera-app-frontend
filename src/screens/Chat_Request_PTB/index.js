@@ -85,7 +85,7 @@ const Chat_Request = props => {
     />
   );
   return (
-    <View style={{backgroundColor: Colors.BACKGROUND}}>
+    <View style={{backgroundColor: Colors.BACKGROUND, flex: 1}}>
       <View style={{alignSelf: 'flex-end'}}>{headerComp()}</View>
       <ScrollView
         showsVerticalScrollIndicator={false}
