@@ -62,7 +62,7 @@ const Dropdown = ({
   const STYLE_ONE = {
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_0,
-    bottom: Value.CONSTANT_VALUE_10,
+    bottom: Value.CONSTANT_VALUE_0,
     zIndex: Value.CONSTANT_VALUE_2,
   };
   const STYLE_TWO = {
@@ -102,7 +102,7 @@ const Dropdown = ({
                 setCome(false);
                 setFocused(true);
               }}>
-              <View style={[{height: 40, justifyContent: 'space-between'}]}>
+              <View style={[{height: 50, justifyContent: 'space-between'}]}>
                 {value ? (
                   <View>
                     <Text
@@ -142,7 +142,7 @@ const Dropdown = ({
                       )}
                     </>
                   ) : (
-                    <Text style={styles.buttonTextStyle} numberOfLines={1}>
+                    <Text style={[styles.buttonTextStyle,{fontFamily: Fonts.OpenSansRegular}]} numberOfLines={1}>
                       {label}
                     </Text>
                   )}
@@ -154,6 +154,7 @@ const Dropdown = ({
                         borderBottomColor: error
                           ? Colors.RED
                           : Colors.INPUT_BORDER,
+                          marginTop:10
                       },
                       isFocused && {borderBottomColor: Colors.SKY_BLUE},
                     ]}
