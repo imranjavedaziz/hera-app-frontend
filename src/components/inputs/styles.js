@@ -117,7 +117,7 @@ export default {
     textVerticleAlignment: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     position: 'absolute',
-    bottom: -40,
+    bottom: -49,
     right: 0,
   },
   errMessageEdCheck: {
@@ -154,7 +154,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     marginHorizontal: Value.CONSTANT_VALUE_0,
-    width: Prencentage.PRECENTAGE_100,
+    width: Prencentage.PRECENTAGE_90,
   },
   linebelow: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
