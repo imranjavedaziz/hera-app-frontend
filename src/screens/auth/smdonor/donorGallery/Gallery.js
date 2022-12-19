@@ -36,6 +36,7 @@ import { BottomSheetComp, ModalMiddle } from '../../../../components';
 import { statusHide } from '../../../../utils/responsive';
 import ImageLoading from '../../../../components/ImageLoading';
 import _, { memoize } from 'lodash';
+const getImageSource = memoize((images) => images.map((image) => image))
 
 const counter = 0;
 const Gallery = () => {
@@ -302,9 +303,6 @@ const Gallery = () => {
     setIsVideo(true);
   };
   const [imageIndex, setImageIndex] = useState("")
-  console.log("LINE NUMBER 295", imageIndex, "images.length", images.length);
-  const getImageSource = memoize((images) => images.map((image) =>  image))
-  
   return (
     <>
       <Container
@@ -477,20 +475,20 @@ const Gallery = () => {
           <View style={[styles.root]}>
             <TouchableOpacity onPress={() => {
               if (!imageIndex < 1) {
-                setImgPreviewIndex(imgPreviewindex - 1)
+                setImgPreviewIndex(oldind => oldind - 1)
               }
             }}>
-              <Image source={Images.FAST_BACK} />
+              <Image source={Images.backCarousel} />
             </TouchableOpacity>
             <Text style={[styles.text, { color: '#fff' }]}>
               {`${imageIndex + 1}/${images.length}`}
             </Text>
             <TouchableOpacity onPress={() => {
-              // if (imageIndex !== images.length) {
-              //   setImgPreviewIndex(imgPreviewindex + 1)
-              // }
+              if (imgPreviewindex < images.length - 1) {
+                setImgPreviewIndex(oldind => oldind + 1)
+              }
             }}>
-              <Image source={Images.FAST_FRONT} />
+              <Image source={Images.frontCarousel} />
             </TouchableOpacity>
           </View>
         )}
