@@ -76,7 +76,6 @@ export default (state = initState, {type = '', payload = null} = {}) => {
         showMessageToast: false,
         isMessageErrToast: initState.isMessageErrToast,
         toastMessageText: initState.toastMessageText,
-        pushRes: initState.pushRes,
         push: initState.push,
         navigation: initState.navigation,
       };

@@ -1,4 +1,5 @@
 // Toast
+import {StackActions} from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -53,6 +54,7 @@ const styles = {
     borderRadius: Value.CONSTANT_VALUE_3,
   },
 };
+
 const MessageToast = ({message}) => {
   const toast = useToast();
   const dispatch = useDispatch();
@@ -93,11 +95,12 @@ const MessageToast = ({message}) => {
       }
     }
     if (toastState?.pushRes?.notify_type === 'chat') {
-      toastState?.navigation.push('ChatDetail', {
+      const popAction = StackActions.replace('ChatDetail', {
         item: toastState?.pushRes,
         isComingFrom: false,
         chatPush: true,
       });
+      toastState?.navigation.dispatch(popAction);
       toast.hide();
     }
     if (toastState?.pushRes?.notify_type === 'subscribe') {

@@ -80,7 +80,6 @@ const PtbDashboard = props => {
   }, []);
 
   const [msgRead, setMsgRead] = useState(false);
-console.log(subscriptionStatus,'subscriptionStatus');
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
