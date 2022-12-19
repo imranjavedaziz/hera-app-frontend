@@ -12,7 +12,7 @@ export default {
     height: dynamicSize(Value.CONSTANT_VALUE_104),
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     backgroundColor: Colors.SEARCH_BOX,
-    marginBottom: dynamicSize(Value.CONSTANT_VALUE_15),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
     alignItems: Alignment.CENTER,
   },
   mainText: {

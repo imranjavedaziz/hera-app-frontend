@@ -34,7 +34,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    bottom: px(45),
+    bottom: px(58),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -77,7 +77,6 @@ export default {
     color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
-    marginHorizontal: Value.CONSTANT_VALUE_40,
   },
   likeButton: {
     height: scaleWidth(Value.CONSTANT_VALUE_130),

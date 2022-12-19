@@ -46,7 +46,7 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_50,
   },
   payButton: {
-    marginTop: dynamicSize(26),
+    marginTop: dynamicSize(20),
     marginBottom: Value.CONSTANT_VALUE_30,
     backgroundColor: Colors.COLOR_163198196,
     textAlign: Alignment.CENTER,
@@ -68,7 +68,7 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_5,
   },
   commitment: {
-    bottom: Value.CONSTANT_VALUE_10,
+    bottom: Value.CONSTANT_VALUE_20,
   },
   txting: (font,padd) => ({ color: "#fff", fontSize: 15, letterSpacing: 0, fontFamily: font, paddingLeft: dynamicSize(padd) }),
   blueContain: {
