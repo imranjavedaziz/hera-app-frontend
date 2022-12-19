@@ -42,6 +42,7 @@ import { Value } from '../../../../constants/FixedValues';
 
 const Subscription = props => {
   const navigation = useNavigation();
+  const [androidPlans,setAndroidPlans] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
@@ -63,7 +64,14 @@ const Subscription = props => {
   const subscriptionStatus = useSelector(
     state => state.Subscription?.subscription_status_res,
   );
-
+  const getSubscription = async() => {
+    try {
+      const Products = await RNIap.getSubscriptions({skus:['hera_monthly']});
+      setAndroidPlans(Products);
+    } catch (err) {
+      console.log('getSubscription err',err);
+    }
+  };
   React.useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
@@ -145,10 +153,10 @@ const Subscription = props => {
     console.log('LINE NUMBER 143 PAYLOAD', payload);
     dispatch(createSubscription(payload));
   };
-
   React.useEffect(async () => {
     IAPService.initializeConnection();
     const allProducts = await IAPService.getIAPProducts();
+    await getSubscription();
     console.log('ALL PRODUCT ID LINE NO 127', allProducts);
     return () => {
       IAPService.endIAPConnection();
@@ -182,23 +190,40 @@ const Subscription = props => {
           item,
           selectCheckBox?.ios_product,
         );
-        dispatch(
-          showAppToast(true, 'Please uploaded updated build on Playstore'),
+        requestSubscriptionAndroid(
+          selectCheckBox?.android_product,
+          // 'hera_monthly',
+          selectCheckBox,
+          type,
         );
       }
     }
   };
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
-    try {
-      await RNIap.requestPurchase({sku})
-        .then(async result => {})
-        .catch(err => {
-          console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
-        });
-    } catch (error) {
-      console.warn(`err ${error.code}`, error.message);
-    }
+    const selectedAndroidPlan = androidPlans.find(plan=>{
+      return plan.productId === sku;
+    })
+    const subscriptionOffers = {subscriptionOffers: [{sku,offerToken: selectedAndroidPlan.subscriptionOfferDetails[0].offerToken}]}
+    RNIap.requestSubscription({sku,...subscriptionOffers},subscriptionOffers.subscriptionOffers)
+    .then(async result => {
+      console.log('android purchase',result);
+      const receipt = result.transactionReceipt;
+      if (receipt) {
+        try {
+          setPurchaseReceipt(result);
+          setCallApi(true);
+          RNIap.acknowledgePurchaseAndroid({token: result.purchaseToken});
+          await RNIap.finishTransaction({result, isConsumable: true});
+        } catch (ackErr) {
+          console.log('ERROR LINE NO 101', ackErr);
+        }
+      }
+    })
+    .catch(err => {
+      console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
+    })
+    .finally(()=>dispatch(hideAppLoader()))
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
     RNIap.requestSubscription({sku})
@@ -221,6 +246,7 @@ const Subscription = props => {
         dispatch(showAppToast(true, err.message));
       });
   };
+  console.log('subscriptionPlan?.data',subscriptionPlan?.data);
   const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY')
   return (
     <>

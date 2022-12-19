@@ -1,4 +1,4 @@
-package com.mbc;
+package com.makingbabyconnetiondev;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
