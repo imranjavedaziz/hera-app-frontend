@@ -77,7 +77,8 @@ const MessageToast = ({message}) => {
   }, [toastState.showToast]);
   const NavigationThreads = () => {
     if (toastState?.pushRes?.notify_type === 'profile') {
-      if (toastState?.pushRes?.match_reques?.status === 2) {
+      const {status} = JSON.parse(toastState?.pushRes?.match_request);
+      if (status === 2) {
         toastState?.navigation.navigate(Routes.ChatDetail, {
           item: toastState?.pushRes,
           isComingFrom: false,

@@ -59,6 +59,7 @@ const ChatDetail = props => {
   useEffect(() => {
     console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
+    console.log(props?.route?.params?.item,'NavigateUserProps');
     dispatch(getMessageID(parseInt(paramItem?.recieverId)));
     console.log(user.role_id, 'user.role_id3');
     console.log(paramItem.currentRole, 'paramItem.currentRole2');

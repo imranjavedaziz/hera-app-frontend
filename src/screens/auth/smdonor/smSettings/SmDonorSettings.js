@@ -78,6 +78,7 @@ const SmDonorSettings = () => {
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
   const {Device_ID} = useContext(NotificationContext);
+  console.log(Device_ID,'Device_ID');
   const LogoutLoadingRef = useRef(false);
   const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
