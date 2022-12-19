@@ -277,6 +277,7 @@ const EditProfile = props => {
         a = a + get_user_detail_res.phone_no[i];
       }
     }
+    setValue('phone', a);
     const sexual_orientations_id =
       get_profile_setter_res?.sexual_orientation.find(obj => {
         return (
@@ -312,6 +313,7 @@ const EditProfile = props => {
     setValue('relationship_status_id', relationship_status_id);
   };
   const onSubmit = data => {
+    console.log(data?.phone, 'data?.phone');
     dispatch(showAppLoader());
     const payload = {
       bio: data?.bio,
