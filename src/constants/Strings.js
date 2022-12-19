@@ -113,6 +113,7 @@ export default {
     VERIFY: 'VERIFY',
     SEND_VERIFY: 'SEND VERIFICATION CODE',
     mainTitle: 'Before we proceed,\n please verify your number',
+    NEXT: 'NEXT',
   },
   forgotPassword: {
     forgot: 'FORGOT PASSWORD?',
@@ -501,6 +502,26 @@ export default {
     DiscardEditDisc: 'If you cancel now, your edits will not\n be saved.',
   },
 
+  // WalkThrough Screens
+  WALKTHROUGH: {
+    NEXT: 'NEXT',
+    DONE: 'DONE',
+    SELECT: 'Select',
+    HEART_LIKE: 'heart to like or',
+    REJECT_NEXT: 'reject and go to next profile.',
+    FIND_MATCH: 'Find a Match!',
+    MATCH_CONTENT:
+      'Go through the details of the profile, and if they seem good, just send a like and wait for them to match with you!',
+    LOOKING_SM: 'Looking for a Surrogate Mother/Sperm Donor/Egg Donor?',
+    YOUR_PREFERENCE: 'Set your Preference',
+    PREFERENCE_CONTENT:
+      'Set your preferred criteria to search for a Surrogate Mother or Sperm Donor or Egg Donor. Chances are that you will match!',
+    SUBSCRIPTION:
+      'With a subscription, Intended Parents can send a like to match and connect on chat!',
+    CONNECT: 'Connect with your Match',
+    CONNECT_CONTENT:
+      'If the profiles that you liked, like you back, they become a match. You can chat only with a match.',
+  },
   //Report User
   ReportUser: {
     Report_this_User: 'Report this User?',

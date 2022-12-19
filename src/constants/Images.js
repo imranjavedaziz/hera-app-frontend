@@ -96,6 +96,9 @@ export default {
   groupLike: require('../assets/icons/groupLike/groupLike.png'),
   no_internet: require('../assets/Images/no_internet/no_internet.png'),
   starGreen: require('../assets/icons/starGreen/starGreen.png'),
+  WALKTHROUGH1: require('../assets/Images/walkThrough1/group3.png'),
+  WALKTHROUGH2: require('../assets/Images/walkThrough2/group.png'),
+  WALKTHROUGH3: require('../assets/Images/walkThrough3/group.png'),
   frontCarousel: require('../assets/icons/frontCarousel/frontCarousel.png'),
   backCarousel: require('../assets/icons/backCarousel/backCarousel.png'),
 };
