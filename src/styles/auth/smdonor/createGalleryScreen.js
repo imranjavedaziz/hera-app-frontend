@@ -162,4 +162,11 @@ export default {
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
+  root: {
+    bottom: 150,
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    marginHorizontal: Value.CONSTANT_VALUE_30,
+    alignItems: 'center',
+  },
 };
