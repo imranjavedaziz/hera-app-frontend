@@ -107,10 +107,8 @@ const Subscription = props => {
         dispatch(getSubscriptionStatus());
         setCallApi(false);
         setSelectCheckBox(null);
-        if (subscription_status_success) {
-          dispatch(hideAppLoader());
-          props.navigation.goBack();
-        }
+        dispatch(hideAppLoader());
+        props.navigation.goBack();
       }
       dispatch(hideAppLoader());
     }
