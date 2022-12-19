@@ -177,14 +177,19 @@ const OTP = ({route}) => {
       keyboardDidShowListener.remove();
     };
   }, []);
+  const BackHandler = () => {
+    if (route?.params?.type === 3) {
+      navigation.goBack();
+    } else {
+      dispatch(resetMobile());
+      navigation.goBack();
+    }
+  };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconBack}
       Fixedstyle={styles.leftIcon}
-      onPress={() => {
-        dispatch(resetMobile());
-        navigation.goBack();
-      }}
+      onPress={() => BackHandler()}
       accessibilityLabel="Left arrow Button, Press to go back"
     />
   );
