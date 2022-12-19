@@ -7,8 +7,8 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useState, useEffect, useRef,useCallback} from 'react';
+import {useNavigation, useRoute,useFocusEffect} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import Header, {IconHeader} from '../../../components/Header';
 import Strings from '../../../constants/Strings';
@@ -78,18 +78,24 @@ const PTB_profile = props => {
   const {
     params: {userid},
   } = useRoute();
-  useEffect(() => {
-    dispatch(showAppLoader());
-    dispatch(getPtbProfileDetail(userid));
-  }, [dispatch, userid]);
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(showAppLoader());
+      dispatch(getPtbProfileDetail(userid));
+    }, [dispatch, userid]),
+  );
   const navigation = useNavigation();
-  console.log(props?.route?.params, 'props?.route?.params?.coming');
+  console.log(stateRes,'stateRes')
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={() => {
         if (props?.route?.params?.coming === true) {
-          navigation.goBack();
+          if (stateRes?.profile_match_request?.status === 2) {
+            navigation.navigate(Routes.ChatDetail, {item: stateRes?.profile_match_chat});
+          } else {
+            navigation.goBack();
+          }
         } else {
           navigation.navigate(Routes.SmDashboard);
         }

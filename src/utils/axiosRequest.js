@@ -56,7 +56,7 @@ axiosRequest.interceptors.response.use(
       store.dispatch(updateSubscriptionStatus(0));
       return Promise.reject(error);
     }
-    else if (error.response.status === 401 && !Boolean(originalRequest._retry)) {
+    else if (error.response.status === 401 && originalRequest._retry===false) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       store.dispatch(updateToken(tokenRes.data.token));
       // get access token from refresh token and retry

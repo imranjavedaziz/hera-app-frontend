@@ -20,33 +20,36 @@ import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
-import { IconHeader } from '../../../../components/Header';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { getRoleType } from '../../../../utils/other';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPtbDashboard } from '../../../../redux/actions/PtbDashboard';
+import {IconHeader} from '../../../../components/Header';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {getRoleType} from '../../../../utils/other';
+import {useDispatch, useSelector} from 'react-redux';
+import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
 import {
   showAppLoader,
   hideAppLoader,
   showAppToast,
+  showMessageAppToast,
 } from '../../../../redux/actions/loader';
-import { Routes } from '../../../../constants/Constants';
-import { deviceHandler } from '../../../../utils/commonFunction';
-import { MaterialIndicator } from 'react-native-indicators';
+import {Routes} from '../../../../constants/Constants';
+import {deviceHandler} from '../../../../utils/commonFunction';
+import {MaterialIndicator} from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
 import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
-import { NotificationContext } from '../../../../context/NotificationContextManager';
-import { profileMatch } from '../../../../redux/actions/Profile_Match';
+import {NotificationContext} from '../../../../context/NotificationContextManager';
+import {profileMatch} from '../../../../redux/actions/Profile_Match';
 import PushNotification from 'react-native-push-notification';
 import messaging from '@react-native-firebase/messaging';
 import _ from 'lodash';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import { dynamicSize, scaleWidth } from '../../../../utils/responsive';
+import {dynamicSize, scaleWidth} from '../../../../utils/responsive';
 import chatHistory from '../../../../hooks/chatHistory';
 import {getSubscriptionStatus} from '../../../../redux/actions/Subsctiption';
 import NoInternet from '../../../../components/NoInternet/NoInternet';
 import NetInfo from '@react-native-community/netinfo';
+import {useToast} from 'react-native-toast-notifications';
+import {getMessageID} from '../../../../redux/actions/MessageId';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -61,10 +64,12 @@ const PtbDashboard = props => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
-  const { fcmToken } = useContext(NotificationContext);
+  const {fcmToken} = useContext(NotificationContext);
   const [empty, setEmpty] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const messageIdRx = useSelector(state => state.MessageId);
+  const toast = useToast();
   const [disable, setDisable] = useState(false);
 
   const subscriptionStatus = useSelector(
@@ -77,7 +82,6 @@ const PtbDashboard = props => {
   }, []);
 
   const [msgRead, setMsgRead] = useState(false);
-
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -105,7 +109,16 @@ const PtbDashboard = props => {
       setCardIndex(0);
     }, [dispatch]),
   );
-  console.log("LINE NUMBER 98", get_ptb_dashboard_res);
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
+
+  console.log('LINE NUMBER 98', get_ptb_dashboard_res);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -116,12 +129,18 @@ const PtbDashboard = props => {
       },
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
+        const {recieverId} = notification?.data;
+        const showNotification =
+          messageIdRx?.messageIdRx === parseInt(recieverId);
+        console.log(messageIdRx, 'messageIdRxPush');
+        console.log(recieverId, 'recieverIsd');
+        console.log(showNotification, 'showNotification');
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'subscribe') {
             navigation.navigate(Routes.PtbProfile);
           }
           if (notification.data.notify_type === 'profile') {
-            const { status } = JSON.parse(notification.data?.match_request);
+            const {status} = JSON.parse(notification.data?.match_request);
             if (status === 2) {
               navigation.navigate(Routes.ChatDetail, {
                 item: notification?.data,
@@ -144,6 +163,31 @@ const PtbDashboard = props => {
             });
           }
         }
+        if (notification.userInteraction === false) {
+          if (
+            showNotification === true &&
+            notification.data.notify_type === 'chat'
+          ) {
+            return null;
+          } else {
+            toast.show(notification.title, {
+              type: 'custom',
+              placement: 'top',
+              duration: 2000,
+              offset: 30,
+              animationType: 'slide-in',
+            });
+            dispatch(
+              showMessageAppToast(
+                true,
+                notification.title,
+                true,
+                notification.data,
+                navigation,
+              ),
+            );
+          }
+        }
         console.log('NOTIFICATION2nd:', notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
@@ -163,13 +207,13 @@ const PtbDashboard = props => {
       requestPermissions: true,
     });
     messaging().onNotificationOpenedApp(remoteMessage => {
-      const { notification } = remoteMessage;
+      const {notification} = remoteMessage;
       if (notification.userInteraction === true) {
         if (notification.data.notify_type === 'subscribe') {
           navigation.navigate(Routes.PtbProfile);
         }
         if (notification.data.notify_type === 'profile') {
-          const { status } = JSON.parse(notification.data?.match_request);
+          const {status} = JSON.parse(notification.data?.match_request);
           if (status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: notification?.data,
@@ -192,7 +236,7 @@ const PtbDashboard = props => {
         }
       }
     });
-  }, [fcmToken, navigation]);
+  }, [fcmToken, navigation, messageIdRx]);
 
   const {
     get_ptb_dashboard_success,
@@ -306,7 +350,7 @@ const PtbDashboard = props => {
           code={item?.user?.username}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
-          image={{ uri: item?.user?.profile_pic }}
+          image={{uri: item?.user?.profile_pic}}
           fadeAnim={fadeAnim}
           isVisibleLogo={index + 1 === cardIndex ? isVisibleLogo : false}
           has_happen={islikedLogo}
@@ -334,11 +378,11 @@ const PtbDashboard = props => {
       rightIcon={Images.iconChat}
       chatptb={msgRead === true ? true : false}
       rightPress={() =>
-        navigation.navigate(Routes.Chat_Listing, { ptbChat: true })
+        navigation.navigate(Routes.Chat_Listing, {ptbChat: true})
       }
       ApiImage={true}
       rightPrevIcon={Images.I_BUTTON}
-      rightImg={{ marginRight: scaleWidth(18) }}
+      rightImg={{marginRight: scaleWidth(18)}}
       rightPrevPress={() => setModalVisible(!modalVisible)}
     />
   );
@@ -380,7 +424,7 @@ const PtbDashboard = props => {
               <TouchableOpacity
                 onPress={() => {
                   if (subscriptionStatus?.data?.status) {
-                    setDisable(!disable)
+                    setDisable(!disable);
                     setIsVisibleLogo(true);
                     setIslikedLogo('disliked');
                     handleOnSwipedLeft();
@@ -405,7 +449,10 @@ const PtbDashboard = props => {
                   if (subscriptionStatus?.data?.status) {
                     if (ptbDashboardRes?.match_request?.status === 2) {
                       dispatch(
-                        showAppToast(false, Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE),
+                        showAppToast(
+                          false,
+                          Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
+                        ),
                       );
                     } else {
                       dispatch(
@@ -415,7 +462,7 @@ const PtbDashboard = props => {
                         ),
                       );
                     }
-                    setDisable(!disable)
+                    setDisable(!disable);
                     setIsVisibleLogo(true);
                     setIslikedLogo('liked');
                     handleOnSwipedRight();

@@ -16,8 +16,8 @@ import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
 import {showAppToast} from '../../redux/actions/loader';
-import {clearMessageID} from '../../redux/actions/MessageId';
-import { getSubscriptionStatus } from '../../redux/actions/Subsctiption';
+import {getMessageID} from '../../redux/actions/MessageId';
+import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 
 const ChatListing = () => {
   const navigation = useNavigation();
@@ -37,9 +37,17 @@ const ChatListing = () => {
     deviceHandler(navigation, 'deviceGoBack');
   }, []);
   useEffect(() => {
-    dispatch(clearMessageID());
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
+  // expected output: true
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard);

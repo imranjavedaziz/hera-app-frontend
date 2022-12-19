@@ -1,20 +1,16 @@
-import {MESSAGE_ID_DETAIL, MESSAGE_ID_DETAIL_CLEAR} from '../Type';
+import {MESSAGE_ID_DETAIL} from '../Type';
 
 const INITIAL = {
-  messageIdRx: [],
+  messageIdRx: '',
 };
 
 export default (state = INITIAL, action) => {
+  console.log(action.type === MESSAGE_ID_DETAIL, 'messageIdRxLoggg');
+  console.log(action.payload?.data, 'messageIdRxLoggg');
   if (action.type === MESSAGE_ID_DETAIL) {
     return {
       ...state,
-      messageIdRx: action.payload,
-    };
-  }
-  if (action.type === MESSAGE_ID_DETAIL_CLEAR) {
-    return {
-      ...state,
-      messageIdRx: INITIAL.messageIdRx,
+      messageIdRx: action.payload?.data,
     };
   } else {
     return state;
