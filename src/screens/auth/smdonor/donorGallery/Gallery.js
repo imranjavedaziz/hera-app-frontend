@@ -35,7 +35,7 @@ import FastImage from 'react-native-fast-image';
 import { BottomSheetComp, ModalMiddle } from '../../../../components';
 import { statusHide } from '../../../../utils/responsive';
 import ImageLoading from '../../../../components/ImageLoading';
-import _ from 'lodash';
+import _, { memoize } from 'lodash';
 
 const counter = 0;
 const Gallery = () => {
@@ -303,6 +303,8 @@ const Gallery = () => {
   };
   const [imageIndex, setImageIndex] = useState("")
   console.log("LINE NUMBER 295", imageIndex, "images.length", images.length);
+  const getImageSource = memoize((images) => images.map((image) =>  image))
+  
   return (
     <>
       <Container
@@ -466,7 +468,7 @@ const Gallery = () => {
         }}
       />
       <ImageView
-        images={images}
+        images={getImageSource(images)}
         imageIndex={imgPreviewindex}
         visible={visible}
         onRequestClose={() => setIsVisible(false)}
