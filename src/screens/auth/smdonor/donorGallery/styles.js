@@ -1,5 +1,5 @@
-import {Value} from '../../../../constants/FixedValues';
-import {Fonts} from '../../../../constants/Constants';
+import { Value } from '../../../../constants/FixedValues';
+import { Fonts } from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import Alignment from '../../../../constants/Alignment';
 
