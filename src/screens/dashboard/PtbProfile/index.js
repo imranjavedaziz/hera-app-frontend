@@ -13,19 +13,19 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import Header, { IconHeader } from '../../../components/Header';
+import Header, {IconHeader} from '../../../components/Header';
 import Images from '../../../constants/Images';
 import styles from './style';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
-import Strings, { ValidationMessages } from '../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Subscribe, {
   Subscribed,
 } from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount, {
   ToggleNotification,
 } from '../../../components/dashboard/PtbProfile/PtbAccount';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   logOut,
   updateName,
@@ -38,21 +38,23 @@ import {
   PRIVACY_URL,
 } from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
-import { askCameraPermission } from '../../../utils/permissionManager';
+import {askCameraPermission} from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
-import { BottomSheetComp, ModalMiddle } from '../../../components';
-import { getEditProfile } from '../../../redux/actions/Edit_profile';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
+import {getEditProfile} from '../../../redux/actions/Edit_profile';
 import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import { getUserGallery } from '../../../redux/actions/CreateGallery';
+import {getUserGallery} from '../../../redux/actions/CreateGallery';
 import openWebView from '../../../utils/openWebView';
-import { empty } from '../../../redux/actions/Chat';
-import { NotificationContext } from '../../../context/NotificationContextManager';
+import {empty} from '../../../redux/actions/Chat';
+import {NotificationContext} from '../../../context/NotificationContextManager';
 import moment from 'moment';
-import { getSubscriptionStatus } from '../../../redux/actions/Subsctiption';
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
+import _ from 'lodash';
+import { getMessageID } from '../../../redux/actions/MessageId';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -79,10 +81,10 @@ const PtbProfile = () => {
     get_user_detail_loading,
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
-  const { gallery_success, gallery_loading, gallery_data } = useSelector(
+  const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
-  const { Device_ID } = useContext(NotificationContext);
+  const {Device_ID} = useContext(NotificationContext);
   useFocusEffect(
     useCallback(() => {
       dispatch(getEditProfile());
@@ -91,9 +93,17 @@ const PtbProfile = () => {
     }, [dispatch]),
   );
   const LogoutLoadingRef = useRef(false);
-  const { log_out_success, log_out_loading, log_out_error_msg } = useSelector(
+  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
   );
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -192,7 +202,7 @@ const PtbProfile = () => {
   }, [log_out_success, log_out_loading]);
 
   useEffect(() => {
-    return navigation.addListener('focus', () => { });
+    return navigation.addListener('focus', () => {});
   }, [navigation]);
   useEffect(() => {
     const reqData = new FormData();
@@ -206,7 +216,11 @@ const PtbProfile = () => {
   }, [file, dispatch]);
   const logoutScreen = () => {
     dispatch(empty());
-    dispatch(logOut(Device_ID));
+    if (_.isEmpty(Device_ID) || Device_ID === undefined) {
+      dispatch(showAppToast(true, 'Please try to logout again.'));
+    } else {
+      dispatch(logOut(Device_ID));
+    }
   };
   const videoAvaible = () => {
     if (
@@ -235,7 +249,9 @@ const PtbProfile = () => {
     ]);
     return true;
   };
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY')
+  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format(
+    'MMM DD, YYYY',
+  );
   const trialVar = subscriptionStatus?.data?.is_trial;
   return (
     <>
@@ -251,11 +267,13 @@ const PtbProfile = () => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={`${name?.first_name === undefined ? first_name : name?.first_name
-                  } ${middle_name === null || middle_name === undefined
+                Name={`${
+                  name?.first_name === undefined ? first_name : name?.first_name
+                } ${
+                  middle_name === null || middle_name === undefined
                     ? ''
                     : middle_name
-                  }`}
+                }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
@@ -267,21 +285,35 @@ const PtbProfile = () => {
             </View>
             <View>
               {typeof subscriptionStatus === 'object' &&
-                typeof subscriptionStatus.data === 'object' &&
-                Boolean(subscriptionStatus.data?.status) &&
-                !subscriptionStatus.data?.is_trial ? <Subscribed /> : (
+              typeof subscriptionStatus.data === 'object' &&
+              Boolean(subscriptionStatus.data?.status) &&
+              !subscriptionStatus.data?.is_trial ? (
+                <Subscribed />
+              ) : (
                 <Subscribe
-                  Icon={trialVar && subscriptionStatus.data?.status  ? Images.starGreen : Images.STAR}
-                  MainText={trialVar  && subscriptionStatus.data?.status ? Strings?.subscribe.Free : Strings.subscribe.Subscribe_Now}
-                  InnerText={trialVar  && subscriptionStatus.data?.status ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}` : Strings.subscribe.Plans}
-                  is_trial={trialVar && subscriptionStatus.data?.status} 
+                  Icon={
+                    trialVar && subscriptionStatus.data?.status
+                      ? Images.starGreen
+                      : Images.STAR
+                  }
+                  MainText={
+                    trialVar && subscriptionStatus.data?.status
+                      ? Strings?.subscribe.Free
+                      : Strings.subscribe.Subscribe_Now
+                  }
+                  InnerText={
+                    trialVar && subscriptionStatus.data?.status
+                      ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}`
+                      : Strings.subscribe.Plans
+                  }
+                  is_trial={trialVar && subscriptionStatus.data?.status}
                 />
               )}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
                 onPress={() =>
-                  navigation.navigate('SetPreference', { EditPreferences: true })
+                  navigation.navigate('SetPreference', {EditPreferences: true})
                 }
               />
               <PtbAccount

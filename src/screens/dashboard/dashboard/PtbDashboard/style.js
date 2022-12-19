@@ -101,4 +101,5 @@ export default {
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
   },
+  disableing:{ backgroundColor: Colors.CLEAR, width: '100%', height: "100%", position: Alignment.ABSOLUTE }
 };

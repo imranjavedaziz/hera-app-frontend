@@ -1,5 +1,5 @@
 //Donor gallery
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Text,
   View,
@@ -9,7 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import globalStyle from '../../../../styles/global';
@@ -20,23 +20,23 @@ import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../../styles/auth/smdonor/createGalleryScreen';
 import style from './styles';
 import User from '../../../../Api/User';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   getUserGallery,
   deleteGallery,
 } from '../../../../redux/actions/CreateGallery';
 import ImageView from 'react-native-image-viewing';
-import {CircleBtn} from '../../../../components/Header';
-import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import { CircleBtn } from '../../../../components/Header';
+import { hideAppLoader, showAppLoader } from '../../../../redux/actions/loader';
 import VideoUploading from '../../../../components/VideoUploading';
 import RNSDWebImage from 'react-native-sdwebimage';
 import ActionSheet from 'react-native-actionsheet';
 import FastImage from 'react-native-fast-image';
-import {BottomSheetComp, ModalMiddle} from '../../../../components';
-import {statusHide} from '../../../../utils/responsive';
+import { BottomSheetComp, ModalMiddle } from '../../../../components';
+import { statusHide } from '../../../../utils/responsive';
 import ImageLoading from '../../../../components/ImageLoading';
+import _, { memoize } from 'lodash';
 
-const images = [];
 const counter = 0;
 const Gallery = () => {
   const userService = User();
@@ -48,15 +48,15 @@ const Gallery = () => {
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const [gallery, setGallery] = useState([
-    {id: 0, uri: '', loading: false},
-    {id: 1, uri: '', loading: false},
-    {id: 2, uri: '', loading: false},
-    {id: 3, uri: '', loading: false},
-    {id: 4, uri: '', loading: false},
-    {id: 5, uri: '', loading: false},
+    { id: 0, uri: '', loading: false },
+    { id: 1, uri: '', loading: false },
+    { id: 2, uri: '', loading: false },
+    { id: 3, uri: '', loading: false },
+    { id: 4, uri: '', loading: false },
+    { id: 5, uri: '', loading: false },
   ]);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({file_url: '', loading: false, id: 0});
+  const [video, setVideo] = useState({ file_url: '', loading: false, id: 0 });
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
@@ -67,6 +67,8 @@ const Gallery = () => {
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
   const [loadScreen, setLoadScreen] = useState(true);
+  const [images, _setImages] = useState([]);
+
   const videoRef = useRef();
   const {
     gallery_success,
@@ -125,7 +127,7 @@ const Gallery = () => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
           if (i === gIndex) {
-            return {id: i, uri: img.uri, loading};
+            return { id: i, uri: img.uri, loading };
           }
           return img;
         });
@@ -144,10 +146,10 @@ const Gallery = () => {
   const selectVideo = index => {
     videoPicker(index).then(v => {
       if (v?.path) {
-        setVideo({file_url: v.path, loading: false});
+        setVideo({ file_url: v.path, loading: false });
         setOpen(false);
       } else {
-        setVideo({file_url: '', loading: false});
+        setVideo({ file_url: '', loading: false });
         setOpen(false);
       }
 
@@ -159,7 +161,7 @@ const Gallery = () => {
         uri: v.path,
       });
       userService.createGallery(reqData, loading =>
-        setVideo(old => ({...old, loading})),
+        setVideo(old => ({ ...old, loading })),
       );
     });
   };
@@ -212,7 +214,7 @@ const Gallery = () => {
       setRmvVideoCount(0);
       setSelVideo(false);
     } else {
-      let payload = {ids: remove?.join()};
+      let payload = { ids: remove?.join() };
       dispatch(showAppLoader());
       dispatch(deleteGallery(payload));
       setDel(false);
@@ -225,18 +227,26 @@ const Gallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
       gallery_data?.doner_photo_gallery.map((item, i) => {
-        return item;
+        if (!images.includes(item)) {
+          return item;
+        } else {
+          return null;
+        }
       });
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
-          return {id: url[i]?.id, uri: url[i]?.file_url, loading: false};
+          return { id: url[i]?.id, uri: url[i]?.file_url, loading: false };
         }
-        return {id: i, uri: '', loading: false};
+        return { id: i, uri: '', loading: false };
       });
     });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({uri: url[i]?.file_url});
+      if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
+        return null
+      } else {
+        _setImages([...url].map(e => { return { uri: e.file_url } }));
+      }
     }
     if (url?.length === undefined) {
       setGIndex(0);
@@ -291,6 +301,10 @@ const Gallery = () => {
     setOpen(true);
     setIsVideo(true);
   };
+  const [imageIndex, setImageIndex] = useState("")
+  console.log("LINE NUMBER 295", imageIndex, "images.length", images.length);
+  const getImageSource = memoize((images) => images.map((image) =>  image))
+  
   return (
     <>
       <Container
@@ -298,7 +312,7 @@ const Gallery = () => {
         headerEnd={false}
         headerComp={headerComp}
         style={style.containerStyle}>
-        <View style={[globalStyle.mainContainer, {marginTop: statusHide(105)}]}>
+        <View style={[globalStyle.mainContainer, { marginTop: statusHide(105) }]}>
           {loadScreen === false && (
             <>
               <Text style={globalStyle.screenTitle}>
@@ -396,7 +410,7 @@ const Gallery = () => {
                         ? deleteAction()
                         : setShowModal(true);
                     }}>
-                    <Image source={Images.trashRed} style={{}} />
+                    <Image source={Images.trashRed} />
                     <Text style={styles.rmvText}>Remove From Gallery</Text>
                   </TouchableOpacity>
                 </View>
@@ -454,10 +468,32 @@ const Gallery = () => {
         }}
       />
       <ImageView
-        images={images}
+        images={getImageSource(images)}
         imageIndex={imgPreviewindex}
         visible={visible}
         onRequestClose={() => setIsVisible(false)}
+        onImageIndexChange={(index) => setImageIndex(index)}
+        FooterComponent={() => (
+          <View style={[styles.root]}>
+            <TouchableOpacity onPress={() => {
+              if (!imageIndex < 1) {
+                setImgPreviewIndex(imgPreviewindex - 1)
+              }
+            }}>
+              <Image source={Images.FAST_BACK} />
+            </TouchableOpacity>
+            <Text style={[styles.text, { color: '#fff' }]}>
+              {`${imageIndex + 1}/${images.length}`}
+            </Text>
+            <TouchableOpacity onPress={() => {
+              // if (imageIndex !== images.length) {
+              //   setImgPreviewIndex(imgPreviewindex + 1)
+              // }
+            }}>
+              <Image source={Images.FAST_FRONT} />
+            </TouchableOpacity>
+          </View>
+        )}
       />
     </>
   );

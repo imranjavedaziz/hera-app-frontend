@@ -86,10 +86,6 @@ const Main = () => {
       auth?.role_id,
       auth?.registration_step,
     );
-    if (path !== Routes.Landing && auth?.role_id === Value.CONSTANT_VALUE_2 && !statusFetched && (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)) {
-      setStatusFetched(true);
-      dispatch(getSubscriptionStatus());
-    }
     const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
       if (
