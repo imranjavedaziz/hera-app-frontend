@@ -35,8 +35,8 @@ import FastImage from 'react-native-fast-image';
 import { BottomSheetComp, ModalMiddle } from '../../../../components';
 import { statusHide } from '../../../../utils/responsive';
 import ImageLoading from '../../../../components/ImageLoading';
+import _ from 'lodash';
 
-const images = [];
 const counter = 0;
 const Gallery = () => {
   const userService = User();
@@ -67,6 +67,8 @@ const Gallery = () => {
   const [isVideo, setIsVideo] = useState(false);
   const [selVideo, setSelVideo] = useState(false);
   const [loadScreen, setLoadScreen] = useState(true);
+  const [images, _setImages] = useState([]);
+
   const videoRef = useRef();
   const {
     gallery_success,
@@ -225,7 +227,11 @@ const Gallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
       gallery_data?.doner_photo_gallery.map((item, i) => {
-        return item;
+        if (!images.includes(item)) {
+          return item;
+        } else {
+          return null;
+        }
       });
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
@@ -236,7 +242,11 @@ const Gallery = () => {
       });
     });
     for (let i = 0; i < url?.length; ++i) {
-      images.push({ uri: url[i]?.file_url });
+      if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
+        return null
+      } else {
+        _setImages([...url].map(e => { return { uri: e.file_url } }));
+      }
     }
     if (url?.length === undefined) {
       setGIndex(0);
@@ -292,7 +302,7 @@ const Gallery = () => {
     setIsVideo(true);
   };
   const [imageIndex, setImageIndex] = useState("")
-  console.log("LINE NUMBER 295", imageIndex,"images.length",images.length);
+  console.log("LINE NUMBER 295", imageIndex, "images.length", images.length);
   return (
     <>
       <Container
