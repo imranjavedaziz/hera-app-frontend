@@ -70,6 +70,8 @@ const PtbDashboard = props => {
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
   const messageIdRx = useSelector(state => state.MessageId);
   const toast = useToast();
+  const [disable, setDisable] = useState(false);
+
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
@@ -116,6 +118,7 @@ const PtbDashboard = props => {
     return unsubscribe;
   }, [navigation, dispatch]);
 
+  console.log('LINE NUMBER 98', get_ptb_dashboard_res);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -270,6 +273,10 @@ const PtbDashboard = props => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
+        setTimeout(() => {
+          setDisable(false);
+        }, 1100);
+
         if (islikedLogo === 'liked') {
           if (ptbDashboardRes?.match_request?.status === 2) {
             dispatch(
@@ -416,6 +423,14 @@ const PtbDashboard = props => {
             <View style={STYLE}>
               <TouchableOpacity
                 onPress={() => {
+                  if (subscriptionStatus?.data?.status) {
+                    setDisable(!disable);
+                    setIsVisibleLogo(true);
+                    setIslikedLogo('disliked');
+                    handleOnSwipedLeft();
+                  } else {
+                    navigation.navigate(Routes.Subscription);
+                  }
                   setIslikedLogo('disliked');
                   const payload = {
                     to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
@@ -428,8 +443,32 @@ const PtbDashboard = props => {
                   source={Images.shadowIconNotLike}
                 />
               </TouchableOpacity>
+
               <TouchableOpacity
                 onPress={() => {
+                  if (subscriptionStatus?.data?.status) {
+                    if (ptbDashboardRes?.match_request?.status === 2) {
+                      dispatch(
+                        showAppToast(
+                          false,
+                          Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
+                        ),
+                      );
+                    } else {
+                      dispatch(
+                        showAppToast(
+                          false,
+                          Strings.Chat.MATCH_SEND_SUCCESSFULLY,
+                        ),
+                      );
+                    }
+                    setDisable(!disable);
+                    setIsVisibleLogo(true);
+                    setIslikedLogo('liked');
+                    handleOnSwipedRight();
+                  } else {
+                    navigation.navigate(Routes.Subscription);
+                  }
                   setIslikedLogo('liked');
                   const payload = {
                     to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
@@ -443,6 +482,7 @@ const PtbDashboard = props => {
                 />
               </TouchableOpacity>
             </View>
+            {disable && <View style={styles.disableing} />}
           </View>
         ) : (
           <View style={styles.loaderContainer}>

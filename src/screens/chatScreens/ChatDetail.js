@@ -7,7 +7,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import {GiftedChat} from 'react-native-gifted-chat';
+import {GiftedChat,InputToolbar} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
 import {Images, Strings, Colors} from '../../constants';
 import {ValidationMessages} from '../../constants/Strings';
@@ -274,12 +274,7 @@ const ChatDetail = props => {
     }, [feedback_success, feedback_loading]),
   );
   const navigateDetailScreen = () => {
-    console.log(log_in_data?.role_id, 'log_in_data?.role_id ');
-    if (parseInt(props?.route?.params?.item?.match_request?.status) === 1) {
-      navigation.navigate(Routes.Chat_Request, {
-        item: props.route.params.item,
-      });
-    } else if (log_in_data?.role_id === 2) {
+    if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.DashboardDetailScreen, {
         userId: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
@@ -339,7 +334,7 @@ const ChatDetail = props => {
     }
     return role;
   }
- async function arrowFunction() {
+  async function arrowFunction() {
     if (
       props.route.params.isComingFrom === true ||
       props.route.params.chatPush === true
@@ -550,7 +545,7 @@ const ChatDetail = props => {
           />
         )}
       {log_in_data?.role_id === 2 && (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1,marginBottom:Platform.OS === 'ios' ?0:20}}>
           <GiftedChat
             ref={giftedref}
             messages={db?.messages}
@@ -577,8 +572,9 @@ const ChatDetail = props => {
             renderAvatar={null}
             textInputProps={styles.textInput}
             minComposerHeight={
-              textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
+              Platform.OS === 'ios' ? 30 : 44
             }
+            multiline={true}
             listViewProps={{
               scrollEventThrottle: 400,
               marginBottom: 10,
@@ -592,12 +588,11 @@ const ChatDetail = props => {
                 ? Strings.search_Bar.Inactive
                 : Strings.search_Bar.write_message
             }
-            bottomOffset={textData?.length > 30 ? -50 : 20}
           />
         </View>
       )}
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1,marginBottom:Platform.OS === 'ios' ?0:20}}>
           <GiftedChat
             ref={giftedref}
             messages={db?.messages}
@@ -616,8 +611,9 @@ const ChatDetail = props => {
             renderAvatar={null}
             textInputProps={styles.textInput}
             minComposerHeight={
-              textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
+              Platform.OS === 'ios' ? 30 : 44
             }
+            multiline={true}
             listViewProps={{
               scrollEventThrottle: 400,
               marginBottom: 10,
@@ -625,7 +621,6 @@ const ChatDetail = props => {
                 db.loadEarlier(setLoading);
               },
             }}
-            bottomOffset={textData?.length > 30 ? -50 : 20}
             maxInputLength={1024}
             placeholder={Strings.search_Bar.write_message}
           />
@@ -634,11 +629,10 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1}}>
+          <View style={{flex: 1,marginBottom:Platform.OS === 'ios' ?0:20}}>
             <GiftedChat
               ref={giftedref}
               scrollToBottom={true}
-              bottomOffset={textData?.length > 30 ? -50 : 20}
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message =>
@@ -656,9 +650,6 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              minComposerHeight={
-                textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
-              }
               textInputProps={styles.textInput}
               disableComposer={
                 parseInt(props.route.params.item.status_id) !== 1 ? true : false
@@ -670,6 +661,10 @@ const ChatDetail = props => {
                   db.loadEarlier(setLoading);
                 },
               }}
+              minComposerHeight={
+                Platform.OS === 'ios' ? 30 : 44
+              }
+              multiline={true}
               maxInputLength={1024}
               placeholder={
                 parseInt(props.route.params.item.status_id) !== 1
