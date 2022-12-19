@@ -317,6 +317,7 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
+                        lineColor={isOpen}
                       />
                     )}
                     name="relationship_status_id"
@@ -389,7 +390,7 @@ const SmBasicDetails = () => {
                     style={{
                       alignItems: Alignment.CENTER,
                       marginTop: Value.CONSTANT_VALUE_46,
-                      marginBottom: Value.CONSTANT_VALUE_96,
+                      marginBottom: 80,
                     }}>
                     <Button
                       style={styles.Btn}

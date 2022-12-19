@@ -266,6 +266,7 @@ export default (state = initState, action) => {
         mobile_number_loading: false,
         mobile_number_error_msg: '',
         register_user_success_data: null,
+        token: '',
       };
     }
     case AUTH_MOBILE_NUMBER_FAIL: {

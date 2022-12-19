@@ -1,4 +1,4 @@
-package com.mbc.newarchitecture;
+package com.makingbabyconnetiondev.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.mbc.BuildConfig;
-import com.mbc.newarchitecture.components.MainComponentsRegistry;
-import com.mbc.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.makingbabyconnetiondev.BuildConfig;
+import com.makingbabyconnetiondev.newarchitecture.components.MainComponentsRegistry;
+import com.makingbabyconnetiondev.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

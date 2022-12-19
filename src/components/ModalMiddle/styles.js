@@ -10,7 +10,7 @@ export default {
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   modalView: {
-    height: Value.CONSTANT_VALUE_230,
+    height: 232,
     width: Value.CONSTANT_VALUE_283,
     backgroundColor: Colors.WHITE,
     paddingHorizontal: Value.CONSTANT_VALUE_23,

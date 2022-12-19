@@ -1,5 +1,5 @@
 // VIDEO UPLOADING COMPONENT
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   Image,
   Text,
@@ -8,9 +8,10 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
+import Orientation from 'react-native-orientation-locker';
+import Video from 'react-native-video';
 import styles from '../screens/dashboard/PtbProfile/MyVideo/style';
 import Strings from '../constants/Strings';
-import Video from 'react-native-video';
 import Images from '../constants/Images';
 import FastImage from 'react-native-fast-image';
 import {Alignment} from '../constants';
@@ -25,8 +26,19 @@ const absoluteStyle = {
   height: '100%',
 }
 const VideoUploading = props => {
-  const [loadingState, setLoadingState] = React.useState(false);
-  const [videoLoader,setVideoLoader] = React.useState(true);
+  const [loadingState, setLoadingState] = useState(false);
+  const [videoLoader,setVideoLoader] = useState(true);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  useEffect(()=>{
+    if (isFullScreen) {
+      Orientation.lockToLandscape();
+    } else {
+        Orientation.lockToPortrait();
+    }
+  },[isFullScreen])
+  useEffect(()=>{
+    return ()=>Orientation.lockToPortrait();
+  },[])
   const IMG_CONDI = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
     : Images.iconWhite;
@@ -57,6 +69,8 @@ const VideoUploading = props => {
             <Video
               source={{uri: `${props?.video?.file_url}`}}
               style={props?.videoStyle}
+              onFullscreenPlayerWillPresent={()=>setIsFullScreen(true)}
+              onFullscreenPlayerWillDismiss={()=>setIsFullScreen(false)}
               // audioOnly
               controls={props?.counter > 0 || boolTrue}
               ref={props?.videoRef}
@@ -123,5 +137,4 @@ const VideoUploading = props => {
     </TouchableOpacity>
   );
 };
-
 export default React.memo(VideoUploading);

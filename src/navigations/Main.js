@@ -42,8 +42,7 @@ import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
 import {showAppToast} from '../redux/actions/loader';
 import {Strings} from '../constants';
 import moment from 'moment';
-import {Value} from '../constants/FixedValues';
-import walkThrough from '../screens/walkThrough';
+import { Value } from '../constants/FixedValues';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -58,8 +57,8 @@ const screens = [
 
 const Main = () => {
   const dispatch = useDispatch();
-  const [statusFetched, setStatusFetched] = React.useState(false);
-  const [toastShowed, setToastShowed] = React.useState(false);
+  const [statusFetched,setStatusFetched] = React.useState(false);
+  const [toastShowed,setToastShowed] = React.useState(false);
   const auth = useSelector(state => state.Auth.user);
   const {register_user_success} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(
@@ -87,20 +86,10 @@ const Main = () => {
       auth?.role_id,
       auth?.registration_step,
     );
-    if (
-      path !== Routes.Landing &&
-      auth?.role_id === Value.CONSTANT_VALUE_2 &&
-      !statusFetched &&
-      (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)
-    ) {
-      setStatusFetched(true);
-      dispatch(getSubscriptionStatus());
-    }
     const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
       if (
-        !subscriptionStatus?.data.status &&
-        !toastShowed &&
+        !subscriptionStatus?.data.status && !toastShowed &&
         parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&
         (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)
       ) {
@@ -127,11 +116,9 @@ const Main = () => {
       ref={navigationRef}
       onReady={() => RNBootSplash.hide()}>
       <Stack.Navigator
-        initialRouteName={getRoute(
-          auth?.access_token,
-          auth?.role_id,
-          auth?.registration_step,
-        )}
+        initialRouteName={
+          getRoute(auth?.access_token, auth?.role_id, auth?.registration_step)
+        }
         screenOptions={{headerShown: false}}>
         <Stack.Screen name={Routes.SmDashboard} component={SmDashboard} />
         <Stack.Screen name={Routes.ProfileDetails} component={ProfileDetails} />
@@ -177,7 +164,6 @@ const Main = () => {
           name={Routes.DeactivateAccount}
           component={DeactivateAccount}
         />
-        <Stack.Screen name={Routes.walkThrough} component={walkThrough} />
       </Stack.Navigator>
     </NavigationContainer>
   );

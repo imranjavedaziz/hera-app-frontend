@@ -7,7 +7,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import {GiftedChat} from 'react-native-gifted-chat';
+import {GiftedChat,InputToolbar} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
 import {Images, Strings, Colors} from '../../constants';
 import {ValidationMessages} from '../../constants/Strings';
@@ -59,9 +59,8 @@ const ChatDetail = props => {
   useEffect(() => {
     console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
+ 
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
-    console.log(user.role_id, 'user.role_id3');
-    console.log(paramItem.currentRole, 'paramItem.currentRole2');
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
       user?.role_id !== 2 &&
@@ -69,7 +68,7 @@ const ChatDetail = props => {
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
-  }, [props.route.params]);
+  }, [props?.route?.params]);
 
   const renderActions = message => {
     return (
@@ -172,9 +171,9 @@ const ChatDetail = props => {
     ) {
       navigation.navigate(Routes.Subscription);
     } else if (
-      parseInt(props.route.params.item.status_id) !== 1 ||
+      parseInt(props?.route?.params?.item?.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
-        parseInt(props.route.params.item.recieverSubscription) === 0)
+        parseInt(props?.route?.params?.item?.recieverSubscription) === 0)
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     } else if (messages.text.trim().length === 0) {
@@ -244,7 +243,7 @@ const ChatDetail = props => {
   const feedback = (like, isSkip) => {
     let data = {
       like: like,
-      recipient_id: parseInt(props.route.params.item.recieverId),
+      recipient_id: parseInt(props?.route?.params?.item?.recieverId),
       is_skip: isSkip,
     };
     dispatch(chatFeedback(data));
@@ -335,13 +334,13 @@ const ChatDetail = props => {
   }
   async function arrowFunction() {
     if (
-      props.route.params.isComingFrom === true ||
-      props.route.params.chatPush === true
+      props?.route?.params?.isComingFrom === true ||
+      props?.route?.params?.chatPush === true
     ) {
       props.navigation.navigate(Routes.Chat_Listing);
     } else {
       await fireDB.readMessage();
-      props.navigation.goBack();
+      props.navigation.navigate(Routes.Chat_Listing);
     }
   }
   return (
@@ -387,9 +386,9 @@ const ChatDetail = props => {
                       : parseInt(
                           props?.route?.params?.item?.recieverSubscription,
                         ) === 0 ||
-                        parseInt(props.route.params.item.status_id) !== 1
+                        parseInt(props?.route?.params?.item?.status_id) !== 1
                       ? Images.defaultProfile
-                      : {uri: props.route.params.item.recieverImage}
+                      : {uri: props?.route?.params?.item?.recieverImage}
                   }
                   style={styles.avatar}
                 />
@@ -407,7 +406,7 @@ const ChatDetail = props => {
                     {parseInt(props?.route?.params?.item?.currentRole) ===
                       1 && (
                       <Text style={styles.titleText}>
-                        {props.route.params.item.recieverName}
+                        {props?.route?.params?.item?.recieverName}
                       </Text>
                     )}
                     {parseInt(props?.route?.params?.item?.currentRole) !==
@@ -544,13 +543,13 @@ const ChatDetail = props => {
           />
         )}
       {log_in_data?.role_id === 2 && (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1,marginBottom:Platform.OS === 'ios' ?0:20}}>
           <GiftedChat
             ref={giftedref}
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message =>
-              parseInt(props.route.params.item.status_id) !== 1
+              parseInt(props?.route?.params?.item?.status_id) !== 1
                 ? null
                 : renderActions(message)
             }
@@ -560,7 +559,7 @@ const ChatDetail = props => {
             onInputTextChanged={text => setTextData(text)}
             text={textData}
             disableComposer={
-              parseInt(props.route.params.item.status_id) !== 1 ? true : false
+              parseInt(props?.route?.params?.item.status_id) !== 1 ? true : false
             }
             user={{
               _id: parseInt(props?.route?.params?.item?.senderId),
@@ -571,8 +570,9 @@ const ChatDetail = props => {
             renderAvatar={null}
             textInputProps={styles.textInput}
             minComposerHeight={
-              textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
+              Platform.OS === 'ios' ? 30 : 44
             }
+            multiline={true}
             listViewProps={{
               scrollEventThrottle: 400,
               marginBottom: 10,
@@ -582,16 +582,15 @@ const ChatDetail = props => {
             }}
             maxInputLength={1024}
             placeholder={
-              parseInt(props.route.params.item.status_id) !== 1
+              parseInt(props?.route?.params?.item?.status_id) !== 1
                 ? Strings.search_Bar.Inactive
                 : Strings.search_Bar.write_message
             }
-            bottomOffset={textData?.length > 30 ? -50 : 20}
           />
         </View>
       )}
       {parseInt(props?.route?.params?.item?.currentRole) === 1 && (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1,marginBottom:Platform.OS === 'ios' ?0:20}}>
           <GiftedChat
             ref={giftedref}
             messages={db?.messages}
@@ -610,8 +609,9 @@ const ChatDetail = props => {
             renderAvatar={null}
             textInputProps={styles.textInput}
             minComposerHeight={
-              textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
+              Platform.OS === 'ios' ? 30 : 44
             }
+            multiline={true}
             listViewProps={{
               scrollEventThrottle: 400,
               marginBottom: 10,
@@ -619,7 +619,6 @@ const ChatDetail = props => {
                 db.loadEarlier(setLoading);
               },
             }}
-            bottomOffset={textData?.length > 30 ? -50 : 20}
             maxInputLength={1024}
             placeholder={Strings.search_Bar.write_message}
           />
@@ -628,15 +627,14 @@ const ChatDetail = props => {
       {db?.messages.length > 0 &&
         log_in_data?.role_id !== 2 &&
         parseInt(props?.route?.params?.item?.currentRole) !== 1 && (
-          <View style={{flex: 1}}>
+          <View style={{flex: 1,marginBottom:Platform.OS === 'ios' ?0:20}}>
             <GiftedChat
               ref={giftedref}
               scrollToBottom={true}
-              bottomOffset={textData?.length > 30 ? -50 : 20}
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message =>
-                parseInt(props.route.params.item.status_id) !== 1
+                parseInt(props?.route?.params?.item?.status_id) !== 1
                   ? null
                   : renderActions(message)
               }
@@ -650,12 +648,9 @@ const ChatDetail = props => {
               }}
               containerStyle={styles.mainContainerDetail}
               renderAvatar={null}
-              minComposerHeight={
-                textData?.length > 30 ? 75 : Platform.OS === 'ios' ? 30 : 44
-              }
               textInputProps={styles.textInput}
               disableComposer={
-                parseInt(props.route.params.item.status_id) !== 1 ? true : false
+                parseInt(props?.route?.params?.item?.status_id) !== 1 ? true : false
               }
               listViewProps={{
                 scrollEventThrottle: 400,
@@ -664,9 +659,13 @@ const ChatDetail = props => {
                   db.loadEarlier(setLoading);
                 },
               }}
+              minComposerHeight={
+                Platform.OS === 'ios' ? 30 : 44
+              }
+              multiline={true}
               maxInputLength={1024}
               placeholder={
-                parseInt(props.route.params.item.status_id) !== 1
+                parseInt(props?.route?.params?.item?.status_id) !== 1
                   ? Strings.search_Bar.Inactive
                   : Strings.search_Bar.write_message
               }

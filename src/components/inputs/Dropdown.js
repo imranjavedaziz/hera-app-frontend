@@ -142,8 +142,16 @@ const Dropdown = ({
                       )}
                     </>
                   ) : (
-                    <Text style={[styles.buttonTextStyle,{fontFamily: Fonts.OpenSansRegular}]} numberOfLines={1}>
+                    <Text
+                      style={[
+                        styles.buttonTextStyle,
+                        {fontFamily: Fonts.OpenSansRegular},
+                      ]}
+                      numberOfLines={1}>
                       {label}
+                      {required && (
+                        <Text style={[styles.label, styles.red]}>*</Text>
+                      )}
                     </Text>
                   )}
 
@@ -154,7 +162,7 @@ const Dropdown = ({
                         borderBottomColor: error
                           ? Colors.RED
                           : Colors.INPUT_BORDER,
-                          marginTop:10
+                        marginTop: 10,
                       },
                       isFocused && {borderBottomColor: Colors.SKY_BLUE},
                     ]}
