@@ -340,7 +340,7 @@ const ChatDetail = props => {
       props.navigation.navigate(Routes.Chat_Listing);
     } else {
       await fireDB.readMessage();
-      props.navigation.goBack();
+      props.navigation.navigate(Routes.Chat_Listing);
     }
   }
   return (
