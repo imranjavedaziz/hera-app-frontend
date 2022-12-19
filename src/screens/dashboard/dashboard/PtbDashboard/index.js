@@ -29,6 +29,7 @@ import {
   showAppLoader,
   hideAppLoader,
   showAppToast,
+  showMessageAppToast,
 } from '../../../../redux/actions/loader';
 import {Routes} from '../../../../constants/Constants';
 import {deviceHandler} from '../../../../utils/commonFunction';
@@ -47,6 +48,8 @@ import chatHistory from '../../../../hooks/chatHistory';
 import {getSubscriptionStatus} from '../../../../redux/actions/Subsctiption';
 import NoInternet from '../../../../components/NoInternet/NoInternet';
 import NetInfo from '@react-native-community/netinfo';
+import {useToast} from 'react-native-toast-notifications';
+import {getMessageID} from '../../../../redux/actions/MessageId';
 const PtbDashboard = props => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isVisibleLogo, setIsVisibleLogo] = useState(false);
@@ -65,6 +68,10 @@ const PtbDashboard = props => {
   const [empty, setEmpty] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const messageIdRx = useSelector(state => state.MessageId);
+  const toast = useToast();
+  const [disable, setDisable] = useState(false);
+
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
@@ -75,7 +82,6 @@ const PtbDashboard = props => {
   }, []);
 
   const [msgRead, setMsgRead] = useState(false);
-
   useEffect(() => {
     if (props?.navigation?.route?.name === 'PtbDashboard') {
       deviceHandler(navigation, 'exit');
@@ -103,7 +109,16 @@ const PtbDashboard = props => {
       setCardIndex(0);
     }, [dispatch]),
   );
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
 
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
+
+  console.log('LINE NUMBER 98', get_ptb_dashboard_res);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -114,6 +129,12 @@ const PtbDashboard = props => {
       },
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
+        const {recieverId} = notification?.data;
+        const showNotification =
+          messageIdRx?.messageIdRx === parseInt(recieverId);
+        console.log(messageIdRx, 'messageIdRxPush');
+        console.log(recieverId, 'recieverIsd');
+        console.log(showNotification, 'showNotification');
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'subscribe') {
             navigation.navigate(Routes.PtbProfile);
@@ -140,6 +161,31 @@ const PtbDashboard = props => {
               isComingFrom: false,
               chatPush: true,
             });
+          }
+        }
+        if (notification.userInteraction === false) {
+          if (
+            showNotification === true &&
+            notification.data.notify_type === 'chat'
+          ) {
+            return null;
+          } else {
+            toast.show(notification.title, {
+              type: 'custom',
+              placement: 'top',
+              duration: 2000,
+              offset: 30,
+              animationType: 'slide-in',
+            });
+            dispatch(
+              showMessageAppToast(
+                true,
+                notification.title,
+                true,
+                notification.data,
+                navigation,
+              ),
+            );
           }
         }
         console.log('NOTIFICATION2nd:', notification);
@@ -190,7 +236,7 @@ const PtbDashboard = props => {
         }
       }
     });
-  }, [fcmToken, navigation]);
+  }, [fcmToken, navigation, messageIdRx]);
 
   const {
     get_ptb_dashboard_success,
@@ -227,6 +273,10 @@ const PtbDashboard = props => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
+        setTimeout(() => {
+          setDisable(false);
+        }, 1100);
+
         if (islikedLogo === 'liked') {
           if (ptbDashboardRes?.match_request?.status === 2) {
             dispatch(
@@ -373,6 +423,14 @@ const PtbDashboard = props => {
             <View style={STYLE}>
               <TouchableOpacity
                 onPress={() => {
+                  if (subscriptionStatus?.data?.status) {
+                    setDisable(!disable);
+                    setIsVisibleLogo(true);
+                    setIslikedLogo('disliked');
+                    handleOnSwipedLeft();
+                  } else {
+                    navigation.navigate(Routes.Subscription);
+                  }
                   setIslikedLogo('disliked');
                   const payload = {
                     to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
@@ -385,8 +443,32 @@ const PtbDashboard = props => {
                   source={Images.shadowIconNotLike}
                 />
               </TouchableOpacity>
+
               <TouchableOpacity
                 onPress={() => {
+                  if (subscriptionStatus?.data?.status) {
+                    if (ptbDashboardRes?.match_request?.status === 2) {
+                      dispatch(
+                        showAppToast(
+                          false,
+                          Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE,
+                        ),
+                      );
+                    } else {
+                      dispatch(
+                        showAppToast(
+                          false,
+                          Strings.Chat.MATCH_SEND_SUCCESSFULLY,
+                        ),
+                      );
+                    }
+                    setDisable(!disable);
+                    setIsVisibleLogo(true);
+                    setIslikedLogo('liked');
+                    handleOnSwipedRight();
+                  } else {
+                    navigation.navigate(Routes.Subscription);
+                  }
                   setIslikedLogo('liked');
                   const payload = {
                     to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
@@ -400,6 +482,7 @@ const PtbDashboard = props => {
                 />
               </TouchableOpacity>
             </View>
+            {disable && <View style={styles.disableing} />}
           </View>
         ) : (
           <View style={styles.loaderContainer}>

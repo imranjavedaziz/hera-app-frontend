@@ -27,7 +27,11 @@ import Alignment from '../../../../constants/Alignment';
 import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDonorDashboard} from '../../../../redux/actions/DonorDashboard';
-import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showMessageAppToast,
+} from '../../../../redux/actions/loader';
 import Styles from '../smSettings/Styles';
 import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
@@ -44,6 +48,7 @@ import ImageLoading from '../../../../components/ImageLoading';
 import {getMessageID} from '../../../../redux/actions/MessageId';
 import NetInfo from '@react-native-community/netinfo';
 import NoInternet from '../../../../components/NoInternet/NoInternet';
+import {useToast} from 'react-native-toast-notifications';
 const SmDashboard = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -72,17 +77,19 @@ const SmDashboard = ({route}) => {
   const [networkError, setNetworkError] = useState(false);
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
+  const messageIdRx = useSelector(state => state.MessageId);
+  const toast = useToast();
   const fetchData = useCallback(() => {
     chatData.update();
   }, []);
-   useFocusEffect(
-    useCallback(async() => {
-    if ((await NetInfo.isConnected.fetch()) !== true) {
-      setNetworkError(true);
-    } else {
-      setNetworkError(false);
-    }
-  }, []),
+  useFocusEffect(
+    useCallback(async () => {
+      if ((await NetInfo.isConnected.fetch()) !== true) {
+        setNetworkError(true);
+      } else {
+        setNetworkError(false);
+      }
+    }, []),
   );
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
@@ -98,7 +105,6 @@ const SmDashboard = ({route}) => {
   useFocusEffect(
     useCallback(() => {
       fetchData();
-      dispatch(getMessageID(''));
       let payload = {
         keyword: search ? search : '',
         state_ids:
@@ -112,7 +118,14 @@ const SmDashboard = ({route}) => {
     }, [search, page, route?.params?.informationDetail]),
   );
   // expected output: true
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
 
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -123,7 +136,13 @@ const SmDashboard = ({route}) => {
       },
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
-        if (notification.userInteraction === true) {
+        const {recieverId} = notification?.data;
+        const showNotification =
+          messageIdRx?.messageIdRx === parseInt(recieverId);
+        console.log(messageIdRx, 'messageIdRxPush');
+        console.log(recieverId, 'recieverIsd');
+        console.log(showNotification, 'showNotification');
+        if (notification.uterInteraction === true) {
           if (notification.data.notify_type === 'profile') {
             const {status} = JSON.parse(notification.data?.match_request);
             if (status === 2) {
@@ -146,6 +165,31 @@ const SmDashboard = ({route}) => {
               isComingFrom: false,
               chatPush: true,
             });
+          }
+        }
+        if (notification.userInteraction === false) {
+          if (
+            showNotification === true &&
+            notification.data.notify_type === 'chat'
+          ) {
+            return null;
+          } else {
+            toast.show(notification.title, {
+              type: 'custom',
+              placement: 'top',
+              duration: 2000,
+              offset: 30,
+              animationType: 'slide-in',
+            });
+            dispatch(
+              showMessageAppToast(
+                true,
+                notification.title,
+                true,
+                notification.data,
+                navigation,
+              ),
+            );
           }
         }
         console.log('NOTIFICATION2nd:', notification);
@@ -359,15 +403,15 @@ const SmDashboard = ({route}) => {
     }
     return null;
   };
-  async function retryData(){
+  async function retryData() {
     if ((await NetInfo.isConnected.fetch()) !== true) {
       setNetworkError(true);
     } else {
       setNetworkError(false);
     }
-    onRefresh()
+    onRefresh();
   }
-    
+
   return (
     <View style={styles.upperContainer}>
       {!searching && isFocused === false && (
@@ -375,7 +419,7 @@ const SmDashboard = ({route}) => {
       )}
       <>
         {networkError === true ? (
-          <NoInternet  onPress={retryData}/>
+          <NoInternet onPress={retryData} />
         ) : (
           <>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -93,6 +93,7 @@ const Login = props => {
     }
     loadingRef.current = log_in_loading;
   }, [log_in_success, log_in_loading]);
+
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -104,7 +105,10 @@ const Login = props => {
   const onSubmit = data => {
     const payload = {
       country_code: ConstantsCode.Country_CODE,
-      phone_no: data.phone,
+      phone_no:
+        data.phone.length > 10
+          ? data.phone.substring(0, data.phone.length - 1)
+          : data.phone,
       password: data.password,
     };
     dispatch(showAppLoader());

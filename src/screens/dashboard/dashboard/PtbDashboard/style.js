@@ -34,7 +34,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    bottom: px(45),
+    bottom: px(40),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),
@@ -101,4 +101,5 @@ export default {
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
   },
+  disableing:{ backgroundColor: Colors.CLEAR, width: '100%', height: "100%", position: Alignment.ABSOLUTE }
 };

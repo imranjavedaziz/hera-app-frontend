@@ -59,6 +59,7 @@ const ChatDetail = props => {
   useEffect(() => {
     console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
+ 
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&

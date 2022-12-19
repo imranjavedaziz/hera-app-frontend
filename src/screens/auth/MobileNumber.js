@@ -19,6 +19,7 @@ import {Alignment, Colors} from '../../constants';
 import normalizeInput from '../../utils/normalizeInput';
 import {statusHide} from '../../utils/responsive';
 import {empty} from '../../redux/actions/Chat';
+
 const MobileNumber = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -31,7 +32,6 @@ const MobileNumber = ({route}) => {
     handleSubmit,
     control,
     formState: {errors},
-    reset,
     setValue,
   } = useForm({
     resolver: yupResolver(mobileSchema),
@@ -61,7 +61,10 @@ const MobileNumber = ({route}) => {
   const onSubmit = data => {
     const payload = {
       country_code: ConstantsCode.Country_CODE,
-      phone_no: data.phone,
+      phone_no:
+        data.phone.length > 10
+          ? data.phone.substring(0, data.phone.length - 1)
+          : data.phone,
       type,
     };
     setIsRouteData(payload);
@@ -80,8 +83,6 @@ const MobileNumber = ({route}) => {
     />
   );
   const handelChange = async value => {
-    reset({phone: ''});
-
     await setPhone(prevstate => normalizeInput(value, prevstate));
     let a = '';
     for (let i = 0; i < value.length; i++) {

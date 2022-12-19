@@ -52,6 +52,7 @@ import PtbAccount, {
 } from '../../../../components/dashboard/PtbProfile/PtbAccount';
 import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
+import { getMessageID } from '../../../../redux/actions/MessageId';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -78,6 +79,7 @@ const SmDonorSettings = () => {
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
   const {Device_ID} = useContext(NotificationContext);
+  console.log(Device_ID, 'Device_ID');
   const LogoutLoadingRef = useRef(false);
   const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
@@ -211,8 +213,20 @@ const SmDonorSettings = () => {
   }, [file, dispatch]);
 
   const logoutScreen = () => {
-    dispatch(logOut(Device_ID));
+    if (_.isEmpty(Device_ID) || Device_ID === undefined) {
+      dispatch(showAppToast(true, 'Please try to logout again.'));
+    } else {
+      dispatch(logOut(Device_ID));
+    }
   };
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
   const iosAlert = () => {
     Alert.alert(ValidationMessages.LOG_OUT, ValidationMessages.LOGOUT_TEXT, [
       {

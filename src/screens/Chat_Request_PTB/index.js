@@ -57,22 +57,22 @@ const Chat_Request = props => {
 
   const onPressLike = () => {
     const payload = {
-      id: props?.route?.params?.user?.id,
+      id: parseInt(props?.route?.params?.user?.id),
       status: 2,
     };
     dispatch(profileMatchResponse(payload));
   };
   const onPressDislike = () => {
     const payload = {
-      id: props?.route?.params?.user?.id,
+      id: parseInt(props?.route?.params?.user?.id),
       status: 4,
     };
     dispatch(profileMatchResponse(payload));
   };
   const onNavigationDetail = () => {
     navigation.navigate(Routes.ProfileDetails, {
-      userid: props?.route?.params?.item?.recieverId,
-      id: props?.route?.params?.item?.match_request?.id,
+      userid: parseInt(props?.route?.params?.item?.recieverId),
+      id: parseInt(props?.route?.params?.item?.match_request?.id),
       seeAll: true,
       coming: true,
     });
