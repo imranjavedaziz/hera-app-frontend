@@ -21,7 +21,6 @@ const environment = {
   },
 };
 
-
 export const {bucket, api_url, chat} = environment.stage;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
