@@ -60,8 +60,6 @@ const ChatDetail = props => {
     console.log('CHAT DETAILS', loading);
     const paramItem = props?.route?.params?.item;
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
-    console.log(user.role_id, 'user.role_id3');
-    console.log(paramItem.currentRole, 'paramItem.currentRole2');
     if (
       parseInt(paramItem?.recieverSubscription) === 0 &&
       user?.role_id !== 2 &&
@@ -69,7 +67,7 @@ const ChatDetail = props => {
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     }
-  }, [props.route.params]);
+  }, [props?.route?.params]);
 
   const renderActions = message => {
     return (
@@ -172,9 +170,9 @@ const ChatDetail = props => {
     ) {
       navigation.navigate(Routes.Subscription);
     } else if (
-      parseInt(props.route.params.item.status_id) !== 1 ||
+      parseInt(props?.route?.params?.item?.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
-        parseInt(props.route.params.item.recieverSubscription) === 0)
+        parseInt(props?.route?.params?.item?.recieverSubscription) === 0)
     ) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     } else if (messages.text.trim().length === 0) {
@@ -244,7 +242,7 @@ const ChatDetail = props => {
   const feedback = (like, isSkip) => {
     let data = {
       like: like,
-      recipient_id: parseInt(props.route.params.item.recieverId),
+      recipient_id: parseInt(props?.route?.params?.item?.recieverId),
       is_skip: isSkip,
     };
     dispatch(chatFeedback(data));
@@ -335,8 +333,8 @@ const ChatDetail = props => {
   }
   async function arrowFunction() {
     if (
-      props.route.params.isComingFrom === true ||
-      props.route.params.chatPush === true
+      props?.route?.params?.isComingFrom === true ||
+      props?.route?.params?.chatPush === true
     ) {
       props.navigation.navigate(Routes.Chat_Listing);
     } else {
@@ -387,9 +385,9 @@ const ChatDetail = props => {
                       : parseInt(
                           props?.route?.params?.item?.recieverSubscription,
                         ) === 0 ||
-                        parseInt(props.route.params.item.status_id) !== 1
+                        parseInt(props?.route?.params?.item?.status_id) !== 1
                       ? Images.defaultProfile
-                      : {uri: props.route.params.item.recieverImage}
+                      : {uri: props?.route?.params?.item?.recieverImage}
                   }
                   style={styles.avatar}
                 />
@@ -407,7 +405,7 @@ const ChatDetail = props => {
                     {parseInt(props?.route?.params?.item?.currentRole) ===
                       1 && (
                       <Text style={styles.titleText}>
-                        {props.route.params.item.recieverName}
+                        {props?.route?.params?.item?.recieverName}
                       </Text>
                     )}
                     {parseInt(props?.route?.params?.item?.currentRole) !==
@@ -550,7 +548,7 @@ const ChatDetail = props => {
             messages={db?.messages}
             onSend={messages => onSend(messages)}
             renderSend={message =>
-              parseInt(props.route.params.item.status_id) !== 1
+              parseInt(props?.route?.params?.item?.status_id) !== 1
                 ? null
                 : renderActions(message)
             }
@@ -560,7 +558,7 @@ const ChatDetail = props => {
             onInputTextChanged={text => setTextData(text)}
             text={textData}
             disableComposer={
-              parseInt(props.route.params.item.status_id) !== 1 ? true : false
+              parseInt(props?.route?.params?.item.status_id) !== 1 ? true : false
             }
             user={{
               _id: parseInt(props?.route?.params?.item?.senderId),
@@ -583,7 +581,7 @@ const ChatDetail = props => {
             }}
             maxInputLength={1024}
             placeholder={
-              parseInt(props.route.params.item.status_id) !== 1
+              parseInt(props?.route?.params?.item?.status_id) !== 1
                 ? Strings.search_Bar.Inactive
                 : Strings.search_Bar.write_message
             }
@@ -635,7 +633,7 @@ const ChatDetail = props => {
               messages={db?.messages}
               onSend={messages => onSend(messages)}
               renderSend={message =>
-                parseInt(props.route.params.item.status_id) !== 1
+                parseInt(props?.route?.params?.item?.status_id) !== 1
                   ? null
                   : renderActions(message)
               }
@@ -651,7 +649,7 @@ const ChatDetail = props => {
               renderAvatar={null}
               textInputProps={styles.textInput}
               disableComposer={
-                parseInt(props.route.params.item.status_id) !== 1 ? true : false
+                parseInt(props?.route?.params?.item?.status_id) !== 1 ? true : false
               }
               listViewProps={{
                 scrollEventThrottle: 400,
@@ -666,7 +664,7 @@ const ChatDetail = props => {
               multiline={true}
               maxInputLength={1024}
               placeholder={
-                parseInt(props.route.params.item.status_id) !== 1
+                parseInt(props?.route?.params?.item?.status_id) !== 1
                   ? Strings.search_Bar.Inactive
                   : Strings.search_Bar.write_message
               }
