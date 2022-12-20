@@ -232,7 +232,10 @@ const SmBasicDetails = () => {
         animated={true}
         hidden={false}
       />
-      <View style={[isOpen ? {backgroundColor: Colors.BLACK} : styles.flex_1]}>
+      <View
+        style={[
+          isOpen ? {backgroundColor: Colors.LIGHT_BLACK47} : styles.flex_1,
+        ]}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -262,7 +265,12 @@ const SmBasicDetails = () => {
                     accessible={true}
                     accessibilityLabel={'Gender'}>
                     Gender
-                    <Text style={[{color: Colors.RED}]}>*</Text>
+                    <Text
+                      style={[
+                        {color: isOpen ? Colors.LIGHT_BLACK47 : Colors.RED},
+                      ]}>
+                      *
+                    </Text>
                   </Text>
                   <Controller
                     control={control}
@@ -363,6 +371,7 @@ const SmBasicDetails = () => {
                         containerStyle={Style}
                         label={Strings.sm_basic.Occupation}
                         value={value}
+                        lineColor={isOpen}
                         onChangeText={v => onChange(v)}
                         error={errors && errors.occupation?.message}
                       />
