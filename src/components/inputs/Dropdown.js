@@ -75,7 +75,7 @@ const Dropdown = ({
     fontFamily: Fonts.OpenSansRegular,
     lineHeight: 21,
     letterSpacing: 0,
-    color: '#000000',
+    color: lineColor ? Colors.LABEL_BLACK : '#000000',
     top: Value.CONSTANT_VALUE_8,
     fontSize: Value.CONSTANT_VALUE_14,
   };
@@ -86,7 +86,7 @@ const Dropdown = ({
     fontStyle: 'normal',
     lineHeight: 21,
     letterSpacing: 0,
-    color: Colors.BLACK_0,
+    color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_0,
     top: 22,
   };
   const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
@@ -200,7 +200,13 @@ const Dropdown = ({
               accessibilityLabel={label}>
               {label}
               {required && (
-                <Text style={[styles.label, {color: 'red'}]}>*</Text>
+                <Text
+                  style={[
+                    styles.label,
+                    {color: lineColor ? Colors.LIGHT_BLACK47 : Colors.RED},
+                  ]}>
+                  *
+                </Text>
               )}
             </Text>
             <SelectDropdown
@@ -222,7 +228,7 @@ const Dropdown = ({
               onBlur={handleBlur}
               rowStyle={styles.rowStyle}
               rowTextStyle={styles.rowTextStyle}
-              selectedRowTextStyle={{fontFamily: Fonts.OpenSansBold}}
+              selectedRowTextStyle={{fontFamily: Fonts.OpenSansRegular}}
               dropdownStyle={styles.dropdownStyle}
               buttonStyle={{
                 ...styles.buttonStyle,
