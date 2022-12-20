@@ -1,6 +1,7 @@
 import {Alignment, Colors} from '../../constants';
 import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
+import {px} from '../../utils/responsive';
 
 export default {
   centeredView: {
@@ -10,7 +11,7 @@ export default {
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
   modalView: {
-    height: 232,
+    height: px(230),
     width: Value.CONSTANT_VALUE_283,
     backgroundColor: Colors.WHITE,
     paddingHorizontal: Value.CONSTANT_VALUE_23,
@@ -22,13 +23,12 @@ export default {
     fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,
-    paddingBottom: Value.CONSTANT_VALUE_5,
+    paddingBottom: Value.CONSTANT_VALUE_10,
     color: Colors.BLACK,
   },
   modalSubHeader: {
     textAlign: Alignment.CENTER,
     lineHeight: Value.CONSTANT_VALUE_18,
-    marginTop: Value.CONSTANT_VALUE_1,
     fontSize: Value.CONSTANT_VALUE_13,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
@@ -43,7 +43,7 @@ export default {
     textAlign: Alignment.CENTER,
   },
   modalOption2: {
-    marginVertical: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_20,
     fontWeight: Alignment.BOLD,
     fontSize: Value.CONSTANT_VALUE_16,
     letterSpacing: Value.CONSTANT_VALUE_1,

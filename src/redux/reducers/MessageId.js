@@ -5,8 +5,9 @@ const INITIAL = {
 };
 
 export default (state = INITIAL, action) => {
-  console.log(action.type === MESSAGE_ID_DETAIL, 'messageIdRxLoggg');
-  console.log(action.payload?.data, 'messageIdRxLoggg');
+  if(action.type === MESSAGE_ID_DETAIL){
+    console.log(action.payload?.data,'dataRESS')
+  }
   if (action.type === MESSAGE_ID_DETAIL) {
     return {
       ...state,

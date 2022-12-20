@@ -1,5 +1,5 @@
 export const ValidationMessages = {
-  MOBILE_REQUIRED: 'Mobile number is a required field.',
+  MOBILE_REQUIRED: 'Please enter your mobile number',
   PASSWORD_REQUIRED: 'Password is a required field.',
   COMMON_REQUIRED: 'This field is required!',
   PLEASE_ENTER_CURR_PASS: 'Please enter current password',
