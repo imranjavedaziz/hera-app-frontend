@@ -29,7 +29,6 @@ import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {NotificationContext} from '../../context/NotificationContextManager';
-import normalizeInput from '../../utils/normalizeInput';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {InputLabel} from '../../components';
 import {empty} from '../../redux/actions/Chat';
@@ -40,12 +39,10 @@ const Login = props => {
   const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
   const [payloadData, setPayloadData] = useState('');
-  const [phone, setPhone] = useState('');
   const {fcmToken, Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
-    setValue,
     formState: {errors},
     clearErrors,
   } = useForm({
@@ -105,26 +102,12 @@ const Login = props => {
   const onSubmit = data => {
     const payload = {
       country_code: ConstantsCode.Country_CODE,
-      phone_no:
-        data.phone.length > 10
-          ? data.phone.substring(0, data.phone.length - 1)
-          : data.phone,
+      phone_no: data.phone,
       password: data.password,
     };
     dispatch(showAppLoader());
     setPayloadData(payload);
     dispatch(logIn(payload));
-  };
-
-  const handelChange = async value => {
-    await setPhone(prevstate => normalizeInput(value, prevstate));
-    let a = '';
-    for (let i = 0; i < value.length; i++) {
-      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
-        a = a + value[i];
-      }
-    }
-    setValue('phone', a);
   };
   return (
     <View style={styles.flex}>
@@ -146,17 +129,17 @@ const Login = props => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <InputLabel
-                      value={phone}
+                      value={value}
                       number={true}
                       inputRef={inputRef}
                       label={Strings.inqueryForm.MobileNumber}
                       onChangeText={v => {
-                        handelChange(v);
+                        onChange(v);
                         clearErrors('phone');
                       }}
                       support={true}
                       required={true}
-                      maxLength={14}
+                      maxLength={10}
                       keyboardType="numeric"
                       error={errors && errors.phone?.message}
                       NumVal={value}

@@ -58,7 +58,6 @@ const EditProfile = props => {
   const GetLoadingRef = useRef(false);
   const UpdateLoadingRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
-  const [phone, setPhone] = useState('');
   const [datePicked, onDateChange] = useState();
   const [clipdrop, setClickDrop] = useState(false);
   useFocusEffect(
@@ -98,7 +97,6 @@ const EditProfile = props => {
   const {
     handleSubmit,
     control,
-    reset,
     setValue,
     formState: {errors, isDirty},
   } = useForm({
@@ -219,8 +217,14 @@ const EditProfile = props => {
     );
     return true;
   };
+  const androidModal = () => {
+    setTimeout(() => {
+      setShowModal(true);
+    }, 250);
+    Keyboard.dismiss();
+  };
   const platform = () => {
-    Platform.OS === 'ios' ? backAction() : setShowModal(true);
+    Platform.OS === 'ios' ? backAction() : androidModal();
   };
   const navCondition = () => {
     props.route?.params?.smProfile
@@ -238,46 +242,7 @@ const EditProfile = props => {
       </TouchableOpacity>
     </View>
   );
-  const normalizeInput = (value, previousValue) => {
-    const deleting = previousValue && previousValue.length > value?.length;
-    if (deleting) {
-      return value;
-    }
-    if (!value) {
-      return value;
-    }
-    const currentValue = value.replace(/[^\d]/g, '');
-    const cvLength = currentValue.length;
-    if (!previousValue || value?.length > previousValue.length) {
-      if (cvLength < 4) {
-        return currentValue;
-      }
-      if (cvLength < 7) {
-        return `${currentValue.slice(0, 3)} ${currentValue.slice(3)}`;
-      }
-      return `${currentValue.slice(0, 3)} ${currentValue.slice(
-        3,
-        6,
-      )} (${currentValue.slice(6, 10)})`;
-    }
-  };
   const handelChange = async value => {
-    reset({phone: ''});
-
-    setPhone(prevstate =>
-      normalizeInput(get_user_detail_res?.phone_no, prevstate),
-    );
-    let a = '';
-    for (let i = 0; i < get_user_detail_res?.phone_no?.length; i++) {
-      if (
-        get_user_detail_res.phone_no[i] !== ' ' &&
-        get_user_detail_res.phone_no[i] !== ')' &&
-        get_user_detail_res.phone_no[i] !== '('
-      ) {
-        a = a + get_user_detail_res.phone_no[i];
-      }
-    }
-    setValue('phone', a);
     const sexual_orientations_id =
       get_profile_setter_res?.sexual_orientation.find(obj => {
         return (
@@ -293,7 +258,7 @@ const EditProfile = props => {
     const state_id = get_state_res?.find(obj => {
       return obj.id === get_user_detail_res?.location?.state_id;
     });
-
+    setValue('phone', get_user_detail_res?.phone_no);
     setValue('first_name', get_user_detail_res?.first_name);
     setValue('middle_name', get_user_detail_res?.middle_name);
     setValue('last_name', get_user_detail_res?.last_name);
@@ -350,6 +315,7 @@ const EditProfile = props => {
         keyboardOpeningTime={0}
         scrollEnabled={true}
         extraHeight={180}
+        keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
@@ -433,7 +399,7 @@ const EditProfile = props => {
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
                     label={Strings.profile.phone_no}
-                    value={`+1 ${phone}`}
+                    value={`+1 ${value}`}
                     onChangeText={v => onChange(v)}
                     fontWeight={Alignment.BOLD}
                     required={true}
