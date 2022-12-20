@@ -6,7 +6,6 @@ import {
   Alert,
   Platform,
   ScrollView,
-  TextInput,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Header, {CircleBtn} from '../../components/Header';
@@ -30,26 +29,22 @@ import {
   showAppToast,
 } from '../../redux/actions/loader';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {ModalMiddle, MultiTextInput} from '../../components';
-import {Alignment, Colors} from '../../constants';
+import {InputLabel, ModalMiddle, MultiTextInput} from '../../components';
+import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import moment from 'moment-timezone';
-import normalizeInput from '../../utils/normalizeInput';
 
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();
   const {
     handleSubmit,
     control,
-    setValue,
-    clearErrors,
     formState: {errors, isValid, isDirty},
   } = useForm({
     resolver: yupResolver(inqueryFormSchema),
   });
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [phone, setPhone] = useState('');
   const [showModal, setShowModal] = useState(false);
   const SubmitLoadingRef = useRef(false);
   const {
@@ -153,17 +148,6 @@ export default function Support() {
     dispatch(showAppLoader());
     dispatch(SupportForm(payload));
   };
-  const handelChange = async value => {
-    await setPhone(prevstate => normalizeInput(value, prevstate));
-    let a = '';
-    for (let i = 0; i < value.length; i++) {
-      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
-        a = a + value[i];
-      }
-    }
-    setValue('phone_no', a);
-  };
-
   return (
     <>
       <View style={Styles.flex}>
@@ -227,42 +211,27 @@ export default function Support() {
                   )}
                   name={FormKey.email}
                 />
-                <Controller
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <View style={styles.mobileView}>
-                      <View
-                        style={[
-                          errors.phone_no?.message && styles.bottom,
-                          styles.mobileBox,
-                        ]}>
-                        <Text style={styles.codeText}>
-                          {Strings.mobile.Code}
-                        </Text>
-                        <TextInput
-                          editable={false}
-                          placeholder={ConstantsCode.Country_CODE}
-                          placeholderTextColor={Colors.textPLace}
-                          style={[styles.codeInputText, styles.blurBorder]}
-                        />
-                      </View>
-                      <FloatingLabelInput
-                        label={Strings.inqueryForm.MobileNumber}
-                        value={phone}
-                        onChangeText={v => {
-                          handelChange(v);
-                          clearErrors('phone_no');
-                        }}
-                        required={true}
-                        maxLength={14}
+                <View style={styles.inputRow}>
+                  <InputLabel Code={true} label={Strings.mobile.Code} />
+                  <Controller
+                    control={control}
+                    render={({field: {onChange, value}}) => (
+                      <InputLabel
+                        value={value}
                         number={true}
-                        keyboardType="numeric"
-                        error={errors && errors.phone_no?.message}
+                        label={Strings.mobile.MobileNumber}
+                        error={errors && errors.phone?.message}
+                        onChangeText={v => {
+                          onChange(v);
+                        }}
+                        maxLength={10}
+                        keyboardType="number-pad"
                       />
-                    </View>
-                  )}
-                  name={FormKey.phone_no}
-                />
+                    )}
+                    name={FormKey.phone_no}
+                  />
+                </View>
+
                 <Controller
                   control={control}
                   render={({field: {onChange, value}}) => (

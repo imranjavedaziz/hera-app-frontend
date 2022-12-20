@@ -411,13 +411,23 @@ const PtbDashboard = props => {
             <View style={STYLE}>
               <TouchableOpacity
                 onPress={() => {
-                  setDisable(!disable);
-                  setIslikedLogo('disliked');
-                  const payload = {
-                    to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
-                    status: 3,
-                  };
-                  dispatch(profileMatch(payload));
+                  if (count === get_ptb_dashboard_res?.data?.data?.total) {
+                    useSwiper?.current?.swipeLeft();
+                    setEmpty(true);
+                    const payload = {
+                      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                      status: 3,
+                    };
+                    dispatch(profileMatch(payload));
+                  } else {
+                    setDisable(!disable);
+                    setIslikedLogo('disliked');
+                    const payload = {
+                      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                      status: 3,
+                    };
+                    dispatch(profileMatch(payload));
+                  }
                 }}>
                 <Image
                   style={styles.dislikeButton}
@@ -427,13 +437,23 @@ const PtbDashboard = props => {
 
               <TouchableOpacity
                 onPress={() => {
-                  setDisable(!disable);
-                  setIslikedLogo('liked');
-                  const payload = {
-                    to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
-                    status: 1,
-                  };
-                  dispatch(profileMatch(payload));
+                  if (count === get_ptb_dashboard_res?.data?.data?.total) {
+                    useSwiper?.current?.swipeRight();
+                    setEmpty(true);
+                    const payload = {
+                      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                      status: 3,
+                    };
+                    dispatch(profileMatch(payload));
+                  } else {
+                    setDisable(!disable);
+                    setIslikedLogo('liked');
+                    const payload = {
+                      to_user_id: ptbDashboardRes[cardIndex]?.user?.id,
+                      status: 1,
+                    };
+                    dispatch(profileMatch(payload));
+                  }
                 }}>
                 <Image
                   style={styles.likeButton}

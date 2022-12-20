@@ -97,7 +97,7 @@ const ChatListing = () => {
         day = 'Just Now';
         break;
       case formattedDate === todayDate:
-        day = 'Today';
+        day = moment(unixTimeStamp).format('h:mm a');
         break;
       case formattedDate === yesterday:
         day = 'Yesterday';
