@@ -242,7 +242,7 @@ export const Routes = {
   DeleteAccount: 'DeleteAccount',
   ProfileLikedSm: 'ProfileLikedSm',
   DeactivateAccount: 'DeactivateAccount',
-  walkThrough: 'walkThrough',
+  WalkThrough: 'WalkThrough',
 };
 export const Static = {
   countries: [
