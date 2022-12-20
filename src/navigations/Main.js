@@ -5,6 +5,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import {useSelector, useDispatch} from 'react-redux';
 import {Routes} from '../constants/Constants';
 import getRoute from '../utils/getRoute';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getSubscriptionStatus} from '../redux/actions/Subsctiption';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
@@ -42,7 +43,7 @@ import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
 import {showAppToast} from '../redux/actions/loader';
 import {Strings} from '../constants';
 import moment from 'moment';
-import { Value } from '../constants/FixedValues';
+import {Value} from '../constants/FixedValues';
 import WalkThrough from '../screens/walkThrough';
 
 export const navigationRef = React.createRef();
@@ -58,13 +59,27 @@ const screens = [
 
 const Main = () => {
   const dispatch = useDispatch();
-  const [statusFetched,setStatusFetched] = React.useState(false);
-  const [toastShowed,setToastShowed] = React.useState(false);
+  const [statusFetched, setStatusFetched] = React.useState(false);
+  const [firstLaunch, setFirstLaunch] = React.useState(null);
+  const [toastShowed, setToastShowed] = React.useState(false);
   const auth = useSelector(state => state.Auth.user);
   const {register_user_success} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
+  useEffect(() => {
+    async function setData() {
+      const appData = await AsyncStorage.getItem('appLaunched');
+      if (appData == null) {
+        setFirstLaunch(true);
+        AsyncStorage.setItem('appLaunched', 'false');
+      } else {
+        setFirstLaunch(false);
+      }
+    }
+    setData();
+  }, []);
+
   useEffect(() => {
     const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (auth) {
@@ -90,7 +105,8 @@ const Main = () => {
     const currentRoute = navigationRef.current?.getCurrentRoute().name;
     if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
       if (
-        !subscriptionStatus?.data.status && !toastShowed &&
+        !subscriptionStatus?.data.status &&
+        !toastShowed &&
         parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&
         (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)
       ) {
@@ -113,61 +129,78 @@ const Main = () => {
     toastShowed,
   ]);
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      onReady={() => RNBootSplash.hide()}>
-      <Stack.Navigator
-        initialRouteName={
-          getRoute(auth?.access_token, auth?.role_id, auth?.registration_step)
-        }
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name={Routes.SmDashboard} component={SmDashboard} />
-        <Stack.Screen name={Routes.ProfileDetails} component={ProfileDetails} />
-        <Stack.Screen name={Routes.Landing} component={Landing} />
-        <Stack.Screen name={Routes.Login} component={Login} />
-        <Stack.Screen name={Routes.MobileNumber} component={MobileNumber} />
-        <Stack.Screen name={Routes.Profile} component={Profile} />
-        <Stack.Screen
-          name={Routes.PtbBasicDetails}
-          component={PtbBasicDetails}
-        />
-        <Stack.Screen name={Routes.SetPreference} component={SetPreference} />
-        <Stack.Screen name={Routes.OTP} component={OTP} />
-        <Stack.Screen name={Routes.SmRegister} component={SmRegister} />
-        <Stack.Screen name={Routes.SmBasicDetails} component={SmBasicDetails} />
-        <Stack.Screen name={Routes.SetAttributes} component={SetAttributes} />
-        <Stack.Screen name={Routes.CreateGallery} component={CreateGallery} />
-        <Stack.Screen name={Routes.PtbDashboard} component={PtbDashboard} />
-        <Stack.Screen
-          name={Routes.DashboardDetailScreen}
-          component={DashboardDetailScreen}
-        />
-        <Stack.Screen name={Routes.PtbProfile} component={PtbProfile} />
-        <Stack.Screen name={Routes.MyVideo} component={MyVideo} />
-        <Stack.Screen name={Routes.SmSetting} component={SmDonorSettings} />
-        <Stack.Screen name={Routes.donorGallery} component={DonorGallery} />
-        <Stack.Screen name={Routes.Support} component={Support} />
-        <Stack.Screen name={Routes.stateList} component={StateList} />
-        <Stack.Screen name={Routes.Subscription} component={Subscription} />
-        <Stack.Screen
-          name={Routes.PushNotificationExample}
-          component={PushNotificationExample}
-        />
-        <Stack.Screen name={Routes.Chat_Request} component={Chat_Request} />
-        <Stack.Screen name={Routes.Chat_Listing} component={Chat_Listing} />
-        <Stack.Screen name={Routes.ChatDetail} component={ChatDetail} />
-        <Stack.Screen name={Routes.Settings} component={Settings} />
-        <Stack.Screen name={Routes.ChangePassword} component={ChangePassword} />
-        <Stack.Screen name={Routes.EditProfile} component={EditProfile} />
-        <Stack.Screen name={Routes.DeleteAccount} component={DeleteAccount} />
-        <Stack.Screen name={Routes.ProfileLikedSm} component={ProfileLikedSm} />
-        <Stack.Screen name={Routes.WalkThrough} component={WalkThrough} />
-        <Stack.Screen
-          name={Routes.DeactivateAccount}
-          component={DeactivateAccount}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    firstLaunch != null && (
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={() => RNBootSplash.hide()}>
+        <Stack.Navigator
+          initialRouteName={
+            firstLaunch === false &&
+            getRoute(auth?.access_token, auth?.role_id, auth?.registration_step)
+          }
+          screenOptions={{headerShown: false}}>
+          {firstLaunch && (
+            <Stack.Screen name={Routes.WalkThrough} component={WalkThrough} />
+          )}
+          <Stack.Screen name={Routes.SmDashboard} component={SmDashboard} />
+          <Stack.Screen
+            name={Routes.ProfileDetails}
+            component={ProfileDetails}
+          />
+          <Stack.Screen name={Routes.Landing} component={Landing} />
+          <Stack.Screen name={Routes.Login} component={Login} />
+          <Stack.Screen name={Routes.MobileNumber} component={MobileNumber} />
+          <Stack.Screen name={Routes.Profile} component={Profile} />
+          <Stack.Screen
+            name={Routes.PtbBasicDetails}
+            component={PtbBasicDetails}
+          />
+          <Stack.Screen name={Routes.SetPreference} component={SetPreference} />
+          <Stack.Screen name={Routes.OTP} component={OTP} />
+          <Stack.Screen name={Routes.SmRegister} component={SmRegister} />
+          <Stack.Screen
+            name={Routes.SmBasicDetails}
+            component={SmBasicDetails}
+          />
+          <Stack.Screen name={Routes.SetAttributes} component={SetAttributes} />
+          <Stack.Screen name={Routes.CreateGallery} component={CreateGallery} />
+          <Stack.Screen name={Routes.PtbDashboard} component={PtbDashboard} />
+          <Stack.Screen
+            name={Routes.DashboardDetailScreen}
+            component={DashboardDetailScreen}
+          />
+          <Stack.Screen name={Routes.PtbProfile} component={PtbProfile} />
+          <Stack.Screen name={Routes.MyVideo} component={MyVideo} />
+          <Stack.Screen name={Routes.SmSetting} component={SmDonorSettings} />
+          <Stack.Screen name={Routes.donorGallery} component={DonorGallery} />
+          <Stack.Screen name={Routes.Support} component={Support} />
+          <Stack.Screen name={Routes.stateList} component={StateList} />
+          <Stack.Screen name={Routes.Subscription} component={Subscription} />
+          <Stack.Screen
+            name={Routes.PushNotificationExample}
+            component={PushNotificationExample}
+          />
+          <Stack.Screen name={Routes.Chat_Request} component={Chat_Request} />
+          <Stack.Screen name={Routes.Chat_Listing} component={Chat_Listing} />
+          <Stack.Screen name={Routes.ChatDetail} component={ChatDetail} />
+          <Stack.Screen name={Routes.Settings} component={Settings} />
+          <Stack.Screen
+            name={Routes.ChangePassword}
+            component={ChangePassword}
+          />
+          <Stack.Screen name={Routes.EditProfile} component={EditProfile} />
+          <Stack.Screen name={Routes.DeleteAccount} component={DeleteAccount} />
+          <Stack.Screen
+            name={Routes.ProfileLikedSm}
+            component={ProfileLikedSm}
+          />
+          <Stack.Screen
+            name={Routes.DeactivateAccount}
+            component={DeactivateAccount}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    )
   );
 };
 export default Main;
