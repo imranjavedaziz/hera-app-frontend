@@ -97,7 +97,7 @@ const PTB_profile = props => {
             navigation.goBack();
           }
         } else {
-          navigation.navigate(Routes.SmDashboard);
+          navigation.goBack();
         }
       }}
       style={styles.androidHeaderIcons}
