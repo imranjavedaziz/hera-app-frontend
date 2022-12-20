@@ -43,6 +43,7 @@ import {showAppToast} from '../redux/actions/loader';
 import {Strings} from '../constants';
 import moment from 'moment';
 import { Value } from '../constants/FixedValues';
+import WalkThrough from '../screens/walkThrough';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -160,6 +161,7 @@ const Main = () => {
         <Stack.Screen name={Routes.EditProfile} component={EditProfile} />
         <Stack.Screen name={Routes.DeleteAccount} component={DeleteAccount} />
         <Stack.Screen name={Routes.ProfileLikedSm} component={ProfileLikedSm} />
+        <Stack.Screen name={Routes.WalkThrough} component={WalkThrough} />
         <Stack.Screen
           name={Routes.DeactivateAccount}
           component={DeactivateAccount}
