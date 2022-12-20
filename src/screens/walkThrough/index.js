@@ -9,7 +9,6 @@ import {Routes} from '../../constants/Constants';
 
 const WalkThrough = () => {
   const onboardingRef = useRef();
-  // const [iconType, setIconType] = useState('');
   const navigation = useNavigation();
 
   const headerComp = () => (
@@ -29,14 +28,11 @@ const WalkThrough = () => {
         onboardingRef.current.goToPage(1, true);
       }}
       accessibilityLabel="Cross Button, Go back"
-      style={styles.headerIcon}
+      style={styles.headerIcon2}
     />
   );
   return (
-    <View
-      style={{
-        flex: 1,
-      }}>
+    <View style={styles.mainContainer}>
       <Onboarding
         verticalSwipe={false}
         showPagination={false}
@@ -91,32 +87,32 @@ const WalkThrough = () => {
             image: (
               <>
                 <Header end={false}>{headerComp()}</Header>
-                <View style={styles.subscriptionContainer}>
-                  <Text style={styles.lookingSm}>
+                <View style={styles.subscriptionContainerNew}>
+                  <Text style={styles.lookingSmNew}>
                     {Strings.WALKTHROUGH.LOOKING_SM}
                   </Text>
-                </View>
-                <Image
-                  source={Images.WALKTHROUGH2}
-                  resizeMode={'contain'}
-                  style={styles.walkThrough}
-                />
-                <Text style={styles.preference}>
-                  {Strings.WALKTHROUGH.YOUR_PREFERENCE}
-                </Text>
-                <Text style={styles.preferenceContent}>
-                  {Strings.WALKTHROUGH.PREFERENCE_CONTENT}
-                </Text>
-                <View style={styles.buttoncontainer}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                      onboardingRef.current.goNext();
-                    }}>
-                    <Text style={styles.buttonText}>
-                      {Strings.WALKTHROUGH.NEXT}
-                    </Text>
-                  </TouchableOpacity>
+                  <Image
+                    source={Images.WALKTHROUGH2}
+                    resizeMode={'contain'}
+                    style={styles.walkThrough}
+                  />
+                  <Text style={styles.match}>
+                    {Strings.WALKTHROUGH.YOUR_PREFERENCE}
+                  </Text>
+                  <Text style={styles.matchContent}>
+                    {Strings.WALKTHROUGH.PREFERENCE_CONTENT}
+                  </Text>
+                  <View style={styles.buttoncontainer}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        onboardingRef.current.goNext();
+                      }}>
+                      <Text style={styles.buttonText}>
+                        {Strings.WALKTHROUGH.NEXT}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </>
             ),
@@ -126,30 +122,33 @@ const WalkThrough = () => {
             image: (
               <>
                 <Header end={false}>{headerComp2()}</Header>
-                <View style={styles.subscriptionContainer}>
-                  <Text style={styles.lookingSm}>
+                <View style={styles.subscriptionContainerNew}>
+                  <Text style={styles.lookingSmNew}>
                     {Strings.WALKTHROUGH.SUBSCRIPTION}
                   </Text>
-                </View>
-                <Image
-                  source={Images.WALKTHROUGH3}
-                  resizeMode={'contain'}
-                  style={styles.walkThrough}
-                />
-                <Text style={styles.match}>{Strings.WALKTHROUGH.CONNECT}</Text>
-                <Text style={styles.matchContent}>
-                  {Strings.WALKTHROUGH.CONNECT_CONTENT}
-                </Text>
-                <View style={styles.buttoncontainer}>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                      navigation.navigate(Routes.Landing);
-                    }}>
-                    <Text style={styles.buttonText}>
-                      {Strings.WALKTHROUGH.DONE}
-                    </Text>
-                  </TouchableOpacity>
+
+                  <Image
+                    source={Images.WALKTHROUGH3}
+                    resizeMode={'contain'}
+                    style={styles.walkThrough}
+                  />
+                  <Text style={styles.match}>
+                    {Strings.WALKTHROUGH.CONNECT}
+                  </Text>
+                  <Text style={styles.matchContent}>
+                    {Strings.WALKTHROUGH.CONNECT_CONTENT}
+                  </Text>
+                  <View style={styles.buttoncontainer}>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        navigation.navigate(Routes.Landing);
+                      }}>
+                      <Text style={styles.buttonText}>
+                        {Strings.WALKTHROUGH.DONE}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </>
             ),

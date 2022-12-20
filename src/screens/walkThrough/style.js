@@ -4,8 +4,11 @@ import {Value} from '../../constants/FixedValues';
 import {dynamicSize, px, statusHide} from '../../utils/responsive';
 import {Platform} from 'react-native';
 export default {
+  mainContainer: {
+    flex: 1,
+  },
   firstMainContainer: {
-    marginTop: px(70),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_70),
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
   },
@@ -38,9 +41,9 @@ export default {
     color: Colors.BLACK,
   },
   buttoncontainer: {
-    marginTop: Value.CONSTANT_VALUE_46,
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_46),
     alignItems: Alignment.CENTER,
-    paddingBottom: Value.CONSTANT_VALUE_52,
+    paddingBottom: dynamicSize(Value.CONSTANT_VALUE_52),
   },
   button: {
     justifyContent: Alignment.CENTER,
@@ -60,12 +63,13 @@ export default {
   matchContainer: {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    marginTop: 23,
   },
   match: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: 23,
     color: Colors.BLACK,
+    textAlign: 'center',
+    paddingTop: 20,
   },
   preference: {
     fontFamily: Fonts.OpenSansBold,
@@ -74,10 +78,9 @@ export default {
     marginTop: px(53),
   },
   contentContainer: {
-    marginTop: 10,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    marginHorizontal: 57,
+    marginHorizontal: dynamicSize(57),
   },
   matchContent: {
     fontFamily: Fonts.OpenSansRegular,
@@ -91,18 +94,17 @@ export default {
     fontSize: 13,
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
-    paddingHorizontal: 50,
     marginTop: 10,
+    marginHorizontal: dynamicSize(27),
   },
   headerIcon: {
     marginLeft: 30,
     marginTop: Platform.OS === 'android' ? 100 : 10,
-    // bottom: 40,
   },
+
   headerIcon2: {
     marginLeft: 30,
-    marginTop: Platform.OS === 'android' ? 100 : 10,
-    // bottom: 40,
+    marginTop: Platform.OS === 'android' ? 100 : statusHide(54),
   },
   secondContainer: {
     marginTop: px(39),
@@ -113,13 +115,20 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 55,
-    // marginTop: Platform.OS === 'ios' ? statusHide(104) : 104,
   },
   lookingSm: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 16,
     textAlign: 'center',
     color: Colors.BLACK,
+  },
+  lookingSmNew: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: 16,
+    textAlign: 'center',
+    color: Colors.BLACK,
+    marginTop: 20,
+    width: px(246),
   },
   preferenceContainer: {
     alignItems: Alignment.CENTER,
@@ -129,6 +138,12 @@ export default {
   subscriptionContainer: {
     marginTop: Platform.OS === 'ios' ? statusHide(20) : 150,
     paddingHorizontal: 60,
+    alignItems: 'center',
+  },
+  subscriptionContainerNew: {
+    marginTop: Platform.OS === 'ios' ? statusHide(0) : 150,
+    paddingHorizontal: dynamicSize(36),
+    alignItems: 'center',
   },
   thirdContainer: {
     marginTop: 27,
@@ -142,11 +157,11 @@ export default {
   },
   connectContent: {
     marginTop: 10,
-    alignItems: Alignment.CENTER,
+    textAlign: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    marginHorizontal: 60,
+    marginHorizontal: 50,
   },
   walkThrough: {
-    marginTop: px(39),
+    marginTop: px(37),
   },
 };
