@@ -50,6 +50,7 @@ const DashboardDetailScreen = () => {
   const loadingRef = useRef(false);
   const loadingMatchRef = useRef(false);
   const [islikedLogo, setIslikedLogo] = useState('');
+  const [isVisibleLogo, setIsVisibleLogo] = useState(false);
   const {
     get_sm_donor_success,
     get_sm_donor_loading,
@@ -111,23 +112,17 @@ const DashboardDetailScreen = () => {
       dispatch(showAppLoader());
       if (profile_match_success) {
         dispatch(hideAppLoader());
-        setIslikedLogo('');
-        if (smDetailRes?.profile_match_request?.status === 2) {
-          dispatch(
-            showAppToast(false, Strings.Chat.PLEASE_SEND_MESSAGE_INITIATE),
-          );
-        } else {
-          if (islikedLogo !== 'disliked') {
-            dispatch(showAppToast(false, Strings.Chat.MATCH_SEND_SUCCESSFULLY));
-            navigation.navigate(Routes.PtbDashboard);
-          } else {
-            navigation.navigate(Routes.PtbDashboard);
-          }
-        }
-      } else {
-        dispatch(hideAppLoader());
+        setTimeout(() => {
+          setIsVisibleLogo(false);
+          setIslikedLogo('');
+          navigation.navigate(Routes.PtbDashboard);
+        }, 2000);
+        dispatch(showAppToast(false, profile_match_error_msg));
       }
+    } else {
+      dispatch(hideAppLoader());
     }
+
     loadingMatchRef.current = profile_match_loading;
   }, [
     profile_match_success,
@@ -136,6 +131,37 @@ const DashboardDetailScreen = () => {
     dispatch,
     navigation,
   ]);
+
+  const FadeInView = props => {
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start();
+    }, [fadeAnim]);
+    return (
+      <Animated.View
+        style={{
+          ...props.style,
+          opacity: fadeAnim,
+          flex: 1,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: width,
+          zIndex: 99999,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image style={styles.iconImage} source={IMG_CONDI} />
+      </Animated.View>
+    );
+  };
+  const IMG_CONDI =
+    islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
 
   const headerComp = () => (
     <IconHeader
@@ -150,6 +176,7 @@ const DashboardDetailScreen = () => {
       status: 1,
     };
     dispatch(profileMatch(payload));
+    setIsVisibleLogo(true);
     setIslikedLogo('liked');
   };
   const onPressDislike = () => {
@@ -158,6 +185,7 @@ const DashboardDetailScreen = () => {
       status: 3,
     };
     dispatch(profileMatch(payload));
+    setIsVisibleLogo(true);
     setIslikedLogo('disliked');
   };
   const ImageClick = index => {
@@ -467,6 +495,7 @@ const DashboardDetailScreen = () => {
             />
           </View>
         )}
+        {isVisibleLogo && <FadeInView />}
         <ImageView
           images={images}
           imageIndex={imgPreviewindex}

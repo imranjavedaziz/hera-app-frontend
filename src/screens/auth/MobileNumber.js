@@ -16,7 +16,6 @@ import {ConstantsCode, Routes} from '../../constants/Constants';
 import {InputLabel} from '../../components';
 import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
-import normalizeInput from '../../utils/normalizeInput';
 import {statusHide} from '../../utils/responsive';
 import {empty} from '../../redux/actions/Chat';
 
@@ -25,14 +24,12 @@ const MobileNumber = ({route}) => {
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const [isRouteData, setIsRouteData] = useState();
-  const [phone, setPhone] = useState('');
   const {type} = route.params;
 
   const {
     handleSubmit,
     control,
     formState: {errors},
-    setValue,
   } = useForm({
     resolver: yupResolver(mobileSchema),
   });
@@ -61,10 +58,7 @@ const MobileNumber = ({route}) => {
   const onSubmit = data => {
     const payload = {
       country_code: ConstantsCode.Country_CODE,
-      phone_no:
-        data.phone.length > 10
-          ? data.phone.substring(0, data.phone.length - 1)
-          : data.phone,
+      phone_no: data.phone,
       type,
     };
     setIsRouteData(payload);
@@ -82,16 +76,7 @@ const MobileNumber = ({route}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
-  const handelChange = async value => {
-    await setPhone(prevstate => normalizeInput(value, prevstate));
-    let a = '';
-    for (let i = 0; i < value.length; i++) {
-      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
-        a = a + value[i];
-      }
-    }
-    setValue('phone', a);
-  };
+
   return (
     <View
       style={{
@@ -126,14 +111,14 @@ const MobileNumber = ({route}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <InputLabel
-                  value={phone}
+                  value={value}
                   number={true}
                   label={Strings.mobile.MobileNumber}
                   error={errors && errors.phone?.message}
                   onChangeText={v => {
-                    handelChange(v);
+                    onChange(v);
                   }}
-                  maxLength={14}
+                  maxLength={10}
                   keyboardType="number-pad"
                 />
               )}
