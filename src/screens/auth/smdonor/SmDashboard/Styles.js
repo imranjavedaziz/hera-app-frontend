@@ -199,7 +199,6 @@ export default {
     marginTop: Value.CONSTANT_VALUE_110,
     alignSelf: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    paddingHorizontal: Value.CONSTANT_VALUE_30,
   },
   sryText: {
     textAlign: Alignment.CENTER,
@@ -213,6 +212,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
+    paddingHorizontal: px(Value.CONSTANT_VALUE_20),
   },
   innerText2: {
     fontSize: normalizeFont(Value.CONSTANT_VALUE_16),
@@ -220,7 +220,7 @@ export default {
     color: Colors.BLACK,
     marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
     fontFamily: Fonts.OpenSansRegular,
-    marginHorizontal: Value.CONSTANT_VALUE_40,
+    marginHorizontal: px(Value.CONSTANT_VALUE_40),
   },
   footerCon: {
     paddingBottom: Value.CONSTANT_VALUE_236,
