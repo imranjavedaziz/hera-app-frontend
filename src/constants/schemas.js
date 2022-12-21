@@ -281,7 +281,28 @@ export const changePasswordSchema = yup.object().shape({
   current_password: yup
     .string()
     .test('current_password', ValidationMessages.ALL_MANDATORY, allMandatory)
-    .required(ValidationMessages.PLEASE_ENTER_CURR_PASS),
+    .required(ValidationMessages.PLEASE_ENTER_CURR_PASS)
+    .min(Value.CONSTANT_VALUE_8, ValidationMessages.INVALID_MOBILE)
+    .matches(Regx.SPECIAL_CHAR, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    })
+    .matches(Regx.ALPHA_LOWER, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    })
+    .matches(Regx.ALPHA_START, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    })
+    .matches(Regx.ALPHA_CAP, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    })
+    .matches(Regx.NUM, {
+      excludeEmptyString: true,
+      message: ValidationMessages.INVALID_MOBILE,
+    }),
   new_password: yup
     .string()
     .test('new_password', ValidationMessages.ALL_MANDATORY, allMandatory)

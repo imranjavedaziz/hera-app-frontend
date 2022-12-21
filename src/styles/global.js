@@ -20,7 +20,6 @@ export default {
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_23,
-    lineHeight: Value.CONSTANT_VALUE_32,
     textAlign: 'center',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,

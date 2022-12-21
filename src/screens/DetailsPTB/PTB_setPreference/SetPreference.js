@@ -244,9 +244,9 @@ const SetPreference = ({route, navigation}) => {
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
           : navigation.reset({
-            index: 0,
-            routes: [{ name: Routes.PtbDashboard }],
-          });
+              index: 0,
+              routes: [{name: Routes.PtbDashboard}],
+            });
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
@@ -412,9 +412,20 @@ const SetPreference = ({route, navigation}) => {
                 </Text>
               </View>
               <View style={styles.lookingFor}>
-                <Text style={styles.lookingForText}>
+                <Text
+                  style={[
+                    styles.lookingForText,
+                    {
+                      color: isOpen ? Colors.LABEL_BLACK : Colors.BLACK_KEY,
+                    },
+                  ]}>
                   {Strings.preference.lookingFor}
-                  <Text style={styles.chipsRequiredText}>*</Text>
+                  <Text
+                    style={[
+                      isOpen ? Colors.LIGHT_BLACK47 : styles.chipsRequiredText,
+                    ]}>
+                    *
+                  </Text>
                 </Text>
                 <Controller
                   control={control}
@@ -430,7 +441,9 @@ const SetPreference = ({route, navigation}) => {
                             style={{resizeMode: 'contain'}}
                             source={
                               value === whom.id
-                                ? Images.iconRadiosel
+                                ? isOpen
+                                  ? Images.darkRadiosel
+                                  : Images.iconRadiosel
                                 : Images.iconRadiounsel
                             }
                           />
@@ -485,7 +498,12 @@ const SetPreference = ({route, navigation}) => {
                 />
                 <Text style={styles.ageText}>
                   {Strings.preference.AgeRange}
-                  <Text style={styles.chipsRequiredText}>*</Text>
+                  <Text
+                    style={[
+                      isOpen ? Colors.LIGHT_BLACK47 : styles.chipsRequiredText,
+                    ]}>
+                    *
+                  </Text>
                 </Text>
                 <Controller
                   control={control}
@@ -511,8 +529,12 @@ const SetPreference = ({route, navigation}) => {
                                       item.name,
                                     )
                                       ? Colors.COLOR_5ABCEC
+                                      : isOpen
+                                      ? Colors.LIGHT_BLACK47
                                       : Colors.BACKGROUND,
                                     borderWidth: isSelected(value, item.name)
+                                      ? 0
+                                      : isOpen
                                       ? 0
                                       : 1,
                                   },
@@ -523,6 +545,8 @@ const SetPreference = ({route, navigation}) => {
                                     {
                                       color: isSelected(value, item.name)
                                         ? Colors.WHITE
+                                        : isOpen
+                                        ? Colors.LIGHT_BLACK
                                         : Colors.BLACK_0,
                                       fontFamily: isSelected(value, item.name)
                                         ? Fonts.OpenSansBold
@@ -547,7 +571,12 @@ const SetPreference = ({route, navigation}) => {
                   <View style={styles.heightContainer}>
                     <Text style={styles.heightTextInner}>
                       {Strings.preference.Height}
-                      <Text style={styles.heightText}>*</Text>
+                      <Text
+                        style={[
+                          isOpen ? Colors.LIGHT_BLACK47 : styles.heightText,
+                        ]}>
+                        *
+                      </Text>
                     </Text>
                     <Text style={styles.heightTextView}>
                       <Text>
@@ -569,6 +598,7 @@ const SetPreference = ({route, navigation}) => {
                         onValueChange={value => {
                           onChange(value);
                         }}
+                        lineColor={isOpen}
                       />
                     )}
                     name={FormKey.height}
@@ -597,7 +627,11 @@ const SetPreference = ({route, navigation}) => {
                     {Strings.preference.HairColor}
                   </Text>
                   <Text
-                    style={{color: Colors.RED, fontSize: 18, marginTop: 30}}>
+                    style={{
+                      color: isOpen ? Colors.LIGHT_BLACK47 : Colors.RED,
+                      fontSize: 18,
+                      marginTop: 30,
+                    }}>
                     *
                   </Text>
                 </View>
@@ -664,7 +698,11 @@ const SetPreference = ({route, navigation}) => {
                     {Strings.preference.EyeColor}
                   </Text>
                   <Text
-                    style={{color: Colors.RED, fontSize: 18, marginTop: 30}}>
+                    style={{
+                      color: isOpen ? Colors.LIGHT_BLACK47 : Colors.RED,
+                      fontSize: 18,
+                      marginTop: 30,
+                    }}>
                     *
                   </Text>
                 </View>

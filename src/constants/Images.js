@@ -28,6 +28,7 @@ export default {
   iconmapwhite: require('../assets/icons/iconmapwhite/iconmapwhite.png'),
   iconNotlike: require('../assets/icons/iconNotlike/iconNotlike.png'),
   iconRadiosel: require('../assets/icons/iconRadiosel/iconRadiosel.png'),
+  darkRadiosel: require('../assets/icons/iconRadiosel/darkRadiosel.png'),
   iconRadiounsel: require('../assets/icons/iconRadiounsel/iconRadiounsel.png'),
   iconSettings: require('../assets/icons/iconSettings/iconSettings.png'),
   information: require('../assets/icons/information/information.png'),

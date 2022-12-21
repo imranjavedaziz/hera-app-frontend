@@ -29,9 +29,21 @@ export default function MultiTextInput({
     <React.Fragment>
       <View style={containerStyle}>
         <View style={styles.row}>
-          <Text style={styles.label}>
+          <Text
+            style={[
+              styles.label,
+              {color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_KEY},
+            ]}>
             {title}
-            {required && <Text style={[styles.red]}>*</Text>}
+            {required && (
+              <Text
+                style={[
+                  styles.red,
+                  {color: lineColor ? Colors.LIGHT_BLACK47 : Colors.RED},
+                ]}>
+                *
+              </Text>
+            )}
           </Text>
         </View>
         <View

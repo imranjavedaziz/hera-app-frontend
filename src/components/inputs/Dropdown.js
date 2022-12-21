@@ -75,7 +75,7 @@ const Dropdown = ({
     fontFamily: Fonts.OpenSansRegular,
     lineHeight: 21,
     letterSpacing: 0,
-    color: lineColor ? Colors.LABEL_BLACK : '#000000',
+    color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_KEY,
     top: Value.CONSTANT_VALUE_8,
     fontSize: Value.CONSTANT_VALUE_14,
   };
@@ -86,7 +86,7 @@ const Dropdown = ({
     fontStyle: 'normal',
     lineHeight: 21,
     letterSpacing: 0,
-    color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_0,
+    color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_KEY,
     top: 22,
   };
   const STYLE_CONDITION_THREE = value ? IOSfloated : unIosfloated;
