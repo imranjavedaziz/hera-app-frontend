@@ -4,7 +4,7 @@ import {Slider} from '@miblanchard/react-native-slider';
 import {Value} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
 
-const RangeSlider = ({value, setValue, onValueChange}) => {
+const RangeSlider = ({value, setValue, onValueChange, lineColor}) => {
   return (
     <Slider
       maximumTrackTintColor={Colors.INPUT_BORDER}

@@ -285,7 +285,9 @@ const SmBasicDetails = () => {
                               style={styles.radioImg}
                               source={
                                 value === gender.id
-                                  ? Images.iconRadiosel
+                                  ? isOpen
+                                    ? Images.darkRadiosel
+                                    : Images.iconRadiosel
                                   : Images.iconRadiounsel
                               }
                             />
