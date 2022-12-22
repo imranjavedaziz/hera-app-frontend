@@ -5,7 +5,14 @@ import BottomSheet from 'react-native-simple-bottom-sheet';
 import global from '../styles/global';
 
 const BottomSheetComp = props => {
-  const {isOpen, setOpen, children, wrapperStyle, lineStyle} = props;
+  const {
+    isOpen,
+    setOpen,
+    children,
+    wrapperStyle,
+    lineStyle,
+    isComing = false,
+  } = props;
   const panelRef = useRef(null);
 
   return (
@@ -15,8 +22,20 @@ const BottomSheetComp = props => {
       onRequestClose={() => {
         setOpen(false);
       }}
-      transparent>
-      <>
+      style={{flex: 1}}
+      transparent={true}>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => setOpen(false)}
+        style={[
+          {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 22,
+          },
+          {backgroundColor: isComing ? '#000000aa' : null},
+        ]}>
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => setOpen(false)}
@@ -35,7 +54,7 @@ const BottomSheetComp = props => {
           innerContentStyle={global.innerContentStyle}>
           {children}
         </BottomSheet>
-      </>
+      </TouchableOpacity>
     </Modal>
   );
 };

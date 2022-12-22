@@ -232,10 +232,7 @@ const SmBasicDetails = () => {
         animated={true}
         hidden={false}
       />
-      <View
-        style={[
-          isOpen ? {backgroundColor: Colors.LIGHT_BLACK47} : styles.flex_1,
-        ]}>
+      <View style={styles.flex_1}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -265,12 +262,7 @@ const SmBasicDetails = () => {
                     accessible={true}
                     accessibilityLabel={'Gender'}>
                     Gender
-                    <Text
-                      style={[
-                        {color: isOpen ? Colors.LIGHT_BLACK47 : Colors.RED},
-                      ]}>
-                      *
-                    </Text>
+                    <Text style={{color: Colors.RED}}>*</Text>
                   </Text>
                   <Controller
                     control={control}
@@ -285,9 +277,7 @@ const SmBasicDetails = () => {
                               style={styles.radioImg}
                               source={
                                 value === gender.id
-                                  ? isOpen
-                                    ? Images.darkRadiosel
-                                    : Images.iconRadiosel
+                                  ? Images.iconRadiosel
                                   : Images.iconRadiounsel
                               }
                             />
@@ -310,7 +300,6 @@ const SmBasicDetails = () => {
                         }}
                         required={true}
                         error={errors && errors.sexual_orientations_id?.message}
-                        lineColor={isOpen}
                       />
                     )}
                     name="sexual_orientations_id"
@@ -327,7 +316,6 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        lineColor={isOpen}
                       />
                     )}
                     name="relationship_status_id"
@@ -343,7 +331,6 @@ const SmBasicDetails = () => {
                           onChange(selectedItem.id);
                         }}
                         required={true}
-                        lineColor={isOpen}
                         error={errors && errors.state_id?.message}
                       />
                     )}
@@ -359,7 +346,6 @@ const SmBasicDetails = () => {
                         onChangeText={v => onChange(v)}
                         error={errors && errors.zipcode?.message}
                         required={true}
-                        lineColor={isOpen}
                         keyboardType="number-pad"
                         maxLength={5}
                       />
@@ -373,7 +359,6 @@ const SmBasicDetails = () => {
                         containerStyle={Style}
                         label={Strings.sm_basic.Occupation}
                         value={value}
-                        lineColor={isOpen}
                         onChangeText={v => onChange(v)}
                         error={errors && errors.occupation?.message}
                       />
@@ -388,7 +373,6 @@ const SmBasicDetails = () => {
                         required={true}
                         value={value}
                         maxLength={250}
-                        lineColor={isOpen}
                         onChangeText={v => {
                           onChange(v);
                         }}
@@ -415,40 +399,45 @@ const SmBasicDetails = () => {
           </KeyboardAwareScrollView>
         </ScrollView>
       </View>
-      <BottomSheetComp
-        wrapperStyle={globalStyle.wrapperStyle}
-        lineStyle={globalStyle.lineStyle}
-        isOpen={isOpen}
-        setOpen={setOpen}>
-        <View style={globalStyle.basicSheetContainer}>
-          <TouchableOpacity
-            style={globalStyle.formBtn}
-            onPress={() => {
-              navigation.navigate('Support');
-              setOpen(false);
-            }}>
-            <Text style={globalStyle.formText}>
-              {Strings.smSetting.Inquiry}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.heraBtn}
-            onPress={() => {
-              openWebView(ABOUT_URL);
-            }}>
-            <Text style={globalStyle.heraText}>
-              {Strings.bottomSheet.About_HERA}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.logoutBtn}
-            onPress={() => logOutScreen()}>
-            <Text style={globalStyle.logoutText}>
-              {Strings.bottomSheet.Log_Out}
-            </Text>
-          </TouchableOpacity>
+      {isOpen && (
+        <View style={{}}>
+          <BottomSheetComp
+            wrapperStyle={globalStyle.wrapperStyle}
+            lineStyle={globalStyle.lineStyle}
+            isOpen={isOpen}
+            isComing={true}
+            setOpen={setOpen}>
+            <View style={globalStyle.basicSheetContainer}>
+              <TouchableOpacity
+                style={globalStyle.formBtn}
+                onPress={() => {
+                  navigation.navigate('Support');
+                  setOpen(false);
+                }}>
+                <Text style={globalStyle.formText}>
+                  {Strings.smSetting.Inquiry}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={globalStyle.heraBtn}
+                onPress={() => {
+                  openWebView(ABOUT_URL);
+                }}>
+                <Text style={globalStyle.heraText}>
+                  {Strings.bottomSheet.About_HERA}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={globalStyle.logoutBtn}
+                onPress={() => logOutScreen()}>
+                <Text style={globalStyle.logoutText}>
+                  {Strings.bottomSheet.Log_Out}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </BottomSheetComp>
         </View>
-      </BottomSheetComp>
+      )}
     </>
   );
 };

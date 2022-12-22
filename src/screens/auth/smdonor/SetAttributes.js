@@ -542,6 +542,7 @@ const SetAttributes = ({route}) => {
         wrapperStyle={globalStyle.wrapperStyle}
         lineStyle={globalStyle.lineStyle}
         isOpen={isOpen}
+        isComing={true}
         setOpen={setOpen}>
         <View style={globalStyle.basicSheetContainer}>
           <TouchableOpacity style={globalStyle.formBtn}>
