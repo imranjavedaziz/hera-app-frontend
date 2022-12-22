@@ -357,6 +357,7 @@ const SmDonorSettings = () => {
           <TouchableOpacity
             onPress={() => {
               openCamera(0, cb);
+              setOpen(false);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
@@ -364,6 +365,7 @@ const SmDonorSettings = () => {
           <TouchableOpacity
             onPress={() => {
               openCamera(1, cb);
+              setOpen(false);
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>

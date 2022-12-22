@@ -75,9 +75,11 @@ const SmDashboard = ({route}) => {
   const [isFocused, setFocused] = useState(false);
   const [statusRes, setStatusRes] = useState([]);
   const [networkError, setNetworkError] = useState(false);
+  const messageIdRx = useSelector(state => state.MessageId);
+  const [currUser, setCurrUser] = useState(messageIdRx);
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
-  const messageIdRx = useSelector(state => state.MessageId);
+
   const toast = useToast();
   const fetchData = useCallback(() => {
     chatData.update();
@@ -117,15 +119,10 @@ const SmDashboard = ({route}) => {
       dispatch(getDonorDashboard(payload));
     }, [search, page, route?.params?.informationDetail]),
   );
-  // expected output: true
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(getMessageID(''));
-    });
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation, dispatch]);
+  useEffect(() => {
+    setCurrUser(messageIdRx);
+  }, [messageIdRx]);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -137,11 +134,7 @@ const SmDashboard = ({route}) => {
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
         const {recieverId} = notification?.data;
-        const showNotification =
-          messageIdRx?.messageIdRx === parseInt(recieverId);
-        console.log(messageIdRx, 'messageIdRxPush');
-        console.log(recieverId, 'recieverIsd');
-        console.log(showNotification, 'showNotification');
+        const showNotification = currUser?.messageIdRx === parseInt(recieverId);
         if (notification.uterInteraction === true) {
           if (notification.data.notify_type === 'profile') {
             const {status} = JSON.parse(notification.data?.match_request);
@@ -237,8 +230,15 @@ const SmDashboard = ({route}) => {
         }
       }
     });
-  }, [fcmToken, navigation]);
-
+  }, [fcmToken, navigation, messageIdRx, currUser]);
+  // expected output: true
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
   //  DONOR DASHBOARD CARD
   useFocusEffect(
     useCallback(() => {

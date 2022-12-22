@@ -441,6 +441,7 @@ const CreateGallery = () => {
           <TouchableOpacity
             onPress={() => {
               !isVideo ? openCamera(0, cb) : selectVideo(0);
+              setOpen(false);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
@@ -451,6 +452,7 @@ const CreateGallery = () => {
             style={styleSheet.pickerBtn}
             onPress={() => {
               !isVideo ? openCamera(1, cb) : selectVideo(1);
+              setOpen(false);
             }}>
             <Text style={styleSheet.pickerBtnLabel}>
               {Strings.sm_create_gallery.bottomSheetGallery}

@@ -97,28 +97,30 @@ const Main = () => {
     }
   }, [auth]);
   useEffect(() => {
-    const path = getRoute(
-      auth?.access_token,
-      auth?.role_id,
-      auth?.registration_step,
-    );
-    const currentRoute = navigationRef.current?.getCurrentRoute().name;
-    if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
-      if (
-        !subscriptionStatus?.data.status &&
-        !toastShowed &&
-        parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&
-        (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)
-      ) {
-        setToastShowed(true);
-        dispatch(
-          showAppToast(
-            true,
-            subscriptionStatus.data.is_trial
-              ? Strings.Subscription.TrailOver
-              : Strings.Subscription.SubscriptionExpired,
-          ),
-        );
+    if (auth?.access_token) {
+      const path = getRoute(
+        auth?.access_token,
+        auth?.role_id,
+        auth?.registration_step,
+      );
+      const currentRoute = navigationRef.current?.getCurrentRoute().name;
+      if (subscriptionStatus && subscriptionStatus.data && auth?.role_id) {
+        if (
+          !subscriptionStatus?.data.status &&
+          !toastShowed &&
+          parseInt(auth?.role_id) === Value.CONSTANT_VALUE_2 &&
+          (path === Routes.PtbDashboard || currentRoute === Routes.PtbDashboard)
+        ) {
+          setToastShowed(true);
+          dispatch(
+            showAppToast(
+              true,
+              subscriptionStatus.data.is_trial
+                ? Strings.Subscription.TrailOver
+                : Strings.Subscription.SubscriptionExpired,
+            ),
+          );
+        }
       }
     }
   }, [

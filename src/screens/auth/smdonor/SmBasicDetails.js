@@ -433,6 +433,7 @@ const SmBasicDetails = () => {
             style={globalStyle.heraBtn}
             onPress={() => {
               openWebView(ABOUT_URL);
+              setOpen(false);
             }}>
             <Text style={globalStyle.heraText}>
               {Strings.bottomSheet.About_HERA}

@@ -244,9 +244,9 @@ const SetPreference = ({route, navigation}) => {
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
           : navigation.reset({
-            index: 0,
-            routes: [{ name: Routes.PtbDashboard }],
-          });
+              index: 0,
+              routes: [{name: Routes.PtbDashboard}],
+            });
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
@@ -752,12 +752,18 @@ const SetPreference = ({route, navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.heraBtn}
-            onPress={() => openWebView(ABOUT_URL)}>
+            onPress={() => {
+              openWebView(ABOUT_URL);
+              setOpen(false);
+            }}>
             <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={() => logOutScreen()}>
+            onPress={() => {
+              logOutScreen();
+              setOpen(false);
+            }}>
             <Text style={globalStyle.logoutText}>
               {Strings.preference.Logout}
             </Text>
