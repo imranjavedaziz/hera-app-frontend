@@ -9,30 +9,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import {showMessageAppToast} from '../redux/actions/loader';
 import * as RootNavigation from '../utils/RootNavigation';
 import Toast from 'react-native-toast-notifications';
-import { MessageToast } from '../components';
+import {MessageToast} from '../components';
 export const navigationRef = React.createRef();
 const ForegroundHandler = () => {
   const messageIdRx = useSelector(state => state.MessageId);
   const toastRef = useRef();
   const dispatch = useDispatch();
-  console.log(AppState,'AppState');
-  const [currUser, setCurrUser] = useState(messageIdRx);
-  useEffect(() => {
-    setCurrUser(messageIdRx);
-  }, [messageIdRx]);
-  console.log(currUser,'currUsercurrUser');
   useEffect(() => {
     // console.log(toast?.show, 'toast');
     const unsubscribe = messaging().onMessage(remoteMessage => {
       console.log('Notification Method Unsubscribe', remoteMessage);
       const {notification, messageId} = remoteMessage;
-  
-      console.log(currUser,'IOScurrUsercurrUser');
       const {recieverId} = remoteMessage?.data;
-      console.log(recieverId,'IOScurrUsercurrUser');
       const showNotification =
-      currUser?.messageIdRx === parseInt(recieverId);
-      if (Platform.OS === 'ios'&& AppState.currentState!=='background') {
+        messageIdRx?.messageIdRx === parseInt(recieverId);
+      if (Platform.OS === 'ios' && AppState.currentState !== 'background') {
         if (
           showNotification === true &&
           remoteMessage?.data.notify_type === 'chat'
@@ -87,12 +78,17 @@ const ForegroundHandler = () => {
       }
     });
     return unsubscribe;
-  }, []); 
+  }, [messageIdRx]);
   return (
     <>
-      {Platform.OS=== 'ios' && <Toast ref={toastRef} renderType={{
-              custom: toast => <MessageToast />,
-            }}/>}
+      {Platform.OS === 'ios' && (
+        <Toast
+          ref={toastRef}
+          renderType={{
+            custom: toast => <MessageToast />,
+          }}
+        />
+      )}
     </>
   );
 };

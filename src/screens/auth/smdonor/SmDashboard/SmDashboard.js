@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Animated,
 } from 'react-native';
 import React, {
   useState,
@@ -93,6 +94,23 @@ const SmDashboard = ({route}) => {
       }
     }, []),
   );
+  const searchBarAnim = useRef(new Animated.Value(0)).current;
+  const CancelAnim = useRef(new Animated.Value(10)).current;
+  useEffect(() => {
+    if (search === '' && isFocused === false) {
+      Animated.timing(searchBarAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(searchBarAnim, {
+        toValue: -170,
+        duration: 600,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [search, isFocused, searchBarAnim]);
   useEffect(() => {
     if (route?.name === 'SmDashboard') {
       deviceHandler(navigation, 'exit');
@@ -414,9 +432,13 @@ const SmDashboard = ({route}) => {
 
   return (
     <View style={styles.upperContainer}>
-      {!searching && isFocused === false && (
+      <Animated.View
+        style={[
+          [{transform: [{translateY: searchBarAnim}]}],
+          {width: '100%', height: 50},
+        ]}>
         <Header end={false}>{headerComp()}</Header>
-      )}
+      </Animated.View>
       <>
         {networkError === true ? (
           <NoInternet onPress={retryData} />
@@ -429,10 +451,11 @@ const SmDashboard = ({route}) => {
                     marginBottom: Value.CONSTANT_VALUE_150,
                     paddingTop:
                       !searching && isFocused === false
-                        ? statusHide(Value.CONSTANT_VALUE_105)
+                        ? statusHide(Value.CONSTANT_VALUE_54)
                         : statusHide(Value.CONSTANT_VALUE_54),
                   }}>
-                  {search === '' && isFocused === false ? (
+                  <Animated.View
+                    style={{transform: [{translateY: searchBarAnim}]}}>
                     <>
                       <Text style={[globalStyle.screenTitle]}>
                         {Strings.landing.Like_Match_Connect}
@@ -455,58 +478,62 @@ const SmDashboard = ({route}) => {
                         </Text>
                       </View>
                     </>
-                  ) : null}
-                  {search === '' && isFocused === false ? null : (
-                    <View style={styles.cancelbtn}>
-                      <TouchableOpacity
-                        onPress={onClear}
-                        style={styles.clearView}>
-                        <Text style={styles.clearText}>Cancel</Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                  <View>
-                    <View style={styles.search}>
-                      <Searchbar
-                        value={search}
-                        onChangeText={onSearch}
-                        editing={true}
-                        croxxIcon={search === ''}
-                        clearVisible={false}
-                        onClear={onClear}
-                        selectedStates={route?.params?.informationDetail}
-                        handleFocus={handleFocus}
-                        handleBlur={handleBlur}
-                        isFocused={false}
-                        sm={true}
-                        selectedStateList={route?.params?.informationDetail}
-                      />
-                    </View>
+                    {/* </Animated.View>
+                  <Animated.View
+                    style={{transform: [{translateY: CancelAnim}]}}> */}
+                    {search === '' && isFocused === false ? null : (
+                      <View style={styles.cancelbtn}>
+                        <TouchableOpacity
+                          onPress={onClear}
+                          style={styles.clearView}>
+                          <Text style={styles.clearText}>Cancel</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+
                     <View>
-                      <FlatList
-                        keyboardShouldPersistTaps="handled"
-                        contentContainerStyle={Styles.flatlist}
-                        columnWrapperStyle={{
-                          justifyContent: Alignment.SPACE_BETWEEN,
-                        }}
-                        data={cards}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={renderProfile}
-                        numColumns={2}
-                        showsVerticalScrollIndicator={false}
-                        onEndReached={() => {
-                          route.params?.informationDetail !== undefined &&
-                            onEndReached();
-                          searching && onEndReached();
-                        }}
-                        ListEmptyComponent={renderEmptyCell}
-                        ListFooterComponent={renderFooterCell}
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                        testID="flat-list"
-                      />
+                      <View style={styles.search}>
+                        <Searchbar
+                          value={search}
+                          onChangeText={onSearch}
+                          editing={true}
+                          croxxIcon={search === ''}
+                          clearVisible={false}
+                          onClear={onClear}
+                          selectedStates={route?.params?.informationDetail}
+                          handleFocus={handleFocus}
+                          handleBlur={handleBlur}
+                          isFocused={false}
+                          sm={true}
+                          selectedStateList={route?.params?.informationDetail}
+                        />
+                      </View>
+                      <View>
+                        <FlatList
+                          keyboardShouldPersistTaps="handled"
+                          contentContainerStyle={Styles.flatlist}
+                          columnWrapperStyle={{
+                            justifyContent: Alignment.SPACE_BETWEEN,
+                          }}
+                          data={cards}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={renderProfile}
+                          numColumns={2}
+                          showsVerticalScrollIndicator={false}
+                          onEndReached={() => {
+                            route.params?.informationDetail !== undefined &&
+                              onEndReached();
+                            searching && onEndReached();
+                          }}
+                          ListEmptyComponent={renderEmptyCell}
+                          ListFooterComponent={renderFooterCell}
+                          refreshing={refreshing}
+                          onRefresh={onRefresh}
+                          testID="flat-list"
+                        />
+                      </View>
                     </View>
-                  </View>
+                  </Animated.View>
                 </View>
               </View>
             </TouchableWithoutFeedback>

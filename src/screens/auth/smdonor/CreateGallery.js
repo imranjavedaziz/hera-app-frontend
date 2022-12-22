@@ -1,5 +1,5 @@
 // CreateGallery
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
   Text,
   View,
@@ -9,31 +9,31 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import openCamera from '../../../utils/openCamera';
-import { Routes } from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
 import styleSheet from '../../../styles/auth/smdonor/registerScreen';
 import styles from '../../../styles/auth/smdonor/createGalleryScreen';
 import User from '../../../Api/User';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserGallery,
   deleteGallery,
 } from '../../../redux/actions/CreateGallery';
-import { hideAppLoader, showAppLoader } from '../../../redux/actions/loader';
+import {hideAppLoader, showAppLoader} from '../../../redux/actions/loader';
 import VideoUploading from '../../../components/VideoUploading';
 import ActionSheet from 'react-native-actionsheet';
 import ImageView from 'react-native-image-viewing';
-import { BottomSheetComp, ModalMiddle } from '../../../components';
+import {BottomSheetComp, ModalMiddle} from '../../../components';
 import FastImage from 'react-native-fast-image';
 import RNSDWebImage from 'react-native-sdwebimage';
-import { Value } from '../../../constants/FixedValues';
-import { statusHide } from '../../../utils/responsive';
+import {Value} from '../../../constants/FixedValues';
+import {statusHide} from '../../../utils/responsive';
 import ImageLoading from '../../../components/ImageLoading';
 import _ from 'lodash';
 
@@ -47,16 +47,16 @@ const CreateGallery = () => {
   let actionSheet = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [gallery, setGallery] = useState([
-    { id: 0, uri: '', loading: false },
-    { id: 1, uri: '', loading: false },
-    { id: 2, uri: '', loading: false },
-    { id: 3, uri: '', loading: false },
-    { id: 4, uri: '', loading: false },
-    { id: 5, uri: '', loading: false },
+    {id: 0, uri: '', loading: false},
+    {id: 1, uri: '', loading: false},
+    {id: 2, uri: '', loading: false},
+    {id: 3, uri: '', loading: false},
+    {id: 4, uri: '', loading: false},
+    {id: 5, uri: '', loading: false},
   ]);
   const loadingGalleryRef = useRef(false);
   const [gIndex, setGIndex] = useState(0);
-  const [video, setVideo] = useState({ file_url: '', loading: false });
+  const [video, setVideo] = useState({file_url: '', loading: false});
   const [isOpen, setOpen] = useState(false);
   const [isDel, setDel] = useState(false);
   const [rmvImgCount, setRmvImgCount] = useState(0);
@@ -124,7 +124,7 @@ const CreateGallery = () => {
       setGallery(oldImg => {
         return oldImg.map((img, i) => {
           if (i === gIndex) {
-            return { id: i, uri: img.uri, loading };
+            return {id: i, uri: img.uri, loading};
           }
           return img;
         });
@@ -143,10 +143,10 @@ const CreateGallery = () => {
   const selectVideo = index => {
     videoPicker(index).then(v => {
       if (v?.path) {
-        setVideo({ file_url: v.path, loading: false });
+        setVideo({file_url: v.path, loading: false});
         setOpen(false);
       } else {
-        setVideo({ file_url: '', loading: false });
+        setVideo({file_url: '', loading: false});
         setOpen(false);
       }
 
@@ -158,7 +158,7 @@ const CreateGallery = () => {
         uri: v.path,
       });
       userService.createGallery(reqData, loading =>
-        setVideo(old => ({ ...old, loading })),
+        setVideo(old => ({...old, loading})),
       );
     });
   };
@@ -191,7 +191,7 @@ const CreateGallery = () => {
     );
     return true;
   };
-  console.log("LINE NUMBER 193", images);
+  console.log('LINE NUMBER 193', images);
   const updateGallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
@@ -206,16 +206,20 @@ const CreateGallery = () => {
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
         if (i <= gallery_data?.doner_photo_gallery?.length) {
-          return { id: url[i]?.id, uri: url[i]?.file_url, loading: false };
+          return {id: url[i]?.id, uri: url[i]?.file_url, loading: false};
         }
-        return { id: i, uri: '', loading: false };
+        return {id: i, uri: '', loading: false};
       });
     });
     for (let i = 0; i < url?.length; ++i) {
       if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
-        return null
+        return null;
       } else {
-        _setImages([...url].map(e => { return { uri: e.file_url } }));
+        _setImages(
+          [...url].map(e => {
+            return {uri: e.file_url};
+          }),
+        );
       }
     }
     if (url?.length === undefined) {
@@ -302,9 +306,9 @@ const CreateGallery = () => {
         headerEnd={true}
         headerComp={headerComp}
         style={styles.zeromargin}>
-        <View style={[globalStyle.mainContainer, { marginTop: statusHide(107) }]}>
+        <View style={[globalStyle.mainContainer, {marginTop: statusHide(107)}]}>
           <View style={styles.profileImgContainner}>
-            <Image source={{ uri: profileImg }} style={styles.profileImg} />
+            <Image source={{uri: profileImg}} style={styles.profileImg} />
           </View>
           <Text style={[globalStyle.screenTitle, styles.title]}>
             {Strings.sm_create_gallery.Title}
@@ -325,6 +329,7 @@ const CreateGallery = () => {
                 key={index}
                 onPress={() => ImageClick(index)}>
                 <ImageLoading
+                  createGallery={true}
                   isFastImg={true}
                   style={[styles.galleryImgView, styles.imageStyling]}
                   source={{
@@ -414,7 +419,7 @@ const CreateGallery = () => {
               onPress={() => {
                 navigation.reset({
                   index: 0,
-                  routes: [{ name: Routes.SmDashboard }],
+                  routes: [{name: Routes.SmDashboard}],
                 });
               }}>
               <Text

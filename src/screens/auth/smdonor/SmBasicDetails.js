@@ -37,13 +37,14 @@ import {
   saveBasicDetail,
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
-import {logOut} from '../../../redux/actions/Auth';
+import {logOut, signoutUser} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
 import {dynamicSize} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
+import {empty} from '../../../redux/actions/Chat';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -145,6 +146,8 @@ const SmBasicDetails = () => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(hideAppLoader());
+        dispatch(empty());
+        dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       } else {
         dispatch(hideAppLoader());
