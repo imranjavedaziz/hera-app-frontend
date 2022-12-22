@@ -345,10 +345,7 @@ const SetAttributes = ({route}) => {
   const Style = Platform.OS === 'ios' && StyleIOS;
   return (
     <>
-      <View
-        style={
-          isOpen === true ? globalStyle.modalColor : globalStyle.safeViewStyle
-        }>
+      <View style={globalStyle.safeViewStyle}>
         <Header end={true}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View
@@ -538,40 +535,44 @@ const SetAttributes = ({route}) => {
           </View>
         </ScrollView>
       </View>
-      <BottomSheetComp
-        wrapperStyle={globalStyle.wrapperStyle}
-        lineStyle={globalStyle.lineStyle}
-        isOpen={isOpen}
-        isComing={true}
-        setOpen={setOpen}>
-        <View style={globalStyle.basicSheetContainer}>
-          <TouchableOpacity style={globalStyle.formBtn}>
-            <Text style={globalStyle.formText}>
-              {Strings.smSetting.Inquiry}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.heraBtn}
-            onPress={() => {
-              openWebView(ABOUT_URL);
-              setOpen(false);
-            }}>
-            <Text style={globalStyle.heraText}>
-              {Strings.bottomSheet.About_HERA}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.logoutBtn}
-            onPress={() => {
-              logOutScreen();
-              setOpen(false);
-            }}>
-            <Text style={globalStyle.logoutText}>
-              {Strings.bottomSheet.Log_Out}
-            </Text>
-          </TouchableOpacity>
+      {isOpen && (
+        <View>
+          <BottomSheetComp
+            wrapperStyle={globalStyle.wrapperStyle}
+            lineStyle={globalStyle.lineStyle}
+            isOpen={isOpen}
+            isComing={true}
+            setOpen={setOpen}>
+            <View style={globalStyle.basicSheetContainer}>
+              <TouchableOpacity style={globalStyle.formBtn}>
+                <Text style={globalStyle.formText}>
+                  {Strings.smSetting.Inquiry}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={globalStyle.heraBtn}
+                onPress={() => {
+                  openWebView(ABOUT_URL);
+                  setOpen(false);
+                }}>
+                <Text style={globalStyle.heraText}>
+                  {Strings.bottomSheet.About_HERA}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={globalStyle.logoutBtn}
+                onPress={() => {
+                  logOutScreen();
+                  setOpen(false);
+                }}>
+                <Text style={globalStyle.logoutText}>
+                  {Strings.bottomSheet.Log_Out}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </BottomSheetComp>
         </View>
-      </BottomSheetComp>
+      )}
       <ModalMiddle
         showModal={showModal}
         onRequestClose={() => {

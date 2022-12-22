@@ -390,10 +390,7 @@ const SetPreference = ({route, navigation}) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled">
-            <View
-              style={[
-                styles.containerView,
-              ]}>
+            <View style={[styles.containerView]}>
               {EditPreferences === true ? (
                 <Text style={globalStyle.screenTitle}>
                   {Strings.preference.editPreference}
