@@ -376,7 +376,7 @@ const SetPreference = ({route, navigation}) => {
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
   return (
-    <View style={isOpen === true ? globalStyle.modalColor : styles.flex}>
+    <View style={styles.flex}>
       <Header end={EditPreferences === true ? true : false}>
         {headerComp()}
       </Header>
@@ -390,11 +390,7 @@ const SetPreference = ({route, navigation}) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled">
-            <View
-              style={[
-                styles.containerView,
-                isOpen === true && globalStyle.modalColor,
-              ]}>
+            <View style={[styles.containerView]}>
               {EditPreferences === true ? (
                 <Text style={globalStyle.screenTitle}>
                   {Strings.preference.editPreference}
@@ -416,16 +412,11 @@ const SetPreference = ({route, navigation}) => {
                   style={[
                     styles.lookingForText,
                     {
-                      color: isOpen ? Colors.LABEL_BLACK : Colors.BLACK_KEY,
+                      color: Colors.BLACK_KEY,
                     },
                   ]}>
                   {Strings.preference.lookingFor}
-                  <Text
-                    style={[
-                      isOpen ? Colors.LIGHT_BLACK47 : styles.chipsRequiredText,
-                    ]}>
-                    *
-                  </Text>
+                  <Text style={styles.chipsRequiredText}>*</Text>
                 </Text>
                 <Controller
                   control={control}
@@ -441,9 +432,7 @@ const SetPreference = ({route, navigation}) => {
                             style={{resizeMode: 'contain'}}
                             source={
                               value === whom.id
-                                ? isOpen
-                                  ? Images.darkRadiosel
-                                  : Images.iconRadiosel
+                                ? Images.iconRadiosel
                                 : Images.iconRadiounsel
                             }
                           />
@@ -470,7 +459,6 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
-                      lineColor={isOpen}
                       error={errors && errors.location?.message}
                     />
                   )}
@@ -490,7 +478,6 @@ const SetPreference = ({route, navigation}) => {
                       }}
                       educationStyle={true}
                       required={true}
-                      lineColor={isOpen}
                       error={errors && errors.education?.message}
                     />
                   )}
@@ -498,12 +485,7 @@ const SetPreference = ({route, navigation}) => {
                 />
                 <Text style={styles.ageText}>
                   {Strings.preference.AgeRange}
-                  <Text
-                    style={[
-                      isOpen ? Colors.LIGHT_BLACK47 : styles.chipsRequiredText,
-                    ]}>
-                    *
-                  </Text>
+                  <Text style={styles.chipsRequiredText}>*</Text>
                 </Text>
                 <Controller
                   control={control}
@@ -529,12 +511,8 @@ const SetPreference = ({route, navigation}) => {
                                       item.name,
                                     )
                                       ? Colors.COLOR_5ABCEC
-                                      : isOpen
-                                      ? Colors.LIGHT_BLACK47
                                       : Colors.BACKGROUND,
                                     borderWidth: isSelected(value, item.name)
-                                      ? 0
-                                      : isOpen
                                       ? 0
                                       : 1,
                                   },
@@ -545,8 +523,6 @@ const SetPreference = ({route, navigation}) => {
                                     {
                                       color: isSelected(value, item.name)
                                         ? Colors.WHITE
-                                        : isOpen
-                                        ? Colors.LIGHT_BLACK
                                         : Colors.BLACK_0,
                                       fontFamily: isSelected(value, item.name)
                                         ? Fonts.OpenSansBold
@@ -571,12 +547,7 @@ const SetPreference = ({route, navigation}) => {
                   <View style={styles.heightContainer}>
                     <Text style={styles.heightTextInner}>
                       {Strings.preference.Height}
-                      <Text
-                        style={[
-                          isOpen ? Colors.LIGHT_BLACK47 : styles.heightText,
-                        ]}>
-                        *
-                      </Text>
+                      <Text style={styles.heightText}>*</Text>
                     </Text>
                     <Text style={styles.heightTextView}>
                       <Text>
@@ -598,7 +569,6 @@ const SetPreference = ({route, navigation}) => {
                         onValueChange={value => {
                           onChange(value);
                         }}
-                        lineColor={isOpen}
                       />
                     )}
                     name={FormKey.height}
@@ -616,7 +586,6 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
-                      lineColor={isOpen}
                       error={errors && errors.race?.message}
                     />
                   )}
@@ -628,7 +597,7 @@ const SetPreference = ({route, navigation}) => {
                   </Text>
                   <Text
                     style={{
-                      color: isOpen ? Colors.LIGHT_BLACK47 : Colors.RED,
+                      color: Colors.RED,
                       fontSize: 18,
                       marginTop: 30,
                     }}>
@@ -699,7 +668,7 @@ const SetPreference = ({route, navigation}) => {
                   </Text>
                   <Text
                     style={{
-                      color: isOpen ? Colors.LIGHT_BLACK47 : Colors.RED,
+                      color: Colors.RED,
                       fontSize: 18,
                       marginTop: 30,
                     }}>
@@ -777,37 +746,38 @@ const SetPreference = ({route, navigation}) => {
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-      <BottomSheetComp
-        wrapperStyle={globalStyle.wrapperStyle}
-        lineStyle={globalStyle.lineStyle}
-        isOpen={isOpen}
-        setOpen={setOpen}>
-        <View style={globalStyle.basicSheetContainer}>
-          <TouchableOpacity style={globalStyle.formBtn}>
-            <Text style={globalStyle.formText}>
-              {Strings.preference.InquiryForm}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.heraBtn}
-            onPress={() => {
-              openWebView(ABOUT_URL);
-              setOpen(false);
-            }}>
-            <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyle.logoutBtn}
-            onPress={() => {
-              logOutScreen();
-              setOpen(false);
-            }}>
-            <Text style={globalStyle.logoutText}>
-              {Strings.preference.Logout}
-            </Text>
-          </TouchableOpacity>
+      {isOpen && (
+        <View style={{flex: 1}}>
+          <BottomSheetComp
+            wrapperStyle={globalStyle.wrapperStyle}
+            lineStyle={globalStyle.lineStyle}
+            isOpen={isOpen}
+            isComing={true}
+            setOpen={setOpen}>
+            <View style={globalStyle.basicSheetContainer}>
+              <TouchableOpacity style={globalStyle.formBtn}>
+                <Text style={globalStyle.formText}>
+                  {Strings.preference.InquiryForm}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={globalStyle.heraBtn}
+                onPress={() => openWebView(ABOUT_URL)}>
+                <Text style={globalStyle.heraText}>
+                  {Strings.preference.About}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={globalStyle.logoutBtn}
+                onPress={() => logOutScreen()}>
+                <Text style={globalStyle.logoutText}>
+                  {Strings.preference.Logout}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </BottomSheetComp>
         </View>
-      </BottomSheetComp>
+      )}
       <ModalMiddle
         showModal={showModal}
         onRequestClose={() => {

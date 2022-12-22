@@ -69,6 +69,6 @@ export default {
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_20,
-    alignSelf:"center",
+    alignSelf: 'center',
   },
 };

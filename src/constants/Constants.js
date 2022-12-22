@@ -21,7 +21,7 @@ const environment = {
   },
 };
 
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, api_url, chat} = environment.dev;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -243,6 +243,7 @@ export const Routes = {
   ProfileLikedSm: 'ProfileLikedSm',
   DeactivateAccount: 'DeactivateAccount',
   WalkThrough: 'WalkThrough',
+  UrlWebViewScreen: 'UrlWebViewScreen',
 };
 export const Static = {
   countries: [

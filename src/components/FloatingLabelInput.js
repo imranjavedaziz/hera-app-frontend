@@ -149,7 +149,7 @@ const FloatingLabelInput = props => {
               {required && (
                 <Text
                   style={{
-                    color: lineColor ? Colors.LIGHT_BLACK47 : Colors.RED,
+                    color: Colors.RED,
                   }}>
                   *
                 </Text>
