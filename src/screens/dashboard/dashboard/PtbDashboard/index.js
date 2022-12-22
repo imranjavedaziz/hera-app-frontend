@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Animated,
   Text,
+  Alert,
 } from 'react-native';
 import React, {
   useRef,
@@ -128,6 +129,7 @@ const PtbDashboard = props => {
       },
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
+        
         const {recieverId} = notification?.data;
         const showNotification =
           messageIdRx?.messageIdRx === parseInt(recieverId);

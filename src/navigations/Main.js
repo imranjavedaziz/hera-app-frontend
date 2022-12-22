@@ -45,6 +45,8 @@ import {Strings} from '../constants';
 import moment from 'moment';
 import {Value} from '../constants/FixedValues';
 import WalkThrough from '../screens/walkThrough';
+import ForegroundHandler from '../utils/ForegroundHandler';
+import {navigationRefNew} from '../utils/RootNavigation';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -59,6 +61,7 @@ const screens = [
 
 const Main = () => {
   const dispatch = useDispatch();
+
   const [statusFetched, setStatusFetched] = React.useState(false);
   const [firstLaunch, setFirstLaunch] = React.useState(null);
   const [toastShowed, setToastShowed] = React.useState(false);
@@ -67,7 +70,9 @@ const Main = () => {
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
+  const toastState = useSelector(state => state.loader);
   useEffect(() => {
+    // ForegroundHandler()
     async function setData() {
       const appData = await AsyncStorage.getItem('appLaunched');
       if (appData == null) {
@@ -130,11 +135,14 @@ const Main = () => {
     register_user_success,
     toastShowed,
   ]);
+
+
   return (
     firstLaunch != null && (
       <NavigationContainer
-        ref={navigationRef}
+        ref={toastState?.showMessageToast ? navigationRefNew : navigationRef}
         onReady={() => RNBootSplash.hide()}>
+        <ForegroundHandler />
         <Stack.Navigator
           initialRouteName={
             firstLaunch === false &&
@@ -200,6 +208,10 @@ const Main = () => {
             name={Routes.DeactivateAccount}
             component={DeactivateAccount}
           />
+          {/* <Stack.Screen
+            name={'ForegroundHandler'}
+            component={ForegroundHandler}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     )
