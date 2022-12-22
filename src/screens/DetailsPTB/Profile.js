@@ -568,6 +568,7 @@ const Profile = props => {
                   <TouchableOpacity
                     onPress={() => {
                       openCamera(0, cb);
+                      setOpen(false);
                     }}
                     style={[styles.pickerBtn, styles.pickerBtnBorder]}>
                     <Text style={styles.pickerBtnLabel}>
@@ -577,6 +578,7 @@ const Profile = props => {
                   <TouchableOpacity
                     onPress={() => {
                       openCamera(1, cb);
+                      setOpen(false);
                     }}
                     style={styles.pickerBtn}>
                     <Text style={styles.pickerBtnLabel}>

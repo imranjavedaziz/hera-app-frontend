@@ -66,6 +66,7 @@ const SmRegister = () => {
   const [showModal, setShowModal] = useState(false);
   const {fcmToken, Device_ID} = useContext(NotificationContext);
   const inputRef = useRef(null);
+  const [roleId, setRole] = useState('');
   let actionSheet = useRef();
   const {
     handleSubmit,
@@ -251,6 +252,7 @@ const SmRegister = () => {
                       onPress={() => {
                         onChange(role.id);
                         setPressed(false);
+                        setRole(role.id);
                       }}>
                       <Image
                         style={styles.radio}
@@ -556,6 +558,7 @@ const SmRegister = () => {
           <TouchableOpacity
             onPress={() => {
               openCamera(0, cb);
+              setOpen(false);
             }}
             style={[styles.pickerBtn, styles.pickerBtnBorder]}>
             <Text style={styles.pickerBtnLabel}>Open Camera</Text>
@@ -563,6 +566,7 @@ const SmRegister = () => {
           <TouchableOpacity
             onPress={() => {
               openCamera(1, cb);
+              setOpen(false);
             }}
             style={styles.pickerBtn}>
             <Text style={styles.pickerBtnLabel}>Open Gallery</Text>
@@ -580,7 +584,21 @@ const SmRegister = () => {
           setDate(selectedDate);
           onDateChange(selectedDate);
         }}
-        date={datePicked ?? new Date()}
+        date={
+          datePicked ?? roleId === 3
+            ? moment().subtract(21, 'years')._d
+            : moment().subtract(18, 'years')._d
+        }
+        maximumDate={
+          roleId === 3
+            ? moment().subtract(21, 'years')._d
+            : moment().subtract(18, 'years')._d
+        }
+        minimumDate={
+          roleId === 3
+            ? moment().subtract(45, 'years')._d
+            : moment().subtract(40, 'years')._d
+        }
         onCancel={() => {
           setShow(false);
         }}

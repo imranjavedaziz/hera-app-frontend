@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Alignment, Colors, Images} from '../../constants';
 import {Fonts, Routes} from '../../constants/Constants';
 import {Prencentage, Value} from '../../constants/FixedValues';
-import {hideMessageAppToast, showAppLoader} from '../../redux/actions/loader';
+import {hideMessageAppToast} from '../../redux/actions/loader';
 
 const styles = {
   container: {

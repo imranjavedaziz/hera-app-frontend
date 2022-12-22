@@ -382,6 +382,7 @@ const PtbProfile = () => {
               <TouchableOpacity
                 onPress={() => {
                   openCamera(0, cb);
+                  setOpen(false);
                 }}
                 style={[styles.pickerBtn, styles.pickerBtnBorder]}>
                 <Text style={styles.pickerBtnLabel}>
@@ -391,6 +392,7 @@ const PtbProfile = () => {
               <TouchableOpacity
                 onPress={() => {
                   openCamera(1, cb);
+                  setOpen(false);
                 }}
                 style={styles.pickerBtn}>
                 <Text style={styles.pickerBtnLabel}>

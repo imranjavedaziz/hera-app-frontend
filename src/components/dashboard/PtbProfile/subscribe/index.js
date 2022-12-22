@@ -67,7 +67,7 @@ export const Subscribed = () => {
           Next Due On:{' '}
           {moment(
             new Date(get_user_detail_res.subscription.current_period_end),
-          ).format('MMM Do, YYYY')}
+          ).format('MMM DD, YYYY')}
         </Text>
       </View>
     </View>

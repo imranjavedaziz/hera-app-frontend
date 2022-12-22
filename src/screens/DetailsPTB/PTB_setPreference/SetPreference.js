@@ -393,7 +393,6 @@ const SetPreference = ({route, navigation}) => {
             <View
               style={[
                 styles.containerView,
-                // isOpen === true && globalStyle.modalColor,
               ]}>
               {EditPreferences === true ? (
                 <Text style={globalStyle.screenTitle}>
@@ -463,7 +462,6 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
-                      // lineColor={isOpen}
                       error={errors && errors.location?.message}
                     />
                   )}
@@ -483,7 +481,6 @@ const SetPreference = ({route, navigation}) => {
                       }}
                       educationStyle={true}
                       required={true}
-                      // lineColor={isOpen}
                       error={errors && errors.education?.message}
                     />
                   )}
@@ -575,7 +572,6 @@ const SetPreference = ({route, navigation}) => {
                         onValueChange={value => {
                           onChange(value);
                         }}
-                        // lineColor={isOpen}
                       />
                     )}
                     name={FormKey.height}
@@ -593,7 +589,6 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
-                      // lineColor={isOpen}
                       error={errors && errors.race?.message}
                     />
                   )}

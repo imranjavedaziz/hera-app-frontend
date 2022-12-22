@@ -269,6 +269,7 @@ const MyVideo = () => {
           <TouchableOpacity
             onPress={() => {
               selectVideo(0);
+              setOpen(false);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
@@ -278,6 +279,7 @@ const MyVideo = () => {
           <TouchableOpacity
             onPress={() => {
               selectVideo(1);
+              setOpen(false);
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>

@@ -731,11 +731,11 @@ export const Static = {
     },
     {
       id: 2,
-      name: '28 - 35',
+      name: '29 - 35',
     },
     {
       id: 3,
-      name: '35 - 40',
+      name: '36 - 40',
     },
   ],
   ethnicity: [

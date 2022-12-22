@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Animated,
   Text,
+  Alert,
 } from 'react-native';
 import React, {
   useRef,
@@ -118,7 +119,6 @@ const PtbDashboard = props => {
     return unsubscribe;
   }, [navigation, dispatch]);
 
-  console.log('LINE NUMBER 98', get_ptb_dashboard_res);
   //Push Notification
   useEffect(() => {
     //For foreground
@@ -129,6 +129,7 @@ const PtbDashboard = props => {
       },
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
+        
         const {recieverId} = notification?.data;
         const showNotification =
           messageIdRx?.messageIdRx === parseInt(recieverId);
@@ -285,8 +286,10 @@ const PtbDashboard = props => {
           setIsVisibleLogo(true);
           handleOnSwipedLeft();
         }
-      }
-      if (profile_match_error_msg) {
+      } else {
+        setTimeout(() => {
+          setDisable(false);
+        }, 1100);
         dispatch(hideAppLoader());
       }
       dispatch(hideAppLoader());
