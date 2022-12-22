@@ -39,6 +39,7 @@ import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
 import {Alignment} from '../../../constants';
+import {getMessageID} from '../../../redux/actions/MessageId';
 
 const images = [];
 const DashboardDetailScreen = () => {
@@ -75,6 +76,14 @@ const DashboardDetailScreen = () => {
       });
     }, []),
   );
+  // expected output: true
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_sm_donor_loading) {
@@ -117,7 +126,9 @@ const DashboardDetailScreen = () => {
           setIslikedLogo('');
           navigation.navigate(Routes.PtbDashboard);
         }, 2000);
-        dispatch(showAppToast(false, profile_match_error_msg));
+        if (islikedLogo === 'liked') {
+          dispatch(showAppToast(false, profile_match_error_msg));
+        }
       }
     } else {
       dispatch(hideAppLoader());

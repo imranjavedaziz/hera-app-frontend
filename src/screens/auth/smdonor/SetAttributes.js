@@ -553,6 +553,7 @@ const SetAttributes = ({route}) => {
             style={globalStyle.heraBtn}
             onPress={() => {
               openWebView(ABOUT_URL);
+              setOpen(false);
             }}>
             <Text style={globalStyle.heraText}>
               {Strings.bottomSheet.About_HERA}
@@ -560,7 +561,10 @@ const SetAttributes = ({route}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={globalStyle.logoutBtn}
-            onPress={() => logOutScreen()}>
+            onPress={() => {
+              logOutScreen();
+              setOpen(false);
+            }}>
             <Text style={globalStyle.logoutText}>
               {Strings.bottomSheet.Log_Out}
             </Text>

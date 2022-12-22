@@ -431,6 +431,7 @@ const Gallery = () => {
           <TouchableOpacity
             onPress={() => {
               !isVideo ? openCamera(0, cb) : selectVideo(0);
+              setOpen(false);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
@@ -440,6 +441,7 @@ const Gallery = () => {
           <TouchableOpacity
             onPress={() => {
               !isVideo ? openCamera(1, cb) : selectVideo(1);
+              setOpen(false);
             }}
             style={styleSheet.pickerBtn}>
             <Text style={styleSheet.pickerBtnLabel}>

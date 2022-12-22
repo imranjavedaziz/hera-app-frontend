@@ -27,6 +27,7 @@ import moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {width} from '../../../utils/responsive';
 import {profileMatchResponse} from '../../../redux/actions/Profile_Match';
+import { getMessageID } from '../../../redux/actions/MessageId';
 
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
@@ -43,6 +44,14 @@ const PTB_profile = props => {
     send_like_ptb_loading,
     send_like_ptb_res,
   } = useSelector(state => state.PtbProfileDetail);
+  // expected output: true
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getMessageID(''));
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
   useEffect(() => {
     if (loadingRef.current && !get_ptb_profile_detail_loading) {
       dispatch(showAppLoader());
@@ -62,8 +71,9 @@ const PTB_profile = props => {
   ]);
   useEffect(() => {
     if (LoadinfRef.current && !send_like_ptb_loading) {
-      if (send_like_ptb_loading) {
-        dispatch(showAppLoader());
+      dispatch(showAppLoader());
+      if (send_like_ptb_success) {
+        dispatch(hideAppLoader());
       } else {
         dispatch(hideAppLoader());
       }
@@ -265,7 +275,7 @@ const PTB_profile = props => {
                 <Text style={styles.dateText}>
                   {Strings.PTB_Profile.YouMatched}{' '}
                   {moment(stateRes?.profile_match_request?.updated_at).format(
-                    'MMM DD,YYYY',
+                    'MMM DD, YYYY',
                   )}
                 </Text>
               </View>
