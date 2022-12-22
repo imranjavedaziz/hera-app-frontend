@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StatusBar, Text, TextInput, View} from 'react-native';
+import {SafeAreaView, StatusBar, Text, TextInput} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './redux/store';
@@ -41,9 +41,7 @@ const App = () => {
             swipeEnabled={true}
             renderType={{
               custom: toast => <MessageToast />,
-            }}
-            //     renderToast={(toastOptions) => JSX.Element} implement custom toast component.
-          >
+            }}>
             <StatusBar
               barStyle="dark-content"
               backgroundColor={Colors.BACKGROUND}

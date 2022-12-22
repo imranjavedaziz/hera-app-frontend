@@ -208,10 +208,6 @@ const Main = () => {
             name={Routes.DeactivateAccount}
             component={DeactivateAccount}
           />
-          {/* <Stack.Screen
-            name={'ForegroundHandler'}
-            component={ForegroundHandler}
-          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     )

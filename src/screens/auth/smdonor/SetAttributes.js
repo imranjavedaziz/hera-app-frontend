@@ -38,7 +38,7 @@ import {
   getUserAttribute,
   saveAttribute,
 } from '../../../redux/actions/SetAttribute';
-import {logOut, updateRegStep} from '../../../redux/actions/Auth';
+import {logOut, signoutUser, updateRegStep} from '../../../redux/actions/Auth';
 import {ABOUT_URL, Routes} from '../../../constants/Constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
@@ -47,6 +47,7 @@ import {Alignment} from '../../../constants';
 import {dynamicSize, statusHide} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
+import {empty} from '../../../redux/actions/Chat';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -176,6 +177,8 @@ const SetAttributes = ({route}) => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(hideAppLoader());
+        dispatch(empty());
+        dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));

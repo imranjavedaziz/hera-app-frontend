@@ -451,7 +451,7 @@ export default {
     OKAY_GOT_IT: 'OKAY, GOT IT!',
     WHY_SUBSCRIBE: 'Why Subscribe?',
     HERA_HASTWO:
-      'Subscribe to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile. Please note: Subscribed users have a daily limit of 5 profile views. Subscribed users will be able to chat with their matches.',
+      'Subscribe to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile.\n Please note: Subscribed users have a daily limit of 5 profile views. Subscribed users will be able to chat with their matches.',
     FIND_THE_PERFECT: 'Find the Perfect Match',
     FIND_YOUR_MATCH:
       'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',

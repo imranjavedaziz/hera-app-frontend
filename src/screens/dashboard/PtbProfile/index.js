@@ -28,6 +28,7 @@ import PtbAccount, {
 import {useDispatch, useSelector} from 'react-redux';
 import {
   logOut,
+  signoutUser,
   updateName,
   updateProfileImg,
 } from '../../../redux/actions/Auth';
@@ -54,7 +55,7 @@ import {NotificationContext} from '../../../context/NotificationContextManager';
 import moment from 'moment';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import _ from 'lodash';
-import { getMessageID } from '../../../redux/actions/MessageId';
+import {getMessageID} from '../../../redux/actions/MessageId';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -191,6 +192,7 @@ const PtbProfile = () => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
+        dispatch(signoutUser());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
       } else {

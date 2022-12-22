@@ -30,6 +30,7 @@ import {
   updateProfileImg,
   logOut,
   updateName,
+  signoutUser,
 } from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
@@ -148,6 +149,7 @@ const SmDonorSettings = () => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
+        dispatch(signoutUser());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
       } else {

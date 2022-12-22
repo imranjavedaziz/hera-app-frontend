@@ -7,9 +7,10 @@ import {updateToken, signoutUser} from '../redux/actions/Auth';
 import ApiPath from '../constants/ApiPath';
 import NetInfo from '@react-native-community/netinfo';
 import {ValidationMessages} from '../constants/Strings';
-import { navigationRef } from '../navigations/Main';
-import { Routes } from '../constants/Constants';
+import {navigationRef} from '../navigations/Main';
+import {Routes} from '../constants/Constants';
 import {StackActions} from '@react-navigation/native';
+import {updateSubscriptionStatus} from '../redux/actions/Subsctiption';
 
 const axiosRequest = axios.create({
   baseURL: api_url,
@@ -45,18 +46,19 @@ axiosRequest.interceptors.response.use(
       );
       store.dispatch(hideAppLoader());
     }
-    if(error.response.status === 421 || error.response.status === 422){
-      if(error.response.status === 422){
+    if (error.response.status === 421 || error.response.status === 422) {
+      if (error.response.status === 422) {
         const popAction = StackActions.replace(Routes.Subscription);
         navigationRef.current?.dispatch(popAction);
-      }
-      else{
+      } else {
         navigationRef.current?.navigate(Routes.Subscription);
       }
       store.dispatch(updateSubscriptionStatus(0));
       return Promise.reject(error);
-    }
-    else if (error.response.status === 401 && originalRequest._retry===false) {
+    } else if (
+      error.response.status === 401 &&
+      originalRequest._retry === false
+    ) {
       const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
       store.dispatch(updateToken(tokenRes.data.token));
       // get access token from refresh token and retry
