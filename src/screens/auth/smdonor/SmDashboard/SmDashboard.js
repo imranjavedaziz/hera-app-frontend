@@ -95,7 +95,6 @@ const SmDashboard = ({route}) => {
     }, []),
   );
   const searchBarAnim = useRef(new Animated.Value(0)).current;
-  const CancelAnim = useRef(new Animated.Value(10)).current;
   useEffect(() => {
     if (search === '' && isFocused === false) {
       Animated.timing(searchBarAnim, {

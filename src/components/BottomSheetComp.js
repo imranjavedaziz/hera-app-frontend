@@ -1,6 +1,6 @@
 // BottomSheetComp
-import React, {useRef} from 'react';
-import {Modal, TouchableOpacity} from 'react-native';
+import React, {useRef, useEffect} from 'react';
+import {Modal, TouchableOpacity, Easing, Animated} from 'react-native';
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import global from '../styles/global';
 
@@ -14,15 +14,35 @@ const BottomSheetComp = props => {
     isComing = false,
   } = props;
   const panelRef = useRef(null);
-
+  const searchBarAnim = useRef(new Animated.Value(100)).current;
+  useEffect(() => {
+    if (isOpen) {
+      Animated.timing(searchBarAnim, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }).start();
+    }
+    if (isOpen === false) {
+      Animated.timing(searchBarAnim, {
+        toValue: 122330,
+        duration: 400,
+        // useNativeDriver: true,
+      }).end();
+    }
+  }, [isOpen]);
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       visible={isOpen}
       onRequestClose={() => {
         setOpen(false);
       }}
-      style={{flex: 1}}
+      style={[
+        {
+          flex: 1,
+        },
+      ]}
       transparent={true}>
       <TouchableOpacity
         activeOpacity={1}
@@ -40,19 +60,30 @@ const BottomSheetComp = props => {
           onPress={() => setOpen(false)}
           style={global.modal}
         />
-        <BottomSheet
-          wrapperStyle={wrapperStyle ? wrapperStyle : global.bottomSheet}
-          lineStyle={lineStyle}
-          isOpen={isOpen}
-          ref={ref => (panelRef.current = ref)}
-          sliderMinHeight={0}
-          onClose={() => {
-            setOpen(false);
+        <Animated.View
+          style={{
+            transform: [{translateY: searchBarAnim}],
+            // height: 100,
+            width: '100%',
+            backgroundColor:'red'
           }}
-          outerContentStyle={global.outerContentStyle}
-          innerContentStyle={global.innerContentStyle}>
-          {children}
-        </BottomSheet>
+          >
+          <BottomSheet
+            wrapperStyle={wrapperStyle ? wrapperStyle : global.bottomSheet}
+            lineStyle={lineStyle}
+            isOpen={isOpen}
+            // animationDuration={1000}
+            ref={ref => (panelRef.current = ref)}
+            sliderMinHeight={0}
+            // animation={Easing.ease}
+            onClose={() => {
+              setOpen(false);
+            }}
+            outerContentStyle={global.outerContentStyle}
+            innerContentStyle={global.innerContentStyle}>
+            {children}
+          </BottomSheet>
+        </Animated.View>
       </TouchableOpacity>
     </Modal>
   );
