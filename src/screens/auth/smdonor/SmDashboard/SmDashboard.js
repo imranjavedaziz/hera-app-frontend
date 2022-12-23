@@ -153,7 +153,7 @@ const SmDashboard = ({route}) => {
       onNotification: function (notification) {
         const {recieverId} = notification?.data;
         const showNotification = currUser?.messageIdRx === parseInt(recieverId);
-        if (notification.uterInteraction === true) {
+        if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'profile') {
             const {status} = JSON.parse(notification.data?.match_request);
             if (status === 2) {
