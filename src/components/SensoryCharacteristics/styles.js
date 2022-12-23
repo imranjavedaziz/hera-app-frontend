@@ -46,6 +46,7 @@ export default {
     textAlign: Alignment.CENTER,
     paddingTop: px(13),
     paddingHorizontal: px(50),
+    lineHeight: Value.CONSTANT_VALUE_28,
   },
   hasThree: {
     color: Colors.COLOR_535858,
@@ -71,6 +72,7 @@ export default {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
+    letterSpacing: 1.8,
   },
 
   logo: {
