@@ -45,7 +45,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     textAlign: Alignment.CENTER,
     paddingTop: px(13),
-    paddingHorizontal: px(10),
+    paddingHorizontal: px(50),
   },
   hasThree: {
     color: Colors.COLOR_535858,
@@ -74,8 +74,8 @@ export default {
   },
 
   logo: {
-    width: Value.CONSTANT_VALUE_128,
-    height: Value.CONSTANT_VALUE_106,
+    width: Value.CONSTANT_VALUE_120,
+    height: Value.CONSTANT_VALUE_95,
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_20,
