@@ -38,6 +38,15 @@ export default {
     paddingTop: px(13),
     paddingHorizontal: px(10),
   },
+  hasTwoText: {
+    color: Colors.COLOR_535858,
+    fontSize: Value.CONSTANT_VALUE_20,
+    alignSelf: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansRegular,
+    textAlign: Alignment.CENTER,
+    paddingTop: px(13),
+    paddingHorizontal: px(10),
+  },
   hasThree: {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_23,
@@ -55,6 +64,7 @@ export default {
     justifyContent: 'center',
     alignSelf: 'center',
     marginBottom: scaleHeight(25),
+    marginTop: scaleHeight(54),
   },
   btnText: {
     textAlign: 'center',
@@ -64,8 +74,8 @@ export default {
   },
 
   logo: {
-    width: Value.CONSTANT_VALUE_200,
-    height: Value.CONSTANT_VALUE_120,
+    width: Value.CONSTANT_VALUE_128,
+    height: Value.CONSTANT_VALUE_106,
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_20,
