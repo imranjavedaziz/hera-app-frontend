@@ -32,7 +32,6 @@ const BottomSheetComp = props => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 22,
           },
           {backgroundColor: isComing ? '#000000aa' : null},
         ]}>
