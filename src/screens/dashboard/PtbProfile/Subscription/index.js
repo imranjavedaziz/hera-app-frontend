@@ -35,8 +35,8 @@ import {
   TERMS_OF_USE_URL,
   PRIVACY_URL,
   Fonts,
+  Routes,
 } from '../../../../constants/Constants';
-import openWebView from '../../../../utils/openWebView';
 import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 
@@ -76,7 +76,7 @@ const Subscription = props => {
     dispatch(getSubscriptionPlan());
   }, []);
 
-  console.log('_purchasereceipt line 79',_purchasereceipt);
+  console.log('_purchasereceipt line 79', _purchasereceipt);
 
   React.useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
@@ -135,7 +135,7 @@ const Subscription = props => {
     }
   }, [isCallApi]);
   const purchaseAPI = item => {
-    console.log('CHECKING CREATE SUB LINE NO 141',item);
+    console.log('CHECKING CREATE SUB LINE NO 141', item);
     let payload = {
       device_type: Platform.OS === 'android' ? 'android' : 'ios',
       product_id: item?.productId,
@@ -176,7 +176,11 @@ const Subscription = props => {
         dispatch(showAppToast(true, 'Please choose a plan!'));
       } else {
         dispatch(showAppLoader());
-        console.log('LINE ANDROID 186 item', item, selectCheckBox?.android_product);
+        console.log(
+          'LINE ANDROID 186 item',
+          item,
+          selectCheckBox?.android_product,
+        );
         requestSubscriptionAndroid(
           selectCheckBox?.android_product,
           // 'hera_monthly',
@@ -336,13 +340,21 @@ const Subscription = props => {
                   }${Strings.Subscription.LastmainText} `}
                   <Text
                     style={styles.terms}
-                    onPress={() => openWebView(TERMS_OF_USE_URL)}>
+                    onPress={() =>
+                      navigation.navigate(Routes.WebViewUrl, {
+                        url: TERMS_OF_USE_URL,
+                      })
+                    }>
                     {Strings.Subscription.TermsServices}
                   </Text>
                   {Strings.Subscription.And}
                   <Text
                     style={styles.terms}
-                    onPress={() => openWebView(PRIVACY_URL)}>
+                    onPress={() =>
+                      navigation.navigate(Routes.WebViewUrl, {
+                        url: PRIVACY_URL,
+                      })
+                    }>
                     {Strings.Subscription.PrivacyPolicy}
                   </Text>
                 </Text>

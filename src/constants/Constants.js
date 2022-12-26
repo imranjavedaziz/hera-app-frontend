@@ -152,21 +152,23 @@ export const pwdErrMsg = [
   {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 //validate password
-const pwdLength = (value)=>{
+const pwdLength = value => {
   return value.length >= 8;
-}
-const pwdAlphaNum = (value)=>{
-  return Regx.ALPHA_LOWER.test(value) &&
-  Regx.NUM.test(value) &&
-  Regx.ALPHA_START.test(value);
-}
-const pwdSpecialChar = value=>{
-  return Regx.SPECIAL_CHAR.test(value)
-}
-const pwdCapAlpha = value=>{
+};
+const pwdAlphaNum = value => {
+  return (
+    Regx.ALPHA_LOWER.test(value) &&
+    Regx.NUM.test(value) &&
+    Regx.ALPHA_START.test(value)
+  );
+};
+const pwdSpecialChar = value => {
+  return Regx.SPECIAL_CHAR.test(value);
+};
+const pwdCapAlpha = value => {
   return Regx.ALPHA_CAP.test(value);
-}
-export const validatePassword = (value='', type, isPressed = true) => {
+};
+export const validatePassword = (value = '', type, isPressed = true) => {
   const pwdLen = pwdLength(value);
   const alphaNum = pwdAlphaNum(value);
   const specialChar = pwdSpecialChar(value);
@@ -174,33 +176,25 @@ export const validatePassword = (value='', type, isPressed = true) => {
   if (value) {
     switch (type) {
       case validationType.LEN:
-        if(isPressed){
-          return pwdLen
+        if (isPressed) {
+          return pwdLen;
         }
-        return pwdLen
-        ? pwdLen
-        : null;
+        return pwdLen ? pwdLen : null;
       case validationType.ALPHA_NUM:
-        if(isPressed){
-          return alphaNum
+        if (isPressed) {
+          return alphaNum;
         }
-        return alphaNum
-        ? alphaNum
-        : null;
+        return alphaNum ? alphaNum : null;
       case validationType.SPECIAL:
-        if(isPressed){
-          return specialChar
+        if (isPressed) {
+          return specialChar;
         }
-        return specialChar
-        ? specialChar
-        : null;
+        return specialChar ? specialChar : null;
       case validationType.CAPSLOCK:
-        if(isPressed){
-          return capAlpha
+        if (isPressed) {
+          return capAlpha;
         }
-        return capAlpha
-        ? capAlpha
-        : null;
+        return capAlpha ? capAlpha : null;
       default:
         break;
     }
@@ -244,7 +238,8 @@ export const Routes = {
   DeactivateAccount: 'DeactivateAccount',
   WalkThrough: 'WalkThrough',
   UrlWebViewScreen: 'UrlWebViewScreen',
-  WalkThroughVedio:'WalkThroughVedio'
+  WalkThroughVedio:'WalkThroughVedio',
+  WebViewUrl: 'WebViewUrl',
 };
 export const Static = {
   countries: [
@@ -829,21 +824,13 @@ const HeraDevMonthly = 'com.HeraDev.Monthly';
 const HeraDevYearly = 'com.HeraDev.Yearly';
 const HeraDevWeekly = 'com.HeraDev.Weekly';
 export const creditProductsIds = Platform.select({
-  ios: [
-    HeraDevMonthly,
-    HeraDevYearly,
-    HeraDevWeekly,
-  ],
+  ios: [HeraDevMonthly, HeraDevYearly, HeraDevWeekly],
   android: [HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
 });
 
 export const productsIds = Platform.select({
-  ios: [
-    HeraDevYearly,
-    HeraDevMonthly,
-    HeraDevWeekly,
-  ],
-  android: [ HeraDevYearly, HeraDevWeekly],
+  ios: [HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
+  android: [HeraDevYearly, HeraDevWeekly],
 });
 
 export const SUBSCRIPTION_PLAN = [

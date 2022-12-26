@@ -49,7 +49,6 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {getUserGallery} from '../../../redux/actions/CreateGallery';
-import openWebView from '../../../utils/openWebView';
 import {empty} from '../../../redux/actions/Chat';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import moment from 'moment';
@@ -344,17 +343,27 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.information}
                 title={Strings.smSetting.AboutUs}
-                onPress={() => openWebView(ABOUT_URL)}
+                onPress={() =>
+                  navigation.navigate(Routes.WebViewUrl, {url: ABOUT_URL})
+                }
               />
               <PtbAccount
                 leftIcon={Images.file}
                 title={Strings.Subscription.TermsServices}
-                onPress={() => openWebView(TERMS_OF_USE_URL)}
+                onPress={() =>
+                  navigation.navigate(Routes.WebViewUrl, {
+                    url: TERMS_OF_USE_URL,
+                  })
+                }
               />
               <PtbAccount
                 leftIcon={Images.sheild}
                 title={Strings.smSetting.Privacy}
-                onPress={() => openWebView(PRIVACY_URL)}
+                onPress={() =>
+                  navigation.navigate(Routes.WebViewUrl, {
+                    url: PRIVACY_URL,
+                  })
+                }
               />
             </View>
             <View style={styles.buttoncontainer}>
