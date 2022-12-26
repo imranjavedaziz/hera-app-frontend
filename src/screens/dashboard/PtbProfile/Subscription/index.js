@@ -76,14 +76,7 @@ const Subscription = props => {
     dispatch(getSubscriptionPlan());
   }, []);
 
-  console.log(_purchasereceipt, '_purchasereceipt');
-
-  React.useEffect(() => {
-    console.log(
-      'subscriptionStatus Line no 63',
-      subscriptionStatus.data.is_trial,
-    );
-  }, [subscriptionStatus]);
+  console.log('_purchasereceipt line 79', _purchasereceipt);
 
   React.useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
@@ -142,7 +135,7 @@ const Subscription = props => {
     }
   }, [isCallApi]);
   const purchaseAPI = item => {
-    console.log('CHECKING CREATE SUB LINE NO 141');
+    console.log('CHECKING CREATE SUB LINE NO 141', item);
     let payload = {
       device_type: Platform.OS === 'android' ? 'android' : 'ios',
       product_id: item?.productId,
@@ -184,9 +177,9 @@ const Subscription = props => {
       } else {
         dispatch(showAppLoader());
         console.log(
-          'LINE NUMBER ANDROID 143 item',
+          'LINE ANDROID 186 item',
           item,
-          selectCheckBox?.ios_product,
+          selectCheckBox?.android_product,
         );
         requestSubscriptionAndroid(
           selectCheckBox?.android_product,
@@ -216,11 +209,12 @@ const Subscription = props => {
       subscriptionOffers.subscriptionOffers,
     )
       .then(async result => {
-        console.log('android purchase', result);
-        const receipt = result.transactionReceipt;
+        console.log('android purchase 215 line', result);
+        const receipt = result[0].transactionReceipt;
+        console.log('android purchase 217 line', receipt);
         if (receipt) {
           try {
-            setPurchaseReceipt(result);
+            setPurchaseReceipt(result[0]);
             setCallApi(true);
             RNIap.acknowledgePurchaseAndroid({token: result.purchaseToken});
             await RNIap.finishTransaction({result, isConsumable: true});
@@ -250,12 +244,12 @@ const Subscription = props => {
         }
       })
       .catch(err => {
-        console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message, err);
+        console.warn(`IAP Req ERROR %%%%% ${err.code}`, err.message, err);
         dispatch(hideAppLoader());
         dispatch(showAppToast(true, err.message));
       });
   };
-  console.log('subscriptionPlan?.data', subscriptionPlan?.data);
+  console.log('subscriptionPlan?.data 254', subscriptionPlan?.data);
   const formatedDate = moment(subscriptionStatus?.data?.trial_end).format(
     'MMM DD, YYYY',
   );
