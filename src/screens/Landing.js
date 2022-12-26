@@ -10,7 +10,6 @@ import Strings from '../constants/Strings';
 import {Routes, ABOUT_URL} from '../constants/Constants';
 import {deviceHandler} from '../utils/commonFunction';
 import {resetMobile} from '../redux/actions/Auth';
-
 const type = 1;
 const Landing = () => {
   const dispatch = useDispatch();
@@ -18,7 +17,6 @@ const Landing = () => {
   useEffect(() => {
     dispatch(resetMobile());
   }, []);
-
   useEffect(() => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);
