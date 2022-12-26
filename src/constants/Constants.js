@@ -238,6 +238,7 @@ export const Routes = {
   DeactivateAccount: 'DeactivateAccount',
   WalkThrough: 'WalkThrough',
   UrlWebViewScreen: 'UrlWebViewScreen',
+  WalkThroughVedio:'WalkThroughVedio',
   WebViewUrl: 'WebViewUrl',
 };
 export const Static = {

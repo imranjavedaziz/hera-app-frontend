@@ -277,6 +277,14 @@ const SmDonorSettings = () => {
             </View>
             <PtbAccount
               leftIcon={Images.preferences}
+              title={'WalkThroughVedio'}
+              onPress={() =>
+                navigation.navigate(Routes.WalkThroughVedio
+                )
+              }
+            />
+            <PtbAccount
+              leftIcon={Images.preferences}
               title={Strings.smSetting.EditAttribute}
               onPress={() =>
                 navigation.navigate(Routes.SetAttributes, {

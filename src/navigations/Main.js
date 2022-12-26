@@ -45,6 +45,7 @@ import {Value} from '../constants/FixedValues';
 import WalkThrough from '../screens/walkThrough';
 import ForegroundHandler from '../utils/ForegroundHandler';
 import {navigationRefNew} from '../utils/RootNavigation';
+import WalkThroughVedio from '../screens/walkThrough/WalkThroughVedio'
 import WebViewUrl from '../screens/WebViewUrl';
 
 export const navigationRef = React.createRef();
@@ -159,6 +160,8 @@ const Main = () => {
           <Stack.Screen name={Routes.Login} component={Login} />
           <Stack.Screen name={Routes.MobileNumber} component={MobileNumber} />
           <Stack.Screen name={Routes.Profile} component={Profile} />
+          <Stack.Screen name={Routes.WalkThroughVedio} component={WalkThroughVedio} />
+          
           <Stack.Screen
             name={Routes.PtbBasicDetails}
             component={PtbBasicDetails}
