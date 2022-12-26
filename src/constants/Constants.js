@@ -244,6 +244,7 @@ export const Routes = {
   DeactivateAccount: 'DeactivateAccount',
   WalkThrough: 'WalkThrough',
   UrlWebViewScreen: 'UrlWebViewScreen',
+  WalkThroughVedio:'WalkThroughVedio'
 };
 export const Static = {
   countries: [
