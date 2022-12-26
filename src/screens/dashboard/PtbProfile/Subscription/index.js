@@ -35,14 +35,14 @@ import {
   TERMS_OF_USE_URL,
   PRIVACY_URL,
   Fonts,
+  Routes,
 } from '../../../../constants/Constants';
-import openWebView from '../../../../utils/openWebView';
 import moment from 'moment';
-import { Value } from '../../../../constants/FixedValues';
+import {Value} from '../../../../constants/FixedValues';
 
 const Subscription = props => {
   const navigation = useNavigation();
-  const [androidPlans,setAndroidPlans] = useState([]);
+  const [androidPlans, setAndroidPlans] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
@@ -64,12 +64,12 @@ const Subscription = props => {
   const subscriptionStatus = useSelector(
     state => state.Subscription?.subscription_status_res,
   );
-  const getSubscription = async() => {
+  const getSubscription = async () => {
     try {
-      const Products = await RNIap.getSubscriptions({skus:['hera_monthly']});
+      const Products = await RNIap.getSubscriptions({skus: ['hera_monthly']});
       setAndroidPlans(Products);
     } catch (err) {
-      console.log('getSubscription err',err);
+      console.log('getSubscription err', err);
     }
   };
   React.useEffect(() => {
@@ -199,29 +199,40 @@ const Subscription = props => {
   };
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
-    const selectedAndroidPlan = androidPlans.find(plan=>{
+    const selectedAndroidPlan = androidPlans.find(plan => {
       return plan.productId === sku;
-    })
-    const subscriptionOffers = {subscriptionOffers: [{sku,offerToken: selectedAndroidPlan.subscriptionOfferDetails[0].offerToken}]}
-    RNIap.requestSubscription({sku,...subscriptionOffers},subscriptionOffers.subscriptionOffers)
-    .then(async result => {
-      console.log('android purchase',result);
-      const receipt = result.transactionReceipt;
-      if (receipt) {
-        try {
-          setPurchaseReceipt(result);
-          setCallApi(true);
-          RNIap.acknowledgePurchaseAndroid({token: result.purchaseToken});
-          await RNIap.finishTransaction({result, isConsumable: true});
-        } catch (ackErr) {
-          console.log('ERROR LINE NO 101', ackErr);
+    });
+    const subscriptionOffers = {
+      subscriptionOffers: [
+        {
+          sku,
+          offerToken:
+            selectedAndroidPlan.subscriptionOfferDetails[0].offerToken,
+        },
+      ],
+    };
+    RNIap.requestSubscription(
+      {sku, ...subscriptionOffers},
+      subscriptionOffers.subscriptionOffers,
+    )
+      .then(async result => {
+        console.log('android purchase', result);
+        const receipt = result.transactionReceipt;
+        if (receipt) {
+          try {
+            setPurchaseReceipt(result);
+            setCallApi(true);
+            RNIap.acknowledgePurchaseAndroid({token: result.purchaseToken});
+            await RNIap.finishTransaction({result, isConsumable: true});
+          } catch (ackErr) {
+            console.log('ERROR LINE NO 101', ackErr);
+          }
         }
-      }
-    })
-    .catch(err => {
-      console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
-    })
-    .finally(()=>dispatch(hideAppLoader()))
+      })
+      .catch(err => {
+        console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
+      })
+      .finally(() => dispatch(hideAppLoader()));
   };
   const requestSubscriptionIOS = async (sku, item, type) => {
     RNIap.requestSubscription({sku})
@@ -244,8 +255,10 @@ const Subscription = props => {
         dispatch(showAppToast(true, err.message));
       });
   };
-  console.log('subscriptionPlan?.data',subscriptionPlan?.data);
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY')
+  console.log('subscriptionPlan?.data', subscriptionPlan?.data);
+  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format(
+    'MMM DD, YYYY',
+  );
   return (
     <>
       <Container
@@ -260,10 +273,17 @@ const Subscription = props => {
             <Image source={Images.LOGO} style={styles.logo} />
             {subscriptionStatus?.data?.is_trial && (
               <View style={styles.blueContain}>
-                <Image source={Images.whiteTick} style={{paddingLeft:Value.CONSTANT_VALUE_5}} />
+                <Image
+                  source={Images.whiteTick}
+                  style={{paddingLeft: Value.CONSTANT_VALUE_5}}
+                />
                 <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>
-                  Your free trial expires on 
-                  <Text style={[styles.txting(Fonts.OpenSansBold, 0),{marginRight:Value.CONSTANT_VALUE_5}]}>
+                  Your free trial expires on
+                  <Text
+                    style={[
+                      styles.txting(Fonts.OpenSansBold, 0),
+                      {marginRight: Value.CONSTANT_VALUE_5},
+                    ]}>
                     {` ${formatedDate}`}
                   </Text>
                 </Text>
@@ -326,13 +346,21 @@ const Subscription = props => {
                   }${Strings.Subscription.LastmainText} `}
                   <Text
                     style={styles.terms}
-                    onPress={() => openWebView(TERMS_OF_USE_URL)}>
+                    onPress={() =>
+                      navigation.navigate(Routes.WebViewUrl, {
+                        url: TERMS_OF_USE_URL,
+                      })
+                    }>
                     {Strings.Subscription.TermsServices}
                   </Text>
                   {Strings.Subscription.And}
                   <Text
                     style={styles.terms}
-                    onPress={() => openWebView(PRIVACY_URL)}>
+                    onPress={() =>
+                      navigation.navigate(Routes.WebViewUrl, {
+                        url: PRIVACY_URL,
+                      })
+                    }>
                     {Strings.Subscription.PrivacyPolicy}
                   </Text>
                 </Text>
