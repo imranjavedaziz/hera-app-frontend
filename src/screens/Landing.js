@@ -10,7 +10,7 @@ import Strings from '../constants/Strings';
 import {Routes, ABOUT_URL} from '../constants/Constants';
 import {deviceHandler} from '../utils/commonFunction';
 import {resetMobile} from '../redux/actions/Auth';
-
+import crashlytics from '@react-native-firebase/crashlytics';
 const type = 1;
 const Landing = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,9 @@ const Landing = () => {
   useEffect(() => {
     dispatch(resetMobile());
   }, []);
-
+  useEffect(() => {
+    crashlytics().log('App mounted.');
+  }, []);
   useEffect(() => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);
@@ -39,7 +41,8 @@ const Landing = () => {
           <Button
             style={styles.widthText}
             label={Strings.landing.LOG_IN}
-            onPress={() => navigation.navigate(Routes.Login)}
+            onPress={() => crashlytics().crash()}
+            // onPress={() => navigation.navigate(Routes.Login)}
           />
           <Button
             style={styles.widthText}
