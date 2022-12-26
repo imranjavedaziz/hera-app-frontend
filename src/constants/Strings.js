@@ -369,7 +369,7 @@ export default {
     // EmailAddress: 'Email Address',
     USER_TYPE: 'User Type',
     MobileNumber: MOBILE_CONST,
-    Message: 'Message',
+    Message: 'Message (Max 200 Characters)',
     SendInquiry: 'SEND QUERY',
     Title: 'SUPPORT',
     LEFT_ARROW_BUTTON: 'Left arrow Button, Press to go back',
