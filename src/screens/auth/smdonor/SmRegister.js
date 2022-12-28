@@ -493,13 +493,21 @@ const SmRegister = () => {
                   {Strings.profile.tmc1}
                   <Text
                     style={styles.tmcLink1}
-                    onPress={() => openWebView(TERMS_OF_USE_URL)}>
+                    onPress={() =>
+                      navigation.navigate(Routes.WebViewUrl, {
+                        url: TERMS_OF_USE_URL,
+                      })
+                    }>
                     {Strings.Subscription.TermsServices}
                   </Text>{' '}
                   and{' '}
                   <Text
                     style={styles.tmcLink1}
-                    onPress={() => openWebView(PRIVACY_URL)}>
+                    onPress={() =>
+                      navigation.navigate(Routes.WebViewUrl, {
+                        url: PRIVACY_URL,
+                      })
+                    }>
                     {Strings.profile.tmc3}
                   </Text>
                 </Text>

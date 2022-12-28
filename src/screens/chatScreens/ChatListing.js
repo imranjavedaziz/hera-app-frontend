@@ -26,7 +26,6 @@ const ChatListing = () => {
   const chatData = chatHistory();
   const dispatch = useDispatch();
   const fetchData = useCallback(() => {
-    dispatch(getSubscriptionStatus());
     chatData.update();
     setLoader(false);
     setRefreshing(false);
@@ -42,6 +41,7 @@ const ChatListing = () => {
   // expected output: true
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getSubscriptionStatus());
       dispatch(getMessageID(''));
     });
 

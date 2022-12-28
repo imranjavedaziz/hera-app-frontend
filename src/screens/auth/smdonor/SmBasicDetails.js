@@ -197,13 +197,18 @@ const SmBasicDetails = () => {
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
   };
+  const navigateAbout = () => {
+    navigation.navigate(Routes.WebViewUrl, {
+      url: ABOUT_URL,
+    });
+  };
   const handleThreeOption = option => {
     switch (option) {
       case Strings.smSetting.Inquiry:
         navigateSupport();
         break;
       case Strings.preference.About:
-        openWebView(ABOUT_URL);
+        navigateAbout();
         break;
       case Strings.preference.Logout:
         logOutScreen();
@@ -424,7 +429,7 @@ const SmBasicDetails = () => {
               <TouchableOpacity
                 style={globalStyle.heraBtn}
                 onPress={() => {
-                  openWebView(ABOUT_URL);
+                  navigateAbout();
                 }}>
                 <Text style={globalStyle.heraText}>
                   {Strings.bottomSheet.About_HERA}

@@ -6,7 +6,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Routes} from '../constants/Constants';
 import getRoute from '../utils/getRoute';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getSubscriptionStatus} from '../redux/actions/Subsctiption';
 // Screens
 import Profile from '../screens/DetailsPTB/Profile';
 import SetPreference from '../screens/DetailsPTB/PTB_setPreference/SetPreference';
@@ -42,11 +41,12 @@ import ProfileLikedSm from '../screens/chatScreens/ProfileLikedSm';
 import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
 import {showAppToast} from '../redux/actions/loader';
 import {Strings} from '../constants';
-import moment from 'moment';
 import {Value} from '../constants/FixedValues';
 import WalkThrough from '../screens/walkThrough';
 import ForegroundHandler from '../utils/ForegroundHandler';
 import {navigationRefNew} from '../utils/RootNavigation';
+import WalkThroughVedio from '../screens/walkThrough/WalkThroughVedio'
+import WebViewUrl from '../screens/WebViewUrl';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -136,7 +136,6 @@ const Main = () => {
     toastShowed,
   ]);
 
-
   return (
     firstLaunch != null && (
       <NavigationContainer
@@ -161,6 +160,8 @@ const Main = () => {
           <Stack.Screen name={Routes.Login} component={Login} />
           <Stack.Screen name={Routes.MobileNumber} component={MobileNumber} />
           <Stack.Screen name={Routes.Profile} component={Profile} />
+          <Stack.Screen name={Routes.WalkThroughVedio} component={WalkThroughVedio} />
+          
           <Stack.Screen
             name={Routes.PtbBasicDetails}
             component={PtbBasicDetails}
@@ -208,6 +209,7 @@ const Main = () => {
             name={Routes.DeactivateAccount}
             component={DeactivateAccount}
           />
+          <Stack.Screen name={Routes.WebViewUrl} component={WebViewUrl} />
         </Stack.Navigator>
       </NavigationContainer>
     )
