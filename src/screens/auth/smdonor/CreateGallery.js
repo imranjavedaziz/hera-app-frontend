@@ -340,6 +340,12 @@ const CreateGallery = () => {
                   key={index}>
                   {img.uri && (
                     <TouchableOpacity
+                      style={{
+                        height: 50,
+                        width: 50,
+                        bottom: 25,
+                        left: 20,
+                      }}
                       onPress={() => {
                         handelDel(img.id);
                       }}>
