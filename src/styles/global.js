@@ -46,7 +46,6 @@ export default {
   },
   basicSheetContainer: {
     paddingHorizontal: scaleWidth(20),
-    height: scaleHeight(274),
   },
   formBtn: {
     paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
