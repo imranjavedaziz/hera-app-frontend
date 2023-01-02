@@ -1,6 +1,6 @@
 // BottomSheetComp
 import React, {useRef, useEffect} from 'react';
-import {Modal, TouchableOpacity, Easing, Animated} from 'react-native';
+import {Modal, TouchableOpacity, Animated} from 'react-native';
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import global from '../styles/global';
 
@@ -22,13 +22,12 @@ const BottomSheetComp = props => {
         duration: 400,
         useNativeDriver: true,
       }).start();
-    }
-    if (isOpen === false) {
+    } else {
       Animated.timing(searchBarAnim, {
         toValue: 122330,
         duration: 400,
         // useNativeDriver: true,
-      }).end();
+      }).stop();
     }
   }, [isOpen]);
   return (
@@ -65,9 +64,8 @@ const BottomSheetComp = props => {
             transform: [{translateY: searchBarAnim}],
             // height: 100,
             width: '100%',
-            backgroundColor:'red'
-          }}
-          >
+            backgroundColor: 'red',
+          }}>
           <BottomSheet
             wrapperStyle={wrapperStyle ? wrapperStyle : global.bottomSheet}
             lineStyle={lineStyle}
