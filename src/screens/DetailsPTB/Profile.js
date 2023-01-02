@@ -599,7 +599,6 @@ const Profile = props => {
                 value={date}
                 isVisible={show}
                 mode={'date'}
-                date={datePicked ?? new Date()}
                 onConfirm={selectedDate => {
                   clearErrors(FormKey.date_of_birth);
                   setShow(false);
@@ -607,6 +606,8 @@ const Profile = props => {
                   setDate(getDate(selectedDate));
                   onDateChange(selectedDate);
                 }}
+                date={datePicked ?? moment().subtract(18, 'years')._d}
+                maximumDate={moment().subtract(18, 'years')._d}
                 onCancel={() => {
                   setShow(false);
                 }}
