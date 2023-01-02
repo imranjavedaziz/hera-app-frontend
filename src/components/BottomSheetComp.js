@@ -14,7 +14,7 @@ const BottomSheetComp = props => {
     isComing = false,
   } = props;
   const panelRef = useRef(null);
-  const searchBarAnim = useRef(new Animated.Value(100)).current;
+  const searchBarAnim = useRef(new Animated.Value(400)).current;
   useEffect(() => {
     if (isOpen) {
       Animated.timing(searchBarAnim, {
@@ -62,9 +62,9 @@ const BottomSheetComp = props => {
         <Animated.View
           style={{
             transform: [{translateY: searchBarAnim}],
-            // height: 100,
+            // height: '100%',
             width: '100%',
-            backgroundColor: 'red',
+            // backgroundColor: 'red',
           }}>
           <BottomSheet
             wrapperStyle={wrapperStyle ? wrapperStyle : global.bottomSheet}
