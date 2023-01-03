@@ -60,6 +60,7 @@ const EditProfile = props => {
   const [showModal, setShowModal] = useState(false);
   const [datePicked, onDateChange] = useState();
   const [clipdrop, setClickDrop] = useState(false);
+  const [roleId, setRole] = useState(user?.role_id);
   useFocusEffect(
     useCallback(() => {
       dispatch(showEditAppLoader());
@@ -78,6 +79,7 @@ const EditProfile = props => {
     get_state_loading,
     get_state_error_msg,
   } = useSelector(state => state.Register);
+  const user = useSelector(state => state.Auth.user);
   const {
     get_user_detail_res,
     get_user_detail_success,
@@ -97,6 +99,7 @@ const EditProfile = props => {
   const {
     handleSubmit,
     control,
+    clearErrors,
     setValue,
     formState: {errors, isDirty},
   } = useForm({
@@ -574,23 +577,60 @@ const EditProfile = props => {
                 />
               </View>
             </View>
-            <DateTimePickerModal
-              value={date}
-              isVisible={show}
-              mode={'date'}
-              date={datePicked ?? new Date()}
-              onConfirm={selectedDate => {
-                setShow(false);
-                setValue('dob', getDate(selectedDate));
-                setDate(getDate(selectedDate));
-                onDateChange(selectedDate);
-              }}
-              onCancel={() => {
-                setShow(false);
-              }}
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              positiveButtonLabel="DONE"
-            />
+            {user?.role_id === 2 ? (
+              <DateTimePickerModal
+                value={date}
+                isVisible={show}
+                mode={'date'}
+                onConfirm={selectedDate => {
+                  clearErrors(FormKey.date_of_birth);
+                  setShow(false);
+                  setValue(FormKey.date_of_birth, getDate(selectedDate));
+                  setDate(getDate(selectedDate));
+                  onDateChange(selectedDate);
+                }}
+                date={datePicked ?? moment().subtract(18, 'years')._d}
+                maximumDate={moment().subtract(18, 'years')._d}
+                onCancel={() => {
+                  setShow(false);
+                }}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                positiveButtonLabel="DONE"
+              />
+            ) : (
+              <DateTimePickerModal
+                value={date}
+                isVisible={show}
+                mode={'date'}
+                onConfirm={selectedDate => {
+                  setShow(false);
+                  clearErrors('dob');
+                  setValue('dob', moment(selectedDate).format('MMM DD, YYYY'));
+                  setDate(selectedDate);
+                  onDateChange(selectedDate);
+                }}
+                date={
+                  datePicked ?? roleId === 3
+                    ? moment().subtract(21, 'years')._d
+                    : moment().subtract(18, 'years')._d
+                }
+                maximumDate={
+                  roleId === 3
+                    ? moment().subtract(21, 'years')._d
+                    : moment().subtract(18, 'years')._d
+                }
+                minimumDate={
+                  roleId === 3
+                    ? moment().subtract(45, 'years')._d
+                    : moment().subtract(40, 'years')._d
+                }
+                onCancel={() => {
+                  setShow(false);
+                }}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                positiveButtonLabel="DONE"
+              />
+            )}
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
