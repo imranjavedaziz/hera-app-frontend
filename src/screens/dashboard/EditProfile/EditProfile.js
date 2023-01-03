@@ -19,7 +19,7 @@ import {
 } from '../../../components';
 import styles from './styles';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Routes} from '../../../constants/Constants';
+import {FormKey, Routes} from '../../../constants/Constants';
 import {Alignment, Colors, Images, Strings} from '../../../constants';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -60,7 +60,6 @@ const EditProfile = props => {
   const [showModal, setShowModal] = useState(false);
   const [datePicked, onDateChange] = useState();
   const [clipdrop, setClickDrop] = useState(false);
-  const [roleId, setRole] = useState(user?.role_id);
   useFocusEffect(
     useCallback(() => {
       dispatch(showEditAppLoader());
@@ -610,17 +609,17 @@ const EditProfile = props => {
                   onDateChange(selectedDate);
                 }}
                 date={
-                  datePicked ?? roleId === 3
+                  datePicked ?? user?.role_id === 3
                     ? moment().subtract(21, 'years')._d
                     : moment().subtract(18, 'years')._d
                 }
                 maximumDate={
-                  roleId === 3
+                  user?.role_id === 3
                     ? moment().subtract(21, 'years')._d
                     : moment().subtract(18, 'years')._d
                 }
                 minimumDate={
-                  roleId === 3
+                  user?.role_id === 3
                     ? moment().subtract(45, 'years')._d
                     : moment().subtract(40, 'years')._d
                 }
