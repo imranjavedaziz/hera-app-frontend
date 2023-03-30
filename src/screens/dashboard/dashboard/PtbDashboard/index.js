@@ -105,9 +105,8 @@ const PtbDashboard = props => {
       } else {
         setNetworkError(false);
       }
-      dispatch(showAppLoader());
-      dispatch(getPtbDashboard());
       dispatch(getSubscriptionStatus());
+      dispatch(getPtbDashboard());
       setCardIndex(0);
     }, [dispatch]),
   );
@@ -382,6 +381,7 @@ const PtbDashboard = props => {
     const STYLE = styles.androidInnerContainer;
     return (
       <>
+        {get_ptb_dashboard_res?.data?.data?.data.length > 0 ? (
           <View style={styles.mainContainer}>
             <TitleComp
               Title={Strings.landing.Like_Match_Connect}
@@ -466,7 +466,14 @@ const PtbDashboard = props => {
             </View>
             {disable && <View style={styles.disableing} />}
           </View>
-       
+        ) : (
+          <View style={styles.loaderContainer}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
+          </View>
+        )}
       </>
     );
   };
