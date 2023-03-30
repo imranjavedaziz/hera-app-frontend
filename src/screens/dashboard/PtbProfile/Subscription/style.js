@@ -11,7 +11,6 @@ import {
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
-    alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
     marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
@@ -21,6 +20,7 @@ export default {
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_25,
+    marginLeft: dynamicSize(38)
   },
 
   headerText: {
@@ -44,6 +44,7 @@ export default {
   textView: {
     width: scaleWidth(Value.CONSTANT_VALUE_300),
     marginBottom: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER
   },
   payButton: {
     marginTop: dynamicSize(20),
@@ -81,5 +82,8 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
     marginBottom:Value.CONSTANT_VALUE_30
+  },
+  btnView:{
+    alignItems:Alignment.CENTER
   }
 };
