@@ -36,7 +36,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     textAlign: Alignment.CENTER,
     paddingTop: px(13),
-    paddingHorizontal: px(10),
+    paddingHorizontal: px(35),
   },
   hasTwoText: {
     color: Colors.COLOR_535858,

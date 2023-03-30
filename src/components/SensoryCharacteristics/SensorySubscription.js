@@ -15,7 +15,6 @@ const SensorySubscription = props => {
           {Strings.Sensory.WHY_SUBSCRIBE}
         </Text>
         <Text style={styles?.hasTwo}>{Strings.Sensory.HERA_HASTWO}</Text>
-        <Text style={styles?.hasThree}>{Strings.Sensory.HERA_HASHTHREE}</Text>
         <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
           <Text style={styles.btnText}>{Strings.Sensory.OKAY_GOT_IT}</Text>
         </TouchableOpacity>
