@@ -2,7 +2,7 @@ import {Platform} from 'react-native';
 import {Value, Prencentage} from '../constants/FixedValues';
 import {Alignment, Colors} from '../constants';
 import {Fonts} from '../constants/Constants';
-import {dynamicSize} from '../utils/responsive';
+import {dynamicSize, scaleWidth, scaleHeight} from '../utils/responsive';
 
 export default {
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
@@ -26,7 +26,6 @@ export default {
   },
   mainContainer: {
     flex: 1,
-    alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
     ...Platform.select({
       android: {
@@ -39,10 +38,11 @@ export default {
     bottom: dynamicSize(Value.CONSTANT_VALUE_30),
   },
   logo: {
-    width: Value.CONSTANT_VALUE_200,
-    height: Value.CONSTANT_VALUE_120,
+    width: scaleWidth(Value.CONSTANT_VALUE_200),
+    height:scaleHeight(Value.CONSTANT_VALUE_120),
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
+    marginLeft: dynamicSize(62)
   },
   title: {
     textAlign: Alignment.CENTER,

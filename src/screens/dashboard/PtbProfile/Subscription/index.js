@@ -312,11 +312,13 @@ const Subscription = props => {
                 <ActivityIndicator />
               )}
             </View>
+            <View style={styles.btnView}>
             <Button
               label={Strings.Subscription.SubscribeButton}
               style={styles.payButton}
               onPress={() => subscribePlan(selectCheckBox, 'credit')}
             />
+             </View>
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>

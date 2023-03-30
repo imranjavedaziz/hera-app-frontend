@@ -213,7 +213,7 @@ const PtbProfile = () => {
         type: file.mime,
         uri: file.path,
       });
-    dispatch(updateProfileImg(reqData));
+      file !== null && dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
     dispatch(empty());

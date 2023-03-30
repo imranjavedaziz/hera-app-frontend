@@ -2,7 +2,7 @@ import {Colors, Alignment} from '../../constants';
 import global from '../global';
 import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
-import {statusHide} from '../../utils/responsive';
+import {dynamicSize, scaleHeight, scaleWidth, statusHide} from '../../utils/responsive';
 export default {
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -12,12 +12,12 @@ export default {
   },
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   logo: {
-    width: Value.CONSTANT_VALUE_200,
-    height: Value.CONSTANT_VALUE_120,
+    width:scaleWidth(Value.CONSTANT_VALUE_200),
+    height:scaleHeight(Value.CONSTANT_VALUE_120),
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginBottom: 35,
-    alignSelf: Alignment.CENTER,
+    marginLeft:dynamicSize(25)
   },
   inputRow: {
     flexDirection: Alignment.ROW,
