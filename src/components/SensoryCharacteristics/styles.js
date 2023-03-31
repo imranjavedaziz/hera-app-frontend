@@ -81,6 +81,6 @@ export default {
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_20,
-    marginLeft: dynamicSize(100)
+    marginLeft: dynamicSize(101)
   },
 };
