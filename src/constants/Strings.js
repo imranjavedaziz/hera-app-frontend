@@ -251,6 +251,7 @@ export default {
     videoFormat: '(AVI, MOV, MP4 format)',
     Item: 'Item Selected',
     Items: 'Items Selected',
+    WalkthroughVideo: 'WalkThrough Video',
   },
   bottomSheet: {
     Inquiry_Form: 'Support',

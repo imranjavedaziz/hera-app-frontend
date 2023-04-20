@@ -1,7 +1,7 @@
 import {Alignment, Colors} from '../../constants';
 import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {dynamicSize, px, statusHide} from '../../utils/responsive';
+import {dynamicSize, height, px, statusHide, width} from '../../utils/responsive';
 import {Platform} from 'react-native';
 export default {
   mainContainer: {
@@ -39,6 +39,13 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 16,
     color: Colors.BLACK,
+  },
+  walkText: {
+    textAlign: Alignment.CENTER,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.BLACK,
+    fontSize: 16,
+
   },
   buttoncontainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_46),
@@ -112,20 +119,20 @@ export default {
     justifyContent: Alignment.CENTER,
   },
   lookindSmContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
     paddingHorizontal: 55,
   },
   lookingSm: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     color: Colors.BLACK,
   },
   lookingSmNew: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: Alignment.CENTER,
     color: Colors.BLACK,
     marginTop: 20,
     width: px(246),
@@ -163,5 +170,34 @@ export default {
   },
   walkThrough: {
     marginTop: px(37),
+  },
+  imageOverlayWrapper: {
+    position: Alignment.RELATIVE,
+    overflow: Alignment.HIDDEN,
+    justifyContent: Alignment.CENTER,
+    backgroundColor: Colors.BACKGROUND,
+  },
+  VdoContainer: {
+    justifyContent: Alignment.CENTER,
+    height: 232,
+    backgroundColor: Colors.VDOCONTAINER,
+    marginTop: Value.CONSTANT_VALUE_30,
+  },
+  video: {
+    overflow: Alignment.HIDDEN,
+    width: width,
+    height: 232,
+    marginTop:(height-statusHide(105))/5,
+    backgroundColor: Colors.BACKGROUND,
+  },
+  mainWalk: {
+    flex: 1,
+    justifyContent: Alignment.CENTER,
+  },
+  containerStyle: {
+    marginHorizontal: Value.CONSTANT_VALUE_0,
+  },
+  header: {
+    marginLeft: Value.CONSTANT_VALUE_30,
   },
 };

@@ -102,4 +102,5 @@ export default {
   WALKTHROUGH3: require('../assets/Images/walkThrough3/group.png'),
   frontCarousel: require('../assets/icons/frontCarousel/frontCarousel.png'),
   backCarousel: require('../assets/icons/backCarousel/backCarousel.png'),
+  HERA_VIDEO: require('../assets/video/HERAVideo.mp4'),
 };
