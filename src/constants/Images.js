@@ -103,4 +103,6 @@ export default {
   frontCarousel: require('../assets/icons/frontCarousel/frontCarousel.png'),
   backCarousel: require('../assets/icons/backCarousel/backCarousel.png'),
   HERA_VIDEO: require('../assets/video/HERAVideo.mp4'),
+  PLAY_BUTTON_VIDEO: require('../assets/icons/play_button_videos/playButton.png'),
+  DOLLAR_LOGO: require('../assets/icons/dollar_logo/dollar.png'),
 };

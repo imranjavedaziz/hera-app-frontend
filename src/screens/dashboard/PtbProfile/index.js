@@ -213,7 +213,7 @@ const PtbProfile = () => {
         type: file.mime,
         uri: file.path,
       });
-      file !== null && dispatch(updateProfileImg(reqData));
+    file !== null && dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
     dispatch(empty());
@@ -318,6 +318,11 @@ const PtbProfile = () => {
                 }
               />
               <PtbAccount
+                leftIcon={Images.DOLLAR_LOGO}
+                title={Strings.smSetting.Hera_Pay}
+                onPress={() => navigation.navigate(Routes.HeraPay)}
+              />
+              <PtbAccount
                 leftIcon={Images.video}
                 title={Strings.smSetting.AddVideo}
                 BlueDot={avaiableVideo === true ? true : false}
@@ -339,6 +344,11 @@ const PtbProfile = () => {
                 leftIcon={Images.writing}
                 title={Strings.smSetting.Inquiry}
                 onPress={() => navigation.navigate('Support')}
+              />
+              <PtbAccount
+                leftIcon={Images.PLAY_BUTTON_VIDEO}
+                title={Strings.smSetting.See_Help_Video}
+                onPress={() => navigation.navigate(Routes.WalkThroughVedio)}
               />
               <PtbAccount
                 leftIcon={Images.information}

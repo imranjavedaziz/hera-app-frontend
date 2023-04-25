@@ -2,8 +2,16 @@
 import axios from 'axios';
 import {api_url} from '../constants/Constants';
 import {store} from '../redux/store';
-import {hideAppLoader, showAppToast} from '../redux/actions/loader';
-import {updateToken, signoutUser} from '../redux/actions/Auth';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../redux/actions/loader';
+import {
+  updateToken,
+  signoutUser,
+  updateRefreshToken,
+} from '../redux/actions/Auth';
 import ApiPath from '../constants/ApiPath';
 import NetInfo from '@react-native-community/netinfo';
 import {ValidationMessages} from '../constants/Strings';
@@ -11,11 +19,13 @@ import {navigationRef} from '../navigations/Main';
 import {Routes} from '../constants/Constants';
 import {StackActions} from '@react-navigation/native';
 import {updateSubscriptionStatus} from '../redux/actions/Subsctiption';
-
+import jwt_decode from 'jwt-decode';
 const axiosRequest = axios.create({
   baseURL: api_url,
 });
 
+let isRefreshing = false;
+let refreshSubscribers = [];
 axiosRequest.interceptors.request.use(
   request => {
     const token = store.getState().Auth.token;
@@ -39,7 +49,10 @@ axiosRequest.interceptors.response.use(
     return response;
   },
   async function (error) {
-    const originalRequest = error.config;
+    const originalRequest = error.request;
+    const token = store.getState().Auth.token;
+    const decodedToken = jwt_decode(token);
+    const currentTime = Date.now() / 1000;
     if ((await NetInfo.isConnected.fetch()) !== true) {
       store.dispatch(
         showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION),
@@ -57,13 +70,55 @@ axiosRequest.interceptors.response.use(
       return Promise.reject(error);
     } else if (
       error.response.status === 401 &&
-      originalRequest._retry === false
+      decodedToken.exp < currentTime
     ) {
-      const tokenRes = await axiosRequest.get(ApiPath.refreshToken);
-      store.dispatch(updateToken(tokenRes.data.token));
-      // get access token from refresh token and retry
-      originalRequest._retry = true;
-      return axiosRequest(originalRequest);
+      store.dispatch(showAppLoader());
+      const refresh_token = store.getState().Auth.refresh_token;
+      if (!isRefreshing) {
+        isRefreshing = true;
+        axios
+          .post(`${api_url}${ApiPath.refreshToken}`, {
+            refresh_token: refresh_token,
+          })
+          .then(response => {
+            // handle success
+            store.dispatch(updateToken(response?.data?.token));
+            store.dispatch(updateRefreshToken(response?.data?.refresh_token));
+            if (
+              !store.getState().Auth.isRefreshUpdate &&
+              !store.getState().Auth.isTokenUpdate
+            ) {
+              store.dispatch(
+                showAppToast(false, 'Token update failed. Please try again.'),
+              );
+            } else {
+              const currentRoute =
+                navigationRef.current?.getCurrentRoute().name;
+              const previousRoute =
+                navigationRef.current?.getCurrentRoute()?.params;
+              const popAction = StackActions.replace(
+                currentRoute,
+                previousRoute,
+              );
+              navigationRef.current?.dispatch(popAction);
+              store.dispatch(hideAppLoader());
+            }
+            refreshSubscribers.forEach(callback => callback(response?.data));
+            originalRequest._retry = true;
+            refreshSubscribers = [];
+            isRefreshing = false;
+            return axiosRequest(originalRequest);
+          })
+          .catch(error => {
+            store.dispatch(showAppToast(true, error.message));
+            // handle error
+            console.log(error.message, 'error handle');
+          });
+      }
+      console.log(
+        error?.response?.data?.message,
+        'error.response.data.message>>>>>>',
+      );
     } else if (error.response.status === 404 && error.response.data.message) {
       store.dispatch(showAppToast(true, error.response.data.message));
     } else if (

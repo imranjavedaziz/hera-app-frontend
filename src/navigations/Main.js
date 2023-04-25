@@ -47,6 +47,7 @@ import ForegroundHandler from '../utils/ForegroundHandler';
 import {navigationRefNew} from '../utils/RootNavigation';
 import WalkThroughVedio from '../screens/walkThrough/WalkThroughVedio'
 import WebViewUrl from '../screens/WebViewUrl';
+import HeraPay from '../screens/auth/smdonor/heraPay/HeraPay';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -161,7 +162,7 @@ const Main = () => {
           <Stack.Screen name={Routes.MobileNumber} component={MobileNumber} />
           <Stack.Screen name={Routes.Profile} component={Profile} />
           <Stack.Screen name={Routes.WalkThroughVedio} component={WalkThroughVedio} />
-          
+          <Stack.Screen name={Routes.HeraPay} component={HeraPay} />
           <Stack.Screen
             name={Routes.PtbBasicDetails}
             component={PtbBasicDetails}

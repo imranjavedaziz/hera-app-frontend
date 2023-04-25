@@ -277,17 +277,17 @@ const SmDonorSettings = () => {
             </View>
             <PtbAccount
               leftIcon={Images.preferences}
-              title={'WalkThroughVideo'}
-              onPress={() => navigation.navigate(Routes.WalkThroughVedio)}
-            />
-            <PtbAccount
-              leftIcon={Images.preferences}
               title={Strings.smSetting.EditAttribute}
               onPress={() =>
                 navigation.navigate(Routes.SetAttributes, {
                   EditAttributes: true,
                 })
               }
+            />
+            <PtbAccount
+              leftIcon={Images.DOLLAR_LOGO}
+              title={Strings.smSetting.Hera_Pay}
+              onPress={() => navigation.navigate(Routes.HeraPay)}
             />
             <PtbAccount
               leftIcon={Images.galleryimage}
@@ -317,6 +317,11 @@ const SmDonorSettings = () => {
               onPress={() => {
                 navigation.navigate(Routes.Support);
               }}
+            />
+            <PtbAccount
+              leftIcon={Images.PLAY_BUTTON_VIDEO}
+              title={Strings.smSetting.See_Help_Video}
+              onPress={() => navigation.navigate(Routes.WalkThroughVedio)}
             />
             <PtbAccount
               leftIcon={Images.information}

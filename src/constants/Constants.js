@@ -239,6 +239,7 @@ export const Routes = {
   WalkThrough: 'WalkThrough',
   UrlWebViewScreen: 'UrlWebViewScreen',
   WalkThroughVedio:'WalkThroughVedio',
+  HeraPay:'HeraPay',
   WebViewUrl: 'WebViewUrl',
 };
 export const Static = {
