@@ -2,6 +2,7 @@ import {
   SET_USER,
   SIGNOUT_USER,
   UPDATE_TOKEN,
+  UPDATE_REFRESH_TOKEN,
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
@@ -55,6 +56,10 @@ export const updateToken = token => ({
   payload: token,
 });
 
+export const updateRefreshToken = token => ({
+  type: UPDATE_REFRESH_TOKEN,
+  payload: token,
+});
 export const updateRegStep = () => ({
   type: UPDATE_REG_STEP,
 });

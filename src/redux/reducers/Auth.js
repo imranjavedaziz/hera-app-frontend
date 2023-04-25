@@ -7,6 +7,7 @@ import {
   SET_ATTRIBUTES,
   USE_LOCAL_IMAGE,
   USE_NAME,
+  UPDATE_REFRESH_TOKEN,
 } from '../constants';
 
 import {
@@ -85,6 +86,7 @@ const initState = {
   log_in_success: false,
   log_in_loading: false,
   token: '',
+  refresh_token:'',
   user_id: '',
   log_in_error_msg: '',
   log_in_data: '',
@@ -113,6 +115,8 @@ const initState = {
   device_info_error_msg: '',
   device_info_loading: false,
   device_info_success: false,
+  isTokenUpdate: false,
+  isRefreshUpdate:false,
 };
 
 export default (state = initState, action) => {
@@ -143,12 +147,15 @@ export default (state = initState, action) => {
     }
     case AUTH_LOG_IN_SUCCESS: {
       const {access_token} = action.data.data.data;
+      console.log(action?.data.data,'action?.data.data');
+      const {refresh_token} = action?.data.data.data;
       return {
         ...state,
         user: action?.data?.data?.data,
         log_in_success: true,
         log_in_loading: false,
         token: access_token,
+        refresh_token:refresh_token,
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
         login: true,
@@ -216,13 +223,22 @@ export default (state = initState, action) => {
      * Update Token
      */
     case UPDATE_TOKEN:
+      
       return {
         ...state,
-        token: action,
+        token: action.payload,
         user: {
           ...state.user,
           access_token: action.payload,
         },
+        isTokenUpdate: true
+      };
+      case UPDATE_REFRESH_TOKEN:
+      
+      return {
+        ...state,
+        refresh_token: action.payload,
+        isRefreshUpdate: true
       };
     case UPDATE_REG_STEP:
       return {

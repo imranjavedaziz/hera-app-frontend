@@ -49,7 +49,7 @@ const WalkThroughVedio = props => {
         style={styles.containerStyle}>
         <View style={[globalStyle.mainContainer, {marginTop: statusHide(105)}]}>
           <Text style={globalStyle.screenTitle}>
-            {Strings.sm_create_gallery.WalkthroughVideo}
+            {Strings.smSetting.See_Help_Video}
           </Text>
           <Video
             source={Images.HERA_VIDEO}

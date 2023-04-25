@@ -5,6 +5,7 @@ export const HIDE_TOAST = 'HIDE_TOAST';
 export const SET_USER = 'SET_USER';
 export const SIGNOUT_USER = 'SIGNOUT_USER';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+export const UPDATE_REFRESH_TOKEN = 'UPDATE_REFRESH_TOKEN';
 export const UPDATE_REG_STEP = 'UPDATE_REG_STEP';
 export const SET_BASIC_DETAILS = 'SET_BASIC_DETAILS';
 export const SET_ATTRIBUTES = 'SET_ATTRIBUTES';

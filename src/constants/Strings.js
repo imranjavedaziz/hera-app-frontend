@@ -356,6 +356,8 @@ export default {
     Log_Out: 'Log Out?',
     LogoutContent: 'Do you wish to log out of the application?',
     Yes_Logout: 'Yes, Log Out',
+    See_Help_Video: 'See Help Video',
+    Hera_Pay: 'HERA Pay',
   },
   subscribe: {
     Subscribe_Now: 'Subscribe Now',
