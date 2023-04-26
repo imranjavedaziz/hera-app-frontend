@@ -479,11 +479,15 @@ export default {
     CARD_TIME: 'Valid thru May 2025',
     CARD_NUM_TWO: '....0183',
     CARD_TIME_TWO: 'Valid thru May 2025',
-    ADD_CARD: '+ Add New Card',
+    ADD:'+',
+    ADD_CARD: 'Add New Card',
     Remove_Card: 'Remove Card from Profile?',
     Remove_Card_Text: 'Remove the card ending with ....9203?',
     Yes_Remove: 'Yes, Remove',
     Not_Now: 'Not Now',
+    Request_for_Payment: 'Request for Payment',
+    REQUEST_PAYMENT: 'REQUEST FOR A PAYMENT',
+    Add_Bank: 'Add Bank',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',
@@ -495,6 +499,14 @@ export default {
       'See the transactions for every payment that you have made to your matches till date.',
     Manage_Card: 'Manage Card',
     Add_Card: 'Manage Card',
+    Request_Sent_to_Parents: 'Request Sent to Intended Parents',
+    Parent_Description:
+      'You can see all the requests you have sent to Intended Parents along with their status.',
+    Transaction_History_Parent:
+      'See all the payments that you have received from your matches till date.',
+    Manage_Bank: 'Manage Bank',
+    Bank_Description:
+      'Add your bank account to receive payments from Intended Parents.',
   },
 
   //Static

@@ -111,4 +111,5 @@ export default {
   CREDIT_CARD: require('../assets/icons/creditCard/creditCard.png'),
   ICON_MASTER: require('../assets/icons/iconMaster_logo/iconMaster.png'),
   VISA_LOGO: require('../assets/icons/visaLogo/visaLogo.png'),
+  BANK_LOGO: require('../assets/icons/bankLogo/bank.png'),
 };
