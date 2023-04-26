@@ -116,6 +116,9 @@ const SetPreference = ({route, navigation}) => {
     get_state_loading,
     get_state_error_msg,
   } = useSelector(state => state.Register);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription?.subscription_status_res,
+  );
   const loadingRef = useRef(false);
   const stateLoadingRef = useRef(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -341,7 +344,12 @@ const SetPreference = ({route, navigation}) => {
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
-        <View style={globalStyle.cancelbtn}>
+        <View style={[globalStyle.cancelbtn, styles.ageContainer]}>
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            style={globalStyle.clearView}>
+            <Image source={Images.I_BUTTON} />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               nav();
@@ -431,6 +439,12 @@ const SetPreference = ({route, navigation}) => {
                         <TouchableOpacity
                           style={styles.flexRow}
                           key={whom.id}
+                          disabled={
+                            !(
+                              subscriptionStatus?.data?.is_trial ||
+                              EditPreferences
+                            )
+                          }
                           activeOpacity={1}
                           onPress={() => onChange(whom.id)}>
                           <Image
@@ -441,7 +455,23 @@ const SetPreference = ({route, navigation}) => {
                                 : Images.iconRadiounsel
                             }
                           />
-                          <Text style={styles.lookingsm}>{whom.name}</Text>
+                          <Text
+                            style={
+                              value === whom.id ||
+                              subscriptionStatus?.data?.is_trial ||
+                              EditPreferences
+                                ? styles.lookingsm
+                                : styles.lookingsmDisabled
+                            }>
+                            {whom.name}
+                          </Text>
+                          {value === whom.id && !subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status && (
+                            <View style={styles.subscribeBtn}>
+                              <Text style={styles.subscribeTxt}>
+                                Subscribed
+                              </Text>
+                            </View>
+                          )}
                         </TouchableOpacity>
                       ))}
                       <Text style={styles.errLooking}>

@@ -456,6 +456,13 @@ export default {
     HERA_HASTWO:
       'Subscribe to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile.\n Please note: Subscribed users have a daily limit of 5 profile views. Subscribed users will be able to chat with their matches.',
     FIND_THE_PERFECT: 'Find the Perfect Match',
+    heading1: 'Search criteria in your free trial',
+    heading2: 'Search criteria during subscription',
+    PARA1:
+      'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
+    PARA2:
+      'During your free trial, you can select & search any 1 profile. For Example: Either a Surrogate Mother or a Sperm Donor or an Egg Donor.',
+    PARA3: `After you have subscribed, your search criteria will remain 1 account type at a time based on your subscription plan. In order to switch, you would have to change your ongoing subscription plan.`,
     FIND_YOUR_MATCH:
       'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
   },
