@@ -11,7 +11,7 @@ const Commitment = ({MainText, Months, Icon, Style, onPress}) => {
         style={[styles.mainContainer, Style]}>
         <View style={styles.innerView}>
           <Text style={styles.mainText}>{MainText}</Text>
-          <Text style={styles.innerText}>{Months}</Text>
+          {/* <Text style={styles.innerText}>{Months}</Text> */}
         </View>
         <View style={styles.iconContainer}>
           <Image style={styles.Icon} source={Icon} />

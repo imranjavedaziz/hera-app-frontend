@@ -20,7 +20,7 @@ export default {
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_25,
-    marginLeft: dynamicSize(38)
+    marginLeft: dynamicSize(38),
   },
 
   headerText: {
@@ -44,7 +44,7 @@ export default {
   textView: {
     width: scaleWidth(Value.CONSTANT_VALUE_300),
     marginBottom: Value.CONSTANT_VALUE_50,
-    alignItems: Alignment.CENTER
+    alignItems: Alignment.CENTER,
   },
   payButton: {
     marginTop: dynamicSize(20),
@@ -71,9 +71,15 @@ export default {
   commitment: {
     bottom: Value.CONSTANT_VALUE_20,
   },
-  txting: (font,padd) => ({ color: "#fff", fontSize: 15, letterSpacing: 0, fontFamily: font, paddingLeft: dynamicSize(padd) }),
+  txting: (font, padd) => ({
+    color: '#fff',
+    fontSize: 15,
+    letterSpacing: 0,
+    fontFamily: font,
+    paddingLeft: dynamicSize(padd),
+  }),
   blueContain: {
-    backgroundColor: "rgb(90,188,236)",
+    backgroundColor: 'rgb(90,188,236)',
     minWidth: Value.CONSTANT_VALUE_324,
     maxWidth: Value.CONSTANT_VALUE_344,
     height: Value.CONSTANT_VALUE_64,
@@ -81,9 +87,44 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    marginBottom:Value.CONSTANT_VALUE_30
+    marginBottom: Value.CONSTANT_VALUE_30,
   },
-  btnView:{
-    alignItems:Alignment.CENTER
-  }
+  btnView: {
+    alignItems: Alignment.CENTER,
+  },
+  roleContainer: {
+    paddingHorizontal: Value.CONSTANT_VALUE_20,
+    paddingTop: Value.CONSTANT_VALUE_20,
+    flex: Value.CONSTANT_VALUE_1,
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.SPACE_BETWEEN,
+  },
+  roleBox: {
+    backgroundColor: Colors.WHITE,
+    padding: Value.CONSTANT_VALUE_0,
+    borderWidth: Value.CONSTANT_VALUE_1,
+    borderRadius: Value.CONSTANT_VALUE_5,
+    marginVertical: Value.CONSTANT_VALUE_10,
+  },
+  roleTxt: {fontSize: Value.CONSTANT_VALUE_16,fontFamily:Fonts.OpenSansBold},
+  seperator: {
+    height: Value.CONSTANT_VALUE_1,
+    width: '100%',
+    backgroundColor: Colors.COLOR_228226216,
+  },
+  subscribeBtn: {
+    marginLeft: Value.CONSTANT_VALUE_10,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
+    backgroundColor: Colors.COLOR_5ABCEC,
+    borderRadius: Value.CONSTANT_VALUE_3,
+    minHeight: Value.CONSTANT_VALUE_20,
+    maxHeight: Value.CONSTANT_VALUE_30,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    flex: Value.CONSTANT_VALUE_0,
+  },
+  subscribeTxt: {
+    color: Colors.WHITE,
+    fontSize: Value.CONSTANT_VALUE_12,
+  },
 };

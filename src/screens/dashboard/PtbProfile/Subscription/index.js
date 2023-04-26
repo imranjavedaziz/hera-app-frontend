@@ -5,8 +5,10 @@ import {
   ScrollView,
   ActivityIndicator,
   Platform,
+  SectionList,
+  FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
@@ -39,9 +41,11 @@ import {
 } from '../../../../constants/Constants';
 import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
+import {Colors} from '../../../../constants';
 
 const Subscription = props => {
   const navigation = useNavigation();
+  const [rolePlans, setRolePlans] = useState([]);
   const [androidPlans, setAndroidPlans] = useState([]);
   const [modal, setModal] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
@@ -72,17 +76,17 @@ const Subscription = props => {
       console.log('getSubscription err', err);
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
 
   console.log('_purchasereceipt line 79', _purchasereceipt);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
       if (subscription_plan_success) {
         dispatch(hideAppLoader());
-        setSubscriptionPlanRes(subscription_plan_res);
+        setSubscriptionPlanRes(subscription_plan_res.data?.plan);
       }
       dispatch(hideAppLoader());
     }
@@ -90,7 +94,7 @@ const Subscription = props => {
     dispatch(hideAppLoader());
   }, [subscription_plan_success, subscription_plan_loading]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('CHECKING CREATE SUB LINE NO 74');
     if (loadingRef.current && !create_subscription_loading) {
       console.log('CHECKING CREATE SUB LINE NO 75');
@@ -249,10 +253,34 @@ const Subscription = props => {
         dispatch(showAppToast(true, err.message));
       });
   };
-  console.log('subscriptionPlan?.data 254', subscriptionPlan?.data);
+  console.log('subscriptionPlan?.data 254', subscriptionPlan);
   const formatedDate = moment(subscriptionStatus?.data?.trial_end).format(
     'MMM DD, YYYY',
   );
+  useEffect(() => {
+    const sectionedPlan = [];
+    if (Array.isArray(subscription_plan_res?.data?.plan)) {
+      Strings?.STATIC_ROLE.forEach(r => {
+        const filteredData = subscription_plan_res?.data?.plan.filter(
+          i => i.role_id_looking_for === r.id,
+        );
+        if (filteredData.length > 0) {
+          sectionedPlan.push({
+            title: r.name,
+            data: filteredData,
+          });
+        }
+      });
+      sectionedPlan.push({
+        title: 'No Role',
+        data: subscription_plan_res?.data?.plan.filter(
+          i => i.role_id_looking_for === null,
+        ),
+      });
+      setRolePlans(sectionedPlan);
+      setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
+    }
+  }, [subscription_plan_res]);
   return (
     <>
       <Container
@@ -291,34 +319,60 @@ const Subscription = props => {
               isCenter={true}
             />
             <View style={styles.commitment}>
-              {subscriptionPlan?.data ? (
-                subscriptionPlan?.data?.map((item, index) => (
-                  <Commitment
-                    key={index}
-                    MainText={`$${item?.price}/${
-                      item?.interval === 'month' && 'mo'
-                    }`}
-                    Months={item.description}
-                    Icon={
-                      selectCheckBox?.id === item?.id
-                        ? Images.iconRadiosel
-                        : Images.iconRadiounsel
-                    }
-                    Style={selectCheckBox?.id === item?.id && styles.box}
-                    onPress={() => selectCheckHandler(item)}
-                  />
+              {rolePlans.length ? (
+                rolePlans.map(plan => (
+                  <View key={plan.title} style={[styles.box, styles.roleBox]}>
+                    <FlatList
+                      scrollEnabled={false}
+                      keyExtractor={(item, index) => item + index}
+                      data={plan.data}
+                      key={plan.title}
+                      renderItem={({item, index}) => (
+                        <Commitment
+                          key={index}
+                          MainText={`$${item?.price}/${
+                            item?.interval === 'month' && 'mo'
+                          }`}
+                          Months={item.description}
+                          Icon={
+                            selectCheckBox?.id === item?.id
+                              ? Images.iconRadiosel
+                              : Images.iconRadiounsel
+                          }
+                          // Style={selectCheckBox?.id === item?.id && styles.box}
+                          onPress={() => selectCheckHandler(item)}
+                        />
+                      )}
+                      ListHeaderComponent={() => (
+                        <View style={styles.roleContainer}>
+                          <Text style={styles.roleTxt}>{plan.title}</Text>
+                          {subscription_plan_res?.data?.role_id_looking_for ===
+                            plan.data[0].role_id_looking_for && (
+                            <View style={styles.subscribeBtn}>
+                              <Text style={styles.subscribeTxt}>
+                                Selected Preference
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+                      )}
+                      ItemSeparatorComponent={() => (
+                        <View style={styles.seperator} />
+                      )}
+                    />
+                  </View>
                 ))
               ) : (
                 <ActivityIndicator />
               )}
             </View>
             <View style={styles.btnView}>
-            <Button
-              label={Strings.Subscription.SubscribeButton}
-              style={styles.payButton}
-              onPress={() => subscribePlan(selectCheckBox, 'credit')}
-            />
-             </View>
+              <Button
+                label={Strings.Subscription.SubscribeButton}
+                style={styles.payButton}
+                onPress={() => subscribePlan(selectCheckBox, 'credit')}
+              />
+            </View>
             <View>
               <View style={styles.textView}>
                 <Text style={styles.mainText}>

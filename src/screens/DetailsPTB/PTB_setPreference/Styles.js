@@ -51,6 +51,33 @@ export default {
   ageContainer: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
+    flex: 1,
+    marginLeft: Value.CONSTANT_VALUE_20,
+  },
+  lookingsmDisabled: {
+    alignItems: Alignment.CENTER,
+    marginLeft: Value.CONSTANT_VALUE_10,
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_16,
+    marginBottom: Value.CONSTANT_VALUE_27,
+    color: Colors.BLACK,
+    opacity: 0.4,
+    lineHeight: Value.CONSTANT_VALUE_21,
+  },
+  subscribeBtn: {
+    marginLeft: 10,
+    paddingHorizontal: 5,
+    backgroundColor: Colors.COLOR_5ABCEC,
+    borderRadius: 3,
+    minHeight: 20,
+    maxHeight: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 0,
+  },
+  subscribeTxt: {
+    color: Colors.WHITE,
+    fontSize: 12,
   },
   lookingsm: {
     alignItems: Alignment.CENTER,
