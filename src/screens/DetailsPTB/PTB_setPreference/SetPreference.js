@@ -62,6 +62,8 @@ import {NotificationContext} from '../../../context/NotificationContextManager';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
+import {Rotate} from 'hammerjs';
+import { navigate } from '../../../utils/RootNavigation';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -420,6 +422,18 @@ const SetPreference = ({route, navigation}) => {
                   {Strings.preference.SearchPrioritize}
                 </Text>
               </View>
+              {!subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status && <TouchableOpacity style={styles.changePlan} onPress={()=>navigation.navigate(Routes.Subscription)}>
+                <Text style={styles.changePlanTxt} numberOfLines={1}>
+                  Change Plan to find other User Type
+                </Text>
+                <Image
+                  source={Images.arrowDown}
+                  style={{
+                    transform: [{rotate: '270deg'}],
+                    marginLeft: 5,
+                  }}
+                />
+              </TouchableOpacity>}
               <View style={styles.lookingFor}>
                 <Text
                   style={[
@@ -465,13 +479,15 @@ const SetPreference = ({route, navigation}) => {
                             }>
                             {whom.name}
                           </Text>
-                          {value === whom.id && !subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status && (
-                            <View style={styles.subscribeBtn}>
-                              <Text style={styles.subscribeTxt}>
-                                Subscribed
-                              </Text>
-                            </View>
-                          )}
+                          {value === whom.id &&
+                            !subscriptionStatus?.data?.is_trial &&
+                            subscriptionStatus?.data?.status && (
+                              <View style={styles.subscribeBtn}>
+                                <Text style={styles.subscribeTxt}>
+                                  Subscribed
+                                </Text>
+                              </View>
+                            )}
                         </TouchableOpacity>
                       ))}
                       <Text style={styles.errLooking}>

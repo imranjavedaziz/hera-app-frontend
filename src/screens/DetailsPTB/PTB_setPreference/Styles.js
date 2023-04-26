@@ -236,4 +236,22 @@ export default {
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
   },
+  changePlan: {
+    backgroundColor: Colors.WHITE,
+    paddingHorizontal: Value.CONSTANT_VALUE_20,
+    paddingVertical: Value.CONSTANT_VALUE_15,
+    borderWidth: Value.CONSTANT_VALUE_1,
+    borderRadius: Value.CONSTANT_VALUE_10,
+    marginTop: Value.CONSTANT_VALUE_20,
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    borderColor: Colors.COLOR_5ABCEC,
+    alignItems: Alignment.CENTER,
+    flex: 1,
+  },
+  changePlanTxt: {
+    fontSize: 14,
+    fontFamily: Fonts.OpenSansBold,
+    flex: 1,
+  }
 };
