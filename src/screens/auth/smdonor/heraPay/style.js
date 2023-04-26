@@ -86,12 +86,26 @@ export default {
   },
   addCardContainer: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
-    marginBottom: dynamicSize(Value.CONSTANT_VALUE_95)
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_95),
+    flexDirection: Alignment.ROW,
   },
-  addCardTxt:{
+  addBankContainer: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_6),
+    marginLeft: dynamicSize(Value.CONSTANT_VALUE_6),
+    flexDirection: Alignment.ROW,
+  },
+  plus:{
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_14,
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
+  },
+  addCardTxt: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
+    color: Colors.BLACK,
+    textDecorationLine: Alignment.UNDERLINE,
+    marginLeft:dynamicSize(Value.CONSTANT_VALUE_5),
   },
 };
