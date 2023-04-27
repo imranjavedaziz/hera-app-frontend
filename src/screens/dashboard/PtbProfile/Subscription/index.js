@@ -259,6 +259,8 @@ const Subscription = props => {
   );
   useEffect(() => {
     const sectionedPlan = [];
+    console.log('subscription_plan_res?.data',subscription_plan_res?.data);
+    console.log('subscriptionStatus',subscriptionStatus);
     if (Array.isArray(subscription_plan_res?.data?.plan)) {
       Strings?.STATIC_ROLE.forEach(r => {
         const filteredData = subscription_plan_res?.data?.plan.filter(
