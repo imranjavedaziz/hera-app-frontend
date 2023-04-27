@@ -62,6 +62,10 @@ import {NotificationContext} from '../../../context/NotificationContextManager';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
+import {Rotate} from 'hammerjs';
+import {navigate} from '../../../utils/RootNavigation';
+import { updateTrail } from '../../../redux/actions/Subsctiption';
+import debounce from '../../../utils/debounce';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -116,6 +120,9 @@ const SetPreference = ({route, navigation}) => {
     get_state_loading,
     get_state_error_msg,
   } = useSelector(state => state.Register);
+  const subscriptionStatus = useSelector(
+    state => state.Subscription?.subscription_status_res,
+  );
   const loadingRef = useRef(false);
   const stateLoadingRef = useRef(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -272,7 +279,11 @@ const SetPreference = ({route, navigation}) => {
     dispatch(SavePreference(value));
     EditPreferences !== true && dispatch(updateRegStep());
   };
-
+  useEffect(()=>{
+    if(!EditPreferences && !subscriptionStatus?.data?.is_trial){
+      dispatch(updateTrail({data:{data: {is_trial: true,status: 2}}}));
+    }
+  },[EditPreferences,subscriptionStatus])
   const logOutScreen = () => {
     dispatch(showAppLoader());
     dispatch(logOut(Device_ID));
@@ -295,7 +306,7 @@ const SetPreference = ({route, navigation}) => {
         navigateAbout();
         break;
       case Strings.preference.Logout:
-        logOutScreen();
+        debounce(logOutScreen(), 1000);
         break;
       case Strings.Subscription.Cancel:
         break;
@@ -341,7 +352,12 @@ const SetPreference = ({route, navigation}) => {
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
-        <View style={globalStyle.cancelbtn}>
+        <View style={[globalStyle.cancelbtn, styles.ageContainer]}>
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            style={globalStyle.clearView}>
+            <Image source={Images.I_BUTTON} />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               nav();
@@ -412,6 +428,23 @@ const SetPreference = ({route, navigation}) => {
                   {Strings.preference.SearchPrioritize}
                 </Text>
               </View>
+              {!subscriptionStatus?.data?.is_trial &&
+                subscriptionStatus?.data?.status>0 && EditPreferences && (
+                  <TouchableOpacity
+                    style={styles.changePlan}
+                    onPress={() => navigation.navigate(Routes.Subscription)}>
+                    <Text style={styles.changePlanTxt} numberOfLines={1}>
+                      Change Plan to find other User Type
+                    </Text>
+                    <Image
+                      source={Images.arrowDown}
+                      style={{
+                        transform: [{rotate: '270deg'}],
+                        marginLeft: 5,
+                      }}
+                    />
+                  </TouchableOpacity>
+                )}
               <View style={styles.lookingFor}>
                 <Text
                   style={[
@@ -431,6 +464,9 @@ const SetPreference = ({route, navigation}) => {
                         <TouchableOpacity
                           style={styles.flexRow}
                           key={whom.id}
+                          disabled={
+                            !subscriptionStatus?.data?.is_trial && EditPreferences
+                          }
                           activeOpacity={1}
                           onPress={() => onChange(whom.id)}>
                           <Image
@@ -441,7 +477,25 @@ const SetPreference = ({route, navigation}) => {
                                 : Images.iconRadiounsel
                             }
                           />
-                          <Text style={styles.lookingsm}>{whom.name}</Text>
+                          <Text
+                            style={
+                              value === whom.id ||
+                              subscriptionStatus?.data?.is_trial ||
+                              !EditPreferences
+                                ? styles.lookingsm
+                                : styles.lookingsmDisabled
+                            }>
+                            {whom.name}
+                          </Text>
+                          {value === whom.id &&
+                            !subscriptionStatus?.data?.is_trial &&
+                            subscriptionStatus?.data?.status > 0 && EditPreferences && (
+                              <View style={styles.subscribeBtn}>
+                                <Text style={styles.subscribeTxt}>
+                                  Subscribed
+                                </Text>
+                              </View>
+                            )}
                         </TouchableOpacity>
                       ))}
                       <Text style={styles.errLooking}>
@@ -774,7 +828,9 @@ const SetPreference = ({route, navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyle.logoutBtn}
-                onPress={() => logOutScreen()}>
+                onPress={() => {
+                  debounce(logOutScreen(), 1000);
+                }}>
                 <Text style={globalStyle.logoutText}>
                   {Strings.preference.Logout}
                 </Text>

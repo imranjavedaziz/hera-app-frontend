@@ -108,4 +108,11 @@ export default {
   WHITE_CIRCLE: require('../assets/icons/whiteCircle/whiteCircle.png'),
   LINK: require('../assets/icons/link/link.png'),
   PDF: require('../assets/icons/pdf/pdf.png'),
+  HERA_PAY_LOGO: require('../assets/icons/Hera_Pay_Logo/heraPayLogo.png'),
+  MONEY_TRANSFER: require('../assets/icons/moneyTransfer_logo/moneyTransfer.png'),
+  TRANSACTION_HISTORY: require('../assets/icons/transactionHistory/moneyBackGuarantee.png'),
+  CREDIT_CARD: require('../assets/icons/creditCard/creditCard.png'),
+  ICON_MASTER: require('../assets/icons/iconMaster_logo/iconMaster.png'),
+  VISA_LOGO: require('../assets/icons/visaLogo/visaLogo.png'),
+  BANK_LOGO: require('../assets/icons/bankLogo/bank.png'),
 };
