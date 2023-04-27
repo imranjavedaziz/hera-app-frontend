@@ -340,14 +340,16 @@ const Subscription = props => {
                       ListHeaderComponent={() => (
                         <View style={styles.roleContainer}>
                           <Text style={styles.roleTxt}>{plan.title}</Text>
-                          {subscription_plan_res?.data?.preference?.role_id_looking_for ===
-                            plan.data[0].role_id_looking_for && subscriptionStatus?.data?.is_trial && (
-                            <View style={styles.subscribeBtn}>
-                              <Text style={styles.subscribeTxt}>
-                                Selected Preference
-                              </Text>
-                            </View>
-                          )}
+                          {subscription_plan_res?.data?.preference
+                            ?.role_id_looking_for ===
+                            plan.data[0].role_id_looking_for &&
+                            subscriptionStatus?.data?.is_trial && (
+                              <View style={styles.subscribeBtn}>
+                                <Text style={styles.subscribeTxt}>
+                                  Selected Preference
+                                </Text>
+                              </View>
+                            )}
                         </View>
                       )}
                       ItemSeparatorComponent={() => (

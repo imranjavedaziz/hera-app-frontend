@@ -240,6 +240,9 @@ export const Routes = {
   UrlWebViewScreen: 'UrlWebViewScreen',
   WalkThroughVedio:'WalkThroughVedio',
   HeraPay:'HeraPay',
+  NoMatches:'NoMatches',
+  History:'History',
+  NoReq:'NoReq',
   WebViewUrl: 'WebViewUrl',
 };
 export const Static = {

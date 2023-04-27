@@ -48,6 +48,9 @@ import {navigationRefNew} from '../utils/RootNavigation';
 import WalkThroughVedio from '../screens/walkThrough/WalkThroughVedio'
 import WebViewUrl from '../screens/WebViewUrl';
 import HeraPay from '../screens/auth/smdonor/heraPay/HeraPay';
+import NoMatches from '../screens/auth/smdonor/emptyPayment/NoMatches';
+import History from '../screens/auth/smdonor/emptyPayment/History';
+import NoReq from '../screens/auth/smdonor/emptyPayment/NoReq';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -163,6 +166,9 @@ const Main = () => {
           <Stack.Screen name={Routes.Profile} component={Profile} />
           <Stack.Screen name={Routes.WalkThroughVedio} component={WalkThroughVedio} />
           <Stack.Screen name={Routes.HeraPay} component={HeraPay} />
+          <Stack.Screen name={Routes.NoMatches} component={NoMatches} />
+          <Stack.Screen name={Routes.History} component={History} />
+          <Stack.Screen name={Routes.NoReq} component={NoReq} />
           <Stack.Screen
             name={Routes.PtbBasicDetails}
             component={PtbBasicDetails}

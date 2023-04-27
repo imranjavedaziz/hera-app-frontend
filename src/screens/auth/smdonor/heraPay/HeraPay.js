@@ -21,7 +21,7 @@ const HeraPay = () => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const {log_in_data, user} = useSelector(state => state.Auth);
+  const {log_in_data} = useSelector(state => state.Auth);
 
   const headerComp = () => (
     <IconHeader
@@ -49,6 +49,7 @@ const HeraPay = () => {
     );
     return true;
   };
+
   return (
     <>
       <Container
@@ -70,7 +71,11 @@ const HeraPay = () => {
                 {Strings.Hera_Pay.Request_for_Payment}
               </Text>
             )}
-            <TouchableOpacity style={styles.btnContainer}>
+            <TouchableOpacity
+              style={styles.btnContainer}
+              onPress={() => {
+                navigation.navigate('NoMatches');
+              }}>
               {log_in_data?.role_id == 2 ? (
                 <Text style={styles.btnText}>
                   {Strings.Hera_Pay.MAKE_PAYMENT}
@@ -89,6 +94,9 @@ const HeraPay = () => {
                   Content={Strings.Payment_Comp.Request_Description}
                   Pending={Strings.Payment_Comp.Pending_Request}
                   line
+                  onPress={() => {
+                    navigation.navigate('NoReq');
+                  }}
                 />
               ) : (
                 <PaymentComp
@@ -169,9 +177,7 @@ const HeraPay = () => {
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.addCardContainer}>
-                <Text style={styles.plus}>
-                  {Strings.Hera_Pay.ADD}
-                </Text>
+                  <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
                   <Text style={styles.addCardTxt}>
                     {Strings.Hera_Pay.ADD_CARD}
                   </Text>
@@ -179,9 +185,7 @@ const HeraPay = () => {
               </View>
             ) : (
               <TouchableOpacity style={styles.addBankContainer}>
-                <Text style={styles.plus}>
-                  {Strings.Hera_Pay.ADD}
-                </Text>
+                <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
                 <Text style={styles.addCardTxt}>
                   {Strings.Hera_Pay.Add_Bank}
                 </Text>

@@ -19,13 +19,14 @@ export default {
     borderColor: '#e4e2d8',
   },
   Icon: {
-    marginRight: 14.5,
+    marginRight: 10,
   },
   heading: {
     fontFamily: Fonts.OpenSansBold,
     fontSize:Value.CONSTANT_VALUE_16,
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
+    // marginRight:3,
   },
   Deactivate: {
     color: '#ff4544',

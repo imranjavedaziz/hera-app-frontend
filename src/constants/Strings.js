@@ -486,7 +486,7 @@ export default {
     CARD_TIME: 'Valid thru May 2025',
     CARD_NUM_TWO: '....0183',
     CARD_TIME_TWO: 'Valid thru May 2025',
-    ADD:'+',
+    ADD: '+',
     ADD_CARD: 'Add New Card',
     Remove_Card: 'Remove Card from Profile?',
     Remove_Card_Text: 'Remove the card ending with ....9203?',
@@ -495,6 +495,16 @@ export default {
     Request_for_Payment: 'Request for Payment',
     REQUEST_PAYMENT: 'REQUEST FOR A PAYMENT',
     Add_Bank: 'Add Bank',
+  },
+  Empty_Pament: {
+    No_Matches: 'No Matches',
+    Match_Description:
+      'After you have matched, You can send payments to them using HERA Pay.',
+    Sm_Match_Description: 'You can send money to your matches using HERA Pay.',
+    No_New_Request: 'No New Request',
+    Ptb_Req_Description:'You have not received any payment request from your matches.',
+    No_Request_Sent:'No Request Sent',
+    Sm_Request_Description:'You have not sent any payment request to Intended Parents.',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',
