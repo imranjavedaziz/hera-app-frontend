@@ -51,7 +51,10 @@ axiosRequest.interceptors.response.use(
   async function (error) {
     const originalRequest = error.request;
     const token = store.getState().Auth.token;
-    const decodedToken = jwt_decode(token);
+    let decodedToken = '';
+    if(token){
+      decodedToken = jwt_decode(token);
+    }
     const currentTime = Date.now() / 1000;
     if ((await NetInfo.isConnected.fetch()) !== true) {
       store.dispatch(
@@ -119,7 +122,7 @@ axiosRequest.interceptors.response.use(
         error?.response?.data?.message,
         'error.response.data.message>>>>>>',
       );
-    } else if (error.response.status === 404 && error.response.data.message) {
+    } else if ((error.response.status === 404 || error.response.status === 414) && typeof error.response.data.message === 'string') {
       store.dispatch(showAppToast(true, error.response.data.message));
     } else if (
       (error.response.status === 402 || error.response.status === 403) &&
