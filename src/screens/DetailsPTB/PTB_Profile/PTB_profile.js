@@ -7,8 +7,12 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import React, {useState, useEffect, useRef,useCallback} from 'react';
-import {useNavigation, useRoute,useFocusEffect} from '@react-navigation/native';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import Header, {IconHeader} from '../../../components/Header';
 import Strings from '../../../constants/Strings';
@@ -27,8 +31,8 @@ import moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {width} from '../../../utils/responsive';
 import {profileMatchResponse} from '../../../redux/actions/Profile_Match';
-import { getMessageID } from '../../../redux/actions/MessageId';
-
+import {getMessageID} from '../../../redux/actions/MessageId';
+import ButtonPay from '../../../components/BtnPay';
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
@@ -95,14 +99,16 @@ const PTB_profile = props => {
     }, [dispatch, userid]),
   );
   const navigation = useNavigation();
-  console.log(stateRes,'stateRes')
+  console.log(stateRes, 'stateRes');
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={() => {
         if (props?.route?.params?.coming === true) {
           if (stateRes?.profile_match_request?.status === 2) {
-            navigation.navigate(Routes.ChatDetail, {item: stateRes?.profile_match_chat});
+            navigation.navigate(Routes.ChatDetail, {
+              item: stateRes?.profile_match_chat,
+            });
           } else {
             navigation.goBack();
           }
@@ -270,15 +276,24 @@ const PTB_profile = props => {
               </TouchableOpacity>
             )}
             {stateRes?.profile_match_request?.status === 2 && (
-              <View style={styles.dateTextView}>
-                <Image source={Images.HEARTH_ICON} />
-                <Text style={styles.dateText}>
-                  {Strings.PTB_Profile.YouMatched}{' '}
-                  {moment(stateRes?.profile_match_request?.updated_at).format(
-                    'MMM DD, YYYY',
-                  )}
-                </Text>
-              </View>
+              <>
+                <View style={styles.dateTextView}>
+                  <Image source={Images.HEARTH_ICON} />
+                  <Text style={styles.dateText}>
+                    {Strings.PTB_Profile.YouMatched}{' '}
+                    {moment(stateRes?.profile_match_request?.updated_at).format(
+                      'MMM DD, YYYY',
+                    )}
+                  </Text>
+                </View>
+                <View style={styles.centerView}>
+                  <ButtonPay
+                    label={Strings.dashboard.ReqPayment}
+                    style={styles.loginBtn}
+                    onPress={() => console.log('submitPay')}
+                  />
+                </View>
+              </>
             )}
             {props?.route?.params?.seeAll && (
               <Pressable

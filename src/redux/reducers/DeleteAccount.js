@@ -11,7 +11,6 @@ const initState = {
   delete_account_res: '',
 };
 export default (state = initState, action) => {
-  console.log('action.data.msg', action.data?.data?.message);
   switch (action.type) {
     case DELETE_ACCOUNT:
       return {

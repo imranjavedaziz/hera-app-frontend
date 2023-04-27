@@ -141,7 +141,7 @@ export default {
     justifyContent: Alignment.CENTER,
     marginHorizontal: Value.CONSTANT_VALUE_20,
     marginTop: Value.CONSTANT_VALUE_50,
-    marginBottom:Value.CONSTANT_VALUE_15,
+    marginBottom: Value.CONSTANT_VALUE_15,
     height: Value.CONSTANT_VALUE_80,
   },
   sendMsgBtnDis: {
@@ -212,7 +212,7 @@ export default {
     color: Colors.BLACK,
     marginLeft: 7,
   },
-  dateTextView: {flexDirection: Alignment.ROW, marginTop: 21,marginBottom:40},
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 21, marginBottom: 40},
   imgCondi: {
     flex: 1,
     position: 'absolute',
@@ -226,4 +226,10 @@ export default {
     alignItems: Alignment.CENTER,
     marginTop: height / 2.5,
   },
+  loginBtn: {
+    height: 80,
+    width: dynamicSize(Value.CONSTANT_VALUE_259),
+    marginBottom: Value.CONSTANT_VALUE_20,
+  },
+  centerView: {alignItems: Alignment.CENTER},
 };

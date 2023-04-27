@@ -238,9 +238,11 @@ export const Routes = {
   DeactivateAccount: 'DeactivateAccount',
   WalkThrough: 'WalkThrough',
   UrlWebViewScreen: 'UrlWebViewScreen',
-  WalkThroughVedio:'WalkThroughVedio',
-  HeraPay:'HeraPay',
+  WalkThroughVedio: 'WalkThroughVedio',
+  HeraPay: 'HeraPay',
   WebViewUrl: 'WebViewUrl',
+  AllMedia: 'AllMedia',
+  PdfView: 'PdfView',
 };
 export const Static = {
   countries: [
