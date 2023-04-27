@@ -465,10 +465,7 @@ const SetPreference = ({route, navigation}) => {
                           style={styles.flexRow}
                           key={whom.id}
                           disabled={
-                            !(
-                              subscriptionStatus?.data?.is_trial ||
-                              EditPreferences
-                            ) && EditPreferences
+                            !subscriptionStatus?.data?.is_trial && EditPreferences
                           }
                           activeOpacity={1}
                           onPress={() => onChange(whom.id)}>

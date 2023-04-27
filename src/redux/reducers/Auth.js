@@ -266,6 +266,7 @@ export default (state = initState, action) => {
         register_user_success: false,
         registration_step: 1,
         token: '',
+        refresh_token: '',
       };
     case AUTH_MOBILE_NUMBER: {
       return {
