@@ -174,7 +174,7 @@ const SmRegister = () => {
       {
         text: Strings.profile.ModalOption1,
         onPress: () => {
-          logoutScreen();
+          debounce(logoutScreen(), 1000)
           navigation.navigate(Routes.Landing);
         },
       },
@@ -543,7 +543,7 @@ const SmRegister = () => {
             String_4={Strings.profile.ModalOption2}
             onPressNav={() => {
               setShowModal(false);
-              logoutScreen();
+              debounce(logoutScreen(), 1000)
               navigation.navigate(Routes.Landing);
             }}
             onPressOff={() => {

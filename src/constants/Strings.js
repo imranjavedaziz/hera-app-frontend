@@ -467,6 +467,55 @@ export default {
       'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
   },
 
+  About_Payment: {
+    HERA_Pay: 'HERA Pay',
+    para_one:
+      'As an Intended Parent, you can send payments to Surrogate Mother, Sperm Donor or Egg Donor who you have matched with. Your matches can also send request to you for a payment.',
+    transaction_History: 'Transaction History',
+    para_Two:
+      'All the transactions will be maintained with the payment status as Completed or Failed.',
+    star_para: 'A processing fee will be charged on every payment you receive.',
+    make_payment: 'Make Payment with Card',
+    para_Three: 'To make any payment, you have to add your card details.',
+  },
+  Hera_Pay: {
+    HERA_PAY: 'HERA PAY',
+    Send_Payment: 'Send Payment',
+    MAKE_PAYMENT: 'MAKE A NEW PAYMENT',
+    CARD_NUMBER: '....0039',
+    CARD_TIME: 'Valid thru May 2025',
+    CARD_NUM_TWO: '....0183',
+    CARD_TIME_TWO: 'Valid thru May 2025',
+    ADD:'+',
+    ADD_CARD: 'Add New Card',
+    Remove_Card: 'Remove Card from Profile?',
+    Remove_Card_Text: 'Remove the card ending with ....9203?',
+    Yes_Remove: 'Yes, Remove',
+    Not_Now: 'Not Now',
+    Request_for_Payment: 'Request for Payment',
+    REQUEST_PAYMENT: 'REQUEST FOR A PAYMENT',
+    Add_Bank: 'Add Bank',
+  },
+  Payment_Comp: {
+    See_Payment_Request: 'See Payment Request',
+    Request_Description:
+      'Your matches can send you request for a payment. Use HERA pay to send the amount requested.',
+    Pending_Request: '2 Pending Request',
+    Transaction_History: 'Transaction History',
+    History_Description:
+      'See the transactions for every payment that you have made to your matches till date.',
+    Manage_Card: 'Manage Card',
+    Add_Card: 'Manage Card',
+    Request_Sent_to_Parents: 'Request Sent to Intended Parents',
+    Parent_Description:
+      'You can see all the requests you have sent to Intended Parents along with their status.',
+    Transaction_History_Parent:
+      'See all the payments that you have received from your matches till date.',
+    Manage_Bank: 'Manage Bank',
+    Bank_Description:
+      'Add your bank account to receive payments from Intended Parents.',
+  },
+
   //Static
   Meryl_Anderson: 'Meryl Anderson',
 

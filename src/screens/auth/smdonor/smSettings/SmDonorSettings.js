@@ -53,6 +53,7 @@ import PtbAccount, {
 import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import {getMessageID} from '../../../../redux/actions/MessageId';
+import debounce from '../../../../utils/debounce';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -234,7 +235,7 @@ const SmDonorSettings = () => {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
           dispatch(empty());
-          logoutScreen();
+          debounce(logoutScreen(), 1000);
         },
       },
       {
@@ -400,7 +401,7 @@ const SmDonorSettings = () => {
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
           setShowModal(false);
-          logoutScreen();
+          debounce(logoutScreen(), 1000);
         }}
         onPressOff={() => {
           setShowModal(false);

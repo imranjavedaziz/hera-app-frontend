@@ -65,7 +65,7 @@ import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatc
 import {Rotate} from 'hammerjs';
 import {navigate} from '../../../utils/RootNavigation';
 import { updateTrail } from '../../../redux/actions/Subsctiption';
-
+import debounce from '../../../utils/debounce';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -306,7 +306,7 @@ const SetPreference = ({route, navigation}) => {
         navigateAbout();
         break;
       case Strings.preference.Logout:
-        logOutScreen();
+        debounce(logOutScreen(), 1000);
         break;
       case Strings.Subscription.Cancel:
         break;
@@ -828,7 +828,9 @@ const SetPreference = ({route, navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyle.logoutBtn}
-                onPress={() => logOutScreen()}>
+                onPress={() => {
+                  debounce(logOutScreen(), 1000);
+                }}>
                 <Text style={globalStyle.logoutText}>
                   {Strings.preference.Logout}
                 </Text>

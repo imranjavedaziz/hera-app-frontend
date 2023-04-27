@@ -105,4 +105,11 @@ export default {
   HERA_VIDEO: require('../assets/video/HERAVideo.mp4'),
   PLAY_BUTTON_VIDEO: require('../assets/icons/play_button_videos/playButton.png'),
   DOLLAR_LOGO: require('../assets/icons/dollar_logo/dollar.png'),
+  HERA_PAY_LOGO: require('../assets/icons/Hera_Pay_Logo/heraPayLogo.png'),
+  MONEY_TRANSFER: require('../assets/icons/moneyTransfer_logo/moneyTransfer.png'),
+  TRANSACTION_HISTORY: require('../assets/icons/transactionHistory/moneyBackGuarantee.png'),
+  CREDIT_CARD: require('../assets/icons/creditCard/creditCard.png'),
+  ICON_MASTER: require('../assets/icons/iconMaster_logo/iconMaster.png'),
+  VISA_LOGO: require('../assets/icons/visaLogo/visaLogo.png'),
+  BANK_LOGO: require('../assets/icons/bankLogo/bank.png'),
 };

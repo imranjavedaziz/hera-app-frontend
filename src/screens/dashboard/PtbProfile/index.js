@@ -55,12 +55,14 @@ import moment from 'moment';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import _ from 'lodash';
 import {getMessageID} from '../../../redux/actions/MessageId';
+import debounce from '../../../utils/debounce';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [threeOption, setThreeOption] = useState([]);
+  const [disable, setDisable] = useState(false);
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [name, setName] = useState('');
@@ -188,15 +190,22 @@ const PtbProfile = () => {
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
+      setDisable(true);
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
         dispatch(signoutUser());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
+        setTimeout(() => {
+          setDisable(false);
+        }, 3000);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
+        setTimeout(() => {
+          setDisable(false);
+        }, 3000);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -233,14 +242,26 @@ const PtbProfile = () => {
       setVideoAviable(false);
     }
   };
-
+  const logoutFunc = () => {
+    if (disable === false) {
+      if (Platform.OS === 'android') {
+        setShowModal(false);
+        dispatch(empty());
+        logoutScreen();
+      } else {
+        dispatch(empty());
+        logoutScreen();
+      }
+    } else {
+      console.log('trigger twice');
+    }
+  };
   const iosAlert = () => {
     Alert.alert(ValidationMessages.LOG_OUT, ValidationMessages.LOGOUT_TEXT, [
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
-          dispatch(empty());
-          logoutScreen();
+          debounce(logoutFunc(), 1000)
         },
       },
       {
@@ -434,8 +455,7 @@ const PtbProfile = () => {
         String_3={Strings.smSetting.Yes_Logout}
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
-          setShowModal(false);
-          logoutScreen();
+          debounce(logoutFunc());
         }}
         onPressOff={() => {
           setShowModal(false);
