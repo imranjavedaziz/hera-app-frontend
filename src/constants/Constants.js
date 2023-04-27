@@ -11,12 +11,12 @@ const environment = {
   },
   qa: {
     bucket: '',
-    api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
+    api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1/',
     chat: 'qa',
   },
   stage: {
     bucket: '',
-    api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
+    api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1/',
     chat: 'stage',
   },
 };
