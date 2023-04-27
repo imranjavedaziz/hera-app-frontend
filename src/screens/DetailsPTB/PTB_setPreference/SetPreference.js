@@ -64,6 +64,7 @@ import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
 import {Rotate} from 'hammerjs';
 import {navigate} from '../../../utils/RootNavigation';
+import debounce from '../../../utils/debounce';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;

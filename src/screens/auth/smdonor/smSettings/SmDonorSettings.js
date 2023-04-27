@@ -53,6 +53,7 @@ import PtbAccount, {
 import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import {getMessageID} from '../../../../redux/actions/MessageId';
+import debounce from '../../../../utils/debounce';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();

@@ -45,6 +45,7 @@ import {dynamicSize} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {empty} from '../../../redux/actions/Chat';
+import debounce from '../../../utils/debounce';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
