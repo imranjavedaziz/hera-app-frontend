@@ -234,7 +234,7 @@ const SmDonorSettings = () => {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
           dispatch(empty());
-          logoutScreen();
+          debounce(logoutScreen(), 1000);
         },
       },
       {
@@ -400,7 +400,7 @@ const SmDonorSettings = () => {
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
           setShowModal(false);
-          logoutScreen();
+          debounce(logoutScreen(), 1000);
         }}
         onPressOff={() => {
           setShowModal(false);

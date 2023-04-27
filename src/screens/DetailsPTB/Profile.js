@@ -185,7 +185,7 @@ const Profile = props => {
         text: Strings.profile.ModalOption1,
         onPress: () => {
           dispatch(empty());
-          logoutScreen();
+          debounce(logoutScreen(), 1000)
         },
       },
       {
@@ -625,7 +625,7 @@ const Profile = props => {
                 String_4={Strings.profile.ModalOption2}
                 onPressNav={() => {
                   setShowModal(false);
-                  logoutScreen();
+                  debounce(logoutScreen(), 1000)
                   navigation.navigate(Routes.Landing);
                 }}
                 onPressOff={() => {

@@ -48,6 +48,7 @@ import {dynamicSize, statusHide} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {empty} from '../../../redux/actions/Chat';
+import debounce from '../../../utils/debounce';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -228,7 +229,7 @@ const SetAttributes = ({route}) => {
         navigateAbout();
         break;
       case Strings.preference.Logout:
-        logOutScreen();
+        debounce(logOutScreen(), 1000)
         break;
       case Strings.Subscription.Cancel:
         break;
@@ -570,7 +571,7 @@ const SetAttributes = ({route}) => {
               <TouchableOpacity
                 style={globalStyle.logoutBtn}
                 onPress={() => {
-                  logOutScreen();
+                  debounce(logOutScreen(), 1000)
                   setOpen(false);
                 }}>
                 <Text style={globalStyle.logoutText}>

@@ -300,7 +300,7 @@ const SetPreference = ({route, navigation}) => {
         navigateAbout();
         break;
       case Strings.preference.Logout:
-        logOutScreen();
+        debounce(logOutScreen(), 1000);
         break;
       case Strings.Subscription.Cancel:
         break;
@@ -423,7 +423,7 @@ const SetPreference = ({route, navigation}) => {
                 </Text>
               </View>
               {!subscriptionStatus?.data?.is_trial &&
-                subscriptionStatus?.data?.status>0 && (
+                subscriptionStatus?.data?.status > 0 && (
                   <TouchableOpacity
                     style={styles.changePlan}
                     onPress={() => navigation.navigate(Routes.Subscription)}>
@@ -825,7 +825,9 @@ const SetPreference = ({route, navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyle.logoutBtn}
-                onPress={() => logOutScreen()}>
+                onPress={() => {
+                  debounce(logOutScreen(), 1000);
+                }}>
                 <Text style={globalStyle.logoutText}>
                   {Strings.preference.Logout}
                 </Text>
