@@ -462,7 +462,7 @@ const SetPreference = ({route, navigation}) => {
                             !(
                               subscriptionStatus?.data?.is_trial ||
                               EditPreferences
-                            )
+                            ) && EditPreferences
                           }
                           activeOpacity={1}
                           onPress={() => onChange(whom.id)}>
@@ -478,7 +478,7 @@ const SetPreference = ({route, navigation}) => {
                             style={
                               value === whom.id ||
                               subscriptionStatus?.data?.is_trial ||
-                              EditPreferences
+                              !EditPreferences
                                 ? styles.lookingsm
                                 : styles.lookingsmDisabled
                             }>
