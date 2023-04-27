@@ -280,8 +280,8 @@ const SetPreference = ({route, navigation}) => {
     EditPreferences !== true && dispatch(updateRegStep());
   };
   useEffect(()=>{
-    if(!EditPreferences && !subscriptionStatus?.data?.is_trail){
-      dispatch(updateTrail({data:{data: {is_trail: true,status: 1}}}));
+    if(!EditPreferences && !subscriptionStatus?.data?.is_trial){
+      dispatch(updateTrail({data:{data: {is_trial: true,status: 2}}}));
     }
   },[EditPreferences,subscriptionStatus])
   const logOutScreen = () => {
@@ -492,7 +492,7 @@ const SetPreference = ({route, navigation}) => {
                           </Text>
                           {value === whom.id &&
                             !subscriptionStatus?.data?.is_trial &&
-                            subscriptionStatus?.data?.status > 0 && (
+                            subscriptionStatus?.data?.status > 0 && EditPreferences && (
                               <View style={styles.subscribeBtn}>
                                 <Text style={styles.subscribeTxt}>
                                   Subscribed
