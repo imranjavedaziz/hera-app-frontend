@@ -104,6 +104,9 @@ export default {
     ForgotPassword: 'Forgot Your Password?',
     NewUser: 'New User? Register Now',
   },
+  allMedia: {
+    allMedia: 'ALL MEDIA',
+  },
   mobile: {
     AccountVerification: 'Account Verification',
     BeforProceed: 'Before we proceed,',
@@ -140,6 +143,14 @@ export default {
     tmc3: 'Privacy Policy',
     desc: 'We Value your privacy so we will not disclose your name to the intended parents. An ID will be displayed on your profile (eg. SM1234)',
     phone_no: 'Phone Number',
+  },
+  chats: {
+    confirmProfile: 'Confirm to go ahead with this Profile',
+    sendPayment: 'Send Payment',
+    seeProfile: 'See Profile',
+    shareUser: 'Shared Media',
+    reportUser: 'Report this User',
+    reqPayment: 'Request for Payment',
   },
   preference: {
     setPreference: 'Set Preference',
@@ -245,6 +256,7 @@ export default {
     myGallery: 'My Gallery',
     bottomSheetCamera: 'Open Camera',
     bottomSheetGallery: 'Open Gallery',
+    shareADoc: 'Share a Document',
     removeImg: 'Remove From Gallery',
     uploadVideo: 'Upload Video',
     videoDuration: 'Maximum duration of video should be 60 seconds',
@@ -273,6 +285,8 @@ export default {
     secondPara2: 'Maybe try again later or change your settings.',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
+    SendPayment: 'SEND PAYMENT',
+    ReqPayment: 'REQUEST FOR PAYMENT',
   },
   sm_dashboard: {
     Title: LIKE_CONST,

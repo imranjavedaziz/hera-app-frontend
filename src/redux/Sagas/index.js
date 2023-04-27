@@ -39,13 +39,17 @@ import {
 import {watchGetFeedback, watchGetSendNotification} from './Chat';
 import {watchDeleteAccount} from './DeleteAccount';
 import {watchVerifyMail, watchSendMailVerification} from './VerificationMail';
-import {watchGetEditProfile, watchUpdateEditProfile, watchUpdateNotification} from './Edit_profile';
+import {
+  watchGetEditProfile,
+  watchUpdateEditProfile,
+  watchUpdateNotification,
+} from './Edit_profile';
 import {
   watchDeactivateAccount,
   watchGetDeactivateReason,
 } from './DeactivateAccount';
 import {watchReportUser} from './ReportUser';
-
+import {watchDocumentUpload, watchDocumentGet} from './DocumentUpload';
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
@@ -89,5 +93,7 @@ export default function* rootSaga() {
     fork(watchGetUserAttribute),
     fork(watchReportUser),
     fork(watchUpdateNotification),
+    fork(watchDocumentUpload),
+    fork(watchDocumentGet),
   ]);
 }

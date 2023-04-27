@@ -40,7 +40,7 @@ import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
 import {Alignment} from '../../../constants';
 import {getMessageID} from '../../../redux/actions/MessageId';
-
+import ButtonPay from '../../../components/BtnPay';
 const images = [];
 const DashboardDetailScreen = () => {
   const navigation = useNavigation();
@@ -448,15 +448,24 @@ const DashboardDetailScreen = () => {
                 </View>
               )}
               {smDetailRes?.profile_match_request?.status === 2 && (
-                <View style={styles.dateTextView}>
-                  <Image source={Images.HEARTH_ICON} />
-                  <Text style={styles.dateText}>
-                    {Strings.PTB_Profile.YouMatched}{' '}
-                    {moment(
-                      smDetailRes?.profile_match_request?.updated_at,
-                    ).format('MMM DD,YYYY')}
-                  </Text>
-                </View>
+                <>
+                  <View style={styles.dateTextView}>
+                    <Image source={Images.HEARTH_ICON} />
+                    <Text style={styles.dateText}>
+                      {Strings.PTB_Profile.YouMatched}{' '}
+                      {moment(
+                        smDetailRes?.profile_match_request?.updated_at,
+                      ).format('MMM DD,YYYY')}
+                    </Text>
+                  </View>
+                  <View style={styles.centerView}>
+                    <ButtonPay
+                      label={Strings.dashboard.SendPayment}
+                      style={styles.loginBtn}
+                      onPress={() => console.log('submitPay')}
+                    />
+                  </View>
+                </>
               )}
               {smDetailRes?.profile_match_request?.status !== 2 && (
                 <>

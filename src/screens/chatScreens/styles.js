@@ -1,7 +1,7 @@
 import {Alignment, Colors} from '../../constants';
 import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {px} from '../../utils/responsive';
+import {dynamicSize, px} from '../../utils/responsive';
 
 export default {
   fixedheaderStyle: {marginRight: px(Value.CONSTANT_VALUE_20)},
@@ -42,6 +42,10 @@ export default {
     paddingHorizontal: 24,
     maxWidth: 302,
   },
+  imagechatContainerImg: {
+    paddingHorizontal: 0,
+    maxWidth: 200,
+  },
   senderID: {
     alignSelf: Alignment.FLEXEND,
     flexDirection: Alignment.ROW,
@@ -59,6 +63,18 @@ export default {
     backgroundColor: Colors.GREEN,
   },
   mainContainerDetail: {
+    backgroundColor: 'white',
+    borderTopColor: '#E8E8E8',
+    borderRadius: 24,
+    marginHorizontal: 15,
+    paddingRight: 40,
+    paddingLeft: 10,
+    width: '80%',
+    height: dynamicSize(Value.CONSTANT_VALUE_48),
+    justifyContent: Alignment.CENTER,
+    textAlign: Alignment.CENTER,
+  },
+  mainContainerDetailAdmin: {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',
     borderRadius: 24,

@@ -106,7 +106,7 @@ export default (state = initState, action) => {
         ...state,
         subscription_status_success: true,
         subscription_status_loading: false,
-        subscription_status_error_msg: action.data.msg,
+        subscription_status_error_msg: '',
         subscription_status_res: action?.data?.data,
       };
     }
