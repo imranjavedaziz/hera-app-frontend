@@ -64,6 +64,8 @@ import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
 import {Rotate} from 'hammerjs';
 import {navigate} from '../../../utils/RootNavigation';
+import { updateTrail } from '../../../redux/actions/Subsctiption';
+
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -277,7 +279,11 @@ const SetPreference = ({route, navigation}) => {
     dispatch(SavePreference(value));
     EditPreferences !== true && dispatch(updateRegStep());
   };
-
+  useEffect(()=>{
+    if(!EditPreferences && !subscriptionStatus?.data?.is_trail){
+      dispatch(updateTrail({data:{data: {is_trail: true,status: 1}}}));
+    }
+  },[EditPreferences,subscriptionStatus])
   const logOutScreen = () => {
     dispatch(showAppLoader());
     dispatch(logOut(Device_ID));
@@ -423,7 +429,7 @@ const SetPreference = ({route, navigation}) => {
                 </Text>
               </View>
               {!subscriptionStatus?.data?.is_trial &&
-                subscriptionStatus?.data?.status>0 && (
+                subscriptionStatus?.data?.status>0 && EditPreferences && (
                   <TouchableOpacity
                     style={styles.changePlan}
                     onPress={() => navigation.navigate(Routes.Subscription)}>
