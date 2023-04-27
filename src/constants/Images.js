@@ -105,4 +105,7 @@ export default {
   HERA_VIDEO: require('../assets/video/HERAVideo.mp4'),
   PLAY_BUTTON_VIDEO: require('../assets/icons/play_button_videos/playButton.png'),
   DOLLAR_LOGO: require('../assets/icons/dollar_logo/dollar.png'),
+  WHITE_CIRCLE: require('../assets/icons/whiteCircle/whiteCircle.png'),
+  LINK: require('../assets/icons/link/link.png'),
+  PDF: require('../assets/icons/pdf/pdf.png'),
 };

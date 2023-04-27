@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
     backgroundColor: 'rgb(241,140,146)',
-    zIndex : -1
+    zIndex: -1,
   },
 });
-const Loader = ({style=null}) => {
+const Loader = ({style = null}) => {
   return (
     <View style={[...style, styles.loader]}>
-      <ActivityIndicator color={Colors.PURE_WHITE}/>
+      <ActivityIndicator color={Colors.PURE_WHITE} />
     </View>
   );
 };
@@ -41,7 +41,7 @@ const ImageLoading = props => {
           onError={() => setLoading(false)}>
           {children}
         </FastImage>
-        {loading && <Loader style={restProps.style}/>}
+        {loading && <Loader style={restProps.style} />}
       </>
     );
   }

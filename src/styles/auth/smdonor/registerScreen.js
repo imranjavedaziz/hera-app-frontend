@@ -151,6 +151,11 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
   },
+  redColor: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.RED,
+  },
   ImageText: {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansRegular,

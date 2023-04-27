@@ -52,13 +52,17 @@ export default class FirebaseDB {
   }
 
   parseMessages(snapshot) {
-    const {time, text, from} = snapshot.val();
+    const {time, text, from, media, type = 'text', namePdf} = snapshot.val();
     const createdAt = new Date(time);
     return {
       _id: snapshot.key,
       text,
       createdAt: createdAt,
       from,
+      //media key added
+      media,
+      type,
+      namePdf,
     };
   }
 
@@ -108,7 +112,7 @@ export default class FirebaseDB {
         this.totalSize = snapshot.numChildren();
       });
   }
-  async sendMessage(msg) {
+  async sendMessage(msg, mediaUrl = null, type = 'text', namePdf = null) {
     const timestampRow = Date.now();
     const referenceDb = database().ref(
       `${chat}` + ApiPath.message + this.chatId + '/' + timestampRow,
@@ -117,6 +121,10 @@ export default class FirebaseDB {
       text: msg,
       time: timestampRow,
       from: this.user.user_id,
+      //msg media
+      type: type,
+      media: mediaUrl,
+      namePdf: namePdf,
     };
     return new Promise((resolve, reject) => {
       referenceDb
@@ -231,18 +239,18 @@ export default class FirebaseDB {
       `/${chat}/Users/${this.sender.user_id}/Friends/${this.user.user_id}`,
     );
     await referenceUser.update({
-      message: lastMsg,
+      message: lastMsg === null ? 'You Shared an Attachment' : lastMsg,
       chat_start: 1,
       time: Date.now(),
       read: 1,
-      adminChatTime:Date.now()
+      adminChatTime: Date.now(),
     });
     await referenceSender.update({
-      message: lastMsg,
+      message: lastMsg === null ? 'Shared an Attachment' : lastMsg,
       chat_start: 1,
       time: Date.now(),
       read: 0,
-      adminChatTime:Date.now()
+      adminChatTime: Date.now(),
     });
   }
   async readAt(id, setLoading) {

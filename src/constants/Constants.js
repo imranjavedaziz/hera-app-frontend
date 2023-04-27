@@ -11,17 +11,17 @@ const environment = {
   },
   qa: {
     bucket: '',
-    api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
+    api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1/',
     chat: 'qa',
   },
   stage: {
     bucket: '',
-    api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
+    api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1/',
     chat: 'stage',
   },
 };
 
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, api_url, chat} = environment.qa;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -238,9 +238,11 @@ export const Routes = {
   DeactivateAccount: 'DeactivateAccount',
   WalkThrough: 'WalkThrough',
   UrlWebViewScreen: 'UrlWebViewScreen',
-  WalkThroughVedio:'WalkThroughVedio',
-  HeraPay:'HeraPay',
+  WalkThroughVedio: 'WalkThroughVedio',
+  HeraPay: 'HeraPay',
   WebViewUrl: 'WebViewUrl',
+  AllMedia: 'AllMedia',
+  PdfView: 'PdfView',
 };
 export const Static = {
   countries: [

@@ -56,4 +56,6 @@ export default {
   match_password: 'match-password',
   report_user: 'report-user',
   updateNotifyStatus: 'update-notify-status',
+  documentUpload: 'upload-document',
+  chatMedia: 'chat-media',
 };

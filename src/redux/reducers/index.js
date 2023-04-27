@@ -21,7 +21,7 @@ import NavigationOnLanding from './NavigationOnLanding';
 import ReportUser from './ReportUser';
 import MessageId from './MessageId';
 import profileImg from './profileImg';
-
+import DocumentUpload from './DocumentUpload';
 const allReducers = combineReducers({
   Auth,
   loader,
@@ -45,6 +45,7 @@ const allReducers = combineReducers({
   ReportUser,
   MessageId,
   profileImg,
+  DocumentUpload,
 });
 
 export default allReducers;
