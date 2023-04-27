@@ -271,12 +271,6 @@ const Subscription = props => {
           });
         }
       });
-      sectionedPlan.push({
-        title: 'No Role',
-        data: subscription_plan_res?.data?.plan.filter(
-          i => i.role_id_looking_for === null,
-        ),
-      });
       setRolePlans(sectionedPlan);
       setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
     }
@@ -346,8 +340,8 @@ const Subscription = props => {
                       ListHeaderComponent={() => (
                         <View style={styles.roleContainer}>
                           <Text style={styles.roleTxt}>{plan.title}</Text>
-                          {subscription_plan_res?.data?.role_id_looking_for ===
-                            plan.data[0].role_id_looking_for && (
+                          {subscription_plan_res?.data?.preference?.role_id_looking_for ===
+                            plan.data[0].role_id_looking_for && subscriptionStatus?.data?.is_trial && (
                             <View style={styles.subscribeBtn}>
                               <Text style={styles.subscribeTxt}>
                                 Selected Preference
