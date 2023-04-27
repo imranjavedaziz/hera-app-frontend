@@ -53,7 +53,6 @@ import PtbAccount, {
 import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import {getMessageID} from '../../../../redux/actions/MessageId';
-import debounce from '../../../../utils/debounce';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -71,6 +70,7 @@ const SmDonorSettings = () => {
   let actionSheet = useRef();
   const [avaiableVideo, setVideoAviable] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [disable, setDisable] = useState(false);
   const GetLoadingRef = useRef(false);
   const loadingGalleryRef = useRef(false);
   const {
@@ -152,9 +152,13 @@ const SmDonorSettings = () => {
         dispatch(signoutUser());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
+        setTimeout(() => {
+          setDisable(false);
+        }, 3000);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
+        setDisable(false);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -234,8 +238,10 @@ const SmDonorSettings = () => {
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
+          setDisable(true);
           dispatch(empty());
-          debounce(logoutScreen(), 1000);
+          dispatch(showAppLoader());
+          logoutScreen();
         },
       },
       {
@@ -345,12 +351,13 @@ const SmDonorSettings = () => {
                 navigation.navigate(Routes.WebViewUrl, {url: PRIVACY_URL})
               }
             />
-
             <View style={Styles.buttoncontainer}>
               <TouchableOpacity
                 style={Styles.button}
+                activeOpacity={disable ? 1 : 0.5}
                 onPress={() => {
-                  Platform.OS === 'ios' ? iosAlert() : setShowModal(true);
+                  disable === false &&
+                    (Platform.OS === 'ios' ? iosAlert() : setShowModal(true));
                 }}>
                 <Text style={Styles.buttonText}>{Strings.smSetting.Btn}</Text>
               </TouchableOpacity>
@@ -359,6 +366,7 @@ const SmDonorSettings = () => {
               </Text>
             </View>
           </View>
+          {disable && <View style={Styles.disableing} />}
         </ScrollView>
       </SafeAreaView>
       <ActionSheet
@@ -401,7 +409,9 @@ const SmDonorSettings = () => {
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
           setShowModal(false);
-          debounce(logoutScreen(), 1000);
+          setDisable(true);
+          dispatch(showAppLoader());
+          logoutScreen();
         }}
         onPressOff={() => {
           setShowModal(false);

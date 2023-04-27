@@ -253,5 +253,11 @@ export default {
     fontSize: 14,
     fontFamily: Fonts.OpenSansBold,
     flex: 1,
-  }
+  },
+  disableing: {
+    backgroundColor: Colors.CLEAR,
+    width: '100%',
+    height: '100%',
+    position: Alignment.ABSOLUTE,
+  },
 };

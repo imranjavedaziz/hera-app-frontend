@@ -64,6 +64,7 @@ const SmRegister = () => {
   const [threeOption, setThreeOption] = useState([]);
   const [datePicked, onDateChange] = useState();
   const [showModal, setShowModal] = useState(false);
+
   const {fcmToken, Device_ID} = useContext(NotificationContext);
   const inputRef = useRef(null);
   const [roleId, setRole] = useState('');
@@ -174,8 +175,7 @@ const SmRegister = () => {
       {
         text: Strings.profile.ModalOption1,
         onPress: () => {
-          debounce(logoutScreen(), 1000)
-          navigation.navigate(Routes.Landing);
+          logoutScreen();
         },
       },
       {
@@ -543,8 +543,7 @@ const SmRegister = () => {
             String_4={Strings.profile.ModalOption2}
             onPressNav={() => {
               setShowModal(false);
-              debounce(logoutScreen(), 1000)
-              navigation.navigate(Routes.Landing);
+              logoutScreen();
             }}
             onPressOff={() => {
               setShowModal(false);

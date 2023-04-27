@@ -210,4 +210,10 @@ export default {
     color: 'rgb(255,69,68)',
     height: 22,
   },
+  disableing: {
+    backgroundColor: Colors.CLEAR,
+    width: '100%',
+    height: '100%',
+    position: Alignment.ABSOLUTE,
+  },
 };

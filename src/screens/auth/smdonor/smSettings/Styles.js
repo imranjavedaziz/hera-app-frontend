@@ -174,4 +174,10 @@ export default {
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
   },
+  disableing: {
+    backgroundColor: Colors.CLEAR,
+    width: '100%',
+    height: '100%',
+    position: Alignment.ABSOLUTE,
+  },
 };

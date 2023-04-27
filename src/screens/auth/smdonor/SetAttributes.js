@@ -48,7 +48,6 @@ import {dynamicSize, statusHide} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {empty} from '../../../redux/actions/Chat';
-import debounce from '../../../utils/debounce';
 
 const SetAttributes = ({route}) => {
   const navigation = useNavigation();
@@ -59,6 +58,7 @@ const SetAttributes = ({route}) => {
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const [disable, setDisable] = useState(false);
   const {Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
@@ -181,9 +181,13 @@ const SetAttributes = ({route}) => {
         dispatch(empty());
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
+        setTimeout(() => {
+          setDisable(false);
+        }, 3000);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
+        setDisable(false);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -229,7 +233,8 @@ const SetAttributes = ({route}) => {
         navigateAbout();
         break;
       case Strings.preference.Logout:
-        debounce(logOutScreen(), 1000)
+        setDisable(true);
+        logOutScreen();
         break;
       case Strings.Subscription.Cancel:
         break;
@@ -542,6 +547,7 @@ const SetAttributes = ({route}) => {
               />
             </View>
           </View>
+          {disable && <View style={globalStyle.disableing} />}
         </ScrollView>
       </View>
       {isOpen && (
@@ -571,7 +577,7 @@ const SetAttributes = ({route}) => {
               <TouchableOpacity
                 style={globalStyle.logoutBtn}
                 onPress={() => {
-                  debounce(logOutScreen(), 1000)
+                  logOutScreen();
                   setOpen(false);
                 }}>
                 <Text style={globalStyle.logoutText}>
@@ -592,6 +598,7 @@ const SetAttributes = ({route}) => {
         String_3={Strings.profile.ModalOption1}
         String_4={Strings.profile.ModalOption2}
         onPressNav={() => {
+          setDisable(true);
           setShowModal(false);
           navigation.navigate(Routes.SmSetting);
         }}

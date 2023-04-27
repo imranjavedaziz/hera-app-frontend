@@ -55,7 +55,6 @@ import moment from 'moment';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import _ from 'lodash';
 import {getMessageID} from '../../../redux/actions/MessageId';
-import debounce from '../../../utils/debounce';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -190,7 +189,6 @@ const PtbProfile = () => {
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
-      setDisable(true);
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
@@ -203,9 +201,7 @@ const PtbProfile = () => {
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
-        setTimeout(() => {
           setDisable(false);
-        }, 3000);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -261,7 +257,8 @@ const PtbProfile = () => {
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
-          debounce(logoutFunc(), 1000)
+          setDisable(true)
+          logoutFunc();
         },
       },
       {
@@ -443,6 +440,7 @@ const PtbProfile = () => {
               </TouchableOpacity>
             </View>
           </BottomSheetComp>
+          {disable && <View style={styles.disableing} />}
         </ScrollView>
       </View>
       <ModalMiddle
@@ -455,7 +453,8 @@ const PtbProfile = () => {
         String_3={Strings.smSetting.Yes_Logout}
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
-          debounce(logoutFunc());
+          setDisable(true)
+          logoutFunc();
         }}
         onPressOff={() => {
           setShowModal(false);
