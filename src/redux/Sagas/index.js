@@ -50,6 +50,8 @@ import {
 } from './DeactivateAccount';
 import {watchReportUser} from './ReportUser';
 import {watchDocumentUpload, watchDocumentGet} from './DocumentUpload';
+import {watchNextStep} from './NextStep';
+
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
@@ -95,5 +97,6 @@ export default function* rootSaga() {
     fork(watchUpdateNotification),
     fork(watchDocumentUpload),
     fork(watchDocumentGet),
+    fork(watchNextStep),
   ]);
 }

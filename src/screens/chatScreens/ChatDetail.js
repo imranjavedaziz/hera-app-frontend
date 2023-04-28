@@ -34,6 +34,7 @@ import styleSheet from '../../styles/auth/smdonor/registerScreen';
 import openCamera from '../../utils/openCamera';
 import ImageView from 'react-native-image-viewing';
 import {DocumentUpload} from '../../redux/actions/DocumentUpload';
+import {NextStep} from '../../redux/actions/NextStep';
 
 let fireDB;
 let onChildAdd;
@@ -58,6 +59,7 @@ const ChatDetail = props => {
   const [showModal, setShowModal] = useState(false);
   const loadingRef = useRef(false);
   const LoadingRef = useRef(false);
+  const loadingNextRef = useRef(false);
   const [visible, setIsVisible] = useState(false);
   const [DocumentFile, setDocumentFile] = useState(null);
   const [sendFeedback, setSendFeedback] = useState('');
@@ -71,6 +73,13 @@ const ChatDetail = props => {
     document_upload_error_msg,
     document_upload_loading,
   } = useSelector(state => state.DocumentUpload);
+  const {
+    next_step_success,
+    next_step_res,
+    next_step_fail,
+    next_step_error_msg,
+    next_step_loading,
+  } = useSelector(state => state.NextStep);
   const giftedref = useRef(null);
   const loadingUploadRef = useRef(null);
   useEffect(() => {
@@ -106,6 +115,21 @@ const ChatDetail = props => {
     file !== null && dispatch(DocumentUpload(reqData));
   }, [file, dispatch]);
   useEffect(() => {
+    if (loadingNextRef.current && !next_step_loading) {
+      dispatch(showAppLoader());
+      if (next_step_success) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, next_step_res));
+        console.log(next_step_res, 'next_step_res');
+      }
+      if (next_step_fail) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(true, next_step_error_msg));
+      }
+    }
+    loadingNextRef.current = next_step_loading;
+  }, [next_step_success, next_step_loading, next_step_res]);
+  useEffect(() => {
     if (loadingUploadRef.current && !document_upload_loading) {
       if (document_upload_success) {
         setTextData('');
@@ -122,8 +146,8 @@ const ChatDetail = props => {
             let data = {
               title:
                 parseInt(props?.route?.params?.item?.currentRole) === 2
-                  ? `${props?.route?.params?.item?.senderUserName} sent you a message`
-                  : `${props?.route?.params?.item?.senderName} sent you a message`,
+                  ? `${props?.route?.params?.item?.senderUserName} sent an Attachment`
+                  : `${props?.route?.params?.item?.senderName} sent you a Attachment`,
               message: 'Shared an Attachment',
               receiver_id: parseInt(props?.route?.params?.item?.recieverId),
             };
@@ -307,6 +331,10 @@ const ChatDetail = props => {
         console.log('Cancel');
         break;
       case Strings.chats.confirmProfile:
+        const payload = {
+          to_user_id: props?.route?.params?.item?.recieverId,
+        };
+        dispatch(NextStep(payload));
         console.log(Strings.chats.confirmProfile);
         break;
       case Strings.chats.sendPayment:
@@ -452,7 +480,11 @@ const ChatDetail = props => {
               style={[
                 item.currentMessage.from ===
                 parseInt(props?.route?.params?.item?.senderId)
-                  ? styles.senderID
+                  ? item?.currentMessage.type === 'image/jpeg'
+                    ? styles.senderImgID
+                    : styles.senderID
+                  : item?.currentMessage.type === 'image/jpeg'
+                  ? styles.receiverImgID
                   : styles.receiverID,
               ]}>
               <View
@@ -467,8 +499,13 @@ const ChatDetail = props => {
                       onPressDoc(item);
                     }}>
                     <Image
-                      resizeMode={Alignment.CENTER}
-                      style={{width: 203, height: 160}}
+                      resizeMode={Alignment.COVER}
+                      style={
+                        item.currentMessage.from ===
+                        parseInt(props?.route?.params?.item?.senderId)
+                          ? styles.msgImg
+                          : styles.msgImgRx
+                      }
                       source={{uri: item?.currentMessage.media?.file_url}}
                     />
                   </TouchableOpacity>
@@ -481,19 +518,15 @@ const ChatDetail = props => {
                           url: item?.currentMessage.media?.file_url,
                         });
                       }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          flex: 1,
-                        }}>
-                        <Image
-                          style={{width: 31, height: 35, marginRight: 8}}
-                          source={Images.PDF}
-                        />
+                      <View style={styles.pdfMainView}>
+                        <Image style={styles.pdfImg} source={Images.PDF} />
                         <View>
-                          <Text>{item?.currentMessage?.namePdf}</Text>
-                          <Text>{item?.currentMessage.media?.file_size}</Text>
+                          <Text numberOfLines={1} style={styles.pdfText}>
+                            {item?.currentMessage?.namePdf}
+                          </Text>
+                          <Text style={styles.pdfSize}>
+                            {item?.currentMessage.media?.file_size}
+                          </Text>
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -507,8 +540,12 @@ const ChatDetail = props => {
             style={
               item.currentMessage.from ===
               parseInt(props?.route?.params?.item?.senderId)
-                ? {alignSelf: 'flex-end', marginTop: 4, marginRight: 20}
-                : {alignSelf: 'flex-start', marginTop: 4, marginLeft: 10}
+                ? item?.currentMessage.type === 'image/jpeg'
+                  ? styles.timeImgSender
+                  : styles.timeSender
+                : item?.currentMessage.type === 'image/jpeg'
+                ? styles.timeImgRx
+                : styles.timeRx
             }>
             <Text
               style={{
@@ -567,6 +604,7 @@ const ChatDetail = props => {
         coming: true,
       });
     }
+    setOpen(false);
   };
   const toastFunc = () => {
     const payload = {
@@ -1024,7 +1062,11 @@ const ChatDetail = props => {
             {log_in_data?.role_id === 2 && (
               <TouchableOpacity
                 onPress={() => {
-                  console.log(Strings.chats.shareUser);
+                  const payload = {
+                    to_user_id: props?.route?.params?.item?.recieverId,
+                  };
+                  dispatch(NextStep(payload));
+                  setOpen(false);
                 }}
                 style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
                 <Text style={styleSheet.pickerBtnLabel}>
@@ -1034,6 +1076,7 @@ const ChatDetail = props => {
             )}
             <TouchableOpacity
               onPress={() => {
+                setOpen(false);
                 console.log(Strings.chats.shareUser);
               }}
               style={styleSheet.pickerBtn}>
@@ -1055,8 +1098,9 @@ const ChatDetail = props => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate(Routes.AllMedia, {
-                  to_user_id: props?.route?.params?.item?.recieverId,
+                  to_user_id: props?.route?.params?.item,
                 });
+                setOpen(false);
               }}
               style={styleSheet.pickerBtn}>
               <Text style={styleSheet.pickerBtnLabel}>

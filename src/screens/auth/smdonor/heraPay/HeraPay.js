@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Platform,
 } from 'react-native';
 import {Container, ModalMiddle} from '../../../../components';
 import {IconHeader} from '../../../../components/Header';
@@ -16,12 +17,13 @@ import CustomModal from '../../../../components/CustomModal/CustomModal';
 import AboutPayment from '../../../../components/AboutPayment/AboutPayment';
 import PaymentComp from '../../../../components/PaymentComp/PaymentComp';
 import {useSelector} from 'react-redux';
+import {Routes} from '../../../../constants/Constants';
 
 const HeraPay = () => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const {log_in_data, user} = useSelector(state => state.Auth);
+  const {log_in_data} = useSelector(state => state.Auth);
 
   const headerComp = () => (
     <IconHeader
@@ -70,7 +72,11 @@ const HeraPay = () => {
                 {Strings.Hera_Pay.Request_for_Payment}
               </Text>
             )}
-            <TouchableOpacity style={styles.btnContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(Routes.MatchScreen);
+              }}
+              style={styles.btnContainer}>
               {log_in_data?.role_id == 2 ? (
                 <Text style={styles.btnText}>
                   {Strings.Hera_Pay.MAKE_PAYMENT}
@@ -84,6 +90,9 @@ const HeraPay = () => {
             <View style={styles.paymentReqContainer}>
               {log_in_data?.role_id == 2 ? (
                 <PaymentComp
+                  onPress={() => {
+                    navigation.navigate(Routes.PaymentRequest);
+                  }}
                   Icon={Images.MONEY_TRANSFER}
                   Heading={Strings.Payment_Comp.See_Payment_Request}
                   Content={Strings.Payment_Comp.Request_Description}
@@ -92,6 +101,9 @@ const HeraPay = () => {
                 />
               ) : (
                 <PaymentComp
+                  onPress={() => {
+                    navigation.navigate(Routes.PaymentRequest);
+                  }}
                   Icon={Images.MONEY_TRANSFER}
                   Heading={Strings.Payment_Comp.Request_Sent_to_Parents}
                   Content={Strings.Payment_Comp.Parent_Description}
@@ -100,21 +112,19 @@ const HeraPay = () => {
               )}
             </View>
             <View style={styles.historyContainer}>
-              {log_in_data?.role_id == 2 ? (
-                <PaymentComp
-                  Icon={Images.TRANSACTION_HISTORY}
-                  Heading={Strings.Payment_Comp.Transaction_History}
-                  Content={Strings.Payment_Comp.History_Description}
-                  line
-                />
-              ) : (
-                <PaymentComp
-                  Icon={Images.TRANSACTION_HISTORY}
-                  Heading={Strings.Payment_Comp.Transaction_History}
-                  Content={Strings.Payment_Comp.Transaction_History_Parent}
-                  line
-                />
-              )}
+              <PaymentComp
+                onPress={() => {
+                  navigation.navigate(Routes.Transaction);
+                }}
+                Icon={Images.TRANSACTION_HISTORY}
+                Heading={Strings.Payment_Comp.Transaction_History}
+                Content={
+                  log_in_data?.role_id == 2
+                    ? Strings.Payment_Comp.History_Description
+                    : Strings.Payment_Comp.Transaction_History_Parent
+                }
+                line
+              />
             </View>
             <View style={styles.cerditCardContainer}>
               {log_in_data?.role_id == 2 ? (
@@ -169,9 +179,7 @@ const HeraPay = () => {
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.addCardContainer}>
-                <Text style={styles.plus}>
-                  {Strings.Hera_Pay.ADD}
-                </Text>
+                  <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
                   <Text style={styles.addCardTxt}>
                     {Strings.Hera_Pay.ADD_CARD}
                   </Text>
@@ -179,9 +187,7 @@ const HeraPay = () => {
               </View>
             ) : (
               <TouchableOpacity style={styles.addBankContainer}>
-                <Text style={styles.plus}>
-                  {Strings.Hera_Pay.ADD}
-                </Text>
+                <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
                 <Text style={styles.addCardTxt}>
                   {Strings.Hera_Pay.Add_Bank}
                 </Text>

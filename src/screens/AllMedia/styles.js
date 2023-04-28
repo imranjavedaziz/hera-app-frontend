@@ -1,7 +1,8 @@
 import {Alignment} from '../../constants';
 import Colors from '../../constants/Colors';
+import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {dynamicSize, statusHide, width} from '../../utils/responsive';
+import {dynamicSize, px, statusHide, width} from '../../utils/responsive';
 
 export default {
   flex: {
@@ -23,7 +24,7 @@ export default {
     flexWrap: 'wrap',
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
-    marginTop: Value.CONSTANT_VALUE_20,
+    marginTop: Value.CONSTANT_VALUE_15,
   },
   galleryImgView: {
     width: width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2,
@@ -32,5 +33,12 @@ export default {
     marginTop: Value.CONSTANT_VALUE_3,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
+  },
+  month: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_16,
+    marginLeft: Value.CONSTANT_VALUE_30,
+    color: Colors.BLACK,
+    marginTop: px(Value.CONSTANT_VALUE_29),
   },
 };
