@@ -45,7 +45,6 @@ import {dynamicSize} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {empty} from '../../../redux/actions/Chat';
-import debounce from '../../../utils/debounce';
 
 const SmBasicDetails = () => {
   const navigation = useNavigation();
@@ -54,6 +53,7 @@ const SmBasicDetails = () => {
   const [profileRes, setProfileRes] = useState();
   const [payloadData, setPayloadData] = useState([]);
   const [threeOption, setThreeOption] = useState([]);
+  const [disable, setDisable] = useState(false);
   const {Device_ID} = useContext(NotificationContext);
   const dispatch = useDispatch();
   let actionSheet = useRef();
@@ -150,8 +150,12 @@ const SmBasicDetails = () => {
         dispatch(empty());
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
+        setTimeout(() => {
+          setDisable(false);
+        }, 3000);
       } else {
         dispatch(hideAppLoader());
+        setDisable(false);
         dispatch(showAppToast(true, log_out_error_msg));
       }
     }
@@ -212,7 +216,8 @@ const SmBasicDetails = () => {
         navigateAbout();
         break;
       case Strings.preference.Logout:
-        debounce(logOutScreen(), 1000);
+        setDisable(true);
+        logOutScreen();
         break;
       case Strings.Subscription.Cancel:
         break;
@@ -406,6 +411,7 @@ const SmBasicDetails = () => {
               </View>
             </TouchableWithoutFeedback>
           </KeyboardAwareScrollView>
+          {disable && <View style={styles.disableing} />}
         </ScrollView>
       </View>
       {isOpen && (
@@ -439,7 +445,8 @@ const SmBasicDetails = () => {
               <TouchableOpacity
                 style={globalStyle.logoutBtn}
                 onPress={() => {
-                  debounce(logOutScreen(), 1000);
+                  setDisable(true);
+                  logOutScreen();
                 }}>
                 <Text style={globalStyle.logoutText}>
                   {Strings.bottomSheet.Log_Out}

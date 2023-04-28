@@ -213,4 +213,10 @@ export default {
     lineHeight: Value.CONSTANT_VALUE_18,
     textDecorationLine: Alignment.UNDERLINE,
   },
+  disableing: {
+    backgroundColor: Colors.CLEAR,
+    width: '100%',
+    height: '100%',
+    position: Alignment.ABSOLUTE,
+  },
 };

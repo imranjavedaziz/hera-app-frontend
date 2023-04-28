@@ -89,6 +89,7 @@ const SetPreference = ({route, navigation}) => {
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
   const [stateRess, setStateRes] = useState();
+  const [disable, setDisable] = useState(false);
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
   const [threeOption, setThreeOption] = useState([]);
@@ -217,10 +218,14 @@ const SetPreference = ({route, navigation}) => {
         dispatch(hideAppLoader());
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
+        setTimeout(() => {
+          setDisable(false);
+        }, 3000);
       } else {
         dispatch(empty());
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
+        setDisable(false);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -286,6 +291,7 @@ const SetPreference = ({route, navigation}) => {
   },[EditPreferences,subscriptionStatus])
   const logOutScreen = () => {
     dispatch(showAppLoader());
+   
     dispatch(logOut(Device_ID));
     dispatch(empty());
   };
@@ -306,7 +312,8 @@ const SetPreference = ({route, navigation}) => {
         navigateAbout();
         break;
       case Strings.preference.Logout:
-        debounce(logOutScreen(), 1000);
+        setDisable(true);
+        logOutScreen();
         break;
       case Strings.Subscription.Cancel:
         break;
@@ -797,6 +804,7 @@ const SetPreference = ({route, navigation}) => {
                 onPress={handleSubmit(onSubmit)}
               />
             </View>
+            {disable && <View style={styles.disableing} />}
             {modalVisible && (
               <CustomModal>
                 <SensoryMatch onPress={() => setModalVisible(!modalVisible)} />
@@ -829,7 +837,8 @@ const SetPreference = ({route, navigation}) => {
               <TouchableOpacity
                 style={globalStyle.logoutBtn}
                 onPress={() => {
-                  debounce(logOutScreen(), 1000);
+                  setDisable(true);
+                  logOutScreen();
                 }}>
                 <Text style={globalStyle.logoutText}>
                   {Strings.preference.Logout}
