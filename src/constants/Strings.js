@@ -491,6 +491,14 @@ export default {
     star_para: 'A processing fee will be charged on every payment you receive.',
     make_payment: 'Make Payment with Card',
     para_Three: 'To make any payment, you have to add your card details.',
+    Sm_Para_One:
+      'You can receive necessary payments from the Intended Parents you have matched with. You can also send direct request by letting them know the amount & attach a supporting document for their reference.',
+    Sm_Para_Two:
+      'You can find all the transactions for the payments you have received from the Intended Parents.',
+    Sm_Star_Para: 'A fee will be charged on every payment you receive.',
+    Add_Your_Bank: 'Add your Bank',
+    Sm_Para_Three:
+      'Add your bank details to receive any payments or to send any payment requests.',
   },
   Hera_Pay: {
     HERA_PAY: 'HERA PAY',

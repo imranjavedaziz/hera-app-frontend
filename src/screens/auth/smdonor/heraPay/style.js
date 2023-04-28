@@ -33,14 +33,14 @@ export default {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   btnContainer: {
-    width: px(Value.CONSTANT_VALUE_300),
+    width: px(Value.CONSTANT_VALUE_306),
     backgroundColor: Colors.GREEN,
     borderRadius: scaleWidth(Value.CONSTANT_VALUE_40),
     height: scaleHeight(Value.CONSTANT_VALUE_80),
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
     marginBottom: scaleHeight(Value.CONSTANT_VALUE_25),
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_54),
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_34),
   },
   btnText: {
     textAlign: Alignment.CENTER,
@@ -78,23 +78,19 @@ export default {
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
   },
-  cardsTwoContainer: {
-    flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
-    justifyContent: Alignment.SPACE_BETWEEN,
+  pamentCard: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   addCardContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_25),
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_95),
     flexDirection: Alignment.ROW,
   },
   addBankContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_6),
+  
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_6),
     flexDirection: Alignment.ROW,
   },
-  plus:{
+  plus: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_14,
     lineHeight: Value.CONSTANT_VALUE_21,
@@ -106,6 +102,6 @@ export default {
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
     textDecorationLine: Alignment.UNDERLINE,
-    marginLeft:dynamicSize(Value.CONSTANT_VALUE_5),
+    marginLeft: dynamicSize(Value.CONSTANT_VALUE_5),
   },
 };

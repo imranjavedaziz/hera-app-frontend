@@ -5,7 +5,7 @@ import {Images, Strings} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 
 const AboutPayment = props => {
-  const {onPress} = props;
+  const {onPress, paraOne, paraTwo, starPara, paraThree, Heading} = props;
   return (
     <>
       <ScrollView
@@ -16,22 +16,20 @@ const AboutPayment = props => {
           {Strings.About_Payment.HERA_Pay}
         </Text>
         <View style={styles.innerContainer}>
-          <Text style={styles?.paraOne}>{Strings.About_Payment.para_one}</Text>
+          <Text style={styles?.paraOne}>{paraOne}</Text>
           <Text style={styles?.history}>
             {Strings.About_Payment.transaction_History}
           </Text>
-          <Text style={styles?.paraTwo}>{Strings.About_Payment.para_Two}</Text>
+          <Text style={styles?.paraTwo}>{paraTwo}</Text>
           <View style={styles.rowContainer}>
             <Text style={styles.star}>*</Text>
-            <Text style={styles?.paraTwo}>
-              {Strings.About_Payment.star_para}
-            </Text>
+            <Text style={styles?.paraTwo}>{starPara}</Text>
           </View>
           <Text style={styles?.history}>
-            {Strings.About_Payment.make_payment}
+            {Heading}
           </Text>
-          <Text style={styles?.paraTwo}>
-            {Strings.About_Payment.para_Three}
+           <Text style={styles?.paraTwo}>
+            {paraThree}
           </Text>
         </View>
         <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
