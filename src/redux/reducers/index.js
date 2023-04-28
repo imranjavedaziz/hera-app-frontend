@@ -23,7 +23,16 @@ import MessageId from './MessageId';
 import profileImg from './profileImg';
 import DocumentUpload from './DocumentUpload';
 import NextStep from './NextStep';
-
+import {
+  addCardTokenReducer,
+  updateCardTokenReducer,
+  addBankTokenReducer,
+  updateBankTokenReducer,
+  createPaymentIntentReducer,
+  getCardListReducer,
+  addCardReducer,
+  getBankListReducer,
+} from './stripe.reducer';
 const allReducers = combineReducers({
   Auth,
   loader,
@@ -49,6 +58,15 @@ const allReducers = combineReducers({
   profileImg,
   DocumentUpload,
   NextStep,
+  //Stripe
+  addBankTokenReducer: addBankTokenReducer,
+  cardToken: addCardTokenReducer,
+  updateCardTokenReducer,
+  updateBankTokenReducer,
+  paymentIntent: createPaymentIntentReducer,
+  getCardList: getCardListReducer,
+  addCard: addCardReducer,
+  getBankList: getBankListReducer,
 });
 
 export default allReducers;

@@ -85,6 +85,8 @@ export const ValidationMessages = {
   LOGOUT_TEXT: 'Do you wish to log out of the application?',
   //Error
   NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
+  REQUIRED: 'Required!',
+  INVALID: 'Invalid!',
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
@@ -603,6 +605,22 @@ export default {
     ReportConfirm: 'Are you sure you want to report this user?',
     Yes_Report: 'Yes, Report',
     Not_Now: 'Not Now',
+  },
+
+  //ManageCard
+  ManageCard: {
+    ADD_CARD: 'ADD CARD',
+  },
+  //ManageBank
+  ManageBank: {
+    ADD_Bank: 'ADD BANK',
+    ADD_BANK_DETAIL: 'Add your Bank Details\n to Receive Payments',
+    AccountNumber: 'Account Number',
+    AccountName: 'Account Holder’s Name',
+    RoutingNumber: 'Routing Number',
+    Currency: 'Currency',
+    Country: 'Country',
+    Add: 'SAVE BANK',
   },
 
   STATIC_GENDER: [

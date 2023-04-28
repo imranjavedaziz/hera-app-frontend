@@ -21,7 +21,7 @@ const environment = {
   },
 };
 
-export const {bucket, api_url, chat} = environment.qa;
+export const {bucket, api_url, chat} = environment.dev;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -42,7 +42,16 @@ export const validationType = {
   SPECIAL: 'SPECIAL',
   CAPSLOCK: 'CAPSLOCK',
 };
-
+export const validationBank = {
+  accountNumberLimit: 19,
+  MIN_ACCOUNT_NUM: 12,
+  routingLimit: 9,
+};
+export const Input_Type = {
+  accountholder: 'accountholder',
+  accountnumber: 'accountnumber',
+  routingnumber: 'routingnumber',
+};
 export const HttpStatus = {
   UNAUTHORISED: 401,
   SUCCESS_REQUEST: 200,
@@ -246,6 +255,8 @@ export const Routes = {
   PaymentRequest: 'PaymentRequest',
   MatchScreen: 'MatchScreen',
   Transaction: 'Transaction',
+  ManageCard: 'ManageCard',
+  ManageBank: 'ManageBank',
 };
 export const Static = {
   countries: [

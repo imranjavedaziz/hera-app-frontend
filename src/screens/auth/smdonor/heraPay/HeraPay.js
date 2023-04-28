@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -16,15 +16,64 @@ import {useNavigation} from '@react-navigation/native';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import AboutPayment from '../../../../components/AboutPayment/AboutPayment';
 import PaymentComp from '../../../../components/PaymentComp/PaymentComp';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Routes} from '../../../../constants/Constants';
+import {
+  GET_BANK_LIST,
+  GET_CARD_LIST,
+  getBankList,
+  getCardList,
+} from '../../../../redux/actions/stripe.action';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../../redux/actions/loader';
 
 const HeraPay = () => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const {log_in_data} = useSelector(state => state.Auth);
+  const {log_in_data, stripe_customer_id} = useSelector(state => state.Auth);
+  const {getBankListResponse} = useSelector(store => store.getBankList);
+  const {getCardListResponse} = useSelector(store => store.getCardList);
+  const [Data, setData] = useState([]);
+  useEffect(() => {
+    if (log_in_data?.role_id == 2) {
+      dispatch(getCardList(stripe_customer_id, 3));
+    } else {
+      dispatch(getBankList(stripe_customer_id, 3));
+    }
+  }, [dispatch]);
 
+  useEffect(() => {
+    if (getBankListResponse?.status === GET_BANK_LIST.START) {
+      dispatch(showAppLoader());
+    } else if (getBankListResponse?.status === GET_BANK_LIST.SUCCESS) {
+      let info = getBankListResponse?.info;
+      setData(info?.data);
+      dispatch(hideAppLoader());
+      console.log(info, 'getBankListResponse?.info');
+    } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
+      let error = getBankListResponse?.info ?? 'Something went wrong';
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(false, error));
+    }
+  }, [getBankListResponse]);
+  useEffect(() => {
+    if (getCardListResponse?.status === GET_CARD_LIST.START) {
+      dispatch(showAppLoader());
+    } else if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
+      let info = getCardListResponse?.info;
+      setData(info?.data);
+      dispatch(hideAppLoader());
+    } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
+      let error = getCardListResponse?.info ?? 'Something went wrong';
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(false, error));
+    }
+  }, [getCardListResponse]);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -178,7 +227,9 @@ const HeraPay = () => {
                     <Image source={Images.iconDarkMore} />
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.addCardContainer}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate(Routes.ManageCard)}
+                  style={styles.addCardContainer}>
                   <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
                   <Text style={styles.addCardTxt}>
                     {Strings.Hera_Pay.ADD_CARD}
@@ -186,7 +237,9 @@ const HeraPay = () => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <TouchableOpacity style={styles.addBankContainer}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(Routes.ManageBank)}
+                style={styles.addBankContainer}>
                 <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
                 <Text style={styles.addCardTxt}>
                   {Strings.Hera_Pay.Add_Bank}
