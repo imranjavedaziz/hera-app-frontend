@@ -17,7 +17,6 @@ import FormLoader from './components/FormLoader';
 import Toast from './components/Toast';
 import NotificationContextManager from './context/NotificationContextManager';
 import {Colors} from './constants';
-import {StripeProvider} from '@stripe/stripe-react-native';
 
 import {MessageToast} from './components';
 import {ToastProvider} from 'react-native-toast-notifications';
@@ -26,15 +25,9 @@ const App = () => {
   TextInput.defaultProps = TextInput.defaultProps || {};
   TextInput.defaultProps.maxFontSizeMultiplier = 1.2;
   Text.defaultProps.maxFontSizeMultiplier = 1.2;
-  const stripePublicKey = store.getState().Auth.stripe_key;
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <StripeProvider
-          publishableKey={stripePublicKey}
-          merchantIdentifier="merchant.identifier" // required for Apple Pay
-          urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
-        >
           <NotificationContextManager>
             <ToastProvider
               placement="top"
@@ -62,7 +55,6 @@ const App = () => {
               <Toast />
             </ToastProvider>
           </NotificationContextManager>
-        </StripeProvider>
       </PersistGate>
     </Provider>
   );

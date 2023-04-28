@@ -5,7 +5,7 @@ import styles from './style';
 import {Images, Strings} from '../../../../constants';
 import {toggleNotification} from '../../../../redux/actions/Edit_profile';
 
-const PtbAccount = ({leftIcon, title, onPress, BlueDot}) => {
+const PtbAccount = ({leftIcon, title, onPress, BlueDot, RedDot, Pending}) => {
   return (
     <TouchableOpacity style={[styles.container]} onPress={onPress}>
       <View style={styles.row}>
@@ -15,6 +15,12 @@ const PtbAccount = ({leftIcon, title, onPress, BlueDot}) => {
         <Text style={styles.title}>{title}</Text>
       </View>
       {BlueDot && <View style={styles.blueDot} />}
+      {RedDot && (
+        <View style={styles.innerView}>
+          <View style={styles.reddot} />
+          <Text style={styles.pending}>{Pending}</Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

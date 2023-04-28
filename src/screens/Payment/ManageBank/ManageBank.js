@@ -18,7 +18,11 @@ import {
   addCard,
   updateBankToken,
 } from '../../../redux/actions/stripe.action';
-import {showAppToast} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 
 const ManageBank = () => {
   const navigation = useNavigation();
@@ -36,12 +40,6 @@ const ManageBank = () => {
   useEffect(() => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
       console.log('bankResponse **********', bankResponse);
-      dispatch(
-        showAppToast(
-          false,
-          bankResponse?.info?.message ?? 'Bank Added Successfully',
-        ),
-      );
       savebankToken(
         bankResponse.info.id,
         bankResponse.info.bank_account.country,
@@ -51,6 +49,7 @@ const ManageBank = () => {
       dispatch(addCard(stripe_customer_id, bankDetails, token));
       dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {
+      dispatch(hideAppLoader());
       dispatch(
         showAppToast(false, bankResponse?.info ?? 'Something went wrong'),
       );
@@ -63,9 +62,11 @@ const ManageBank = () => {
     if (response?.status === UPDATE_BANK_TOKEN.START) {
       console.log(response, 'bankUpdateResponse');
     } else if (response?.status === UPDATE_BANK_TOKEN.SUCCESS) {
+      dispatch(hideAppLoader());
       dispatch({type: UPDATE_BANK_TOKEN.END});
       // replace(ROUTE_NAME.BANK_KYC);
     } else if (response?.status === UPDATE_BANK_TOKEN.FAIL) {
+      dispatch(hideAppLoader());
       let error =
         response?.info?.errors ??
         response?.info?.message ??
@@ -82,7 +83,8 @@ const ManageBank = () => {
       console.log(info, 'addcardinfomation');
       console.log(addCards, 'addCardres');
       //need to test
-      dispatch(showAppToast(false, 'Bank Added!'));
+      dispatch(showAppToast(false, 'Bank Added to profile!'));
+      navigation.goBack();
     } else if (addCards?.status === ADD_CARD.FAIL) {
       dispatch(showAppToast(true, error));
       let error = addCards?.info ?? 'Something went wrong';
@@ -186,6 +188,7 @@ const ManageBank = () => {
         'bank_account[account_number]': inputs.accountnumber,
       };
       setBankDetails(bankInfo);
+      dispatch(showAppLoader());
       dispatch(addBankToken(bankInfo));
     }
   };
