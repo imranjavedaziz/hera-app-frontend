@@ -22,6 +22,8 @@ import ReportUser from './ReportUser';
 import MessageId from './MessageId';
 import profileImg from './profileImg';
 import DocumentUpload from './DocumentUpload';
+import NextStep from './NextStep';
+
 const allReducers = combineReducers({
   Auth,
   loader,
@@ -46,6 +48,7 @@ const allReducers = combineReducers({
   MessageId,
   profileImg,
   DocumentUpload,
+  NextStep,
 });
 
 export default allReducers;

@@ -243,6 +243,9 @@ export const Routes = {
   WebViewUrl: 'WebViewUrl',
   AllMedia: 'AllMedia',
   PdfView: 'PdfView',
+  PaymentRequest: 'PaymentRequest',
+  MatchScreen: 'MatchScreen',
+  Transaction: 'Transaction',
 };
 export const Static = {
   countries: [

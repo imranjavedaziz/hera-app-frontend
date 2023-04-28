@@ -12,3 +12,4 @@ export * from './VerifactionMail';
 export * from './Edit_profile';
 export * from './ReportUser';
 export * from './DocumentUpload';
+export * from './NextStep';

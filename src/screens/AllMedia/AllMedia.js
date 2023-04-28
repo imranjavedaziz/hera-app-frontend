@@ -52,6 +52,10 @@ const AllMedia = props => {
         dispatch(hideAppLoader());
         setData(document_get_res?.data?.data);
         updateGallery();
+        console.log(
+          document_get_res?.data?.data,
+          'document_get_res?.data?.data',
+        );
       }
       if (document_get_fail) {
         dispatch(hideAppLoader());
@@ -94,39 +98,33 @@ const AllMedia = props => {
       onPDF(img);
     }
   };
-
   const updateGallery = () => {
-    const file =
-      document_get_res?.data?.data?.length > 0 &&
-      document_get_res?.data?.data.map((item, i) => {
-        if (!ViewImages.includes(item)) {
-          return item;
-        } else {
-          return null;
-        }
-      });
-    for (let i = 0; i < file?.length; ++i) {
-      if (_.isEmpty(document_get_res?.data?.data)) {
-        return null;
-      } else {
-        setViewImages(
-          [...file].map(e => {
-            if (
-              e.url.endsWith('.jpg') ||
-              e.url.endsWith('.jpeg') ||
-              e.url.endsWith('.png')
-            ) {
-              return {uri: e.url};
-            }
-          }),
-        );
-      }
-    }
+    const images = document_get_res?.data?.data
+      ?.filter(img => img.url.match(/\.(jpg|jpeg|png)$/i))
+      .map(img => ({uri: img.url}));
+    setViewImages(images);
   };
   const ImageClick = index => {
     setImgPreviewIndex(index);
     setIsVisible(true);
   };
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const currentMonthName = monthNames[currentMonth];
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -137,6 +135,9 @@ const AllMedia = props => {
           <Text style={globalStyle.screenTitle}>
             {Strings.allMedia.allMedia}
           </Text>
+          {!_.isEmpty(Data) && (
+            <Text style={styles.month}>{currentMonthName} 2023</Text>
+          )}
           <View style={styles.galleryImgContainer}>
             {Data.map((img, index) => {
               return (

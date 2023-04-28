@@ -58,4 +58,5 @@ export default {
   updateNotifyStatus: 'update-notify-status',
   documentUpload: 'upload-document',
   chatMedia: 'chat-media',
+  next_steps: 'next-steps',
 };

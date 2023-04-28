@@ -86,7 +86,7 @@ const initState = {
   log_in_success: false,
   log_in_loading: false,
   token: '',
-  refresh_token:'',
+  refresh_token: '',
   user_id: '',
   log_in_error_msg: '',
   log_in_data: '',
@@ -116,7 +116,10 @@ const initState = {
   device_info_loading: false,
   device_info_success: false,
   isTokenUpdate: false,
-  isRefreshUpdate:false,
+  isRefreshUpdate: false,
+  stripe_customer_id: '',
+  stripe_key: '',
+  stripe_secret: '',
 };
 
 export default (state = initState, action) => {
@@ -146,18 +149,25 @@ export default (state = initState, action) => {
       };
     }
     case AUTH_LOG_IN_SUCCESS: {
-      const {access_token} = action.data.data.data;
-      console.log(action?.data.data,'action?.data.data');
-      const {refresh_token} = action?.data.data.data;
+      const {
+        access_token,
+        refresh_token,
+        stripe_customer_id,
+        stripe_key,
+        stripe_secret,
+      } = action.data.data.data;
       return {
         ...state,
         user: action?.data?.data?.data,
         log_in_success: true,
         log_in_loading: false,
         token: access_token,
-        refresh_token:refresh_token,
+        refresh_token: refresh_token,
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
+        stripe_customer_id: stripe_customer_id,
+        stripe_key: stripe_key,
+        stripe_secret: stripe_secret,
         login: true,
         register_user_success: false,
       };
@@ -223,7 +233,6 @@ export default (state = initState, action) => {
      * Update Token
      */
     case UPDATE_TOKEN:
-      
       return {
         ...state,
         token: action.payload,
@@ -231,14 +240,13 @@ export default (state = initState, action) => {
           ...state.user,
           access_token: action.payload,
         },
-        isTokenUpdate: true
+        isTokenUpdate: true,
       };
-      case UPDATE_REFRESH_TOKEN:
-      
+    case UPDATE_REFRESH_TOKEN:
       return {
         ...state,
         refresh_token: action.payload,
-        isRefreshUpdate: true
+        isRefreshUpdate: true,
       };
     case UPDATE_REG_STEP:
       return {
@@ -353,6 +361,10 @@ export default (state = initState, action) => {
         gallery: initState.gallery,
         register_user_success: false,
         token: '',
+        stripe_customer_id: '',
+        stripe_key: '',
+        stripe_secret: '',
+        refresh_token: '',
         registration_step: 1,
       };
     }
@@ -380,7 +392,13 @@ export default (state = initState, action) => {
       };
     }
     case AUTH_REGISTER_SUCCESS: {
-      const {access_token} = action.data.data.data;
+      const {
+        access_token,
+        refresh_token,
+        stripe_customer_id,
+        stripe_secret,
+        stripe_key,
+      } = action.data.data.data;
       return {
         ...state,
         register_user_success: true,
@@ -393,6 +411,10 @@ export default (state = initState, action) => {
           profile_pic: state.user.profile_pic,
         },
         token: access_token,
+        refresh_token: refresh_token,
+        stripe_customer_id: stripe_customer_id,
+        stripe_key: stripe_key,
+        stripe_secret: stripe_secret,
         login: true,
       };
     }

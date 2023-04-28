@@ -52,7 +52,7 @@ axiosRequest.interceptors.response.use(
     const originalRequest = error.request;
     const token = store.getState().Auth.token;
     let decodedToken = '';
-    if(token){
+    if (token) {
       decodedToken = jwt_decode(token);
     }
     const currentTime = Date.now() / 1000;
@@ -115,14 +115,20 @@ axiosRequest.interceptors.response.use(
           .catch(error => {
             store.dispatch(showAppToast(true, error.message));
             // handle error
-            console.log(error.message, 'error handle');
+            navigationRef.current?.reset({
+              index: 0,
+              routes: [{name: Routes.Landing}],
+            });
           });
       }
       console.log(
         error?.response?.data?.message,
         'error.response.data.message>>>>>>',
       );
-    } else if ((error.response.status === 404 || error.response.status === 414) && typeof error.response.data.message === 'string') {
+    } else if (
+      (error.response.status === 404 || error.response.status === 414) &&
+      typeof error.response.data.message === 'string'
+    ) {
       store.dispatch(showAppToast(true, error.response.data.message));
     } else if (
       (error.response.status === 402 || error.response.status === 403) &&

@@ -500,7 +500,7 @@ export default {
     CARD_TIME: 'Valid thru May 2025',
     CARD_NUM_TWO: '....0183',
     CARD_TIME_TWO: 'Valid thru May 2025',
-    ADD:'+',
+    ADD: '+',
     ADD_CARD: 'Add New Card',
     Remove_Card: 'Remove Card from Profile?',
     Remove_Card_Text: 'Remove the card ending with ....9203?',
@@ -517,7 +517,9 @@ export default {
     Pending_Request: '2 Pending Request',
     Transaction_History: 'Transaction History',
     History_Description:
-      'See the transactions for every payment that you have made to your matches till date.',
+      'See all the payments that you have made to your matches till date.',
+    // History_Description:
+    //   'See the transactions for every payment that you have made to your matches till date.',
     Manage_Card: 'Manage Card',
     Add_Card: 'Manage Card',
     Request_Sent_to_Parents: 'Request Sent to Intended Parents',

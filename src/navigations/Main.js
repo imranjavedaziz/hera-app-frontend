@@ -50,6 +50,9 @@ import WebViewUrl from '../screens/WebViewUrl';
 import HeraPay from '../screens/auth/smdonor/heraPay/HeraPay';
 import AllMedia from '../screens/AllMedia/AllMedia';
 import PdfView from '../screens/Pdf/PdfView';
+import PaymentRequest from '../screens/Payment/PaymentRequest/PaymentRequest';
+import MatchScreen from '../screens/Payment/Match/MatchScreen';
+import Transaction from '../screens/Payment/Transaction/Transaction';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -64,8 +67,6 @@ const screens = [
 
 const Main = () => {
   const dispatch = useDispatch();
-
-  const [statusFetched, setStatusFetched] = React.useState(false);
   const [firstLaunch, setFirstLaunch] = React.useState(null);
   const [toastShowed, setToastShowed] = React.useState(false);
   const auth = useSelector(state => state.Auth.user);
@@ -218,6 +219,12 @@ const Main = () => {
           <Stack.Screen name={Routes.WebViewUrl} component={WebViewUrl} />
           <Stack.Screen name={Routes.AllMedia} component={AllMedia} />
           <Stack.Screen name={Routes.PdfView} component={PdfView} />
+          <Stack.Screen
+            name={Routes.PaymentRequest}
+            component={PaymentRequest}
+          />
+          <Stack.Screen name={Routes.MatchScreen} component={MatchScreen} />
+          <Stack.Screen name={Routes.Transaction} component={Transaction} />
         </Stack.Navigator>
       </NavigationContainer>
     )

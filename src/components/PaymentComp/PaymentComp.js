@@ -5,10 +5,21 @@ import {Value} from '../../constants/FixedValues';
 import {Colors} from '../../constants';
 import {dynamicSize} from '../../utils/responsive';
 
-const PaymentComp = ({Heading,payment, Content, Icon, line, onPress, Pending}) => {
+const PaymentComp = ({
+  Heading,
+  payment,
+  Content,
+  Icon,
+  line,
+  onPress,
+  Pending,
+}) => {
   return (
     <>
-      <TouchableOpacity activeOpacity={payment && 1} style={styles.mainContainer} onPress={onPress}>
+      <TouchableOpacity
+        activeOpacity={payment && 1}
+        style={styles.mainContainer}
+        onPress={onPress}>
         <View
           style={[
             styles.innerContainer,
@@ -40,7 +51,7 @@ const PaymentComp = ({Heading,payment, Content, Icon, line, onPress, Pending}) =
                   marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
                 },
               ]}>
-              <View style={styles.dot}/>
+              <View style={styles.dot} />
               <Text style={styles.pending}>{Pending}</Text>
             </View>
           )}
