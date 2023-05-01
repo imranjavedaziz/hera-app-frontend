@@ -42,7 +42,16 @@ export const validationType = {
   SPECIAL: 'SPECIAL',
   CAPSLOCK: 'CAPSLOCK',
 };
-
+export const validationBank = {
+  accountNumberLimit: 19,
+  MIN_ACCOUNT_NUM: 12,
+  routingLimit: 9,
+};
+export const Input_Type = {
+  accountholder: 'accountholder',
+  accountnumber: 'accountnumber',
+  routingnumber: 'routingnumber',
+};
 export const HttpStatus = {
   UNAUTHORISED: 401,
   SUCCESS_REQUEST: 200,
@@ -246,6 +255,8 @@ export const Routes = {
   PaymentRequest: 'PaymentRequest',
   MatchScreen: 'MatchScreen',
   Transaction: 'Transaction',
+  ManageCard: 'ManageCard',
+  ManageBank: 'ManageBank',
 };
 export const Static = {
   countries: [

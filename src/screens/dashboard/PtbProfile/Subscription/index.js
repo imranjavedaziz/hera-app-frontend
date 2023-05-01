@@ -5,8 +5,10 @@ import {
   ScrollView,
   ActivityIndicator,
   Platform,
-  SectionList,
   FlatList,
+  Modal,
+  Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../../../components/Container';
@@ -48,6 +50,10 @@ const Subscription = props => {
   const [rolePlans, setRolePlans] = useState([]);
   const [androidPlans, setAndroidPlans] = useState([]);
   const [modal, setModal] = useState(false);
+  const [changeModal, setChangeModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [isPlanUpgrade, setPlanUpgrade] = useState(false);
+  const [isPlanChanged, setPlanChanged] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
   const IAPService = InAPPPurchase.getInstance();
@@ -105,7 +111,11 @@ const Subscription = props => {
         setCallApi(false);
         setSelectCheckBox(null);
         dispatch(hideAppLoader());
-        props.navigation.goBack();
+        if (isPlanChanged || isPlanUpgrade) {
+          setSuccessModal(true);
+        } else {
+          navigation.goBack();
+        }
       }
       dispatch(hideAppLoader());
     }
@@ -114,6 +124,8 @@ const Subscription = props => {
     create_subscription_success,
     create_subscription_loading,
     subscription_status_success,
+    isPlanUpgrade,
+    isPlanChanged,
   ]);
 
   const headerComp = () => (
@@ -260,8 +272,8 @@ const Subscription = props => {
   );
   useEffect(() => {
     const sectionedPlan = [];
-    console.log('subscription_plan_res?.data',subscription_plan_res?.data);
-    console.log('subscriptionStatus',subscriptionStatus);
+    console.log('subscription_plan_res?.data', subscription_plan_res?.data);
+    console.log('subscriptionStatus', subscriptionStatus);
     if (Array.isArray(subscription_plan_res?.data?.plan)) {
       Strings?.STATIC_ROLE.forEach(r => {
         const filteredData = subscription_plan_res?.data?.plan.filter(
@@ -278,6 +290,29 @@ const Subscription = props => {
       setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
     }
   }, [subscription_plan_res]);
+  const handlePurchaseSubcription = () => {
+    if (subscription_plan_res?.data?.subscription === null) {
+      subscribePlan(selectCheckBox, 'credit');
+    } else {
+      if (
+        subscription_plan_res?.data?.preference?.role_id_looking_for !==
+        selectCheckBox.role_id_looking_for
+      ) {
+        setPlanUpgrade(false);
+        setPlanChanged(true);
+        setChangeModal(true);
+      } else if (
+        selectCheckBox.price >
+        subscription_plan_res?.data?.subscription?.subscription_plan?.price
+      ) {
+        setPlanChanged(false);
+        setPlanUpgrade(true);
+        setChangeModal(true);
+      } else {
+        subscribePlan(selectCheckBox, 'credit');
+      }
+    }
+  };
   return (
     <>
       <Container
@@ -338,19 +373,28 @@ const Subscription = props => {
                           }
                           // Style={selectCheckBox?.id === item?.id && styles.box}
                           onPress={() => selectCheckHandler(item)}
+                          isSelected={
+                            subscription_plan_res?.data?.subscription &&
+                            subscription_plan_res?.data?.subscription
+                              ?.subscription_plan_id === item?.id // || true
+                          }
                         />
                       )}
                       ListHeaderComponent={() => (
                         <View style={styles.roleContainer}>
                           <Text style={styles.roleTxt}>{plan.title}</Text>
-                          {subscription_plan_res?.data?.preference?.role_id_looking_for ===
-                            plan.data[0].role_id_looking_for && subscriptionStatus?.data?.is_trial && (
-                            <View style={styles.subscribeBtn}>
-                              <Text style={styles.subscribeTxt}>
-                                Selected Preference
-                              </Text>
-                            </View>
-                          )}
+                          {subscription_plan_res?.data?.preference
+                            ?.role_id_looking_for ===
+                            plan.data[0].role_id_looking_for &&
+                            (subscriptionStatus?.data?.is_trial ||
+                              subscription_plan_res?.data?.subscription ===
+                                null) && (
+                              <View style={styles.subscribeBtn}>
+                                <Text style={styles.subscribeTxt}>
+                                  Selected Preference
+                                </Text>
+                              </View>
+                            )}
                         </View>
                       )}
                       ItemSeparatorComponent={() => (
@@ -367,7 +411,7 @@ const Subscription = props => {
               <Button
                 label={Strings.Subscription.SubscribeButton}
                 style={styles.payButton}
-                onPress={() => subscribePlan(selectCheckBox, 'credit')}
+                onPress={handlePurchaseSubcription}
               />
             </View>
             <View>
@@ -416,6 +460,104 @@ const Subscription = props => {
           </View>
         </ScrollView>
       </Container>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={changeModal}
+        onRequestClose={() => {
+          setChangeModal(!changeModal);
+        }}>
+        <View style={styles.changeModalContainer}>
+          <TouchableOpacity
+            style={styles.changeModalBackdrop}
+            onPress={() => setChangeModal(!changeModal)}
+          />
+          <View style={styles.changeModalBox}>
+            <Text style={styles.changeModalTitle} numberOfLines={1}>
+              {isPlanChanged
+                ? Strings.Subscription.ChangePlan
+                : Strings.Subscription.UpgradePlan.replace(
+                    '{SELECTED_ROLE}',
+                    selectCheckBox == null
+                      ? '{SELECTED_ROLE}'
+                      : Strings?.STATIC_ROLE.find(
+                          r => r.id === selectCheckBox?.role_id_looking_for,
+                        ).name,
+                  )}
+            </Text>
+            <Text style={styles.changeModalPara}>
+              {isPlanChanged
+                ? Strings.Subscription.ChangePlanPara.replace(
+                    '{DATE_END}',
+                    moment(
+                      subscription_plan_res?.data?.subscription
+                        ?.current_period_end,
+                      'YYYY-MM-DD',
+                    ).format('LL'),
+                  )
+                : Strings.Subscription.UpgradePlanPara}
+            </Text>
+            <Pressable
+              style={styles.changeModalBtn}
+              onPress={() => {
+                subscribePlan(selectCheckBox, 'credit');
+                setChangeModal(!changeModal);
+              }}>
+              <Text style={styles.changeModalBtnTxt}>
+                {Strings.Subscription.YesProceed}
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={successModal}
+        onRequestClose={() => {
+          setSuccessModal(!successModal);
+        }}>
+        <View style={styles.changeModalContainer}>
+          <TouchableOpacity
+            style={styles.changeModalBackdrop}
+            onPress={() => setSuccessModal(!successModal)}
+          />
+          <View style={styles.changeModalBox}>
+            <Text style={styles.changeModalTitle} numberOfLines={1}>
+              {Strings.Subscription.SuccessChanged}
+            </Text>
+            <Text style={styles.changeModalPara}>
+              {isPlanChanged
+                ? Strings.Subscription.SuccessChangedPara.replace(
+                    '{SELECTED_ROLE}',
+                    selectCheckBox == null
+                      ? '{SELECTED_ROLE}'
+                      : Strings?.STATIC_ROLE.find(
+                          r => r.id === selectCheckBox?.role_id_looking_for,
+                        ).name,
+                  )
+                : Strings.Subscription.SuccessUpgradePara.replace(
+                    '{DATE_END}',
+                    moment(
+                      subscription_plan_res?.data?.subscription
+                        ?.current_period_end,
+                      'YYYY-MM-DD',
+                    ).format('LL'),
+                  )}
+            </Text>
+            <Pressable
+              style={styles.changeModalBtn}
+              onPress={() => {
+                setSuccessModal(!successModal);
+                navigation.goBack();
+              }}>
+              <Text style={styles.changeModalBtnTxt}>
+                {Strings.Subscription.GotIt}
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       {modal && (
         <CustomModal>
           <SensorySubscription onPress={() => setModal(!modal)} />

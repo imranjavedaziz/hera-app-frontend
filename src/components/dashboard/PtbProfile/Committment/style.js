@@ -41,4 +41,19 @@ export default {
     resizeMode: 'contain',
     // height: Value.CONSTANT_VALUE_50,
   },
+  subscribeBtn: {
+    marginLeft: Value.CONSTANT_VALUE_10,
+    paddingHorizontal: Value.CONSTANT_VALUE_5,
+    backgroundColor: Colors.COLOR_5ABCEC,
+    borderRadius: Value.CONSTANT_VALUE_3,
+    minHeight: Value.CONSTANT_VALUE_20,
+    maxHeight: Value.CONSTANT_VALUE_30,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    flex: Value.CONSTANT_VALUE_0,
+  },
+  subscribeTxt: {
+    color: Colors.WHITE,
+    fontSize: Value.CONSTANT_VALUE_12,
+  },
 };

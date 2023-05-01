@@ -28,33 +28,33 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NotificationContextManager>
-          <ToastProvider
-            placement="top"
-            duration={2000}
-            animationType="slide-in"
-            animationDuration={250}
-            textStyle={{fontSize: 10}}
-            offset={50} // offset for both top and bottom toasts
-            offsetTop={-10}
-            offsetBottom={40}
-            swipeEnabled={true}
-            renderType={{
-              custom: toast => <MessageToast />,
-            }}>
-            <StatusBar
-              barStyle="dark-content"
-              backgroundColor={Colors.BACKGROUND}
-              animated={true}
-              hidden={false}
-            />
-            <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
-            <Main />
-            <Loader />
-            <FormLoader />
-            <Toast />
-          </ToastProvider>
-        </NotificationContextManager>
+          <NotificationContextManager>
+            <ToastProvider
+              placement="top"
+              duration={2000}
+              animationType="slide-in"
+              animationDuration={250}
+              textStyle={{fontSize: 10}}
+              offset={50} // offset for both top and bottom toasts
+              offsetTop={-10}
+              offsetBottom={40}
+              swipeEnabled={true}
+              renderType={{
+                custom: toast => <MessageToast />,
+              }}>
+              <StatusBar
+                barStyle="dark-content"
+                backgroundColor={Colors.BACKGROUND}
+                animated={true}
+                hidden={false}
+              />
+              <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
+              <Main />
+              <Loader />
+              <FormLoader />
+              <Toast />
+            </ToastProvider>
+          </NotificationContextManager>
       </PersistGate>
     </Provider>
   );
