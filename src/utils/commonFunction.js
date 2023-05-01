@@ -38,3 +38,30 @@ export const deviceHandler = (navigation, screen) => {
 
   return () => backHandler.remove();
 };
+export function formatACNumber(accountNumber) {
+  if (accountNumber) {
+    // Remove all non-digit characters from the account number
+    accountNumber = accountNumber.replace(/\D/g, '');
+
+    // Split the account number into groups of four digits
+    var groups = accountNumber.match(/.{1,4}/g);
+
+    // Join the groups with hyphens and return the formatted string
+    return groups.join('-');
+  } else {
+    return accountNumber;
+  }
+}
+
+export function formatExpiryDate(cardExpiry) {
+  let txt = cardExpiry.replace('/', '');
+  if (txt.length > 2) {
+    return txt.substr(0, 2) + '/' + (txt.substr(2) || '');
+  }
+  return txt;
+}
+export function validateFullName(name) {
+  const regEx = /^[a-zA-Z ]*$/;
+
+  return regEx.test(name);
+}

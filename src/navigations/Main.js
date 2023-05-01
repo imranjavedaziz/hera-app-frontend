@@ -53,6 +53,8 @@ import PdfView from '../screens/Pdf/PdfView';
 import PaymentRequest from '../screens/Payment/PaymentRequest/PaymentRequest';
 import MatchScreen from '../screens/Payment/Match/MatchScreen';
 import Transaction from '../screens/Payment/Transaction/Transaction';
+import ManageBank from '../screens/Payment/ManageBank/ManageBank';
+import ManageCard from '../screens/Payment/ManageCard/ManageCard';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -225,6 +227,8 @@ const Main = () => {
           />
           <Stack.Screen name={Routes.MatchScreen} component={MatchScreen} />
           <Stack.Screen name={Routes.Transaction} component={Transaction} />
+          <Stack.Screen name={Routes.ManageBank} component={ManageBank} />
+          <Stack.Screen name={Routes.ManageCard} component={ManageCard} />
         </Stack.Navigator>
       </NavigationContainer>
     )

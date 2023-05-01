@@ -13,3 +13,4 @@ export * from './Edit_profile';
 export * from './ReportUser';
 export * from './DocumentUpload';
 export * from './NextStep';
+export * from './StripeApi';
