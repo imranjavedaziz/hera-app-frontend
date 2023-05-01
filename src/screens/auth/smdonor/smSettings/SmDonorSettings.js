@@ -295,6 +295,8 @@ const SmDonorSettings = () => {
               leftIcon={Images.DOLLAR_LOGO}
               title={Strings.smSetting.Hera_Pay}
               onPress={() => navigation.navigate(Routes.HeraPay)}
+              RedDot={true}
+              Pending={'Notifications'}
             />
             <PtbAccount
               leftIcon={Images.galleryimage}

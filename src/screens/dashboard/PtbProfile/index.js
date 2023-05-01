@@ -339,6 +339,8 @@ const PtbProfile = () => {
                 leftIcon={Images.DOLLAR_LOGO}
                 title={Strings.smSetting.Hera_Pay}
                 onPress={() => navigation.navigate(Routes.HeraPay)}
+                RedDot={true}
+                Pending={'2 Pending Request'}
               />
               <PtbAccount
                 leftIcon={Images.video}
