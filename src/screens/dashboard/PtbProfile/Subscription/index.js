@@ -164,6 +164,8 @@ const Subscription = props => {
     IAPService.initializeConnection();
     const allProducts = await IAPService.getIAPProducts();
     await getSubscription();
+    const Products = await RNIap.getSubscriptions(['com.HeraDev.SurrogateMonthly','com.HeraDev.SurrogateYearly']);
+    console.log('Plans list',JSON.stringify(Products));
     console.log('ALL PRODUCT ID LINE NO 127', allProducts);
     return () => {
       IAPService.endIAPConnection();
@@ -324,7 +326,7 @@ const Subscription = props => {
           keyboardShouldPersistTaps="handled">
           <View style={styles.mainContainer}>
             <Image source={Images.LOGO} style={styles.logo} />
-            {subscriptionStatus?.data?.is_trial && (
+            {subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status > 0 && (
               <View style={styles.blueContain}>
                 <Image
                   source={Images.whiteTick}
