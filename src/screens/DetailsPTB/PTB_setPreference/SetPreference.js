@@ -64,7 +64,7 @@ import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
 import {Rotate} from 'hammerjs';
 import {navigate} from '../../../utils/RootNavigation';
-import { updateTrail } from '../../../redux/actions/Subsctiption';
+import {updateTrail} from '../../../redux/actions/Subsctiption';
 import debounce from '../../../utils/debounce';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
@@ -252,6 +252,7 @@ const SetPreference = ({route, navigation}) => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
       dispatch(showAppLoader());
       if (save_preference_success) {
+        dispatch(showAppToast(false, Strings.preference.SUCCESS_MSG));
         dispatch(hideAppLoader());
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
@@ -284,14 +285,14 @@ const SetPreference = ({route, navigation}) => {
     dispatch(SavePreference(value));
     EditPreferences !== true && dispatch(updateRegStep());
   };
-  useEffect(()=>{
-    if(!EditPreferences && !subscriptionStatus?.data?.is_trial){
-      dispatch(updateTrail({data:{data: {is_trial: true,status: 2}}}));
+  useEffect(() => {
+    if (!EditPreferences && !subscriptionStatus?.data?.is_trial) {
+      dispatch(updateTrail({data: {data: {is_trial: true, status: 2}}}));
     }
-  },[EditPreferences,subscriptionStatus])
+  }, [EditPreferences, subscriptionStatus]);
   const logOutScreen = () => {
     dispatch(showAppLoader());
-   
+
     dispatch(logOut(Device_ID));
     dispatch(empty());
   };
@@ -436,7 +437,8 @@ const SetPreference = ({route, navigation}) => {
                 </Text>
               </View>
               {!subscriptionStatus?.data?.is_trial &&
-                subscriptionStatus?.data?.status>0 && EditPreferences && (
+                subscriptionStatus?.data?.status > 0 &&
+                EditPreferences && (
                   <TouchableOpacity
                     style={styles.changePlan}
                     onPress={() => navigation.navigate(Routes.Subscription)}>
@@ -472,7 +474,8 @@ const SetPreference = ({route, navigation}) => {
                           style={styles.flexRow}
                           key={whom.id}
                           disabled={
-                            !subscriptionStatus?.data?.is_trial && EditPreferences
+                            !subscriptionStatus?.data?.is_trial &&
+                            EditPreferences
                           }
                           activeOpacity={1}
                           onPress={() => onChange(whom.id)}>
@@ -496,7 +499,8 @@ const SetPreference = ({route, navigation}) => {
                           </Text>
                           {value === whom.id &&
                             !subscriptionStatus?.data?.is_trial &&
-                            subscriptionStatus?.data?.status > 0 && EditPreferences && (
+                            subscriptionStatus?.data?.status > 0 &&
+                            EditPreferences && (
                               <View style={styles.subscribeBtn}>
                                 <Text style={styles.subscribeTxt}>
                                   Subscribed

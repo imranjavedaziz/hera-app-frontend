@@ -178,6 +178,7 @@ export default {
     Education: 'Education',
     editPreference: 'Edit Preference',
     SAVE_PREFERENCES: 'SAVE PREFERENCES',
+    SUCCESS_MSG: 'Preference updated successfully!',
   },
   otp: {
     title: 'Verify your mobile',
@@ -435,6 +436,19 @@ export default {
       'Your subscription has expired. Please renew your subscription now to find new match.',
     ChatSubscriptionExpired:
       'Your subscription has expired. Please renew your subscription now to continue your conversation.',
+    ChangePlan: 'Change of Plan?',
+    ChangePlanPara: 'You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.',
+    YesProceed: 'YES, PROCEED',
+    UpgradePlan: 'Change to {SELECTED_ROLE}?',
+    UpgradePlanPara: `You have to first cancel your ongoing plan to select a new subscription.
+    Click your Account Settings,
+    Scroll to Subscriptions, then click Manage.
+    Next to the HERA subscription,
+    Click Cancel Subscription.`,
+    GotIt: 'OKAY, GOT IT!',
+    SuccessChanged: 'Subscription Updated!',
+    SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
+    SuccessUpgradePara: 'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
   },
   Chat: {
     Chat: 'CHAT',
