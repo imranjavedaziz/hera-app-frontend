@@ -118,7 +118,8 @@ const Subscription = props => {
 
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.I_BUTTON}
+      leftIcon={Images.ICON_INFO}
+      leftIicon={styles.info}
       leftPress={() => setModal(!modal)}
       style={styles.headerIcon}
       txt={Strings.Subscription.Later}

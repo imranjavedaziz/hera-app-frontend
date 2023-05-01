@@ -118,6 +118,8 @@ export const IconHeader = props => {
     txtPress,
     chat,
     chatptb,
+    iIcon,
+    leftIicon,
     ...otherProps
   } = props;
   const STYLE_ONE =
@@ -143,7 +145,7 @@ export const IconHeader = props => {
               <Image source={leftIcon} style={styles.innerProfileimg} />
             </View>
           ) : (
-            <Image accessible={false} source={leftIcon} style={styles.img} />
+            <Image accessible={false} source={leftIcon} style={[styles.img, leftIicon]} />
           )}
         </TouchableOpacity>
       )}
@@ -172,7 +174,7 @@ export const IconHeader = props => {
           accessibilityRole="button">
           {chat === true && <View style={styles.blankContainer} />}
           {chatptb === true && <View style={styles.blankContainerptb} />}
-          <Image accessible={false} source={rightIcon} style={styles.img} />
+          <Image accessible={false} source={rightIcon} style={[styles.img, iIcon]} />
         </TouchableOpacity>
       </View>
     </>

@@ -68,6 +68,10 @@ export default {
   headerIcon: {
     paddingHorizontal: Value.CONSTANT_VALUE_5,
   },
+  info: {
+    height: dynamicSize(Value.CONSTANT_VALUE_35),
+    width: dynamicSize(Value.CONSTANT_VALUE_35),
+  },
   commitment: {
     bottom: Value.CONSTANT_VALUE_20,
   },
@@ -106,7 +110,7 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_5,
     marginVertical: Value.CONSTANT_VALUE_10,
   },
-  roleTxt: {fontSize: Value.CONSTANT_VALUE_16,fontFamily:Fonts.OpenSansBold},
+  roleTxt: {fontSize: Value.CONSTANT_VALUE_16, fontFamily: Fonts.OpenSansBold},
   seperator: {
     height: Value.CONSTANT_VALUE_1,
     width: '100%',

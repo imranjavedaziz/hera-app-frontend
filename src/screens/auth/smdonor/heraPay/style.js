@@ -12,11 +12,16 @@ import {
 export default {
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   headerIcon: {
-    paddingHorizontal: Value.CONSTANT_VALUE_5,
+    paddingHorizontal: Value.CONSTANT_VALUE_30,
+  },
+  iIcon: {
+    height: dynamicSize(Value.CONSTANT_VALUE_35),
+    width: dynamicSize(Value.CONSTANT_VALUE_35),
   },
   container: {
     flex: 1,
     marginTop: statusHide(Value.CONSTANT_VALUE_105),
+    paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_30),
   },
   heraPay: {
     color: Colors.BLACK,
@@ -79,14 +84,14 @@ export default {
     color: Colors.BLACK,
   },
   pamentCard: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_40),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_10),
   },
   addCardContainer: {
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_95),
     flexDirection: Alignment.ROW,
+    marginLeft: dynamicSize(Value.CONSTANT_VALUE_7),
   },
   addBankContainer: {
-  
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_6),
     flexDirection: Alignment.ROW,
   },

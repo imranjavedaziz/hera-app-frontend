@@ -363,7 +363,7 @@ const SetPreference = ({route, navigation}) => {
           <TouchableOpacity
             onPress={() => setModalVisible(!modalVisible)}
             style={globalStyle.clearView}>
-            <Image source={Images.I_BUTTON} />
+            <Image source={Images.ICON_INFO} style={globalStyle.infoIcon}/>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
