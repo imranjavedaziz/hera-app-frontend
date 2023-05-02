@@ -37,7 +37,7 @@ const PaymentComp = ({
             style={[
               styles.toggle,
               {
-                marginLeft: dynamicSize(Value.CONSTANT_VALUE_33),
+                marginLeft: dynamicSize(Value.CONSTANT_VALUE_32),
                 marginTop: dynamicSize(Value.CONSTANT_VALUE_5),
               },
             ]}>

@@ -68,6 +68,10 @@ export default {
   headerIcon: {
     paddingHorizontal: Value.CONSTANT_VALUE_5,
   },
+  info: {
+    height: dynamicSize(Value.CONSTANT_VALUE_35),
+    width: dynamicSize(Value.CONSTANT_VALUE_35),
+  },
   commitment: {
     bottom: Value.CONSTANT_VALUE_20,
   },

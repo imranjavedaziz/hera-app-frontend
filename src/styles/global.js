@@ -202,6 +202,11 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
+  infoIcon: {
+    width: dynamicSize(Value.CONSTANT_VALUE_35),
+    height: dynamicSize(Value.CONSTANT_VALUE_35),
+  },
+
   clearText: {
     fontFamily: Fonts.OpenSansBold,
     textDecorationLine: Alignment.UNDERLINE,

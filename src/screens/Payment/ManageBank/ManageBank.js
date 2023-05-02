@@ -45,6 +45,7 @@ const ManageBank = () => {
         bankResponse.info.bank_account.country,
         bankResponse.info.bank_account.currency,
       );
+      dispatch(hideAppLoader());
       const token = bankResponse.info.id;
       dispatch(addCard(stripe_customer_id, bankDetails, token));
       dispatch({type: ADD_BANK_TOKEN.END});
@@ -89,6 +90,7 @@ const ManageBank = () => {
       dispatch(showAppToast(true, error));
       let error = addCards?.info ?? 'Something went wrong';
       dispatch(showAppToast(true, error));
+      dispatch(hideAppLoader());
       cleanRecord();
     }
   }, [addCards]);

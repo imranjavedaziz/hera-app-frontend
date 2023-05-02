@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {Container, ModalMiddle} from '../../../../components';
-import {IconHeader} from '../../../../components/Header';
+import Header, {IconHeader} from '../../../../components/Header';
 import {Alignment, Colors, Images, Strings} from '../../../../constants';
 import styles from './style';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -86,9 +86,10 @@ const HeraPay = () => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       leftPress={() => navigation.goBack()}
-      style={styles.headerIcon}
-      rightIcon={Images.I_BUTTON}
+      rightIcon={Images.ICON_INFO}
       rightPress={() => setModal(!modal)}
+      style={styles.headerIcon}
+      iIcon={styles.iIcon}
     />
   );
 
@@ -109,151 +110,148 @@ const HeraPay = () => {
     return true;
   };
   return (
-    <>
-      <Container
-        scroller={false}
-        showHeader={true}
-        headerComp={headerComp}
-        mainStyle={true}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled">
-          <View style={styles.container}>
-            <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
-            <Text style={styles.sendPay}>
+    <View style={styles.flex}>
+      <Header end={false}>{headerComp()}</Header>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.container}>
+          <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
+          <Text style={styles.sendPay}>
+            {log_in_data?.role_id === 2
+              ? Strings.Hera_Pay.Send_Payment
+              : Strings.Hera_Pay.Request_for_Payment}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(Routes.MatchScreen);
+            }}
+            style={styles.btnContainer}>
+            <Text style={styles.btnText}>
               {log_in_data?.role_id === 2
-                ? Strings.Hera_Pay.Send_Payment
-                : Strings.Hera_Pay.Request_for_Payment}
+                ? Strings.Hera_Pay.MAKE_PAYMENT
+                : Strings.Hera_Pay.REQUEST_PAYMENT}
             </Text>
-            <TouchableOpacity
+          </TouchableOpacity>
+          <View style={styles.paymentReqContainer}>
+            <PaymentComp
               onPress={() => {
-                navigation.navigate(Routes.MatchScreen);
+                navigation.navigate(Routes.PaymentRequest);
               }}
-              style={styles.btnContainer}>
-              <Text style={styles.btnText}>
-                {log_in_data?.role_id === 2
-                  ? Strings.Hera_Pay.MAKE_PAYMENT
-                  : Strings.Hera_Pay.REQUEST_PAYMENT}
-              </Text>
-            </TouchableOpacity>
-            <View style={styles.paymentReqContainer}>
-              <PaymentComp
-                onPress={() => {
-                  navigation.navigate(Routes.PaymentRequest);
-                }}
-                Icon={Images.MONEY_TRANSFER}
-                Heading={
-                  log_in_data?.role_id === 2
-                    ? Strings.Payment_Comp.See_Payment_Request
-                    : Strings.Payment_Comp.Request_Sent_to_Parents
-                }
-                Content={
-                  log_in_data?.role_id === 2
-                    ? Strings.Payment_Comp.Request_Description
-                    : Strings.Payment_Comp.Parent_Description
-                }
-                Pending={
-                  log_in_data?.role_id === 2 &&
-                  Strings.Payment_Comp.Pending_Request
-                }
-                line
-              />
-            </View>
-            <View style={styles.historyContainer}>
-              <PaymentComp
-                onPress={() => {
-                  navigation.navigate(Routes.Transaction);
-                }}
-                Icon={Images.TRANSACTION_HISTORY}
-                Heading={Strings.Payment_Comp.Transaction_History}
-                Content={
-                  log_in_data?.role_id === 2
-                    ? Strings.Payment_Comp.History_Description
-                    : Strings.Payment_Comp.Transaction_History_Parent
-                }
-                line
-              />
-            </View>
-            <View style={styles.cerditCardContainer}>
-              <PaymentComp
-                payment
-                Icon={
-                  log_in_data?.role_id === 2
-                    ? Images.CREDIT_CARD
-                    : Images.BANK_LOGO
-                }
-                Heading={
-                  log_in_data?.role_id === 2
-                    ? Strings.Payment_Comp.Manage_Card
-                    : Strings.Payment_Comp.Manage_Bank
-                }
-                Content={
-                  log_in_data?.role_id !== 2 &&
-                  (_.isEmpty(Data) || Data === null) &&
-                  Strings.Payment_Comp.Bank_Description
-                }
-                Data={
-                  log_in_data?.role_id !== 2 &&
-                  (!_.isEmpty(Data) || Data !== null) &&
-                  true
-                }
-              />
-            </View>
-            {((log_in_data?.role_id !== 2 && !_.isEmpty(Data)) ||
-              Data !== null) &&
-              Data.map((item, index) => {
-                console.log(item, 'itemmm');
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      flexDirection: Alignment.ROW,
-                      alignItems: Alignment.CENTER,
-                      justifyContent: Alignment.SPACE_BETWEEN,
-                      paddingHorizontal: Value.CONSTANT_VALUE_5,
-                    }}>
-                    <View>
-                      <View
+              Icon={Images.MONEY_TRANSFER}
+              Heading={
+                log_in_data?.role_id === 2
+                  ? Strings.Payment_Comp.See_Payment_Request
+                  : Strings.Payment_Comp.Request_Sent_to_Parents
+              }
+              Content={
+                log_in_data?.role_id === 2
+                  ? Strings.Payment_Comp.Request_Description
+                  : Strings.Payment_Comp.Parent_Description
+              }
+              Pending={
+                log_in_data?.role_id === 2 &&
+                Strings.Payment_Comp.Pending_Request
+              }
+              line
+            />
+          </View>
+          <View style={styles.historyContainer}>
+            <PaymentComp
+              onPress={() => {
+                navigation.navigate(Routes.Transaction);
+              }}
+              Icon={Images.TRANSACTION_HISTORY}
+              Heading={Strings.Payment_Comp.Transaction_History}
+              Content={
+                log_in_data?.role_id === 2
+                  ? Strings.Payment_Comp.History_Description
+                  : Strings.Payment_Comp.Transaction_History_Parent
+              }
+              line
+            />
+          </View>
+          <View style={styles.cerditCardContainer}>
+            <PaymentComp
+              payment
+              Icon={
+                log_in_data?.role_id === 2
+                  ? Images.CREDIT_CARD
+                  : Images.BANK_LOGO
+              }
+              Heading={
+                log_in_data?.role_id === 2
+                  ? Strings.Payment_Comp.Manage_Card
+                  : Strings.Payment_Comp.Manage_Bank
+              }
+              Content={
+                log_in_data?.role_id !== 2 &&
+                (_.isEmpty(Data) || Data === null) &&
+                Strings.Payment_Comp.Bank_Description
+              }
+              Data={
+                log_in_data?.role_id !== 2 &&
+                (!_.isEmpty(Data) || Data !== null) &&
+                true
+              }
+            />
+          </View>
+          {((log_in_data?.role_id !== 2 && !_.isEmpty(Data)) ||
+            Data !== null) &&
+            Data.map((item, index) => {
+              console.log(item, 'itemmm');
+              return (
+                <View
+                  key={index}
+                  style={{
+                    flexDirection: Alignment.ROW,
+                    alignItems: Alignment.CENTER,
+                    justifyContent: Alignment.SPACE_BETWEEN,
+                    paddingHorizontal: Value.CONSTANT_VALUE_5,
+                  }}>
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: Alignment.ROW,
+                        alignItems: Alignment.CENTER,
+                      }}>
+                      <Text
                         style={{
-                          flexDirection: Alignment.ROW,
-                          alignItems: Alignment.CENTER,
-                        }}>
-                        <Text
-                          style={{
-                            fontFamily: Fonts.OpenSansBold,
-                            fontSize: Value.CONSTANT_VALUE_16,
-                            color: Colors.BLACK,
-                          }}>{`${Strings.Hera_Pay.CARD_DOT}${item?.last4}`}</Text>
-                        <Text
-                          style={{
-                            fontFamily: Fonts.OpenSansRegular,
-                            fontSize: Value.CONSTANT_VALUE_16,
-                            color: Colors.BLACK,
-                          }}>
-                          {' '}
-                          ({item?.bank_name})
-                        </Text>
-                      </View>
-
+                          fontFamily: Fonts.OpenSansBold,
+                          fontSize: Value.CONSTANT_VALUE_16,
+                          color: Colors.BLACK,
+                        }}>{`${Strings.Hera_Pay.CARD_DOT}${item?.last4}`}</Text>
                       <Text
                         style={{
                           fontFamily: Fonts.OpenSansRegular,
-                          fontSize: Value.CONSTANT_VALUE_14,
+                          fontSize: Value.CONSTANT_VALUE_16,
                           color: Colors.BLACK,
                         }}>
-                        {item?.account_holder_name}
+                        {' '}
+                        ({item?.bank_name})
                       </Text>
                     </View>
-                    <TouchableOpacity>
-                      <Image
-                        style={{bottom: Value.CONSTANT_VALUE_5}}
-                        source={Images.iconDarkMore}
-                      />
-                    </TouchableOpacity>
+
+                    <Text
+                      style={{
+                        fontFamily: Fonts.OpenSansRegular,
+                        fontSize: Value.CONSTANT_VALUE_14,
+                        color: Colors.BLACK,
+                      }}>
+                      {item?.account_holder_name}
+                    </Text>
                   </View>
-                );
-              })}
-            {log_in_data?.role_id === 2 && (
+                  <TouchableOpacity>
+                    <Image
+                      style={{bottom: Value.CONSTANT_VALUE_5}}
+                      source={Images.iconDarkMore}
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          {log_in_data?.role_id === 2 && (
+            <View style={{bottom: 20}}>
               <PaymentCards
                 onPress={() => {
                   Platform.OS === 'ios' ? backAction() : setShowModal(true);
@@ -262,46 +260,46 @@ const HeraPay = () => {
                 Number={Strings.Hera_Pay.CARD_NUMBER}
                 Time={Strings.Hera_Pay.CARD_TIME}
               />
-            )}
-            {log_in_data?.role_id === 2 && (
-              <View style={styles.pamentCard}>
-                <PaymentCards
-                  onPress={() => {
-                    Platform.OS === 'ios' ? backAction() : setShowModal(true);
-                  }}
-                  Icon={Images.VISA_LOGO}
-                  Number={Strings.Hera_Pay.CARD_NUM_TWO}
-                  Time={Strings.Hera_Pay.CARD_TIME_TWO}
-                />
-              </View>
-            )}
-            {(_.isEmpty(Data) || Data === null) && (
-              <TouchableOpacity
-                onPress={() =>
-                  log_in_data?.role_id === 2
-                    ? navigation.navigate(Routes.ManageCard)
-                    : navigation.navigate(Routes.ManageBank)
-                }
-                style={[
-                  styles.addCardContainer,
-                  {
-                    marginTop:
-                      log_in_data?.role_id === 2
-                        ? dynamicSize(Value.CONSTANT_VALUE_25)
-                        : dynamicSize(Value.CONSTANT_VALUE_6),
-                  },
-                ]}>
-                <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
-                <Text style={styles.addCardTxt}>
-                  {log_in_data?.role_id === 2
-                    ? Strings.Hera_Pay.ADD_CARD
-                    : Strings.Hera_Pay.Add_Bank}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </ScrollView>
-      </Container>
+            </View>
+          )}
+          {log_in_data?.role_id === 2 && (
+            <View style={styles.pamentCard}>
+              <PaymentCards
+                onPress={() => {
+                  Platform.OS === 'ios' ? backAction() : setShowModal(true);
+                }}
+                Icon={Images.VISA_CARD}
+                Number={Strings.Hera_Pay.CARD_NUM_TWO}
+                Time={Strings.Hera_Pay.CARD_TIME_TWO}
+              />
+            </View>
+          )}
+          {(_.isEmpty(Data) || Data === null) && (
+            <TouchableOpacity
+              onPress={() =>
+                log_in_data?.role_id === 2
+                  ? navigation.navigate(Routes.ManageCard)
+                  : navigation.navigate(Routes.ManageBank)
+              }
+              style={[
+                styles.addCardContainer,
+                {
+                  marginTop:
+                    log_in_data?.role_id === 2
+                      ? dynamicSize(Value.CONSTANT_VALUE_25)
+                      : dynamicSize(Value.CONSTANT_VALUE_6),
+                },
+              ]}>
+              <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
+              <Text style={styles.addCardTxt}>
+                {log_in_data?.role_id === 2
+                  ? Strings.Hera_Pay.ADD_CARD
+                  : Strings.Hera_Pay.Add_Bank}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </ScrollView>
       {modal && (
         <CustomModal>
           <AboutPayment
@@ -350,7 +348,7 @@ const HeraPay = () => {
           setShowModal(false);
         }}
       />
-    </>
+    </View>
   );
 };
 
