@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Keyboard,
   Image,
+  ImageBackground,
   Alert,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
@@ -235,13 +236,15 @@ const EditProfile = props => {
   };
   const headerComp = () => (
     <View style={styles.cancelAndroidsbtn}>
-      <TouchableOpacity
-        onPress={() => {
-          isDirty === true ? platform() : navCondition();
-        }}
-        style={styles.clearView}>
-        <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>
-      </TouchableOpacity>
+      <ImageBackground source={Images.CANCEL_BG} style={styles.cancelBg}>
+        <TouchableOpacity
+          onPress={() => {
+            isDirty === true ? platform() : navCondition();
+          }}
+          style={styles.clearView}>
+          <Text style={styles.clearText}>{Strings.Subscription.Cancel}</Text>
+        </TouchableOpacity>
+      </ImageBackground>
     </View>
   );
   const handelChange = async value => {
