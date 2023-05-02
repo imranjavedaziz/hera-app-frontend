@@ -437,7 +437,8 @@ export default {
     ChatSubscriptionExpired:
       'Your subscription has expired. Please renew your subscription now to continue your conversation.',
     ChangePlan: 'Change of Plan?',
-    ChangePlanPara: 'You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.',
+    ChangePlanPara:
+      'You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.',
     YesProceed: 'YES, PROCEED',
     UpgradePlan: 'Change to {SELECTED_ROLE}?',
     UpgradePlanPara: `You have to first cancel your ongoing plan to select a new subscription.
@@ -448,7 +449,8 @@ export default {
     GotIt: 'OKAY, GOT IT!',
     SuccessChanged: 'Subscription Updated!',
     SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
-    SuccessUpgradePara: 'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
+    SuccessUpgradePara:
+      'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
   },
   Chat: {
     Chat: 'CHAT',
@@ -528,12 +530,15 @@ export default {
     ADD: '+',
     ADD_CARD: 'Add New Card',
     Remove_Card: 'Remove Card from Profile?',
-    Remove_Card_Text: 'Remove the card ending with ....9203?',
+    Remove_Card_Text: 'Remove the card ending with •••• 9203?',
     Yes_Remove: 'Yes, Remove',
     Not_Now: 'Not Now',
     Request_for_Payment: 'Request for Payment',
     REQUEST_PAYMENT: 'REQUEST FOR A PAYMENT',
     Add_Bank: 'Add Bank',
+    Remove_Bank: 'Remove Bank from Profile?',
+    Remove_Bank_Text:
+      'You will not be able to receive any payment without adding your bank.',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',
