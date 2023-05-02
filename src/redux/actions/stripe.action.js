@@ -101,6 +101,14 @@ export const UPDATE_BANK_TOKEN = {
   END: 'UPDATE_BANK_TOKEN_END',
   CLEAN: 'UPDATE_BANK_TOKEN_CLEAN',
 };
+export const DELETE_BANK = {
+  API: 'DELETE_BANK_API',
+  START: 'DELETE_BANK_START',
+  SUCCESS: 'DELETE_BANK_SUCCESS',
+  FAIL: 'DELETE_BANK_FAIL',
+  END: 'DELETE_BANK_END',
+  CLEAN: 'DELETE_BANK_CLEAN',
+};
 
 export const addBankToken = data => {
   return {
@@ -201,6 +209,12 @@ export const kyc_update = data => {
 export const kyc_status_update = data => {
   return {
     type: KYC_STATUS.API,
+    data,
+  };
+};
+export const deleteBankOrCard = data => {
+  return {
+    type: DELETE_BANK.API,
     data,
   };
 };

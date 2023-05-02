@@ -114,3 +114,9 @@ export const getBankListApi = (customerId, limit) => {
     },
   );
 };
+export const deleteBankOrCard = ({data}) => {
+  return stripeApiCall({
+    name: `/v1/customers/${data?.customer}/sources/${data?.id}`,
+    type: 'delete',
+  });
+};

@@ -1,4 +1,4 @@
-import {takeLatest, put, call} from 'redux-saga/effects';
+import {takeLatest, put} from 'redux-saga/effects';
 import {
   ADD_CARD_TOKEN,
   PAYMENT_INTENT,
@@ -8,6 +8,7 @@ import {
   GET_CARD_LIST,
   ADD_CARD,
   GET_BANK_LIST,
+  DELETE_BANK,
 } from '../actions/stripe.action';
 import * as stripeApiCall from '../../Api/StripeApi';
 
@@ -199,6 +200,26 @@ function* addCard(action) {
     });
   }
 }
+function* deleteBankOrCard(action) {
+  try {
+    yield put({
+      type: DELETE_BANK.START,
+    });
+    console.log('DELETE_BANK.START', action);
+    const response = yield stripeApiCall.deleteBankOrCard(action);
+    console.log('DELETE_BANK.response', response);
+    yield put({
+      type: DELETE_BANK.SUCCESS,
+      payload: response,
+    });
+  } catch (error) {
+    console.log('DELETE_BANK.error', error);
+    yield put({
+      type: DELETE_BANK.FAIL,
+      payload: error,
+    });
+  }
+}
 export default function* addCardTokenWatcher() {
   yield takeLatest(ADD_CARD_TOKEN.API, addCardToken);
   yield takeLatest(UPDATE_CARD_TOKEN.API, updateCardToken);
@@ -208,4 +229,5 @@ export default function* addCardTokenWatcher() {
   yield takeLatest(GET_CARD_LIST.API, getCardListStripe);
   yield takeLatest(ADD_CARD.API, addCard);
   yield takeLatest(GET_BANK_LIST.API, getBankListStripe);
+  yield takeLatest(DELETE_BANK.API, deleteBankOrCard);
 }
