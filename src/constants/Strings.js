@@ -382,6 +382,7 @@ export default {
     Free: 'Free Trial for 30 days',
     Subscribe_Trial:
       ' onwards, subscription will be mandatory to use the services.',
+    URSubscribed: 'You are Subscribed',
   },
   inqueryForm: {
     Subtitle: 'Have a question? \n Write to us and we’ll get \nback to you',

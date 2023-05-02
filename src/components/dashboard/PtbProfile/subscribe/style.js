@@ -23,7 +23,7 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_7,
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
-    color: Colors.BLACK,
+    color: Colors.COLOR_535858,
   },
   innerText: {
     marginLeft: Value.CONSTANT_VALUE_25,
@@ -41,11 +41,19 @@ export default {
     color: Colors.COLOR_RED,
   },
   price: {
-    fontSize: Value.CONSTANT_VALUE_15,
+    fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
-    color: Colors.BLACK,
+    color: Colors.COLOR_535858,
     marginLeft: Value.CONSTANT_VALUE_25,
     marginRight: Value.CONSTANT_VALUE_25,
     textAlign: Alignment.LEFT,
   },
+  circle: {
+    marginHorizontal: Value.CONSTANT_VALUE_10,
+    width: Value.CONSTANT_VALUE_5,
+    height: Value.CONSTANT_VALUE_5,
+    borderRadius: Value.CONSTANT_VALUE_5,
+    backgroundColor: Colors.COLOR_535858,
+    opacity: 0.5,
+  }
 };
