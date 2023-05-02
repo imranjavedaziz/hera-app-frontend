@@ -7,6 +7,7 @@ import {
   Platform,
   Alert,
   Keyboard,
+  ImageBackground,
   TouchableWithoutFeedback,
 } from 'react-native';
 import React, {
@@ -366,6 +367,9 @@ const SetPreference = ({route, navigation}) => {
             style={globalStyle.clearView}>
             <Image source={Images.ICON_INFO} style={globalStyle.infoIcon}/>
           </TouchableOpacity>
+          <ImageBackground
+            source={Images.CANCEL_BG}
+            style={globalStyle.cancelBg}>
           <TouchableOpacity
             onPress={() => {
               nav();
@@ -375,6 +379,7 @@ const SetPreference = ({route, navigation}) => {
               {Strings.Subscription.Cancel}
             </Text>
           </TouchableOpacity>
+          </ImageBackground>
         </View>
       ) : (
         <>
