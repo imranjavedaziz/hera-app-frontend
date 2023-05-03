@@ -37,7 +37,8 @@ export default {
   iconContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    width: Value.CONSTANT_VALUE_50,
+    flex: 0,
+    // width: Value.CONSTANT_VALUE_50,
     resizeMode: 'contain',
     // height: Value.CONSTANT_VALUE_50,
   },

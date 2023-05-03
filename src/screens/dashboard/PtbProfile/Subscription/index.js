@@ -91,6 +91,42 @@ const handleIosCancelSubscription = async existingSubscriptionProductId => {
     console.log('IosCancelSub error', JSON.stringify(error.message));
   }
 };
+export const CancelSubscription = ({changeModal,setChangeModal,handleCanncel})=>{
+  return (
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={changeModal}
+        onRequestClose={() => {
+          setChangeModal(!changeModal);
+        }}>
+        <View style={styles.changeModalContainer}>
+          <TouchableOpacity
+            style={styles.changeModalBackdrop}
+            onPress={() => setChangeModal(!changeModal)}
+          />
+          <View style={styles.changeModalBox}>
+            <Text style={styles.changeModalTitle} numberOfLines={1}>
+            {Strings.Subscription.CancelSub}
+            </Text>
+            <Text style={styles.changeModalPara}>
+              {Platform.select({ios:Strings.Subscription.CancelSubParaIos,android:Strings.Subscription.CancelSubParaAndroid})}
+            </Text>
+            <Pressable
+              style={styles.changeModalBtn}
+              onPress={() => {
+                setChangeModal(!changeModal);
+                handleCanncel();
+              }}>
+              <Text style={styles.changeModalBtnTxt}>
+                {Strings.Subscription.YesProceed}
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+  );
+}
 const Subscription = () => {
   const navigation = useNavigation();
   const [rolePlans, setRolePlans] = useState([]);
@@ -221,7 +257,7 @@ const Subscription = () => {
       leftIcon={Images.circleIconBack}
       leftPress={() => navigation.goBack()}
       style={styles.headerIcon}
-      rightIcon={Images.I_BUTTON}
+      rightIcon={Images.I_CIRCLE}
       rightPress={() => setModal(!modal)}
     />
   );
@@ -571,7 +607,7 @@ const Subscription = () => {
           />
           <View style={styles.changeModalBox}>
             <Text style={styles.changeModalTitle} numberOfLines={1}>
-              {isPlanChanged
+              {!isPlanChanged
                 ? Strings.Subscription.ChangePlan
                 : Strings.Subscription.UpgradePlan.replace(
                     '{SELECTED_ROLE}',
@@ -583,7 +619,7 @@ const Subscription = () => {
                   )}
             </Text>
             <Text style={styles.changeModalPara}>
-              {isPlanChanged
+              {!isPlanChanged
                 ? Strings.Subscription.ChangePlanPara.replace(
                     '{DATE_END}',
                     moment(
@@ -592,7 +628,7 @@ const Subscription = () => {
                       'YYYY-MM-DD',
                     ).format('LL'),
                   )
-                : Strings.Subscription.UpgradePlanPara}
+                : Platform.select({ios:Strings.Subscription.UpgradePlanPara,android:Strings.Subscription.UpgradePlanParaAndroid})}
             </Text>
             <Pressable
               style={styles.changeModalBtn}

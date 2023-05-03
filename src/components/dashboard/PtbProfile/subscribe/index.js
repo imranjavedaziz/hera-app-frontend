@@ -6,13 +6,14 @@ import {
   Linking,
   Platform,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './style';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import {Colors, Images, Strings} from '../../../../constants';
 import {Fonts} from '../../../../constants/Constants';
+import { CancelSubscription } from '../../../../screens/dashboard/PtbProfile/Subscription';
 
 const cancelURL = Platform.select({
   ios: 'https://apps.apple.com/account/subscriptions',
@@ -36,6 +37,7 @@ const Subscribe = ({MainText, InnerText, Icon, is_trial}) => {
   );
 };
 export const Subscribed = () => {
+  const [changeModal, setChangeModal] = useState(false);
   const navigation = useNavigation();
   const {get_user_detail_res} = useSelector(state => state.Edit_profile);
   console.log('get_user_detail_res', JSON.stringify(get_user_detail_res));
@@ -53,6 +55,7 @@ export const Subscribed = () => {
     'get_user_detail_res.subscription.current_period_end',
   );
   return (
+    <>
     <View
       style={[
         styles.container(),
@@ -110,12 +113,14 @@ export const Subscribed = () => {
           <View
             style={styles.circle}
           />
-          <TouchableOpacity onPress={() => Linking.openURL(cancelURL)}>
+          <TouchableOpacity onPress={() => setChangeModal(true)}>
             <Text style={styles.headerText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
+    <CancelSubscription setChangeModal={setChangeModal} changeModal={changeModal} handleCanncel={() => Linking.openURL(cancelURL)}/>
+    </>
   );
 };
 export default Subscribe;

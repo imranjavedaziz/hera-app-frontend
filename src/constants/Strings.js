@@ -446,10 +446,24 @@ export default {
     Scroll to Subscriptions, then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,
+    UpgradePlanParaAndroid: `You have to first cancel your ongoing plan to select a new subscription.
+    Open the Google Play App then 
+    Tap the profile icon on top right,
+    Tap Payments & Subscription,
+    Select the subscription you want to cancel & Tap Cancel Subscription.`,
     GotIt: 'OKAY, GOT IT!',
     SuccessChanged: 'Subscription Updated!',
     SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
     SuccessUpgradePara: 'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
+    CancelSub: 'Cancel Subscription?',
+    CancelSubParaIos: `To cancel your subscription you need to Click your Account Settings,
+    Scroll to Subscriptions, then click Manage.
+    Next to the HERA subscription,
+    Click Cancel Subscription.`,
+    CancelSubParaAndroid: `To cancel your ongoing plan, Open the Google Play App then 
+    Tap the profile icon on top right,
+    Tap Payments & Subscription,
+    Select the subscription you want to cancel & Tap Cancel Subscription.`,
   },
   Chat: {
     Chat: 'CHAT',
