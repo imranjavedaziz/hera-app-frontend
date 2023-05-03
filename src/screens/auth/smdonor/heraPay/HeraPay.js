@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -22,6 +22,7 @@ import {
   DELETE_BANK,
   GET_BANK_LIST,
   GET_CARD_LIST,
+  cleanDeleted,
   deleteBankOrCard,
   getBankList,
   getCardList,
@@ -35,15 +36,24 @@ import PaymentCards from '../../../../components/PaymentCards/PaymentCards';
 import {dynamicSize} from '../../../../utils/responsive';
 import {Value} from '../../../../constants/FixedValues';
 import _ from 'lodash';
+import {getAccountStatus} from '../../../../redux/actions/AccountStatus';
 
 const HeraPay = () => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const loadingRef = useRef();
   const {log_in_data, stripe_customer_id} = useSelector(state => state.Auth);
   const {getBankListResponse} = useSelector(store => store.getBankList);
   const {getCardListResponse} = useSelector(store => store.getCardList);
+  const {
+    account_status_success,
+    account_status_loading,
+    account_status_error_msg,
+    account_status_fail,
+    account_status_res,
+  } = useSelector(state => state.AccountStatus);
   const [Item, setItem] = useState(null);
   const {deleteBankOrCardResponse} = useSelector(
     store => store.deleteBankOrCard,
@@ -56,9 +66,27 @@ const HeraPay = () => {
           dispatch(getCardList(stripe_customer_id, 3));
         } else {
           dispatch(getBankList(stripe_customer_id, 3));
+          // dispatch(getAccountStatus());
         }
       }
     }, [dispatch]),
+  );
+  //Get Account Status
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !account_status_loading) {
+        dispatch(showAppLoader());
+        if (account_status_success) {
+          dispatch(hideAppLoader());
+         console.log(account_status_res,'account_status_res');
+        } if(account_status_fail) {
+          dispatch(hideAppLoader());
+          dispatch(showAppToast(true, account_status_error_msg))
+        }
+        dispatch(hideAppLoader());
+      }
+      loadingRef.current = account_status_loading;
+    }, [account_status_success, account_status_loading]),
   );
   //Get Bank List
   useEffect(() => {
@@ -97,10 +125,14 @@ const HeraPay = () => {
       let info = deleteBankOrCardResponse?.info;
       setData(info?.data);
       dispatch(hideAppLoader());
+      dispatch(showAppToast(false, 'Successfully Deleted'));
+      dispatch(getBankList(stripe_customer_id, 3));
+      dispatch(cleanDeleted());
     } else if (deleteBankOrCardResponse?.status === DELETE_BANK.FAIL) {
       let error = deleteBankOrCardResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
-      dispatch(showAppToast(false, error));
+      dispatch(showAppToast(true, error));
+      dispatch(cleanDeleted());
     } else {
       dispatch(hideAppLoader());
     }

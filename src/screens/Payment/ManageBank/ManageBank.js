@@ -5,14 +5,13 @@ import styles from './styles';
 import {Alignment, Images, Strings} from '../../../constants';
 import {useNavigation} from '@react-navigation/native';
 import {IconHeader} from '../../../components/Header';
-import {validationBank, Input_Type} from '../../../constants/Constants';
+import {validationBank, Input_Type, Routes} from '../../../constants/Constants';
 import {formatACNumber, validateFullName} from '../../../utils/commonFunction';
 import {ValidationMessages} from '../../../constants/Strings';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   ADD_BANK_TOKEN,
   ADD_CARD,
-  ADD_CARD_TOKEN,
   UPDATE_BANK_TOKEN,
   addBankToken,
   addCard,
@@ -23,6 +22,8 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
+import {replace} from '../../../utils/RootNavigation';
+import {bankToken} from '../../../redux/actions/Auth';
 
 const ManageBank = () => {
   const navigation = useNavigation();
@@ -45,8 +46,8 @@ const ManageBank = () => {
         bankResponse.info.bank_account.country,
         bankResponse.info.bank_account.currency,
       );
-      dispatch(hideAppLoader());
       const token = bankResponse.info.id;
+      dispatch(bankToken(token));
       dispatch(addCard(stripe_customer_id, bankDetails, token));
       dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {
@@ -65,7 +66,6 @@ const ManageBank = () => {
     } else if (response?.status === UPDATE_BANK_TOKEN.SUCCESS) {
       dispatch(hideAppLoader());
       dispatch({type: UPDATE_BANK_TOKEN.END});
-      // replace(ROUTE_NAME.BANK_KYC);
     } else if (response?.status === UPDATE_BANK_TOKEN.FAIL) {
       dispatch(hideAppLoader());
       let error =
@@ -85,7 +85,9 @@ const ManageBank = () => {
       console.log(addCards, 'addCardres');
       //need to test
       dispatch(showAppToast(false, 'Bank Added to profile!'));
-      navigation.goBack();
+      replace(Routes.KycScreen);
+      dispatch(hideAppLoader());
+      cleanRecord();
     } else if (addCards?.status === ADD_CARD.FAIL) {
       dispatch(showAppToast(true, error));
       let error = addCards?.info ?? 'Something went wrong';
@@ -96,7 +98,7 @@ const ManageBank = () => {
   }, [addCards]);
   const cleanRecord = (clearToken = true) => {
     if (clearToken) {
-      dispatch({type: ADD_CARD_TOKEN.CLEAN});
+      dispatch({type: ADD_CARD.CLEAN});
     }
   };
   const savebankToken = (token, countryCode, currencyCode) => {
@@ -106,7 +108,6 @@ const ManageBank = () => {
       currency: currencyCode,
       country_code: countryCode,
     };
-
     console.log('payload **********', payload);
     dispatch(updateBankToken(payload));
   };
@@ -121,7 +122,6 @@ const ManageBank = () => {
     />
   );
   const handleOnchange = (text, input) => {
-    console.log(text, input);
     let prevoius = inputs[input];
     if (input === Input_Type.accountholder && !validateFullName(text)) {
       setInputs(prevState => ({...prevState, [input]: prevoius ?? ''}));

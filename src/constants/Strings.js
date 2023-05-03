@@ -87,6 +87,10 @@ export const ValidationMessages = {
   NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
   REQUIRED: 'Required!',
   INVALID: 'Invalid!',
+  DISCARD_KYC: 'Discard KYC?',
+  YES_DISCARD: 'Yes, Discard',
+  NOT_NOW: 'Not Now',
+  DISCARD_KYC_DESC: `Your bank will not be added and you won't be able to receive and payments.`,
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
@@ -566,7 +570,7 @@ export default {
   Meryl_Anderson: 'Meryl Anderson',
 
   //Chat
-  Type: 'Parent-To-Be',
+  Type: 'Intended Parent',
   Liked_your_profile: 'Liked your profile',
   Start_Converstation:
     'Seems like a good match?\nLike and start a conversation!',
@@ -649,6 +653,17 @@ export default {
     Currency: 'Currency',
     Country: 'Country',
     Add: 'SAVE BANK',
+    CompleteKyc: 'Complete your KYC',
+    SAVE: 'Save',
+    FIRST_NAME: 'First Name',
+    LAST_NAME: 'Last Name',
+    ADDRESS: 'Address',
+    ZIP_CODE: 'ZipCode',
+    SSN: 'SNN (last 4 Digits)',
+    STATE: 'State',
+    CITY: 'City',
+    PhoneNumber: 'Phone Number',
+    TaxID: 'Tax ID (Optional)',
   },
 
   STATIC_GENDER: [
@@ -665,4 +680,7 @@ export default {
   UNABLE_TO_SHOW_DATA:
     'Unable to show data as your internet might be turned off.',
   RETRY: 'Retry',
+  UploadProof: 'Upload Proof of Verification',
+  FILE_MAX_SIZE: 'Max size: 10 MB',
+  INVALID_FORMAT: 'Invalid Format',
 };

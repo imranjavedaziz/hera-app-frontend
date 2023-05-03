@@ -7,13 +7,13 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     justifyContent: Alignment.FLEX_START,
     alignItems: Alignment.CENTER,
-    backgroundColor: Colors.BACKGROUND,
+    backgroundColor: Colors.WHITE,
   },
   pdf: {
     flex: Value.CONSTANT_VALUE_1,
     width: width,
     height: height,
-    backgroundColor: Colors.BACKGROUND,
+    backgroundColor: Colors.WHITE,
   },
   androidHeaderIcons: {
     marginLeft: Value.CONSTANT_VALUE_30,
