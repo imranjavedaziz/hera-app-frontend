@@ -9,8 +9,11 @@ import {
   Modal,
   Pressable,
   TouchableOpacity,
+  NativeModules,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
+// import { InAppUtils } from 'react-native-in-app-utils';
+const {InAppUtils} = NativeModules;
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
@@ -32,6 +35,7 @@ import {
   showAppToast,
 } from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
+// import { InAppUtils } from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import {IconHeader} from '../../../../components/Header';
@@ -45,7 +49,85 @@ import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
 
-const Subscription = props => {
+// Clear the cache
+const clearIAPCache = () => {
+  if (Platform.OS === 'ios') {
+    RNIap.clearTransactionIOS();
+  } else {
+    RNIap.flushFailedPurchasesCachedAsPendingAndroid();
+    RNIap.flushExpiredPurchasesCachedAndroid();
+  }
+};
+// Implement the subscription change flow
+const handleIosCancelSubscription = async existingSubscriptionProductId => {
+  try {
+    InAppUtils.canMakePayments(canMakePayments => {
+      if (canMakePayments) {
+        InAppUtils.restorePurchases((error, response) => {
+          if (error) {
+            // Handle any errors or exceptions
+            console.log('canMakePayments error', JSON.stringify(error));
+            return;
+          }
+          const purchasedSubscriptions = response.filter(
+            item =>
+              item.productIdentifier === existingSubscriptionProductId &&
+              item.transactionReceipt,
+          );
+          if (purchasedSubscriptions.length > 0) {
+            const transactionId = purchasedSubscriptions[0].transactionReceipt;
+            // InAppUtils.finishTransaction(transactionId, (error) => {
+            //   if (error) {
+            //     console.log('finishTransaction error',JSON.stringify(error));
+            //     return;
+            //   }
+            // });
+          }
+        });
+      }
+    });
+  } catch (error) {
+    // Handle any errors or exceptions
+    console.log('IosCancelSub error', JSON.stringify(error.message));
+  }
+};
+export const CancelSubscription = ({changeModal,setChangeModal,handleCanncel})=>{
+  return (
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={changeModal}
+        onRequestClose={() => {
+          setChangeModal(!changeModal);
+        }}>
+        <View style={styles.changeModalContainer}>
+          <TouchableOpacity
+            style={styles.changeModalBackdrop}
+            onPress={() => setChangeModal(!changeModal)}
+          />
+          <View style={styles.changeModalBox}>
+            <Text style={styles.changeModalTitle} numberOfLines={1}>
+            {Strings.Subscription.CancelSub}
+            </Text>
+            <Text style={styles.changeModalPara}>
+              {Platform.select({ios:Strings.Subscription.CancelSubParaIos,android:Strings.Subscription.CancelSubParaAndroid})}
+            </Text>
+            <Pressable
+              style={styles.changeModalBtn}
+              onPress={() => {
+                setChangeModal(!changeModal);
+                handleCanncel();
+              }}>
+              <Text style={styles.changeModalBtnTxt}>
+                {Strings.Subscription.YesProceed}
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+  );
+}
+const Subscription = () => {
   const navigation = useNavigation();
   const [rolePlans, setRolePlans] = useState([]);
   const [androidPlans, setAndroidPlans] = useState([]);
@@ -56,6 +138,7 @@ const Subscription = props => {
   const [isPlanChanged, setPlanChanged] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
+  const [oldReceipt, setOldReceipt] = React.useState([]);
   const IAPService = InAPPPurchase.getInstance();
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
@@ -86,8 +169,49 @@ const Subscription = props => {
     dispatch(getSubscriptionPlan());
   }, []);
 
-  console.log('_purchasereceipt line 79', _purchasereceipt);
-
+  const unsubscribeOldPurchase = async () => {
+    if (
+      subscription_plan_res?.data?.subscription != null &&
+      oldReceipt.length > 0
+    ) {
+      const existingSubscriptionProductId = Platform.select({
+        ios: subscription_plan_res?.data?.subscription.subscription_plan
+          .ios_product,
+        android:
+          subscription_plan_res?.data?.subscription.subscription_plan
+            .android_product,
+      });
+      if (Platform.OS === 'ios') {
+        handleIosCancelSubscription(existingSubscriptionProductId);
+      } else {
+        let isUnsubscribed = false;
+        oldReceipt.forEach(async rec => {
+          // await RNIap.finishTransaction(rec.transactionReceipt);
+          if (
+            rec.productId === existingSubscriptionProductId &&
+            !isUnsubscribed
+          ) {
+            try {
+              console.log('unsubscribeOldPurchase', rec.productId);
+              await RNIap.finishTransaction({rec, isConsumable: true});
+              isUnsubscribed = true;
+            } catch (e) {
+              console.log('unsubscribeOldPurchase err', JSON.stringify(e));
+            }
+          }
+        });
+      }
+    }
+  };
+  const getOldPurchase = async () => {
+    const p = await RNIap.getAvailablePurchases({onlyIncludeActiveItems: true});
+    setOldReceipt(p);
+    console.log('Old reciet data', JSON.stringify(p));
+    console.log('Old reciet arr len', p.length);
+  };
+  useEffect(() => {
+    getOldPurchase();
+  }, []);
   useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
       if (subscription_plan_success) {
@@ -109,11 +233,11 @@ const Subscription = props => {
         console.log('CHECKING CREATE SUB LINE NO 77');
         dispatch(getSubscriptionStatus());
         setCallApi(false);
-        setSelectCheckBox(null);
         dispatch(hideAppLoader());
         if (isPlanChanged || isPlanUpgrade) {
           setSuccessModal(true);
         } else {
+          setSelectCheckBox(null);
           navigation.goBack();
         }
       }
@@ -130,12 +254,11 @@ const Subscription = props => {
 
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.ICON_INFO}
-      leftIicon={styles.info}
-      leftPress={() => setModal(!modal)}
+      leftIcon={Images.circleIconBack}
+      leftPress={() => navigation.goBack()}
       style={styles.headerIcon}
-      txt={Strings.Subscription.Later}
-      txtPress={() => navigation.goBack()}
+      rightIcon={Images.I_CIRCLE}
+      rightPress={() => setModal(!modal)}
     />
   );
 
@@ -153,71 +276,62 @@ const Subscription = props => {
   }, [isCallApi]);
   const purchaseAPI = item => {
     console.log('CHECKING CREATE SUB LINE NO 141', item);
-    let payload = {
-      device_type: Platform.OS === 'android' ? 'android' : 'ios',
-      product_id: item?.productId,
-      purchase_token: item?.transactionReceipt,
-    };
+    const payload = Platform.select({
+      ios: {
+        device_type: 'ios',
+        product_id: item?.productId,
+        purchase_token: item?.transactionReceipt,
+      },
+      android: {
+        device_type: 'android',
+        product_id: item?.productId,
+        purchase_token: item?.purchaseToken,
+      },
+    });
     console.log('LINE NUMBER 143 PAYLOAD', payload);
     dispatch(createSubscription(payload));
   };
   React.useEffect(async () => {
     IAPService.initializeConnection();
-    const allProducts = await IAPService.getIAPProducts();
     await getSubscription();
-    console.log('ALL PRODUCT ID LINE NO 127', allProducts);
     return () => {
       IAPService.endIAPConnection();
     };
   }, []);
 
   const subscribePlan = (item, type) => {
-    if (Platform.OS === 'ios') {
-      if (item === null) {
-        dispatch(showAppToast(true, 'Please choose a plan!'));
-      } else {
-        console.log(
-          'LINE NUMBER IOS 134 item',
-          item,
-          selectCheckBox?.ios_product,
-        );
-        dispatch(showAppLoader());
-        requestSubscriptionIOS(
-          selectCheckBox?.ios_product,
-          selectCheckBox,
-          type,
-        );
-      }
-    } else if (Platform.OS === 'android') {
-      if (item === null) {
-        dispatch(showAppToast(true, 'Please choose a plan!'));
-      } else {
-        dispatch(showAppLoader());
-        console.log(
-          'LINE ANDROID 186 item',
-          item,
-          selectCheckBox?.android_product,
-        );
-        requestSubscriptionAndroid(
-          selectCheckBox?.android_product,
-          // 'hera_monthly',
-          selectCheckBox,
-          type,
-        );
-      }
+    if (item === null) {
+      dispatch(showAppToast(true, 'Please choose a plan!'));
+    } else if (Platform.OS === 'ios') {
+      console.log(
+        'LINE NUMBER IOS 134 item',
+        item,
+        selectCheckBox?.ios_product,
+      );
+      dispatch(showAppLoader());
+      requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
+    } else {
+      dispatch(showAppLoader());
+      console.log(
+        'LINE ANDROID 186 item',
+        item,
+        selectCheckBox?.android_product,
+      );
+      requestSubscriptionAndroid(
+        selectCheckBox?.android_product,
+        // 'hera_monthly',
+        selectCheckBox,
+        type,
+      );
     }
   };
 
   const requestSubscriptionAndroid = async (sku, item, type) => {
-    const selectedAndroidPlan = androidPlans.find(plan => {
-      return plan.productId === sku;
-    });
     const subscriptionOffers = {
       subscriptionOffers: [
         {
           sku,
-          offerToken:
-            selectedAndroidPlan.subscriptionOfferDetails[0].offerToken,
+          offerToken: item.offer_token,
         },
       ],
     };
@@ -228,13 +342,23 @@ const Subscription = props => {
       .then(async result => {
         console.log('android purchase 215 line', result);
         const receipt = result[0].transactionReceipt;
-        console.log('android purchase 217 line', receipt);
+        console.log('android purchase 217 line', result);
+        console.log(
+          'android purchase 218 line',
+          JSON.parse(receipt).purchaseToken,
+        );
         if (receipt) {
           try {
             setPurchaseReceipt(result[0]);
             setCallApi(true);
-            RNIap.acknowledgePurchaseAndroid({token: result.purchaseToken});
+            await RNIap.acknowledgePurchaseAndroid({
+              token: JSON.parse(receipt).purchaseToken,
+              developerPayload: '',
+            });
             await RNIap.finishTransaction({result, isConsumable: true});
+            if (isPlanChanged) {
+              unsubscribeOldPurchase();
+            }
           } catch (ackErr) {
             console.log('ERROR LINE NO 101', ackErr);
           }
@@ -249,19 +373,24 @@ const Subscription = props => {
     RNIap.requestSubscription({sku})
       .then(async result => {
         console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
-        const receipt = result.transactionReceipt;
-        if (receipt) {
-          try {
+        try {
+          const receipt = result.transactionReceipt;
+          if (isPlanChanged) {
+            unsubscribeOldPurchase();
+          }
+          if (receipt) {
             setPurchaseReceipt(result);
             setCallApi(true);
-            await RNIap.finishTransaction({result, isConsumable: true});
-          } catch (ackErr) {
-            console.log('ERROR LINE NO 101', ackErr);
+            if (result?.transactionId) {
+              await RNIap.finishTransaction({result, isConsumable: true});
+            }
           }
+        } catch (ackErr) {
+          console.log('ERROR LINE NO 101', ackErr);
         }
       })
       .catch(err => {
-        console.warn(`IAP Req ERROR %%%%% ${err.code}`, err.message, err);
+        console.warn(`IAP ios ERROR %%%%% ${err.code}`, err.message, err);
         dispatch(hideAppLoader());
         dispatch(showAppToast(true, err.message));
       });
@@ -289,21 +418,26 @@ const Subscription = props => {
       setRolePlans(sectionedPlan);
       setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
     }
+    if (subscription_plan_res?.data?.subscription != null) {
+      clearIAPCache();
+    }
   }, [subscription_plan_res]);
   const handlePurchaseSubcription = () => {
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
     } else {
       if (
+        selectCheckBox !== null &&
         subscription_plan_res?.data?.preference?.role_id_looking_for !==
-        selectCheckBox.role_id_looking_for
+          selectCheckBox.role_id_looking_for
       ) {
         setPlanUpgrade(false);
         setPlanChanged(true);
         setChangeModal(true);
       } else if (
+        selectCheckBox !== null &&
         selectCheckBox.price >
-        subscription_plan_res?.data?.subscription?.subscription_plan?.price
+          subscription_plan_res?.data?.subscription?.subscription_plan?.price
       ) {
         setPlanChanged(false);
         setPlanUpgrade(true);
@@ -325,24 +459,25 @@ const Subscription = props => {
           keyboardShouldPersistTaps="handled">
           <View style={styles.mainContainer}>
             <Image source={Images.LOGO} style={styles.logo} />
-            {subscriptionStatus?.data?.is_trial && (
-              <View style={styles.blueContain}>
-                <Image
-                  source={Images.whiteTick}
-                  style={{paddingLeft: Value.CONSTANT_VALUE_5}}
-                />
-                <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>
-                  Your free trial expires on
-                  <Text
-                    style={[
-                      styles.txting(Fonts.OpenSansBold, 0),
-                      {marginRight: Value.CONSTANT_VALUE_5},
-                    ]}>
-                    {` ${formatedDate}`}
+            {subscriptionStatus?.data?.is_trial &&
+              subscriptionStatus?.data?.status > 0 && (
+                <View style={styles.blueContain}>
+                  <Image
+                    source={Images.whiteTick}
+                    style={{paddingLeft: Value.CONSTANT_VALUE_5}}
+                  />
+                  <Text style={styles.txting(Fonts.OpenSansRegular, 13)}>
+                    Your free trial expires on
+                    <Text
+                      style={[
+                        styles.txting(Fonts.OpenSansBold, 0),
+                        {marginRight: Value.CONSTANT_VALUE_5},
+                      ]}>
+                      {` ${formatedDate}`}
+                    </Text>
                   </Text>
-                </Text>
-              </View>
-            )}
+                </View>
+              )}
             <TitleComp
               containerStyle={{marginBottom: 0}}
               Title={Strings.subscribe.Subscribe_Now}
@@ -414,48 +549,46 @@ const Subscription = props => {
                 onPress={handlePurchaseSubcription}
               />
             </View>
-            <View>
-              <View style={styles.textView}>
-                <Text style={styles.mainText}>
-                  <Text style={{color: 'red'}}>*</Text>
-                  {`${Strings.Subscription.BySubs} ${
-                    Platform.OS === 'ios'
-                      ? Strings.Subscription.IOSStoreName
-                      : Strings.Subscription.AndroidStoreName
-                  }${Strings.Subscription.RenewText} ${
-                    Strings.Subscription.TimePeriodText
-                  }${Strings.Subscription.PaymentCharge}${
-                    Platform.OS === 'ios'
-                      ? Strings.Subscription.IOSStoreName
-                      : Strings.Subscription.AndroidStoreName
-                  } ${Strings.Subscription.CONFIRMTEXT} ${
-                    Strings.Subscription.YOUR
-                  } ${
-                    Platform.OS === 'ios'
-                      ? Strings.Subscription.IOSStoreName
-                      : Strings.Subscription.AndroidStoreName
-                  }${Strings.Subscription.LastmainText} `}
-                  <Text
-                    style={styles.terms}
-                    onPress={() =>
-                      navigation.navigate(Routes.WebViewUrl, {
-                        url: TERMS_OF_USE_URL,
-                      })
-                    }>
-                    {Strings.Subscription.TermsServices}
-                  </Text>
-                  {Strings.Subscription.And}
-                  <Text
-                    style={styles.terms}
-                    onPress={() =>
-                      navigation.navigate(Routes.WebViewUrl, {
-                        url: PRIVACY_URL,
-                      })
-                    }>
-                    {Strings.Subscription.PrivacyPolicy}
-                  </Text>
+            <View style={styles.textView}>
+              <Text style={styles.mainText}>
+                <Text style={{color: 'red'}}>*</Text>
+                {`${Strings.Subscription.BySubs} ${
+                  Platform.OS === 'ios'
+                    ? Strings.Subscription.IOSStoreName
+                    : Strings.Subscription.AndroidStoreName
+                }${Strings.Subscription.RenewText} ${
+                  Strings.Subscription.TimePeriodText
+                }${Strings.Subscription.PaymentCharge}${
+                  Platform.OS === 'ios'
+                    ? Strings.Subscription.IOSStoreName
+                    : Strings.Subscription.AndroidStoreName
+                } ${Strings.Subscription.CONFIRMTEXT} ${
+                  Strings.Subscription.YOUR
+                } ${
+                  Platform.OS === 'ios'
+                    ? Strings.Subscription.IOSStoreName
+                    : Strings.Subscription.AndroidStoreName
+                }${Strings.Subscription.LastmainText} `}
+                <Text
+                  style={styles.terms}
+                  onPress={() =>
+                    navigation.navigate(Routes.WebViewUrl, {
+                      url: TERMS_OF_USE_URL,
+                    })
+                  }>
+                  {Strings.Subscription.TermsServices}
                 </Text>
-              </View>
+                {Strings.Subscription.And}
+                <Text
+                  style={styles.terms}
+                  onPress={() =>
+                    navigation.navigate(Routes.WebViewUrl, {
+                      url: PRIVACY_URL,
+                    })
+                  }>
+                  {Strings.Subscription.PrivacyPolicy}
+                </Text>
+              </Text>
             </View>
           </View>
         </ScrollView>
@@ -474,7 +607,7 @@ const Subscription = props => {
           />
           <View style={styles.changeModalBox}>
             <Text style={styles.changeModalTitle} numberOfLines={1}>
-              {isPlanChanged
+              {!isPlanChanged
                 ? Strings.Subscription.ChangePlan
                 : Strings.Subscription.UpgradePlan.replace(
                     '{SELECTED_ROLE}',
@@ -486,7 +619,7 @@ const Subscription = props => {
                   )}
             </Text>
             <Text style={styles.changeModalPara}>
-              {isPlanChanged
+              {!isPlanChanged
                 ? Strings.Subscription.ChangePlanPara.replace(
                     '{DATE_END}',
                     moment(
@@ -495,7 +628,7 @@ const Subscription = props => {
                       'YYYY-MM-DD',
                     ).format('LL'),
                   )
-                : Strings.Subscription.UpgradePlanPara}
+                : Platform.select({ios:Strings.Subscription.UpgradePlanPara,android:Strings.Subscription.UpgradePlanParaAndroid})}
             </Text>
             <Pressable
               style={styles.changeModalBtn}
@@ -549,6 +682,7 @@ const Subscription = props => {
               style={styles.changeModalBtn}
               onPress={() => {
                 setSuccessModal(!successModal);
+                setSelectCheckBox(null);
                 navigation.goBack();
               }}>
               <Text style={styles.changeModalBtnTxt}>

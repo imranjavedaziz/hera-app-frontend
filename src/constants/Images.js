@@ -78,6 +78,7 @@ export default {
   HEART: require('../assets/icons/heart/heart.png'),
   iconWhite: require('../assets/icons/iconWhite.png'),
   I_BUTTON: require('../assets/icons/iButton/iButton.png'),
+  I_CIRCLE: require('../assets/icons/iconInfo/iconInfo.png'),
   THUMB_DOWN: require('../assets/icons/thumbDown/thumbDown.png'),
   THUMB_UP: require('../assets/icons/thumbUp/thumbUp.png'),
   ICON_SEND: require('../assets/icons/iconsend/iconsend.png'),

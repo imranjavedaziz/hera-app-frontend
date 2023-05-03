@@ -31,13 +31,14 @@ export default {
   Icon: {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    width: Value.CONSTANT_VALUE_34,
-    height: Value.CONSTANT_VALUE_34,
+    width: Value.CONSTANT_VALUE_25,
+    height: Value.CONSTANT_VALUE_25,
   },
   iconContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    width: Value.CONSTANT_VALUE_50,
+    flex: 0,
+    // width: Value.CONSTANT_VALUE_50,
     resizeMode: 'contain',
     // height: Value.CONSTANT_VALUE_50,
   },
