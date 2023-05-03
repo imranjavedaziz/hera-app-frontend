@@ -9,11 +9,11 @@ import {
   Modal,
   Pressable,
   TouchableOpacity,
-  NativeModules
+  NativeModules,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 // import { InAppUtils } from 'react-native-in-app-utils';
-const { InAppUtils } = NativeModules;
+const {InAppUtils} = NativeModules;
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
@@ -50,28 +50,29 @@ import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
 
 // Clear the cache
-const clearIAPCache = ()=>{
+const clearIAPCache = () => {
   if (Platform.OS === 'ios') {
     RNIap.clearTransactionIOS();
-  }
-  else {
+  } else {
     RNIap.flushFailedPurchasesCachedAsPendingAndroid();
     RNIap.flushExpiredPurchasesCachedAndroid();
   }
-}
+};
 // Implement the subscription change flow
-const handleIosCancelSubscription = async (existingSubscriptionProductId) => {
+const handleIosCancelSubscription = async existingSubscriptionProductId => {
   try {
-    InAppUtils.canMakePayments((canMakePayments) => {
+    InAppUtils.canMakePayments(canMakePayments => {
       if (canMakePayments) {
         InAppUtils.restorePurchases((error, response) => {
           if (error) {
             // Handle any errors or exceptions
-            console.log('canMakePayments error',JSON.stringify(error));
+            console.log('canMakePayments error', JSON.stringify(error));
             return;
           }
-          const purchasedSubscriptions = response.filter((item) =>
-            item.productIdentifier === existingSubscriptionProductId && item.transactionReceipt
+          const purchasedSubscriptions = response.filter(
+            item =>
+              item.productIdentifier === existingSubscriptionProductId &&
+              item.transactionReceipt,
           );
           if (purchasedSubscriptions.length > 0) {
             const transactionId = purchasedSubscriptions[0].transactionReceipt;
@@ -87,7 +88,7 @@ const handleIosCancelSubscription = async (existingSubscriptionProductId) => {
     });
   } catch (error) {
     // Handle any errors or exceptions
-    console.log('IosCancelSub error',JSON.stringify(error.message));
+    console.log('IosCancelSub error', JSON.stringify(error.message));
   }
 };
 const Subscription = () => {
@@ -144,14 +145,16 @@ const Subscription = () => {
           subscription_plan_res?.data?.subscription.subscription_plan
             .android_product,
       });
-      if(Platform.OS==='ios'){
+      if (Platform.OS === 'ios') {
         handleIosCancelSubscription(existingSubscriptionProductId);
-      }
-      else{
+      } else {
         let isUnsubscribed = false;
         oldReceipt.forEach(async rec => {
           // await RNIap.finishTransaction(rec.transactionReceipt);
-          if (rec.productId === existingSubscriptionProductId && !isUnsubscribed) {
+          if (
+            rec.productId === existingSubscriptionProductId &&
+            !isUnsubscribed
+          ) {
             try {
               console.log('unsubscribeOldPurchase', rec.productId);
               await RNIap.finishTransaction({rec, isConsumable: true});
@@ -165,7 +168,7 @@ const Subscription = () => {
     }
   };
   const getOldPurchase = async () => {
-    const p = await RNIap.getAvailablePurchases({onlyIncludeActiveItems:true});
+    const p = await RNIap.getAvailablePurchases({onlyIncludeActiveItems: true});
     setOldReceipt(p);
     console.log('Old reciet data', JSON.stringify(p));
     console.log('Old reciet arr len', p.length);
@@ -215,11 +218,11 @@ const Subscription = () => {
 
   const headerComp = () => (
     <IconHeader
-      leftIcon={Images.I_BUTTON}
-      leftPress={() => setModal(!modal)}
+      leftIcon={Images.circleIconBack}
+      leftPress={() => navigation.goBack()}
       style={styles.headerIcon}
-      txt={Strings.Subscription.Later}
-      txtPress={() => navigation.goBack()}
+      rightIcon={Images.I_BUTTON}
+      rightPress={() => setModal(!modal)}
     />
   );
 
@@ -335,14 +338,14 @@ const Subscription = () => {
       .then(async result => {
         console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         try {
-        const receipt = result.transactionReceipt;
-        if (isPlanChanged) {
-          unsubscribeOldPurchase();
-        }
-        if (receipt) {
+          const receipt = result.transactionReceipt;
+          if (isPlanChanged) {
+            unsubscribeOldPurchase();
+          }
+          if (receipt) {
             setPurchaseReceipt(result);
             setCallApi(true);
-            if(result?.transactionId){
+            if (result?.transactionId) {
               await RNIap.finishTransaction({result, isConsumable: true});
             }
           }
@@ -379,7 +382,7 @@ const Subscription = () => {
       setRolePlans(sectionedPlan);
       setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
     }
-    if (subscription_plan_res?.data?.subscription != null){
+    if (subscription_plan_res?.data?.subscription != null) {
       clearIAPCache();
     }
   }, [subscription_plan_res]);
@@ -510,48 +513,46 @@ const Subscription = () => {
                 onPress={handlePurchaseSubcription}
               />
             </View>
-            <View>
-              <View style={styles.textView}>
-                <Text style={styles.mainText}>
-                  <Text style={{color: 'red'}}>*</Text>
-                  {`${Strings.Subscription.BySubs} ${
-                    Platform.OS === 'ios'
-                      ? Strings.Subscription.IOSStoreName
-                      : Strings.Subscription.AndroidStoreName
-                  }${Strings.Subscription.RenewText} ${
-                    Strings.Subscription.TimePeriodText
-                  }${Strings.Subscription.PaymentCharge}${
-                    Platform.OS === 'ios'
-                      ? Strings.Subscription.IOSStoreName
-                      : Strings.Subscription.AndroidStoreName
-                  } ${Strings.Subscription.CONFIRMTEXT} ${
-                    Strings.Subscription.YOUR
-                  } ${
-                    Platform.OS === 'ios'
-                      ? Strings.Subscription.IOSStoreName
-                      : Strings.Subscription.AndroidStoreName
-                  }${Strings.Subscription.LastmainText} `}
-                  <Text
-                    style={styles.terms}
-                    onPress={() =>
-                      navigation.navigate(Routes.WebViewUrl, {
-                        url: TERMS_OF_USE_URL,
-                      })
-                    }>
-                    {Strings.Subscription.TermsServices}
-                  </Text>
-                  {Strings.Subscription.And}
-                  <Text
-                    style={styles.terms}
-                    onPress={() =>
-                      navigation.navigate(Routes.WebViewUrl, {
-                        url: PRIVACY_URL,
-                      })
-                    }>
-                    {Strings.Subscription.PrivacyPolicy}
-                  </Text>
+            <View style={styles.textView}>
+              <Text style={styles.mainText}>
+                <Text style={{color: 'red'}}>*</Text>
+                {`${Strings.Subscription.BySubs} ${
+                  Platform.OS === 'ios'
+                    ? Strings.Subscription.IOSStoreName
+                    : Strings.Subscription.AndroidStoreName
+                }${Strings.Subscription.RenewText} ${
+                  Strings.Subscription.TimePeriodText
+                }${Strings.Subscription.PaymentCharge}${
+                  Platform.OS === 'ios'
+                    ? Strings.Subscription.IOSStoreName
+                    : Strings.Subscription.AndroidStoreName
+                } ${Strings.Subscription.CONFIRMTEXT} ${
+                  Strings.Subscription.YOUR
+                } ${
+                  Platform.OS === 'ios'
+                    ? Strings.Subscription.IOSStoreName
+                    : Strings.Subscription.AndroidStoreName
+                }${Strings.Subscription.LastmainText} `}
+                <Text
+                  style={styles.terms}
+                  onPress={() =>
+                    navigation.navigate(Routes.WebViewUrl, {
+                      url: TERMS_OF_USE_URL,
+                    })
+                  }>
+                  {Strings.Subscription.TermsServices}
                 </Text>
-              </View>
+                {Strings.Subscription.And}
+                <Text
+                  style={styles.terms}
+                  onPress={() =>
+                    navigation.navigate(Routes.WebViewUrl, {
+                      url: PRIVACY_URL,
+                    })
+                  }>
+                  {Strings.Subscription.PrivacyPolicy}
+                </Text>
+              </Text>
             </View>
           </View>
         </ScrollView>
