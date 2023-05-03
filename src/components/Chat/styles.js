@@ -45,7 +45,7 @@ export default {
   msg: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_14),
-    color: Colors.BLACK_0,
+    color: Colors.BLACK,
     fontWeight: Alignment.BOLD,
   },
   msgRead: {

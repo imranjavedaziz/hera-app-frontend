@@ -396,12 +396,7 @@ const ChatDetail = props => {
     setOpen(true);
   };
   const onSendDoc = async () => {
-    if ((await NetInfo.isConnected.fetch()) !== true) {
-      dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
-    } else if (
-      !subscriptionStatus?.data?.status &&
-      parseInt(user?.role_id) === 2
-    ) {
+    if (!subscriptionStatus?.data?.status && parseInt(user?.role_id) === 2) {
       navigation.navigate(Routes.Subscription);
     } else if (
       parseInt(props?.route?.params?.item?.status_id) !== 1 ||
@@ -485,6 +480,8 @@ const ChatDetail = props => {
                     : styles.senderID
                   : item?.currentMessage.type === 'image/jpeg'
                   ? styles.receiverImgID
+                  : item?.currentMessage.type === 'application/pdf'
+                  ? styles.receiverPdf
                   : styles.receiverID,
               ]}>
               <View
@@ -1098,7 +1095,7 @@ const ChatDetail = props => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate(Routes.AllMedia, {
-                  to_user_id: props?.route?.params?.item,
+                  item: props?.route?.params?.item,
                 });
                 setOpen(false);
               }}

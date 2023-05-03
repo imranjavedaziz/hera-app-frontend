@@ -1,6 +1,7 @@
 import {Alert, BackHandler} from 'react-native';
 import {Routes} from '../constants/Constants';
 import {ValidationMessages} from '../constants/Strings';
+import moment from 'moment';
 
 export const deviceHandler = (navigation, screen) => {
   const backAction = () => {
@@ -52,6 +53,28 @@ export function formatACNumber(accountNumber) {
     return accountNumber;
   }
 }
+export function padLeadingZeros(num, size) {
+  var s = num + '';
+  while (s.length < size) s = '0' + s;
+  return s;
+}
+export const getNumberFromString = text => {
+  let number = text.replace(/[^\d]/g, '');
+  return Number(number);
+};
+
+export function validateName(name) {
+  const regEx = /^[a-zA-Z]*$/;
+
+  return regEx.test(name);
+}
+export function isPositiveInteger(str) {
+  if (typeof str !== 'string') {
+    return false;
+  }
+  const num = Number(str);
+  return Number.isInteger(num) && num >= 0;
+}
 
 export function formatExpiryDate(cardExpiry) {
   let txt = cardExpiry.replace('/', '');
@@ -65,3 +88,55 @@ export function validateFullName(name) {
 
   return regEx.test(name);
 }
+export const DateFormats = {
+  MMMDDYYYY: 'MMM DD, YYYY',
+  MMMMDDYYYY: 'MMMM DD, YYYY',
+  YYYYMMDD: 'YYYY-MM-DD',
+  utcFormat: 'YYYY-MM-DD HH:mm:ss',
+};
+
+export function dateStrToDate(str, format = DateFormats.MMMDDYYYY) {
+  return moment(str, format);
+}
+
+export function dateToStringFormatter(date, format = DateFormats.MMMDDYYYY) {
+  if (date) {
+    return moment(date).format(format);
+  } else {
+    return '';
+  }
+}
+export const validMobileNumber = text => {
+  let number = text.replace(/[^\d]/g, '');
+  const reg = /^\d{8,15}$/;
+  return reg.test(number);
+};
+export const validateZipCode = text => {
+  const reg = /(^[a-zA-Z0-9]*$)/;
+  return reg.test(text);
+};
+export function validateImage(path) {
+  const reg = /\.(jpg|jpeg|png)$/;
+  return reg.test(path);
+}
+export function getFileExtension(filename, splitFrom) {
+  return filename.substring(
+    filename.lastIndexOf(splitFrom) + 1,
+    filename.length,
+  );
+}
+export const getMediaFormatedForLibrary = media => {
+  return {
+    uri: media.path,
+    type: media.mime,
+    name: getFileExtension(media.path, '/'),
+  };
+};
+export const jsonToFormData = req => {
+  let formData = new FormData();
+  Object.entries(req).forEach(entry => {
+    const [key, value] = entry;
+    formData.append(key, value);
+  });
+  return formData;
+};

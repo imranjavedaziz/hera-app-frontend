@@ -173,6 +173,11 @@ export const cleanCardToken = data => {
     data,
   };
 };
+export const cleanDeleted = () => {
+  return {
+    type: DELETE_BANK.CLEAN,
+  };
+};
 export const cleanUpdateCardToken = data => {
   return {
     type: UPDATE_CARD_TOKEN.CLEAN,

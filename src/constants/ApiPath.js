@@ -59,4 +59,6 @@ export default {
   documentUpload: 'upload-document',
   chatMedia: 'chat-media',
   next_steps: 'next-steps',
+  kyc_update: 'save-kyc-details',
+  account_status: 'account-status',
 };

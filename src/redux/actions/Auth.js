@@ -8,6 +8,8 @@ import {
   SET_ATTRIBUTES,
   USE_LOCAL_IMAGE,
   USE_NAME,
+  BANK_TOKEN,
+  CLEAR_BANK_TOKEN,
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -114,3 +116,10 @@ export const updateName = img => {
     data: img,
   };
 };
+export const bankToken = token => ({
+  type: BANK_TOKEN,
+  payload: token,
+});
+export const clearBankToken = token => ({
+  type: CLEAR_BANK_TOKEN,
+});

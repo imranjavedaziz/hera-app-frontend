@@ -8,6 +8,8 @@ import {
   USE_LOCAL_IMAGE,
   USE_NAME,
   UPDATE_REFRESH_TOKEN,
+  BANK_TOKEN,
+  CLEAR_BANK_TOKEN,
 } from '../constants';
 
 import {
@@ -120,6 +122,7 @@ const initState = {
   stripe_customer_id: '',
   stripe_key: '',
   stripe_secret: '',
+  bank_token: '',
 };
 
 export default (state = initState, action) => {
@@ -451,7 +454,16 @@ export default (state = initState, action) => {
         update_message: action.data?.data?.message,
       };
     }
-
+    case BANK_TOKEN:
+      return {
+        ...state,
+        bank_token: action.payload,
+      };
+    case CLEAR_BANK_TOKEN:
+      return {
+        ...state,
+        bank_token: initState.bank_token,
+      };
     default:
       return state;
   }

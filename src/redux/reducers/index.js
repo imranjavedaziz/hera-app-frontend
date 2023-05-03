@@ -23,6 +23,7 @@ import MessageId from './MessageId';
 import profileImg from './profileImg';
 import DocumentUpload from './DocumentUpload';
 import NextStep from './NextStep';
+import AccountStatus from './AccountStatus';
 import {
   addCardTokenReducer,
   updateCardTokenReducer,
@@ -34,6 +35,7 @@ import {
   getBankListReducer,
   deleteBankOrCardReducer,
 } from './stripe.reducer';
+import kycUpdateReducer from './kyc.reducer';
 const allReducers = combineReducers({
   Auth,
   loader,
@@ -69,6 +71,9 @@ const allReducers = combineReducers({
   addCard: addCardReducer,
   getBankList: getBankListReducer,
   deleteBankOrCard: deleteBankOrCardReducer,
+  kyc: kycUpdateReducer,
+  //Account Status
+  AccountStatus,
 });
 
 export default allReducers;
