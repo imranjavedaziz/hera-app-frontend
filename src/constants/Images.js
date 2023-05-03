@@ -114,6 +114,8 @@ export default {
   TRANSACTION_HISTORY: require('../assets/icons/transactionHistory/moneyBackGuarantee.png'),
   CREDIT_CARD: require('../assets/icons/creditCard/creditCard.png'),
   ICON_MASTER: require('../assets/icons/iconMaster_logo/iconMaster.png'),
-  VISA_LOGO: require('../assets/icons/visaLogo/visaLogo.png'),
   BANK_LOGO: require('../assets/icons/bankLogo/bank.png'),
+  VISA_CARD: require('../assets/icons/visaCard/iconVisacard.png'),
+  ICON_INFO: require('../assets/icons/iconInfo/iconInfo.png'),
+  CANCEL_BG : require('../assets/icons/cancelBg/rectangle.png'),
 };

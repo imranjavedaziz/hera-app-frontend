@@ -32,6 +32,7 @@ import {
   getCardListReducer,
   addCardReducer,
   getBankListReducer,
+  deleteBankOrCardReducer,
 } from './stripe.reducer';
 const allReducers = combineReducers({
   Auth,
@@ -67,6 +68,7 @@ const allReducers = combineReducers({
   getCardList: getCardListReducer,
   addCard: addCardReducer,
   getBankList: getBankListReducer,
+  deleteBankOrCard: deleteBankOrCardReducer,
 });
 
 export default allReducers;

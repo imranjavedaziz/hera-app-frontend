@@ -58,8 +58,21 @@ export default {
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.SPACE_BETWEEN,
   },
+  reddot: {
+    width: px(Value.CONSTANT_VALUE_5),
+    height: px(Value.CONSTANT_VALUE_5),
+    borderStyle: Alignment.SOLID,
+    borderRadius:px(Value.CONSTANT_VALUE_5),
+    backgroundColor: Colors.BLACK,
+    borderWidth: px(Value.CONSTANT_VALUE_1),
+    borderColor: Colors.BLACK,
+    marginTop: px(Value.CONSTANT_VALUE_7),
+  },
+  cardImg:{
+    marginLeft:dynamicSize(Value.CONSTANT_VALUE_7)
+  },
   cardsInner: {
-    marginRight: dynamicSize(Value.CONSTANT_VALUE_89),
+    marginRight: dynamicSize(Value.CONSTANT_VALUE_100),
   },
   cardNo: {
     fontFamily: Fonts.OpenSansBold,

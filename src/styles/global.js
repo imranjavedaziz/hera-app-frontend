@@ -198,10 +198,20 @@ export default {
     alignItems: Alignment.FLEXEND,
     marginRight: Value.CONSTANT_VALUE_30,
   },
+  cancelBg: {
+    width: dynamicSize(Value.CONSTANT_VALUE_73),
+    height: dynamicSize(Value.CONSTANT_VALUE_32),
+    justifyContent: Alignment.CENTER,
+  },
   clearView: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
+  infoIcon: {
+    width: dynamicSize(Value.CONSTANT_VALUE_35),
+    height: dynamicSize(Value.CONSTANT_VALUE_35),
+  },
+
   clearText: {
     fontFamily: Fonts.OpenSansBold,
     textDecorationLine: Alignment.UNDERLINE,

@@ -13,6 +13,7 @@ import {
   Platform,
   ScrollView,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -312,17 +313,21 @@ const SetAttributes = ({route}) => {
     if (EditAttributes) {
       return (
         <View style={globalStyle.cancelAndroidbtn}>
-          <TouchableOpacity
-            onPress={() => {
-              isDirty === true
-                ? ternaryEXT()
-                : navigation.navigate(Routes.SmSetting);
-            }}
-            style={globalStyle.clearView}>
-            <Text style={globalStyle.clearText}>
-              {Strings.Subscription.Cancel}
-            </Text>
-          </TouchableOpacity>
+          <ImageBackground
+            source={Images.CANCEL_BG}
+            style={globalStyle.cancelBg}>
+            <TouchableOpacity
+              onPress={() => {
+                isDirty === true
+                  ? ternaryEXT()
+                  : navigation.navigate(Routes.SmSetting);
+              }}
+              style={globalStyle.clearView}>
+              <Text style={globalStyle.clearText}>
+                {Strings.Subscription.Cancel}
+              </Text>
+            </TouchableOpacity>
+          </ImageBackground>
         </View>
       );
     }

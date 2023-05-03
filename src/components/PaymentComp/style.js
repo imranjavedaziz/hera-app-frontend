@@ -19,7 +19,7 @@ export default {
     borderColor: '#e4e2d8',
   },
   Icon: {
-    marginRight: 14.5,
+    marginRight: dynamicSize(Value.CONSTANT_VALUE_10),
   },
   heading: {
     fontFamily: Fonts.OpenSansBold,
