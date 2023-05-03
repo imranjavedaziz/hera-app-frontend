@@ -656,6 +656,12 @@ export default {
   //ManageCard
   ManageCard: {
     ADD_CARD: 'ADD CARD',
+    CARD_DETAILS: 'Add your Card Details to Make any Payment',
+    CardNumber: 'Card Number',
+    ValidThrough: 'Valid Thru (MM/YY)',
+    CVV: 'CVV',
+    cardHolderName: 'Card Holder’s Name',
+    SAVE_CARD: 'SAVE THIS CARD',
   },
   //ManageBank
   ManageBank: {
