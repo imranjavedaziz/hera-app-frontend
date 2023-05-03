@@ -1,13 +1,10 @@
-import { Alert, Platform } from "react-native";
+import { Platform } from "react-native";
 import {
   initConnection,
   endConnection,
-  getSubscriptions,
   requestPurchase,
   requestSubscription,
-  getProducts,
 } from "react-native-iap";
-import { creditProductsIds , productsIds } from "../constants/Constants";
 
 class InAPPPurchase {
   static serviceInstance = null;
@@ -30,28 +27,6 @@ class InAPPPurchase {
   };
   endIAPConnection = () => {
     endConnection();
-  };
-  getIAPProducts = async () => {
-    try {
-      const products = await getSubscriptions({ skus: productsIds });
-      console.log("IAP FILE LINE NO 37 PREMIUM PRODUCTS ", products);
-      return products;
-    } catch (err) {
-      Alert.alert("IAP err", err);
-      console.log("IAP Err", err);
-      console.warn(err?.code);
-      console.warn(err?.message);
-    }
-  };
-  getCreditProducts = async () => {
-    try {
-      const products = await getProducts({ skus: creditProductsIds });
-      return products;
-    } catch (err) {
-      Alert.alert("IAP err", err);
-      console.log("IAP Err", err);
-      console.warn(err?.message); // standardized err.code and err.message available
-    }
   };
   requestPurchase = async (sku) => {
     try {
