@@ -130,7 +130,6 @@ export const CancelSubscription = ({changeModal,setChangeModal,handleCanncel})=>
 const Subscription = () => {
   const navigation = useNavigation();
   const [rolePlans, setRolePlans] = useState([]);
-  const [androidPlans, setAndroidPlans] = useState([]);
   const [modal, setModal] = useState(false);
   const [changeModal, setChangeModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
@@ -157,14 +156,6 @@ const Subscription = () => {
   const subscriptionStatus = useSelector(
     state => state.Subscription?.subscription_status_res,
   );
-  const getSubscription = async () => {
-    try {
-      const Products = await RNIap.getSubscriptions({skus: ['hera_monthly']});
-      setAndroidPlans(Products);
-    } catch (err) {
-      console.log('getSubscription err', err);
-    }
-  };
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
@@ -259,6 +250,7 @@ const Subscription = () => {
       style={styles.headerIcon}
       rightIcon={Images.I_CIRCLE}
       rightPress={() => setModal(!modal)}
+      iIcon={{width: 35}}
     />
   );
 
@@ -293,7 +285,6 @@ const Subscription = () => {
   };
   React.useEffect(async () => {
     IAPService.initializeConnection();
-    await getSubscription();
     return () => {
       IAPService.endIAPConnection();
     };
