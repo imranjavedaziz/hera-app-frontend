@@ -257,6 +257,7 @@ export const Routes = {
   Transaction: 'Transaction',
   ManageCard: 'ManageCard',
   ManageBank: 'ManageBank',
+  KycScreen: 'KycScreen',
 };
 export const Static = {
   countries: [
@@ -856,11 +857,16 @@ export const creditProductsIds = Platform.select({
 export const productsIds = Platform.select({
   ios: [
     // HeraDevYearly, HeraDevMonthly, HeraDevWeekly,
-    SurrogateMonthly,SurrogateYearly,EggDonorMonthly,SpermDonorMonthly
+    SurrogateMonthly,
+    SurrogateYearly,
+    EggDonorMonthly,
+    SpermDonorMonthly,
   ],
   android: [
     // HeraDevYearly, HeraDevWeekly
-    surrogate_monthly,egg_donor_monthly,sperm_donor_monthly
+    surrogate_monthly,
+    egg_donor_monthly,
+    sperm_donor_monthly,
   ],
 });
 
