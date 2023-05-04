@@ -35,6 +35,7 @@ const MyVideo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
+  const [openActionsheet, setOpenActionsheet] = useState(false);
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const dispatch = useDispatch();
@@ -176,16 +177,20 @@ const MyVideo = () => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
         selectVideo(0);
+        setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
         selectVideo(1);
+        setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:
         console.log('Cancel');
+        setOpenActionsheet(false);
         break;
     }
   };
   const openActionSheet = () => {
+    setOpenActionsheet(true);
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
@@ -197,7 +202,9 @@ const MyVideo = () => {
   };
 
   const iosVideoSheet = () => {
-    openActionSheet();
+    if (openActionsheet === false) {
+      openActionSheet();
+    }
   };
   return (
     <>
