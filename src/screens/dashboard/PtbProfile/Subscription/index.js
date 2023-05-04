@@ -9,11 +9,8 @@ import {
   Modal,
   Pressable,
   TouchableOpacity,
-  NativeModules,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-// import { InAppUtils } from 'react-native-in-app-utils';
-const {InAppUtils} = NativeModules;
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
@@ -35,7 +32,6 @@ import {
   showAppToast,
 } from '../../../../redux/actions/loader';
 import * as RNIap from 'react-native-iap';
-// import { InAppUtils } from 'react-native-iap';
 import SensorySubscription from '../../../../components/SensoryCharacteristics/SensorySubscription';
 import CustomModal from '../../../../components/CustomModal/CustomModal';
 import {IconHeader} from '../../../../components/Header';
@@ -49,48 +45,6 @@ import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
 
-// Clear the cache
-const clearIAPCache = () => {
-  if (Platform.OS === 'ios') {
-    RNIap.clearTransactionIOS();
-  } else {
-    RNIap.flushFailedPurchasesCachedAsPendingAndroid();
-    RNIap.flushExpiredPurchasesCachedAndroid();
-  }
-};
-// Implement the subscription change flow
-const handleIosCancelSubscription = async existingSubscriptionProductId => {
-  try {
-    InAppUtils.canMakePayments(canMakePayments => {
-      if (canMakePayments) {
-        InAppUtils.restorePurchases((error, response) => {
-          if (error) {
-            // Handle any errors or exceptions
-            console.log('canMakePayments error', JSON.stringify(error));
-            return;
-          }
-          const purchasedSubscriptions = response.filter(
-            item =>
-              item.productIdentifier === existingSubscriptionProductId &&
-              item.transactionReceipt,
-          );
-          if (purchasedSubscriptions.length > 0) {
-            const transactionId = purchasedSubscriptions[0].transactionReceipt;
-            // InAppUtils.finishTransaction(transactionId, (error) => {
-            //   if (error) {
-            //     console.log('finishTransaction error',JSON.stringify(error));
-            //     return;
-            //   }
-            // });
-          }
-        });
-      }
-    });
-  } catch (error) {
-    // Handle any errors or exceptions
-    console.log('IosCancelSub error', JSON.stringify(error.message));
-  }
-};
 export const CancelSubscription = ({changeModal,setChangeModal,handleCanncel})=>{
   return (
     <Modal
@@ -137,7 +91,6 @@ const Subscription = () => {
   const [isPlanChanged, setPlanChanged] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
-  const [oldReceipt, setOldReceipt] = React.useState([]);
   const IAPService = InAPPPurchase.getInstance();
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
@@ -158,50 +111,6 @@ const Subscription = () => {
   );
   useEffect(() => {
     dispatch(getSubscriptionPlan());
-  }, []);
-
-  const unsubscribeOldPurchase = async () => {
-    if (
-      subscription_plan_res?.data?.subscription != null &&
-      oldReceipt.length > 0
-    ) {
-      const existingSubscriptionProductId = Platform.select({
-        ios: subscription_plan_res?.data?.subscription.subscription_plan
-          .ios_product,
-        android:
-          subscription_plan_res?.data?.subscription.subscription_plan
-            .android_product,
-      });
-      if (Platform.OS === 'ios') {
-        handleIosCancelSubscription(existingSubscriptionProductId);
-      } else {
-        let isUnsubscribed = false;
-        oldReceipt.forEach(async rec => {
-          // await RNIap.finishTransaction(rec.transactionReceipt);
-          if (
-            rec.productId === existingSubscriptionProductId &&
-            !isUnsubscribed
-          ) {
-            try {
-              console.log('unsubscribeOldPurchase', rec.productId);
-              await RNIap.finishTransaction({rec, isConsumable: true});
-              isUnsubscribed = true;
-            } catch (e) {
-              console.log('unsubscribeOldPurchase err', JSON.stringify(e));
-            }
-          }
-        });
-      }
-    }
-  };
-  const getOldPurchase = async () => {
-    const p = await RNIap.getAvailablePurchases({onlyIncludeActiveItems: true});
-    setOldReceipt(p);
-    console.log('Old reciet data', JSON.stringify(p));
-    console.log('Old reciet arr len', p.length);
-  };
-  useEffect(() => {
-    getOldPurchase();
   }, []);
   useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
@@ -347,9 +256,6 @@ const Subscription = () => {
               developerPayload: '',
             });
             await RNIap.finishTransaction({result, isConsumable: true});
-            if (isPlanChanged) {
-              unsubscribeOldPurchase();
-            }
           } catch (ackErr) {
             console.log('ERROR LINE NO 101', ackErr);
           }
@@ -366,9 +272,6 @@ const Subscription = () => {
         console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         try {
           const receipt = result.transactionReceipt;
-          if (isPlanChanged) {
-            unsubscribeOldPurchase();
-          }
           if (receipt) {
             setPurchaseReceipt(result);
             setCallApi(true);
@@ -408,9 +311,6 @@ const Subscription = () => {
       });
       setRolePlans(sectionedPlan);
       setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
-    }
-    if (subscription_plan_res?.data?.subscription != null) {
-      clearIAPCache();
     }
   }, [subscription_plan_res]);
   const handlePurchaseSubcription = () => {

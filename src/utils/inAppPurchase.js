@@ -4,7 +4,12 @@ import {
   endConnection,
   requestPurchase,
   requestSubscription,
+  clearTransactionIOS,
+  flushFailedPurchasesCachedAsPendingAndroid,
+  flushExpiredPurchasesCachedAndroid,
+  getSubscriptions
 } from "react-native-iap";
+import { productsIds } from "../constants/Constants";
 
 class InAPPPurchase {
   static serviceInstance = null;
@@ -19,6 +24,19 @@ class InAPPPurchase {
       initConnection()
         .then((connection) => {
           console.log("IAP connection result", connection);
+          if (Platform.OS === 'ios') {
+            clearTransactionIOS();
+            getSubscriptions({skus:productsIds})
+            .then(data=>{
+              console.log('getSubscriptions',JSON.stringify(data));
+            })
+            .catch(e=>{
+              console.log('getSubscriptions err',JSON.stringify(e));
+            })
+          } else {
+            flushFailedPurchasesCachedAsPendingAndroid();
+            flushExpiredPurchasesCachedAndroid();
+          }
         })
         .catch((err) => {
           console.warn(`IAP ERROR ${err.code}`, err.message);
