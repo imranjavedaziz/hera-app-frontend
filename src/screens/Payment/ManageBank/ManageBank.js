@@ -106,13 +106,16 @@ const ManageBank = () => {
       handleOnchange(inputs?.accountholder.trim(), Input_Type.accountholder);
     }
     if (!inputs.accountnumber) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.accountnumber);
+      handleError(
+        ValidationMessages.ACCOUNT_REQUIRED,
+        Input_Type.accountnumber,
+      );
       isValid = false;
     } else if (
       isNaN(inputs.accountnumber) ||
       inputs.accountnumber.length < validationBank.MIN_ACCOUNT_NUM
     ) {
-      handleError(ValidationMessages.INVALID, Input_Type.accountnumber);
+      handleError(ValidationMessages.ACCOUNT_INVALID, Input_Type.accountnumber);
       isValid = false;
     }
 
@@ -120,18 +123,21 @@ const ManageBank = () => {
       handleError(Input_Type.accountholder);
       isValid = true;
     } else if (!validateFullName(inputs.accountholder)) {
-      handleError(ValidationMessages.INVALID, Input_Type.accountholder);
+      handleError(
+        ValidationMessages.ACCOUNTHOLDER_REQUIRED,
+        Input_Type.accountholder,
+      );
       isValid = false;
     }
 
     if (!inputs.routingnumber) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.routingnumber);
+      handleError(ValidationMessages.ROUTE_REQUIRED, Input_Type.routingnumber);
       isValid = false;
     } else if (
       isNaN(inputs.routingnumber) ||
       inputs.routingnumber.length < validationBank.routingLimit
     ) {
-      handleError(ValidationMessages.INVALID, Input_Type.routingnumber);
+      handleError(ValidationMessages.ROUTE_INVALID, Input_Type.routingnumber);
       isValid = false;
     }
     return isValid;

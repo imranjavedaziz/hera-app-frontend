@@ -155,80 +155,80 @@ const KycScreen = () => {
     Keyboard.dismiss();
     let isValid = true;
     if (!inputs.firstName) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.firstName);
+      handleError(ValidationMessages.FirstName_REQUIRED, Input_Type.firstName);
       isValid = false;
     } else if (!validateName(inputs.firstName)) {
-      handleError(ValidationMessages.INVALID, Input_Type.firstName);
+      handleError(ValidationMessages.FirstName_INVALID, Input_Type.firstName);
       isValid = false;
     }
     if (!inputs.lastName) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.lastName);
+      handleError(ValidationMessages.Last_REQUIRED, Input_Type.lastName);
       isValid = false;
     } else if (!validateName(inputs.lastName)) {
-      handleError(ValidationMessages.INVALID, Input_Type.lastName);
+      handleError(ValidationMessages.Last_INVALID, Input_Type.lastName);
       isValid = false;
     }
     if (!inputs.dob) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.dob);
+      handleError(ValidationMessages.DOB_REQUIRED, Input_Type.dob);
       isValid = false;
     } else if (inputs.dob) {
       handleOnchange(inputs?.dob, Input_Type.dob);
     }
 
     if (!inputs.phoneNumber) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.phoneNumber);
+      handleError(ValidationMessages.PHONE_REQUIRED, Input_Type.phoneNumber);
       isValid = false;
     } else if (!validMobileNumber(inputs.phoneNumber)) {
-      handleError(ValidationMessages.INVALID, Input_Type.phoneNumber);
+      handleError(ValidationMessages.PHONE_INVALID, Input_Type.phoneNumber);
       isValid = false;
     }
     if (!inputs.zipCode) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.zipCode);
+      handleError(ValidationMessages.ZIPCODE_REQUIRED, Input_Type.zipCode);
       isValid = false;
     } else if (
       !validateZipCode(inputs.zipCode) ||
       inputs.zipCode.length < validationBank.ZIP_CODE_MIN
     ) {
-      handleError(ValidationMessages.INVALID, Input_Type.zipCode);
+      handleError(ValidationMessages.ZIPCODE_INVALID, Input_Type.zipCode);
       isValid = false;
     }
     if (!inputs.ssn) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.ssn);
+      handleError(ValidationMessages.SSN_REQUIRED, Input_Type.ssn);
       isValid = false;
     } else if (isNaN(inputs.ssn) || inputs.ssn.length < validationBank.SSN) {
-      handleError(ValidationMessages.INVALID, Input_Type.ssn);
+      handleError(ValidationMessages.SSN_INVALID, Input_Type.ssn);
       isValid = false;
     }
     if (inputs.address) {
       handleOnchange(inputs?.address.trim(), Input_Type.address);
     }
     if (!inputs.address?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.address);
+      handleError(ValidationMessages.ADDRESS_REQUIRED, Input_Type.address);
       isValid = false;
     }
     if (inputs.country) {
       handleOnchange(inputs?.country.trim(), Input_Type.country);
     }
     if (!inputs.country?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.country);
+      handleError(ValidationMessages.Country_REQUIRED, Input_Type.country);
       isValid = false;
     }
     if (inputs.state) {
       handleOnchange(inputs?.state.trim(), Input_Type.state);
     }
     if (!inputs.state?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.state);
+      handleError(ValidationMessages.STATE_REQUIRED, Input_Type.state);
       isValid = false;
     }
     if (inputs.city) {
       handleOnchange(inputs?.city.trim(), Input_Type.city);
     }
     if (!inputs.city?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.city);
+      handleError(ValidationMessages.CITY_REQUIRED, Input_Type.city);
       isValid = false;
     }
     if (selectedPhotos.length < 1) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.selectField);
+      handleError(ValidationMessages.POV_REQUIRED, Input_Type.selectField);
       isValid = false;
     }
     return isValid;
