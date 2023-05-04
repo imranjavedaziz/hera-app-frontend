@@ -57,7 +57,7 @@ const stripeApiCall = async (apiInfo, data) => {
       });
   });
 };
-const {log_in_data} = store.getState().Auth;
+
 export const addCardToken = data => {
   return stripeApiCall(
     {
@@ -80,6 +80,7 @@ export const addBankToken = data => {
 };
 //ADD CARD
 export const createCardSource = data => {
+  const {log_in_data} = store.getState().Auth;
   return stripeApiCall(
     {
       name:
