@@ -9,6 +9,7 @@ import {
   Modal,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../../../components/Container';
@@ -44,43 +45,51 @@ import {
 import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
+import { capitalizeStr } from '../../../../utils/commonFunction';
 
-export const CancelSubscription = ({changeModal,setChangeModal,handleCanncel})=>{
+export const CancelSubscription = ({
+  changeModal,
+  setChangeModal,
+  handleCanncel,
+}) => {
   return (
     <Modal
-        animationType="slide"
-        transparent={true}
-        visible={changeModal}
-        onRequestClose={() => {
-          setChangeModal(!changeModal);
-        }}>
-        <View style={styles.changeModalContainer}>
-          <TouchableOpacity
-            style={styles.changeModalBackdrop}
-            onPress={() => setChangeModal(!changeModal)}
-          />
-          <View style={styles.changeModalBox}>
-            <Text style={styles.changeModalTitle} numberOfLines={1}>
+      animationType="slide"
+      transparent={true}
+      visible={changeModal}
+      onRequestClose={() => {
+        setChangeModal(!changeModal);
+      }}>
+      <View style={styles.changeModalContainer}>
+        <TouchableOpacity
+          style={styles.changeModalBackdrop}
+          onPress={() => setChangeModal(!changeModal)}
+        />
+        <View style={styles.changeModalBox}>
+          <Text style={styles.changeModalTitle} numberOfLines={1}>
             {Strings.Subscription.CancelSub}
+          </Text>
+          <Text style={styles.changeModalPara}>
+            {Platform.select({
+              ios: Strings.Subscription.CancelSubParaIos,
+              android: Strings.Subscription.CancelSubParaAndroid,
+            })}
+          </Text>
+          <Pressable
+            style={styles.changeModalBtn}
+            onPress={() => {
+              setChangeModal(!changeModal);
+              handleCanncel();
+            }}>
+            <Text style={styles.changeModalBtnTxt}>
+              {Strings.Subscription.YesProceed}
             </Text>
-            <Text style={styles.changeModalPara}>
-              {Platform.select({ios:Strings.Subscription.CancelSubParaIos,android:Strings.Subscription.CancelSubParaAndroid})}
-            </Text>
-            <Pressable
-              style={styles.changeModalBtn}
-              onPress={() => {
-                setChangeModal(!changeModal);
-                handleCanncel();
-              }}>
-              <Text style={styles.changeModalBtnTxt}>
-                {Strings.Subscription.YesProceed}
-              </Text>
-            </Pressable>
-          </View>
+          </Pressable>
         </View>
-      </Modal>
+      </View>
+    </Modal>
   );
-}
+};
 const Subscription = () => {
   const navigation = useNavigation();
   const [rolePlans, setRolePlans] = useState([]);
@@ -123,7 +132,41 @@ const Subscription = () => {
     loadingRef.current = subscription_plan_loading;
     dispatch(hideAppLoader());
   }, [subscription_plan_success, subscription_plan_loading]);
-
+  const showChangeSuccessToast = () => {
+    if(Platform.OS==='ios'){
+      Alert.alert(
+        Strings.Subscription.SuccessChanged,
+        isPlanChanged
+          ? Strings.Subscription.SuccessChangedPara.replace(
+              '{SELECTED_ROLE}',
+              selectCheckBox == null
+                ? '{SELECTED_ROLE}'
+                : Strings?.STATIC_ROLE.find(
+                    r => r.id === selectCheckBox?.role_id_looking_for,
+                  ).name,
+            )
+          : Strings.Subscription.SuccessUpgradePara.replace(
+              '{DATE_END}',
+              moment(
+                subscription_plan_res?.data?.subscription?.current_period_end,
+                'YYYY-MM-DD',
+              ).format('LL'),
+            ),
+        [
+          {
+            text: capitalizeStr(Strings.Subscription.GotIt),
+            onPress: () => {
+              setSelectCheckBox(null);
+              navigation.goBack();
+            },
+          },
+        ],
+      );
+    }
+    else{
+      setSuccessModal(true);
+    }
+  };
   useEffect(() => {
     console.log('CHECKING CREATE SUB LINE NO 74');
     if (loadingRef.current && !create_subscription_loading) {
@@ -135,7 +178,7 @@ const Subscription = () => {
         setCallApi(false);
         dispatch(hideAppLoader());
         if (isPlanChanged || isPlanUpgrade) {
-          setSuccessModal(true);
+          showChangeSuccessToast();
         } else {
           setSelectCheckBox(null);
           navigation.goBack();
@@ -170,7 +213,7 @@ const Subscription = () => {
       setSelectCheckBox(item);
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     if (isCallApi) {
       purchaseAPI(_purchasereceipt);
     }
@@ -192,7 +235,7 @@ const Subscription = () => {
     console.log('LINE NUMBER 143 PAYLOAD', payload);
     dispatch(createSubscription(payload));
   };
-  React.useEffect(async () => {
+  useEffect(async () => {
     IAPService.initializeConnection();
     return () => {
       IAPService.endIAPConnection();
@@ -286,7 +329,9 @@ const Subscription = () => {
       .catch(err => {
         console.warn(`IAP ios ERROR %%%%% ${err.code}`, err.message, err);
         dispatch(hideAppLoader());
-        dispatch(showAppToast(true, err.message));
+        if (err.code != 'E_USER_CANCELLED') {
+          dispatch(showAppToast(true, Strings.Subscription.NotProcessed));
+        }
       });
   };
   console.log('subscriptionPlan?.data 254', subscriptionPlan);
@@ -313,6 +358,63 @@ const Subscription = () => {
       setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
     }
   }, [subscription_plan_res]);
+  const showChangePlanToast = () => {
+    if (Platform.OS === 'ios') {
+      Alert.alert(
+        Strings.Subscription.UpgradePlan.replace(
+          '{SELECTED_ROLE}',
+          selectCheckBox == null
+            ? '{SELECTED_ROLE}'
+            : Strings?.STATIC_ROLE.find(
+                r => r.id === selectCheckBox?.role_id_looking_for,
+              ).name,
+        ),
+        Strings.Subscription.UpgradePlanPara,
+        [
+          {
+            text: capitalizeStr(Strings.Subscription.YesProceed),
+            onPress: () => {
+              subscribePlan(selectCheckBox, 'credit');
+            },
+          },
+          {
+            text: Strings.Subscription.Cancel,
+            onPress: () => null,
+          },
+        ],
+      );
+    } else {
+      setChangeModal(true);
+    }
+  };
+  const showUpgradePlanToast = () => {
+    if (Platform.OS === 'ios') {
+      Alert.alert(
+        Strings.Subscription.ChangePlan,
+        Strings.Subscription.ChangePlanPara.replace(
+          '{DATE_END}',
+          moment(
+            subscription_plan_res?.data?.subscription?.current_period_end,
+            'YYYY-MM-DD',
+          ).format('LL'),
+        ),
+        [
+          {
+            text: capitalizeStr(Strings.Subscription.YesProceed),
+            onPress: () => {
+              subscribePlan(selectCheckBox, 'credit');
+            },
+          },
+          {
+            text: Strings.Subscription.Cancel,
+            onPress: () => null,
+          },
+        ],
+      );
+    } else {
+      setChangeModal(true);
+    }
+  };
   const handlePurchaseSubcription = () => {
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
@@ -324,15 +426,15 @@ const Subscription = () => {
       ) {
         setPlanUpgrade(false);
         setPlanChanged(true);
-        setChangeModal(true);
+        showChangePlanToast();
       } else if (
         selectCheckBox !== null &&
-        selectCheckBox.price >
+        selectCheckBox.price !=
           subscription_plan_res?.data?.subscription?.subscription_plan?.price
       ) {
         setPlanChanged(false);
         setPlanUpgrade(true);
-        setChangeModal(true);
+        showUpgradePlanToast();
       } else {
         subscribePlan(selectCheckBox, 'credit');
       }
@@ -388,21 +490,32 @@ const Subscription = () => {
                       renderItem={({item, index}) => (
                         <Commitment
                           key={index}
-                          MainText={`$${item?.price}/${
-                            item?.interval === 'month' && 'mo'
-                          }`}
+                          MainText={`$${item?.price}/${item?.interval}`}
                           Months={item.description}
                           Icon={
                             selectCheckBox?.id === item?.id
                               ? Images.iconRadiosel
                               : Images.iconRadiounsel
                           }
-                          // Style={selectCheckBox?.id === item?.id && styles.box}
+                          Style={
+                            selectCheckBox?.id === item?.id &&
+                            styles.selectedBox
+                          }
                           onPress={() => selectCheckHandler(item)}
                           isSelected={
                             subscription_plan_res?.data?.subscription &&
                             subscription_plan_res?.data?.subscription
                               ?.subscription_plan_id === item?.id // || true
+                          }
+                          isUpcoming={
+                            subscription_plan_res?.data
+                              ?.upcomingSubscription !== null &&
+                            subscription_plan_res?.data?.upcomingSubscription
+                              .subscription_plan.id === item?.id
+                          }
+                          upcomingStarts={
+                            subscription_plan_res?.data?.upcomingSubscription
+                              ?.current_period_start || ''
                           }
                         />
                       )}
@@ -519,7 +632,10 @@ const Subscription = () => {
                       'YYYY-MM-DD',
                     ).format('LL'),
                   )
-                : Platform.select({ios:Strings.Subscription.UpgradePlanPara,android:Strings.Subscription.UpgradePlanParaAndroid})}
+                : Platform.select({
+                    ios: Strings.Subscription.UpgradePlanPara,
+                    android: Strings.Subscription.UpgradePlanParaAndroid,
+                  })}
             </Text>
             <Pressable
               style={styles.changeModalBtn}

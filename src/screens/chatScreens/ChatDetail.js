@@ -397,6 +397,14 @@ const ChatDetail = props => {
   const onSendDoc = async () => {
     if (!subscriptionStatus?.data?.status && parseInt(user?.role_id) === 2) {
       navigation.navigate(Routes.Subscription);
+      dispatch(
+        showAppToast(
+          true,
+          subscriptionStatus.data.is_trial
+            ? Strings.Subscription.TrailOver
+            : Strings.Subscription.SubscriptionExpired,
+        ),
+      );
     } else if (
       parseInt(props?.route?.params?.item?.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
