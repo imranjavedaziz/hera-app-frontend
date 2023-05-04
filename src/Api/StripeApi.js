@@ -57,7 +57,7 @@ const stripeApiCall = async (apiInfo, data) => {
       });
   });
 };
-
+const {log_in_data} = store.getState().Auth;
 export const addCardToken = data => {
   return stripeApiCall(
     {
@@ -82,11 +82,16 @@ export const addBankToken = data => {
 export const createCardSource = data => {
   return stripeApiCall(
     {
-      name: `/v1/customers/${data?.customerId}/sources`,
+      name:
+        log_in_data.role?.role_id === 2
+          ? `/v1/customers/${data?.customerId}/sources`
+          : `/v1/accounts/${data?.customerId}/external_accounts`,
       type: 'post',
       contType: 'application/x-www-form-urlencoded',
     },
-    {source: data?.token},
+    log_in_data.role?.role_id === 2
+      ? {source: data?.token}
+      : {external_account: data?.token},
     data?.cardData,
   );
 };
@@ -105,7 +110,8 @@ export const getCardListApi = (customerId, limit) => {
 export const getBankListApi = (customerId, limit) => {
   return stripeApiCall(
     {
-      name: `/v1/customers/${customerId}/sources`,
+      // name: `/v1/customers/${customerId}/sources`,
+      name: `/v1/accounts/${customerId}/external_accounts`,
       type: 'get',
     },
     {
@@ -114,9 +120,16 @@ export const getBankListApi = (customerId, limit) => {
     },
   );
 };
-export const deleteBankOrCard = ({data}) => {
+export const deleteCard = ({data}) => {
   return stripeApiCall({
     name: `/v1/customers/${data?.customer}/sources/${data?.id}`,
+    type: 'delete',
+  });
+};
+
+export const deleteBank = ({data}) => {
+  return stripeApiCall({
+    name: `/v1/accounts/${data?.account}/external_accounts/${data?.id}`,
     type: 'delete',
   });
 };

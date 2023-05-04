@@ -86,7 +86,15 @@ export const ValidationMessages = {
   //Error
   NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
   REQUIRED: 'Required!',
+  CARD_REQUIRED: 'Card Number is required!',
+  CVV_REQUIRED: 'CVV is required!',
+  CVV_INVALID: 'Invalid CVV!',
+  CARD_INVALID: 'Invalid Card Number!',
   INVALID: 'Invalid!',
+  NAME_REQUIRED: 'Card Holder’s Name is required!',
+  NAME_INAVLID: 'Invalid Name!',
+  EXP_INVALID: 'Invalid Expiry Date!',
+  EXP_REQUIRED: 'Expiry Date is required!',
   DISCARD_KYC: 'Discard KYC?',
   YES_DISCARD: 'Yes, Discard',
   NOT_NOW: 'Not Now',
@@ -459,7 +467,8 @@ export default {
     GotIt: 'OKAY, GOT IT!',
     SuccessChanged: 'Subscription Updated!',
     SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
-    SuccessUpgradePara: 'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
+    SuccessUpgradePara:
+      'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
     CancelSub: 'Cancel Subscription?',
     CancelSubParaIos: `To cancel your subscription you need to Click your Account Settings,
     Scroll to Subscriptions, then click Manage.
@@ -541,7 +550,7 @@ export default {
     Send_Payment: 'Send Payment',
     MAKE_PAYMENT: 'MAKE A NEW PAYMENT',
     CARD_NUMBER: '0039',
-    CARD_TIME: 'Valid thru May 2025',
+    CARD_TIME: 'Valid thru',
     CARD_NUM_TWO: '0183',
     CARD_DOT: '•••• ',
     CARD_TIME_TWO: 'Valid thru May 2025',
@@ -576,6 +585,7 @@ export default {
     Transaction_History_Parent:
       'See all the payments that you have received from your matches till date.',
     Manage_Bank: 'Manage Bank',
+    CARD_Descriptiom: 'Add your card details to send payment to your matches.',
     Bank_Description:
       'Add your bank account to receive payments from Intended Parents.',
   },
@@ -679,7 +689,7 @@ export default {
     LAST_NAME: 'Last Name',
     ADDRESS: 'Address',
     ZIP_CODE: 'ZipCode',
-    SSN: 'SNN (last 4 Digits)',
+    SSN: 'SNN',
     STATE: 'State',
     CITY: 'City',
     PhoneNumber: 'Phone Number',

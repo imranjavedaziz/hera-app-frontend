@@ -1,5 +1,5 @@
 import {Value} from '../../../constants/FixedValues';
-import {dynamicSize, statusHide} from '../../../utils/responsive';
+import {dynamicSize, scaleWidth, statusHide} from '../../../utils/responsive';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 
@@ -32,7 +32,7 @@ export default {
   },
   addBtn: {
     height: 80,
-    marginTop: Value.CONSTANT_VALUE_50,
+    marginTop: Value.CONSTANT_VALUE_45,
     marginBottom: Value.CONSTANT_VALUE_20,
   },
 };
