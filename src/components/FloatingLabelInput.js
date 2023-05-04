@@ -96,10 +96,16 @@ const FloatingLabelInput = props => {
     hideErrorText = false,
     show,
     inputRef,
+    onFocusHandle,
     ...textInputProps
   } = props;
-  const handleFocus = () => setFocused(true);
-  const handleBlur = () => setFocused(false);
+  const handleFocus = () => {
+    setFocused(true);
+    onFocusHandle && onFocusHandle();
+  };
+  const handleBlur = () => {
+    setFocused(false);
+  };
   return (
     <View
       style={[

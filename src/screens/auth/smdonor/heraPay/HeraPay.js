@@ -40,6 +40,7 @@ import {Value} from '../../../../constants/FixedValues';
 import _ from 'lodash';
 import {getAccountStatus} from '../../../../redux/actions/AccountStatus';
 import {monthGet} from '../../../../utils/commonFunction';
+import getKycStatusFunction from '../../../../utils/getkycStatusFunc';
 
 const HeraPay = () => {
   const navigation = useNavigation();
@@ -50,6 +51,7 @@ const HeraPay = () => {
   const {log_in_data, stripe_customer_id, connected_acc_token} = useSelector(
     state => state.Auth,
   );
+  console.log(stripe_customer_id, 'stripe_customer_id');
   const {getBankListResponse} = useSelector(store => store.getBankList);
   const {getCardListResponse} = useSelector(store => store.getCardList);
   const {
@@ -62,6 +64,8 @@ const HeraPay = () => {
   const {deleteBankResponse} = useSelector(store => store.deleteBank);
   const {deleteCardResponse} = useSelector(store => store.deleteCard);
   const [Data, setData] = useState([]);
+  const [KycStatus, setKycStatus] = useState(null);
+  const [KycUpdated, setKycUpdated] = useState(false);
   useFocusEffect(
     useCallback(() => {
       if (!_.isEmpty(stripe_customer_id)) {
@@ -69,29 +73,34 @@ const HeraPay = () => {
           dispatch(getCardList(stripe_customer_id, 3));
         } else {
           dispatch(getBankList(connected_acc_token, 3));
-          // dispatch(getAccountStatus());
+          dispatch(getAccountStatus());
         }
       }
     }, [dispatch]),
   );
-
   //Get Account Status
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !account_status_loading) {
         dispatch(showAppLoader());
         if (account_status_success) {
+          if (account_status_res?.kyc_status == 'verified') {
+            setKycUpdated(false);
+          } else {
+            setKycUpdated(true);
+          }
+          setKycStatus(account_status_res?.kyc_status);
           dispatch(hideAppLoader());
-          console.log(account_status_res, 'account_status_res');
         }
         if (account_status_fail) {
           dispatch(hideAppLoader());
+
           dispatch(showAppToast(true, account_status_error_msg));
         }
         dispatch(hideAppLoader());
       }
       loadingRef.current = account_status_loading;
-    }, [account_status_success, account_status_loading]),
+    }, [account_status_success, account_status_loading, account_status_res]),
   );
   //Get Bank List
   useEffect(() => {
@@ -105,6 +114,7 @@ const HeraPay = () => {
     } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
       let error = getBankListResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
+
       dispatch(showAppToast(false, error));
     }
   }, [getBankListResponse]);
@@ -119,6 +129,7 @@ const HeraPay = () => {
     } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
       let error = getCardListResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
+
       dispatch(showAppToast(false, error));
     }
   }, [getCardListResponse]);
@@ -136,7 +147,6 @@ const HeraPay = () => {
     } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
       let error = deleteBankResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
-      console.log(deleteBankResponse,'deleteBankResponsedeleteBankResponse');
       dispatch(showAppToast(true, error));
       dispatch(cleanDeleted());
     } else {
@@ -155,7 +165,6 @@ const HeraPay = () => {
       dispatch(cleanDeleted());
     } else if (deleteCardResponse?.status === DELETE_CARD.FAIL) {
       let error = deleteCardResponse?.info ?? 'Something went wrong';
-      
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
       dispatch(cleanDeleted());
@@ -328,7 +337,6 @@ const HeraPay = () => {
                         ({item?.bank_name})
                       </Text>
                     </View>
-
                     <Text
                       style={{
                         fontFamily: Fonts.OpenSansRegular,
@@ -337,6 +345,31 @@ const HeraPay = () => {
                       }}>
                       {item?.account_holder_name}
                     </Text>
+                    {KycUpdated === true &&
+                      KycStatus !== null &&
+                      (getKycStatusFunction(account_status_res?.kyc_status) !==
+                      Strings.Hera_Pay.KYC_REJECTED ? (
+                        <TouchableOpacity
+                          style={{
+                            flexDirection: Alignment.ROW,
+                            alignItems: Alignment.CENTER,
+                          }}
+                          onPress={() => navigation.navigate(Routes.KycScreen)}>
+                          <Text style={styles.kycprocess}>
+                            {getKycStatusFunction(
+                              account_status_res?.kyc_status,
+                            )}
+                          </Text>
+                          <Image
+                            style={{top: Value.CONSTANT_VALUE_1}}
+                            source={Images.rightLogo}
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <Text style={styles.kycprocess}>
+                          {getKycStatusFunction(account_status_res?.kyc_status)}
+                        </Text>
+                      ))}
                   </View>
                   <TouchableOpacity
                     onPress={() => {

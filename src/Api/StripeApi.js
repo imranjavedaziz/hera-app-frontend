@@ -81,20 +81,27 @@ export const addBankToken = data => {
 //ADD CARD
 export const createCardSource = data => {
   const {log_in_data} = store.getState().Auth;
-  return stripeApiCall(
-    {
-      name:
-        log_in_data.role?.role_id === 2
-          ? `/v1/customers/${data?.customerId}/sources`
-          : `/v1/accounts/${data?.customerId}/external_accounts`,
-      type: 'post',
-      contType: 'application/x-www-form-urlencoded',
-    },
-    log_in_data.role?.role_id === 2
-      ? {source: data?.token}
-      : {external_account: data?.token},
-    data?.cardData,
-  );
+  if (log_in_data?.role_id === 2) {
+    return stripeApiCall(
+      {
+        name: `/v1/customers/${data?.customerId}/sources`,
+        type: 'post',
+        contType: 'application/x-www-form-urlencoded',
+      },
+      {source: data?.token},
+      data?.cardData,
+    );
+  } else {
+    return stripeApiCall(
+      {
+        name: `/v1/accounts/${data?.customerId}/external_accounts`,
+        type: 'post',
+        contType: 'application/x-www-form-urlencoded',
+      },
+      {external_account: data?.token},
+      data?.cardData,
+    );
+  }
 };
 export const getCardListApi = (customerId, limit) => {
   return stripeApiCall(

@@ -86,15 +86,15 @@ export const ValidationMessages = {
   //Error
   NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
   REQUIRED: 'Required!',
-  CARD_REQUIRED: 'Card Number is required!',
-  CVV_REQUIRED: 'CVV is required!',
-  CVV_INVALID: 'Invalid CVV!',
-  CARD_INVALID: 'Invalid Card Number!',
+  CARD_REQUIRED: 'Please enter your card number',
+  CVV_REQUIRED: 'Please enter your CVV',
+  CVV_INVALID: 'Please enter a valid CVV',
+  CARD_INVALID: 'Please enter a valid card number',
   INVALID: 'Invalid!',
-  NAME_REQUIRED: 'Card Holder’s Name is required!',
-  NAME_INAVLID: 'Invalid Name!',
-  EXP_INVALID: 'Invalid Expiry Date!',
-  EXP_REQUIRED: 'Expiry Date is required!',
+  NAME_REQUIRED: 'Please enter card holder’s name',
+  NAME_INAVLID: 'Please enter a valid card holder’s name',
+  EXP_REQUIRED: 'Please enter your date of expiry',
+  EXP_INVALID: 'Please enter a valid expiry date',
   DISCARD_KYC: 'Discard KYC?',
   YES_DISCARD: 'Yes, Discard',
   NOT_NOW: 'Not Now',
@@ -560,7 +560,7 @@ export default {
     transaction_History: 'Transaction History',
     para_Two:
       'All the transactions will be maintained with the payment status as Completed or Failed.',
-    star_para: 'A processing fee will be charged on every payment you receive.',
+    star_para: 'A processing fee will be charged on every payment you send.',
     make_payment: 'Make Payment with Card',
     para_Three: 'To make any payment, you have to add your card details.',
     Sm_Para_One:
@@ -593,6 +593,10 @@ export default {
     Remove_Bank: 'Remove Bank from Profile?',
     Remove_Bank_Text:
       'You will not be able to receive any payment without adding your bank.',
+    KYC_PENDING: 'KYC Approval Pending  ',
+    KYC_REJECTED: 'KYC Rejected  ',
+    KYC_INCOMPLETE: 'KYC Incomplete  ',
+    KYC_VERIFYIED: 'KYC verified  ',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',

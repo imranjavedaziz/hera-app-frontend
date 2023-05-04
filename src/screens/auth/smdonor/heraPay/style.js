@@ -109,4 +109,10 @@ export default {
     textDecorationLine: Alignment.UNDERLINE,
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_5),
   },
+  kycprocess: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontStyle: Alignment.ITALIC,
+    color: '#ff4544',
+  },
 };

@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, Keyboard} from 'react-native';
+import {View, Text, Keyboard} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {Button, FloatingLabelInput, Header} from '../../../components';
 import styles from './styles';
@@ -22,6 +22,8 @@ import {
 } from '../../../redux/actions/loader';
 import {replace} from '../../../utils/RootNavigation';
 import {bankToken} from '../../../redux/actions/Auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import ExtraBottomView from '../../../components/ExtraBottomView';
 
 const ManageBank = () => {
   const navigation = useNavigation();
@@ -32,6 +34,7 @@ const ManageBank = () => {
   const [inputs, setInputs] = React.useState({});
   const [BankInfo, setBankInfo] = React.useState({});
   const dispatch = useDispatch();
+  let scrollRef = React.createRef();
   const {addCards} = useSelector(store => store.addCard);
   const {connected_acc_token} = useSelector(state => state.Auth);
   const {bankResponse} = useSelector(store => store.addBankTokenReducer);
@@ -162,9 +165,14 @@ const ManageBank = () => {
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={20}
+        enableAutoAutomaticScroll={true}
+        keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+        style={styles.scrollContent}
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
+        ref={scrollRef}>
         <View style={styles.mainContainer}>
           <Text style={styles.mainText}>{Strings.ManageBank.ADD_Bank}</Text>
           <Text style={styles.mainTextADD}>
@@ -179,7 +187,7 @@ const ManageBank = () => {
             required={true}
             keyboardType={'numeric'}
             returnKeyType="next"
-            onFocus={() => handleError(null, Input_Type.accountnumber)}
+            onFocusHandle={() => handleError(null, Input_Type.accountnumber)}
             maxLength={validationBank.accountNumberLimit}
             inputRef={accountnumberRef}
             error={errors.accountnumber}
@@ -190,7 +198,7 @@ const ManageBank = () => {
           <FloatingLabelInput
             label={Strings.ManageBank.AccountName}
             value={inputs.accountholder}
-            onFocus={() => handleError(null, Input_Type.accountholder)}
+            onFocusHandle={() => handleError(null, Input_Type.accountholder)}
             onChangeText={text =>
               handleOnchange(text, Input_Type.accountholder)
             }
@@ -210,6 +218,7 @@ const ManageBank = () => {
             onChangeText={text =>
               handleOnchange(text, Input_Type.routingnumber)
             }
+            onFocusHandle={() => handleError(null, Input_Type.routingnumber)}
             error={errors.routingnumber}
             required={true}
             returnKeyType="go"
@@ -243,7 +252,8 @@ const ManageBank = () => {
             />
           </View>
         </View>
-      </ScrollView>
+        <ExtraBottomView />
+      </KeyboardAwareScrollView>
     </View>
   );
 };

@@ -44,6 +44,7 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {KYC_UPDATE} from '../../../redux/Type';
+import ExtraBottomView from '../../../components/ExtraBottomView';
 const KycScreen = () => {
   const navigation = useNavigation();
   const [datePicked, onDateChange] = React.useState();
@@ -303,7 +304,7 @@ const KycScreen = () => {
               required={true}
               onChangeText={text => handleOnchange(text, Input_Type.firstName)}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.firstName)}
+              onFocusHandle={() => handleError(null, Input_Type.firstName)}
               maxLength={validationBank.FirstNameLimit}
               error={errors?.firstName}
               onSubmitEditing={() => {
@@ -316,7 +317,7 @@ const KycScreen = () => {
               onChangeText={text => handleOnchange(text, Input_Type.lastName)}
               required={true}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.lastName)}
+              onFocusHandle={() => handleError(null, Input_Type.lastName)}
               maxLength={validationBank.LastNameLimit}
               inputRef={lastnameRef}
               onSubmitEditing={() => {
@@ -330,7 +331,7 @@ const KycScreen = () => {
               dateUpdateHadler={date => handleOnchange(date, Input_Type.dob)}
               error={errors.dob}
               required={true}
-              onFocus={() => handleError(null, Input_Type.dob)}
+              onFocusHandle={() => handleError(null, Input_Type.dob)}
               endComponentPress={() => CalenderOn()}
               endComponent={() => (
                 <TouchableOpacity onPress={() => CalenderOn()}>
@@ -349,7 +350,7 @@ const KycScreen = () => {
               onChangeText={text =>
                 handleOnchange(text, Input_Type.phoneNumber)
               }
-              onFocus={() => handleError(null, Input_Type.phoneNumber)}
+              onFocusHandle={() => handleError(null, Input_Type.phoneNumber)}
               maxLength={validationBank.PhoneNumber}
               inputRef={phonenumberRef}
               onSubmitEditing={() => {
@@ -363,7 +364,7 @@ const KycScreen = () => {
               onChangeText={text => handleOnchange(text, Input_Type.country)}
               required={true}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.country)}
+              onFocusHandle={() => handleError(null, Input_Type.country)}
               maxLength={validationBank.LastNameLimit}
               inputRef={countryRef}
               onSubmitEditing={() => {
@@ -377,7 +378,7 @@ const KycScreen = () => {
               onChangeText={text => handleOnchange(text, Input_Type.state)}
               required={true}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.state)}
+              onFocusHandle={() => handleError(null, Input_Type.state)}
               maxLength={validationBank.LastNameLimit}
               inputRef={stateRef}
               onSubmitEditing={() => {
@@ -391,7 +392,7 @@ const KycScreen = () => {
               onChangeText={text => handleOnchange(text, Input_Type.city)}
               required={true}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.city)}
+              onFocusHandle={() => handleError(null, Input_Type.city)}
               maxLength={validationBank.LastNameLimit}
               inputRef={cityRef}
               onSubmitEditing={() => {
@@ -404,7 +405,7 @@ const KycScreen = () => {
               maxLength={validationBank.LastNameLimit}
               value={inputs.address}
               onChangeText={text => handleOnchange(text, Input_Type.address)}
-              onFocus={() => handleError(null, Input_Type.address)}
+              onFocusHandle={() => handleError(null, Input_Type.address)}
               label={Strings.ManageBank.ADDRESS}
               error={errors.address}
               returnKeyType="next"
@@ -419,7 +420,7 @@ const KycScreen = () => {
               value={inputs.zipCode}
               maxLength={validationBank.ZIP_CODE_MAX}
               onChangeText={text => handleOnchange(text, Input_Type.zipCode)}
-              onFocus={() => handleError(null, Input_Type.zipCode)}
+              onFocusHandle={() => handleError(null, Input_Type.zipCode)}
               label={Strings.ManageBank.ZIP_CODE}
               error={errors.zipCode}
               returnKeyType="next"
@@ -434,7 +435,7 @@ const KycScreen = () => {
               value={inputs.ssn}
               maxLength={validationBank.SSN}
               onChangeText={text => handleOnchange(text, Input_Type.ssn)}
-              onFocus={() => handleError(null, Input_Type.ssn)}
+              onFocusHandle={() => handleError(null, Input_Type.ssn)}
               label={Strings.ManageBank.SSN}
               error={errors.ssn}
               returnKeyType="go"
@@ -447,7 +448,7 @@ const KycScreen = () => {
               value={inputs.tax_ID}
               maxLength={validationBank.TAX}
               onChangeText={text => handleOnchange(text, Input_Type.tax_ID)}
-              onFocus={() => handleError(null, Input_Type.tax_ID)}
+              onFocusHandle={() => handleError(null, Input_Type.tax_ID)}
               label={Strings.ManageBank.TaxID}
               error={errors.ssn}
               returnKeyType="go"
@@ -477,6 +478,7 @@ const KycScreen = () => {
             />
           </View>
         </View>
+        <ExtraBottomView />
       </KeyboardAwareScrollView>
       <DateTimePickerModal
         value={date}
