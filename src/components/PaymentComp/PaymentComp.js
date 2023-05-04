@@ -13,7 +13,9 @@ const PaymentComp = ({
   line,
   onPress,
   Pending,
+  EmptyCard = false,
   Data = false,
+  FilledCard = false,
 }) => {
   return (
     <>
@@ -23,7 +25,10 @@ const PaymentComp = ({
         onPress={onPress}>
         <View
           style={[
-            !Data && styles.innerContainer,
+            Data === false &&
+              EmptyCard === false &&
+              FilledCard === false &&
+              styles.innerContainer,
             line && {
               borderBottomWidth: Value.CONSTANT_VALUE_2,
               borderColor: Colors.INPUT_BORDER,

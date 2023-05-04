@@ -142,6 +142,7 @@ export default {
   pickerBtn: {
     paddingVertical: Value.CONSTANT_VALUE_20,
   },
+  pickerBtnCam: {paddingBottom: Value.CONSTANT_VALUE_20},
   pickerBtnBorder: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
     borderBottomColor: Colors.BORDER_LINE,

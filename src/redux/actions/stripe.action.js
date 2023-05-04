@@ -109,6 +109,14 @@ export const DELETE_BANK = {
   END: 'DELETE_BANK_END',
   CLEAN: 'DELETE_BANK_CLEAN',
 };
+export const DELETE_CARD = {
+  API: 'DELETE_CARD_API',
+  START: 'DELETE_CARD_START',
+  SUCCESS: 'DELETE_CARD_SUCCESS',
+  FAIL: 'DELETE_CARD_FAIL',
+  END: 'DELETE_CARD_END',
+  CLEAN: 'DELETE_CARD_CLEAN',
+};
 
 export const addBankToken = data => {
   return {
@@ -162,6 +170,7 @@ export const addCard = (customerId, cardData, token) => {
   };
 };
 export const updateCardToken = data => {
+  console.log(data, 'data');
   return {
     type: UPDATE_CARD_TOKEN.API,
     data,
@@ -176,12 +185,6 @@ export const cleanCardToken = data => {
 export const cleanDeleted = () => {
   return {
     type: DELETE_BANK.CLEAN,
-  };
-};
-export const cleanUpdateCardToken = data => {
-  return {
-    type: UPDATE_CARD_TOKEN.CLEAN,
-    data,
   };
 };
 
@@ -217,7 +220,13 @@ export const kyc_status_update = data => {
     data,
   };
 };
-export const deleteBankOrCard = data => {
+export const deleteCard = data => {
+  return {
+    type: DELETE_CARD.API,
+    data,
+  };
+};
+export const deleteBank = data => {
   return {
     type: DELETE_BANK.API,
     data,

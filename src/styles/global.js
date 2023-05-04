@@ -129,6 +129,8 @@ export default {
   },
   bottomSheet: {
     borderRadius: Value.CONSTANT_VALUE_0,
+    borderTopLeftRadius: Value.CONSTANT_VALUE_0,
+    borderTopRightRadius: Value.CONSTANT_VALUE_0,
   },
   outerContentStyle: {
     borderRadius: Value.CONSTANT_VALUE_0,

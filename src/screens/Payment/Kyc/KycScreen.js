@@ -38,7 +38,11 @@ import {
 import {ValidationMessages} from '../../../constants/Strings';
 import DocumentPhoto from '../../../components/Document/DocumentPhotos';
 import {kyc_update} from '../../../redux/actions/stripe.action';
-import {showAppLoader, showAppToast} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import {KYC_UPDATE} from '../../../redux/Type';
 const KycScreen = () => {
   const navigation = useNavigation();
@@ -62,7 +66,7 @@ const KycScreen = () => {
   const {kycResponse} = useSelector(store => store?.kyc);
   let scrollRef = React.createRef();
   const [date, setDate] = React.useState(new Date());
-  console.log(date, 'date');
+  console.log(bank_token, 'bank_token');
   const headerComp = () => (
     <IconHeader
       rightIcon={Images.iconcross}
@@ -82,6 +86,7 @@ const KycScreen = () => {
         ),
       );
       dispatch({type: KYC_UPDATE.END});
+      dispatch(hideAppLoader());
       navigation.navigate(Routes.HeraPay);
     } else if (response?.status === KYC_UPDATE.FAIL) {
       let error =
@@ -89,6 +94,7 @@ const KycScreen = () => {
         response?.info?.message ??
         'Something went wrong!';
       dispatch(showAppToast(true, error));
+      dispatch(hideAppLoader());
       dispatch({type: KYC_UPDATE.END});
       // navigation.navigate(Routes.HeraPay);
     }

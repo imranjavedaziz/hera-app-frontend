@@ -12,10 +12,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   ADD_BANK_TOKEN,
   ADD_CARD,
-  UPDATE_BANK_TOKEN,
   addBankToken,
   addCard,
-  updateBankToken,
 } from '../../../redux/actions/stripe.action';
 import {
   hideAppLoader,
@@ -32,23 +30,19 @@ const ManageBank = () => {
   const routingnumberRef = useRef();
   const [errors, setErrors] = React.useState({});
   const [inputs, setInputs] = React.useState({});
+  const [BankInfo, setBankInfo] = React.useState({});
   const dispatch = useDispatch();
-  const [bankDetails, setBankDetails] = React.useState();
-  const {bankResponse} = useSelector(store => store.addBankTokenReducer);
-  const bankUpdateResponse = useSelector(store => store.updateBankTokenReducer);
-  const {stripe_customer_id} = useSelector(state => state.Auth);
   const {addCards} = useSelector(store => store.addCard);
+  const {connected_acc_token} = useSelector(state => state.Auth);
+  const {bankResponse} = useSelector(store => store.addBankTokenReducer);
+
   useEffect(() => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
-      console.log('bankResponse **********', bankResponse);
-      savebankToken(
-        bankResponse.info.id,
-        bankResponse.info.bank_account.country,
-        bankResponse.info.bank_account.currency,
-      );
       const token = bankResponse.info.id;
       dispatch(bankToken(token));
-      dispatch(addCard(stripe_customer_id, bankDetails, token));
+      replace(Routes.KycScreen);
+      dispatch(hideAppLoader());
+      dispatch(addCard(connected_acc_token, BankInfo, token));
       dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {
       dispatch(hideAppLoader());
@@ -60,56 +54,21 @@ const ManageBank = () => {
   }, [bankResponse]);
 
   useEffect(() => {
-    let response = bankUpdateResponse.bankUpdateResponse;
-    if (response?.status === UPDATE_BANK_TOKEN.START) {
-      console.log(response, 'bankUpdateResponse');
-    } else if (response?.status === UPDATE_BANK_TOKEN.SUCCESS) {
-      dispatch(hideAppLoader());
-      dispatch({type: UPDATE_BANK_TOKEN.END});
-    } else if (response?.status === UPDATE_BANK_TOKEN.FAIL) {
-      dispatch(hideAppLoader());
-      let error =
-        response?.info?.errors ??
-        response?.info?.message ??
-        'Something went wrong';
-      dispatch(showAppToast(true, error));
-      dispatch({type: UPDATE_BANK_TOKEN.END});
-    }
-  }, [bankUpdateResponse]);
-  useEffect(() => {
     if (addCards?.status === ADD_CARD.START) {
-      console.log('startedaddBANK');
     } else if (addCards?.status === ADD_CARD.SUCCESS) {
-      let info = addCards?.info;
-      console.log(info, 'addcardinfomation');
-      console.log(addCards, 'addCardres');
-      //need to test
-      dispatch(showAppToast(false, 'Bank Added to profile!'));
-      replace(Routes.KycScreen);
       dispatch(hideAppLoader());
-      cleanRecord();
+      dispatch({type: ADD_CARD.CLEAN});
     } else if (addCards?.status === ADD_CARD.FAIL) {
-      dispatch(showAppToast(true, error));
-      let error = addCards?.info ?? 'Something went wrong';
-      dispatch(showAppToast(true, error));
       dispatch(hideAppLoader());
+      let error = addCards?.info ?? 'Something went wrong!';
+      dispatch(showAppToast(true, error));
       cleanRecord();
     }
   }, [addCards]);
   const cleanRecord = (clearToken = true) => {
     if (clearToken) {
-      dispatch({type: ADD_CARD.CLEAN});
+      dispatch({type: ADD_BANK_TOKEN.CLEAN});
     }
-  };
-  const savebankToken = (token, countryCode, currencyCode) => {
-    let payload;
-    payload = {
-      bank_token: token,
-      currency: currencyCode,
-      country_code: countryCode,
-    };
-    console.log('payload **********', payload);
-    dispatch(updateBankToken(payload));
   };
 
   const headerComp = () => (
@@ -143,7 +102,6 @@ const ManageBank = () => {
   };
   const validateData = () => {
     let isValid = true;
-
     if (inputs.accountholder) {
       handleOnchange(inputs?.accountholder.trim(), Input_Type.accountholder);
     }
@@ -189,8 +147,8 @@ const ManageBank = () => {
         'bank_account[routing_number]': inputs.routingnumber,
         'bank_account[account_number]': inputs.accountnumber,
       };
-      setBankDetails(bankInfo);
       dispatch(showAppLoader());
+      setBankInfo(bankInfo);
       dispatch(addBankToken(bankInfo));
     }
   };

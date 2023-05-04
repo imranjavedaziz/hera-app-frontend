@@ -46,7 +46,12 @@ import {
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import {logOut, signoutUser, updateRegStep} from '../../../redux/actions/Auth';
+import {
+  RemoveStripIds,
+  logOut,
+  signoutUser,
+  updateRegStep,
+} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
@@ -216,6 +221,7 @@ const SetPreference = ({route, navigation}) => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
+        dispatch(RemoveStripIds());
         dispatch(hideAppLoader());
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
@@ -365,20 +371,20 @@ const SetPreference = ({route, navigation}) => {
           <TouchableOpacity
             onPress={() => setModalVisible(!modalVisible)}
             style={globalStyle.clearView}>
-            <Image source={Images.ICON_INFO} style={globalStyle.infoIcon}/>
+            <Image source={Images.ICON_INFO} style={globalStyle.infoIcon} />
           </TouchableOpacity>
           <ImageBackground
             source={Images.CANCEL_BG}
             style={globalStyle.cancelBg}>
-          <TouchableOpacity
-            onPress={() => {
-              nav();
-            }}
-            style={globalStyle.clearView}>
-            <Text style={globalStyle.clearText}>
-              {Strings.Subscription.Cancel}
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                nav();
+              }}
+              style={globalStyle.clearView}>
+              <Text style={globalStyle.clearText}>
+                {Strings.Subscription.Cancel}
+              </Text>
+            </TouchableOpacity>
           </ImageBackground>
         </View>
       ) : (

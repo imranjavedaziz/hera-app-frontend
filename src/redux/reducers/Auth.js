@@ -10,6 +10,7 @@ import {
   UPDATE_REFRESH_TOKEN,
   BANK_TOKEN,
   CLEAR_BANK_TOKEN,
+  STRIPE_REMOVE_IDS,
 } from '../constants';
 
 import {
@@ -123,6 +124,7 @@ const initState = {
   stripe_key: '',
   stripe_secret: '',
   bank_token: '',
+  connected_acc_token: '',
 };
 
 export default (state = initState, action) => {
@@ -158,6 +160,7 @@ export default (state = initState, action) => {
         stripe_customer_id,
         stripe_key,
         stripe_secret,
+        connected_acc_token,
       } = action.data.data.data;
       return {
         ...state,
@@ -171,6 +174,7 @@ export default (state = initState, action) => {
         stripe_customer_id: stripe_customer_id,
         stripe_key: stripe_key,
         stripe_secret: stripe_secret,
+        connected_acc_token: connected_acc_token,
         login: true,
         register_user_success: false,
       };
@@ -368,7 +372,19 @@ export default (state = initState, action) => {
         stripe_key: '',
         stripe_secret: '',
         refresh_token: '',
+        connected_acc_token: '',
         registration_step: 1,
+      };
+    }
+    case STRIPE_REMOVE_IDS: {
+      return {
+        ...state,
+        token: '',
+        stripe_customer_id: '',
+        stripe_key: '',
+        stripe_secret: '',
+        refresh_token: '',
+        connected_acc_token: '',
       };
     }
     /**
@@ -400,6 +416,7 @@ export default (state = initState, action) => {
         refresh_token,
         stripe_customer_id,
         stripe_secret,
+        connected_acc_token,
         stripe_key,
       } = action.data.data.data;
       return {
@@ -418,6 +435,7 @@ export default (state = initState, action) => {
         stripe_customer_id: stripe_customer_id,
         stripe_key: stripe_key,
         stripe_secret: stripe_secret,
+        connected_acc_token: connected_acc_token,
         login: true,
       };
     }
