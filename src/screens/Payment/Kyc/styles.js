@@ -1,5 +1,5 @@
 import {Value} from '../../../constants/FixedValues';
-import {dynamicSize, scaleWidth, statusHide} from '../../../utils/responsive';
+import {px, statusHide} from '../../../utils/responsive';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 
@@ -9,12 +9,11 @@ export default {
     backgroundColor: Colors.BACKGROUND,
   },
   androidHeaderIcons: {
-    marginLeft: Value.CONSTANT_VALUE_30,
+    marginRight: Value.CONSTANT_VALUE_30,
   },
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     marginTop: statusHide(104),
-    marginHorizontal: dynamicSize(Value.CONSTANT_VALUE_40),
   },
   mainText: {
     color: Colors.BLACK,
@@ -23,16 +22,17 @@ export default {
     textAlign: Alignment.CENTER,
     fontSize: Value.CONSTANT_VALUE_11,
   },
-  cardDetails: {
+  mainTextADD: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_23,
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+    marginTop: Value.CONSTANT_VALUE_8,
   },
-  addBtn: {
-    height: 80,
-    marginTop: Value.CONSTANT_VALUE_45,
+  saveBtn: {
+    height: px(Value.CONSTANT_VALUE_80),
+    marginTop: Value.CONSTANT_VALUE_50,
     marginBottom: Value.CONSTANT_VALUE_20,
+    width: px(Value.CONSTANT_VALUE_236),
   },
 };

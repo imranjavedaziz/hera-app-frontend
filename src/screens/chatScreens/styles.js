@@ -77,6 +77,14 @@ export default {
     marginLeft: 10,
     backgroundColor: Colors.BACKGROUND,
   },
+  receiverPdf: {
+    alignSelf: Alignment.FLEX_START,
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
+    marginLeft: 10,
+    backgroundColor: Colors.WHITE,
+  },
   mainContainerDetail: {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',

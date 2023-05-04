@@ -23,7 +23,7 @@ export default {
   },
   heading: {
     fontFamily: Fonts.OpenSansBold,
-    fontSize:Value.CONSTANT_VALUE_16,
+    fontSize: Value.CONSTANT_VALUE_16,
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
   },
@@ -48,7 +48,7 @@ export default {
     width: px(Value.CONSTANT_VALUE_12),
     height: px(Value.CONSTANT_VALUE_12),
     borderStyle: Alignment.SOLID,
-    borderRadius:px(Value.CONSTANT_VALUE_12),
+    borderRadius: px(Value.CONSTANT_VALUE_12),
     backgroundColor: '#ff4544',
     borderWidth: px(Value.CONSTANT_VALUE_1),
     borderColor: '#ffffff',

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -20,9 +20,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Fonts, Routes} from '../../../../constants/Constants';
 import {
   DELETE_BANK,
+  DELETE_CARD,
   GET_BANK_LIST,
   GET_CARD_LIST,
-  deleteBankOrCard,
+  cleanDeleted,
+  deleteBank,
+  deleteCard,
   getBankList,
   getCardList,
 } from '../../../../redux/actions/stripe.action';
@@ -35,19 +38,29 @@ import PaymentCards from '../../../../components/PaymentCards/PaymentCards';
 import {dynamicSize} from '../../../../utils/responsive';
 import {Value} from '../../../../constants/FixedValues';
 import _ from 'lodash';
+import {getAccountStatus} from '../../../../redux/actions/AccountStatus';
+import {monthGet} from '../../../../utils/commonFunction';
 
 const HeraPay = () => {
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const {log_in_data, stripe_customer_id} = useSelector(state => state.Auth);
+  const loadingRef = useRef();
+  const {log_in_data, stripe_customer_id, connected_acc_token} = useSelector(
+    state => state.Auth,
+  );
   const {getBankListResponse} = useSelector(store => store.getBankList);
   const {getCardListResponse} = useSelector(store => store.getCardList);
-  const [Item, setItem] = useState(null);
-  const {deleteBankOrCardResponse} = useSelector(
-    store => store.deleteBankOrCard,
-  );
+  const {
+    account_status_success,
+    account_status_loading,
+    account_status_error_msg,
+    account_status_fail,
+    account_status_res,
+  } = useSelector(state => state.AccountStatus);
+  const {deleteBankResponse} = useSelector(store => store.deleteBank);
+  const {deleteCardResponse} = useSelector(store => store.deleteCard);
   const [Data, setData] = useState([]);
   useFocusEffect(
     useCallback(() => {
@@ -55,10 +68,30 @@ const HeraPay = () => {
         if (log_in_data?.role_id === 2) {
           dispatch(getCardList(stripe_customer_id, 3));
         } else {
-          dispatch(getBankList(stripe_customer_id, 3));
+          dispatch(getBankList(connected_acc_token, 3));
+          // dispatch(getAccountStatus());
         }
       }
     }, [dispatch]),
+  );
+
+  //Get Account Status
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !account_status_loading) {
+        dispatch(showAppLoader());
+        if (account_status_success) {
+          dispatch(hideAppLoader());
+          console.log(account_status_res, 'account_status_res');
+        }
+        if (account_status_fail) {
+          dispatch(hideAppLoader());
+          dispatch(showAppToast(true, account_status_error_msg));
+        }
+        dispatch(hideAppLoader());
+      }
+      loadingRef.current = account_status_loading;
+    }, [account_status_success, account_status_loading]),
   );
   //Get Bank List
   useEffect(() => {
@@ -91,22 +124,51 @@ const HeraPay = () => {
   }, [getCardListResponse]);
   //Delete Bank or Card
   useEffect(() => {
-    if (deleteBankOrCardResponse?.status === DELETE_BANK.START) {
+    if (deleteBankResponse?.status === DELETE_BANK.START) {
       dispatch(showAppLoader());
-    } else if (deleteBankOrCardResponse?.status === DELETE_BANK.SUCCESS) {
-      let info = deleteBankOrCardResponse?.info;
+    } else if (deleteBankResponse?.status === DELETE_BANK.SUCCESS) {
+      let info = deleteBankResponse?.info;
       setData(info?.data);
       dispatch(hideAppLoader());
-    } else if (deleteBankOrCardResponse?.status === DELETE_BANK.FAIL) {
-      let error = deleteBankOrCardResponse?.info ?? 'Something went wrong';
+      dispatch(showAppToast(false, 'Bank removed from profile!'));
+      dispatch(getBankList(connected_acc_token, 3));
+      dispatch(cleanDeleted());
+    } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
+      let error = deleteBankResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
-      dispatch(showAppToast(false, error));
+      console.log(deleteBankResponse,'deleteBankResponsedeleteBankResponse');
+      dispatch(showAppToast(true, error));
+      dispatch(cleanDeleted());
     } else {
       dispatch(hideAppLoader());
     }
-  }, [deleteBankOrCardResponse]);
+  }, [deleteBankResponse]);
+  useEffect(() => {
+    if (deleteCardResponse?.status === DELETE_CARD.START) {
+      dispatch(showAppLoader());
+    } else if (deleteCardResponse?.status === DELETE_CARD.SUCCESS) {
+      let info = deleteCardResponse?.info;
+      setData(info?.data);
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(false, 'Card removed from profile!'));
+      dispatch(getCardList(stripe_customer_id, 3));
+      dispatch(cleanDeleted());
+    } else if (deleteCardResponse?.status === DELETE_CARD.FAIL) {
+      let error = deleteCardResponse?.info ?? 'Something went wrong';
+      
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true, error));
+      dispatch(cleanDeleted());
+    } else {
+      dispatch(hideAppLoader());
+    }
+  }, [deleteCardResponse]);
   const OnDeleteBank = item => {
-    dispatch(deleteBankOrCard(item));
+    if (log_in_data?.role_id === 2) {
+      dispatch(deleteCard(item));
+    } else {
+      dispatch(deleteBank(item));
+    }
   };
   const headerComp = () => (
     <IconHeader
@@ -216,15 +278,19 @@ const HeraPay = () => {
                   : Strings.Payment_Comp.Manage_Bank
               }
               Content={
-                log_in_data?.role_id !== 2 &&
-                (_.isEmpty(Data) || Data === null) &&
-                Strings.Payment_Comp.Bank_Description
+                _.isEmpty(Data) || Data === null
+                  ? log_in_data?.role_id !== 2
+                    ? Strings.Payment_Comp.Bank_Description
+                    : Strings.Payment_Comp.CARD_Descriptiom
+                  : ''
               }
               Data={
                 log_in_data?.role_id !== 2 &&
                 (!_.isEmpty(Data) || Data !== null) &&
                 true
               }
+              EmptyCard={log_in_data?.role_id === 2 && _.isEmpty(Data)}
+              FilledCard={log_in_data?.role_id === 2 && !_.isEmpty(Data)}
             />
           </View>
           {((log_in_data?.role_id !== 2 && !_.isEmpty(Data)) ||
@@ -277,7 +343,6 @@ const HeraPay = () => {
                       Platform.OS === 'ios'
                         ? backAction(item)
                         : setShowModal(true);
-                      setItem(item);
                     }}>
                     <Image
                       style={{bottom: Value.CONSTANT_VALUE_5}}
@@ -287,30 +352,32 @@ const HeraPay = () => {
                 </View>
               );
             })}
-          {log_in_data?.role_id === 2 && (
-            <View style={{bottom: 20}}>
-              <PaymentCards
-                onPress={() => {
-                  Platform.OS === 'ios' ? backAction() : setShowModal(true);
-                }}
-                Icon={Images.ICON_MASTER}
-                Number={Strings.Hera_Pay.CARD_NUMBER}
-                Time={Strings.Hera_Pay.CARD_TIME}
-              />
-            </View>
-          )}
-          {log_in_data?.role_id === 2 && (
-            <View style={styles.pamentCard}>
-              <PaymentCards
-                onPress={() => {
-                  Platform.OS === 'ios' ? backAction() : setShowModal(true);
-                }}
-                Icon={Images.VISA_CARD}
-                Number={Strings.Hera_Pay.CARD_NUM_TWO}
-                Time={Strings.Hera_Pay.CARD_TIME_TWO}
-              />
-            </View>
-          )}
+          {/* Manage_Bank */}
+          {((log_in_data?.role_id === 2 && !_.isEmpty(Data)) ||
+            Data !== null ||
+            Data !== undefined) &&
+            getCardListResponse?.info?.data.map((item, index) => {
+              return (
+                <View
+                  key={index}
+                  style={{
+                    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_15),
+                  }}>
+                  <PaymentCards
+                    onPress={() => {
+                      Platform.OS === 'ios'
+                        ? backAction(item)
+                        : setShowModal(true);
+                    }}
+                    Icon={Images.ICON_MASTER}
+                    number={`${Strings.Hera_Pay.CARD_DOT}${item?.last4}`}
+                    Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(item)} ${
+                      item?.exp_year
+                    }`}
+                  />
+                </View>
+              );
+            })}
           {(_.isEmpty(Data) || Data === null) && (
             <TouchableOpacity
               onPress={() =>
@@ -321,10 +388,8 @@ const HeraPay = () => {
               style={[
                 styles.addCardContainer,
                 {
-                  marginTop:
-                    log_in_data?.role_id === 2
-                      ? dynamicSize(Value.CONSTANT_VALUE_25)
-                      : dynamicSize(Value.CONSTANT_VALUE_6),
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_6),
+                  marginLeft: dynamicSize(35),
                 },
               ]}>
               <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
@@ -335,6 +400,18 @@ const HeraPay = () => {
               </Text>
             </TouchableOpacity>
           )}
+          {!_.isEmpty(Data) &&
+            getCardListResponse?.info?.data?.length >= 1 &&
+            log_in_data?.role_id === 2 && (
+              <TouchableOpacity
+                onPress={() => navigation.navigate(Routes.ManageCard)}
+                style={{flexDirection: 'row', marginLeft: 5, marginBottom: 95}}>
+                <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
+                <Text style={styles.addCardTxt}>
+                  {Strings.Hera_Pay.ADD_CARD}
+                </Text>
+              </TouchableOpacity>
+            )}
         </View>
       </ScrollView>
       {modal && (

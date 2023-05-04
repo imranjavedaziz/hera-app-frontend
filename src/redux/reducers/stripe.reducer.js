@@ -9,6 +9,7 @@ import {
   ADD_CARD,
   GET_BANK_LIST,
   DELETE_BANK,
+  DELETE_CARD,
 } from '../actions/stripe.action';
 
 const initialState = {
@@ -49,12 +50,19 @@ const updateTokenState = {
     status: UPDATE_CARD_TOKEN.END,
   },
 };
-const deleteBankOrCardResponse = {
+const deleteBankResponse = {
   info: null,
   success: false,
   failed: false,
   loading: false,
   status: DELETE_BANK.END,
+};
+const deleteCardResponse = {
+  info: null,
+  success: false,
+  failed: false,
+  loading: false,
+  status: DELETE_CARD.END,
 };
 const updateBankTokenState = {
   bankUpdateResponse: {
@@ -334,7 +342,7 @@ export function getBankListReducer(state = getBankListResponse, action) {
         getCardListResponse: {loading: false, status: GET_BANK_LIST.END},
       };
     case GET_BANK_LIST.CLEAN:
-      return initialState;
+      return getBankListResponse;
     default:
       return state;
   }
@@ -378,21 +386,64 @@ export function addCardReducer(state = addCards, action) {
         addCards: {loading: false, status: ADD_CARD.END},
       };
     case ADD_CARD.CLEAN:
-      return initialState;
+      return addCards;
     default:
       return state;
   }
 }
 
-export function deleteBankOrCardReducer(
-  state = deleteBankOrCardResponse,
-  action,
-) {
+export function deleteCardReducer(state = deleteCardResponse, action) {
+  switch (action?.type) {
+    case DELETE_CARD.START:
+      return {
+        ...state,
+        deleteCardResponse: {
+          loading: true,
+          status: DELETE_CARD.START,
+          success: false,
+          failed: false,
+        },
+      };
+    case DELETE_CARD.SUCCESS:
+      return {
+        ...state,
+        deleteCardResponse: {
+          loading: false,
+          status: DELETE_CARD.SUCCESS,
+          info: action?.payload,
+          success: true,
+          failed: false,
+        },
+      };
+    case DELETE_CARD.FAIL:
+      return {
+        ...state,
+        deleteCardResponse: {
+          info: action?.payload,
+          loading: false,
+          status: DELETE_CARD.FAIL,
+          success: false,
+          failed: true,
+        },
+      };
+    case DELETE_CARD.END:
+      return {
+        ...state,
+        deleteCardResponse: {loading: false, status: DELETE_CARD.END},
+      };
+    case DELETE_CARD.CLEAN:
+      return deleteCardResponse;
+    default:
+      return state;
+  }
+}
+
+export function deleteBankReducer(state = deleteBankResponse, action) {
   switch (action?.type) {
     case DELETE_BANK.START:
       return {
         ...state,
-        deleteBankOrCardResponse: {
+        deleteBankResponse: {
           loading: true,
           status: DELETE_BANK.START,
           success: false,
@@ -402,7 +453,7 @@ export function deleteBankOrCardReducer(
     case DELETE_BANK.SUCCESS:
       return {
         ...state,
-        deleteBankOrCardResponse: {
+        deleteBankResponse: {
           loading: false,
           status: DELETE_BANK.SUCCESS,
           info: action?.payload,
@@ -413,10 +464,10 @@ export function deleteBankOrCardReducer(
     case DELETE_BANK.FAIL:
       return {
         ...state,
-        deleteBankOrCardResponse: {
+        deleteBankResponse: {
           info: action?.payload,
           loading: false,
-          status: ADD_CARD.FAIL,
+          status: DELETE_BANK.FAIL,
           success: false,
           failed: true,
         },
@@ -424,10 +475,10 @@ export function deleteBankOrCardReducer(
     case DELETE_BANK.END:
       return {
         ...state,
-        deleteBankOrCardResponse: {loading: false, status: DELETE_BANK.END},
+        deleteBankResponse: {loading: false, status: DELETE_BANK.END},
       };
     case DELETE_BANK.CLEAN:
-      return deleteBankOrCardResponse;
+      return deleteBankResponse;
     default:
       return state;
   }

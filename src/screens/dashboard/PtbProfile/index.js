@@ -27,6 +27,7 @@ import PtbAccount, {
 } from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  RemoveStripIds,
   logOut,
   signoutUser,
   updateName,
@@ -192,6 +193,7 @@ const PtbProfile = () => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
+        dispatch(RemoveStripIds());
         dispatch(signoutUser());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);

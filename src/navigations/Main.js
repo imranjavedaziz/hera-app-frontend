@@ -55,6 +55,7 @@ import MatchScreen from '../screens/Payment/Match/MatchScreen';
 import Transaction from '../screens/Payment/Transaction/Transaction';
 import ManageBank from '../screens/Payment/ManageBank/ManageBank';
 import ManageCard from '../screens/Payment/ManageCard/ManageCard';
+import KycScreen from '../screens/Payment/Kyc/KycScreen';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -229,6 +230,7 @@ const Main = () => {
           <Stack.Screen name={Routes.Transaction} component={Transaction} />
           <Stack.Screen name={Routes.ManageBank} component={ManageBank} />
           <Stack.Screen name={Routes.ManageCard} component={ManageCard} />
+          <Stack.Screen name={Routes.KycScreen} component={KycScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     )

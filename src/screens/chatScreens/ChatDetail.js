@@ -396,12 +396,7 @@ const ChatDetail = props => {
     setOpen(true);
   };
   const onSendDoc = async () => {
-    if ((await NetInfo.isConnected.fetch()) !== true) {
-      dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
-    } else if (
-      !subscriptionStatus?.data?.status &&
-      parseInt(user?.role_id) === 2
-    ) {
+    if (!subscriptionStatus?.data?.status && parseInt(user?.role_id) === 2) {
       navigation.navigate(Routes.Subscription);
     } else if (
       parseInt(props?.route?.params?.item?.status_id) !== 1 ||
@@ -485,6 +480,8 @@ const ChatDetail = props => {
                     : styles.senderID
                   : item?.currentMessage.type === 'image/jpeg'
                   ? styles.receiverImgID
+                  : item?.currentMessage.type === 'application/pdf'
+                  ? styles.receiverPdf
                   : styles.receiverID,
               ]}>
               <View
@@ -1035,7 +1032,7 @@ const ChatDetail = props => {
                 openCamera(0, cb);
                 setOpen(false);
               }}
-              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
+              style={[styleSheet.pickerBtnCam, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1043,7 +1040,7 @@ const ChatDetail = props => {
                 openCamera(1, cb);
                 setOpen(false);
               }}
-              style={styleSheet.pickerBtn}>
+              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1068,7 +1065,7 @@ const ChatDetail = props => {
                   dispatch(NextStep(payload));
                   setOpen(false);
                 }}
-                style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
+                style={[styleSheet.pickerBtnCam, styleSheet.pickerBtnBorder]}>
                 <Text style={styleSheet.pickerBtnLabel}>
                   {Strings.chats.confirmProfile}
                 </Text>
@@ -1079,7 +1076,12 @@ const ChatDetail = props => {
                 setOpen(false);
                 console.log(Strings.chats.shareUser);
               }}
-              style={styleSheet.pickerBtn}>
+              style={[
+                log_in_data?.role_id === 2
+                  ? styleSheet.pickerBtn
+                  : styleSheet.pickerBtnCam,
+                styleSheet.pickerBtnBorder,
+              ]}>
               <Text style={styleSheet.pickerBtnLabel}>
                 {log_in_data?.role_id === 2
                   ? Strings.chats.sendPayment
@@ -1090,7 +1092,7 @@ const ChatDetail = props => {
               onPress={() => {
                 navigateDetailScreen();
               }}
-              style={styleSheet.pickerBtn}>
+              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>
                 {Strings.chats.seeProfile}
               </Text>
@@ -1098,11 +1100,11 @@ const ChatDetail = props => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate(Routes.AllMedia, {
-                  to_user_id: props?.route?.params?.item,
+                  item: props?.route?.params?.item,
                 });
                 setOpen(false);
               }}
-              style={styleSheet.pickerBtn}>
+              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>
                 {Strings.chats.shareUser}
               </Text>

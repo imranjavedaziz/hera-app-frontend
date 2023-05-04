@@ -86,7 +86,19 @@ export const ValidationMessages = {
   //Error
   NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
   REQUIRED: 'Required!',
+  CARD_REQUIRED: 'Card Number is required!',
+  CVV_REQUIRED: 'CVV is required!',
+  CVV_INVALID: 'Invalid CVV!',
+  CARD_INVALID: 'Invalid Card Number!',
   INVALID: 'Invalid!',
+  NAME_REQUIRED: 'Card Holder’s Name is required!',
+  NAME_INAVLID: 'Invalid Name!',
+  EXP_INVALID: 'Invalid Expiry Date!',
+  EXP_REQUIRED: 'Expiry Date is required!',
+  DISCARD_KYC: 'Discard KYC?',
+  YES_DISCARD: 'Yes, Discard',
+  NOT_NOW: 'Not Now',
+  DISCARD_KYC_DESC: `Your bank will not be added and you won't be able to receive and payments.`,
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
@@ -455,7 +467,8 @@ export default {
     GotIt: 'OKAY, GOT IT!',
     SuccessChanged: 'Subscription Updated!',
     SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
-    SuccessUpgradePara: 'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
+    SuccessUpgradePara:
+      'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
     CancelSub: 'Cancel Subscription?',
     CancelSubParaIos: `To cancel your subscription you need to Click your Account Settings,
     Scroll to Subscriptions, then click Manage.
@@ -537,7 +550,7 @@ export default {
     Send_Payment: 'Send Payment',
     MAKE_PAYMENT: 'MAKE A NEW PAYMENT',
     CARD_NUMBER: '0039',
-    CARD_TIME: 'Valid thru May 2025',
+    CARD_TIME: 'Valid thru',
     CARD_NUM_TWO: '0183',
     CARD_DOT: '•••• ',
     CARD_TIME_TWO: 'Valid thru May 2025',
@@ -572,6 +585,7 @@ export default {
     Transaction_History_Parent:
       'See all the payments that you have received from your matches till date.',
     Manage_Bank: 'Manage Bank',
+    CARD_Descriptiom: 'Add your card details to send payment to your matches.',
     Bank_Description:
       'Add your bank account to receive payments from Intended Parents.',
   },
@@ -580,7 +594,7 @@ export default {
   Meryl_Anderson: 'Meryl Anderson',
 
   //Chat
-  Type: 'Parent-To-Be',
+  Type: 'Intended Parent',
   Liked_your_profile: 'Liked your profile',
   Start_Converstation:
     'Seems like a good match?\nLike and start a conversation!',
@@ -652,6 +666,12 @@ export default {
   //ManageCard
   ManageCard: {
     ADD_CARD: 'ADD CARD',
+    CARD_DETAILS: 'Add your Card Details to Make any Payment',
+    CardNumber: 'Card Number',
+    ValidThrough: 'Valid Thru (MM/YY)',
+    CVV: 'CVV',
+    cardHolderName: 'Card Holder’s Name',
+    SAVE_CARD: 'SAVE THIS CARD',
   },
   //ManageBank
   ManageBank: {
@@ -663,6 +683,17 @@ export default {
     Currency: 'Currency',
     Country: 'Country',
     Add: 'SAVE BANK',
+    CompleteKyc: 'Complete your KYC',
+    SAVE: 'Save',
+    FIRST_NAME: 'First Name',
+    LAST_NAME: 'Last Name',
+    ADDRESS: 'Address',
+    ZIP_CODE: 'ZipCode',
+    SSN: 'SNN',
+    STATE: 'State',
+    CITY: 'City',
+    PhoneNumber: 'Phone Number',
+    TaxID: 'Tax ID (Optional)',
   },
 
   STATIC_GENDER: [
@@ -679,4 +710,7 @@ export default {
   UNABLE_TO_SHOW_DATA:
     'Unable to show data as your internet might be turned off.',
   RETRY: 'Retry',
+  UploadProof: 'Upload Proof of Verification',
+  FILE_MAX_SIZE: 'Max size: 10 MB',
+  INVALID_FORMAT: 'Invalid Format',
 };

@@ -31,6 +31,7 @@ import {
   logOut,
   updateName,
   signoutUser,
+  RemoveStripIds,
 } from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
@@ -149,6 +150,7 @@ const SmDonorSettings = () => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
+        dispatch(RemoveStripIds());
         dispatch(signoutUser());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);

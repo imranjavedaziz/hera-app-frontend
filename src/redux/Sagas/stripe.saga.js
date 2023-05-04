@@ -9,10 +9,12 @@ import {
   ADD_CARD,
   GET_BANK_LIST,
   DELETE_BANK,
+  DELETE_CARD,
 } from '../actions/stripe.action';
 import * as stripeApiCall from '../../Api/StripeApi';
 
 function* addCardToken(action) {
+  console.log(action,'actionaction');
   const {data} = action;
   try {
     yield put({
@@ -20,7 +22,7 @@ function* addCardToken(action) {
     });
     console.log('ADD_CARD_TOKEN.START', data);
     const response = yield stripeApiCall.addCardToken(data);
-    console.log(response, 'response');
+    console.log(response, 'responsse');
     yield put({
       type: ADD_CARD_TOKEN.SUCCESS,
       payload: response,
@@ -200,13 +202,13 @@ function* addCard(action) {
     });
   }
 }
-function* deleteBankOrCard(action) {
+function* deleteBank(action) {
   try {
     yield put({
       type: DELETE_BANK.START,
     });
     console.log('DELETE_BANK.START', action);
-    const response = yield stripeApiCall.deleteBankOrCard(action);
+    const response = yield stripeApiCall.deleteBank(action);
     console.log('DELETE_BANK.response', response);
     yield put({
       type: DELETE_BANK.SUCCESS,
@@ -220,6 +222,27 @@ function* deleteBankOrCard(action) {
     });
   }
 }
+
+function* deleteCard(action) {
+  try {
+    yield put({
+      type: DELETE_CARD.START,
+    });
+    console.log('DELETE_CARD.START', action);
+    const response = yield stripeApiCall.deleteCard(action);
+    console.log('DELETE_CARD.response', response);
+    yield put({
+      type: DELETE_CARD.SUCCESS,
+      payload: response,
+    });
+  } catch (error) {
+    console.log('DELETE_CARD.error', error);
+    yield put({
+      type: DELETE_CARD.FAIL,
+      payload: error,
+    });
+  }
+}
 export default function* addCardTokenWatcher() {
   yield takeLatest(ADD_CARD_TOKEN.API, addCardToken);
   yield takeLatest(UPDATE_CARD_TOKEN.API, updateCardToken);
@@ -229,5 +252,6 @@ export default function* addCardTokenWatcher() {
   yield takeLatest(GET_CARD_LIST.API, getCardListStripe);
   yield takeLatest(ADD_CARD.API, addCard);
   yield takeLatest(GET_BANK_LIST.API, getBankListStripe);
-  yield takeLatest(DELETE_BANK.API, deleteBankOrCard);
+  yield takeLatest(DELETE_BANK.API, deleteBank);
+  yield takeLatest(DELETE_CARD.API, deleteCard);
 }
