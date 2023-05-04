@@ -69,6 +69,7 @@ const Gallery = () => {
   const [selVideo, setSelVideo] = useState(false);
   const [loadScreen, setLoadScreen] = useState(true);
   const [images, _setImages] = useState([]);
+  const [openActionsheet, setOpenActionsheet] = useState(false);
 
   const videoRef = useRef();
   const {
@@ -264,16 +265,20 @@ const Gallery = () => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
         !isVideo ? openCamera(0, cb) : selectVideo(0);
+        setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
         !isVideo ? openCamera(1, cb) : selectVideo(1);
+        setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:
         console.log('Cancel');
+        setOpenActionsheet(false);
         break;
     }
   };
   const openActionSheet = () => {
+    setOpenActionsheet(true);
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
@@ -285,11 +290,15 @@ const Gallery = () => {
   };
   const iosPhotoSheet = () => {
     setIsVideo(false);
-    openActionSheet();
+    if (openActionsheet === false) {
+      openActionSheet();
+    }
   };
   const iosVideoSheet = () => {
     setIsVideo(true);
-    openActionSheet();
+    if (openActionsheet === false) {
+      openActionSheet();
+    }
   };
   const bottomSheetVideo = () => {
     Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();
@@ -338,7 +347,10 @@ const Gallery = () => {
                       {img.uri && (
                         <TouchableOpacity
                           style={{
-                            height:50,width:50,bottom:25,left:20
+                            height: 50,
+                            width: 50,
+                            bottom: 25,
+                            left: 20,
                           }}
                           onPress={() => {
                             handelDel(img.id);
