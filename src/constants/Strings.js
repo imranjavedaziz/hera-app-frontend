@@ -478,6 +478,7 @@ export default {
     Tap the profile icon on top right,
     Tap Payments & Subscription,
     Select the subscription you want to cancel & Tap Cancel Subscription.`,
+    NotProcessed: 'Subscription could not be processed',
   },
   Chat: {
     Chat: 'CHAT',
