@@ -57,4 +57,23 @@ export default {
     color: Colors.WHITE,
     fontSize: Value.CONSTANT_VALUE_12,
   },
+  upComingBtn: {
+    marginLeft: Value.CONSTANT_VALUE_10,
+    paddingHorizontal: Value.CONSTANT_VALUE_15,
+    paddingVertical: Value.CONSTANT_VALUE_5,
+    borderRadius: Value.CONSTANT_VALUE_3,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    flex: Value.CONSTANT_VALUE_0,
+    borderColor: Colors.COLOR_RED,
+    borderWidth: 1,
+    maxWidth: 150,
+    flex: 0,
+  },
+  upComingTxt: {
+    color: Colors.COLOR_RED,
+    fontSize: Value.CONSTANT_VALUE_12,
+    flex: 1,
+    textAlign: Alignment.CENTER
+  },
 };

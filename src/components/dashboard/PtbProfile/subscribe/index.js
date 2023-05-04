@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Linking,
   Platform,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './style';
@@ -14,6 +15,7 @@ import moment from 'moment';
 import {Colors, Images, Strings} from '../../../../constants';
 import {Fonts} from '../../../../constants/Constants';
 import { CancelSubscription } from '../../../../screens/dashboard/PtbProfile/Subscription';
+import { capitalizeStr } from '../../../../utils/commonFunction';
 
 const cancelURL = Platform.select({
   ios: 'https://apps.apple.com/account/subscriptions',
@@ -41,6 +43,25 @@ export const Subscribed = () => {
   const navigation = useNavigation();
   const {get_user_detail_res} = useSelector(state => state.Edit_profile);
   console.log('get_user_detail_res', JSON.stringify(get_user_detail_res));
+  const handleCancelPress = ()=>{
+    if(Platform.OS==='ios'){
+      Alert.alert(Strings.Subscription.CancelSub,Strings.Subscription.CancelSubParaIos,[
+        {
+          text: capitalizeStr(Strings.Subscription.YesProceed),
+          onPress: () => {
+            Linking.openURL(cancelURL);
+          },
+        },
+        {
+          text: Strings.Subscription.Cancel,
+          onPress: () => null,
+        },
+      ]);
+    }
+    else{
+      setChangeModal(true);
+    }
+  }
   if (!get_user_detail_res || !get_user_detail_res.subscription) {
     return (
       <Subscribe
@@ -113,7 +134,7 @@ export const Subscribed = () => {
           <View
             style={styles.circle}
           />
-          <TouchableOpacity onPress={() => setChangeModal(true)}>
+          <TouchableOpacity onPress={() => handleCancelPress()}>
             <Text style={styles.headerText}>Cancel</Text>
           </TouchableOpacity>
         </View>
