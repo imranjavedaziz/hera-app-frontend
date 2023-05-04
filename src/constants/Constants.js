@@ -841,12 +841,14 @@ const HeraDevMonthly = 'com.HeraDev.Monthly';
 const HeraDevYearly = 'com.HeraDev.Yearly';
 const HeraDevWeekly = 'com.HeraDev.Weekly';
 const SurrogateMonthly = 'com.HeraDev.SurrogateMonthly';
-const SurrogateYearly = 'com.HeraDev.SurrogateYearly';
+const SurrogateQuarterly = 'com.HeraDev.SurrogateQuarterly';
 const EggDonorMonthly = 'com.HeraDev.EggDonorMonthly';
 const SpermDonorMonthly = 'com.HeraDev.SpermDonorMonthly';
 const surrogate_monthly = 'com.hera_dev.surrogate_monthly';
 const egg_donor_monthly = 'com.hera_dev.egg_donor_monthly';
 const sperm_donor_monthly = 'com.hera_dev.sperm_donor_monthly';
+const EggDonorQuarterly = 'com.HeraDev.EggDonorQuarterly';
+const SpermDonorQuarterly = 'com.HeraDev.SpermDonorQuarterly';
 
 export const creditProductsIds = Platform.select({
   ios: [HeraDevMonthly, HeraDevYearly, HeraDevWeekly],
@@ -856,7 +858,8 @@ export const creditProductsIds = Platform.select({
 export const productsIds = Platform.select({
   ios: [
     // HeraDevYearly, HeraDevMonthly, HeraDevWeekly,
-    SurrogateMonthly,SurrogateYearly,EggDonorMonthly,SpermDonorMonthly
+    SurrogateMonthly,EggDonorMonthly,SpermDonorMonthly,
+    SurrogateQuarterly,EggDonorQuarterly,SpermDonorQuarterly
   ],
   android: [
     // HeraDevYearly, HeraDevWeekly

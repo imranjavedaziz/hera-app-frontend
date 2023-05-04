@@ -45,15 +45,6 @@ import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
 
-// Clear the cache
-const clearIAPCache = () => {
-  if (Platform.OS === 'ios') {
-    RNIap.clearTransactionIOS();
-  } else {
-    RNIap.flushFailedPurchasesCachedAsPendingAndroid();
-    RNIap.flushExpiredPurchasesCachedAndroid();
-  }
-};
 export const CancelSubscription = ({changeModal,setChangeModal,handleCanncel})=>{
   return (
     <Modal
@@ -320,9 +311,6 @@ const Subscription = () => {
       });
       setRolePlans(sectionedPlan);
       setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
-    }
-    if (subscription_plan_res?.data?.subscription != null) {
-      clearIAPCache();
     }
   }, [subscription_plan_res]);
   const handlePurchaseSubcription = () => {
