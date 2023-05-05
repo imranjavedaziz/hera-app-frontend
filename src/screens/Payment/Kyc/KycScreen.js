@@ -90,11 +90,6 @@ const KycScreen = () => {
       dispatch(hideAppLoader());
       navigation.navigate(Routes.HeraPay);
     } else if (response?.status === KYC_UPDATE.FAIL) {
-      let error =
-        response?.info?.errors ??
-        response?.info?.message ??
-        'Something went wrong!';
-      dispatch(showAppToast(true, error));
       dispatch(hideAppLoader());
       dispatch({type: KYC_UPDATE.END});
       // navigation.navigate(Routes.HeraPay);
