@@ -121,4 +121,14 @@ export default {
   PLUS: require('../assets/icons/plus/plus.png'),
   imageCross: require('../assets/icons/imageCross/imageCross.png'),
   rightLogo: require('../assets/icons/rightLogo/rightLogo.png'),
+
+  //Card
+
+  defaultCardbig: require('../assets/icons/defaultCardbig/defaultCardbig.png'),
+  iconAmexbig: require('../assets/icons/iconAmexbig/iconAmexbig.png'),
+  iconDiscoverbig: require('../assets/icons/iconDiscoverbig/iconDiscoverbig.png'),
+  iconJcbbig: require('../assets/icons/iconJcbbig/iconJcbbig.png'),
+  iconMasterbig: require('../assets/icons/iconMasterbig/iconMasterbig.png'),
+  iconUnionPaybig: require('../assets/icons/iconUnionPaybig/iconUnionPaybig.png'),
+  iconVisacardbig: require('../assets/icons/iconVisacardbig/iconVisacardbig.png'),
 };

@@ -79,11 +79,37 @@ export function padLeadingZeros(num, size) {
   while (s.length < size) s = '0' + s;
   return s;
 }
+
 export function monthGet(item) {
-  const monthName = new Date(
-    Date.UTC(2000, item?.exp_month - 1, 1),
-  ).toLocaleString('en-US', {month: 'long'});
-  return monthName;
+  const monthInt = item?.exp_month;
+  switch (monthInt) {
+    case 1:
+      return 'Jan';
+    case 2:
+      return 'Feb';
+    case 3:
+      return 'Mar';
+    case 4:
+      return 'Apr';
+    case 5:
+      return 'May';
+    case 6:
+      return 'Jun';
+    case 7:
+      return 'Jul';
+    case 8:
+      return 'Aug';
+    case 9:
+      return 'Sep';
+    case 10:
+      return 'Oct';
+    case 11:
+      return 'Nov';
+    case 12:
+      return 'Dec';
+    default:
+      return '';
+  }
 }
 export const getNumberFromString = text => {
   let number = text.replace(/[^\d]/g, '');
@@ -196,9 +222,9 @@ function isInvalidMonthYear(month, year) {
 }
 
 export const capitalizeStr = str => {
-  const arr = str.toLowerCase().split(" ");
+  const arr = str.toLowerCase().split(' ');
   for (var i = 0; i < arr.length; i++) {
     arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
   }
-  return arr.join(" ");
-}
+  return arr.join(' ');
+};

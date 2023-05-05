@@ -23,6 +23,7 @@ const initialState = {
 const getCardListResponse = {
   info: null,
   success: false,
+  error: null,
   failed: false,
   loading: false,
   status: GET_CUSTOMER_ID.END,
@@ -295,7 +296,7 @@ export function getCardListReducer(state = getCardListResponse, action) {
       return {
         ...state,
         getCardListResponse: {
-          info: action?.payload,
+          error: action?.payload,
           loading: false,
           status: GET_CARD_LIST.FAIL,
         },

@@ -375,6 +375,7 @@ const HeraPay = () => {
           {((log_in_data?.role_id === 2 && !_.isEmpty(Data)) ||
             Data !== null ||
             Data !== undefined) &&
+            getCardListResponse?.info &&
             getCardListResponse?.info?.data.map((item, index) => {
               return (
                 <View
@@ -389,7 +390,7 @@ const HeraPay = () => {
                         ? backAction(item)
                         : setShowModal(true);
                     }}
-                    Icon={Images.ICON_MASTER}
+                    Icon={item?.brand}
                     number={`${Strings.Hera_Pay.CARD_DOT}${item?.last4}`}
                     Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(item)} ${
                       item?.exp_year
