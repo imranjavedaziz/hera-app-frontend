@@ -6,7 +6,11 @@ import {Alignment, Images, Strings} from '../../../constants';
 import {useNavigation} from '@react-navigation/native';
 import {IconHeader} from '../../../components/Header';
 import {validationBank, Input_Type, Routes} from '../../../constants/Constants';
-import {formatACNumber, validateFullName} from '../../../utils/commonFunction';
+import {
+  formatACNumber,
+  undoFormatACNumber,
+  validateFullName,
+} from '../../../utils/commonFunction';
 import {ValidationMessages} from '../../../constants/Strings';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -113,14 +117,19 @@ const ManageBank = () => {
         Input_Type.accountnumber,
       );
       isValid = false;
-    } else if (
-      isNaN(inputs.accountnumber) ||
-      inputs.accountnumber.length < validationBank.MIN_ACCOUNT_NUM
-    ) {
-      handleError(ValidationMessages.ACCOUNT_INVALID, Input_Type.accountnumber);
-      isValid = false;
+    } else {
+      const accountNumber = undoFormatACNumber(inputs.accountnumber);
+      if (
+        isNaN(accountNumber) ||
+        accountNumber.length < validationBank.MIN_ACCOUNT_NUM
+      ) {
+        handleError(
+          ValidationMessages.ACCOUNT_INVALID,
+          Input_Type.accountnumber,
+        );
+        isValid = false;
+      }
     }
-
     if (!inputs.accountholder?.trim()) {
       handleError(Input_Type.accountholder);
       isValid = true;
@@ -131,7 +140,6 @@ const ManageBank = () => {
       );
       isValid = false;
     }
-
     if (!inputs.routingnumber) {
       handleError(ValidationMessages.ROUTE_REQUIRED, Input_Type.routingnumber);
       isValid = false;
@@ -153,7 +161,9 @@ const ManageBank = () => {
         'bank_account[account_holder_name]': inputs.accountholder,
         'bank_account[account_holder_type]': 'individual',
         'bank_account[routing_number]': inputs.routingnumber,
-        'bank_account[account_number]': inputs.accountnumber,
+        'bank_account[account_number]': undoFormatACNumber(
+          inputs.accountnumber,
+        ),
       };
       dispatch(showAppLoader());
       setBankInfo(bankInfo);

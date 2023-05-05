@@ -53,6 +53,18 @@ export function formatACNumber(accountNumber) {
     return accountNumber;
   }
 }
+export function undoFormatACNumber(accountNumber) {
+  if (accountNumber) {
+    // Remove all non-digit characters from the account number
+    accountNumber = accountNumber.replace(/\D/g, '');
+
+    // Return the formatted string without hyphens
+    return accountNumber;
+  } else {
+    return accountNumber;
+  }
+}
+
 export function formatCardNumber(value) {
   if (!value) {
     return value;

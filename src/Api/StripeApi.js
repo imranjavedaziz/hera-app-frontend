@@ -111,7 +111,7 @@ export const getCardListApi = (customerId, limit) => {
     },
     {
       object: 'card',
-      limit: limit || 3,
+      limit: limit || 10,
     },
   );
 };
