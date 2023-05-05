@@ -54,6 +54,10 @@ import PtbAccount, {
 import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import {getMessageID} from '../../../../redux/actions/MessageId';
+import {
+  cleanBankList,
+  cleanCardList,
+} from '../../../../redux/actions/stripe.action';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -153,6 +157,8 @@ const SmDonorSettings = () => {
         dispatch(RemoveStripIds());
         dispatch(signoutUser());
         dispatch(hideAppLoader());
+        dispatch(cleanCardList());
+        dispatch(cleanBankList());
         navigation.navigate(Routes.Landing);
         setTimeout(() => {
           setDisable(false);

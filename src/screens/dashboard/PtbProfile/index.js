@@ -56,6 +56,10 @@ import moment from 'moment';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import _ from 'lodash';
 import {getMessageID} from '../../../redux/actions/MessageId';
+import {
+  cleanBankList,
+  cleanCardList,
+} from '../../../redux/actions/stripe.action';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -195,6 +199,8 @@ const PtbProfile = () => {
         dispatch(empty());
         dispatch(RemoveStripIds());
         dispatch(signoutUser());
+        dispatch(cleanCardList());
+        dispatch(cleanBankList());
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
         setTimeout(() => {
@@ -203,7 +209,7 @@ const PtbProfile = () => {
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
-          setDisable(false);
+        setDisable(false);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -259,7 +265,7 @@ const PtbProfile = () => {
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
-          setDisable(true)
+          setDisable(true);
           logoutFunc();
         },
       },
@@ -457,7 +463,7 @@ const PtbProfile = () => {
         String_3={Strings.smSetting.Yes_Logout}
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
-          setDisable(true)
+          setDisable(true);
           logoutFunc();
         }}
         onPressOff={() => {

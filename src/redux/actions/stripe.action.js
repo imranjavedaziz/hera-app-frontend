@@ -187,6 +187,16 @@ export const cleanDeleted = () => {
     type: DELETE_BANK.CLEAN,
   };
 };
+export const cleanBankList = () => {
+  return {
+    type: GET_BANK_LIST.CLEAN,
+  };
+};
+export const cleanCardList = () => {
+  return {
+    type: GET_CARD_LIST.CLEAN,
+  };
+};
 
 export const createPaymentIntent = data => {
   return {
