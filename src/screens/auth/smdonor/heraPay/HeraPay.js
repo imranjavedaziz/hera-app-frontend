@@ -112,10 +112,9 @@ const HeraPay = () => {
       dispatch(hideAppLoader());
       console.log(info, 'getBankListResponse?.info');
     } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
-      let error = getBankListResponse?.info ?? 'Something went wrong';
+      let error = getBankListResponse?.error ?? 'Something went wrong';
       dispatch(hideAppLoader());
-
-      dispatch(showAppToast(false, error));
+      dispatch(showAppToast(true, error));
     }
   }, [getBankListResponse]);
   //Get Card List
@@ -305,6 +304,7 @@ const HeraPay = () => {
           {((log_in_data?.role_id !== 2 && !_.isEmpty(Data)) ||
             Data !== null ||
             Data !== undefined) &&
+            getBankListResponse?.info &&
             getBankListResponse?.info?.data.map((item, index) => {
               return (
                 <View

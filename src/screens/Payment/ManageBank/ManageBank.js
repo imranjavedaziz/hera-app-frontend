@@ -38,7 +38,6 @@ const ManageBank = () => {
   const {addCards} = useSelector(store => store.addCard);
   const {connected_acc_token} = useSelector(state => state.Auth);
   const {bankResponse} = useSelector(store => store.addBankTokenReducer);
-
   useEffect(() => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
       const token = bankResponse.info.id;

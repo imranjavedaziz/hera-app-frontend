@@ -29,6 +29,7 @@ const getCardListResponse = {
 };
 const getBankListResponse = {
   info: null,
+  error: null,
   success: false,
   failed: false,
   loading: false,
@@ -322,6 +323,7 @@ export function getBankListReducer(state = getBankListResponse, action) {
       return {
         ...state,
         getBankListResponse: {
+          error: null,
           info: action?.payload,
           loading: false,
           status: GET_BANK_LIST.SUCCESS,
@@ -331,7 +333,8 @@ export function getBankListReducer(state = getBankListResponse, action) {
       return {
         ...state,
         getBankListResponse: {
-          info: action?.payload,
+          error: action?.payload,
+          info: null,
           loading: false,
           status: GET_BANK_LIST.FAIL,
         },
