@@ -120,4 +120,5 @@ export default {
   CANCEL_BG: require('../assets/icons/cancelBg/rectangle.png'),
   PLUS: require('../assets/icons/plus/plus.png'),
   imageCross: require('../assets/icons/imageCross/imageCross.png'),
+  rightLogo: require('../assets/icons/rightLogo/rightLogo.png'),
 };

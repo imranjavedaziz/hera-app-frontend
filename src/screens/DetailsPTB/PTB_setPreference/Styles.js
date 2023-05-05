@@ -54,6 +54,11 @@ export default {
     flex: 1,
     marginLeft: Value.CONSTANT_VALUE_20,
   },
+  ageContainerView: {
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    flex: 1,
+  },
   lookingsmDisabled: {
     alignItems: Alignment.CENTER,
     marginLeft: Value.CONSTANT_VALUE_10,
@@ -155,7 +160,7 @@ export default {
   },
   ageRangeChip: {
     height: Value.CONSTANT_VALUE_41,
-    width: Value.CONSTANT_VALUE_100,
+    width: 98,
     borderRadius: Value.CONSTANT_VALUE_21,
     justifyContent: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_5,

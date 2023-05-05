@@ -119,8 +119,7 @@ const ChatDetail = props => {
       dispatch(showAppLoader());
       if (next_step_success) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(false, next_step_res));
-        console.log(next_step_res, 'next_step_res');
+        dispatch(showAppToast(false, 'Profile confirmed!'));
       }
       if (next_step_fail) {
         dispatch(hideAppLoader());

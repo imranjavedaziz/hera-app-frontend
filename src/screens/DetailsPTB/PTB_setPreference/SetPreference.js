@@ -571,7 +571,7 @@ const SetPreference = ({route, navigation}) => {
                 <Controller
                   control={control}
                   render={({field: {onChange, value = ''}}) => (
-                    <View style={styles.ageContainer}>
+                    <View style={styles.ageContainerView}>
                       <ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}>

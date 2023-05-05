@@ -7,7 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {IconHeader} from '../../../components/Header';
 import {validationBank, Input_Type, Routes} from '../../../constants/Constants';
 import {
-  formatCardNumber,
+  formatACNumber,
   validateExpiryDate,
   validateFullName,
 } from '../../../utils/commonFunction';
@@ -27,6 +27,7 @@ import {
   addCardToken,
   updateCardToken,
 } from '../../../redux/actions/stripe.action';
+import ExtraBottomView from '../../../components/ExtraBottomView';
 const ManageCard = () => {
   const navigation = useNavigation();
   const cardNumberRef = useRef();
@@ -40,6 +41,7 @@ const ManageCard = () => {
   const {addCards} = useSelector(store => store.addCard);
   const [cardInfos, setCardInfo] = React.useState();
   const {stripe_customer_id} = useSelector(state => state.Auth);
+  console.log(stripe_customer_id,'stripe_customer_id');
   const dispatch = useDispatch();
   const saveCardToken = (token, fingerprint, country) => {
     let payload;
@@ -122,6 +124,7 @@ const ManageCard = () => {
       // Split the input into month and year components
       const month = numericInput.slice(0, 2);
       const year = numericInput.slice(2);
+
       // Format the input as "MM/YY" and update the state
       const formattedInput = `${month}${year ? `/${year}` : ''}`;
       setInputs(prevState => ({...prevState, [input]: formattedInput}));
@@ -205,9 +208,9 @@ const ManageCard = () => {
           </Text>
           <FloatingLabelInput
             label={Strings.ManageCard.CardNumber}
-            value={formatCardNumber(inputs.cardNumber)}
+            value={formatACNumber(inputs.cardNumber)}
             onChangeText={text => handleOnchange(text, Input_Type.cardNumber)}
-            onFocus={() => handleError(null, Input_Type.cardNumber)}
+            onFocusHandle={() => handleError(null, Input_Type.cardNumber)}
             error={errors.cardNumber}
             required={true}
             inputRef={cardNumberRef}
@@ -223,7 +226,7 @@ const ManageCard = () => {
             value={inputs.expiryDate}
             maxLength={validationBank.ExpiryDate}
             onChangeText={text => handleOnchange(text, Input_Type.expiryDate)}
-            onFocus={() => handleError(null, Input_Type.expiryDate)}
+            onFocusHandle={() => handleError(null, Input_Type.expiryDate)}
             required={true}
             keyboardType={'numeric'}
             returnKeyType="next"
@@ -237,7 +240,7 @@ const ManageCard = () => {
             label={Strings.ManageCard.CVV}
             value={inputs.cvv}
             onChangeText={text => handleOnchange(text, Input_Type.cvv)}
-            onFocus={() => handleError(null, Input_Type.cvv)}
+            onFocusHandle={() => handleError(null, Input_Type.cvv)}
             required={true}
             keyboardType={'numeric'}
             returnKeyType="next"
@@ -253,7 +256,7 @@ const ManageCard = () => {
             label={Strings.ManageCard.cardHolderName}
             value={inputs.fullName}
             onChangeText={text => handleOnchange(text, Input_Type.fullName)}
-            onFocus={() => {
+            onFocusHandle={() => {
               handleError(null, Input_Type.fullName);
               if (Platform.OS === 'android') {
                 scrollRef?.current.scrollToPosition(
@@ -283,6 +286,7 @@ const ManageCard = () => {
             />
           </View>
         </View>
+        <ExtraBottomView />
       </KeyboardAwareScrollView>
     </View>
   );
