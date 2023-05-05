@@ -276,10 +276,10 @@ const SmDonorSettings = () => {
                 }}
                 Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
-                } ${
+                }${
                   middle_name === null || middle_name === undefined
                     ? ''
-                    : middle_name
+                    : ` ${middle_name}`
                 }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name

@@ -353,7 +353,7 @@ export default {
     ReceiveNoti: 'Receive Notifications',
     YouMatched: 'You had matched on',
     ReceiveNotiDesc:
-      'You can choose to turn off notifications. However, you will still receive subscription notifications.',
+      'You can choose to turn off notifications.\nHowever, you will still receive subscription notifications.',
     ReceiveNotiDescSM: 'You can choose to turn off notifications.',
   },
   donorPofile: {
