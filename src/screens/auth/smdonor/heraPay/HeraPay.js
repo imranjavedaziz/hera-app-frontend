@@ -425,7 +425,6 @@ const HeraPay = () => {
                   marginLeft: dynamicSize(35),
                 },
               ]}>
-              <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
               <Text style={styles.addCardTxt}>
                 {log_in_data?.role_id === 2
                   ? Strings.Hera_Pay.ADD_CARD
@@ -438,8 +437,7 @@ const HeraPay = () => {
             log_in_data?.role_id === 2 && (
               <TouchableOpacity
                 onPress={() => navigation.navigate(Routes.ManageCard)}
-                style={{flexDirection: 'row', marginLeft: 5, marginBottom: 95}}>
-                <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
+                style={styles.addBtnView}>
                 <Text style={styles.addCardTxt}>
                   {Strings.Hera_Pay.ADD_CARD}
                 </Text>

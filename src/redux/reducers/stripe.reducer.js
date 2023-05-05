@@ -306,7 +306,7 @@ export function getCardListReducer(state = getCardListResponse, action) {
         getCardListResponse: {loading: false, status: GET_CARD_LIST.END},
       };
     case GET_CARD_LIST.CLEAN:
-      return initialState;
+      return getCardListResponse;
     default:
       return state;
   }
