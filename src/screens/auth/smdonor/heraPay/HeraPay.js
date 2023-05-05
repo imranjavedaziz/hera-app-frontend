@@ -23,6 +23,7 @@ import {
   DELETE_CARD,
   GET_BANK_LIST,
   GET_CARD_LIST,
+  cleanCardDeleted,
   cleanDeleted,
   deleteBank,
   deleteCard,
@@ -66,11 +67,12 @@ const HeraPay = () => {
   const [Data, setData] = useState([]);
   const [KycStatus, setKycStatus] = useState(null);
   const [KycUpdated, setKycUpdated] = useState(false);
+  const [Item, setItem] = useState(null);
   useFocusEffect(
     useCallback(() => {
       if (!_.isEmpty(stripe_customer_id)) {
         if (log_in_data?.role_id === 2) {
-          dispatch(getCardList(stripe_customer_id, 3));
+          dispatch(getCardList(stripe_customer_id, 10));
         } else {
           dispatch(getBankList(connected_acc_token, 3));
           dispatch(getAccountStatus());
@@ -143,11 +145,13 @@ const HeraPay = () => {
       dispatch(showAppToast(false, 'Bank removed from profile!'));
       dispatch(getBankList(connected_acc_token, 3));
       dispatch(cleanDeleted());
+      dispatch(cleanCardDeleted());
     } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
       let error = deleteBankResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
       dispatch(cleanDeleted());
+      dispatch(cleanCardDeleted());
     } else {
       dispatch(hideAppLoader());
     }
@@ -162,16 +166,19 @@ const HeraPay = () => {
       dispatch(showAppToast(false, 'Card removed from profile!'));
       dispatch(getCardList(stripe_customer_id, 3));
       dispatch(cleanDeleted());
+      dispatch(cleanCardDeleted());
     } else if (deleteCardResponse?.status === DELETE_CARD.FAIL) {
       let error = deleteCardResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
       dispatch(cleanDeleted());
+      dispatch(cleanCardDeleted());
     } else {
       dispatch(hideAppLoader());
     }
   }, [deleteCardResponse]);
   const OnDeleteBank = item => {
+    console.log('itemss',Item);
     if (log_in_data?.role_id === 2) {
       dispatch(deleteCard(item));
     } else {
@@ -373,6 +380,7 @@ const HeraPay = () => {
                   </View>
                   <TouchableOpacity
                     onPress={() => {
+                      setItem(item);
                       Platform.OS === 'ios'
                         ? backAction(item)
                         : setShowModal(true);
@@ -398,6 +406,7 @@ const HeraPay = () => {
                   }}>
                   <PaymentCards
                     onPress={() => {
+                      setItem(item);
                       Platform.OS === 'ios'
                         ? backAction(item)
                         : setShowModal(true);
@@ -434,6 +443,7 @@ const HeraPay = () => {
           )}
           {!_.isEmpty(Data) &&
             getCardListResponse?.info?.data?.length >= 1 &&
+            getCardListResponse?.info?.data?.length < 10 &&
             log_in_data?.role_id === 2 && (
               <TouchableOpacity
                 onPress={() => navigation.navigate(Routes.ManageCard)}
@@ -495,6 +505,7 @@ const HeraPay = () => {
         String_3={Strings.Hera_Pay.Yes_Remove}
         String_4={Strings.Hera_Pay.Not_Now}
         onPressNav={() => {
+          OnDeleteBank(Item);
           setShowModal(false);
         }}
         onPressOff={() => {

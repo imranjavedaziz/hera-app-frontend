@@ -187,6 +187,11 @@ export const cleanDeleted = () => {
     type: DELETE_BANK.CLEAN,
   };
 };
+export const cleanCardDeleted = () => {
+  return {
+    type: DELETE_CARD.CLEAN,
+  };
+};
 export const cleanBankList = () => {
   return {
     type: GET_BANK_LIST.CLEAN,

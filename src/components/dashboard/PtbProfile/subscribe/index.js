@@ -111,10 +111,7 @@ export const Subscribed = () => {
         <Text style={[styles.price, {marginTop: 3}]}>{`$${
           get_user_detail_res.subscription.price
         }/${
-          get_user_detail_res.subscription.subscription_interval === 'month'
-            ? 'mo'
-            : 'yr'
-        }`}</Text>
+          get_user_detail_res.subscription.subscription_interval}`}</Text>
         <Text
           style={[
             styles.price,
