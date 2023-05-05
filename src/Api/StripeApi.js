@@ -98,7 +98,7 @@ export const createCardSource = data => {
         type: 'post',
         contType: 'application/x-www-form-urlencoded',
       },
-      {external_account: data?.token},
+      {external_account: data?.token, default_for_currency: true},
       data?.cardData,
     );
   }

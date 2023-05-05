@@ -19,13 +19,11 @@ import PaymentComp from '../../../../components/PaymentComp/PaymentComp';
 import {useDispatch, useSelector} from 'react-redux';
 import {Fonts, Routes} from '../../../../constants/Constants';
 import {
-  DELETE_BANK,
   DELETE_CARD,
   GET_BANK_LIST,
   GET_CARD_LIST,
   cleanCardDeleted,
   cleanDeleted,
-  deleteBank,
   deleteCard,
   getBankList,
   getCardList,
@@ -62,7 +60,6 @@ const HeraPay = () => {
     account_status_fail,
     account_status_res,
   } = useSelector(state => state.AccountStatus);
-  const {deleteBankResponse} = useSelector(store => store.deleteBank);
   const {deleteCardResponse} = useSelector(store => store.deleteCard);
   const [Data, setData] = useState([]);
   const [KycStatus, setKycStatus] = useState(null);
@@ -135,27 +132,7 @@ const HeraPay = () => {
     }
   }, [getCardListResponse]);
   //Delete Bank or Card
-  useEffect(() => {
-    if (deleteBankResponse?.status === DELETE_BANK.START) {
-      dispatch(showAppLoader());
-    } else if (deleteBankResponse?.status === DELETE_BANK.SUCCESS) {
-      let info = deleteBankResponse?.info;
-      setData(info?.data);
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(false, 'Bank removed from profile!'));
-      dispatch(getBankList(connected_acc_token, 3));
-      dispatch(cleanDeleted());
-      dispatch(cleanCardDeleted());
-    } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
-      let error = deleteBankResponse?.info ?? 'Something went wrong';
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(true, error));
-      dispatch(cleanDeleted());
-      dispatch(cleanCardDeleted());
-    } else {
-      dispatch(hideAppLoader());
-    }
-  }, [deleteBankResponse]);
+
   useEffect(() => {
     if (deleteCardResponse?.status === DELETE_CARD.START) {
       dispatch(showAppLoader());
@@ -178,12 +155,7 @@ const HeraPay = () => {
     }
   }, [deleteCardResponse]);
   const OnDeleteBank = item => {
-    console.log('itemss',Item);
-    if (log_in_data?.role_id === 2) {
-      dispatch(deleteCard(item));
-    } else {
-      dispatch(deleteBank(item));
-    }
+    dispatch(deleteCard(item));
   };
   const headerComp = () => (
     <IconHeader
@@ -203,11 +175,17 @@ const HeraPay = () => {
         : Strings.Hera_Pay.Remove_Bank,
       log_in_data?.role_id === 2
         ? Strings.Hera_Pay.Remove_Card_Text
-        : Strings.Hera_Pay.Remove_Bank_Text,
+        : `Your Existing bank ending with \n ${Strings.Hera_Pay.CARD_DOT}${item?.last4} will be removed and you will receive all the payments in the updated bank after your KYC is approved.`,
       [
         {
-          text: Strings.Hera_Pay.Yes_Remove,
-          onPress: () => OnDeleteBank(item),
+          text:
+            log_in_data?.role_id === 2
+              ? Strings.Hera_Pay.Yes_Remove
+              : 'Yes, Change',
+          onPress: () =>
+            log_in_data?.role_id === 2
+              ? OnDeleteBank(item)
+              : navigation.navigate(Routes.ManageBank, {Item: item}),
         },
         {
           text: Strings.Hera_Pay.Not_Now,
@@ -500,12 +478,18 @@ const HeraPay = () => {
         String_2={
           log_in_data?.role_id === 2
             ? Strings.Hera_Pay.Remove_Card_Text
-            : Strings.Hera_Pay.Remove_Bank_Text
+            : `Your Existing bank ending with ${Strings.Hera_Pay.CARD_DOT}${Item?.last4} will be removed and you will receive all the payments in the updated bank after your KYC is approved.`
         }
-        String_3={Strings.Hera_Pay.Yes_Remove}
+        String_3={
+          log_in_data?.role_id === 2
+            ? Strings.Hera_Pay.Yes_Remove
+            : 'Yes, Change'
+        }
         String_4={Strings.Hera_Pay.Not_Now}
         onPressNav={() => {
-          OnDeleteBank(Item);
+          log_in_data?.role_id === 2
+            ? OnDeleteBank(Item)
+            : navigation.navigate(Routes.ManageBank, {Item: Item});
           setShowModal(false);
         }}
         onPressOff={() => {

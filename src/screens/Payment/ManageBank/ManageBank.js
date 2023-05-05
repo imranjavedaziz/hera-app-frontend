@@ -16,8 +16,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   ADD_BANK_TOKEN,
   ADD_CARD,
+  DELETE_BANK,
   addBankToken,
   addCard,
+  cleanCardDeleted,
+  cleanDeleted,
+  deleteBank,
 } from '../../../redux/actions/stripe.action';
 import {
   hideAppLoader,
@@ -28,8 +32,11 @@ import {replace} from '../../../utils/RootNavigation';
 import {bankToken} from '../../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ExtraBottomView from '../../../components/ExtraBottomView';
+import _ from 'lodash';
+import {getAccountStatus} from '../../../redux/actions/AccountStatus';
+import getKycStatusFunction from '../../../utils/getkycStatusFunc';
 
-const ManageBank = () => {
+const ManageBank = ({route}) => {
   const navigation = useNavigation();
   const accountholderRef = useRef();
   const accountnumberRef = useRef();
@@ -42,12 +49,23 @@ const ManageBank = () => {
   const {addCards} = useSelector(store => store.addCard);
   const {connected_acc_token} = useSelector(state => state.Auth);
   const {bankResponse} = useSelector(store => store.addBankTokenReducer);
+  const {deleteBankResponse} = useSelector(store => store.deleteBank);
+  const Item = route?.params?.Item;
+  const [KycStatus, setKycStatus] = React.useState(null);
+  const loadingRef = useRef();
+  const {
+    account_status_success,
+    account_status_loading,
+    account_status_error_msg,
+    account_status_fail,
+    account_status_res,
+  } = useSelector(state => state.AccountStatus);
+  console.log(Item, 'koss');
+  console.log(KycStatus, 'KycStatusKycStatus');
   useEffect(() => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
       const token = bankResponse.info.id;
       dispatch(bankToken(token));
-      replace(Routes.KycScreen);
-      dispatch(hideAppLoader());
       dispatch(addCard(connected_acc_token, BankInfo, token));
       dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {
@@ -58,10 +76,60 @@ const ManageBank = () => {
       dispatch({type: ADD_BANK_TOKEN.END});
     }
   }, [bankResponse]);
+  useEffect(() => {
+    if (loadingRef.current && !account_status_loading) {
+      dispatch(showAppLoader());
+      if (account_status_success) {
+        setKycStatus(account_status_res?.status);
+        if (
+          getKycStatusFunction(account_status_res?.kyc_status) ===
+            Strings.Hera_Pay.KYC_INCOMPLETE ||
+          getKycStatusFunction(account_status_res?.kyc_status) ===
+            Strings.Hera_Pay.KYC_REJECTED
+        ) {
+          replace(Routes.KycScreen);
+        } else {
+          navigation.navigate(Routes.HeraPay);
+        }
+        dispatch(hideAppLoader());
+      }
+      if (account_status_fail) {
+        dispatch(hideAppLoader());
+
+        dispatch(showAppToast(true, account_status_error_msg));
+      }
+      dispatch(hideAppLoader());
+    }
+    loadingRef.current = account_status_loading;
+  }, [account_status_success, account_status_loading, account_status_res]);
+  //Delete Bank or Card
+  useEffect(() => {
+    if (deleteBankResponse?.status === DELETE_BANK.START) {
+      dispatch(showAppLoader());
+    } else if (deleteBankResponse?.status === DELETE_BANK.SUCCESS) {
+      dispatch(hideAppLoader());
+      dispatch(cleanDeleted());
+      dispatch(cleanCardDeleted());
+    } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
+      let error = deleteBankResponse?.info ?? 'Something went wrong';
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true, error));
+      dispatch(cleanDeleted());
+      dispatch(cleanCardDeleted());
+    } else {
+      dispatch(hideAppLoader());
+    }
+  }, [deleteBankResponse]);
 
   useEffect(() => {
     if (addCards?.status === ADD_CARD.START) {
     } else if (addCards?.status === ADD_CARD.SUCCESS) {
+      dispatch(getAccountStatus());
+      if (Item && Item !== undefined && !_.isEmpty(Item)) {
+        dispatch(deleteBank(Item));
+      } else {
+        dispatch(hideAppLoader());
+      }
       dispatch(hideAppLoader());
       dispatch({type: ADD_CARD.CLEAN});
     } else if (addCards?.status === ADD_CARD.FAIL) {

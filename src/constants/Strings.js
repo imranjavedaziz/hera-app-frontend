@@ -591,9 +591,9 @@ export default {
     Request_for_Payment: 'Request for Payment',
     REQUEST_PAYMENT: 'REQUEST FOR A PAYMENT',
     Add_Bank: 'Add Bank',
-    Remove_Bank: 'Remove Bank from Profile?',
+    Remove_Bank: 'Change Bank?',
     Remove_Bank_Text:
-      'You will not be able to receive any payment without adding your bank.',
+      'Your Existing bank ending with \n … 4040 will be removed and you will receive all the payments in the updated bank after your KYC is approved.',
     KYC_PENDING: 'KYC Approval Pending  ',
     KYC_REJECTED: 'KYC Rejected  ',
     KYC_INCOMPLETE: 'KYC Incomplete  ',
