@@ -55,8 +55,8 @@ import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import {getMessageID} from '../../../../redux/actions/MessageId';
 import {
-  cleanBankList,
-  cleanCardList,
+  GET_BANK_LIST,
+  GET_CARD_LIST,
 } from '../../../../redux/actions/stripe.action';
 
 const SmDonorSettings = () => {
@@ -157,8 +157,8 @@ const SmDonorSettings = () => {
         dispatch(RemoveStripIds());
         dispatch(signoutUser());
         dispatch(hideAppLoader());
-        dispatch(cleanCardList());
-        dispatch(cleanBankList());
+        dispatch({type: GET_CARD_LIST.CLEAN});
+        dispatch({type: GET_BANK_LIST.CLEAN});
         navigation.navigate(Routes.Landing);
         setTimeout(() => {
           setDisable(false);

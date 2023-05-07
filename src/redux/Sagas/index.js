@@ -51,10 +51,9 @@ import {
 import {watchReportUser} from './ReportUser';
 import {watchDocumentUpload, watchDocumentGet} from './DocumentUpload';
 import {watchNextStep} from './NextStep';
-import addCardTokenWatcher from './stripe.saga';
 import kycUpdateWatcher from './kyc.saga';
 import {watchAccountStatus} from './AccountStatus';
-
+import addCardTokenWatcher from './stripe.saga';
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
@@ -101,8 +100,8 @@ export default function* rootSaga() {
     fork(watchDocumentUpload),
     fork(watchDocumentGet),
     fork(watchNextStep),
-    fork(addCardTokenWatcher),
     fork(kycUpdateWatcher),
     fork(watchAccountStatus),
+    fork(addCardTokenWatcher),
   ]);
 }

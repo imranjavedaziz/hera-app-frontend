@@ -15,12 +15,10 @@ import {ValidationMessages} from '../../../constants/Strings';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   ADD_BANK_TOKEN,
-  ADD_CARD,
+  ADD_BANK,
   DELETE_BANK,
   addBankToken,
-  addCard,
-  cleanCardDeleted,
-  cleanDeleted,
+  addBank,
   deleteBank,
 } from '../../../redux/actions/stripe.action';
 import {
@@ -46,12 +44,11 @@ const ManageBank = ({route}) => {
   const [BankInfo, setBankInfo] = React.useState({});
   const dispatch = useDispatch();
   let scrollRef = React.createRef();
-  const {addCards} = useSelector(store => store.addCard);
+  const {addBanks} = useSelector(store => store.addBank);
   const {connected_acc_token} = useSelector(state => state.Auth);
   const {bankResponse} = useSelector(store => store.addBankTokenReducer);
   const {deleteBankResponse} = useSelector(store => store.deleteBank);
   const Item = route?.params?.Item;
-  const [KycStatus, setKycStatus] = React.useState(null);
   const loadingRef = useRef();
   const {
     account_status_success,
@@ -60,18 +57,16 @@ const ManageBank = ({route}) => {
     account_status_fail,
     account_status_res,
   } = useSelector(state => state.AccountStatus);
-  console.log(Item, 'koss');
-  console.log(KycStatus, 'KycStatusKycStatus');
   useEffect(() => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
       const token = bankResponse.info.id;
       dispatch(bankToken(token));
-      dispatch(addCard(connected_acc_token, BankInfo, token));
+      dispatch(addBank(connected_acc_token, BankInfo, token));
       dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {
       dispatch(hideAppLoader());
       dispatch(
-        showAppToast(false, bankResponse?.info ?? 'Something went wrong'),
+        showAppToast(true, bankResponse?.info ?? 'Something went wrong'),
       );
       dispatch({type: ADD_BANK_TOKEN.END});
     }
@@ -80,7 +75,6 @@ const ManageBank = ({route}) => {
     if (loadingRef.current && !account_status_loading) {
       dispatch(showAppLoader());
       if (account_status_success) {
-        setKycStatus(account_status_res?.status);
         if (
           getKycStatusFunction(account_status_res?.kyc_status) ===
             Strings.Hera_Pay.KYC_INCOMPLETE ||
@@ -108,22 +102,20 @@ const ManageBank = ({route}) => {
       dispatch(showAppLoader());
     } else if (deleteBankResponse?.status === DELETE_BANK.SUCCESS) {
       dispatch(hideAppLoader());
-      dispatch(cleanDeleted());
-      dispatch(cleanCardDeleted());
+      dispatch({type: DELETE_BANK.CLEAN});
     } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
       let error = deleteBankResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
-      dispatch(cleanDeleted());
-      dispatch(cleanCardDeleted());
+      dispatch({type: DELETE_BANK.CLEAN});
     } else {
       dispatch(hideAppLoader());
     }
   }, [deleteBankResponse]);
 
   useEffect(() => {
-    if (addCards?.status === ADD_CARD.START) {
-    } else if (addCards?.status === ADD_CARD.SUCCESS) {
+    if (addBanks?.status === ADD_BANK.START) {
+    } else if (addBanks?.status === ADD_BANK.SUCCESS) {
       dispatch(getAccountStatus());
       if (Item && Item !== undefined && !_.isEmpty(Item)) {
         dispatch(deleteBank(Item));
@@ -131,14 +123,14 @@ const ManageBank = ({route}) => {
         dispatch(hideAppLoader());
       }
       dispatch(hideAppLoader());
-      dispatch({type: ADD_CARD.CLEAN});
-    } else if (addCards?.status === ADD_CARD.FAIL) {
+      dispatch({type: ADD_BANK.CLEAN});
+    } else if (addBanks?.status === ADD_BANK.FAIL) {
       dispatch(hideAppLoader());
-      let error = addCards?.info ?? 'Something went wrong!';
+      let error = addBanks?.info ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
       cleanRecord();
     }
-  }, [addCards]);
+  }, [addBanks]);
   const cleanRecord = (clearToken = true) => {
     if (clearToken) {
       dispatch({type: ADD_BANK_TOKEN.CLEAN});
@@ -309,6 +301,7 @@ const ManageBank = ({route}) => {
             label={Strings.ManageBank.Currency}
             value={'USD'}
             required={true}
+            editable={false}
             edited={false}
           />
           <FloatingLabelInput
@@ -316,6 +309,7 @@ const ManageBank = ({route}) => {
             value={'United States'}
             required={true}
             maxLength={30}
+            editable={false}
             edited={false}
           />
           <View

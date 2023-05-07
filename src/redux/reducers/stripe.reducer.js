@@ -1,33 +1,24 @@
 import {
-  ADD_CARD_TOKEN,
   PAYMENT_INTENT,
-  UPDATE_CARD_TOKEN,
   ADD_BANK_TOKEN,
-  UPDATE_BANK_TOKEN,
-  GET_CUSTOMER_ID,
   GET_CARD_LIST,
-  ADD_CARD,
+  ADD_BANK,
   GET_BANK_LIST,
   DELETE_BANK,
   DELETE_CARD,
+  ATTACH_PAYMENT_INTENT,
 } from '../actions/stripe.action';
 
-const initialState = {
-  tokenResponse: {
-    success: false,
-    failed: false,
-    loading: false,
-    status: ADD_CARD_TOKEN.END,
-  },
-};
+// Getting List of Card
 const getCardListResponse = {
   info: null,
   success: false,
   error: null,
   failed: false,
   loading: false,
-  status: GET_CUSTOMER_ID.END,
+  status: GET_CARD_LIST.END,
 };
+// Getting List of Bank
 const getBankListResponse = {
   info: null,
   error: null,
@@ -36,22 +27,15 @@ const getBankListResponse = {
   loading: false,
   status: GET_BANK_LIST.END,
 };
-const addCards = {
+// ADD Bank
+const addBanks = {
   success: false,
   failed: false,
   loading: false,
-  status: ADD_CARD.END,
-  isCreatingCardSource: false,
+  status: ADD_BANK.END,
   cardSource: null,
 };
-const updateTokenState = {
-  cardResponse: {
-    success: false,
-    failed: false,
-    loading: false,
-    status: UPDATE_CARD_TOKEN.END,
-  },
-};
+
 const deleteBankResponse = {
   info: null,
   success: false,
@@ -66,21 +50,22 @@ const deleteCardResponse = {
   loading: false,
   status: DELETE_CARD.END,
 };
-const updateBankTokenState = {
-  bankUpdateResponse: {
-    success: false,
-    failed: false,
-    loading: false,
-    status: UPDATE_BANK_TOKEN.END,
-  },
+
+const paymentIntentRes = {
+  success: false,
+  error: null,
+  info: null,
+  failed: false,
+  loading: false,
+  status: PAYMENT_INTENT.END,
 };
-const paymentIntentState = {
-  paymentIntentRes: {
-    success: false,
-    failed: false,
-    loading: false,
-    status: PAYMENT_INTENT.END,
-  },
+const attachPaymentIntentRes = {
+  success: false,
+  error: null,
+  info: null,
+  failed: false,
+  loading: false,
+  status: ATTACH_PAYMENT_INTENT.END,
 };
 
 const addBankState = {
@@ -128,118 +113,8 @@ export function addBankTokenReducer(state = addBankState, action) {
   }
 }
 
-export function addCardTokenReducer(state = initialState, action) {
-  switch (action?.type) {
-    case ADD_CARD_TOKEN.START:
-      return {
-        ...state,
-        tokenResponse: {loading: true, status: ADD_CARD_TOKEN.START},
-      };
-    case ADD_CARD_TOKEN.SUCCESS:
-      return {
-        ...state,
-        tokenResponse: {
-          info: action?.payload,
-          loading: false,
-          status: ADD_CARD_TOKEN.SUCCESS,
-        },
-      };
-    case ADD_CARD_TOKEN.FAIL:
-      return {
-        ...state,
-        tokenResponse: {
-          info: action?.payload,
-          loading: false,
-          status: ADD_CARD_TOKEN.FAIL,
-        },
-      };
-    case ADD_CARD_TOKEN.END:
-      return {
-        ...state,
-        tokenResponse: {loading: false, status: ADD_CARD_TOKEN.END},
-      };
-    case ADD_CARD_TOKEN.CLEAN:
-      return initialState;
-    default:
-      return state;
-  }
-}
-
-export function updateCardTokenReducer(state = updateTokenState, action) {
-  switch (action?.type) {
-    case UPDATE_CARD_TOKEN.START:
-      return {
-        ...state,
-        cardResponse: {loading: true, status: UPDATE_CARD_TOKEN.START},
-      };
-    case UPDATE_CARD_TOKEN.SUCCESS:
-      return {
-        ...state,
-        cardResponse: {
-          info: action?.payload,
-          loading: false,
-          status: UPDATE_CARD_TOKEN.SUCCESS,
-        },
-      };
-    case UPDATE_CARD_TOKEN.FAIL:
-      return {
-        ...state,
-        cardResponse: {
-          info: action?.payload,
-          loading: false,
-          status: UPDATE_CARD_TOKEN.FAIL,
-        },
-      };
-    case UPDATE_CARD_TOKEN.END:
-      return {
-        ...state,
-        cardResponse: {loading: false, status: UPDATE_CARD_TOKEN.END},
-      };
-    case UPDATE_CARD_TOKEN.CLEAN:
-      return updateTokenState;
-    default:
-      return state;
-  }
-}
-
-export function updateBankTokenReducer(state = updateBankTokenState, action) {
-  switch (action?.type) {
-    case UPDATE_BANK_TOKEN.START:
-      return {
-        ...state,
-        bankUpdateResponse: {loading: true, status: UPDATE_BANK_TOKEN.START},
-      };
-    case UPDATE_BANK_TOKEN.SUCCESS:
-      return {
-        ...state,
-        bankUpdateResponse: {
-          info: action?.payload,
-          loading: false,
-          status: UPDATE_BANK_TOKEN.SUCCESS,
-        },
-      };
-    case UPDATE_BANK_TOKEN.FAIL:
-      return {
-        ...state,
-        bankUpdateResponse: {
-          info: action?.payload,
-          loading: false,
-          status: UPDATE_BANK_TOKEN.FAIL,
-        },
-      };
-    case UPDATE_BANK_TOKEN.END:
-      return {
-        ...state,
-        bankUpdateResponse: {loading: false, status: UPDATE_BANK_TOKEN.END},
-      };
-    case UPDATE_BANK_TOKEN.CLEAN:
-      return updateBankTokenState;
-    default:
-      return state;
-  }
-}
-
-export function createPaymentIntentReducer(state = paymentIntentState, action) {
+export function createPaymentIntentReducer(state = paymentIntentRes, action) {
+  console.log(action?.type, 'action?.type');
   switch (action?.type) {
     case PAYMENT_INTENT.START:
       return {
@@ -259,7 +134,7 @@ export function createPaymentIntentReducer(state = paymentIntentState, action) {
       return {
         ...state,
         paymentIntentRes: {
-          info: action?.payload,
+          error: action?.payload,
           loading: false,
           status: PAYMENT_INTENT.FAIL,
         },
@@ -270,7 +145,53 @@ export function createPaymentIntentReducer(state = paymentIntentState, action) {
         paymentIntentRes: {loading: false, status: PAYMENT_INTENT.END},
       };
     case PAYMENT_INTENT.CLEAN:
-      return paymentIntentState;
+      return paymentIntentRes;
+    default:
+      return state;
+  }
+}
+export function attachPaymentIntentReducer(
+  state = attachPaymentIntentRes,
+  action,
+) {
+  switch (action?.type) {
+    case ATTACH_PAYMENT_INTENT.START:
+      return {
+        ...state,
+        attachPaymentIntentRes: {
+          loading: true,
+          status: ATTACH_PAYMENT_INTENT.START,
+        },
+      };
+    case ATTACH_PAYMENT_INTENT.SUCCESS:
+      return {
+        ...state,
+        attachPaymentIntentRes: {
+          info: action?.payload,
+          loading: false,
+          status: ATTACH_PAYMENT_INTENT.SUCCESS,
+        },
+      };
+    case ATTACH_PAYMENT_INTENT.FAIL:
+      return {
+        ...state,
+        attachPaymentIntentRes: {
+          error: action?.payload,
+          loading: false,
+          status: ATTACH_PAYMENT_INTENT.FAIL,
+        },
+      };
+    case ATTACH_PAYMENT_INTENT.END:
+      return {
+        ...state,
+        attachPaymentIntentRes: {
+          loading: false,
+          status: ATTACH_PAYMENT_INTENT.END,
+        },
+      };
+    case ATTACH_PAYMENT_INTENT.CLEAN:
+      console.log('consolesss');
+      return attachPaymentIntentRes;
     default:
       return state;
   }
@@ -352,45 +273,42 @@ export function getBankListReducer(state = getBankListResponse, action) {
   }
 }
 
-export function addCardReducer(state = addCards, action) {
+export function addBankReducer(state = addBanks, action) {
   switch (action?.type) {
-    case ADD_CARD.START:
+    case ADD_BANK.START:
       return {
         ...state,
-        addCards: {
+        addBanks: {
           loading: true,
-          status: ADD_CARD.START,
-          isCreatingCardSource: true,
+          status: ADD_BANK.START,
         },
       };
-    case ADD_CARD.SUCCESS:
+    case ADD_BANK.SUCCESS:
       return {
         ...state,
-        addCards: {
+        addBanks: {
           loading: false,
-          status: ADD_CARD.SUCCESS,
-          isCreatingCardSource: false,
+          status: ADD_BANK.SUCCESS,
           cardSource: action.source,
           info: action?.payload,
         },
       };
-    case ADD_CARD.FAIL:
+    case ADD_BANK.FAIL:
       return {
         ...state,
-        addCards: {
-          isCreatingCardSource: false,
+        addBanks: {
           info: action?.payload,
           loading: false,
-          status: ADD_CARD.FAIL,
+          status: ADD_BANK.FAIL,
         },
       };
-    case ADD_CARD.END:
+    case ADD_BANK.END:
       return {
         ...state,
-        addCards: {loading: false, status: ADD_CARD.END},
+        addBanks: {loading: false, status: ADD_BANK.END},
       };
-    case ADD_CARD.CLEAN:
-      return addCards;
+    case ADD_BANK.CLEAN:
+      return addBanks;
     default:
       return state;
   }

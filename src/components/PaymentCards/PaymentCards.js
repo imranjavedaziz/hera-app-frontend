@@ -6,26 +6,17 @@ import {dynamicSize} from '../../utils/responsive';
 import {Value} from '../../constants/FixedValues';
 const PaymentCards = ({number, Time, Icon, onPress}) => {
   function getCardImage(cardType) {
-    switch (cardType) {
-      case 'Visa':
-        return Images.iconVisacardbig;
-      case 'MasterCard':
-        return Images.iconMasterbig;
-
-      case 'American Express':
-        return Images.iconAmexbig;
-
-      case 'UnionPay':
-        return Images.iconUnionPaybig;
-
-      case 'JCB':
-        return Images.iconJcbbig;
-
-      case 'Discover':
-        return Images.iconDiscoverbig;
-      default:
-        return Images.defaultCardbig;
-    }
+    const cardTypeLowercase = cardType.toLowerCase();
+    const cardTypeToImageMap = {
+      visa: Images.iconVisacardbig,
+      mastercard: Images.iconMasterbig,
+      'american express': Images.iconAmexbig,
+      unionpay: Images.iconUnionPaybig,
+      jcb: Images.iconJcbbig,
+      discover: Images.iconDiscoverbig,
+      amex: Images.iconAmexbig,
+    };
+    return cardTypeToImageMap[cardTypeLowercase] || Images.defaultCardbig;
   }
   return (
     <View style={styles.mainView}>

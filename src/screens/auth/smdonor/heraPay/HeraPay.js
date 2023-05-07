@@ -19,11 +19,10 @@ import PaymentComp from '../../../../components/PaymentComp/PaymentComp';
 import {useDispatch, useSelector} from 'react-redux';
 import {Fonts, Routes} from '../../../../constants/Constants';
 import {
+  DELETE_BANK,
   DELETE_CARD,
   GET_BANK_LIST,
   GET_CARD_LIST,
-  cleanCardDeleted,
-  cleanDeleted,
   deleteCard,
   getBankList,
   getCardList,
@@ -50,7 +49,6 @@ const HeraPay = () => {
   const {log_in_data, stripe_customer_id, connected_acc_token} = useSelector(
     state => state.Auth,
   );
-  console.log(stripe_customer_id, 'stripe_customer_id');
   const {getBankListResponse} = useSelector(store => store.getBankList);
   const {getCardListResponse} = useSelector(store => store.getCardList);
   const {
@@ -109,7 +107,6 @@ const HeraPay = () => {
       let info = getBankListResponse?.info;
       setData(info?.data);
       dispatch(hideAppLoader());
-      console.log(info, 'getBankListResponse?.info');
     } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
       let error = getBankListResponse?.error ?? 'Something went wrong';
       dispatch(hideAppLoader());
@@ -127,7 +124,6 @@ const HeraPay = () => {
     } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
       let error = getCardListResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
-
       dispatch(showAppToast(false, error));
     }
   }, [getCardListResponse]);
@@ -142,14 +138,15 @@ const HeraPay = () => {
       dispatch(hideAppLoader());
       dispatch(showAppToast(false, 'Card removed from profile!'));
       dispatch(getCardList(stripe_customer_id, 3));
-      dispatch(cleanDeleted());
-      dispatch(cleanCardDeleted());
+      dispatch({type: DELETE_BANK.CLEAN});
+      dispatch({type: DELETE_CARD.CLEAN});
     } else if (deleteCardResponse?.status === DELETE_CARD.FAIL) {
       let error = deleteCardResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
-      dispatch(cleanDeleted());
-      dispatch(cleanCardDeleted());
+
+      dispatch({type: DELETE_BANK.CLEAN});
+      dispatch({type: DELETE_CARD.CLEAN});
     } else {
       dispatch(hideAppLoader());
     }
@@ -174,7 +171,7 @@ const HeraPay = () => {
         ? Strings.Hera_Pay.Remove_Card
         : Strings.Hera_Pay.Remove_Bank,
       log_in_data?.role_id === 2
-        ? Strings.Hera_Pay.Remove_Card_Text
+        ? `Remove the card ending with ${Strings.Hera_Pay.CARD_DOT}${item?.card?.last4}`
         : `Your Existing bank ending with \n ${Strings.Hera_Pay.CARD_DOT}${item?.last4} will be removed and you will receive all the payments in the updated bank after your KYC is approved.`,
       [
         {
@@ -195,6 +192,7 @@ const HeraPay = () => {
     );
     return true;
   };
+  console.log(Item);
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -333,7 +331,7 @@ const HeraPay = () => {
                     {KycUpdated === true &&
                       KycStatus !== null &&
                       (getKycStatusFunction(account_status_res?.kyc_status) !==
-                      Strings.Hera_Pay.KYC_REJECTED ? (
+                      Strings.Hera_Pay.KYC_PENDING ? (
                         <TouchableOpacity
                           style={{
                             flexDirection: Alignment.ROW,
@@ -363,10 +361,7 @@ const HeraPay = () => {
                         ? backAction(item)
                         : setShowModal(true);
                     }}>
-                    <Image
-                      style={{bottom: Value.CONSTANT_VALUE_5}}
-                      source={Images.iconDarkMore}
-                    />
+                    <Image source={Images.iconDarkMore} />
                   </TouchableOpacity>
                 </View>
               );
@@ -390,11 +385,11 @@ const HeraPay = () => {
                         ? backAction(item)
                         : setShowModal(true);
                     }}
-                    Icon={item?.brand}
-                    number={`${Strings.Hera_Pay.CARD_DOT}${item?.last4}`}
-                    Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(item)} ${
-                      item?.exp_year
-                    }`}
+                    Icon={item?.card?.brand}
+                    number={`${Strings.Hera_Pay.CARD_DOT}${item?.card?.last4}`}
+                    Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(
+                      item?.card,
+                    )} ${item?.card?.exp_year}`}
                   />
                 </View>
               );
@@ -478,7 +473,7 @@ const HeraPay = () => {
         }
         String_2={
           log_in_data?.role_id === 2
-            ? Strings.Hera_Pay.Remove_Card_Text
+            ? `Remove the card ending with ${Strings.Hera_Pay.CARD_DOT}${Item?.card?.last4}`
             : `Your Existing bank ending with ${Strings.Hera_Pay.CARD_DOT}${Item?.last4} will be removed and you will receive all the payments in the updated bank after your KYC is approved.`
         }
         String_3={

@@ -98,7 +98,7 @@ export const ValidationMessages = {
   DISCARD_KYC: 'Discard KYC?',
   YES_DISCARD: 'Yes, Discard',
   NOT_NOW: 'Not Now',
-  DISCARD_KYC_DESC: `Your bank will not be added and you won't be able to receive and payments.`,
+  DISCARD_KYC_DESC: `Your bank will not be added and you won't be able to receive any payments.`,
   FirstName_REQUIRED: 'Please enter your first name',
   ACCOUNTHOLDER_REQUIRED: 'Please enter a valid name',
   Last_REQUIRED: 'Please enter your last name',

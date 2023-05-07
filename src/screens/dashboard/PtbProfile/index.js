@@ -57,8 +57,8 @@ import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import _ from 'lodash';
 import {getMessageID} from '../../../redux/actions/MessageId';
 import {
-  cleanBankList,
-  cleanCardList,
+  GET_BANK_LIST,
+  GET_CARD_LIST,
 } from '../../../redux/actions/stripe.action';
 
 const PtbProfile = () => {
@@ -199,8 +199,8 @@ const PtbProfile = () => {
         dispatch(empty());
         dispatch(RemoveStripIds());
         dispatch(signoutUser());
-        dispatch(cleanCardList());
-        dispatch(cleanBankList());
+        dispatch({type: GET_CARD_LIST.CLEAN});
+        dispatch({type: GET_BANK_LIST.CLEAN});
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
         setTimeout(() => {

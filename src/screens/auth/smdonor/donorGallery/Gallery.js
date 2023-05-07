@@ -69,7 +69,7 @@ const Gallery = () => {
   const [selVideo, setSelVideo] = useState(false);
   const [loadScreen, setLoadScreen] = useState(true);
   const [images, _setImages] = useState([]);
-  const [openActionsheet, setOpenActionsheet] = useState(false);
+  const [openActionsheets, setOpenActionsheet] = useState(false);
 
   const videoRef = useRef();
   const {
@@ -290,13 +290,13 @@ const Gallery = () => {
   };
   const iosPhotoSheet = () => {
     setIsVideo(false);
-    if (openActionsheet === false) {
+    if (openActionsheets === false) {
       openActionSheet();
     }
   };
   const iosVideoSheet = () => {
     setIsVideo(true);
-    if (openActionsheet === false) {
+    if (openActionsheets === false) {
       openActionSheet();
     }
   };
