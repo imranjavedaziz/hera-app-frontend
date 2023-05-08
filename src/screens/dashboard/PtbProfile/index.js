@@ -60,6 +60,7 @@ import {
   GET_BANK_LIST,
   GET_CARD_LIST,
 } from '../../../redux/actions/stripe.action';
+import { GetPreferenceRes } from '../../../redux/actions/SetPreference';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -346,9 +347,10 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
-                onPress={() =>
+                onPress={() =>{
+                  dispatch(GetPreferenceRes());
                   navigation.navigate('SetPreference', {EditPreferences: true})
-                }
+                }}
               />
               <PtbAccount
                 leftIcon={Images.DOLLAR_LOGO}
