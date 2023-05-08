@@ -94,8 +94,12 @@ const SetPreference = ({route, navigation}) => {
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
-  const [stateRess, setStateRes] = useState();
+  const [stateRess, setStateRes] = useState([]);
   const [disable, setDisable] = useState(false);
+  const [isCacheState, setCacheState] = useState(false);
+  const [isCachePref, setCachePref] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isFilled, setFilled] = useState(false);
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
   const [threeOption, setThreeOption] = useState([]);
@@ -139,10 +143,42 @@ const SetPreference = ({route, navigation}) => {
         dispatch(showEditAppLoader());
         dispatch(GetPreferenceRes());
       }
-      dispatch(getStates());
-      dispatch(SetPreferenceRes());
     }, [dispatch]),
   );
+  useEffect(() => {
+    if (
+      get_state_success &&
+      Array.isArray(get_state_res) &&
+      get_state_res.length > 0
+    ) {
+      setStateRes(get_state_res);
+      setCacheState(true);
+    } else if (!get_state_loading) {
+      dispatch(getStates());
+    }
+  }, [get_state_res, get_state_success, get_state_loading]);
+  useEffect(() => {
+    if (
+      set_preference_success &&
+      set_preference_res.hasOwnProperty('education')
+    ) {
+      setPreferencesData(set_preference_res);
+      setCachePref(true);
+    } else if (!set_preference_loading || !loading) {
+      dispatch(SetPreferenceRes());
+      setLoading(true);
+    }
+  }, [set_preference_res, set_preference_success, set_preference_loading]);
+  useEffect(() => {
+    if (get_preference_success && isCacheState) {
+      dispatch(getStates());
+    }
+  }, [isCacheState, get_preference_success]);
+  useEffect(() => {
+    if (get_preference_success && isCachePref) {
+      dispatch(SetPreferenceRes());
+    }
+  }, [isCachePref, get_preference_success]);
   const {
     handleSubmit,
     control,
@@ -162,18 +198,17 @@ const SetPreference = ({route, navigation}) => {
 
   //GET STATE
   useEffect(() => {
-    if (stateLoadingRef.current && !get_state_loading) {
+    if (stateLoadingRef.current && !get_state_loading && !isCacheState) {
       dispatch(showAppLoader());
       if (get_state_success) {
         dispatch(hideAppLoader());
-        setStateRes(get_state_res);
       }
       if (get_state_error_msg) {
         dispatch(hideAppLoader());
       }
     }
     stateLoadingRef.current = get_state_loading;
-  }, [get_state_loading, get_state_success]);
+  }, [get_state_loading, get_state_success, isCacheState]);
   //GET PREFERENCE
   useFocusEffect(
     useCallback(() => {
@@ -181,7 +216,6 @@ const SetPreference = ({route, navigation}) => {
         dispatch(showEditAppLoader());
         if (get_preference_success) {
           dispatch(hideEditLoader());
-          EditPreferences === true && handelChange();
         }
         if (get_preference_error_msg) {
           dispatch(hideEditLoader());
@@ -190,9 +224,30 @@ const SetPreference = ({route, navigation}) => {
       SetloadingRef.current = get_preference_loading;
     }, [get_preference_success, get_preference_loading, get_preference_res]),
   );
+  useEffect(() => {
+    if (
+      get_state_res.length > 0 &&
+      set_preference_res.hasOwnProperty('education') &&
+      get_preference_success &&
+      EditPreferences &&
+      !isFilled
+    ) {
+      handelChange();
+      setFilled(true);
+    }
+  }, [
+    EditPreferences,
+    isFilled,
+    get_state_res,
+    get_preference_res,
+    set_preference_res,
+    get_preference_success,
+    set_preference_success,
+    get_state_success,
+  ]);
   //SETTER FIELDS
   const handelChange = useCallback(async () => {
-    try{
+    try {
       let location = null;
       let race = null;
       const HeightArr = get_preference_res?.height?.split('-');
@@ -208,23 +263,25 @@ const SetPreference = ({route, navigation}) => {
       setHeight(HeightArr);
       setValue(FormKey.hair, get_preference_res?.hair_colour);
       setValue(FormKey.eye, get_preference_res?.eye_colour);
-      if(Array.isArray(get_state_res) && get_state_res.length>0){
+      if (Array.isArray(get_state_res) && get_state_res.length > 0) {
         location = get_state_res?.find(obj => {
           return obj.id === parseInt(get_preference_res?.state);
         });
       }
-      if(Array.isArray(set_preference_res?.race) && set_preference_res?.race.length>0){
+      if (
+        Array.isArray(set_preference_res?.race) &&
+        set_preference_res?.race.length > 0
+      ) {
         race = set_preference_res?.race?.find(obj => {
           return obj.id === parseInt(raceJson);
         });
       }
       setValue(FormKey.location, location);
       setValue(FormKey.race, race);
-    }
-    catch(e){
+    } catch (e) {
       console.log(e);
     }
-  },[get_state_res,get_preference_res,set_preference_res]);
+  }, [get_state_res, get_preference_res, set_preference_res]);
 
   //logout
   useEffect(() => {
@@ -251,19 +308,17 @@ const SetPreference = ({route, navigation}) => {
   //GET PREFERENCE
   useFocusEffect(
     useCallback(() => {
-      if (loadingRef.current && !set_preference_loading) {
+      if (loadingRef.current && !set_preference_loading && !isCachePref) {
         dispatch(showAppLoader());
         if (set_preference_success) {
           dispatch(hideAppLoader());
-          EditPreferences === true && handelChange();
-          setPreferencesData(set_preference_res);
         }
         if (set_preference_error_msg) {
           dispatch(hideAppLoader());
         }
       }
       loadingRef.current = set_preference_loading;
-    }, [set_preference_success, set_preference_loading]),
+    }, [set_preference_success, set_preference_loading, isCachePref]),
   );
   // SAVE PREFERENCE
   useEffect(() => {
