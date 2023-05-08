@@ -490,7 +490,7 @@ const Subscription = () => {
                       renderItem={({item, index}) => (
                         <Commitment
                           key={index}
-                          MainText={`$${item?.price}/${item?.interval}`}
+                          MainText={`$${item?.price} / ${item?.interval}`}
                           Months={item.description}
                           Icon={
                             selectCheckBox?.id === item?.id

@@ -138,7 +138,7 @@ export const Subscribed = () => {
             style={[
               styles.price,
               {marginTop: 3},
-            ]}>{`$${get_user_detail_res.subscription.price}/${get_user_detail_res.subscription.subscription_interval}`}</Text>
+            ]}>{`$${get_user_detail_res.subscription.price} / ${get_user_detail_res.subscription.subscription_interval}`}</Text>
           {!hasUpgraded && (
             <Text style={[styles.price, {marginTop: 10, fontSize: 13}]}>
               Next Due On:{' '}
