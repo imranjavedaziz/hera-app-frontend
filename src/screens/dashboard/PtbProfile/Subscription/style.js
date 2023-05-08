@@ -63,6 +63,11 @@ export default {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.COLOR_A3C6C4,
   },
+  selectedBox: {
+    backgroundColor: `${Colors.COLOR_163198196}28`,
+    borderRadius: 0,
+    // opacity: 0.11,
+  },
   innerContainer: {
     marginTop: dynamicSize(34),
   },
@@ -86,7 +91,7 @@ export default {
   blueContain: {
     backgroundColor: 'rgb(90,188,236)',
     minWidth: Value.CONSTANT_VALUE_324,
-    maxWidth: Value.CONSTANT_VALUE_344,
+    flex: 1,
     height: Value.CONSTANT_VALUE_64,
     borderRadius: Value.CONSTANT_VALUE_11,
     flexDirection: Alignment.ROW,
@@ -103,6 +108,7 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
+    marginBottom: Value.CONSTANT_VALUE_5,
   },
   roleBox: {
     backgroundColor: Colors.WHITE,

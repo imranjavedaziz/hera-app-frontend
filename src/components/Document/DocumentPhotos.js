@@ -59,7 +59,9 @@ export default function DocumentPhoto({
         selectedPhotos.length < maxFilesCount ? true : false,
       );
       if (selectedPhotos.length === maxFilesCount) {
-        dispatch(showAppToast(true), `Max file count is ${maxFilesCount}`);
+        dispatch(
+          showAppToast(true, `You can upload max of ${maxFilesCount} images.`),
+        );
       }
       handleError(null, Input_Type.selectField);
     }

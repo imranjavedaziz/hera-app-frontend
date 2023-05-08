@@ -57,17 +57,6 @@ const stripeApiCall = async (apiInfo, data) => {
       });
   });
 };
-
-export const addCardToken = data => {
-  return stripeApiCall(
-    {
-      name: '/v1/tokens',
-      type: 'post',
-      contType: 'application/x-www-form-urlencoded',
-    },
-    data,
-  );
-};
 export const addBankToken = data => {
   return stripeApiCall(
     {
@@ -78,34 +67,37 @@ export const addBankToken = data => {
     data,
   );
 };
+
 //ADD CARD
 export const createCardSource = data => {
   return stripeApiCall(
     {
-      name: `/v1/customers/${data?.customerId}/sources`,
+      name: `/v1/accounts/${data?.customerId}/external_accounts`,
       type: 'post',
       contType: 'application/x-www-form-urlencoded',
     },
-    {source: data?.token},
+    {external_account: data?.token, default_for_currency: true},
     data?.cardData,
   );
 };
 export const getCardListApi = (customerId, limit) => {
   return stripeApiCall(
     {
-      name: `/v1/customers/${customerId}/sources`,
+      name: `/v1/payment_methods`,
       type: 'get',
     },
     {
-      object: 'card',
-      limit: limit || 3,
+      customer: customerId,
+      type: 'card',
+      limit: limit || 10,
     },
   );
 };
 export const getBankListApi = (customerId, limit) => {
   return stripeApiCall(
     {
-      name: `/v1/customers/${customerId}/sources`,
+      // name: `/v1/customers/${customerId}/sources`,
+      name: `/v1/accounts/${customerId}/external_accounts`,
       type: 'get',
     },
     {
@@ -114,9 +106,39 @@ export const getBankListApi = (customerId, limit) => {
     },
   );
 };
-export const deleteBankOrCard = ({data}) => {
+export const deleteCard = ({data}) => {
   return stripeApiCall({
-    name: `/v1/customers/${data?.customer}/sources/${data?.id}`,
+    name: `/v1/payment_methods/${data?.id}/detach`,
+    type: 'post',
+  });
+};
+
+export const deleteBank = ({data}) => {
+  return stripeApiCall({
+    name: `/v1/accounts/${data?.account}/external_accounts/${data?.id}`,
     type: 'delete',
   });
+};
+export const createPaymentIntent = data => {
+  return stripeApiCall(
+    {
+      name: '/v1/payment_methods',
+      type: 'post',
+      contType: 'application/x-www-form-urlencoded',
+    },
+    {
+      type: 'card',
+      ...data?.data,
+    },
+  );
+};
+export const attachPaymentMethod = ({customerId, id}) => {
+  return stripeApiCall(
+    {
+      name: `/v1/payment_methods/${id}/attach`,
+      type: 'post',
+      contType: 'application/x-www-form-urlencoded',
+    },
+    {customer: customerId},
+  );
 };

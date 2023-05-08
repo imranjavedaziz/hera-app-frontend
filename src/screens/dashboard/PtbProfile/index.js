@@ -27,6 +27,7 @@ import PtbAccount, {
 } from '../../../components/dashboard/PtbProfile/PtbAccount';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  RemoveStripIds,
   logOut,
   signoutUser,
   updateName,
@@ -55,6 +56,10 @@ import moment from 'moment';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import _ from 'lodash';
 import {getMessageID} from '../../../redux/actions/MessageId';
+import {
+  GET_BANK_LIST,
+  GET_CARD_LIST,
+} from '../../../redux/actions/stripe.action';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -192,7 +197,10 @@ const PtbProfile = () => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
+        dispatch(RemoveStripIds());
         dispatch(signoutUser());
+        dispatch({type: GET_CARD_LIST.CLEAN});
+        dispatch({type: GET_BANK_LIST.CLEAN});
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
         setTimeout(() => {
@@ -201,7 +209,7 @@ const PtbProfile = () => {
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
-          setDisable(false);
+        setDisable(false);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -257,7 +265,7 @@ const PtbProfile = () => {
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
-          setDisable(true)
+          setDisable(true);
           logoutFunc();
         },
       },
@@ -288,10 +296,10 @@ const PtbProfile = () => {
                 }}
                 Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
-                } ${
+                }${
                   middle_name === null || middle_name === undefined
                     ? ''
-                    : middle_name
+                    : ` ${middle_name}`
                 }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
@@ -455,7 +463,7 @@ const PtbProfile = () => {
         String_3={Strings.smSetting.Yes_Logout}
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
-          setDisable(true)
+          setDisable(true);
           logoutFunc();
         }}
         onPressOff={() => {

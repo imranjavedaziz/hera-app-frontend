@@ -53,10 +53,63 @@ export function formatACNumber(accountNumber) {
     return accountNumber;
   }
 }
+export function undoFormatACNumber(accountNumber) {
+  if (accountNumber) {
+    // Remove all non-digit characters from the account number
+    accountNumber = accountNumber.replace(/\D/g, '');
+
+    // Return the formatted string without hyphens
+    return accountNumber;
+  } else {
+    return accountNumber;
+  }
+}
+
+export function formatCardNumber(value) {
+  if (!value) {
+    return value;
+  }
+  return value
+    .replace(/\s?/g, '')
+    .replace(/(\d{4})/g, '$1 ')
+    .trim();
+}
 export function padLeadingZeros(num, size) {
   var s = num + '';
   while (s.length < size) s = '0' + s;
   return s;
+}
+
+export function monthGet(item) {
+  const monthInt = item?.exp_month;
+  switch (monthInt) {
+    case 1:
+      return 'Jan';
+    case 2:
+      return 'Feb';
+    case 3:
+      return 'Mar';
+    case 4:
+      return 'Apr';
+    case 5:
+      return 'May';
+    case 6:
+      return 'Jun';
+    case 7:
+      return 'Jul';
+    case 8:
+      return 'Aug';
+    case 9:
+      return 'Sep';
+    case 10:
+      return 'Oct';
+    case 11:
+      return 'Nov';
+    case 12:
+      return 'Dec';
+    default:
+      return '';
+  }
 }
 export const getNumberFromString = text => {
   let number = text.replace(/[^\d]/g, '');
@@ -77,11 +130,15 @@ export function isPositiveInteger(str) {
 }
 
 export function formatExpiryDate(cardExpiry) {
-  let txt = cardExpiry.replace('/', '');
-  if (txt.length > 2) {
-    return txt.substr(0, 2) + '/' + (txt.substr(2) || '');
+  if (cardExpiry && cardExpiry !== undefined && cardExpiry.length > 1) {
+    let txt = cardExpiry?.replace('/', '');
+    if (txt.length > 2) {
+      return txt.substr(0, 2) + '/' + (txt.substr(2) || '');
+    }
+    return txt;
+  } else {
+    cardExpiry;
   }
-  return txt;
 }
 export function validateFullName(name) {
   const regEx = /^[a-zA-Z ]*$/;
@@ -139,4 +196,35 @@ export const jsonToFormData = req => {
     formData.append(key, value);
   });
   return formData;
+};
+export function validateExpiryDate(date) {
+  let expirySplit = date.split('/');
+  if (isNaN(date.replace('/', ''))) {
+    return false;
+  }
+  return !(
+    expirySplit.length !== 2 ||
+    isInvalidMonth(expirySplit[0]) ||
+    isInvalidYear(expirySplit[1]) ||
+    isInvalidMonthYear(expirySplit[0], expirySplit[1])
+  );
+}
+function isInvalidMonth(month) {
+  return month > 12 || month < 1;
+}
+
+function isInvalidYear(date) {
+  return date < moment().format('YY');
+}
+
+function isInvalidMonthYear(month, year) {
+  return month <= moment().month() && year === moment().format('YY');
+}
+
+export const capitalizeStr = str => {
+  const arr = str.toLowerCase().split(' ');
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+  }
+  return arr.join(' ');
 };

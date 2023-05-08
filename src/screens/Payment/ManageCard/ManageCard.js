@@ -1,20 +1,81 @@
-import {View, Text, ScrollView} from 'react-native';
-import React, {useRef} from 'react';
-import {Button, FloatingLabelInput, Header, InputLabel} from '../../../components';
+import {View, Text, Platform, Keyboard} from 'react-native';
+import React, {useRef, useEffect} from 'react';
+import {Button, FloatingLabelInput, Header} from '../../../components';
 import styles from './styles';
 import {Alignment, Images, Strings} from '../../../constants';
 import {useNavigation} from '@react-navigation/native';
 import {IconHeader} from '../../../components/Header';
-import {validationBank, Input_Type} from '../../../constants/Constants';
-import {formatACNumber, validateFullName} from '../../../utils/commonFunction';
+import {validationBank, Input_Type, Routes} from '../../../constants/Constants';
+import {
+  formatACNumber,
+  validateExpiryDate,
+  validateFullName,
+} from '../../../utils/commonFunction';
 import {ValidationMessages} from '../../../constants/Strings';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {scaleHeight} from '../../../utils/responsive';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  ATTACH_PAYMENT_INTENT,
+  PAYMENT_INTENT,
+  attachPaymentIntent,
+  createPaymentIntent,
+} from '../../../redux/actions/stripe.action';
+import ExtraBottomView from '../../../components/ExtraBottomView';
 const ManageCard = () => {
   const navigation = useNavigation();
-  const accountholderRef = useRef();
-  const accountnumberRef = useRef();
+  const cardNumberRef = useRef();
+  const expiryRef = useRef();
+  const cvvRef = useRef();
+  const cardNameRef = useRef();
+  let scrollRef = React.createRef();
   const [inputs, setInputs] = React.useState({});
   const [errors, setErrors] = React.useState({});
+  const {attachPaymentIntentRes} = useSelector(
+    store => store.attachPaymentIntent,
+  );
+  const {paymentIntentRes} = useSelector(store => store.paymentIntent);
+  const {stripe_customer_id} = useSelector(state => state.Auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
+      dispatch(showAppLoader());
+    } else if (paymentIntentRes?.status === PAYMENT_INTENT.SUCCESS) {
+      let info = paymentIntentRes?.info;
+      dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
+      dispatch(hideAppLoader());
+    } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
+      dispatch(hideAppLoader());
+      let error = paymentIntentRes?.error ?? 'Something went wrong!';
+      dispatch(showAppToast(true, error));
+    }
+  }, [paymentIntentRes]);
+
+  useEffect(() => {
+    if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.START) {
+      dispatch(showAppLoader());
+    } else if (
+      attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
+    ) {
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(false, 'Card added to profile!'));
+      dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+      dispatch({type: PAYMENT_INTENT.CLEAN});
+      navigation.navigate(Routes.HeraPay);
+    } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
+      dispatch(hideAppLoader());
+      let error = attachPaymentIntentRes?.error ?? 'Something went wrong!';
+      dispatch(showAppToast(true, error));
+      dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+      dispatch({type: PAYMENT_INTENT.CLEAN});
+    }
+  }, [attachPaymentIntentRes]);
+
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -26,160 +87,190 @@ const ManageCard = () => {
   );
 
   const handleOnchange = (text, input) => {
-    console.log(text, input);
     let prevoius = inputs[input];
-    if (input === Input_Type.accountholder && !validateFullName(text)) {
+    if (
+      (input === Input_Type.fullName || input === Input_Type.name) &&
+      !validateFullName(text)
+    ) {
       setInputs(prevState => ({...prevState, [input]: prevoius ?? ''}));
       return;
     }
-    if (input === Input_Type.accountnumber && isNaN(parseInt(text))) {
+    if (
+      (input === Input_Type.cardNumber || input === Input_Type.cvv) &&
+      isNaN(parseInt(text))
+    ) {
       setInputs(prevState => ({...prevState, [input]: ''}));
       return;
     }
-    if (input === Input_Type.routingnumber && isNaN(parseInt(text))) {
-      setInputs(prevState => ({...prevState, [input]: ''}));
-      return;
-    }
+    if (input === Input_Type.expiryDate) {
+      // Remove any non-numeric characters from the input
+      const numericInput = text.replace(/[^\d]/g, '');
+      // Split the input into month and year components
+      const month = numericInput.slice(0, 2);
+      const year = numericInput.slice(2);
 
-    setInputs(prevState => ({...prevState, [input]: text}));
+      // Format the input as "MM/YY" and update the state
+      const formattedInput = `${month}${year ? `/${year}` : ''}`;
+      setInputs(prevState => ({...prevState, [input]: formattedInput}));
+    } else {
+      setInputs(prevState => ({...prevState, [input]: text}));
+    }
   };
+
   const handleError = (error, input) => {
     setErrors(prevState => ({...prevState, [input]: error}));
   };
-
   const validateData = () => {
     let isValid = true;
-
-    if (inputs.accountholder) {
-      handleOnchange(inputs?.accountholder.trim(), Input_Type.accountholder);
-    }
-    if (!inputs.accountnumber) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.accountnumber);
+    if (!inputs.cardNumber) {
+      handleError(ValidationMessages.CARD_REQUIRED, Input_Type.cardNumber);
       isValid = false;
     } else if (
-      isNaN(inputs.accountnumber) ||
-      inputs.accountnumber.length < validationBank.MIN_ACCOUNT_NUM
+      isNaN(parseInt(inputs.cardNumber)) ||
+      inputs.cardNumber.length < validationBank.CardNumberMinLimit
     ) {
-      handleError(ValidationMessages.INVALID, Input_Type.accountnumber);
+      handleError(ValidationMessages.CARD_INVALID, Input_Type.cardNumber);
       isValid = false;
     }
-
-    if (!inputs.accountholder?.trim()) {
-      handleError(Input_Type.accountholder);
-      isValid = true;
-    } else if (!validateFullName(inputs.accountholder)) {
-      handleError(ValidationMessages.INVALID, Input_Type.accountholder);
+    if (!inputs.expiryDate) {
+      handleError(ValidationMessages.EXP_REQUIRED, Input_Type.expiryDate);
+      isValid = false;
+    } else if (!validateExpiryDate(inputs.expiryDate)) {
+      handleError(ValidationMessages.EXP_INVALID, Input_Type.expiryDate);
       isValid = false;
     }
-
-    if (!inputs.routingnumber) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.routingnumber);
+    if (!inputs.cvv) {
+      handleError(ValidationMessages.CVV_REQUIRED, Input_Type.cvv);
       isValid = false;
-    } else if (
-      isNaN(inputs.routingnumber) ||
-      inputs.routingnumber.length < validationBank.routingLimit
-    ) {
-      handleError(ValidationMessages.INVALID, Input_Type.routingnumber);
+    } else if (isNaN(inputs.cvv) || inputs.cvv.length < validationBank.minCvv) {
+      handleError(ValidationMessages.CVV_INVALID, Input_Type.cvv);
+      isValid = false;
+    }
+    handleOnchange(inputs.fullName?.trim(), Input_Type.fullName);
+
+    if (!inputs.fullName?.trim()) {
+      handleError(ValidationMessages.NAME_REQUIRED, Input_Type.fullName);
+      isValid = false;
+    } else if (!validateFullName(inputs.fullName)) {
+      handleError(ValidationMessages.NAME_INAVLID, Input_Type.fullName);
       isValid = false;
     }
     return isValid;
   };
-
+  const validate = async () => {
+    Keyboard.dismiss();
+    if (validateData()) {
+      // dispatch(showAppLoader());
+      let date = inputs.expiryDate.split('/');
+      let cardInfo;
+      cardInfo = {
+        'card[number]': inputs.cardNumber,
+        'card[exp_month]': date[0],
+        'card[exp_year]': date[1],
+        'card[cvc]': inputs.cvv,
+        'billing_details[name]': inputs.fullName,
+      };
+      dispatch(createPaymentIntent(cardInfo));
+    }
+  };
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={20}
+        enableAutoAutomaticScroll={true}
+        keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+        style={styles.scrollContent}
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
+        ref={scrollRef}>
         <View style={styles.mainContainer}>
           <Text style={styles.mainText}>{Strings.ManageCard.ADD_CARD}</Text>
           <Text style={styles.cardDetails}>
             {Strings.ManageCard.CARD_DETAILS}
           </Text>
-          <View style={{marginTop: 20}}>
-            <FloatingLabelInput
-              label={Strings.ManageCard.CardNumber}
-              value={formatACNumber(inputs.accountnumber)}
-              onChangeText={text =>
-                handleOnchange(text, Input_Type.accountnumber)
-              }
-              required={true}
-              keyboardType={'numeric'}
-              returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.accountnumber)}
-              maxLength={validationBank.accountNumberLimit}
-              inputRef={accountnumberRef}
-              error={errors.accountnumber}
-              onSubmitEditing={() => {
-                accountholderRef.current.focus();
-              }}
-            />
-            <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-            <FloatingLabelInput
-              label={Strings.ManageCard.ValidThrough}
-              value={formatACNumber(inputs.accountnumber)}
-              onChangeText={text =>
-                handleOnchange(text, Input_Type.accountnumber)
-              }
-              required={true}
-              keyboardType={'numeric'}
-              returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.accountnumber)}
-              maxLength={validationBank.accountNumberLimit}
-              inputRef={accountnumberRef}
-              error={errors.accountnumber}
-              onSubmitEditing={() => {
-                accountholderRef.current.focus();
-              }}
-            />
-            <FloatingLabelInput
-              label={Strings.ManageCard.CVV}
-              value={formatACNumber(inputs.accountnumber)}
-              onChangeText={text =>
-                handleOnchange(text, Input_Type.accountnumber)
-              }
-              required={true}
-              keyboardType={'numeric'}
-              returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.accountnumber)}
-              maxLength={validationBank.accountNumberLimit}
-              inputRef={accountnumberRef}
-              error={errors.accountnumber}
-              onSubmitEditing={() => {
-                accountholderRef.current.focus();
-              }}
-            />
-            </View>
-            <FloatingLabelInput
-            label={Strings.ManageCard.cardHolderName}
-            value={inputs.accountholder}
-            onFocus={() => handleError(null, Input_Type.accountholder)}
-            onChangeText={text =>
-              handleOnchange(text, Input_Type.accountholder)
-            }
-            error={errors.accountholder}
-            required={false}
-            maxLength={30}
+          <FloatingLabelInput
+            label={Strings.ManageCard.CardNumber}
+            value={formatACNumber(inputs.cardNumber)}
+            onChangeText={text => handleOnchange(text, Input_Type.cardNumber)}
+            onFocusHandle={() => handleError(null, Input_Type.cardNumber)}
+            error={errors.cardNumber}
+            required={true}
+            inputRef={cardNumberRef}
+            keyboardType={'numeric'}
             returnKeyType="next"
-            inputRef={accountholderRef}
+            maxLength={validationBank.CardNumberLimit}
             onSubmitEditing={() => {
-              routingnumberRef.current.focus();
+              expiryRef.current.focus();
             }}
           />
-          </View>
+          <FloatingLabelInput
+            label={Strings.ManageCard.ValidThrough}
+            value={inputs.expiryDate}
+            maxLength={validationBank.ExpiryDate}
+            onChangeText={text => handleOnchange(text, Input_Type.expiryDate)}
+            onFocusHandle={() => handleError(null, Input_Type.expiryDate)}
+            required={true}
+            keyboardType={'numeric'}
+            returnKeyType="next"
+            error={errors.expiryDate}
+            inputRef={expiryRef}
+            onSubmitEditing={() => {
+              cvvRef.current.focus();
+            }}
+          />
+          <FloatingLabelInput
+            label={Strings.ManageCard.CVV}
+            value={inputs.cvv}
+            onChangeText={text => handleOnchange(text, Input_Type.cvv)}
+            onFocusHandle={() => handleError(null, Input_Type.cvv)}
+            required={true}
+            keyboardType={'numeric'}
+            returnKeyType="next"
+            maxLength={validationBank.Cvv}
+            inputRef={cvvRef}
+            error={errors.cvv}
+            secureTextEntry={true}
+            onSubmitEditing={() => {
+              cardNameRef.current.focus();
+            }}
+          />
+          <FloatingLabelInput
+            label={Strings.ManageCard.cardHolderName}
+            value={inputs.fullName}
+            onChangeText={text => handleOnchange(text, Input_Type.fullName)}
+            onFocusHandle={() => {
+              handleError(null, Input_Type.fullName);
+              if (Platform.OS === 'android') {
+                scrollRef?.current.scrollToPosition(
+                  (x = 0),
+                  (y = scaleHeight(150)),
+                  (animated = true),
+                );
+              }
+            }}
+            error={errors.fullName}
+            required={true}
+            maxLength={validationBank.fullNameLimit}
+            returnKeyType="go"
+            inputRef={cardNameRef}
+            onSubmitEditing={() => {
+              validate();
+            }}
+          />
           <View
             style={{
               alignItems: Alignment.CENTER,
-              marginTop:45,
             }}>
             <Button
               label={Strings.ManageCard.SAVE_CARD}
               style={styles.addBtn}
-              // onPress={() => validate()}
+              onPress={() => validate()}
             />
           </View>
         </View>
-      </ScrollView>
+        <ExtraBottomView />
+      </KeyboardAwareScrollView>
     </View>
   );
 };

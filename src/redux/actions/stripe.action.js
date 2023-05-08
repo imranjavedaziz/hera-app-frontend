@@ -1,30 +1,5 @@
 import {KYC_STATUS, KYC_UPDATE} from '../Type';
 
-export const ADD_CARD_TOKEN = {
-  API: 'ADD_CARD_TOKEN_API',
-  START: 'ADD_CARD_TOKEN_START',
-  SUCCESS: 'ADD_CARD_TOKEN_SUCCESS',
-  FAIL: 'ADD_CARD_TOKEN_FAIL',
-  END: 'ADD_CARD_TOKEN_END',
-  CLEAN: 'ADD_CARD_TOKEN_CLEAN',
-};
-
-export const ADD_CUSTOMER_ID = {
-  API: 'ADD_CUSTOMER_ID_API',
-  START: 'ADD_CUSTOMER_ID_START',
-  SUCCESS: 'ADD_CUSTOMER_ID_SUCCESS',
-  FAIL: 'ADD_CUSTOMER_ID_FAIL',
-  END: 'ADD_CUSTOMER_ID_END',
-  CLEAN: 'ADD_CUSTOMER_ID_CLEAN',
-};
-export const GET_CUSTOMER_ID = {
-  API: 'GET_CUSTOMER_ID_API',
-  START: 'GET_CUSTOMER_ID_START',
-  SUCCESS: 'GET_CUSTOMER_ID_SUCCESS',
-  FAIL: 'GET_CUSTOMER_ID_FAIL',
-  END: 'GET_CUSTOMER_ID_END',
-  CLEAN: 'GET_CUSTOMER_ID_CLEAN',
-};
 export const GET_CARD_LIST = {
   API: 'GET_CARD_LIST_API',
   START: 'GET_CARD_LIST_START',
@@ -41,21 +16,13 @@ export const GET_BANK_LIST = {
   END: 'GET_BANK_LIST_END',
   CLEAN: 'GET_BANK_LIST_CLEAN',
 };
-export const ADD_CARD = {
-  API: 'ADD_CARD_API',
-  START: 'ADD_CARD_START',
-  SUCCESS: 'ADD_CARD_SUCCESS',
-  FAIL: 'ADD_CARD_FAIL',
-  END: 'ADD_CARD_END',
-  CLEAN: 'ADD_CARD_CLEAN',
-};
-export const UPDATE_CARD_TOKEN = {
-  API: 'UPDATE_CARD_TOKEN_API',
-  START: 'UPDATE_CARD_TOKEN_START',
-  SUCCESS: 'UPDATE_CARD_TOKEN_SUCCESS',
-  FAIL: 'UPDATE_CARD_TOKEN_FAIL',
-  END: 'UPDATE_CARD_TOKEN_END',
-  CLEAN: 'UPDATE_CARD_TOKEN_CLEAN',
+export const ADD_BANK = {
+  API: 'ADD_BANK_API',
+  START: 'ADD_BANK_START',
+  SUCCESS: 'ADD_BANK_SUCCESS',
+  FAIL: 'ADD_BANK_FAIL',
+  END: 'ADD_BANK_END',
+  CLEAN: 'ADD_BANK_CLEAN',
 };
 
 export const PAYMENT_INTENT = {
@@ -66,41 +33,23 @@ export const PAYMENT_INTENT = {
   END: 'PAYMENT_INTENT_END',
   CLEAN: 'PAYMENT_INTENT_CLEAN',
 };
-
-export const SAVE_CONTRIBUTION = {
-  API: 'SAVE_CONTRIBUTION_API',
-  START: 'SAVE_CONTRIBUTION_START',
-  SUCCESS: 'SAVE_CONTRIBUTION_SUCCESS',
-  FAIL: 'SAVE_CONTRIBUTION_FAIL',
-  END: 'SAVE_CONTRIBUTION_END',
-  CLEAN: 'SAVE_CONTRIBUTION_CLEAN',
-};
-
-export const GUEST_PAYMENT_INTENT = {
-  API: 'GUEST_PAYMENT_INTENT_API',
-  START: 'GUEST_PAYMENT_INTENT_START',
-  SUCCESS: 'GUEST_PAYMENT_INTENT_SUCCESS',
-  FAIL: 'GUEST_PAYMENT_INTENT_FAIL',
-  END: 'GUEST_PAYMENT_INTENT_END',
-  CLEAN: 'GUEST_PAYMENT_INTENT_CLEAN',
+export const ATTACH_PAYMENT_INTENT = {
+  API: 'ATTACH_PAYMENT_INTENT_API',
+  START: 'ATTACH_PAYMENT_INTENT_START',
+  SUCCESS: 'ATTACH_PAYMENT_INTENT_SUCCESS',
+  FAIL: 'ATTACH_PAYMENT_INTENT_FAIL',
+  END: 'ATTACH_PAYMENT_INTENT_END',
+  CLEAN: 'ATTACH_PAYMENT_INTENT_CLEAN',
 };
 export const ADD_BANK_TOKEN = {
-  API: 'ADD_BANK_API',
-  START: 'ADD_BANK_START',
-  SUCCESS: 'ADD_BANK_SUCCESS',
-  FAIL: 'ADD_BANK_FAIL',
-  END: 'ADD_BANK_END',
-  CLEAN: 'ADD_BANK_CLEAN',
+  API: 'ADD_BANK_TOKEN_API',
+  START: 'ADD_BANK_TOKEN_START',
+  SUCCESS: 'ADD_BANK_TOKEN_SUCCESS',
+  FAIL: 'ADD_BANK_TOKEN_FAIL',
+  END: 'ADD_BANK_TOKEN_END',
+  CLEAN: 'ADD_BANK_TOKEN_CLEAN',
 };
 
-export const UPDATE_BANK_TOKEN = {
-  API: 'UPDATE_BANK_TOKEN_API',
-  START: 'UPDATE_BANK_TOKEN_START',
-  SUCCESS: 'UPDATE_BANK_TOKEN_SUCCESS',
-  FAIL: 'UPDATE_BANK_TOKEN_FAIL',
-  END: 'UPDATE_BANK_TOKEN_END',
-  CLEAN: 'UPDATE_BANK_TOKEN_CLEAN',
-};
 export const DELETE_BANK = {
   API: 'DELETE_BANK_API',
   START: 'DELETE_BANK_START',
@@ -109,22 +58,18 @@ export const DELETE_BANK = {
   END: 'DELETE_BANK_END',
   CLEAN: 'DELETE_BANK_CLEAN',
 };
+export const DELETE_CARD = {
+  API: 'DELETE_CARD_API',
+  START: 'DELETE_CARD_START',
+  SUCCESS: 'DELETE_CARD_SUCCESS',
+  FAIL: 'DELETE_CARD_FAIL',
+  END: 'DELETE_CARD_END',
+  CLEAN: 'DELETE_CARD_CLEAN',
+};
 
 export const addBankToken = data => {
   return {
     type: ADD_BANK_TOKEN.API,
-    data,
-  };
-};
-export const addCustomerId = data => {
-  return {
-    type: ADD_CUSTOMER_ID.API,
-    data,
-  };
-};
-export const getCustomerId = data => {
-  return {
-    type: GET_CUSTOMER_ID.API,
     data,
   };
 };
@@ -140,48 +85,13 @@ export const getBankList = data => {
     data,
   };
 };
-export const updateBankToken = data => {
-  return {
-    type: UPDATE_BANK_TOKEN.API,
-    data,
-  };
-};
 
-export const addCardToken = data => {
+export const addBank = (customerId, cardData, token) => {
   return {
-    type: ADD_CARD_TOKEN.API,
-    data,
-  };
-};
-export const addCard = (customerId, cardData, token) => {
-  return {
-    type: ADD_CARD.API,
+    type: ADD_BANK.API,
     customerId,
     cardData,
     token,
-  };
-};
-export const updateCardToken = data => {
-  return {
-    type: UPDATE_CARD_TOKEN.API,
-    data,
-  };
-};
-export const cleanCardToken = data => {
-  return {
-    type: UPDATE_CARD_TOKEN.CLEAN,
-    data,
-  };
-};
-export const cleanDeleted = () => {
-  return {
-    type: DELETE_BANK.CLEAN,
-  };
-};
-export const cleanUpdateCardToken = data => {
-  return {
-    type: UPDATE_CARD_TOKEN.CLEAN,
-    data,
   };
 };
 
@@ -191,19 +101,13 @@ export const createPaymentIntent = data => {
     data,
   };
 };
-export const saveCotribution = data => {
+export const attachPaymentIntent = (customerId, id) => {
   return {
-    type: SAVE_CONTRIBUTION.API,
-    data,
+    type: ATTACH_PAYMENT_INTENT.API,
+    customerId,
+    id,
   };
 };
-export const createGuestPaymentIntent = data => {
-  return {
-    type: GUEST_PAYMENT_INTENT.API,
-    data,
-  };
-};
-
 export const kyc_update = data => {
   return {
     type: KYC_UPDATE.KYC_UPDATE_API,
@@ -217,7 +121,13 @@ export const kyc_status_update = data => {
     data,
   };
 };
-export const deleteBankOrCard = data => {
+export const deleteCard = data => {
+  return {
+    type: DELETE_CARD.API,
+    data,
+  };
+};
+export const deleteBank = data => {
   return {
     type: DELETE_BANK.API,
     data,

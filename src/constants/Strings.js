@@ -86,11 +86,46 @@ export const ValidationMessages = {
   //Error
   NO_INTERNET_CONNECTION: 'Seems like there is no internet connection.',
   REQUIRED: 'Required!',
+  CARD_REQUIRED: 'Please enter your card number',
+  CVV_REQUIRED: 'Please enter your CVV',
+  CVV_INVALID: 'Please enter a valid CVV',
+  CARD_INVALID: 'Please enter a valid card number',
   INVALID: 'Invalid!',
+  NAME_REQUIRED: 'Please enter card holder’s name',
+  NAME_INAVLID: 'Please enter a valid card holder’s name',
+  EXP_REQUIRED: 'Please enter your date of expiry',
+  EXP_INVALID: 'Please enter a valid expiry date',
   DISCARD_KYC: 'Discard KYC?',
   YES_DISCARD: 'Yes, Discard',
   NOT_NOW: 'Not Now',
-  DISCARD_KYC_DESC: `Your bank will not be added and you won't be able to receive and payments.`,
+  DISCARD_KYC_DESC: `Your bank will not be added and you won't be able to receive any payments.`,
+  FirstName_REQUIRED: 'Please enter your first name',
+  ACCOUNTHOLDER_REQUIRED: 'Please enter a valid name',
+  Last_REQUIRED: 'Please enter your last name',
+  DOB_REQUIRED: 'Please enter your date of birth',
+  PHONE_REQUIRED: 'Please enter your phone number',
+  Country_REQUIRED: 'Please enter your country',
+  STATE_REQUIRED: 'Please enter your state',
+  CITY_REQUIRED: 'Please enter your city',
+  ADDRESS_REQUIRED: 'Please enter your address',
+  ZIPCODE_REQUIRED: 'Please enter your zipcode',
+  SSN_REQUIRED: 'Please enter your SSN',
+  POV_REQUIRED: 'Please upload proof of verification',
+  ACCOUNT_REQUIRED: 'Please enter your account number',
+  ROUTE_REQUIRED: 'Please enter your routing number',
+
+  FirstName_INVALID: 'Please enter a valid first name',
+  Last_INVALID: 'Please enter a valid last name',
+  DOB_INVALID: 'Please enter a valid date of birth',
+  PHONE_INVALID: 'Please enter a valid phone number',
+  Country_INVALID: 'Please enter a valid country',
+  STATE_INVALID: 'Please enter a valid state',
+  CITY_INVALID: 'Please enter a valid city',
+  ADDRESS_INVALID: 'Please enter a valid address',
+  ZIPCODE_INVALID: 'Please enter a valid zipcode',
+  SSN_INVALID: 'Please enter a valid SSN',
+  ACCOUNT_INVALID: 'Please enter a valid account number',
+  ROUTE_INVALID: 'Please enter a valid routing number',
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
@@ -318,7 +353,7 @@ export default {
     ReceiveNoti: 'Receive Notifications',
     YouMatched: 'You had matched on',
     ReceiveNotiDesc:
-      'You can choose to turn off notifications. However, you will still receive subscription notifications.',
+      'You can choose to turn off notifications.\nHowever, you will still receive subscription notifications.',
     ReceiveNotiDescSM: 'You can choose to turn off notifications.',
   },
   donorPofile: {
@@ -459,7 +494,8 @@ export default {
     GotIt: 'OKAY, GOT IT!',
     SuccessChanged: 'Subscription Updated!',
     SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
-    SuccessUpgradePara: 'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
+    SuccessUpgradePara:
+      'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
     CancelSub: 'Cancel Subscription?',
     CancelSubParaIos: `To cancel your subscription you need to Click your Account Settings,
     Scroll to Subscriptions, then click Manage.
@@ -469,6 +505,7 @@ export default {
     Tap the profile icon on top right,
     Tap Payments & Subscription,
     Select the subscription you want to cancel & Tap Cancel Subscription.`,
+    NotProcessed: 'Subscription could not be processed',
   },
   Chat: {
     Chat: 'CHAT',
@@ -524,7 +561,7 @@ export default {
     transaction_History: 'Transaction History',
     para_Two:
       'All the transactions will be maintained with the payment status as Completed or Failed.',
-    star_para: 'A processing fee will be charged on every payment you receive.',
+    star_para: 'A processing fee will be charged on every payment you send.',
     make_payment: 'Make Payment with Card',
     para_Three: 'To make any payment, you have to add your card details.',
     Sm_Para_One:
@@ -541,7 +578,7 @@ export default {
     Send_Payment: 'Send Payment',
     MAKE_PAYMENT: 'MAKE A NEW PAYMENT',
     CARD_NUMBER: '0039',
-    CARD_TIME: 'Valid thru May 2025',
+    CARD_TIME: 'Valid thru',
     CARD_NUM_TWO: '0183',
     CARD_DOT: '•••• ',
     CARD_TIME_TWO: 'Valid thru May 2025',
@@ -554,9 +591,13 @@ export default {
     Request_for_Payment: 'Request for Payment',
     REQUEST_PAYMENT: 'REQUEST FOR A PAYMENT',
     Add_Bank: 'Add Bank',
-    Remove_Bank: 'Remove Bank from Profile?',
+    Remove_Bank: 'Change Bank?',
     Remove_Bank_Text:
-      'You will not be able to receive any payment without adding your bank.',
+      'Your Existing bank ending with \n … 4040 will be removed and you will receive all the payments in the updated bank after your KYC is approved.',
+    KYC_PENDING: 'KYC Approval Pending  ',
+    KYC_REJECTED: 'KYC Rejected  ',
+    KYC_INCOMPLETE: 'KYC Incomplete  ',
+    KYC_VERIFYIED: 'KYC verified  ',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',
@@ -576,6 +617,7 @@ export default {
     Transaction_History_Parent:
       'See all the payments that you have received from your matches till date.',
     Manage_Bank: 'Manage Bank',
+    CARD_Descriptiom: 'Add your card details to send payment to your matches.',
     Bank_Description:
       'Add your bank account to receive payments from Intended Parents.',
   },
@@ -679,7 +721,7 @@ export default {
     LAST_NAME: 'Last Name',
     ADDRESS: 'Address',
     ZIP_CODE: 'ZipCode',
-    SSN: 'SNN (last 4 Digits)',
+    SSN: 'SNN',
     STATE: 'State',
     CITY: 'City',
     PhoneNumber: 'Phone Number',

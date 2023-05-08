@@ -119,8 +119,7 @@ const ChatDetail = props => {
       dispatch(showAppLoader());
       if (next_step_success) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(false, next_step_res));
-        console.log(next_step_res, 'next_step_res');
+        dispatch(showAppToast(false, 'Profile confirmed!'));
       }
       if (next_step_fail) {
         dispatch(hideAppLoader());
@@ -398,6 +397,14 @@ const ChatDetail = props => {
   const onSendDoc = async () => {
     if (!subscriptionStatus?.data?.status && parseInt(user?.role_id) === 2) {
       navigation.navigate(Routes.Subscription);
+      dispatch(
+        showAppToast(
+          true,
+          subscriptionStatus.data.is_trial
+            ? Strings.Subscription.TrailOver
+            : Strings.Subscription.SubscriptionExpired,
+        ),
+      );
     } else if (
       parseInt(props?.route?.params?.item?.status_id) !== 1 ||
       (parseInt(user?.role_id) !== 2 &&
@@ -1032,7 +1039,7 @@ const ChatDetail = props => {
                 openCamera(0, cb);
                 setOpen(false);
               }}
-              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
+              style={[styleSheet.pickerBtnCam, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>Open Camera</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1040,7 +1047,7 @@ const ChatDetail = props => {
                 openCamera(1, cb);
                 setOpen(false);
               }}
-              style={styleSheet.pickerBtn}>
+              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>Open Gallery</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1065,7 +1072,7 @@ const ChatDetail = props => {
                   dispatch(NextStep(payload));
                   setOpen(false);
                 }}
-                style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
+                style={[styleSheet.pickerBtnCam, styleSheet.pickerBtnBorder]}>
                 <Text style={styleSheet.pickerBtnLabel}>
                   {Strings.chats.confirmProfile}
                 </Text>
@@ -1076,7 +1083,12 @@ const ChatDetail = props => {
                 setOpen(false);
                 console.log(Strings.chats.shareUser);
               }}
-              style={styleSheet.pickerBtn}>
+              style={[
+                log_in_data?.role_id === 2
+                  ? styleSheet.pickerBtn
+                  : styleSheet.pickerBtnCam,
+                styleSheet.pickerBtnBorder,
+              ]}>
               <Text style={styleSheet.pickerBtnLabel}>
                 {log_in_data?.role_id === 2
                   ? Strings.chats.sendPayment
@@ -1087,7 +1099,7 @@ const ChatDetail = props => {
               onPress={() => {
                 navigateDetailScreen();
               }}
-              style={styleSheet.pickerBtn}>
+              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>
                 {Strings.chats.seeProfile}
               </Text>
@@ -1099,7 +1111,7 @@ const ChatDetail = props => {
                 });
                 setOpen(false);
               }}
-              style={styleSheet.pickerBtn}>
+              style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
               <Text style={styleSheet.pickerBtnLabel}>
                 {Strings.chats.shareUser}
               </Text>

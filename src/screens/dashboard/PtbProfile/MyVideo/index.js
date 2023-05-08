@@ -35,7 +35,7 @@ const MyVideo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [remove, setRemove] = useState([]);
-  const [openActionsheet, setOpenActionsheet] = useState(false);
+  const [openActionsheets, setOpenActionsheet] = useState(false);
   const [threeOption, setThreeOption] = useState([]);
   let actionSheet = useRef();
   const dispatch = useDispatch();
@@ -202,7 +202,7 @@ const MyVideo = () => {
   };
 
   const iosVideoSheet = () => {
-    if (openActionsheet === false) {
+    if (openActionsheets === false) {
       openActionSheet();
     }
   };

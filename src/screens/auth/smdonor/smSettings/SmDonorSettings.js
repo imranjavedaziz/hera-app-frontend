@@ -31,6 +31,7 @@ import {
   logOut,
   updateName,
   signoutUser,
+  RemoveStripIds,
 } from '../../../../redux/actions/Auth';
 import openCamera from '../../../../utils/openCamera';
 import styleSheet from '../../../../styles/auth/smdonor/registerScreen';
@@ -53,6 +54,10 @@ import PtbAccount, {
 import {empty} from '../../../../redux/actions/Chat';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import {getMessageID} from '../../../../redux/actions/MessageId';
+import {
+  GET_BANK_LIST,
+  GET_CARD_LIST,
+} from '../../../../redux/actions/stripe.action';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -149,8 +154,11 @@ const SmDonorSettings = () => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
+        dispatch(RemoveStripIds());
         dispatch(signoutUser());
         dispatch(hideAppLoader());
+        dispatch({type: GET_CARD_LIST.CLEAN});
+        dispatch({type: GET_BANK_LIST.CLEAN});
         navigation.navigate(Routes.Landing);
         setTimeout(() => {
           setDisable(false);
@@ -268,10 +276,10 @@ const SmDonorSettings = () => {
                 }}
                 Name={`${
                   name?.first_name === undefined ? first_name : name?.first_name
-                } ${
+                }${
                   middle_name === null || middle_name === undefined
                     ? ''
-                    : middle_name
+                    : ` ${middle_name}`
                 }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name

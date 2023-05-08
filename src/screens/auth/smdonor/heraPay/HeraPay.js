@@ -20,10 +20,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Fonts, Routes} from '../../../../constants/Constants';
 import {
   DELETE_BANK,
+  DELETE_CARD,
   GET_BANK_LIST,
   GET_CARD_LIST,
-  cleanDeleted,
-  deleteBankOrCard,
+  deleteCard,
   getBankList,
   getCardList,
 } from '../../../../redux/actions/stripe.action';
@@ -37,6 +37,8 @@ import {dynamicSize} from '../../../../utils/responsive';
 import {Value} from '../../../../constants/FixedValues';
 import _ from 'lodash';
 import {getAccountStatus} from '../../../../redux/actions/AccountStatus';
+import {monthGet} from '../../../../utils/commonFunction';
+import getKycStatusFunction from '../../../../utils/getkycStatusFunc';
 
 const HeraPay = () => {
   const navigation = useNavigation();
@@ -44,7 +46,9 @@ const HeraPay = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const loadingRef = useRef();
-  const {log_in_data, stripe_customer_id} = useSelector(state => state.Auth);
+  const {log_in_data, stripe_customer_id, connected_acc_token} = useSelector(
+    state => state.Auth,
+  );
   const {getBankListResponse} = useSelector(store => store.getBankList);
   const {getCardListResponse} = useSelector(store => store.getCardList);
   const {
@@ -54,19 +58,19 @@ const HeraPay = () => {
     account_status_fail,
     account_status_res,
   } = useSelector(state => state.AccountStatus);
-  const [Item, setItem] = useState(null);
-  const {deleteBankOrCardResponse} = useSelector(
-    store => store.deleteBankOrCard,
-  );
+  const {deleteCardResponse} = useSelector(store => store.deleteCard);
   const [Data, setData] = useState([]);
+  const [KycStatus, setKycStatus] = useState(null);
+  const [KycUpdated, setKycUpdated] = useState(false);
+  const [Item, setItem] = useState(null);
   useFocusEffect(
     useCallback(() => {
       if (!_.isEmpty(stripe_customer_id)) {
         if (log_in_data?.role_id === 2) {
-          dispatch(getCardList(stripe_customer_id, 3));
+          dispatch(getCardList(stripe_customer_id, 10));
         } else {
-          dispatch(getBankList(stripe_customer_id, 3));
-          // dispatch(getAccountStatus());
+          dispatch(getBankList(connected_acc_token, 3));
+          dispatch(getAccountStatus());
         }
       }
     }, [dispatch]),
@@ -77,16 +81,23 @@ const HeraPay = () => {
       if (loadingRef.current && !account_status_loading) {
         dispatch(showAppLoader());
         if (account_status_success) {
+          if (account_status_res?.kyc_status == 'verified') {
+            setKycUpdated(false);
+          } else {
+            setKycUpdated(true);
+          }
+          setKycStatus(account_status_res?.kyc_status);
           dispatch(hideAppLoader());
-         console.log(account_status_res,'account_status_res');
-        } if(account_status_fail) {
+        }
+        if (account_status_fail) {
           dispatch(hideAppLoader());
-          dispatch(showAppToast(true, account_status_error_msg))
+
+          dispatch(showAppToast(true, account_status_error_msg));
         }
         dispatch(hideAppLoader());
       }
       loadingRef.current = account_status_loading;
-    }, [account_status_success, account_status_loading]),
+    }, [account_status_success, account_status_loading, account_status_res]),
   );
   //Get Bank List
   useEffect(() => {
@@ -96,11 +107,10 @@ const HeraPay = () => {
       let info = getBankListResponse?.info;
       setData(info?.data);
       dispatch(hideAppLoader());
-      console.log(info, 'getBankListResponse?.info');
     } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
-      let error = getBankListResponse?.info ?? 'Something went wrong';
+      let error = getBankListResponse?.error ?? 'Something went wrong';
       dispatch(hideAppLoader());
-      dispatch(showAppToast(false, error));
+      dispatch(showAppToast(true, error));
     }
   }, [getBankListResponse]);
   //Get Card List
@@ -118,27 +128,31 @@ const HeraPay = () => {
     }
   }, [getCardListResponse]);
   //Delete Bank or Card
+
   useEffect(() => {
-    if (deleteBankOrCardResponse?.status === DELETE_BANK.START) {
+    if (deleteCardResponse?.status === DELETE_CARD.START) {
       dispatch(showAppLoader());
-    } else if (deleteBankOrCardResponse?.status === DELETE_BANK.SUCCESS) {
-      let info = deleteBankOrCardResponse?.info;
+    } else if (deleteCardResponse?.status === DELETE_CARD.SUCCESS) {
+      let info = deleteCardResponse?.info;
       setData(info?.data);
       dispatch(hideAppLoader());
-      dispatch(showAppToast(false, 'Successfully Deleted'));
-      dispatch(getBankList(stripe_customer_id, 3));
-      dispatch(cleanDeleted());
-    } else if (deleteBankOrCardResponse?.status === DELETE_BANK.FAIL) {
-      let error = deleteBankOrCardResponse?.info ?? 'Something went wrong';
+      dispatch(showAppToast(false, 'Card removed from profile!'));
+      dispatch(getCardList(stripe_customer_id, 3));
+      dispatch({type: DELETE_BANK.CLEAN});
+      dispatch({type: DELETE_CARD.CLEAN});
+    } else if (deleteCardResponse?.status === DELETE_CARD.FAIL) {
+      let error = deleteCardResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
-      dispatch(cleanDeleted());
+
+      dispatch({type: DELETE_BANK.CLEAN});
+      dispatch({type: DELETE_CARD.CLEAN});
     } else {
       dispatch(hideAppLoader());
     }
-  }, [deleteBankOrCardResponse]);
+  }, [deleteCardResponse]);
   const OnDeleteBank = item => {
-    dispatch(deleteBankOrCard(item));
+    dispatch(deleteCard(item));
   };
   const headerComp = () => (
     <IconHeader
@@ -157,12 +171,18 @@ const HeraPay = () => {
         ? Strings.Hera_Pay.Remove_Card
         : Strings.Hera_Pay.Remove_Bank,
       log_in_data?.role_id === 2
-        ? Strings.Hera_Pay.Remove_Card_Text
-        : Strings.Hera_Pay.Remove_Bank_Text,
+        ? `Remove the card ending with ${Strings.Hera_Pay.CARD_DOT}${item?.card?.last4}`
+        : `Your Existing bank ending with \n ${Strings.Hera_Pay.CARD_DOT}${item?.last4} will be removed and you will receive all the payments in the updated bank after your KYC is approved.`,
       [
         {
-          text: Strings.Hera_Pay.Yes_Remove,
-          onPress: () => OnDeleteBank(item),
+          text:
+            log_in_data?.role_id === 2
+              ? Strings.Hera_Pay.Yes_Remove
+              : 'Yes, Change',
+          onPress: () =>
+            log_in_data?.role_id === 2
+              ? OnDeleteBank(item)
+              : navigation.navigate(Routes.ManageBank, {Item: item}),
         },
         {
           text: Strings.Hera_Pay.Not_Now,
@@ -172,6 +192,7 @@ const HeraPay = () => {
     );
     return true;
   };
+  console.log(Item);
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -248,20 +269,25 @@ const HeraPay = () => {
                   : Strings.Payment_Comp.Manage_Bank
               }
               Content={
-                log_in_data?.role_id !== 2 &&
-                (_.isEmpty(Data) || Data === null) &&
-                Strings.Payment_Comp.Bank_Description
+                _.isEmpty(Data) || Data === null
+                  ? log_in_data?.role_id !== 2
+                    ? Strings.Payment_Comp.Bank_Description
+                    : Strings.Payment_Comp.CARD_Descriptiom
+                  : ''
               }
               Data={
                 log_in_data?.role_id !== 2 &&
                 (!_.isEmpty(Data) || Data !== null) &&
                 true
               }
+              EmptyCard={log_in_data?.role_id === 2 && _.isEmpty(Data)}
+              FilledCard={log_in_data?.role_id === 2 && !_.isEmpty(Data)}
             />
           </View>
           {((log_in_data?.role_id !== 2 && !_.isEmpty(Data)) ||
             Data !== null ||
             Data !== undefined) &&
+            getBankListResponse?.info &&
             getBankListResponse?.info?.data.map((item, index) => {
               return (
                 <View
@@ -294,7 +320,6 @@ const HeraPay = () => {
                         ({item?.bank_name})
                       </Text>
                     </View>
-
                     <Text
                       style={{
                         fontFamily: Fonts.OpenSansRegular,
@@ -303,46 +328,72 @@ const HeraPay = () => {
                       }}>
                       {item?.account_holder_name}
                     </Text>
+                    {KycUpdated === true &&
+                      KycStatus !== null &&
+                      (getKycStatusFunction(account_status_res?.kyc_status) !==
+                      Strings.Hera_Pay.KYC_PENDING ? (
+                        <TouchableOpacity
+                          style={{
+                            flexDirection: Alignment.ROW,
+                            alignItems: Alignment.CENTER,
+                          }}
+                          onPress={() => navigation.navigate(Routes.KycScreen)}>
+                          <Text style={styles.kycprocess}>
+                            {getKycStatusFunction(
+                              account_status_res?.kyc_status,
+                            )}
+                          </Text>
+                          <Image
+                            style={{top: Value.CONSTANT_VALUE_1}}
+                            source={Images.rightLogo}
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <Text style={styles.kycprocess}>
+                          {getKycStatusFunction(account_status_res?.kyc_status)}
+                        </Text>
+                      ))}
                   </View>
                   <TouchableOpacity
                     onPress={() => {
+                      setItem(item);
                       Platform.OS === 'ios'
                         ? backAction(item)
                         : setShowModal(true);
-                      setItem(item);
                     }}>
-                    <Image
-                      style={{bottom: Value.CONSTANT_VALUE_5}}
-                      source={Images.iconDarkMore}
-                    />
+                    <Image source={Images.iconDarkMore} />
                   </TouchableOpacity>
                 </View>
               );
             })}
-          {log_in_data?.role_id === 2 && (
-            <View style={{bottom: 20}}>
-              <PaymentCards
-                onPress={() => {
-                  Platform.OS === 'ios' ? backAction() : setShowModal(true);
-                }}
-                Icon={Images.ICON_MASTER}
-                Number={Strings.Hera_Pay.CARD_NUMBER}
-                Time={Strings.Hera_Pay.CARD_TIME}
-              />
-            </View>
-          )}
-          {log_in_data?.role_id === 2 && (
-            <View style={styles.pamentCard}>
-              <PaymentCards
-                onPress={() => {
-                  Platform.OS === 'ios' ? backAction() : setShowModal(true);
-                }}
-                Icon={Images.VISA_CARD}
-                Number={Strings.Hera_Pay.CARD_NUM_TWO}
-                Time={Strings.Hera_Pay.CARD_TIME_TWO}
-              />
-            </View>
-          )}
+          {/* Manage_Bank */}
+          {((log_in_data?.role_id === 2 && !_.isEmpty(Data)) ||
+            Data !== null ||
+            Data !== undefined) &&
+            getCardListResponse?.info &&
+            getCardListResponse?.info?.data.map((item, index) => {
+              return (
+                <View
+                  key={index}
+                  style={{
+                    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_15),
+                  }}>
+                  <PaymentCards
+                    onPress={() => {
+                      setItem(item);
+                      Platform.OS === 'ios'
+                        ? backAction(item)
+                        : setShowModal(true);
+                    }}
+                    Icon={item?.card?.brand}
+                    number={`${Strings.Hera_Pay.CARD_DOT}${item?.card?.last4}`}
+                    Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(
+                      item?.card,
+                    )} ${item?.card?.exp_year}`}
+                  />
+                </View>
+              );
+            })}
           {(_.isEmpty(Data) || Data === null) && (
             <TouchableOpacity
               onPress={() =>
@@ -353,13 +404,10 @@ const HeraPay = () => {
               style={[
                 styles.addCardContainer,
                 {
-                  marginTop:
-                    log_in_data?.role_id === 2
-                      ? dynamicSize(Value.CONSTANT_VALUE_25)
-                      : dynamicSize(Value.CONSTANT_VALUE_6),
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_6),
+                  marginLeft: dynamicSize(35),
                 },
               ]}>
-              <Text style={styles.plus}>{Strings.Hera_Pay.ADD}</Text>
               <Text style={styles.addCardTxt}>
                 {log_in_data?.role_id === 2
                   ? Strings.Hera_Pay.ADD_CARD
@@ -367,6 +415,18 @@ const HeraPay = () => {
               </Text>
             </TouchableOpacity>
           )}
+          {!_.isEmpty(Data) &&
+            getCardListResponse?.info?.data?.length >= 1 &&
+            getCardListResponse?.info?.data?.length < 10 &&
+            log_in_data?.role_id === 2 && (
+              <TouchableOpacity
+                onPress={() => navigation.navigate(Routes.ManageCard)}
+                style={styles.addBtnView}>
+                <Text style={styles.addCardTxt}>
+                  {Strings.Hera_Pay.ADD_CARD}
+                </Text>
+              </TouchableOpacity>
+            )}
         </View>
       </ScrollView>
       {modal && (
@@ -413,12 +473,19 @@ const HeraPay = () => {
         }
         String_2={
           log_in_data?.role_id === 2
-            ? Strings.Hera_Pay.Remove_Card_Text
-            : Strings.Hera_Pay.Remove_Bank_Text
+            ? `Remove the card ending with ${Strings.Hera_Pay.CARD_DOT}${Item?.card?.last4}`
+            : `Your Existing bank ending with ${Strings.Hera_Pay.CARD_DOT}${Item?.last4} will be removed and you will receive all the payments in the updated bank after your KYC is approved.`
         }
-        String_3={Strings.Hera_Pay.Yes_Remove}
+        String_3={
+          log_in_data?.role_id === 2
+            ? Strings.Hera_Pay.Yes_Remove
+            : 'Yes, Change'
+        }
         String_4={Strings.Hera_Pay.Not_Now}
         onPressNav={() => {
+          log_in_data?.role_id === 2
+            ? OnDeleteBank(Item)
+            : navigation.navigate(Routes.ManageBank, {Item: Item});
           setShowModal(false);
         }}
         onPressOff={() => {

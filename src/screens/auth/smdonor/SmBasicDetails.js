@@ -37,7 +37,7 @@ import {
   saveBasicDetail,
 } from '../../../redux/actions/Register';
 import {useNavigation} from '@react-navigation/native';
-import {logOut, signoutUser} from '../../../redux/actions/Auth';
+import {RemoveStripIds, logOut, signoutUser} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
@@ -148,6 +148,7 @@ const SmBasicDetails = () => {
       if (log_out_success) {
         dispatch(hideAppLoader());
         dispatch(empty());
+        dispatch(RemoveStripIds());
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
         setTimeout(() => {

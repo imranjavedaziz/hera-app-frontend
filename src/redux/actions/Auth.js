@@ -10,6 +10,7 @@ import {
   USE_NAME,
   BANK_TOKEN,
   CLEAR_BANK_TOKEN,
+  STRIPE_REMOVE_IDS,
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -122,4 +123,7 @@ export const bankToken = token => ({
 });
 export const clearBankToken = token => ({
   type: CLEAR_BANK_TOKEN,
+});
+export const RemoveStripIds = () => ({
+  type: STRIPE_REMOVE_IDS,
 });

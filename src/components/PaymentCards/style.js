@@ -23,7 +23,7 @@ export default {
   },
   heading: {
     fontFamily: Fonts.OpenSansBold,
-    fontSize:Value.CONSTANT_VALUE_16,
+    fontSize: Value.CONSTANT_VALUE_16,
     lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
   },
@@ -48,7 +48,7 @@ export default {
     width: px(Value.CONSTANT_VALUE_12),
     height: px(Value.CONSTANT_VALUE_12),
     borderStyle: Alignment.SOLID,
-    borderRadius:px(Value.CONSTANT_VALUE_12),
+    borderRadius: px(Value.CONSTANT_VALUE_12),
     backgroundColor: '#ff4544',
     borderWidth: px(Value.CONSTANT_VALUE_1),
     borderColor: '#ffffff',
@@ -56,34 +56,37 @@ export default {
   cardsContainer: {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
+    justifyContent: Alignment.FLEX_START,
+  },
+  mainView: {
     justifyContent: Alignment.SPACE_BETWEEN,
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
   },
   reddot: {
     width: px(Value.CONSTANT_VALUE_5),
     height: px(Value.CONSTANT_VALUE_5),
     borderStyle: Alignment.SOLID,
-    borderRadius:px(Value.CONSTANT_VALUE_5),
+    borderRadius: px(Value.CONSTANT_VALUE_5),
     backgroundColor: Colors.BLACK,
     borderWidth: px(Value.CONSTANT_VALUE_1),
     borderColor: Colors.BLACK,
     marginTop: px(Value.CONSTANT_VALUE_7),
   },
-  cardImg:{
-    marginLeft:dynamicSize(Value.CONSTANT_VALUE_7)
+  cardImg: {
+    marginLeft: dynamicSize(Value.CONSTANT_VALUE_7),
   },
   cardsInner: {
-    marginRight: dynamicSize(Value.CONSTANT_VALUE_100),
+    // marginRight: dynamicSize(Value.CONSTANT_VALUE_100),
   },
   cardNo: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
-    lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
   },
   cardTime: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_13,
-    lineHeight: Value.CONSTANT_VALUE_21,
     color: Colors.BLACK,
   },
 };

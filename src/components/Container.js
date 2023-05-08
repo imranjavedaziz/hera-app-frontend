@@ -1,12 +1,7 @@
 // Container
 import React from 'react';
-import {
-  View,
-  StatusBar,
-  ScrollView,
-  SafeAreaView,
-  Platform,
-} from 'react-native';
+import {View, StatusBar, ScrollView, Platform} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Colors from '../constants/Colors';
 import Header from './Header';
 import {Value} from '../constants/FixedValues';
@@ -67,7 +62,9 @@ const Container = props => {
         hidden={false}
       />
       {!profileLoad && (
-        <SafeAreaView style={[styles.safearea, safeAreViewStyle]}>
+        <SafeAreaView
+          style={[styles.safearea, safeAreViewStyle]}
+          edges={['right', 'top', 'left']}>
           <View style={styles.flexMain} behavior={PADDING_CON}>
             {fixedHeader && (
               <>

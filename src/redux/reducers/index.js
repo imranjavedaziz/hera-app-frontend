@@ -24,16 +24,16 @@ import profileImg from './profileImg';
 import DocumentUpload from './DocumentUpload';
 import NextStep from './NextStep';
 import AccountStatus from './AccountStatus';
+
 import {
-  addCardTokenReducer,
-  updateCardTokenReducer,
   addBankTokenReducer,
-  updateBankTokenReducer,
   createPaymentIntentReducer,
   getCardListReducer,
-  addCardReducer,
   getBankListReducer,
-  deleteBankOrCardReducer,
+  deleteBankReducer,
+  deleteCardReducer,
+  attachPaymentIntentReducer,
+  addBankReducer,
 } from './stripe.reducer';
 import kycUpdateReducer from './kyc.reducer';
 const allReducers = combineReducers({
@@ -63,15 +63,16 @@ const allReducers = combineReducers({
   NextStep,
   //Stripe
   addBankTokenReducer: addBankTokenReducer,
-  cardToken: addCardTokenReducer,
-  updateCardTokenReducer,
-  updateBankTokenReducer,
+
   paymentIntent: createPaymentIntentReducer,
+  attachPaymentIntent: attachPaymentIntentReducer,
   getCardList: getCardListReducer,
-  addCard: addCardReducer,
+  addBank: addBankReducer,
   getBankList: getBankListReducer,
-  deleteBankOrCard: deleteBankOrCardReducer,
+  deleteBank: deleteBankReducer,
+  deleteCard: deleteCardReducer,
   kyc: kycUpdateReducer,
+
   //Account Status
   AccountStatus,
 });

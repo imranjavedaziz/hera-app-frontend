@@ -38,8 +38,13 @@ import {
 import {ValidationMessages} from '../../../constants/Strings';
 import DocumentPhoto from '../../../components/Document/DocumentPhotos';
 import {kyc_update} from '../../../redux/actions/stripe.action';
-import {showAppLoader, showAppToast} from '../../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import {KYC_UPDATE} from '../../../redux/Type';
+import ExtraBottomView from '../../../components/ExtraBottomView';
 const KycScreen = () => {
   const navigation = useNavigation();
   const [datePicked, onDateChange] = React.useState();
@@ -62,7 +67,7 @@ const KycScreen = () => {
   const {kycResponse} = useSelector(store => store?.kyc);
   let scrollRef = React.createRef();
   const [date, setDate] = React.useState(new Date());
-  console.log(date, 'date');
+  console.log(bank_token, 'bank_token');
   const headerComp = () => (
     <IconHeader
       rightIcon={Images.iconcross}
@@ -78,19 +83,15 @@ const KycScreen = () => {
       dispatch(
         showAppToast(
           false,
-          response?.info?.message ?? 'Request successfully completed.',
+          response?.info?.message ?? 'Bank added to profile!',
         ),
       );
       dispatch({type: KYC_UPDATE.END});
+      dispatch(hideAppLoader());
       navigation.navigate(Routes.HeraPay);
     } else if (response?.status === KYC_UPDATE.FAIL) {
-      let error =
-        response?.info?.errors ??
-        response?.info?.message ??
-        'Something went wrong!';
-      dispatch(showAppToast(true, error));
+      dispatch(hideAppLoader());
       dispatch({type: KYC_UPDATE.END});
-      // navigation.navigate(Routes.HeraPay);
     }
   }, [kycResponse]);
   const backAction = () => {
@@ -145,84 +146,76 @@ const KycScreen = () => {
     setShow(true);
   };
   const validateData = () => {
-    dispatch(showAppLoader());
     Keyboard.dismiss();
     let isValid = true;
     if (!inputs.firstName) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.firstName);
+      handleError(ValidationMessages.FirstName_REQUIRED, Input_Type.firstName);
       isValid = false;
     } else if (!validateName(inputs.firstName)) {
-      handleError(ValidationMessages.INVALID, Input_Type.firstName);
+      handleError(ValidationMessages.FirstName_INVALID, Input_Type.firstName);
       isValid = false;
     }
     if (!inputs.lastName) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.lastName);
+      handleError(ValidationMessages.Last_REQUIRED, Input_Type.lastName);
       isValid = false;
     } else if (!validateName(inputs.lastName)) {
-      handleError(ValidationMessages.INVALID, Input_Type.lastName);
+      handleError(ValidationMessages.Last_INVALID, Input_Type.lastName);
       isValid = false;
     }
     if (!inputs.dob) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.dob);
+      handleError(ValidationMessages.DOB_REQUIRED, Input_Type.dob);
       isValid = false;
     } else if (inputs.dob) {
       handleOnchange(inputs?.dob, Input_Type.dob);
     }
 
     if (!inputs.phoneNumber) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.phoneNumber);
+      handleError(ValidationMessages.PHONE_REQUIRED, Input_Type.phoneNumber);
       isValid = false;
     } else if (!validMobileNumber(inputs.phoneNumber)) {
-      handleError(ValidationMessages.INVALID, Input_Type.phoneNumber);
+      handleError(ValidationMessages.PHONE_INVALID, Input_Type.phoneNumber);
       isValid = false;
     }
     if (!inputs.zipCode) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.zipCode);
+      handleError(ValidationMessages.ZIPCODE_REQUIRED, Input_Type.zipCode);
       isValid = false;
     } else if (
       !validateZipCode(inputs.zipCode) ||
       inputs.zipCode.length < validationBank.ZIP_CODE_MIN
     ) {
-      handleError(ValidationMessages.INVALID, Input_Type.zipCode);
+      handleError(ValidationMessages.ZIPCODE_INVALID, Input_Type.zipCode);
       isValid = false;
     }
     if (!inputs.ssn) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.ssn);
+      handleError(ValidationMessages.SSN_REQUIRED, Input_Type.ssn);
       isValid = false;
     } else if (isNaN(inputs.ssn) || inputs.ssn.length < validationBank.SSN) {
-      handleError(ValidationMessages.INVALID, Input_Type.ssn);
+      handleError(ValidationMessages.SSN_INVALID, Input_Type.ssn);
       isValid = false;
     }
     if (inputs.address) {
       handleOnchange(inputs?.address.trim(), Input_Type.address);
     }
     if (!inputs.address?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.address);
-      isValid = false;
-    }
-    if (inputs.country) {
-      handleOnchange(inputs?.country.trim(), Input_Type.country);
-    }
-    if (!inputs.country?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.country);
+      handleError(ValidationMessages.ADDRESS_REQUIRED, Input_Type.address);
       isValid = false;
     }
     if (inputs.state) {
       handleOnchange(inputs?.state.trim(), Input_Type.state);
     }
     if (!inputs.state?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.state);
+      handleError(ValidationMessages.STATE_REQUIRED, Input_Type.state);
       isValid = false;
     }
     if (inputs.city) {
       handleOnchange(inputs?.city.trim(), Input_Type.city);
     }
     if (!inputs.city?.trim()) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.city);
+      handleError(ValidationMessages.CITY_REQUIRED, Input_Type.city);
       isValid = false;
     }
     if (selectedPhotos.length < 1) {
-      handleError(ValidationMessages.REQUIRED, Input_Type.selectField);
+      handleError(ValidationMessages.POV_REQUIRED, Input_Type.selectField);
       isValid = false;
     }
     return isValid;
@@ -253,7 +246,7 @@ const KycScreen = () => {
         phone_no: numWithPad,
         last_name: inputs.lastName,
         first_name: inputs.firstName,
-        country: inputs.country,
+        country: 'US',
         state: inputs.state,
         city: inputs.city,
         bank_token_id: bank_token,
@@ -269,7 +262,7 @@ const KycScreen = () => {
         let document_back = media[1];
         payload.document_back = document_back;
       }
-      console.log(payload, 'payloadpayload');
+      dispatch(showAppLoader());
       let formDataPayload = jsonToFormData(payload);
       dispatch(kyc_update(formDataPayload));
     }
@@ -297,7 +290,7 @@ const KycScreen = () => {
               required={true}
               onChangeText={text => handleOnchange(text, Input_Type.firstName)}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.firstName)}
+              onFocusHandle={() => handleError(null, Input_Type.firstName)}
               maxLength={validationBank.FirstNameLimit}
               error={errors?.firstName}
               onSubmitEditing={() => {
@@ -310,7 +303,7 @@ const KycScreen = () => {
               onChangeText={text => handleOnchange(text, Input_Type.lastName)}
               required={true}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.lastName)}
+              onFocusHandle={() => handleError(null, Input_Type.lastName)}
               maxLength={validationBank.LastNameLimit}
               inputRef={lastnameRef}
               onSubmitEditing={() => {
@@ -324,7 +317,7 @@ const KycScreen = () => {
               dateUpdateHadler={date => handleOnchange(date, Input_Type.dob)}
               error={errors.dob}
               required={true}
-              onFocus={() => handleError(null, Input_Type.dob)}
+              onFocusHandle={() => handleError(null, Input_Type.dob)}
               endComponentPress={() => CalenderOn()}
               endComponent={() => (
                 <TouchableOpacity onPress={() => CalenderOn()}>
@@ -343,25 +336,27 @@ const KycScreen = () => {
               onChangeText={text =>
                 handleOnchange(text, Input_Type.phoneNumber)
               }
-              onFocus={() => handleError(null, Input_Type.phoneNumber)}
+              onFocusHandle={() => handleError(null, Input_Type.phoneNumber)}
               maxLength={validationBank.PhoneNumber}
               inputRef={phonenumberRef}
               onSubmitEditing={() => {
-                zipcodedRef.current.focus();
+                countryRef.current.focus();
               }}
               error={errors.phoneNumber}
             />
             <FloatingLabelInput
               label={Strings.ManageBank.Country}
-              value={inputs.country}
+              value={'US'}
               onChangeText={text => handleOnchange(text, Input_Type.country)}
               required={true}
+              editable={false}
+              edited={false}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.country)}
+              onFocusHandle={() => handleError(null, Input_Type.country)}
               maxLength={validationBank.LastNameLimit}
               inputRef={countryRef}
               onSubmitEditing={() => {
-                phonenumberRef.current.focus();
+                stateRef.current.focus();
               }}
               error={errors.country}
             />
@@ -371,7 +366,7 @@ const KycScreen = () => {
               onChangeText={text => handleOnchange(text, Input_Type.state)}
               required={true}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.state)}
+              onFocusHandle={() => handleError(null, Input_Type.state)}
               maxLength={validationBank.LastNameLimit}
               inputRef={stateRef}
               onSubmitEditing={() => {
@@ -385,7 +380,7 @@ const KycScreen = () => {
               onChangeText={text => handleOnchange(text, Input_Type.city)}
               required={true}
               returnKeyType="next"
-              onFocus={() => handleError(null, Input_Type.city)}
+              onFocusHandle={() => handleError(null, Input_Type.city)}
               maxLength={validationBank.LastNameLimit}
               inputRef={cityRef}
               onSubmitEditing={() => {
@@ -398,11 +393,11 @@ const KycScreen = () => {
               maxLength={validationBank.LastNameLimit}
               value={inputs.address}
               onChangeText={text => handleOnchange(text, Input_Type.address)}
-              onFocus={() => handleError(null, Input_Type.address)}
+              onFocusHandle={() => handleError(null, Input_Type.address)}
               label={Strings.ManageBank.ADDRESS}
               error={errors.address}
               returnKeyType="next"
-              innerRef={addressRef}
+              inputRef={addressRef}
               onSubmitEditing={() => {
                 zipcodedRef.current.focus();
               }}
@@ -413,11 +408,11 @@ const KycScreen = () => {
               value={inputs.zipCode}
               maxLength={validationBank.ZIP_CODE_MAX}
               onChangeText={text => handleOnchange(text, Input_Type.zipCode)}
-              onFocus={() => handleError(null, Input_Type.zipCode)}
+              onFocusHandle={() => handleError(null, Input_Type.zipCode)}
               label={Strings.ManageBank.ZIP_CODE}
               error={errors.zipCode}
               returnKeyType="next"
-              innerRef={zipcodedRef}
+              inputRef={zipcodedRef}
               onSubmitEditing={() => {
                 ssnRef.current.focus();
               }}
@@ -428,11 +423,11 @@ const KycScreen = () => {
               value={inputs.ssn}
               maxLength={validationBank.SSN}
               onChangeText={text => handleOnchange(text, Input_Type.ssn)}
-              onFocus={() => handleError(null, Input_Type.ssn)}
+              onFocusHandle={() => handleError(null, Input_Type.ssn)}
               label={Strings.ManageBank.SSN}
               error={errors.ssn}
               returnKeyType="go"
-              innerRef={ssnRef}
+              inputRef={ssnRef}
               onSubmitEditing={() => {
                 validate();
               }}
@@ -441,11 +436,11 @@ const KycScreen = () => {
               value={inputs.tax_ID}
               maxLength={validationBank.TAX}
               onChangeText={text => handleOnchange(text, Input_Type.tax_ID)}
-              onFocus={() => handleError(null, Input_Type.tax_ID)}
+              onFocusHandle={() => handleError(null, Input_Type.tax_ID)}
               label={Strings.ManageBank.TaxID}
               error={errors.ssn}
               returnKeyType="go"
-              innerRef={TaxRef}
+              inputRef={TaxRef}
               onSubmitEditing={() => {
                 validate();
               }}
@@ -471,6 +466,7 @@ const KycScreen = () => {
             />
           </View>
         </View>
+        <ExtraBottomView />
       </KeyboardAwareScrollView>
       <DateTimePickerModal
         value={date}
