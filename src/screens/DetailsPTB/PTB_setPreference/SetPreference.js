@@ -56,7 +56,6 @@ import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
   SavePreference,
-  GetPreferenceRes,
 } from '../../../redux/actions/SetPreference';
 import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {getStates} from '../../../redux/actions/Register';
@@ -141,7 +140,6 @@ const SetPreference = ({route, navigation}) => {
     useCallback(() => {
       if (EditPreferences === true) {
         dispatch(showEditAppLoader());
-        dispatch(GetPreferenceRes());
       }
     }, [dispatch]),
   );

@@ -64,7 +64,7 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_10,
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
-    marginBottom: Value.CONSTANT_VALUE_27,
+    // marginBottom: Value.CONSTANT_VALUE_27,
     color: Colors.BLACK,
     opacity: 0.4,
     lineHeight: Value.CONSTANT_VALUE_21,
@@ -89,7 +89,7 @@ export default {
     marginLeft: Value.CONSTANT_VALUE_10,
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
-    marginBottom: Value.CONSTANT_VALUE_27,
+    // marginBottom: Value.CONSTANT_VALUE_27,
     color: Colors.BLACK,
     lineHeight: Value.CONSTANT_VALUE_21,
   },
@@ -175,6 +175,8 @@ export default {
   },
   flexRow: {
     flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
+    marginBottom: Value.CONSTANT_VALUE_27,
   },
   headerTxt: {
     color: Colors.RED,
