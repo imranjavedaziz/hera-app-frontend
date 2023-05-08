@@ -63,7 +63,7 @@ export default (state = initState, action) => {
     case GET_STATES_DETAIL:
       return {
         ...state,
-        get_state_res: {},
+        get_state_res: [],
         get_state_success: false,
         get_state_loading: true,
         get_state_error_msg: '',
@@ -79,7 +79,7 @@ export default (state = initState, action) => {
     case GET_STATES_FAIL:
       return {
         ...state,
-        get_state_res: {},
+        get_state_res: [],
         get_state_success: false,
         get_state_loading: false,
         get_state_error_msg: action.data.msg,
