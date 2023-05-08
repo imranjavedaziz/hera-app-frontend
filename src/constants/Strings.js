@@ -599,6 +599,13 @@ export default {
     KYC_INCOMPLETE: 'KYC Incomplete  ',
     KYC_VERIFYIED: 'KYC verified  ',
   },
+  Match_Screen:{
+    Send_Payment: 'Send Payment',
+    Pay: 'Pay',
+    code: '#SM5882',
+    type: 'Surrogate Mother',
+    noBank: 'Bank not added by \nSperm Donor!',
+  },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',
     Request_Description:

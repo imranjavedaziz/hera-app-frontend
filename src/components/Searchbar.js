@@ -61,16 +61,16 @@ const Searchbar = props => {
             </TouchableOpacity>
           )}
         </View>
-        <TouchableOpacity
-          style={styles.mapView}
-          onPress={() =>
-            navigation.navigate(Routes.stateList, {
-              selectedStateList: props?.selectedStates,
-            })
-          }>
-          <Image source={Images.pin} />
-          {props.selectedStateList && <View style={styles.stateFilled} />}
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.mapView}
+            onPress={() =>
+              navigation.navigate(Routes.stateList, {
+                selectedStateList: props?.selectedStates,
+              })
+            }>
+            <Image source={Images.pin} />
+            {props.selectedStateList && <View style={styles.stateFilled} />}
+          </TouchableOpacity>
       </View>
     </>
   );
