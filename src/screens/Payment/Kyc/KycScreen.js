@@ -114,7 +114,6 @@ const KycScreen = () => {
     return true;
   };
   const handleOnchange = (text, input) => {
-    console.log(text, input, 'kkoktext, inputs');
     let prevoius = inputs[input];
     if (input === Input_Type.firstName || input === Input_Type.lastName) {
       const name = text?.trim();
@@ -225,7 +224,6 @@ const KycScreen = () => {
       ? dateToStringFormatter(inputs.dob, DateFormats.YYYYMMDD)
       : '';
   }
-  console.log(bank_token, 'bank_tokenbank_token');
   // You cannot
   const validate = async () => {
     Keyboard.dismiss();

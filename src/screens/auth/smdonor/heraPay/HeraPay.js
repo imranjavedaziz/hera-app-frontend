@@ -325,6 +325,7 @@ const HeraPay = () => {
                         fontFamily: Fonts.OpenSansRegular,
                         fontSize: Value.CONSTANT_VALUE_14,
                         color: Colors.BLACK,
+                        paddingVertical: Value.CONSTANT_VALUE_2,
                       }}>
                       {item?.account_holder_name}
                     </Text>
@@ -404,7 +405,10 @@ const HeraPay = () => {
               style={[
                 styles.addCardContainer,
                 {
-                  marginTop: dynamicSize(Value.CONSTANT_VALUE_6),
+                  marginTop:
+                    log_in_data?.role_id === 2
+                      ? dynamicSize(Value.CONSTANT_VALUE_15)
+                      : dynamicSize(Value.CONSTANT_VALUE_6),
                   marginLeft: dynamicSize(35),
                 },
               ]}>
