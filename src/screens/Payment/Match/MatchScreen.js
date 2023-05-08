@@ -31,13 +31,13 @@ const MatchScreen = () => {
   };
   const DATA = [
     {
-      id:1,
+      id: 1,
       Img: Images.ADMIN_ICON,
       name: Strings.Match_Screen.code,
       type: Strings.Match_Screen.type,
     },
     {
-      id:2,
+      id: 2,
       Img: Images.WALKTHROUGH1,
       name: Strings.Match_Screen.code,
       type: Strings.Match_Screen.type,
@@ -54,41 +54,48 @@ const MatchScreen = () => {
       />
     );
   };
-
-  return (
-    <View style={styles.flex}>
-      <Header end={false}>{headerComp()}</Header>
-      <View style={styles.container}>
-        <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
-        <Text style={styles.sendPayment}>
-          {Strings.Match_Screen.Send_Payment}
-        </Text>
-        <View style={styles.searchContainer}>
-          <Searchbar
-            value={search}
-            onChangeText={onSearch}
-            editing={true}
-            sm={false}
-            state={state}
-          setState={setState}
+  if (log_in_data.role_id === 2) {
+    return (
+      <View style={styles.flex}>
+        <Header end={false}>{headerComp()}</Header>
+        <View style={styles.container}>
+          <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
+          <Text style={styles.sendPayment}>
+            {Strings.Match_Screen.Send_Payment}
+          </Text>
+          <View style={styles.searchContainer}>
+            <Searchbar
+              value={search}
+              onChangeText={onSearch}
+              editing={true}
+              sm={false}
+              state={state}
+              setState={setState}
+            />
+          </View>
+          <FlatList
+            data={DATA}
+            renderItem={renderItemData}
+            showsVerticalScrollIndicator={false}
           />
         </View>
-        <FlatList
-          data={DATA}
-          renderItem={renderItemData}
-          showsVerticalScrollIndicator={false}
-        />
       </View>
-      {/* <View style={styles.mainContainer}>
+    );
+  } else {
+    return (
+      <View style={styles.flex}>
+        <Header end={false}>{headerComp()}</Header>
+        <View style={styles.mainContainer}>
           <Text style={styles.emptyText}>No Matches</Text>
           <Text style={styles.secondEmptyText}>
-            {log_in_data?.role_id == 2
+            {log_in_data?.role_id === 2
               ? 'After you have matched, You can send payments to them using HERA Pay.'
               : 'You can send money to your matches using HERA Pay.'}
           </Text>
-        </View> */}
-    </View>
-  );
+        </View>
+      </View>
+    );
+  }
 };
 
 export default MatchScreen;
