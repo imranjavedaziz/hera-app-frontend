@@ -294,7 +294,6 @@ const HeraPay = () => {
                   key={index}
                   style={{
                     flexDirection: Alignment.ROW,
-                    alignItems: Alignment.CENTER,
                     justifyContent: Alignment.SPACE_BETWEEN,
                     paddingHorizontal: Value.CONSTANT_VALUE_5,
                   }}>
@@ -336,7 +335,7 @@ const HeraPay = () => {
                         <TouchableOpacity
                           style={{
                             flexDirection: Alignment.ROW,
-                            alignItems: Alignment.CENTER,
+                            alignItems: Alignment.TOP,
                           }}
                           onPress={() => navigation.navigate(Routes.KycScreen)}>
                           <Text style={styles.kycprocess}>
@@ -376,9 +375,15 @@ const HeraPay = () => {
               return (
                 <View
                   key={index}
-                  style={{
-                    paddingVertical: dynamicSize(Value.CONSTANT_VALUE_15),
-                  }}>
+                  style={
+                    index === 0
+                      ? {
+                          paddingBottom: dynamicSize(Value.CONSTANT_VALUE_15),
+                        }
+                      : {
+                          paddingVertical: dynamicSize(Value.CONSTANT_VALUE_15),
+                        }
+                  }>
                   <PaymentCards
                     onPress={() => {
                       setItem(item);

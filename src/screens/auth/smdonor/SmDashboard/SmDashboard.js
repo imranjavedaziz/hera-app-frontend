@@ -489,7 +489,6 @@ const SmDashboard = ({route}) => {
                         </TouchableOpacity>
                       </View>
                     )}
-
                     <View>
                       <View style={styles.search}>
                         <Searchbar
@@ -513,6 +512,7 @@ const SmDashboard = ({route}) => {
                           contentContainerStyle={Styles.flatlist}
                           columnWrapperStyle={{
                             justifyContent: Alignment.SPACE_BETWEEN,
+                            paddingHorizontal: Value.CONSTANT_VALUE_5,
                           }}
                           data={cards}
                           keyExtractor={(item, index) => index.toString()}

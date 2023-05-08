@@ -143,7 +143,7 @@ export default {
     alignItems: Alignment.CENTER,
   },
   flatlist: {
-    paddingBottom: Value.CONSTANT_VALUE_300,
+    paddingBottom: Value.CONSTANT_VALUE_600,
   },
   extraTxt: {
     // marginLeft: 12,

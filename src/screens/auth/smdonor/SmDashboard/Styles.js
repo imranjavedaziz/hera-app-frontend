@@ -8,10 +8,10 @@ import {
   normalizeFont,
   px,
   statusHide,
-  width,
 } from '../../../../utils/responsive';
+
 export default {
-  mainContainer: {},
+  mainContainer: {width: 155},
   conatiner: {
     marginTop: Value.CONSTANT_VALUE_20,
   },
@@ -47,7 +47,6 @@ export default {
   },
   profileImgView: {
     height: Value.CONSTANT_VALUE_210,
-    width: (width - px(70)) / 2,
   },
   locationContainer: {
     position: Alignment.ABSOLUTE,
