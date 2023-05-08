@@ -12,6 +12,7 @@ const MatchScreen = () => {
   const navigation = useNavigation();
   const {log_in_data} = useSelector(state => state.Auth);
   const [search, setSearch] = React.useState('');
+  const [state, setState] = React.useState([]);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -68,6 +69,8 @@ const MatchScreen = () => {
             onChangeText={onSearch}
             editing={true}
             sm={false}
+            state={state}
+          setState={setState}
           />
         </View>
         <FlatList
