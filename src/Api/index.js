@@ -15,3 +15,4 @@ export * from './DocumentUpload';
 export * from './NextStep';
 export * from './StripeApi';
 export * from './AccountStatus';
+export * from './Payment';

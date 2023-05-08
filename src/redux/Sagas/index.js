@@ -54,6 +54,8 @@ import {watchNextStep} from './NextStep';
 import kycUpdateWatcher from './kyc.saga';
 import {watchAccountStatus} from './AccountStatus';
 import addCardTokenWatcher from './stripe.saga';
+import {watchGetMatchList} from './Payment';
+
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
@@ -103,5 +105,6 @@ export default function* rootSaga() {
     fork(kycUpdateWatcher),
     fork(watchAccountStatus),
     fork(addCardTokenWatcher),
+    fork(watchGetMatchList),
   ]);
 }

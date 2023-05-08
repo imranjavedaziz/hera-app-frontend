@@ -61,4 +61,5 @@ export default {
   next_steps: 'next-steps',
   kyc_update: 'save-kyc-details',
   account_status: 'account-status',
+  match_list: 'match-list',
 };

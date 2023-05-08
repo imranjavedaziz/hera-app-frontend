@@ -24,7 +24,7 @@ import profileImg from './profileImg';
 import DocumentUpload from './DocumentUpload';
 import NextStep from './NextStep';
 import AccountStatus from './AccountStatus';
-
+import Payment from './Payment';
 import {
   addBankTokenReducer,
   createPaymentIntentReducer,
@@ -75,6 +75,7 @@ const allReducers = combineReducers({
 
   //Account Status
   AccountStatus,
+  Payment,
 });
 
 export default allReducers;
