@@ -191,29 +191,40 @@ const SetPreference = ({route, navigation}) => {
     }, [get_preference_success, get_preference_loading, get_preference_res]),
   );
   //SETTER FIELDS
-  const handelChange = async value => {
-    const HeightArr = get_preference_res?.height?.split('-');
-    const education = set_preference_res?.education?.find(obj => {
-      return obj.id === parseInt(get_preference_res?.education);
-    });
-    const raceJson =
-      get_preference_res?.race !== undefined &&
-      JSON.parse(get_preference_res?.race);
-    const location = get_state_res?.find(obj => {
-      return obj.id === parseInt(get_preference_res?.state);
-    });
-    const race = set_preference_res?.race?.find(obj => {
-      return obj.id === parseInt(raceJson);
-    });
-    setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
-    setValue(FormKey.location, location);
-    setValue(FormKey.education, education);
-    setValue(FormKey.age_range, get_preference_res?.age);
-    setHeight(HeightArr);
-    setValue(FormKey.race, race);
-    setValue(FormKey.hair, get_preference_res?.hair_colour);
-    setValue(FormKey.eye, get_preference_res?.eye_colour);
-  };
+  const handelChange = useCallback(async () => {
+    try{
+      let location = null;
+      let race = null;
+      const HeightArr = get_preference_res?.height?.split('-');
+      const education = set_preference_res?.education?.find(obj => {
+        return obj.id === parseInt(get_preference_res?.education);
+      });
+      const raceJson =
+        get_preference_res?.race !== undefined &&
+        JSON.parse(get_preference_res?.race);
+      setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
+      setValue(FormKey.education, education);
+      setValue(FormKey.age_range, get_preference_res?.age);
+      setHeight(HeightArr);
+      setValue(FormKey.hair, get_preference_res?.hair_colour);
+      setValue(FormKey.eye, get_preference_res?.eye_colour);
+      if(Array.isArray(get_state_res) && get_state_res.length>0){
+        location = get_state_res?.find(obj => {
+          return obj.id === parseInt(get_preference_res?.state);
+        });
+      }
+      if(Array.isArray(set_preference_res?.race) && set_preference_res?.race.length>0){
+        race = set_preference_res?.race?.find(obj => {
+          return obj.id === parseInt(raceJson);
+        });
+      }
+      setValue(FormKey.location, location);
+      setValue(FormKey.race, race);
+    }
+    catch(e){
+      console.log(e);
+    }
+  },[get_state_res,get_preference_res,set_preference_res]);
 
   //logout
   useEffect(() => {
