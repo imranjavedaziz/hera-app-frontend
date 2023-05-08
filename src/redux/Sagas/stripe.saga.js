@@ -1,125 +1,15 @@
 import {takeLatest, put} from 'redux-saga/effects';
 import {
-  ADD_CARD_TOKEN,
   PAYMENT_INTENT,
-  UPDATE_CARD_TOKEN,
   ADD_BANK_TOKEN,
-  UPDATE_BANK_TOKEN,
   GET_CARD_LIST,
-  ADD_CARD,
+  ADD_BANK,
   GET_BANK_LIST,
   DELETE_BANK,
   DELETE_CARD,
+  ATTACH_PAYMENT_INTENT,
 } from '../actions/stripe.action';
 import * as stripeApiCall from '../../Api/StripeApi';
-
-function* addCardToken(action) {
-  console.log(action,'actionaction');
-  const {data} = action;
-  try {
-    yield put({
-      type: ADD_CARD_TOKEN.START,
-    });
-    console.log('ADD_CARD_TOKEN.START', data);
-    const response = yield stripeApiCall.addCardToken(data);
-    console.log(response, 'responsse');
-    yield put({
-      type: ADD_CARD_TOKEN.SUCCESS,
-      payload: response,
-    });
-  } catch (error) {
-    console.log('ADD_CARD_TOKEN.error', error);
-    yield put({
-      type: ADD_CARD_TOKEN.FAIL,
-      payload: error,
-    });
-  }
-}
-function* updateCardToken(action) {
-  const {data} = action;
-  try {
-    yield put({
-      type: UPDATE_CARD_TOKEN.START,
-    });
-    console.log('UPDATE_CARD_TOKEN.START', data);
-    // const response = yield call(apiCall.updateCardToken, data);
-
-    // yield put({
-    //   type: UPDATE_CARD_TOKEN.SUCCESS,
-    //   payload: response,
-    // });
-  } catch (error) {
-    console.log('UPDATE_CARD_TOKEN.error', error);
-    // if (error?.status === 422) {
-    //   yield put({
-    //     type: UPDATE_CARD_TOKEN.FAIL,
-    //     payload: error?.data,
-    //   });
-    // } else {
-    //   yield put({
-    //     type: UPDATE_CARD_TOKEN.FAIL,
-    //     payload: error?.data ?? error,
-    //   });
-    // }
-  }
-}
-function* updateBankToken(action) {
-  const {data} = action;
-  try {
-    yield put({
-      type: UPDATE_BANK_TOKEN.START,
-    });
-    console.log('UPDATE_BANK_TOKEN.START', data);
-    // const response = yield call(apiCall.updateBankToken, data);
-
-    // yield put({
-    //   type: UPDATE_BANK_TOKEN.SUCCESS,
-    //   payload: response,
-    // });
-  } catch (error) {
-    console.log('UPDATE_BANK_TOKEN.error', error);
-    // if (error?.status === 422) {
-    //   yield put({
-    //     type: UPDATE_BANK_TOKEN.FAIL,
-    //     payload: error?.data,
-    //   });
-    // } else {
-    //   yield put({
-    //     type: UPDATE_BANK_TOKEN.FAIL,
-    //     payload: error?.data ?? error,
-    //   });
-    // }
-  }
-}
-
-function* paymentIntentwithCard(action) {
-  const {data} = action;
-  try {
-    yield put({
-      type: PAYMENT_INTENT.START,
-    });
-    console.log('PAYMENT_INTENT.START', data);
-    // const response = yield call(apiCall.createPaymentIntentwithCard, data);
-
-    // yield put({
-    //   type: PAYMENT_INTENT.SUCCESS,
-    //   payload: response,
-    // });
-  } catch (error) {
-    console.log('PAYMENT_INTENT.error', error);
-    // if (error?.status === 422) {
-    //   yield put({
-    //     type: PAYMENT_INTENT.FAIL,
-    //     payload: error?.data,
-    //   });
-    // } else {
-    //   yield put({
-    //     type: PAYMENT_INTENT.FAIL,
-    //     payload: error?.data ?? error,
-    //   });
-    // }
-  }
-}
 
 function* getBankTokenFromStripe(action) {
   const {data} = action;
@@ -127,7 +17,6 @@ function* getBankTokenFromStripe(action) {
     yield put({
       type: ADD_BANK_TOKEN.START,
     });
-    console.log('ADD_BANK_TOKEN.START', data);
     const response = yield stripeApiCall.addBankToken(data);
 
     yield put({
@@ -135,7 +24,6 @@ function* getBankTokenFromStripe(action) {
       payload: response,
     });
   } catch (error) {
-    console.log('ADD_BANK_TOKEN.error', error);
     yield put({
       type: ADD_BANK_TOKEN.FAIL,
       payload: error,
@@ -149,14 +37,12 @@ function* getCardListStripe(action) {
     yield put({
       type: GET_CARD_LIST.START,
     });
-    console.log('GET_CARD_LIST.START', data);
     const response = yield stripeApiCall.getCardListApi(data);
     yield put({
       type: GET_CARD_LIST.SUCCESS,
       payload: response,
     });
   } catch (error) {
-    console.log('GET_CARD_LIST.error', error);
     yield put({
       type: GET_CARD_LIST.FAIL,
       payload: error,
@@ -169,35 +55,65 @@ function* getBankListStripe(action) {
     yield put({
       type: GET_BANK_LIST.START,
     });
-    console.log('GET_BANK_LIST.START', data);
     const response = yield stripeApiCall.getBankListApi(data);
     yield put({
       type: GET_BANK_LIST.SUCCESS,
       payload: response,
     });
   } catch (error) {
-    console.log('GET_BANK_LIST.error', error);
     yield put({
       type: GET_BANK_LIST.FAIL,
       payload: error,
     });
   }
 }
-function* addCard(action) {
+function* addBank(action) {
   try {
     yield put({
-      type: ADD_CARD.START,
+      type: ADD_BANK.START,
     });
-    console.log('ADD_CARD.START', action);
     const response = yield stripeApiCall.createCardSource(action);
     yield put({
-      type: ADD_CARD.SUCCESS,
+      type: ADD_BANK.SUCCESS,
       payload: response,
     });
   } catch (error) {
-    console.log('ADD_CARD.error', error);
     yield put({
-      type: ADD_CARD.FAIL,
+      type: ADD_BANK.FAIL,
+      payload: error,
+    });
+  }
+}
+function* createPayment(action) {
+  try {
+    yield put({
+      type: PAYMENT_INTENT.START,
+    });
+    const response = yield stripeApiCall.createPaymentIntent(action);
+    yield put({
+      type: PAYMENT_INTENT.SUCCESS,
+      payload: response,
+    });
+  } catch (error) {
+    yield put({
+      type: PAYMENT_INTENT.FAIL,
+      payload: error,
+    });
+  }
+}
+function* attachPayment(action) {
+  try {
+    yield put({
+      type: ATTACH_PAYMENT_INTENT.START,
+    });
+    const response = yield stripeApiCall.attachPaymentMethod(action);
+    yield put({
+      type: ATTACH_PAYMENT_INTENT.SUCCESS,
+      payload: response,
+    });
+  } catch (error) {
+    yield put({
+      type: ATTACH_PAYMENT_INTENT.FAIL,
       payload: error,
     });
   }
@@ -207,15 +123,12 @@ function* deleteBank(action) {
     yield put({
       type: DELETE_BANK.START,
     });
-    console.log('DELETE_BANK.START', action);
     const response = yield stripeApiCall.deleteBank(action);
-    console.log('DELETE_BANK.response', response);
     yield put({
       type: DELETE_BANK.SUCCESS,
       payload: response,
     });
   } catch (error) {
-    console.log('DELETE_BANK.error', error);
     yield put({
       type: DELETE_BANK.FAIL,
       payload: error,
@@ -228,15 +141,12 @@ function* deleteCard(action) {
     yield put({
       type: DELETE_CARD.START,
     });
-    console.log('DELETE_CARD.START', action);
     const response = yield stripeApiCall.deleteCard(action);
-    console.log('DELETE_CARD.response', response);
     yield put({
       type: DELETE_CARD.SUCCESS,
       payload: response,
     });
   } catch (error) {
-    console.log('DELETE_CARD.error', error);
     yield put({
       type: DELETE_CARD.FAIL,
       payload: error,
@@ -244,14 +154,12 @@ function* deleteCard(action) {
   }
 }
 export default function* addCardTokenWatcher() {
-  yield takeLatest(ADD_CARD_TOKEN.API, addCardToken);
-  yield takeLatest(UPDATE_CARD_TOKEN.API, updateCardToken);
-  yield takeLatest(UPDATE_BANK_TOKEN.API, updateBankToken);
-  yield takeLatest(PAYMENT_INTENT.API, paymentIntentwithCard);
   yield takeLatest(ADD_BANK_TOKEN.API, getBankTokenFromStripe);
   yield takeLatest(GET_CARD_LIST.API, getCardListStripe);
-  yield takeLatest(ADD_CARD.API, addCard);
+  yield takeLatest(ADD_BANK.API, addBank);
   yield takeLatest(GET_BANK_LIST.API, getBankListStripe);
   yield takeLatest(DELETE_BANK.API, deleteBank);
   yield takeLatest(DELETE_CARD.API, deleteCard);
+  yield takeLatest(PAYMENT_INTENT.API, createPayment);
+  yield takeLatest(ATTACH_PAYMENT_INTENT.API, attachPayment);
 }

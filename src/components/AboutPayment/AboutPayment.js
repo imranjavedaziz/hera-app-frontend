@@ -25,12 +25,8 @@ const AboutPayment = props => {
             <Text style={styles.star}>*</Text>
             <Text style={styles?.paraTwo}>{starPara}</Text>
           </View>
-          <Text style={styles?.history}>
-            {Heading}
-          </Text>
-           <Text style={styles?.paraTwo}>
-            {paraThree}
-          </Text>
+          <Text style={styles?.history}>{Heading}</Text>
+          <Text style={styles?.paraTwo}>{paraThree}</Text>
         </View>
         <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
           <Text style={styles.btnText}>{Strings.Sensory.OKAY_GOT_IT}</Text>

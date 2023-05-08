@@ -69,7 +69,7 @@ export default function CustomImagePicker({
 
     Alert.alert(
       alertTitle + ' access denied',
-      'Please change your settings to allow Chip-in to access your ' + subtitle,
+      'Please change your settings to allow Hera to access your ' + subtitle,
 
       [
         {text: 'Cancel'},
@@ -134,8 +134,6 @@ export default function CustomImagePicker({
       photoUploadDialogRef.current.show();
     }
   }, []);
-
-  // styles.modalContainer  //if need to hide bottom content when actionsheet open add this styling inside view
   return (
     <View>
       <ActionSheet

@@ -5,10 +5,23 @@ import {Alignment, Images} from '../../constants';
 import {dynamicSize} from '../../utils/responsive';
 import {Value} from '../../constants/FixedValues';
 const PaymentCards = ({number, Time, Icon, onPress}) => {
+  function getCardImage(cardType) {
+    const cardTypeLowercase = cardType.toLowerCase();
+    const cardTypeToImageMap = {
+      visa: Images.iconVisacardbig,
+      mastercard: Images.iconMasterbig,
+      'american express': Images.iconAmexbig,
+      unionpay: Images.iconUnionPaybig,
+      jcb: Images.iconJcbbig,
+      discover: Images.iconDiscoverbig,
+      amex: Images.iconAmexbig,
+    };
+    return cardTypeToImageMap[cardTypeLowercase] || Images.defaultCardbig;
+  }
   return (
     <View style={styles.mainView}>
       <View style={styles.cardsContainer}>
-        <Image source={Icon} style={styles.cardImg} />
+        <Image source={getCardImage(Icon)} style={styles.cardImg} />
         <View style={{marginLeft: dynamicSize(Value.CONSTANT_VALUE_11)}}>
           <Text style={styles.cardNo}>{number}</Text>
           <Text style={styles.cardTime}>{Time}</Text>

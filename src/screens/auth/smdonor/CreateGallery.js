@@ -69,7 +69,7 @@ const CreateGallery = () => {
   const [selVideo, setSelVideo] = useState(false);
   const [counter, _setCounter] = useState(0);
   const profileImg = useSelector(state => state.profileImg?.imgStore);
-
+  const [openActionsheets, setOpenActionsheet] = useState(false);
   const {
     gallery_success,
     gallery_loading,
@@ -268,16 +268,20 @@ const CreateGallery = () => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
         !isVideo ? openCamera(0, cb) : selectVideo(0);
+        setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
         !isVideo ? openCamera(1, cb) : selectVideo(1);
+        setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:
         console.log('Cancel');
+        setOpenActionsheet(false);
         break;
     }
   };
   const openActionSheet = () => {
+    setOpenActionsheet(true);
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
@@ -289,11 +293,15 @@ const CreateGallery = () => {
   };
   const iosPhotoSheet = () => {
     setIsVideo(false);
-    openActionSheet();
+    if (openActionsheets === false) {
+      openActionSheet();
+    }
   };
   const iosVideoSheet = () => {
     setIsVideo(true);
-    openActionSheet();
+    if (openActionsheets === false) {
+      openActionSheet();
+    }
   };
   const bottomSheetVideo = () => {
     Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();

@@ -249,7 +249,6 @@ const Profile = props => {
     inputRef.current.blur();
     setShow(true);
   };
-  console.log('errors.date_of_birth?.message', errors.date_of_birth?.message);
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -431,6 +430,7 @@ const Profile = props => {
                         required={true}
                         secureTextEntry={true}
                         inputRef={inputRef}
+                        error={errors && errors.set_password?.message}
                         containerStyle={{marginBottom: Value.CONSTANT_VALUE_10}}
                       />
                       {pwdErrMsg.map(msg => (

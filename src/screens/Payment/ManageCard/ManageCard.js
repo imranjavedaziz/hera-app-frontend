@@ -1,5 +1,5 @@
 import {View, Text, Platform, Keyboard} from 'react-native';
-import React, {useRef,useEffect} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {Button, FloatingLabelInput, Header} from '../../../components';
 import styles from './styles';
 import {Alignment, Images, Strings} from '../../../constants';
@@ -21,11 +21,10 @@ import {
 } from '../../../redux/actions/loader';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  ADD_CARD,
-  ADD_CARD_TOKEN,
-  addCard,
-  addCardToken,
-  updateCardToken,
+  ATTACH_PAYMENT_INTENT,
+  PAYMENT_INTENT,
+  attachPaymentIntent,
+  createPaymentIntent,
 } from '../../../redux/actions/stripe.action';
 import ExtraBottomView from '../../../components/ExtraBottomView';
 const ManageCard = () => {
@@ -37,60 +36,45 @@ const ManageCard = () => {
   let scrollRef = React.createRef();
   const [inputs, setInputs] = React.useState({});
   const [errors, setErrors] = React.useState({});
-  const {tokenResponse} = useSelector(store => store.cardToken);
-  const {addCards} = useSelector(store => store.addCard);
-  const [cardInfos, setCardInfo] = React.useState();
+  const {attachPaymentIntentRes} = useSelector(
+    store => store.attachPaymentIntent,
+  );
+  const {paymentIntentRes} = useSelector(store => store.paymentIntent);
   const {stripe_customer_id} = useSelector(state => state.Auth);
-  console.log(stripe_customer_id,'stripe_customer_id');
   const dispatch = useDispatch();
-  const saveCardToken = (token, fingerprint, country) => {
-    let payload;
-    payload = {
-      card_token: token,
-      fingerprint: fingerprint,
-      country: country,
-    };
-    dispatch(updateCardToken(payload));
-  };
-  const cleanRecord = (clearToken = true) => {
-    if (clearToken) {
-      dispatch({type: ADD_CARD_TOKEN.CLEAN});
-    }
-  };
-
   useEffect(() => {
-    if (tokenResponse?.status === ADD_CARD_TOKEN.START) {
+    if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
-    } else if (tokenResponse?.status === ADD_CARD_TOKEN.SUCCESS) {
-      let info = tokenResponse?.info;
-      saveCardToken(info.id, info.card.fingerprint, 'US');
-      const token = info?.id;
-      dispatch(addCard(stripe_customer_id, cardInfos, token));
-      cleanRecord();
-    } else if (tokenResponse?.status === ADD_CARD_TOKEN.FAIL) {
+    } else if (paymentIntentRes?.status === PAYMENT_INTENT.SUCCESS) {
+      let info = paymentIntentRes?.info;
+      dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
       dispatch(hideAppLoader());
-      let error = tokenResponse?.info ?? 'Something went wrong!';
+    } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
+      dispatch(hideAppLoader());
+      let error = paymentIntentRes?.error ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
-      cleanRecord();
     }
-  }, [tokenResponse]);
+  }, [paymentIntentRes]);
 
   useEffect(() => {
-    if (addCards?.status === ADD_CARD.START) {
+    if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
-    } else if (addCards?.status === ADD_CARD.SUCCESS) {
+    } else if (
+      attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
+    ) {
       dispatch(hideAppLoader());
-      //need to test
       dispatch(showAppToast(false, 'Card added to profile!'));
+      dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+      dispatch({type: PAYMENT_INTENT.CLEAN});
       navigation.navigate(Routes.HeraPay);
-      dispatch({type: ADD_CARD.CLEAN});
-    } else if (addCards?.status === ADD_CARD.FAIL) {
+    } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());
-      let error = addCards?.info ?? 'Something went wrong!';
+      let error = attachPaymentIntentRes?.error ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
-      cleanRecord();
+      dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+      dispatch({type: PAYMENT_INTENT.CLEAN});
     }
-  }, [addCards]);
+  }, [attachPaymentIntentRes]);
 
   const headerComp = () => (
     <IconHeader
@@ -176,7 +160,7 @@ const ManageCard = () => {
   const validate = async () => {
     Keyboard.dismiss();
     if (validateData()) {
-      dispatch(showAppLoader());
+      // dispatch(showAppLoader());
       let date = inputs.expiryDate.split('/');
       let cardInfo;
       cardInfo = {
@@ -184,10 +168,9 @@ const ManageCard = () => {
         'card[exp_month]': date[0],
         'card[exp_year]': date[1],
         'card[cvc]': inputs.cvv,
-        'card[name]': inputs.fullName,
+        'billing_details[name]': inputs.fullName,
       };
-      setCardInfo(cardInfo);
-      dispatch(addCardToken(cardInfo));
+      dispatch(createPaymentIntent(cardInfo));
     }
   };
   return (

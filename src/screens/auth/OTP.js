@@ -26,6 +26,8 @@ import {
 import {Routes} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import ExtraBottomView from '../../components/ExtraBottomView';
 
 const OTP = ({route}) => {
   const dispatch = useDispatch();
@@ -44,6 +46,7 @@ const OTP = ({route}) => {
   } = useForm({
     resolver: yupResolver(otpSchema),
   });
+  let scrollRef = React.createRef();
 
   const {verify_otp_success, verify_otp_loading, verify_otp_error_msg} =
     useSelector(state => state.Auth);
@@ -220,9 +223,13 @@ const OTP = ({route}) => {
         backgroundColor: Colors.BACKGROUND,
       }}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={20}
+        enableAutoAutomaticScroll={true}
+        keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
+        ref={scrollRef}>
         <View
           style={[
             globalStyle.mainContainer,
@@ -303,7 +310,8 @@ const OTP = ({route}) => {
             </View>
           </View>
         </View>
-      </ScrollView>
+        <ExtraBottomView />
+      </KeyboardAwareScrollView>
     </View>
   );
 };

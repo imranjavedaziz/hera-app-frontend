@@ -10,6 +10,8 @@ import {
   Pressable,
   ScrollView,
   Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
@@ -45,11 +47,10 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import {BottomSheetComp, ModalMiddle} from '../../../components';
-import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import debounce from '../../../utils/debounce';
 import {saveLocalImg} from '../../../redux/actions/profileImg';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const SmRegister = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -236,320 +237,340 @@ const SmRegister = () => {
           backgroundColor: Colors.BACKGROUND,
         }}>
         <Header end={true}>{headerComp()}</Header>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.main}>
-            <Text style={[globalStyle.screenTitle, styles.title]}>
-              {Strings.sm_register.Title}
-            </Text>
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <>
-                  {smRoles.map(role => (
-                    <TouchableOpacity
-                      style={styles.radioContainer}
-                      key={role.id}
-                      onPress={() => {
-                        onChange(role.id);
-                        setPressed(false);
-                        setRole(role.id);
-                      }}>
-                      <Image
-                        style={styles.radio}
-                        source={
-                          value === role.id
-                            ? Images.iconRadiosel
-                            : Images.iconRadiounsel
-                        }
-                      />
-                      <Text style={styles.radioLabel}>{role.name}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </>
-              )}
-              name="role"
-            />
-            <View style={styles.imgContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
-                }}>
-                <ImageBackground
-                  source={userImage ? {uri: userImage} : null}
-                  style={styles.imgView}
-                  imageStyle={styles.img}>
+        <KeyboardAwareScrollView
+          animated={true}
+          keyboardShouldPersistTaps="handled"
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.flex}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.main}>
+                <Text style={[globalStyle.screenTitle, styles.title]}>
+                  {Strings.sm_register.Title}
+                </Text>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <>
+                      {smRoles.map(role => (
+                        <TouchableOpacity
+                          style={styles.radioContainer}
+                          key={role.id}
+                          onPress={() => {
+                            onChange(role.id);
+                            setPressed(false);
+                            setRole(role.id);
+                          }}>
+                          <Image
+                            style={styles.radio}
+                            source={
+                              value === role.id
+                                ? Images.iconRadiosel
+                                : Images.iconRadiounsel
+                            }
+                          />
+                          <Text style={styles.radioLabel}>{role.name}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </>
+                  )}
+                  name="role"
+                />
+                <View style={styles.imgContainer}>
                   <TouchableOpacity
-                    style={[
-                      styles.camBtn,
-                      userImage ? styles.camSelectedBtn : null,
-                    ]}
                     onPress={() => {
                       Platform.OS === 'ios'
                         ? openIosSheet()
                         : openAndroidSheet();
                     }}>
-                    <Image source={Images.camera} style={styles.camImg} />
+                    <ImageBackground
+                      source={userImage ? {uri: userImage} : null}
+                      style={styles.imgView}
+                      imageStyle={styles.img}>
+                      <TouchableOpacity
+                        style={[
+                          styles.camBtn,
+                          userImage ? styles.camSelectedBtn : null,
+                        ]}
+                        onPress={() => {
+                          Platform.OS === 'ios'
+                            ? openIosSheet()
+                            : openAndroidSheet();
+                        }}>
+                        <Image source={Images.camera} style={styles.camImg} />
+                      </TouchableOpacity>
+                    </ImageBackground>
                   </TouchableOpacity>
-                </ImageBackground>
-              </TouchableOpacity>
-              <View style={{marginTop: Value.CONSTANT_VALUE_10}}>
-                <Text style={styles.ImageText}>
-                  {Strings.sm_register.uploadImage}
-                  <Text style={{color: Colors.RED}}>*</Text>
-                </Text>
-              </View>
-            </View>
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.sm_register.FirstName}
-                  value={value}
-                  onChangeText={v => {
-                    onChange(v.trim());
-                    setPressed(false);
-                  }}
-                  error={errors && errors.first_name?.message}
-                  required={true}
-                  maxLength={30}
-                  inputRef={inputRef}
+                  <View style={{marginTop: Value.CONSTANT_VALUE_10}}>
+                    <Text style={styles.ImageText}>
+                      {Strings.sm_register.uploadImage}
+                      <Text style={{color: Colors.RED}}>*</Text>
+                    </Text>
+                  </View>
+                </View>
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.sm_register.FirstName}
+                      value={value}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
+                      error={errors && errors.first_name?.message}
+                      required={true}
+                      maxLength={30}
+                      inputRef={inputRef}
+                    />
+                  )}
+                  name="first_name"
                 />
-              )}
-              name="first_name"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.sm_register.MiddleName}
-                  value={value}
-                  maxLength={30}
-                  onChangeText={v => {
-                    onChange(v.trim());
-                    setPressed(false);
-                  }}
-                  error={errors && errors.middle_name?.message}
-                  inputRef={inputRef}
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.sm_register.MiddleName}
+                      value={value}
+                      maxLength={30}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
+                      error={errors && errors.middle_name?.message}
+                      inputRef={inputRef}
+                    />
+                  )}
+                  name="middle_name"
                 />
-              )}
-              name="middle_name"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.sm_register.LastName}
-                  value={value}
-                  onChangeText={v => {
-                    onChange(v.trim());
-                    setPressed(false);
-                  }}
-                  error={errors && errors.last_name?.message}
-                  required={true}
-                  maxLength={30}
-                  inputRef={inputRef}
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.sm_register.LastName}
+                      value={value}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
+                      error={errors && errors.last_name?.message}
+                      required={true}
+                      maxLength={30}
+                      inputRef={inputRef}
+                    />
+                  )}
+                  name="last_name"
                 />
-              )}
-              name="last_name"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.sm_register.DOB}
-                  value={value}
-                  onChangeText={v => {
-                    onChange(v);
-                    setPressed(false);
-                  }}
-                  error={errors && errors.dob?.message}
-                  required={true}
-                  endComponentPress={() => CalenderOn()}
-                  endComponent={() => (
-                    <TouchableOpacity onPress={() => CalenderOn()}>
-                      <Image source={Images.calendar} />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.sm_register.DOB}
+                      value={value}
+                      onChangeText={v => {
+                        onChange(v);
+                        setPressed(false);
+                      }}
+                      error={errors && errors.dob?.message}
+                      required={true}
+                      endComponentPress={() => CalenderOn()}
+                      endComponent={() => (
+                        <TouchableOpacity onPress={() => CalenderOn()}>
+                          <Image source={Images.calendar} />
+                        </TouchableOpacity>
+                      )}
+                      editable={false}
+                      onPressIn={() => CalenderOn()}
+                    />
+                  )}
+                  name="dob"
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      label={Strings.profile.EmailAddress}
+                      value={value}
+                      onChangeText={v => {
+                        onChange(v.trim());
+                        setPressed(false);
+                      }}
+                      required={true}
+                      error={errors && errors.email?.message}
+                      inputRef={inputRef}
+                    />
+                  )}
+                  name="email"
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <View style={styles.error}>
+                      <FloatingLabelInput
+                        label={Strings.sm_register.Password}
+                        value={value}
+                        onChangeText={v => {
+                          onChange(v);
+                          setPressed(false);
+                        }}
+                        required={true}
+                        error={errors && errors.password?.message}
+                        containerStyle={styles.pwdInputContainer}
+                        secureTextEntry={true}
+                        inputRef={inputRef}
+                      />
+                      {pwdErrMsg.map(msg => (
+                        <View style={styles.pwdErrContainer} key={msg.type}>
+                          <Text
+                            style={[
+                              styles.pwdErrText,
+                              {
+                                color: validatePassword(
+                                  value,
+                                  msg.type,
+                                  isPressed,
+                                )
+                                  ? Colors.BLACK
+                                  : validatePassword(
+                                      value,
+                                      msg.type,
+                                      isPressed,
+                                    ) === null
+                                  ? Colors.GRAY2
+                                  : Colors.RED,
+                              },
+                            ]}>
+                            {msg.msg}
+                          </Text>
+                          {validatePassword(value, msg.type, isPressed) !==
+                            null && (
+                            <Image
+                              style={[
+                                styles.ValidPwd,
+                                {
+                                  tintColor: validatePassword(
+                                    value,
+                                    msg.type,
+                                    isPressed,
+                                  )
+                                    ? Colors.BLACK
+                                    : Colors.RED,
+                                },
+                              ]}
+                              source={
+                                validatePassword(value, msg.type, isPressed)
+                                  ? Images.path
+                                  : Images.warning
+                              }
+                            />
+                          )}
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                  name="password"
+                />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, value}}) => (
+                    <FloatingLabelInput
+                      containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
+                      label={Strings.sm_register.Confirm}
+                      value={value}
+                      onChangeText={v => {
+                        onChange(v);
+                        setPressed(false);
+                      }}
+                      error={errors && errors.confirm_password?.message}
+                      required={true}
+                      secureTextEntry={true}
+                      inputRef={inputRef}
+                    />
+                  )}
+                  name="confirm_password"
+                />
+                <View style={styles.checkboxContainer}>
+                  {check ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCheck(cur => !cur);
+                      }}>
+                      <Image source={Images.rectangleCopy} />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCheck(cur => !cur);
+                      }}>
+                      <Image source={Images.iconCheck} />
                     </TouchableOpacity>
                   )}
-                  editable={false}
-                  onPressIn={() => CalenderOn()}
-                />
-              )}
-              name="dob"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  label={Strings.profile.EmailAddress}
-                  value={value}
-                  onChangeText={v => {
-                    onChange(v.trim());
-                    setPressed(false);
-                  }}
-                  required={true}
-                  error={errors && errors.email?.message}
-                  inputRef={inputRef}
-                />
-              )}
-              name="email"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <View style={styles.error}>
-                  <FloatingLabelInput
-                    label={Strings.sm_register.Password}
-                    value={value}
-                    onChangeText={v => {
-                      onChange(v);
-                      setPressed(false);
-                    }}
-                    required={true}
-                    containerStyle={styles.pwdInputContainer}
-                    secureTextEntry={true}
-                    inputRef={inputRef}
-                  />
-                  {pwdErrMsg.map(msg => (
-                    <View style={styles.pwdErrContainer} key={msg.type}>
+                  <View>
+                    <Text style={styles.tmc1}>
+                      {Strings.profile.tmc1}
                       <Text
-                        style={[
-                          styles.pwdErrText,
-                          {
-                            color: validatePassword(value, msg.type, isPressed)
-                              ? Colors.BLACK
-                              : validatePassword(value, msg.type, isPressed) ===
-                                null
-                              ? Colors.GRAY2
-                              : Colors.RED,
-                          },
-                        ]}>
-                        {msg.msg}
+                        style={styles.tmcLink1}
+                        onPress={() =>
+                          navigation.navigate(Routes.WebViewUrl, {
+                            url: TERMS_OF_USE_URL,
+                          })
+                        }>
+                        {Strings.Subscription.TermsServices}
+                      </Text>{' '}
+                      and{' '}
+                      <Text
+                        style={styles.tmcLink1}
+                        onPress={() =>
+                          navigation.navigate(Routes.WebViewUrl, {
+                            url: PRIVACY_URL,
+                          })
+                        }>
+                        {Strings.profile.tmc3}
                       </Text>
-                      {validatePassword(value, msg.type, isPressed) !==
-                        null && (
-                        <Image
-                          style={[
-                            styles.ValidPwd,
-                            {
-                              tintColor: validatePassword(
-                                value,
-                                msg.type,
-                                isPressed,
-                              )
-                                ? Colors.BLACK
-                                : Colors.RED,
-                            },
-                          ]}
-                          source={
-                            validatePassword(value, msg.type, isPressed)
-                              ? Images.path
-                              : Images.warning
-                          }
-                        />
-                      )}
-                    </View>
-                  ))}
+                    </Text>
+                  </View>
                 </View>
-              )}
-              name="password"
-            />
-            <Controller
-              control={control}
-              render={({field: {onChange, value}}) => (
-                <FloatingLabelInput
-                  containerStyle={{marginTop: Value.CONSTANT_VALUE_10}}
-                  label={Strings.sm_register.Confirm}
-                  value={value}
-                  onChangeText={v => {
-                    onChange(v);
-                    setPressed(false);
-                  }}
-                  error={errors && errors.confirm_password?.message}
-                  required={true}
-                  secureTextEntry={true}
-                  inputRef={inputRef}
-                />
-              )}
-              name="confirm_password"
-            />
-            <View style={styles.checkboxContainer}>
-              {check ? (
-                <TouchableOpacity
+                <View style={styles.starContainer}>
+                  <Text style={styles.starColor}>*</Text>
+                  <Text style={styles.descText}>{Strings.profile.desc}</Text>
+                </View>
+                <View style={styles.align}>
+                  <Button
+                    disabled={register_user_loading || register_user_success}
+                    label={Strings.sm_register.Btn}
+                    onPress={debounce(onPressSubmit, 1000)}
+                    style={styles.Btn}
+                  />
+                </View>
+                <Pressable
                   onPress={() => {
-                    setCheck(cur => !cur);
+                    navigation.navigate(Routes.Profile, {isRouteData});
                   }}>
-                  <Image source={Images.rectangleCopy} />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => {
-                    setCheck(cur => !cur);
-                  }}>
-                  <Image source={Images.iconCheck} />
-                </TouchableOpacity>
-              )}
-              <View>
-                <Text style={styles.tmc1}>
-                  {Strings.profile.tmc1}
-                  <Text
-                    style={styles.tmcLink1}
-                    onPress={() =>
-                      navigation.navigate(Routes.WebViewUrl, {
-                        url: TERMS_OF_USE_URL,
-                      })
-                    }>
-                    {Strings.Subscription.TermsServices}
-                  </Text>{' '}
-                  and{' '}
-                  <Text
-                    style={styles.tmcLink1}
-                    onPress={() =>
-                      navigation.navigate(Routes.WebViewUrl, {
-                        url: PRIVACY_URL,
-                      })
-                    }>
-                    {Strings.profile.tmc3}
+                  <Text style={styles.parentBtn}>
+                    Register as Intended Parent
                   </Text>
-                </Text>
+                </Pressable>
               </View>
-            </View>
-            <View style={styles.starContainer}>
-              <Text style={styles.starColor}>*</Text>
-              <Text style={styles.descText}>{Strings.profile.desc}</Text>
-            </View>
-            <View style={styles.align}>
-              <Button
-                disabled={register_user_loading || register_user_success}
-                label={Strings.sm_register.Btn}
-                onPress={debounce(onPressSubmit, 1000)}
-                style={styles.Btn}
+              <ModalMiddle
+                showModal={showModal}
+                onRequestClose={() => {
+                  setShowModal(!showModal);
+                }}
+                String_1={Strings.profile.ModalHeader}
+                String_2={Strings.profile.ModalSubheader}
+                String_3={Strings.profile.ModalOption1}
+                String_4={Strings.profile.ModalOption2}
+                onPressNav={() => {
+                  setShowModal(false);
+                  logoutScreen();
+                }}
+                onPressOff={() => {
+                  setShowModal(false);
+                }}
               />
-            </View>
-            <Pressable
-              onPress={() => {
-                navigation.navigate(Routes.Profile, {isRouteData});
-              }}>
-              <Text style={styles.parentBtn}>Register as Intended Parent</Text>
-            </Pressable>
-          </View>
-          <ModalMiddle
-            showModal={showModal}
-            onRequestClose={() => {
-              setShowModal(!showModal);
-            }}
-            String_1={Strings.profile.ModalHeader}
-            String_2={Strings.profile.ModalSubheader}
-            String_3={Strings.profile.ModalOption1}
-            String_4={Strings.profile.ModalOption2}
-            onPressNav={() => {
-              setShowModal(false);
-              logoutScreen();
-            }}
-            onPressOff={() => {
-              setShowModal(false);
-            }}
-          />
-        </ScrollView>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
       </View>
       <ActionSheet
         ref={actionSheet}

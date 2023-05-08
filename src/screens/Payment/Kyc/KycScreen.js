@@ -83,7 +83,7 @@ const KycScreen = () => {
       dispatch(
         showAppToast(
           false,
-          response?.info?.message ?? 'Request successfully completed.',
+          response?.info?.message ?? 'Bank added to profile!',
         ),
       );
       dispatch({type: KYC_UPDATE.END});
@@ -92,7 +92,6 @@ const KycScreen = () => {
     } else if (response?.status === KYC_UPDATE.FAIL) {
       dispatch(hideAppLoader());
       dispatch({type: KYC_UPDATE.END});
-      // navigation.navigate(Routes.HeraPay);
     }
   }, [kycResponse]);
   const backAction = () => {
@@ -147,7 +146,6 @@ const KycScreen = () => {
     setShow(true);
   };
   const validateData = () => {
-    dispatch(showAppLoader());
     Keyboard.dismiss();
     let isValid = true;
     if (!inputs.firstName) {
@@ -202,13 +200,6 @@ const KycScreen = () => {
       handleError(ValidationMessages.ADDRESS_REQUIRED, Input_Type.address);
       isValid = false;
     }
-    if (inputs.country) {
-      handleOnchange(inputs?.country.trim(), Input_Type.country);
-    }
-    if (!inputs.country?.trim()) {
-      handleError(ValidationMessages.Country_REQUIRED, Input_Type.country);
-      isValid = false;
-    }
     if (inputs.state) {
       handleOnchange(inputs?.state.trim(), Input_Type.state);
     }
@@ -255,7 +246,7 @@ const KycScreen = () => {
         phone_no: numWithPad,
         last_name: inputs.lastName,
         first_name: inputs.firstName,
-        country: inputs.country,
+        country: 'US',
         state: inputs.state,
         city: inputs.city,
         bank_token_id: bank_token,
@@ -271,7 +262,7 @@ const KycScreen = () => {
         let document_back = media[1];
         payload.document_back = document_back;
       }
-      console.log(payload, 'payloadpayload');
+      dispatch(showAppLoader());
       let formDataPayload = jsonToFormData(payload);
       dispatch(kyc_update(formDataPayload));
     }
@@ -349,21 +340,23 @@ const KycScreen = () => {
               maxLength={validationBank.PhoneNumber}
               inputRef={phonenumberRef}
               onSubmitEditing={() => {
-                zipcodedRef.current.focus();
+                countryRef.current.focus();
               }}
               error={errors.phoneNumber}
             />
             <FloatingLabelInput
               label={Strings.ManageBank.Country}
-              value={inputs.country}
+              value={'US'}
               onChangeText={text => handleOnchange(text, Input_Type.country)}
               required={true}
+              editable={false}
+              edited={false}
               returnKeyType="next"
               onFocusHandle={() => handleError(null, Input_Type.country)}
               maxLength={validationBank.LastNameLimit}
               inputRef={countryRef}
               onSubmitEditing={() => {
-                phonenumberRef.current.focus();
+                stateRef.current.focus();
               }}
               error={errors.country}
             />
@@ -404,7 +397,7 @@ const KycScreen = () => {
               label={Strings.ManageBank.ADDRESS}
               error={errors.address}
               returnKeyType="next"
-              innerRef={addressRef}
+              inputRef={addressRef}
               onSubmitEditing={() => {
                 zipcodedRef.current.focus();
               }}
@@ -419,7 +412,7 @@ const KycScreen = () => {
               label={Strings.ManageBank.ZIP_CODE}
               error={errors.zipCode}
               returnKeyType="next"
-              innerRef={zipcodedRef}
+              inputRef={zipcodedRef}
               onSubmitEditing={() => {
                 ssnRef.current.focus();
               }}
@@ -434,7 +427,7 @@ const KycScreen = () => {
               label={Strings.ManageBank.SSN}
               error={errors.ssn}
               returnKeyType="go"
-              innerRef={ssnRef}
+              inputRef={ssnRef}
               onSubmitEditing={() => {
                 validate();
               }}
@@ -447,7 +440,7 @@ const KycScreen = () => {
               label={Strings.ManageBank.TaxID}
               error={errors.ssn}
               returnKeyType="go"
-              innerRef={TaxRef}
+              inputRef={TaxRef}
               onSubmitEditing={() => {
                 validate();
               }}
