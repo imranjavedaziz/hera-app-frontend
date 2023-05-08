@@ -78,6 +78,7 @@ const SmDonorSettings = () => {
   const [disable, setDisable] = useState(false);
   const GetLoadingRef = useRef(false);
   const loadingGalleryRef = useRef(false);
+  const [openActionsheets, setOpenActionsheet] = useState(false);
   const {
     get_user_detail_res,
     get_user_detail_success,
@@ -184,16 +185,20 @@ const SmDonorSettings = () => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
         openCamera(0, cb);
+        setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
+        setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:
         console.log('Cancel');
+        setOpenActionsheet(false);
         break;
     }
   };
   const openActionSheet = () => {
+    setOpenActionsheet(true);
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
@@ -205,8 +210,11 @@ const SmDonorSettings = () => {
   };
 
   const openIosSheet = () => {
-    openActionSheet();
+    if (openActionsheets === false) {
+      openActionSheet();
+    }
   };
+
   const openAndroidSheet = () => {
     setOpen(true);
   };
