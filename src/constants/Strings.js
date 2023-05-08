@@ -698,7 +698,7 @@ export default {
   //ManageCard
   ManageCard: {
     ADD_CARD: 'ADD CARD',
-    CARD_DETAILS: 'Add your Card Details to Make any Payment',
+    CARD_DETAILS: 'Add your Card Details to \nMake any Payment',
     CardNumber: 'Card Number',
     ValidThrough: 'Valid Thru (MM/YY)',
     CVV: 'CVV',

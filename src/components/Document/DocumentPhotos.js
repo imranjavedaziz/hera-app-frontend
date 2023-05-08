@@ -84,6 +84,7 @@ export default function DocumentPhoto({
         data={selectedPhotos}
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.localIdentifier}
+        scrollEnabled={selectedPhotos.length > 0}
         ListHeaderComponent={
           showAddButton() && (
             <TouchableOpacity

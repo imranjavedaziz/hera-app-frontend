@@ -78,6 +78,7 @@ const PtbProfile = () => {
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const middle_name = useSelector(state => state?.Auth?.user?.middle_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
+  const [openActionsheets, setOpenActionsheet] = useState(false);
   const subscriptionStatus = useSelector(
     state => state.Subscription?.subscription_status_res,
   );
@@ -157,16 +158,20 @@ const PtbProfile = () => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
         openCamera(0, cb);
+        setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
+        setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:
         console.log('Cancel');
+        setOpenActionsheet(false);
         break;
     }
   };
   const openActionSheet = () => {
+    setOpenActionsheet(true);
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
@@ -178,8 +183,10 @@ const PtbProfile = () => {
   };
 
   const openIosSheet = () => {
-    openActionSheet();
-    askCameraPermission();
+    if (openActionsheets === false) {
+      openActionSheet();
+      askCameraPermission();
+    }
   };
   const openAndroidSheet = () => {
     setOpen(true);
