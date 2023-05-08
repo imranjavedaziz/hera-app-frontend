@@ -38,7 +38,7 @@ const Subscribe = ({MainText, InnerText, Icon, is_trial}) => {
     </View>
   );
 };
-const nextPlanStr = 'Your plan will be upgraded on {DATE}';
+const nextPlanStr = 'Your plan will be updated on {DATE}';
 export const Subscribed = () => {
   const [changeModal, setChangeModal] = useState(false);
   const [hasUpgraded, setUpgraded] = useState(false);
@@ -151,7 +151,6 @@ export const Subscribed = () => {
             <Text style={[styles.price, {marginTop: 10, fontSize: 12}]}>
               <Text style={{color: Colors.RED}}>*</Text>
               {nextPlanStr
-                .replace('upgraded', isUpgradeDowngrade)
                 .replace(
                   '{DATE}',
                   moment(
