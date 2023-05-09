@@ -11,7 +11,7 @@ function* getMatchList(payload) {
   try {
     const result = yield GetMatchListApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      yield put({type: GET_MATCH_LIST_SUCCESS, data: result.data?.data?.data});
+      yield put({type: GET_MATCH_LIST_SUCCESS, data: result.data?.data});
     } else {
       yield put({
         type: GET_MATCH_LIST_FAIL,

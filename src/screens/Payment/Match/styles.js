@@ -89,7 +89,7 @@ export default {
   },
   compColoumContainer: {
     justifyContent: Alignment.CENTER,
-    marginLeft: dynamicSize(Value.CONSTANT_VALUE_10),
+    marginLeft: dynamicSize(Value.CONSTANT_VALUE_12),
   },
   btnMainContainer: {
     justifyContent: Alignment.FLEXEND,
@@ -101,11 +101,26 @@ export default {
     borderWidth: 1,
     borderColor: '#ffffff',
   },
-  noBank:{
-  fontFamily: Fonts.OpenSansRegular,
-  fontSize: Value.CONSTANT_VALUE_14,
-  fontStyle: "italic",
-  textAlign: "right",
-  color: "#ff5353",
+  noBank: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_14,
+    fontStyle: 'italic',
+    textAlign: 'right',
+    color: '#ff5353',
+  },
+  NoResult: {
+    fontFamily: Fonts.OpenSansBold,
+    fontSize: Value.CONSTANT_VALUE_23,
+    textAlign: 'center',
+    color: Colors.BLACK,
+  },
+  NoResultDes: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_16,
+    textAlign: 'center',
+    color: Colors.BLACK,
+  },
+  margin: {
+    marginTop: 184,
   },
 };

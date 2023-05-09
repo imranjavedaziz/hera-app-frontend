@@ -598,13 +598,17 @@ export default {
     KYC_REJECTED: 'KYC Rejected  ',
     KYC_INCOMPLETE: 'KYC Incomplete  ',
     KYC_VERIFYIED: 'KYC verified  ',
+    PTB_NO_MATCH:
+      'After you have matched, You can send payments to them using HERA Pay.',
+    SM_NO_MATCH: 'You can send money to your matches using HERA Pay.',
   },
-  Match_Screen:{
+  Match_Screen: {
     Send_Payment: 'Send Payment',
     Pay: 'Pay',
     code: '#SM5882',
     type: 'Surrogate Mother',
     noBank: 'Bank not added by \nSperm Donor!',
+    Request: 'Request',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',
