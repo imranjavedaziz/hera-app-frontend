@@ -90,13 +90,7 @@ const MatchScreen = () => {
         setallUser(Data.filter(item => item.username.match(trimmedValue)));
       }
     } else {
-      setallUser(
-        Data.filter(item =>
-          `${item?.first_name}${
-            item?.middle_name ? ` ${item?.middle_name}` : ''
-          } ${item?.last_name}`.match(trimmedValue),
-        ),
-      );
+      setallUser(Data.filter(item => item?.first_name.match(trimmedValue)));
     }
   };
 
@@ -105,13 +99,7 @@ const MatchScreen = () => {
       <MatchComp
         Img={item.profile_pic}
         name={
-          log_in_data.role_id === 2
-            ? `#${item?.username}`
-            : `${item?.first_name}${
-                item?.middle_name === null || item?.middle_name === undefined
-                  ? ''
-                  : ` ${item?.middle_name}`
-              } ${item?.last_name}`
+          log_in_data.role_id === 2 ? `#${item?.username}` : item?.first_name
         }
         type={item.role_id}
         noBank={log_in_data.role_id === 2 ? item?.connected_acc_status : true}
