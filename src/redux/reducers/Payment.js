@@ -41,7 +41,7 @@ export default (state = initState, action) => {
         get_match_list_success: false,
         get_match_list_loading: false,
         get_match_list_error_msg: action.data.msg,
-        get_match_list_res: action.data,
+        get_match_list_res: '',
         get_match_list_fail: true,
       };
     default:
