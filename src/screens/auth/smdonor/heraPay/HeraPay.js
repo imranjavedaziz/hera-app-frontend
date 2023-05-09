@@ -335,7 +335,7 @@ const HeraPay = () => {
                         <TouchableOpacity
                           style={{
                             flexDirection: Alignment.ROW,
-                            alignItems: Alignment.TOP,
+                            alignItems: Alignment.CENTER,
                           }}
                           onPress={() => navigation.navigate(Routes.KycScreen)}>
                           <Text style={styles.kycprocess}>

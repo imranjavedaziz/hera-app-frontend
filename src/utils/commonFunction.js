@@ -228,3 +228,23 @@ export const capitalizeStr = str => {
   }
   return arr.join(' ');
 };
+export function getRoleData(roleId, role) {
+  switch (true) {
+    case roleId === 2:
+      role = 'Intended Parent';
+      break;
+    case roleId === 3:
+      role = 'Surrogate Mother';
+      break;
+    case roleId === 4:
+      role = 'Egg Donor';
+      break;
+    case roleId === 5:
+      role = 'Sperm Donor';
+      break;
+    default:
+      role = 'Intended Parent';
+      break;
+  }
+  return role;
+}

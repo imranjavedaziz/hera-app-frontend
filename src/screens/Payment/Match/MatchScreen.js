@@ -6,7 +6,7 @@ import styles from './styles';
 import {Images, Strings} from '../../../constants';
 import {IconHeader} from '../../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
-import Searchbar from '../../auth/smdonor/SmDashboard/StateSearch';
+import Searchbar from '../../../components/MatchSearch';
 import MatchComp from './MatchComp';
 import {getMatchList} from '../../../redux/actions/Payment';
 import {
@@ -19,8 +19,9 @@ const MatchScreen = () => {
   const navigation = useNavigation();
   const {log_in_data} = useSelector(state => state.Auth);
   const [search, setSearch] = React.useState('');
-  const [states, setState] = React.useState([]);
+  const [allUser, setallUser] = React.useState([]);
   const [Data, setData] = React.useState([]);
+  const [Record, setRecord] = React.useState([]);
   const LoadingRef = useRef(null);
   const {
     get_match_list_success,
@@ -31,16 +32,23 @@ const MatchScreen = () => {
   } = useSelector(state => state.Payment);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (log_in_data.role_id === 2) {
-      dispatch(getMatchList());
-    }
-  }, [dispatch]);
+    let payload = {
+      keyword: search ? search : '',
+    };
+    dispatch(getMatchList(payload));
+  }, [dispatch, search]);
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
       dispatch(showAppLoader());
       if (get_match_list_success) {
         dispatch(hideAppLoader());
-        setData(get_match_list_res);
+        setData(get_match_list_res?.data?.data);
+        setallUser(get_match_list_res?.data?.data);
+        setRecord(get_match_list_res?.record);
+        console.log(
+          get_match_list_res?.data?.data,
+          'get_match_list_res?.data?.data',
+        );
       }
       if (get_match_list_fail) {
         dispatch(hideAppLoader());
@@ -69,85 +77,94 @@ const MatchScreen = () => {
       setSearch('');
       return;
     }
-    setSearch(value);
+    const trimmedValue = value.startsWith('#') ? value.substring(1) : value;
+    setSearch(trimmedValue);
+    if (log_in_data.role_id === 2) {
+      if (trimmedValue.startsWith('#')) {
+        setallUser(
+          Data.filter(item =>
+            item.username.includes(trimmedValue.substring(1)),
+          ),
+        );
+      } else {
+        setallUser(Data.filter(item => item.username.match(trimmedValue)));
+      }
+    } else {
+      setallUser(
+        Data.filter(item =>
+          `${item?.first_name}${
+            item?.middle_name ? ` ${item?.middle_name}` : ''
+          } ${item?.last_name}`.match(trimmedValue),
+        ),
+      );
+    }
   };
-  const DATA = [
-    {
-      id: 1,
-      Img: Images.ADMIN_ICON,
-      name: Strings.Match_Screen.code,
-      type: Strings.Match_Screen.type,
-    },
-    {
-      id: 2,
-      Img: Images.WALKTHROUGH1,
-      name: Strings.Match_Screen.code,
-      type: Strings.Match_Screen.type,
-    },
-  ];
 
   const renderItemData = ({item}) => {
     return (
       <MatchComp
-        Img={item.Img}
-        name={item.name}
-        type={item.type}
-        noBank={true}
+        Img={item.profile_pic}
+        name={
+          log_in_data.role_id === 2
+            ? `#${item?.username}`
+            : `${item?.first_name}${
+                item?.middle_name === null || item?.middle_name === undefined
+                  ? ''
+                  : ` ${item?.middle_name}`
+              } ${item?.last_name}`
+        }
+        type={item.role_id}
+        noBank={log_in_data.role_id === 2 ? item?.connected_acc_status : true}
       />
     );
   };
-  if (log_in_data.role_id === 2) {
-    return (
-      <View style={styles.flex}>
-        <Header end={false}>{headerComp()}</Header>
-        {!_.isEmpty(Data) ? (
-          <View style={styles.container}>
-            <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
-            <Text style={styles.sendPayment}>
-              {Strings.Match_Screen.Send_Payment}
-            </Text>
-            <View style={styles.searchContainer}>
-              <Searchbar
-                value={search}
-                onChangeText={onSearch}
-                editing={true}
-                sm={false}
-                state={states}
-                setState={setState}
-              />
-            </View>
+  const onClear = () => {
+    setSearch('');
+  };
+  return (
+    <View style={styles.flex}>
+      <Header end={false}>{headerComp()}</Header>
+      {Record > 0 ? (
+        <View style={styles.container}>
+          <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
+          <Text style={styles.sendPayment}>
+            {Strings.Match_Screen.Send_Payment}
+          </Text>
+          <View style={styles.searchContainer}>
+            <Searchbar
+              value={search}
+              onChangeText={onSearch}
+              onClear={onClear}
+              editing={true}
+            />
+          </View>
+          {!_.isEmpty(allUser) ? (
             <FlatList
-              data={DATA}
+              data={allUser}
               renderItem={renderItemData}
               showsVerticalScrollIndicator={false}
             />
-          </View>
-        ) : (
-          <View style={styles.mainContainer}>
-            <Text style={styles.emptyText}>No Matches</Text>
-            <Text style={styles.secondEmptyText}>
-              After you have matched, You can send payments to them using HERA
-              Pay.
-            </Text>
-          </View>
-        )}
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.flex}>
-        <Header end={false}>{headerComp()}</Header>
+          ) : (
+            <View style={styles.margin}>
+              <Text style={styles.NoResult}>No Results Found!</Text>
+              <Text style={styles.NoResultDes}>
+                Try using a different name or keyword
+              </Text>
+            </View>
+          )}
+        </View>
+      ) : (
         <View style={styles.mainContainer}>
           <Text style={styles.emptyText}>No Matches</Text>
           <Text style={styles.secondEmptyText}>
             {log_in_data?.role_id === 2
-              ? 'After you have matched, You can send payments to them using HERA Pay.'
-              : 'You can send money to your matches using HERA Pay.'}
+              ? Strings.Hera_Pay.PTB_NO_MATCH
+              : Strings.Hera_Pay.SM_NO_MATCH}
           </Text>
         </View>
-      </View>
-    );
-  }
+      )}
+    </View>
+  );
 };
 
 export default MatchScreen;
