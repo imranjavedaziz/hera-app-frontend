@@ -201,5 +201,9 @@ export default {
   },
   centerView: {alignItems: Alignment.CENTER},
   headerContainer: {flex: 1, marginRight: px(Value.CONSTANT_VALUE_30)},
-  confirmedTxt: {color: Colors.COLOR_5ABCEC, fontSize: px(Value.CONSTANT_VALUE_12),fontFamily: Fonts.OpenSansRegular},
+  confirmedTxt: {
+    color: Colors.COLOR_5ABCEC,
+    fontSize: px(Value.CONSTANT_VALUE_12),
+    fontFamily: Fonts.OpenSansRegular,
+  },
 };

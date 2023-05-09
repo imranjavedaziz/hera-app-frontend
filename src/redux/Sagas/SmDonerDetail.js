@@ -11,7 +11,6 @@ function* SmDonorDetail(payload) {
   try {
     const result = yield SmDonorDetailApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      console.log('SmDonorDetailApi data',JSON.stringify(result.data.data));
       yield put({type: SM_DONOR_DETAIL_SUCCESS, data: result});
     } else {
       yield put({
