@@ -23,7 +23,7 @@ import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
 import Strings from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
-import Dropdown from '../../../components/inputs/Dropdown';
+import Dropdown from '../../../components/PickerInput/pickerInput';
 import {Value} from '../../../constants/FixedValues';
 import {useDispatch, useSelector} from 'react-redux';
 

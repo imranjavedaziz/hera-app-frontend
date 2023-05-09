@@ -35,7 +35,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
 import Strings from '../../../constants/Strings';
-import Dropdown from '../../../components/inputs/Dropdown';
+import Dropdown from '../../../components/PickerInput/pickerInput';
 import {
   Static,
   Routes,

@@ -32,17 +32,23 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
   },
+  touchableOpacity: {
+    width: '100%',
+    height: '100%',
+    opacity: 1,
+  },
 });
 
 export default function CustomPicker({
   isVisible,
   cancel,
   done,
-  recordList = [],
+  data = [],
   selected,
+  highter,
+  weight,
 }) {
   const [selectedRecord, setSelectedRecord] = useState();
-
   useEffect(() => {
     setSelectedRecord(selected);
   }, [selected]);
@@ -51,10 +57,9 @@ export default function CustomPicker({
     setSelectedRecord(selected);
     cancel();
   }
-
   return (
     <>
-      {recordList.length > 0 && (
+      {data.length > 0 && (
         <Modal
           transparent
           visible={isVisible}
@@ -63,11 +68,7 @@ export default function CustomPicker({
           onRequestClose={() => console.log('onRequestClose')}>
           <View style={styles.modalContainer}>
             <TouchableOpacity
-              style={{
-                width: '100%',
-                height: '100%',
-                opacity: 1,
-              }}
+              style={styles.touchableOpacity}
               onPress={() => cancelHandler()}
             />
             <View style={styles.topView}>
@@ -77,8 +78,8 @@ export default function CustomPicker({
                   if (id) {
                     done(id);
                   } else {
-                    if (recordList.length > 0) {
-                      done(recordList[0]);
+                    if (data.length > 0) {
+                      done(data[0]);
                     }
                   }
                 }}
@@ -86,20 +87,28 @@ export default function CustomPicker({
                 Done
               </Text>
             </View>
-
             <Picker
               selectedValue={selectedRecord?.id ?? selected?.id ?? 2}
               onValueChange={(_itemValue, itemIndex) => {
-                setSelectedRecord(recordList[itemIndex]);
+                setSelectedRecord(data[itemIndex]);
               }}
               itemStyle={{
                 backgroundColor: Colors.MIDDLE_SHEET,
                 color: Colors.TEXT_SHEET,
               }}>
-              {recordList.map((value, i) => {
+              {data.map((value, i) => {
+                console.log(value,'valuevalue');
                 return (
                   <Picker.Item
-                    label={value.title}
+                    label={
+                      weight === true
+                        ? value?.name + ' pounds'
+                        : !highter
+                        ? value?.name
+                        : `${parseInt(value?.name / 12)} ft ${
+                            value?.name % 12
+                          } in`
+                    }
                     value={value.id ?? i}
                     key={i}
                   />
