@@ -1,18 +1,60 @@
 import {View, Text, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
 import styles from './styles';
 import {Images, Strings} from '../../../constants';
 import {IconHeader} from '../../../components/Header';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Searchbar from '../../auth/smdonor/SmDashboard/StateSearch';
 import MatchComp from './MatchComp';
+import {getMatchList} from '../../../redux/actions/Payment';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
+import _ from 'lodash';
 const MatchScreen = () => {
   const navigation = useNavigation();
   const {log_in_data} = useSelector(state => state.Auth);
   const [search, setSearch] = React.useState('');
-  const [state, setState] = React.useState([]);
+  const [states, setState] = React.useState([]);
+  const [Data, setData] = React.useState([]);
+  const LoadingRef = useRef(null);
+  const {
+    get_match_list_success,
+    get_match_list_loading,
+    get_match_list_error_msg,
+    get_match_list_res,
+    get_match_list_fail,
+  } = useSelector(state => state.Payment);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (log_in_data.role_id === 2) {
+      dispatch(getMatchList());
+    }
+  }, [dispatch]);
+  useEffect(() => {
+    if (LoadingRef.current && !get_match_list_loading) {
+      dispatch(showAppLoader());
+      if (get_match_list_success) {
+        dispatch(hideAppLoader());
+        setData(get_match_list_res);
+      }
+      if (get_match_list_fail) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(true, get_match_list_error_msg));
+      }
+    }
+    LoadingRef.current = get_match_list_loading;
+  }, [
+    get_match_list_success,
+    get_match_list_loading,
+    get_match_list_error_msg,
+    get_match_list_res,
+    get_match_list_fail,
+  ]);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -31,13 +73,13 @@ const MatchScreen = () => {
   };
   const DATA = [
     {
-      id:1,
+      id: 1,
       Img: Images.ADMIN_ICON,
       name: Strings.Match_Screen.code,
       type: Strings.Match_Screen.type,
     },
     {
-      id:2,
+      id: 2,
       Img: Images.WALKTHROUGH1,
       name: Strings.Match_Screen.code,
       type: Strings.Match_Screen.type,
@@ -54,41 +96,58 @@ const MatchScreen = () => {
       />
     );
   };
-
-  return (
-    <View style={styles.flex}>
-      <Header end={false}>{headerComp()}</Header>
-      <View style={styles.container}>
-        <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
-        <Text style={styles.sendPayment}>
-          {Strings.Match_Screen.Send_Payment}
-        </Text>
-        <View style={styles.searchContainer}>
-          <Searchbar
-            value={search}
-            onChangeText={onSearch}
-            editing={true}
-            sm={false}
-            state={state}
-          setState={setState}
-          />
-        </View>
-        <FlatList
-          data={DATA}
-          renderItem={renderItemData}
-          showsVerticalScrollIndicator={false}
-        />
+  if (log_in_data.role_id === 2) {
+    return (
+      <View style={styles.flex}>
+        <Header end={false}>{headerComp()}</Header>
+        {!_.isEmpty(Data) ? (
+          <View style={styles.container}>
+            <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
+            <Text style={styles.sendPayment}>
+              {Strings.Match_Screen.Send_Payment}
+            </Text>
+            <View style={styles.searchContainer}>
+              <Searchbar
+                value={search}
+                onChangeText={onSearch}
+                editing={true}
+                sm={false}
+                state={states}
+                setState={setState}
+              />
+            </View>
+            <FlatList
+              data={DATA}
+              renderItem={renderItemData}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        ) : (
+          <View style={styles.mainContainer}>
+            <Text style={styles.emptyText}>No Matches</Text>
+            <Text style={styles.secondEmptyText}>
+              After you have matched, You can send payments to them using HERA
+              Pay.
+            </Text>
+          </View>
+        )}
       </View>
-      {/* <View style={styles.mainContainer}>
+    );
+  } else {
+    return (
+      <View style={styles.flex}>
+        <Header end={false}>{headerComp()}</Header>
+        <View style={styles.mainContainer}>
           <Text style={styles.emptyText}>No Matches</Text>
           <Text style={styles.secondEmptyText}>
-            {log_in_data?.role_id == 2
+            {log_in_data?.role_id === 2
               ? 'After you have matched, You can send payments to them using HERA Pay.'
               : 'You can send money to your matches using HERA Pay.'}
           </Text>
-        </View> */}
-    </View>
-  );
+        </View>
+      </View>
+    );
+  }
 };
 
 export default MatchScreen;
