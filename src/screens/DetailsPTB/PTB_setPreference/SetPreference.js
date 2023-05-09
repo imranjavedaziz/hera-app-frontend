@@ -71,6 +71,7 @@ import {Rotate} from 'hammerjs';
 import {navigate} from '../../../utils/RootNavigation';
 import {updateTrail} from '../../../redux/actions/Subsctiption';
 import debounce from '../../../utils/debounce';
+import { dynamicSize } from '../../../utils/responsive';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -431,7 +432,7 @@ const SetPreference = ({route, navigation}) => {
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
-        <View style={[globalStyle.cancelbtn, styles.ageContainer]}>
+        <View style={styles.headerView}>
           <TouchableOpacity
             onPress={() => setModalVisible(!modalVisible)}
             style={globalStyle.clearView}>
@@ -455,7 +456,7 @@ const SetPreference = ({route, navigation}) => {
         <>
           <IconHeader
             style={{paddingHorizontal: 20}}
-            leftIcon={Images.I_BUTTON}
+            leftIcon={Images.ICON_INFO}
             leftPress={() => setModalVisible(!modalVisible)}
             rightIcon={Images.iconSettings}
             rightPress={() =>
@@ -744,7 +745,7 @@ const SetPreference = ({route, navigation}) => {
                     style={{
                       color: Colors.RED,
                       fontSize: 18,
-                      marginTop: 30,
+                      marginTop: dynamicSize(34),
                     }}>
                     *
                   </Text>
@@ -815,7 +816,7 @@ const SetPreference = ({route, navigation}) => {
                     style={{
                       color: Colors.RED,
                       fontSize: 18,
-                      marginTop: 30,
+                      marginTop: dynamicSize(34),
                     }}>
                     *
                   </Text>

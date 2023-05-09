@@ -54,6 +54,12 @@ export default {
     flex: 1,
     marginLeft: Value.CONSTANT_VALUE_20,
   },
+  headerView: {
+    flexDirection: Alignment.ROW,
+    justifyContent: Alignment.SPACE_BETWEEN,
+    flex: 1,
+    paddingHorizontal:dynamicSize(30)
+  },
   ageContainerView: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
