@@ -127,7 +127,9 @@ const ChatListing = () => {
       navigation.navigate(Routes.ChatDetail, {item: item});
     }
   }
-
+  useEffect(()=>{
+    console.log('chats',chats);
+  },[chats])
   const renderChatList = ({item}) => {
     console.log(item,'itemitem');
     return (
