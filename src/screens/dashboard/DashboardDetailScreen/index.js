@@ -175,11 +175,22 @@ const DashboardDetailScreen = () => {
     islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
 
   const headerComp = () => (
-    <IconHeader
-      leftIcon={Images.circleIconBack}
-      onPress={navigation.goBack}
-      style={styles.headerIcon}
-    />
+    <View style={[styles.heartIcon, {flex: 1, marginRight: 30}]}>
+      <IconHeader
+        leftIcon={Images.circleIconBack}
+        onPress={navigation.goBack}
+        style={styles.headerIcon}
+      />
+      {smDetailRes?.next_step && (
+        <Text style={styles.confirmedTxt}>
+          <Image
+            source={Images.whiteTick}
+            style={{tintColor: Colors.COLOR_5ABCEC}}
+          />{' '}
+          Profile Confirmed
+        </Text>
+      )}
+    </View>
   );
   const onPressLike = () => {
     const payload = {

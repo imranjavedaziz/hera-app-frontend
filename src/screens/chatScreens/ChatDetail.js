@@ -357,32 +357,46 @@ const ChatDetail = props => {
     setFile(image);
   };
   const openActionSheet = ({three}) => {
+    const routeData = props?.route?.params?.item;
     setSelection(three);
-    setThreeOption(
-      !three
-        ? [
-            Strings.sm_create_gallery.bottomSheetCamera,
-            Strings.sm_create_gallery.bottomSheetGallery,
-            Strings.sm_create_gallery.shareADoc,
-            Strings.Subscription.Cancel,
-          ]
-        : log_in_data?.role_id === 2
-        ? [
-            Strings.chats.confirmProfile,
-            Strings.chats.sendPayment,
-            Strings.chats.seeProfile,
-            Strings.chats.shareUser,
-            Strings.chats.reportUser,
-            Strings.Subscription.Cancel,
-          ]
-        : [
-            Strings.chats.reqPayment,
-            Strings.chats.seeProfile,
-            Strings.chats.shareUser,
-            Strings.chats.reportUser,
-            Strings.Subscription.Cancel,
-          ],
-    );
+    if (!three) {
+      setThreeOption([
+        Strings.sm_create_gallery.bottomSheetCamera,
+        Strings.sm_create_gallery.bottomSheetGallery,
+        Strings.sm_create_gallery.shareADoc,
+        Strings.Subscription.Cancel,
+      ]);
+    } else if (log_in_data?.role_id === 2) {
+      const nextStep = routeData.hasOwnProperty('next_step')
+        ? Boolean(routeData.next_step)
+        : false;
+      if (nextStep) {
+        setThreeOption([
+          Strings.chats.sendPayment,
+          Strings.chats.seeProfile,
+          Strings.chats.shareUser,
+          Strings.chats.reportUser,
+          Strings.Subscription.Cancel,
+        ]);
+      } else {
+        setThreeOption([
+          Strings.chats.confirmProfile,
+          Strings.chats.sendPayment,
+          Strings.chats.seeProfile,
+          Strings.chats.shareUser,
+          Strings.chats.reportUser,
+          Strings.Subscription.Cancel,
+        ]);
+      }
+    } else {
+      setThreeOption([
+        Strings.chats.reqPayment,
+        Strings.chats.seeProfile,
+        Strings.chats.shareUser,
+        Strings.chats.reportUser,
+        Strings.Subscription.Cancel,
+      ]);
+    }
     setTimeout(() => {
       actionSheet.current.show();
     }, 300);

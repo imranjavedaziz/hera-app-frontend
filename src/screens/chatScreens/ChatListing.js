@@ -126,7 +126,6 @@ const ChatListing = () => {
       navigation.navigate(Routes.ChatDetail, {item: item});
     }
   }
-
   const renderChatList = ({item}) => {
     return (
       <>
