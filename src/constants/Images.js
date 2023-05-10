@@ -131,4 +131,8 @@ export default {
   iconMasterbig: require('../assets/icons/iconMasterbig/iconMasterbig.png'),
   iconUnionPaybig: require('../assets/icons/iconUnionPaybig/iconUnionPaybig.png'),
   iconVisacardbig: require('../assets/icons/iconVisacardbig/iconVisacardbig.png'),
+  BlueLink: require('../assets/icons/blueLink/blueLink.png'),
+  SuccessPayment: require('../assets/icons/success/success.png'),
+  PendingPayment: require('../assets/icons/pending/time.png'),
+  RejectPayment: require('../assets/icons/rejected/rejected.png'),
 };

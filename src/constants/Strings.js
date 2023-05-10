@@ -609,6 +609,16 @@ export default {
     type: 'Surrogate Mother',
     noBank: 'Bank not added by \nSperm Donor!',
     Request: 'Request',
+    Decline: 'Decline',
+  },
+  SendAndRequest: {
+    GetPaymentRequest: 'Get Payment Requests from your Matches',
+    SendPaymentRequest: 'Payment Request Sent',
+    Payment_Received: 'Payment Received',
+    Not_Received_Yet: 'Not Received Yet',
+    Request_Declined: 'Request Declined',
+    RequestFor: ' requested for',
+    RequestSend: 'Request sent to ',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',

@@ -114,7 +114,6 @@ export function addBankTokenReducer(state = addBankState, action) {
 }
 
 export function createPaymentIntentReducer(state = paymentIntentRes, action) {
-  console.log(action?.type, 'action?.type');
   switch (action?.type) {
     case PAYMENT_INTENT.START:
       return {

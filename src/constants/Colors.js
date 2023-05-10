@@ -5,7 +5,7 @@ export default {
   LABEL_BLACK: '#302f2f',
   GRAY: '#9e9e9e',
   GRAY2: '#999488',
-  RED: '#FF0000',
+  RED: '#ff4544',
   BACKGROUND: '#F6F5EF',
   LITE_BG: '#e9e8db',
   GREEN: '#98c9c3',
