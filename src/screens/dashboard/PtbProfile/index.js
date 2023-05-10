@@ -60,7 +60,7 @@ import {
   GET_BANK_LIST,
   GET_CARD_LIST,
 } from '../../../redux/actions/stripe.action';
-import { GetPreferenceRes } from '../../../redux/actions/SetPreference';
+import {GetPreferenceRes} from '../../../redux/actions/SetPreference';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -347,9 +347,9 @@ const PtbProfile = () => {
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
-                onPress={() =>{
+                onPress={() => {
                   dispatch(GetPreferenceRes());
-                  navigation.navigate('SetPreference', {EditPreferences: true})
+                  navigation.navigate('SetPreference', {EditPreferences: true});
                 }}
               />
               <PtbAccount
@@ -391,7 +391,10 @@ const PtbProfile = () => {
                 leftIcon={Images.information}
                 title={Strings.smSetting.AboutUs}
                 onPress={() =>
-                  navigation.navigate(Routes.WebViewUrl, {url: ABOUT_URL})
+                  navigation.navigate(Routes.WebViewUrl, {
+                    url: ABOUT_URL,
+                    about: true,
+                  })
                 }
               />
               <PtbAccount
@@ -400,6 +403,7 @@ const PtbProfile = () => {
                 onPress={() =>
                   navigation.navigate(Routes.WebViewUrl, {
                     url: TERMS_OF_USE_URL,
+                    terms: true,
                   })
                 }
               />
@@ -409,6 +413,7 @@ const PtbProfile = () => {
                 onPress={() =>
                   navigation.navigate(Routes.WebViewUrl, {
                     url: PRIVACY_URL,
+                    policy: true,
                   })
                 }
               />
