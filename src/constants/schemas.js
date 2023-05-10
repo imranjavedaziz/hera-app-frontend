@@ -535,3 +535,15 @@ export const editProfileSchema = yup.object().shape({
   }),
   bio: yup.string().required(ValidationMessages.ENTER_BIO).max(250),
 });
+
+export const sendRequestSchema = yup.object().shape({
+  amount: yup
+    .number()
+    .required(ValidationMessages.AMOUNT)
+    .positive(ValidationMessages.AMOUNT_POSITIVE)
+    .integer(ValidationMessages.AMOUNT_VALID)
+    .max(10000, ValidationMessages.AMOUNT_MAX),
+  doc_url: yup
+    .string()
+    .nullable(),
+});

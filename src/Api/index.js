@@ -16,3 +16,4 @@ export * from './NextStep';
 export * from './StripeApi';
 export * from './AccountStatus';
 export * from './Payment';
+export * from './PaymentRequest';

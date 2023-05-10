@@ -57,6 +57,7 @@ export default {
   report_user: 'report-user',
   updateNotifyStatus: 'update-notify-status',
   documentUpload: 'upload-document',
+  documentPaymentUpload: 'upload-payment-doc',
   chatMedia: 'chat-media',
   next_steps: 'next-steps',
   kyc_update: 'save-kyc-details',
@@ -64,4 +65,5 @@ export default {
   match_list: 'match-list',
   payment_request_list: 'payment-request-list',
   payment_request_status: 'payment-request-status',
+  sendPaymentRequest: 'payment-request',
 };

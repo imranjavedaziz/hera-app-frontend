@@ -126,6 +126,10 @@ export const ValidationMessages = {
   SSN_INVALID: 'Please enter a valid SSN',
   ACCOUNT_INVALID: 'Please enter a valid account number',
   ROUTE_INVALID: 'Please enter a valid routing number',
+  AMOUNT: 'Pleease enter amount',
+  AMOUNT_VALID: 'Pleease enter a valid amount',
+  AMOUNT_POSITIVE: 'Pleease enter a positive amount',
+  AMOUNT_MAX: 'Amount is beyond the max limit i.e. 10000$',
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
@@ -747,6 +751,15 @@ export default {
     CITY: 'City',
     PhoneNumber: 'Phone Number',
     TaxID: 'Tax ID (Optional)',
+  },
+  SendRequest: {
+    title: 'Send Request',
+    subtitle: 'Request to Intended Parent for a Payment',
+    amountField: 'Enter Amount ($)',
+    uploadImg: 'Upload Supporting Image or pdf (Optional)',
+    sendRequest: 'SEND REQUEST',
+    DiscardEdit: 'Discard Request',
+    DiscardEditDisc: 'If you cancel this request, the details\nwill be discarded.',
   },
 
   STATIC_GENDER: [

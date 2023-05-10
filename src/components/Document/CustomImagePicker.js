@@ -2,10 +2,12 @@ import React, {useRef, useEffect} from 'react';
 import {View, Alert, Linking} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
 import ImagePicker from 'react-native-image-crop-picker';
+import DocumentPicker from 'react-native-document-picker';
 
 export const ActionSheetOptions = {
   openCamera: 'Open Camera',
   openGallery: 'Open Gallery',
+  openDoc: 'Select PDF',
   cancel: 'Cancel',
   remove: 'Remove Photo',
 };
@@ -44,6 +46,10 @@ export default function CustomImagePicker({
         onOpenPhotos();
         cancelHandler();
         break;
+      case ActionSheetOptions.openDoc:
+        cancelHandler();
+        handleDocumentUpload();
+        break;
       case ActionSheetOptions.cancel:
         cancelHandler();
         break;
@@ -81,6 +87,21 @@ export default function CustomImagePicker({
       {cancelable: false},
     );
   }
+
+  const handleDocumentUpload = async () => {
+    try {
+      const result = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf],
+      });
+      handleMediaFile(result[0]);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker
+      } else {
+        console.error(err);
+      }
+    }
+  };
   const onLaunchCamera = () => {
     ImagePicker.openCamera({
       width: imgWidth,
