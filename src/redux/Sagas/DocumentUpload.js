@@ -1,4 +1,5 @@
 import {
+  DOCUMENT_UPLOAD_PAYMENT,
   DOCUMENT_UPLOAD,
   DOCUMENT_UPLOAD_FAIL,
   DOCUMENT_UPLOAD_SUCCESS,
@@ -33,6 +34,28 @@ function* DocumentUpload(payload) {
 }
 export function* watchDocumentUpload() {
   yield takeLatest(DOCUMENT_UPLOAD, DocumentUpload);
+}
+function* DocumentUploadPayment(payload) {
+  try {
+    const result = yield DocumentUploadApi(payload.data,true);
+    if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      console.log(result, 'aaresultDoc');
+      yield put({type: DOCUMENT_UPLOAD_SUCCESS, data: result});
+    } else {
+      yield put({
+        type: DOCUMENT_UPLOAD_FAIL,
+        data: {msg: result.data.message},
+      });
+    }
+  } catch (err) {
+    yield put({
+      type: DOCUMENT_UPLOAD_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
+  }
+}
+export function* watchDocumentUploadPayment() {
+  yield takeLatest(DOCUMENT_UPLOAD_PAYMENT, DocumentUploadPayment);
 }
 function* DocumentGet(payload) {
   try {

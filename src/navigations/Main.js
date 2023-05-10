@@ -56,6 +56,7 @@ import Transaction from '../screens/Payment/Transaction/Transaction';
 import ManageBank from '../screens/Payment/ManageBank/ManageBank';
 import ManageCard from '../screens/Payment/ManageCard/ManageCard';
 import KycScreen from '../screens/Payment/Kyc/KycScreen';
+import SendRequest from '../screens/Payment/SendRequest';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -231,6 +232,7 @@ const Main = () => {
           <Stack.Screen name={Routes.ManageBank} component={ManageBank} />
           <Stack.Screen name={Routes.ManageCard} component={ManageCard} />
           <Stack.Screen name={Routes.KycScreen} component={KycScreen} />
+          <Stack.Screen name={Routes.SendRequest} component={SendRequest} />
         </Stack.Navigator>
       </NavigationContainer>
     )
