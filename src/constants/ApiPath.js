@@ -57,9 +57,11 @@ export default {
   report_user: 'report-user',
   updateNotifyStatus: 'update-notify-status',
   documentUpload: 'upload-document',
+  documentPaymentUpload: 'upload-payment-doc',
   chatMedia: 'chat-media',
   next_steps: 'next-steps',
   kyc_update: 'save-kyc-details',
   account_status: 'account-status',
   match_list: 'match-list',
+  sendPaymentRequest: 'payment-request',
 };

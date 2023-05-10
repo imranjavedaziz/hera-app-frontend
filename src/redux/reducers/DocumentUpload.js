@@ -1,4 +1,5 @@
 import {
+  DOCUMENT_UPLOAD_PAYMENT,
   DOCUMENT_UPLOAD,
   DOCUMENT_UPLOAD_FAIL,
   DOCUMENT_UPLOAD_SUCCESS,
@@ -25,6 +26,7 @@ export default (state = initState, action) => {
     /**
      * DOCUMENT_UPLOAD
      */
+    case DOCUMENT_UPLOAD_PAYMENT:
     case DOCUMENT_UPLOAD: {
       return {
         ...state,

@@ -18,7 +18,7 @@ const MatchComp = ({Img, name, type, noBank = false, onPress}) => {
       </View>
       <View style={styles.btnMainContainer}>
         {noBank ? (
-          <TouchableOpacity style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btnContainer} onPress={onPress}>
             <Text style={styles.pay}>
               {log_in_data?.role_id === 2
                 ? Strings.Match_Screen.Pay

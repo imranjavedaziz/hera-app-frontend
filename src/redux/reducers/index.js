@@ -25,6 +25,7 @@ import DocumentUpload from './DocumentUpload';
 import NextStep from './NextStep';
 import AccountStatus from './AccountStatus';
 import Payment from './Payment';
+import PaymentRequest from './PaymentRequest';
 import {
   addBankTokenReducer,
   createPaymentIntentReducer,
@@ -76,6 +77,7 @@ const allReducers = combineReducers({
   //Account Status
   AccountStatus,
   Payment,
+  PaymentRequest,
 });
 
 export default allReducers;
