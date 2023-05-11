@@ -85,6 +85,9 @@ const SendRequest = ({route}) => {
         ...data,
         to_user_id: params.id,
     }
+    if(!payload.doc_url){
+      payload.doc_url = '';
+    }
     dispatch(SendPaymentRequest(payload));
   }
   const headerComp = () => (
