@@ -223,6 +223,7 @@ const SetAttributes = ({route}) => {
   const navigateAbout = () => {
     navigation.navigate(Routes.WebViewUrl, {
       url: ABOUT_URL,
+      about: true,
     });
   };
   const handleThreeOption = async option => {

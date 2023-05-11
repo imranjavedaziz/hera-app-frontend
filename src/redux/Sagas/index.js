@@ -49,13 +49,21 @@ import {
   watchGetDeactivateReason,
 } from './DeactivateAccount';
 import {watchReportUser} from './ReportUser';
-import {watchDocumentUpload, watchDocumentGet,watchDocumentUploadPayment} from './DocumentUpload';
+import {
+  watchDocumentUpload,
+  watchDocumentGet,
+  watchDocumentUploadPayment,
+} from './DocumentUpload';
 import {watchNextStep} from './NextStep';
 import kycUpdateWatcher from './kyc.saga';
 import {watchAccountStatus} from './AccountStatus';
 import addCardTokenWatcher from './stripe.saga';
-import {watchGetMatchList} from './Payment';
-import {watchSendPaymentRequest} from './PaymentRequest'
+import {
+  watchGetMatchList,
+  watchGetPaymentRequestList,
+  watchUpdateRequestStatus,
+} from './Payment';
+import {watchSendPaymentRequest} from './PaymentRequest';
 
 export default function* rootSaga() {
   yield all([
@@ -108,6 +116,8 @@ export default function* rootSaga() {
     fork(watchAccountStatus),
     fork(addCardTokenWatcher),
     fork(watchGetMatchList),
+    fork(watchGetPaymentRequestList),
+    fork(watchUpdateRequestStatus),
     fork(watchSendPaymentRequest),
   ]);
 }

@@ -206,6 +206,7 @@ const SmBasicDetails = () => {
   const navigateAbout = () => {
     navigation.navigate(Routes.WebViewUrl, {
       url: ABOUT_URL,
+      about: true,
     });
   };
   const handleThreeOption = option => {

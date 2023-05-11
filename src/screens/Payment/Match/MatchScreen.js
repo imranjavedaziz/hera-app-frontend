@@ -15,7 +15,7 @@ import {
   showAppToast,
 } from '../../../redux/actions/loader';
 import _ from 'lodash';
-import { Routes } from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
 
 const MatchScreen = () => {
   const navigation = useNavigation();
@@ -105,7 +105,7 @@ const MatchScreen = () => {
         }
         type={item.role_id}
         noBank={log_in_data.role_id === 2 ? item?.connected_acc_status : true}
-        onPress={()=>navigation.navigate(Routes.SendRequest,item)}
+        onPress={() => navigation.navigate(Routes.SendRequest, item)}
       />
     );
   };

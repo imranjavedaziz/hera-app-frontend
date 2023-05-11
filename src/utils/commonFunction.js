@@ -248,3 +248,28 @@ export function getRoleData(roleId, role) {
   }
   return role;
 }
+export function getRequestTime(createdAt) {
+  // Get the current date
+  const currentDate = new Date();
+
+  // Convert the "created_at" string to a Date object
+  const createdAtDate = new Date(createdAt);
+
+  // Format the date based on the comparison with the current date
+  let time;
+  if (createdAtDate.toDateString() === currentDate.toDateString()) {
+    time = 'Today';
+  } else {
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(currentDate.getDate() - 1);
+    if (createdAtDate.toDateString() === yesterday.toDateString()) {
+      time = 'Yesterday';
+    } else {
+      // Format the date as "month day, year" (e.g., May 26, 2023)
+      const options = {year: 'numeric', month: 'long', day: 'numeric'};
+      time = createdAtDate.toLocaleDateString(undefined, options);
+    }
+  }
+
+  return time;
+}

@@ -528,6 +528,7 @@ const Profile = props => {
                         onPress={() =>
                           navigation.navigate(Routes.WebViewUrl, {
                             url: TERMS_OF_USE_URL,
+                            terms: true,
                           })
                         }>
                         {Strings.Subscription.TermsServices}
@@ -538,6 +539,7 @@ const Profile = props => {
                         onPress={() =>
                           navigation.navigate(Routes.WebViewUrl, {
                             url: PRIVACY_URL,
+                            policy: true,
                           })
                         }>
                         {Strings.profile.tmc3}

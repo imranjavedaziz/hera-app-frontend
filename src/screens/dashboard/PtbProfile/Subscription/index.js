@@ -45,7 +45,7 @@ import {
 import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
-import { capitalizeStr } from '../../../../utils/commonFunction';
+import {capitalizeStr} from '../../../../utils/commonFunction';
 
 export const CancelSubscription = ({
   changeModal,
@@ -133,7 +133,7 @@ const Subscription = () => {
     dispatch(hideAppLoader());
   }, [subscription_plan_success, subscription_plan_loading]);
   const showChangeSuccessToast = () => {
-    if(Platform.OS==='ios'){
+    if (Platform.OS === 'ios') {
       Alert.alert(
         Strings.Subscription.SuccessChanged,
         isPlanChanged
@@ -162,8 +162,7 @@ const Subscription = () => {
           },
         ],
       );
-    }
-    else{
+    } else {
       setSuccessModal(true);
     }
   };
@@ -578,6 +577,7 @@ const Subscription = () => {
                   onPress={() =>
                     navigation.navigate(Routes.WebViewUrl, {
                       url: TERMS_OF_USE_URL,
+                      terms: true,
                     })
                   }>
                   {Strings.Subscription.TermsServices}
@@ -588,6 +588,7 @@ const Subscription = () => {
                   onPress={() =>
                     navigation.navigate(Routes.WebViewUrl, {
                       url: PRIVACY_URL,
+                      policy: true,
                     })
                   }>
                   {Strings.Subscription.PrivacyPolicy}

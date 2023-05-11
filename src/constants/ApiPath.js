@@ -63,5 +63,7 @@ export default {
   kyc_update: 'save-kyc-details',
   account_status: 'account-status',
   match_list: 'match-list',
+  payment_request_list: 'payment-request-list',
+  payment_request_status: 'payment-request-status',
   sendPaymentRequest: 'payment-request',
 };

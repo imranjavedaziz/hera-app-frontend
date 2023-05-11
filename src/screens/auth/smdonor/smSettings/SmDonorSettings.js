@@ -352,21 +352,30 @@ const SmDonorSettings = () => {
               leftIcon={Images.information}
               title={Strings.smSetting.AboutUs}
               onPress={() =>
-                navigation.navigate(Routes.WebViewUrl, {url: ABOUT_URL})
+                navigation.navigate(Routes.WebViewUrl, {
+                  url: ABOUT_URL,
+                  about: true,
+                })
               }
             />
             <PtbAccount
               leftIcon={Images.file}
               title={Strings.Subscription.TermsServices}
               onPress={() =>
-                navigation.navigate(Routes.WebViewUrl, {url: TERMS_OF_USE_URL})
+                navigation.navigate(Routes.WebViewUrl, {
+                  url: TERMS_OF_USE_URL,
+                  terms: true,
+                })
               }
             />
             <PtbAccount
               leftIcon={Images.sheild}
               title={Strings.smSetting.Privacy}
               onPress={() =>
-                navigation.navigate(Routes.WebViewUrl, {url: PRIVACY_URL})
+                navigation.navigate(Routes.WebViewUrl, {
+                  url: PRIVACY_URL,
+                  policy: true,
+                })
               }
             />
             <View style={Styles.buttoncontainer}>

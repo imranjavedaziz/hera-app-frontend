@@ -4,7 +4,7 @@ import styles from './styles';
 const CustomModel = props => {
   const {children} = props;
   return (
-    <Modal transparent={true} animationType="slide">
+    <Modal transparent={true} animationType="fade">
       <View style={styles.modalContainer}>
         <View style={styles.boxContainer}>{children}</View>
       </View>

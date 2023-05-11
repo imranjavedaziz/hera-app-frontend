@@ -115,7 +115,6 @@ const ChatListing = () => {
     return year + '-' + month + '-' + day;
   }
   function navigateToScreen(item) {
-    console.log(item, 'item');
     if (item?.status_id !== 1 || item?.recieverSubscription === 0) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     } else if (item?.match_request?.status === 1) {
@@ -128,7 +127,6 @@ const ChatListing = () => {
     }
   }
   const renderChatList = ({item}) => {
-    console.log(item,'itemitem');
     return (
       <>
         {item !== null && item?.match_request?.status === 2 && (
