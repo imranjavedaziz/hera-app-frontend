@@ -310,6 +310,8 @@ export const Routes = {
   ManageBank: 'ManageBank',
   KycScreen: 'KycScreen',
   SendRequest: 'SendRequest',
+  PaymentSent: 'PaymentSent',
+  ConfirmPayment: 'ConfirmPayment',
 };
 export const Static = {
   countries: [
