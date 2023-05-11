@@ -290,7 +290,7 @@ const PTB_profile = props => {
                   <ButtonPay
                     label={Strings.dashboard.ReqPayment}
                     style={styles.loginBtn}
-                    onPress={() => console.log('submitPay')}
+                    onPress={()=>navigation.navigate(Routes.SendRequest,stateRes)}
                   />
                 </View>
               </>

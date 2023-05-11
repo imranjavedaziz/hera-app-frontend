@@ -40,6 +40,10 @@ let fireDB;
 let onChildAdd;
 let images = [];
 const ChatDetail = props => {
+  const routeData = props?.route?.params?.item;
+  const nextStep = routeData.hasOwnProperty('next_step')
+    ? Boolean(routeData.next_step)
+    : false;
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
@@ -329,6 +333,14 @@ const ChatDetail = props => {
       case Strings.Subscription.Cancel:
         console.log('Cancel');
         break;
+      case Strings.chats.reqPayment:
+        const nameArr = props?.route?.params?.item?.recieverName.split(' ');
+        navigation.navigate(Routes.SendRequest,{id:props?.route?.params?.item?.recieverId,
+          profile_pic: props?.route?.params?.item?.recieverImage,
+          first_name: nameArr[0],
+          last_name: nameArr[1]||'',
+        });
+        break;
       case Strings.chats.confirmProfile:
         const payload = {
           to_user_id: props?.route?.params?.item?.recieverId,
@@ -357,7 +369,6 @@ const ChatDetail = props => {
     setFile(image);
   };
   const openActionSheet = ({three}) => {
-    const routeData = props?.route?.params?.item;
     setSelection(three);
     if (!three) {
       setThreeOption([
@@ -367,9 +378,6 @@ const ChatDetail = props => {
         Strings.Subscription.Cancel,
       ]);
     } else if (log_in_data?.role_id === 2) {
-      const nextStep = routeData.hasOwnProperty('next_step')
-        ? Boolean(routeData.next_step)
-        : false;
       if (nextStep) {
         setThreeOption([
           Strings.chats.sendPayment,
@@ -1077,7 +1085,7 @@ const ChatDetail = props => {
           </View>
         ) : (
           <View style={styleSheet.imgPickerContainer}>
-            {log_in_data?.role_id === 2 && (
+            {log_in_data?.role_id === 2 && !nextStep && (
               <TouchableOpacity
                 onPress={() => {
                   const payload = {
@@ -1095,7 +1103,17 @@ const ChatDetail = props => {
             <TouchableOpacity
               onPress={() => {
                 setOpen(false);
-                console.log(Strings.chats.shareUser);
+                if(log_in_data?.role_id === 2){
+                  console.log(Strings.chats.shareUser);
+                }
+                else{
+                  const nameArr = props?.route?.params?.item?.recieverName.split(' ');
+                  navigation.navigate(Routes.SendRequest,{id:props?.route?.params?.item?.recieverId,
+                    profile_pic: props?.route?.params?.item?.recieverImage,
+                    first_name: nameArr[0],
+                    last_name: nameArr[1]||'',
+                  });
+                }
               }}
               style={[
                 log_in_data?.role_id === 2
