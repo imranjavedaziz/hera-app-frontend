@@ -8,6 +8,9 @@ import {
   UPDATE_REQUEST_STATUS,
   UPDATE_REQUEST_STATUS_FAIL,
   UPDATE_REQUEST_STATUS_SUCCESS,
+  TRANSACTION_HISTORY,
+  TRANSACTION_HISTORY_FAIL,
+  TRANSACTION_HISTORY_SUCCESS
 } from '../Type';
 
 const initState = {
@@ -29,6 +32,13 @@ const initState = {
   update_request_status_error_msg: '',
   update_request_status_res: {},
   update_request_status_fail: false,
+
+  //get payment history
+  payment_history_success: false,
+  payment_history_loading: false,
+  payment_history_error_msg: '',
+  payment_history_res: {data:[]},
+  payment_history_fail: false,
 };
 
 export default (state = initState, action) => {
@@ -118,6 +128,31 @@ export default (state = initState, action) => {
         update_request_status_error_msg: action.data.msg,
         update_request_status_res: '',
         update_request_status_fail: true,
+      };
+
+    //Payment history
+    case TRANSACTION_HISTORY:
+      return {
+        ...state,
+        payment_history_success: false,
+        payment_history_loading: true,
+        payment_history_error_msg: '',
+        payment_history_res: {data:[]},
+        payment_history_fail: false,
+      };
+    case TRANSACTION_HISTORY_SUCCESS:
+      return {
+        ...state,
+        payment_history_success: true,
+        payment_history_loading: false,
+        payment_history_res: action.data,
+      };
+    case TRANSACTION_HISTORY_FAIL:
+      return {
+        ...state,
+        payment_history_loading: false,
+        payment_history_error_msg: action.data.msg,
+        payment_history_fail: true,
       };
     default:
       return state;

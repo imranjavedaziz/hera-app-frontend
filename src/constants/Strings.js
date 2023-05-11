@@ -761,6 +761,24 @@ export default {
     DiscardEdit: 'Discard Request',
     DiscardEditDisc: 'If you cancel this request, the details\nwill be discarded.',
   },
+  Transaction: {
+    title: 'All Transactions',
+    emptyTitle: 'No Transactions Yet!',
+    emptyDesc: 'You have made no transactions on the platform.',
+  },
+  TransDetail: {
+    title: 'TRANSACTION DETAILS',
+    paymentTo: 'You made a Payment to {DONOR_ID}',
+    paymentFrom: 'You received a payment of ${AMOUNT} from {USER_NAME}',
+    paidAmount: 'Paid Amount: ',
+    transFee: 'Transaction Fee: ',
+    totalAmount: 'Total Amount: ',
+    transId: 'Transaction ID: ',
+    trans: 'Transaction: ',
+    paidByCard: 'Paid by Card: ',
+    paidOn: 'Paid On: ',
+    sentTo: 'Sent to: ',
+  },
 
   STATIC_GENDER: [
     {id: 1, name: 'Male'},
