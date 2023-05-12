@@ -10,7 +10,7 @@ import {
   UPDATE_REQUEST_STATUS_SUCCESS,
   TRANSACTION_HISTORY,
   TRANSACTION_HISTORY_FAIL,
-  TRANSACTION_HISTORY_SUCCESS
+  TRANSACTION_HISTORY_SUCCESS,
   PAYMENT_TRANSFER,
   PAYMENT_TRANSFER_FAIL,
   PAYMENT_TRANSFER_SUCCESS,
@@ -162,6 +162,7 @@ export default (state = initState, action) => {
         payment_history_loading: false,
         payment_history_error_msg: action.data.msg,
         payment_history_fail: true,
+      }
     //Payment Transfer
     case PAYMENT_TRANSFER:
       return {
