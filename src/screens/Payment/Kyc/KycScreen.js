@@ -45,7 +45,8 @@ import {
 } from '../../../redux/actions/loader';
 import {KYC_UPDATE} from '../../../redux/Type';
 import ExtraBottomView from '../../../components/ExtraBottomView';
-const KycScreen = () => {
+const KycScreen = ({route}) => {
+  const redirectTo = route?.params?.redirectTo || '';
   const navigation = useNavigation();
   const [datePicked, onDateChange] = React.useState();
   const [errors, setErrors] = React.useState({});
@@ -87,7 +88,7 @@ const KycScreen = () => {
       );
       dispatch({type: KYC_UPDATE.END});
       dispatch(hideAppLoader());
-      navigation.navigate(Routes.HeraPay);
+      navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
     } else if (response?.status === KYC_UPDATE.FAIL) {
       dispatch(hideAppLoader());
       dispatch({type: KYC_UPDATE.END});
@@ -101,7 +102,7 @@ const KycScreen = () => {
         {
           text: ValidationMessages.YES_DISCARD,
           onPress: () => {
-            navigation.navigate(Routes.HeraPay);
+            navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
           },
         },
         {
@@ -510,7 +511,7 @@ const KycScreen = () => {
         String_4={ValidationMessages.NOT_NOW}
         onPressNav={() => {
           setShowModal(false);
-          navigation.navigate(Routes.HeraPay);
+          navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
         }}
         onPressOff={() => {
           setShowModal(false);

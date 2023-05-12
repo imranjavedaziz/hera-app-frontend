@@ -53,7 +53,6 @@ const Transaction = () => {
           <FlatList
             data={paymentHistory}
             keyExtractor={item => item.id.toString()}
-            showsVerticalScrollIndicator={false}
             renderItem={({item}) => (
               <TransactionItem item={{...item, role: log_in_data?.role_id}} />
             )}
