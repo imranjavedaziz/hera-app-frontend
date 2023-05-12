@@ -50,7 +50,7 @@ const Landing = () => {
         <TouchableOpacity
           accessible={true}
           onPress={() =>
-            navigation.navigate(Routes.WebViewUrl, {url: ABOUT_URL})
+            navigation.navigate(Routes.WebViewUrl, {url: ABOUT_URL,about: true,})
           }
           accessibilityLabel={Strings.landing.AboutUs}>
           <Text style={styles.footerBtn} accessible={false}>

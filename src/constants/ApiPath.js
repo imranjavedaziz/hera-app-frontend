@@ -68,4 +68,5 @@ export default {
   sendPaymentRequest: 'payment-request',
   transactionHistory: 'transaction-history',
   payment_transfer: 'payment-transfer',
+  update_bank_account: 'update-bank-account',
 };
