@@ -21,7 +21,7 @@ export const TransactionStatusCircle = React.memo(({status = 0}) => {
               />
             </View>
         );
-      case '2':
+      case '0':
         return (
             <View
               style={[styles.statusContainer,{backgroundColor: Colors.RED,}]}>

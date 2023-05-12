@@ -12,7 +12,7 @@ export const TransactionItem = ({item}) => {
     <TouchableOpacity style={{flex: 1}} onPress={()=>navigation.navigate(Routes.TransactionDetails,item)}>
       <View style={[styles.transRow, {justifyContent: 'space-between'}]}>
         <Text style={styles.transId}>{`Transaction ID: ${item?.id}`}</Text>
-        <TransactionStatus status={item?.status} />
+        <TransactionStatus status={item?.payment_status} />
       </View>
       <View style={styles.transRow}>
         <Image source={{uri: item?.profile_pic}} style={styles.transImg} />
@@ -83,7 +83,7 @@ export const TransactionStatus = React.memo(({status = 0}) => {
           <Text style={[styles.transStatus, {color: Colors.BLUE}]}>Paid</Text>
         </View>
       );
-    case '2':
+    case '0':
       return (
         <View style={styles.wrapRow}>
           <Image source={Images.WARNING_RED} style={styles.statusIcon} />
