@@ -67,4 +67,5 @@ export default {
   payment_request_status: 'payment-request-status',
   sendPaymentRequest: 'payment-request',
   payment_transfer: 'payment-transfer',
+  update_bank_account: 'update-bank-account',
 };

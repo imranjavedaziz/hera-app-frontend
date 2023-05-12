@@ -1,4 +1,10 @@
-import {KYC_STATUS, KYC_UPDATE} from '../Type';
+import {
+  KYC_STATUS,
+  KYC_UPDATE,
+  BANK_UPDATE,
+  BANK_UPDATE_FAIL,
+  BANK_UPDATE_SUCCESS,
+} from '../Type';
 
 const initialState = {
   kycResponse: {
@@ -16,6 +22,13 @@ const initialStatusState = {
     loading: false,
     status: KYC_STATUS.END,
   },
+};
+const initialStateBank = {
+  bank_update_res: '',
+  bank_update_success: false,
+  bank_update_loading: false,
+  bank_update_error_msg: '',
+  bank_update_fail: false,
 };
 
 export default function kycUpdateReducer(action, state = initialState) {
@@ -100,6 +113,42 @@ export function kycStatusReducer(action, state = initialStatusState) {
           loading: false,
           status: KYC_STATUS.END,
         },
+      };
+    default:
+      return state;
+  }
+}
+
+export function bankUpdateReducer(action, state = initialStateBank) {
+  switch (action?.type) {
+    case BANK_UPDATE:
+      return {
+        ...state,
+        bank_update_res: '',
+        bank_update_success: false,
+        bank_update_loading: true,
+        bank_update_error_msg: '',
+        bank_update_fail: false,
+      };
+
+    case BANK_UPDATE_SUCCESS:
+      return {
+        ...state,
+        bank_update_res: action.payload,
+        bank_update_success: true,
+        bank_update_loading: false,
+        bank_update_error_msg: '',
+        bank_update_fail: false,
+      };
+
+    case BANK_UPDATE_FAIL:
+      return {
+        ...state,
+        bank_update_res: '',
+        bank_update_success: false,
+        bank_update_loading: false,
+        bank_update_error_msg: action.payload.msg,
+        bank_update_fail: true,
       };
     default:
       return state;

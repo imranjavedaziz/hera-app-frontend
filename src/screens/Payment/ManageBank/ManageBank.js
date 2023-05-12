@@ -20,6 +20,7 @@ import {
   addBankToken,
   addBank,
   deleteBank,
+  bank_update,
 } from '../../../redux/actions/stripe.action';
 import {
   hideAppLoader,
@@ -61,6 +62,10 @@ const ManageBank = ({route}) => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
       const token = bankResponse.info.id;
       dispatch(bankToken(token));
+      const payload = {
+        bank_acc_token: token,
+      };
+      dispatch(bank_update(payload));
       dispatch(addBank(connected_acc_token, BankInfo, token));
       dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {

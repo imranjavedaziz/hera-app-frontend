@@ -1,4 +1,4 @@
-import {KYC_STATUS, KYC_UPDATE} from '../Type';
+import {KYC_STATUS, KYC_UPDATE, BANK_UPDATE} from '../Type';
 
 export const GET_CARD_LIST = {
   API: 'GET_CARD_LIST_API',
@@ -111,6 +111,12 @@ export const attachPaymentIntent = (customerId, id) => {
 export const kyc_update = data => {
   return {
     type: KYC_UPDATE.KYC_UPDATE_API,
+    data,
+  };
+};
+export const bank_update = data => {
+  return {
+    type: BANK_UPDATE,
     data,
   };
 };

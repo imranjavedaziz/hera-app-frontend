@@ -55,7 +55,7 @@ import {
   watchDocumentUploadPayment,
 } from './DocumentUpload';
 import {watchNextStep} from './NextStep';
-import kycUpdateWatcher from './kyc.saga';
+import kycUpdateWatcher, {watchBankUpdate} from './kyc.saga';
 import {watchAccountStatus} from './AccountStatus';
 import addCardTokenWatcher from './stripe.saga';
 import {
@@ -121,5 +121,6 @@ export default function* rootSaga() {
     fork(watchUpdateRequestStatus),
     fork(watchSendPaymentRequest),
     fork(watchPaymentTransfer),
+    fork(watchBankUpdate),
   ]);
 }

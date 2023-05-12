@@ -340,6 +340,13 @@ export const KYC_UPDATE = {
   END: 'KYC_UPDATE_END',
 };
 /**
+ * Bank Update
+ */
+
+export const BANK_UPDATE = 'BANK_UPDATE';
+export const BANK_UPDATE_SUCCESS = 'BANK_UPDATE_SUCCESS';
+export const BANK_UPDATE_FAIL = 'BANK_UPDATE_FAIL';
+/**
  * DOCUMENT GET
  */
 
