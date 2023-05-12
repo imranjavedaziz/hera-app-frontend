@@ -30,11 +30,9 @@ const WebViewUrl = props => {
           style={{alignItems: Alignment.FLEX_START}}
           onPress={navigation.goBack}>
           <Image
-            source={Images.BACK_ICON}
+            source={Images.webIcon}
             style={{
-              height: Value.CONSTANT_VALUE_20,
-              width: Value.CONSTANT_VALUE_20,
-              left: Value.CONSTANT_VALUE_20,
+              marginLeft: Value.CONSTANT_VALUE_20,
             }}
           />
         </TouchableOpacity>
@@ -43,13 +41,14 @@ const WebViewUrl = props => {
             justifyContent: Alignment.CENTER,
             alignItems: Alignment.CENTER,
             flex: Value.CONSTANT_VALUE_1,
+            right: 20,
           }}>
           <Text
             style={{
               textAlign: Alignment.CENTER,
               fontFamily: Fonts.OpenSansBold,
               fontSize: Value.CONSTANT_VALUE_11,
-              letterSpacing:  Value.CONSTANT_VALUE_2_84,
+              letterSpacing: Value.CONSTANT_VALUE_2_84,
               color: Colors.BLACK,
             }}>
             {props?.route?.params?.about
