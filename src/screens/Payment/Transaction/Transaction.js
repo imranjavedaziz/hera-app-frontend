@@ -88,6 +88,7 @@ const Transaction = () => {
             ItemSeparatorComponent={() => <ItemSeperator />}
             ListHeaderComponent={() => <ListHeader isShow={paymentHistory.length > 0} />}
             ListEmptyComponent={() => <EmptyList />}
+            showsVerticalScrollIndicator={false}
           />
         </View>
       </View>
