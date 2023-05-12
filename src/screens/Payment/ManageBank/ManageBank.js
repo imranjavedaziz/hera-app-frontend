@@ -36,6 +36,7 @@ import {getAccountStatus} from '../../../redux/actions/AccountStatus';
 import getKycStatusFunction from '../../../utils/getkycStatusFunc';
 
 const ManageBank = ({route}) => {
+  const redirectTo = route?.params?.redirectTo || '';
   const navigation = useNavigation();
   const accountholderRef = useRef();
   const accountnumberRef = useRef();
@@ -86,9 +87,9 @@ const ManageBank = ({route}) => {
           getKycStatusFunction(account_status_res?.kyc_status) ===
             Strings.Hera_Pay.KYC_REJECTED
         ) {
-          replace(Routes.KycScreen);
+          replace(Routes.KycScreen,{redirectTo});
         } else {
-          navigation.navigate(Routes.HeraPay);
+          navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
         }
         dispatch(hideAppLoader());
       }
