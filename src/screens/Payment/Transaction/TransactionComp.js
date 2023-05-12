@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
 import {Fonts, Routes} from '../../../constants/Constants';
+import moment from 'moment';
 
 export const TransactionItem = ({item}) => {
   const navigation = useNavigation();
@@ -14,13 +15,13 @@ export const TransactionItem = ({item}) => {
         <TransactionStatus status={item?.status} />
       </View>
       <View style={styles.transRow}>
-        <Image source={Images.BABY_MOTHER} style={styles.transImg} />
+        <Image source={{uri: item?.profile_pic}} style={styles.transImg} />
         <View style={styles.transColumn}>
           {item?.role === 2 && (
             <Text
               style={
                 styles.transName
-              }>{`$${item?.amount} Sent to #${item?.name}`}</Text>
+              }>{`$${item?.amount} Sent to #${item?.username}`}</Text>
           )}
           {item?.role === 2 && (
             <View style={[styles.wrapRow,{marginTop: 5}]}>
@@ -29,7 +30,7 @@ export const TransactionItem = ({item}) => {
                 </Text>
                 <Image source={Images.ICON_MASTER} style={{height: 20,resizeMode: 'contain'}}/>
                 <Text style={styles.transDetail}>
-                {`●●●● ${item?.card}`}
+                {`●●●● ${item?.last4}`}
                 </Text>
             </View>
           )}
@@ -38,14 +39,14 @@ export const TransactionItem = ({item}) => {
             <Text
               style={
                 styles.transName
-              }>{`$${item?.amount} from ${item?.name}`}</Text>
+              }>{`$${item?.amount} from ${item?.username}`}</Text>
           )}
           {item?.role !== 2 && (
             <Text style={[styles.transDetail,{marginTop: 5}]}>
-              {`Sent to: ●●●● ${item?.card} (${item?.bank})`}
+              {`Sent to: ●●●● ${item?.bank_last4} (${item?.bank_name})`}
             </Text>
           )}
-          <Text style={styles.transDate}>{item?.date}</Text>
+          <Text style={styles.transDate}>{moment(item?.created_at).calendar()}</Text>
         </View>
       </View>
     </TouchableOpacity>
