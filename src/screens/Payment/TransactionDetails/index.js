@@ -50,8 +50,14 @@ const TransactionDetails = ({route}) => {
             </Text>
           )}
           {route?.params?.role !== 2 && <Seperator />}
-          <Text style={[styles.title,{textAlign: route?.params?.role !== 2?'left':'center'}]}>{Strings.TransDetail.title}</Text>
-          {(route?.params?.role === 2) && (
+          <Text
+            style={[
+              styles.title,
+              {textAlign: route?.params?.role !== 2 ? 'left' : 'center'},
+            ]}>
+            {Strings.TransDetail.title}
+          </Text>
+          {route?.params?.role === 2 && (
             <>
               <View style={[styles.bottomRow, styles.spaceBetween]}>
                 <Text style={styles.transDetail}>
@@ -114,34 +120,38 @@ const TransactionDetails = ({route}) => {
               </Text>
               <TransactionStatus status={route?.params?.status} />
             </View>
-            {(route?.params?.role === 2) && <View style={styles.bottomRow}>
-              <Text style={styles.transDetail}>
-                {Strings.TransDetail.paidByCard}
-              </Text>
-              <Image
-                source={Images.ICON_MASTER}
-                style={{height: 20, resizeMode: 'contain'}}
-              />
-              <Text
-                style={[
-                  styles.transDetail,
-                  {fontFamily: Fonts.OpenSansBold, fontSize: 16},
-                ]}>{`●●●● ${route?.params.card}`}</Text>
-            </View>}
-            {(route?.params?.role !== 2) && <View style={styles.bottomRow}>
-              <Text style={styles.transDetail}>
-                {Strings.TransDetail.sentTo}
-              </Text>
-              <Image
-                source={Images.BANK_LOGO}
-                style={{height: 20, resizeMode: 'contain'}}
-              />
-              <Text
-                style={[
-                  styles.transDetail,
-                  {fontFamily: Fonts.OpenSansBold, fontSize: 16},
-                ]}>{`●●●● ${route?.params.card} (${route?.params.bank})`}</Text>
-            </View>}
+            {route?.params?.role === 2 && (
+              <View style={styles.bottomRow}>
+                <Text style={styles.transDetail}>
+                  {Strings.TransDetail.paidByCard}
+                </Text>
+                <Image
+                  source={Images.ICON_MASTER}
+                  style={{height: 20, resizeMode: 'contain'}}
+                />
+                <Text
+                  style={[
+                    styles.transDetail,
+                    {fontFamily: Fonts.OpenSansBold, fontSize: 16},
+                  ]}>{`●●●● ${route?.params.card}`}</Text>
+              </View>
+            )}
+            {route?.params?.role !== 2 && (
+              <View style={styles.bottomRow}>
+                <Text style={styles.transDetail}>
+                  {Strings.TransDetail.sentTo}
+                </Text>
+                <Image
+                  source={Images.BANK_LOGO}
+                  style={{height: 20, resizeMode: 'contain'}}
+                />
+                <Text
+                  style={[
+                    styles.transDetail,
+                    {fontFamily: Fonts.OpenSansBold, fontSize: 16},
+                  ]}>{`●●●● ${route?.params.card} (${route?.params.bank})`}</Text>
+              </View>
+            )}
             <View style={styles.bottomRow}>
               <Text style={styles.transDetail}>
                 {Strings.TransDetail.paidOn}
@@ -154,9 +164,11 @@ const TransactionDetails = ({route}) => {
                 {route?.params.date}
               </Text>
             </View>
-              <Text style={styles.smDonorPara}>
-              <Text style={{color: Colors.RED}}>*</Text> A processing fee is applied for every payment that you receive. An amount $1.99 has been charged for this transaction.
-              </Text>
+            {route?.params?.role !== 2 && <Text style={styles.smDonorPara}>
+              <Text style={{color: Colors.RED}}>*</Text> A processing fee is
+              applied for every payment that you receive. An amount $1.99 has
+              been charged for this transaction.
+            </Text>}
           </View>
         </View>
       </View>
