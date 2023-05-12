@@ -2,34 +2,46 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
 import {Container} from '../../../components';
 import {Fonts, Routes} from '../../../constants/Constants';
 import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
 
-import {TransactionStatus, ItemSeperator} from '../Transaction/TransactionComp';
-import {
-  calculateStripeAmount,
-  getCardImage,
-} from '../../../utils/commonFunction';
+import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
 
-
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  console.log(route?.params, 'hhi');
+  const redirectTo = route?.params?.redirectTo || '';
+  const OnDone = () => {
+    if (route?.params?.role === 2) {
+      if (redirectTo !== '' && redirectTo === Routes.ChatDetail) {
+        navigation.navigate(Routes.ChatDetail, {
+          ...route?.params?.ChatItem,
+        });
+      } else if (
+        redirectTo !== '' &&
+        redirectTo === Routes.DashboardDetailScreen
+      ) {
+        navigation.navigate(Routes.DashboardDetailScreen, {
+          ...route?.params,
+        });
+      } else if (route?.params?.payment) {
+        navigation.navigate(Routes.HeraPay);
+      } else {
+        navigation.goBack();
+      }
+    } else {
+      navigation.goBack();
+    }
+    console.log(route?.params, 'ihhii');
+  };
   const headerComp = () => (
     <TouchableOpacity
       onPress={() => {
-        if (route?.params?.role === 2 && route?.params?.payment) {
-          navigation.navigate(Routes.HeraPay);
-        } else {
-          navigation.goBack();
-        }
+        OnDone();
       }}>
       <Text style={[styles.doneText]}>Done</Text>
     </TouchableOpacity>
@@ -46,12 +58,18 @@ const TransactionDetails = ({route}) => {
       <View style={styles.flex}>
         <View style={styles.mainContainer}>
           <View style={{marginVertical: 30}}>
-            <Image source={{uri: route?.params?.profile_pic}} style={styles.userImg} />
+            <Image
+              source={{uri: route?.params?.profile_pic}}
+              style={styles.userImg}
+            />
             <TransactionStatusCircle status={route?.params?.payout_status} />
           </View>
           {route?.params?.role === 2 && (
             <Text style={styles.heading}>
-              {Strings.TransDetail.paymentTo.replace('{DONOR_ID}', `#${route?.params?.username}`)}
+              {Strings.TransDetail.paymentTo.replace(
+                '{DONOR_ID}',
+                `#${route?.params?.username}`,
+              )}
             </Text>
           )}
           {route?.params?.role !== 2 && (
@@ -80,9 +98,9 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {route?.params.amount % 1 === 0
-                    ? `$${(route?.params.amount).toFixed(2)}`
-                    : `$${route?.params.amount}`}
+                  {route?.params?.amount % 1 === 0
+                    ? `$${(route?.params?.amount).toFixed(2)}`
+                    : `$${route?.params?.amount}`}
                 </Text>
               </View>
               <View style={[styles.bottomRow, styles.spaceBetween]}>
@@ -94,7 +112,9 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {`$${(route?.params?.net_amount - route?.params?.amount).toFixed(2)}`}
+                  {`$${(
+                    route?.params?.net_amount - route?.params?.amount
+                  ).toFixed(2)}`}
                 </Text>
               </View>
               <Seperator />
@@ -140,7 +160,7 @@ const TransactionDetails = ({route}) => {
                   {Strings.TransDetail.paidByCard}
                 </Text>
                 <Image
-                  source={getCardImage(route?.params?.brand)}
+                  source={Images.ICON_MASTER}
                   style={{height: 20, resizeMode: 'contain'}}
                 />
                 <Text
@@ -178,11 +198,14 @@ const TransactionDetails = ({route}) => {
                 {moment(route?.params.created_at).calendar()}
               </Text>
             </View>
-            {route?.params?.role !== 2 && <Text style={styles.smDonorPara}>
-              <Text style={{color: Colors.RED}}>*</Text> A processing fee is
-              applied for every payment that you receive. An amount ${(route?.params?.net_amount - route?.params?.amount).toFixed(2)} has
-              been charged for this transaction.
-            </Text>}
+            {route?.params?.role !== 2 && (
+              <Text style={styles.smDonorPara}>
+                <Text style={{color: Colors.RED}}>*</Text> A processing fee is
+                applied for every payment that you receive. An amount $
+                {(route?.params?.net_amount - route?.params?.amount).toFixed(2)}{' '}
+                has been charged for this transaction.
+              </Text>
+            )}
           </View>
         </View>
       </View>

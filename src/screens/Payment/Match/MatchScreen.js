@@ -23,7 +23,6 @@ const MatchScreen = () => {
   const [search, setSearch] = React.useState('');
   const [allUser, setallUser] = React.useState([]);
   const [Data, setData] = React.useState([]);
-  const [Record, setRecord] = React.useState([]);
   const LoadingRef = useRef(null);
   const {
     get_match_list_success,
@@ -37,16 +36,16 @@ const MatchScreen = () => {
     let payload = {
       keyword: search ? search : '',
     };
+    dispatch(showAppLoader());
     dispatch(getMatchList(payload));
-  }, [dispatch, search]);
+  }, [dispatch]);
+
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
-      dispatch(showAppLoader());
       if (get_match_list_success) {
         dispatch(hideAppLoader());
         setData(get_match_list_res?.data?.data);
         setallUser(get_match_list_res?.data?.data);
-        setRecord(get_match_list_res?.record);
         console.log(
           get_match_list_res?.data?.data,
           'get_match_list_res?.data?.data',
@@ -104,7 +103,7 @@ const MatchScreen = () => {
           log_in_data.role_id === 2 ? `#${item?.username}` : item?.first_name
         }
         type={item.role_id}
-        noBank={true}
+        noBank={log_in_data?.role_id === 2 ? item?.connected_acc_status : true}
         onPress={() =>
           navigation.navigate(
             log_in_data.role_id === 2 ? Routes.PaymentSent : Routes.SendRequest,
@@ -115,12 +114,13 @@ const MatchScreen = () => {
     );
   };
   const onClear = () => {
+    setallUser(Data);
     setSearch('');
   };
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      {Record > 0 ? (
+      {get_match_list_res?.record > 0 ? (
         <View style={styles.container}>
           <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
           <Text style={styles.sendPayment}>
@@ -134,13 +134,14 @@ const MatchScreen = () => {
               editing={true}
             />
           </View>
-          {!_.isEmpty(allUser) ? (
+          {!_.isEmpty(allUser) && !get_match_list_loading && (
             <FlatList
               data={allUser}
               renderItem={renderItemData}
               showsVerticalScrollIndicator={false}
             />
-          ) : (
+          )}
+          {_.isEmpty(allUser) && !get_match_list_loading && (
             <View style={styles.margin}>
               <Text style={styles.NoResult}>No Results Found!</Text>
               <Text style={styles.NoResultDes}>

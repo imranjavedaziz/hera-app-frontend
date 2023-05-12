@@ -54,8 +54,10 @@ const ConfirmPayment = ({route}) => {
   function float2int(value) {
     return value | 0;
   }
-
-  const Amount = params.amount.replace(/,/g, '');
+  const amountParam = params.amount.toString();
+  const Amount = amountParam?.includes(',')
+    ? amountParam?.replace(/,/g, '')
+    : amountParam;
   const roundOff = float2int(Amount);
   useEffect(() => {
     if (_.isEmpty(getCardListResponse?.info?.data)) {
@@ -85,6 +87,7 @@ const ConfirmPayment = ({route}) => {
       if (payment_transfer_success) {
         dispatch(hideAppLoader());
         const payload = {
+          ...route?.params,
           id: params?.item?.id,
           payment_intent: payment_transfer_res?.payment_intent_id,
           amount: parseInt(roundOff),
@@ -92,7 +95,7 @@ const ConfirmPayment = ({route}) => {
           payment_status: 1,
           brand: SelectedCard?.card?.brand,
           last4: SelectedCard?.card?.last4,
-          created_at: params?.item?.created_at,
+          created_at: new Date().toString(),
           username: params?.item?.username,
           profile_pic: params?.item?.profile_pic,
           role: log_in_data.role_id,
@@ -120,14 +123,17 @@ const ConfirmPayment = ({route}) => {
       navigation.navigate(Routes.ManageCard, {
         params,
         anotherCard: another,
+        ...route?.params,
       });
     } else {
       navigation.navigate(Routes.ManageCard, {
         params,
         noCard: true,
+        ...route?.params,
       });
     }
   };
+  console.log(route.params, 'confirmPaymentrooute');
   const onPay = () => {
     if (Selected || SelectedCard) {
       const payload = {
@@ -135,7 +141,7 @@ const ConfirmPayment = ({route}) => {
         amount: parseInt(roundOff),
         net_amount: calculateTotalStripeAmount(roundOff),
         payment_method_id: Selected ? Selected : SelectedCard?.id,
-        payment_request_id: null,
+        payment_request_id: params?.requestId,
         created_at: new Date().toString(),
       };
       dispatch(showAppLoader());

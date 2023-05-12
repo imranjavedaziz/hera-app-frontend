@@ -67,16 +67,18 @@ const PaymentRequestComp = props => {
             <Text style={styles.timeRequest}>{time}</Text>
           </View>
         </View>
-        <TouchableOpacity
-          style={styles.touchableAlignment}
-          onPress={onPressMedia}>
-          <Image style={styles.BlueLink} source={Images.BlueLink} />
-          <Image
-            style={styles.ImageView}
-            resizeMode={pdf === true && 'center'}
-            source={pdf ? Images.PDF : {uri: DocImg}}
-          />
-        </TouchableOpacity>
+        {DocImg && (
+          <TouchableOpacity
+            style={styles.touchableAlignment}
+            onPress={onPressMedia}>
+            <Image style={styles.BlueLink} source={Images.BlueLink} />
+            <Image
+              style={styles.ImageView}
+              resizeMode={pdf === true && 'center'}
+              source={pdf ? Images.PDF : {uri: DocImg}}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {log_in_data.role_id === 2 ? (
         <View style={styles.AcceptRejectBtn}>

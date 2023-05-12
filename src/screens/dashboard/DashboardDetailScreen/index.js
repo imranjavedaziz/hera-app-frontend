@@ -473,7 +473,13 @@ const DashboardDetailScreen = () => {
                     <ButtonPay
                       label={Strings.dashboard.SendPayment}
                       style={styles.loginBtn}
-                      onPress={() => console.log('submitPay')}
+                      onPress={() =>
+                        navigation.navigate(Routes.PaymentSent, {
+                          ...smDetailRes,
+                          redirectTo: Routes.DashboardDetailScreen,
+                          userid: userId,
+                        })
+                      }
                     />
                   </View>
                 </>

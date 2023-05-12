@@ -11,7 +11,6 @@ import {ValidationMessages} from '../../constants/Strings';
 function* AccountStatus() {
   try {
     const result = yield accountStatusApi();
-    console.log(result, 'kokokokokokokokoko');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: ACCOUNT_STATUS_SUCCESS, data: result});
     } else {

@@ -156,7 +156,11 @@ const HeraPay = () => {
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
-      leftPress={() => navigation.goBack()}
+      leftPress={() =>
+        log_in_data?.role_id === 2
+          ? navigation.navigate(Routes.PtbProfile)
+          : navigation.navigate(Routes.SmSetting)
+      }
       rightIcon={Images.ICON_INFO}
       rightPress={() => setModal(!modal)}
       style={styles.headerIcon}
@@ -191,7 +195,6 @@ const HeraPay = () => {
     );
     return true;
   };
-  console.log(Item);
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>

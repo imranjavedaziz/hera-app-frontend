@@ -52,7 +52,7 @@ const ManageCard = ({route}) => {
   const params = route?.params;
   console.log(params?.params?.item, 'koko');
   const {paymentIntentRes} = useSelector(store => store.paymentIntent);
-  const {stripe_customer_id,log_in_data} = useSelector(state => state.Auth);
+  const {stripe_customer_id, log_in_data} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
   const [check, setCheck] = React.useState(true);
 
@@ -67,32 +67,25 @@ const ManageCard = ({route}) => {
   function float2int(value) {
     return value | 0;
   }
-  const Amount = params?.params?.amount.replace(/,/g, '');
+  const Amount = params?.params?.amount?.replace(/,/g, '');
   const roundOff = float2int(Amount);
   useEffect(() => {
     if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.SUCCESS) {
       let info = paymentIntentRes?.info;
+      const payload = {
+        to_user_id: params?.params?.item?.id,
+        amount: roundOff,
+        net_amount: calculateTotalStripeAmount(roundOff),
+        payment_method_id: info?.id,
+        payment_request_id: null,
+      };
       if (!check && params) {
         console.log('without save card for future', info);
-        const payload = {
-          to_user_id: params?.params?.item?.id,
-          amount: roundOff,
-          net_amount: calculateTotalStripeAmount(roundOff),
-          payment_method_id: info?.id,
-          payment_request_id: null,
-        };
         dispatch(paymentTransfer(payload));
       } else if (check && params) {
         console.log('check save card for future', info);
-        const payload = {
-          to_user_id: params?.params?.item?.id,
-          amount: parseInt(params?.params?.amount),
-          net_amount: calculateTotalStripeAmount(params?.params?.amount),
-          payment_method_id: info?.id,
-          payment_request_id: null,
-        };
         dispatch(paymentTransfer(payload));
         dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
       } else {
@@ -110,22 +103,23 @@ const ManageCard = ({route}) => {
       dispatch(showAppLoader());
       if (payment_transfer_success) {
         dispatch(hideAppLoader());
-        dispatch({type: PAYMENT_INTENT.CLEAN});
         const payload = {
-          id: params?.item?.id,
+          ...route?.params,
+          id: params?.params?.item?.id,
           payment_intent: payment_transfer_res?.payment_intent_id,
           amount: roundOff,
           net_amount: calculateTotalStripeAmount(roundOff),
           payment_status: 1,
           brand: paymentIntentRes?.info?.card?.brand,
           last4: paymentIntentRes?.info?.card?.last4,
-          created_at: params?.item?.created_at,
-          username: params?.item?.username,
-          profile_pic: params?.item?.profile_pic,
+          created_at: new Date().toString(),
+          username: params?.params?.item?.username,
+          profile_pic: params?.params?.item?.profile_pic,
           role: log_in_data.role_id,
           payment: true,
         };
         navigation.navigate(Routes.TransactionDetails, payload);
+        dispatch({type: PAYMENT_INTENT.CLEAN});
         console.log(payment_transfer_res, 'payment_transfer_res');
       }
       if (payment_transfer_fail) {
@@ -149,9 +143,7 @@ const ManageCard = ({route}) => {
       attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
     ) {
       if (check && params) {
-        console.log('check Attached');
         dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
-        dispatch({type: PAYMENT_INTENT.CLEAN});
       } else {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, 'Card added to profile!'));

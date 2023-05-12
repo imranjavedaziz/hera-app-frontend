@@ -20,26 +20,47 @@ import {Routes} from '../../../constants/Constants';
 const PaymentSent = ({route}) => {
   const navigation = useNavigation();
   let scrollRef = React.createRef();
-  const params = route.params;
-  const inputRefs = useRef();
+  const [params, setParams] = useState(null);
   const [amount, setAmount] = useState('');
+  const [requestId, setRequestId] = useState(null);
+  useEffect(() => {
+    const updatedParams = route?.params?.amount
+      ? route.params.donar
+      : route.params;
+    setParams(updatedParams);
+    if (route?.params?.amount) {
+      setRequestId(route?.params?.id);
+      setAmount(route.params.amount.toString());
+    }
+  }, [route?.params?.amount, route?.params?.donar, route.params]);
+  const inputRefs = useRef();
+
   const dispatch = useDispatch();
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [amountMaxLength, setMaxLength] = useState(8);
   useEffect(() => {
-    inputRefs.current.focus();
-    const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      // inputRefs.current.blur();
-      setKeyboardOpen(false);
-    });
-    const keyboardShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardOpen(true);
-    });
+    if (route?.params?.amount) {
+      console.log('route?.params?.amount');
+    } else {
+      inputRefs.current.focus();
+      const keyboardHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        () => {
+          setKeyboardOpen(false);
+        },
+      );
+      const keyboardShowListener = Keyboard.addListener(
+        'keyboardDidShow',
+        () => {
+          setKeyboardOpen(true);
+        },
+      );
 
-    return () => {
-      keyboardHideListener.remove();
-      keyboardShowListener.remove();
-    };
+      return () => {
+        keyboardHideListener.remove();
+        keyboardShowListener.remove();
+      };
+    }
   }, []);
 
   const headerComp = () => (
@@ -90,7 +111,7 @@ const PaymentSent = ({route}) => {
   };
 
   const onSubmit = () => {
-    const updatedTxt = amount.replace(/,/g, '');
+    const updatedTxt = amount?.replace(/,/g, '');
     let Amount = parseFloat(updatedTxt)?.toLocaleString('en-US', {
       maximumFractionDigits: 2,
       minimumFractionDigits: 2,
@@ -101,6 +122,8 @@ const PaymentSent = ({route}) => {
       navigation.navigate(Routes.ConfirmPayment, {
         item: params,
         amount: Amount,
+        requestId: requestId,
+        ...route.params,
       });
     }
   };
@@ -135,6 +158,7 @@ const PaymentSent = ({route}) => {
               value={amount}
               onChangeText={handleAmountChange}
               maxLength={amountMaxLength}
+              editable={!route?.params?.amount ? true : false}
             />
           </View>
           <View style={styles.rowStyle}>

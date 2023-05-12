@@ -44,7 +44,10 @@ const ConfirmCardComp = ({number, Time, Icon, index, onPress, value, Data}) => {
       ) : (
         <View style={styles.mainView}>
           <View style={styles.cardsContainer}>
-            <Image source={getCardImage(Icon)} style={styles.cardImg} />
+            <Image
+              source={getCardImage(Icon)}
+              style={Data.length > 1 ? styles.cardImg : styles.cardImgSingle}
+            />
             <View style={{marginLeft: dynamicSize(Value.CONSTANT_VALUE_11)}}>
               <Text style={styles.cardNo}>{number}</Text>
               <Text style={styles.cardTime}>{Time}</Text>
@@ -72,7 +75,10 @@ const styles = StyleSheet.create({
     width: Value.CONSTANT_VALUE_51,
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_14),
   },
-
+  cardImgSingle: {
+    height: Value.CONSTANT_VALUE_32,
+    width: Value.CONSTANT_VALUE_51,
+  },
   cardNo: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,

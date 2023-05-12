@@ -3,10 +3,9 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
-import {Routes,Fonts} from '../../../constants/Constants';
+import {Routes, Fonts} from '../../../constants/Constants';
 import {convertDateFormat, getCardImage} from '../../../utils/commonFunction';
 import moment from 'moment';
-
 
 export const TransactionItem = ({item}) => {
   const navigation = useNavigation();
@@ -28,15 +27,15 @@ export const TransactionItem = ({item}) => {
               }>{`$${item?.amount} Sent to #${item?.username}`}</Text>
           )}
           {item?.role === 2 && (
-
             <View style={[styles.wrapRow, {marginTop: 5}]}>
               <Text style={styles.transDetail}>{`Paid by Card:`}</Text>
               <Image
-                source={getCardImage(item?.brand)}
+                source={
+                  item?.brand ? getCardImage(item?.brand) : Images.ICON_MASTER
+                }
                 style={{height: 20, resizeMode: 'contain'}}
               />
               <Text style={styles.transDetail}>{`●●●● ${item?.last4}`}</Text>
-
             </View>
           )}
 
@@ -47,11 +46,13 @@ export const TransactionItem = ({item}) => {
               }>{`$${item?.amount} from ${item?.username}`}</Text>
           )}
           {item?.role !== 2 && (
-            <Text style={[styles.transDetail,{marginTop: 5}]}>
+            <Text style={[styles.transDetail, {marginTop: 5}]}>
               {`Sent to: ●●●● ${item?.bank_last4} (${item?.bank_name})`}
             </Text>
           )}
-          <Text style={styles.transDate}>{moment(item?.created_at).calendar()}</Text>
+          <Text style={styles.transDate}>
+            {moment(item?.created_at).calendar()}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -70,7 +71,7 @@ export const ListHeader = React.memo(({isShow = true}) => {
 });
 
 export const EmptyList = React.memo(() => (
-  <View style={styles.mainContainer}>
+  <View style={styles.EmptymainContainer}>
     <Text style={styles.emptyText}>{Strings.Transaction.emptyTitle}</Text>
     <Text style={styles.secondEmptyText}>{Strings.Transaction.emptyDesc}</Text>
   </View>

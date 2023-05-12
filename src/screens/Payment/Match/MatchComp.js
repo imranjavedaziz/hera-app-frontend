@@ -27,7 +27,7 @@ const MatchComp = ({Img, name, type, noBank = false, onPress}) => {
           </TouchableOpacity>
         ) : (
           <Text style={styles.noBank} numberOfLines={2}>
-            {Strings.Match_Screen.noBank}
+            {`${Strings.Match_Screen.noBank}${getRoleData(type)}!`}
           </Text>
         )}
       </View>
