@@ -67,7 +67,6 @@ const KycScreen = () => {
   const {kycResponse} = useSelector(store => store?.kyc);
   let scrollRef = React.createRef();
   const [date, setDate] = React.useState(new Date());
-  console.log(bank_token, 'bank_token');
   const headerComp = () => (
     <IconHeader
       rightIcon={Images.iconcross}

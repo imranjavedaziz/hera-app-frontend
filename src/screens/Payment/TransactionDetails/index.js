@@ -1,24 +1,35 @@
 // TransactionDetails
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
-import {IconHeader} from '../../../components/Header';
 import {Container} from '../../../components';
-import {Fonts} from '../../../constants/Constants';
+import {Fonts, Routes} from '../../../constants/Constants';
 import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
-import {ItemSeperator, TransactionStatus} from '../Transaction/TransactionComp';
+
+import {TransactionStatus, ItemSeperator} from '../Transaction/TransactionComp';
+import {
+  calculateStripeAmount,
+  getCardImage,
+} from '../../../utils/commonFunction';
+
 import moment from 'moment';
+
 
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  console.log(route?.params, 'hhi');
   const headerComp = () => (
     <TouchableOpacity
       onPress={() => {
-        navigation.goBack();
+        if (route?.params?.role === 2 && route?.params?.payment) {
+          navigation.navigate(Routes.HeraPay);
+        } else {
+          navigation.goBack();
+        }
       }}>
       <Text style={[styles.doneText]}>Done</Text>
     </TouchableOpacity>
@@ -69,7 +80,9 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {`$${route?.params?.amount}`}
+                  {route?.params.amount % 1 === 0
+                    ? `$${(route?.params.amount).toFixed(2)}`
+                    : `$${route?.params.amount}`}
                 </Text>
               </View>
               <View style={[styles.bottomRow, styles.spaceBetween]}>
@@ -127,7 +140,7 @@ const TransactionDetails = ({route}) => {
                   {Strings.TransDetail.paidByCard}
                 </Text>
                 <Image
-                  source={Images.ICON_MASTER}
+                  source={getCardImage(route?.params?.brand)}
                   style={{height: 20, resizeMode: 'contain'}}
                 />
                 <Text

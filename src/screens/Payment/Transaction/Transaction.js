@@ -1,57 +1,26 @@
+
 import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 import React, {useState,useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
-import {Images, Strings, Colors} from '../../../constants';
+import {Images, Colors} from '../../../constants';
 import {IconHeader} from '../../../components/Header';
 import {Container} from '../../../components';
-import {Fonts} from '../../../constants/Constants';
 import {
   TransactionItem,
   ItemSeperator,
   ListHeader,
   EmptyList,
 } from './TransactionComp';
-import { getTransactionHistory } from '../../../redux/actions/Payment';
+import {getTransactionHistory} from '../../../redux/actions/Payment';
 
-const DATA = [
-  {
-    name: 'Merly',
-    amount: '300',
-    card: '0039',
-    bank: 'Bank Of America',
-    profile_pic: '',
-    id: 8687,
-    date: 'Today 02:59 pm',
-    status: 1,
-  },
-  {
-    name: 'John',
-    amount: '100',
-    card: '1025',
-    bank: 'Bank Of America',
-    profile_pic: '',
-    id: 8686,
-    date: 'Yesterday 02:59 pm',
-    status: 2,
-  },
-  {
-    name: 'Emma',
-    amount: '350',
-    card: '2043',
-    bank: 'Bank Of America',
-    profile_pic: '',
-    id: 8685,
-    date: 'Yesterday 10:25 am',
-    status: 3,
-  },
-];
 const Transaction = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [paymentHistory,setHistory] = useState([]);
   const {log_in_data} = useSelector(state => state.Auth);
+
   const {payment_history_res,payment_history_success} = useSelector(state => state.Payment);
   React.useEffect(()=>{
     dispatch(getTransactionHistory());
@@ -84,7 +53,10 @@ const Transaction = () => {
           <FlatList
             data={paymentHistory}
             keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <TransactionItem item={{...item,role: log_in_data?.role_id}} />}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <TransactionItem item={{...item, role: log_in_data?.role_id}} />
+            )}
             ItemSeparatorComponent={() => <ItemSeperator />}
             ListHeaderComponent={() => <ListHeader isShow={paymentHistory.length > 0} />}
             ListEmptyComponent={() => <EmptyList />}

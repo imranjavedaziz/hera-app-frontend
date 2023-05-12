@@ -12,7 +12,7 @@ import Header, {IconHeader} from '../../../components/Header';
 import {Images, Strings} from '../../../constants';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {getRoleData} from '../../../utils/commonFunction';
+import {digitBeforeDecimal, getRoleData} from '../../../utils/commonFunction';
 import {showAppToast} from '../../../redux/actions/loader';
 import {useDispatch} from 'react-redux';
 import {Routes} from '../../../constants/Constants';
@@ -25,7 +25,7 @@ const PaymentSent = ({route}) => {
   const [amount, setAmount] = useState('');
   const dispatch = useDispatch();
   const [keyboardOpen, setKeyboardOpen] = useState(false);
-
+  const [amountMaxLength, setMaxLength] = useState(8);
   useEffect(() => {
     inputRefs.current.focus();
     const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
@@ -52,26 +52,56 @@ const PaymentSent = ({route}) => {
     />
   );
   const handleAmountChange = text => {
-    // Allow only numeric and decimal input
-    const numericRegex = /^\d*\.?\d*$/;
-
-    // Remove any existing commas from the input
-    const cleanedText = text.replace(/,/g, '');
-
-    // Check if the input starts with a dot and add '0' in front
-    if (cleanedText.startsWith('.') && cleanedText.length === 1) {
-      setAmount('0.');
-    } else if (numericRegex.test(cleanedText)) {
-      // Add commas to the input value
-      const formattedAmount = cleanedText.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      setAmount(formattedAmount);
+    let txt = text.replace(/\s/g, '');
+    if (text?.length === 0 || Number(text) === 0 || text === ',') {
+      setAmount('');
+    } else {
+      if (txt?.includes(',')) {
+        txt = txt?.replace(/,/g, '');
+      }
+      if (isNaN(txt)) {
+        setAmount(amount ?? '');
+        return;
+      }
+      if (txt.includes('.')) {
+        txt = conTwoDecDigit(txt);
+        var totalDigit = 11;
+        let splits = txt.split('.');
+        if (splits.length > 2) {
+          totalDigit = totalDigit + splits[1].length;
+        }
+        setMaxLength(totalDigit);
+        setAmount(txt);
+      } else {
+        setMaxLength(9);
+        setAmount(digitBeforeDecimal(txt));
+      }
     }
   };
+  const conTwoDecDigit = digit => {
+    let splits = digit.split('.');
+    if (splits[0] == '') {
+      return '0' + digit;
+    } else {
+      return splits.length >= 2
+        ? digitBeforeDecimal(splits[0]) + '.' + splits[1].substring(-1, 2)
+        : digit;
+    }
+  };
+
   const onSubmit = () => {
+    const updatedTxt = amount.replace(/,/g, '');
+    let Amount = parseFloat(updatedTxt)?.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2,
+    });
     if (amount == '') {
       dispatch(showAppToast(true, 'Please enter a valid amount.'));
     } else {
-      navigation.navigate(Routes.ConfirmPayment, {item: params, amount});
+      navigation.navigate(Routes.ConfirmPayment, {
+        item: params,
+        amount: Amount,
+      });
     }
   };
   const focusTextInput = () => {
@@ -104,6 +134,7 @@ const PaymentSent = ({route}) => {
               keyboardType="numeric"
               value={amount}
               onChangeText={handleAmountChange}
+              maxLength={amountMaxLength}
             />
           </View>
           <View style={styles.rowStyle}>

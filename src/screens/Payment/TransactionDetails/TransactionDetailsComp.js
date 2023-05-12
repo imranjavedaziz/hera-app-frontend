@@ -1,13 +1,8 @@
-
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, Image} from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
+
 import styles from './styles';
-import {Images, Strings, Colors} from '../../../constants';
-import {IconHeader} from '../../../components/Header';
-import {Container} from '../../../components';
-import {Fonts} from '../../../constants/Constants';
+import {Images, Colors} from '../../../constants';
 
 export const TransactionStatusCircle = React.memo(({status = 0}) => {
     switch (status.toString()) {
@@ -42,8 +37,7 @@ export const TransactionStatusCircle = React.memo(({status = 0}) => {
             </View>
         );
     }
+
 });
 
-export const Seperator = React.memo(() => (
-    <View style={styles.seperator} />
-));
+export const Seperator = React.memo(() => <View style={styles.seperator} />);
