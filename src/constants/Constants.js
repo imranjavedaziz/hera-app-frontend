@@ -311,6 +311,8 @@ export const Routes = {
   KycScreen: 'KycScreen',
   SendRequest: 'SendRequest',
   TransactionDetails: 'TransactionDetails',
+  PaymentSent: 'PaymentSent',
+  ConfirmPayment: 'ConfirmPayment',
 };
 export const Static = {
   countries: [

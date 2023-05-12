@@ -1,4 +1,11 @@
-import {View, Text, Platform, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  Keyboard,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import {Button, FloatingLabelInput, Header} from '../../../components';
 import styles from './styles';
@@ -7,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {IconHeader} from '../../../components/Header';
 import {validationBank, Input_Type, Routes} from '../../../constants/Constants';
 import {
+  calculateTotalStripeAmount,
   formatACNumber,
   validateExpiryDate,
   validateFullName,
@@ -27,7 +35,9 @@ import {
   createPaymentIntent,
 } from '../../../redux/actions/stripe.action';
 import ExtraBottomView from '../../../components/ExtraBottomView';
-const ManageCard = () => {
+import {Value} from '../../../constants/FixedValues';
+import {paymentTransfer} from '../../../redux/actions/Payment';
+const ManageCard = ({route}) => {
   const navigation = useNavigation();
   const cardNumberRef = useRef();
   const expiryRef = useRef();
@@ -39,34 +49,95 @@ const ManageCard = () => {
   const {attachPaymentIntentRes} = useSelector(
     store => store.attachPaymentIntent,
   );
+  const params = route?.params;
+  console.log(params?.params?.item, 'koko');
   const {paymentIntentRes} = useSelector(store => store.paymentIntent);
   const {stripe_customer_id} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
+  const [check, setCheck] = React.useState(true);
+  const {
+    payment_transfer_success,
+    payment_transfer_loading,
+    payment_transfer_error_msg,
+    payment_transfer_res,
+    payment_transfer_fail,
+  } = useSelector(state => state.Payment);
+  const loadingRef = useRef(null);
   useEffect(() => {
     if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.SUCCESS) {
       let info = paymentIntentRes?.info;
-      dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
-      dispatch(hideAppLoader());
+      if (!check && params) {
+        console.log('without save card for future', info);
+        const payload = {
+          to_user_id: params?.params?.item?.id,
+          amount: parseInt(params?.params?.amount),
+          net_amount: calculateTotalStripeAmount(params?.params?.amount),
+          payment_method_id: info?.id,
+          payment_request_id: null,
+        };
+        dispatch(paymentTransfer(payload));
+      } else if (check && params) {
+        console.log('check save card for future', info);
+        const payload = {
+          to_user_id: params?.params?.item?.id,
+          amount: parseInt(params?.params?.amount),
+          net_amount: calculateTotalStripeAmount(params?.params?.amount),
+          payment_method_id: info?.id,
+          payment_request_id: null,
+        };
+        dispatch(paymentTransfer(payload));
+        dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
+      } else {
+        dispatch(hideAppLoader());
+        dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
+      }
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());
       let error = paymentIntentRes?.error ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
     }
   }, [paymentIntentRes]);
-
+  useEffect(() => {
+    if (loadingRef.current && !payment_transfer_loading) {
+      dispatch(showAppLoader());
+      if (payment_transfer_success) {
+        dispatch(hideAppLoader());
+        dispatch({type: PAYMENT_INTENT.CLEAN});
+        console.log(payment_transfer_res, 'payment_transfer_res');
+      }
+      if (payment_transfer_fail) {
+        dispatch(hideAppLoader());
+      }
+      dispatch(hideAppLoader());
+    }
+    loadingRef.current = payment_transfer_loading;
+  }, [
+    payment_transfer_success,
+    payment_transfer_loading,
+    payment_transfer_error_msg,
+    payment_transfer_res,
+    payment_transfer_fail,
+    dispatch,
+  ]);
   useEffect(() => {
     if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
     } else if (
       attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
     ) {
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(false, 'Card added to profile!'));
-      dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
-      dispatch({type: PAYMENT_INTENT.CLEAN});
-      navigation.navigate(Routes.HeraPay);
+      if (check && params) {
+        console.log('check Attached');
+        dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+        dispatch({type: PAYMENT_INTENT.CLEAN});
+      } else {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, 'Card added to profile!'));
+        dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+        dispatch({type: PAYMENT_INTENT.CLEAN});
+        navigation.navigate(Routes.HeraPay);
+      }
     } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());
       let error = attachPaymentIntentRes?.error ?? 'Something went wrong!';
@@ -258,12 +329,43 @@ const ManageCard = () => {
               validate();
             }}
           />
+          {params && (
+            <View
+              style={{
+                flexDirection: Alignment.ROW,
+                alignItems: Alignment.CENTER,
+                marginTop: Value.CONSTANT_VALUE_26,
+              }}>
+              {!check ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCheck(cur => !cur);
+                  }}>
+                  <Image source={Images.rectangleCopy} />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCheck(cur => !cur);
+                  }}>
+                  <Image source={Images.iconCheck} />
+                </TouchableOpacity>
+              )}
+              <Text style={styles.addFutureCard}>
+                {Strings.ManageCard.saveForFuture}
+              </Text>
+            </View>
+          )}
           <View
             style={{
               alignItems: Alignment.CENTER,
             }}>
             <Button
-              label={Strings.ManageCard.SAVE_CARD}
+              label={
+                params && params.params
+                  ? `PAY $${calculateTotalStripeAmount(params?.params?.amount)}`
+                  : Strings.ManageCard.SAVE_CARD
+              }
               style={styles.addBtn}
               onPress={() => validate()}
             />

@@ -61,6 +61,7 @@ import addCardTokenWatcher from './stripe.saga';
 import {
   watchGetMatchList,
   watchGetPaymentRequestList,
+  watchPaymentTransfer,
   watchUpdateRequestStatus,
   watchPaymentHistory,
 } from './Payment';
@@ -121,5 +122,6 @@ export default function* rootSaga() {
     fork(watchUpdateRequestStatus),
     fork(watchSendPaymentRequest),
     fork(watchPaymentHistory),
+    fork(watchPaymentTransfer),
   ]);
 }

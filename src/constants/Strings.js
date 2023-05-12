@@ -135,6 +135,14 @@ const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
 const CONFIRM_CONST = 'Confirm Password';
 export default {
+  confirmPassword: {
+    CONFIRM_PAYMENT: 'CONFIRM PAYMENT',
+    NoCard: 'No Card Added!',
+    AddCardProceed: 'Add a card to proceed with your payments.',
+    AddCardButton: '+ ADD CARD',
+    PayWithcard: 'Pay with your card',
+    PayWithAnotherCard: 'Pay using another card',
+  },
   landing: {
     LOG_IN: ' LOG IN  ',
     REGISTER: 'REGISTER',
@@ -646,7 +654,12 @@ export default {
     Bank_Description:
       'Add your bank account to receive payments from Intended Parents.',
   },
-
+  PaymentSent: {
+    SendTo: 'Send Payment to',
+    AdditionalCharges: 'An additional processing fee will be applied.',
+    dollar: '$',
+    PROCEED: 'PROCEED',
+  },
   //Static
   Meryl_Anderson: 'Meryl Anderson',
 
@@ -729,6 +742,7 @@ export default {
     CVV: 'CVV',
     cardHolderName: 'Card Holder’s Name',
     SAVE_CARD: 'SAVE THIS CARD',
+    saveForFuture: 'Save this card on profile for future payments.',
   },
   //ManageBank
   ManageBank: {
@@ -759,7 +773,8 @@ export default {
     uploadImg: 'Upload Supporting Image or pdf (Optional)',
     sendRequest: 'SEND REQUEST',
     DiscardEdit: 'Discard Request',
-    DiscardEditDisc: 'If you cancel this request, the details\nwill be discarded.',
+    DiscardEditDisc:
+      'If you cancel this request, the details\nwill be discarded.',
   },
   Transaction: {
     title: 'All Transactions',

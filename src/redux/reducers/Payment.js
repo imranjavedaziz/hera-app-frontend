@@ -11,6 +11,9 @@ import {
   TRANSACTION_HISTORY,
   TRANSACTION_HISTORY_FAIL,
   TRANSACTION_HISTORY_SUCCESS
+  PAYMENT_TRANSFER,
+  PAYMENT_TRANSFER_FAIL,
+  PAYMENT_TRANSFER_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -39,6 +42,12 @@ const initState = {
   payment_history_error_msg: '',
   payment_history_res: {data:[]},
   payment_history_fail: false,
+  //payment tranfer
+  payment_transfer_success: false,
+  payment_transfer_loading: false,
+  payment_transfer_error_msg: '',
+  payment_transfer_res: {},
+  payment_transfer_fail: false,
 };
 
 export default (state = initState, action) => {
@@ -153,6 +162,33 @@ export default (state = initState, action) => {
         payment_history_loading: false,
         payment_history_error_msg: action.data.msg,
         payment_history_fail: true,
+    //Payment Transfer
+    case PAYMENT_TRANSFER:
+      return {
+        ...state,
+        payment_transfer_success: false,
+        payment_transfer_loading: true,
+        payment_transfer_error_msg: '',
+        payment_transfer_res: {},
+        payment_transfer_fail: false,
+      };
+    case PAYMENT_TRANSFER_SUCCESS:
+      return {
+        ...state,
+        payment_transfer_success: true,
+        payment_transfer_loading: false,
+        payment_transfer_error_msg: '',
+        payment_transfer_res: action.data,
+        payment_transfer_fail: false,
+      };
+    case PAYMENT_TRANSFER_FAIL:
+      return {
+        ...state,
+        payment_transfer_success: false,
+        payment_transfer_loading: false,
+        payment_transfer_error_msg: action.data.msg,
+        payment_transfer_res: '',
+        payment_transfer_fail: true,
       };
     default:
       return state;

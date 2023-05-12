@@ -273,3 +273,23 @@ export function getRequestTime(createdAt) {
 
   return time;
 }
+const STRIPE_PROCESSING_FEES = 2.9;
+const STRIPE_ADDITIONAL_FEES = 0.3;
+const ZERO = 0;
+
+export const calculateStripeAmount = amount => {
+  if (amount > ZERO) {
+    const taxAmount =
+      (amount * STRIPE_PROCESSING_FEES) / 100 + STRIPE_ADDITIONAL_FEES;
+    return taxAmount.toFixed(2);
+  }
+  return ZERO;
+};
+export const calculateTotalStripeAmount = amount => {
+  if (amount > ZERO) {
+    const taxAmount =
+      (amount * STRIPE_PROCESSING_FEES) / 100 + STRIPE_ADDITIONAL_FEES;
+    return (taxAmount + parseInt(amount)).toFixed(2);
+  }
+  return ZERO;
+};

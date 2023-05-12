@@ -3,6 +3,7 @@ import {
   GetPaymentRequestListApi,
   UpdateRequestStatus,
   GetPaymentHistoryApi,
+  paymentTransferApi,
 } from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
 import {
@@ -12,6 +13,9 @@ import {
   GET_PAYMENT_REQUEST_FAIL,
   GET_PAYMENT_REQUEST_LIST,
   GET_PAYMENT_REQUEST_SUCCESS,
+  PAYMENT_TRANSFER,
+  PAYMENT_TRANSFER_FAIL,
+  PAYMENT_TRANSFER_SUCCESS,
   UPDATE_REQUEST_STATUS,
   UPDATE_REQUEST_STATUS_FAIL,
   UPDATE_REQUEST_STATUS_SUCCESS,
@@ -115,4 +119,29 @@ function* getPaymentHistory() {
 }
 export function* watchPaymentHistory() {
   yield takeLatest(TRANSACTION_HISTORY, getPaymentHistory);
+}
+
+function* paymentTransfer(payload) {
+  try {
+    const result = yield paymentTransferApi(payload.data);
+    if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      yield put({
+        type: PAYMENT_TRANSFER_SUCCESS,
+        data: result.data?.message,
+      });
+    } else {
+      yield put({
+        type: PAYMENT_TRANSFER_FAIL,
+        data: {msg: result.data?.message},
+      });
+    }
+  } catch (err) {
+    yield put({
+      type: PAYMENT_TRANSFER_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
+  }
+}
+export function* watchPaymentTransfer() {
+  yield takeLatest(PAYMENT_TRANSFER, paymentTransfer);
 }

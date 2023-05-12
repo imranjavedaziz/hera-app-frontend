@@ -67,4 +67,5 @@ export default {
   payment_request_status: 'payment-request-status',
   sendPaymentRequest: 'payment-request',
   transactionHistory: 'transaction-history',
+  payment_transfer: 'payment-transfer',
 };
