@@ -1,23 +1,31 @@
 // TransactionDetails
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
-import {IconHeader} from '../../../components/Header';
 import {Container} from '../../../components';
-import {Fonts} from '../../../constants/Constants';
+import {Fonts, Routes} from '../../../constants/Constants';
 import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
-import {ItemSeperator, TransactionStatus} from '../Transaction/TransactionComp';
+import {TransactionStatus} from '../Transaction/TransactionComp';
+import {
+  calculateStripeAmount,
+  getCardImage,
+} from '../../../utils/commonFunction';
 
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  console.log(route?.params, 'hhi');
   const headerComp = () => (
     <TouchableOpacity
       onPress={() => {
-        navigation.goBack();
+        if (route?.params?.role === 2 && route?.params?.payment) {
+          navigation.navigate(Routes.HeraPay);
+        } else {
+          navigation.goBack();
+        }
       }}>
       <Text style={[styles.doneText]}>Done</Text>
     </TouchableOpacity>
@@ -68,7 +76,9 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  $300.00
+                  {route?.params.amount % 1 === 0
+                    ? `$${(route?.params.amount).toFixed(2)}`
+                    : `$${route?.params.amount}`}
                 </Text>
               </View>
               <View style={[styles.bottomRow, styles.spaceBetween]}>
@@ -80,7 +90,7 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  $9.00
+                  ${calculateStripeAmount(route?.params?.amount)}
                 </Text>
               </View>
               <Seperator />
@@ -98,7 +108,7 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  $309.00
+                  ${route?.params?.net_amount}
                 </Text>
               </View>
               <Seperator />
@@ -126,14 +136,14 @@ const TransactionDetails = ({route}) => {
                   {Strings.TransDetail.paidByCard}
                 </Text>
                 <Image
-                  source={Images.ICON_MASTER}
+                  source={getCardImage(route?.params?.brand)}
                   style={{height: 20, resizeMode: 'contain'}}
                 />
                 <Text
                   style={[
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold, fontSize: 16},
-                  ]}>{`●●●● ${route?.params.card}`}</Text>
+                  ]}>{`●●●● ${route?.params.last4}`}</Text>
               </View>
             )}
             {route?.params?.role !== 2 && (
@@ -164,11 +174,13 @@ const TransactionDetails = ({route}) => {
                 {route?.params.date}
               </Text>
             </View>
-            {route?.params?.role !== 2 && <Text style={styles.smDonorPara}>
-              <Text style={{color: Colors.RED}}>*</Text> A processing fee is
-              applied for every payment that you receive. An amount $1.99 has
-              been charged for this transaction.
-            </Text>}
+            {route?.params?.role !== 2 && (
+              <Text style={styles.smDonorPara}>
+                <Text style={{color: Colors.RED}}>*</Text> A processing fee is
+                applied for every payment that you receive. An amount $1.99 has
+                been charged for this transaction.
+              </Text>
+            )}
           </View>
         </View>
       </View>

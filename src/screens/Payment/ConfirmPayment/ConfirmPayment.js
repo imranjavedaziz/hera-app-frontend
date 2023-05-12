@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import {Images, Strings} from '../../../constants';
 import styles from './styles';
@@ -22,13 +22,13 @@ import ConfirmCardComp from './ConfirmCardComp';
 import {paymentTransfer} from '../../../redux/actions/Payment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Value} from '../../../constants/FixedValues';
-import {useRef} from 'react';
 
 const ConfirmPayment = ({route}) => {
   const navigation = useNavigation();
   const {getCardListResponse} = useSelector(store => store.getCardList);
   const params = route.params;
   const {stripe_customer_id} = useSelector(state => state.Auth);
+  const {log_in_data} = useSelector(state => state.Auth);
   const {
     payment_transfer_success,
     payment_transfer_loading,
@@ -41,6 +41,7 @@ const ConfirmPayment = ({route}) => {
   let scrollRef = React.createRef();
   const dispatch = useDispatch();
   const [Selected, setSelected] = React.useState('');
+  const [SelectedCard, setSelectedCard] = React.useState('');
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -50,11 +51,22 @@ const ConfirmPayment = ({route}) => {
       style={styles.androidHeaderIcons}
     />
   );
+  function float2int(value) {
+    return value | 0;
+  }
+
+  const Amount = params.amount.replace(/,/g, '');
+  const roundOff = float2int(Amount);
   useEffect(() => {
     if (_.isEmpty(getCardListResponse?.info?.data)) {
       dispatch(getCardList(stripe_customer_id, 10));
+    } else if (getCardListResponse?.info?.data.length === 1) {
+      getCardListResponse?.info?.data.map((item, index) => {
+        return setSelectedCard(item);
+      });
     }
   }, [dispatch, stripe_customer_id]);
+  console.log(SelectedCard, 'SelectedCardSelectedCard');
   //Get Card List
   useEffect(() => {
     if (getCardListResponse?.status === GET_CARD_LIST.START) {
@@ -72,6 +84,21 @@ const ConfirmPayment = ({route}) => {
       dispatch(showAppLoader());
       if (payment_transfer_success) {
         dispatch(hideAppLoader());
+        const payload = {
+          id: params?.item?.id,
+          payment_intent: payment_transfer_res?.payment_intent_id,
+          amount: parseInt(roundOff),
+          net_amount: calculateTotalStripeAmount(roundOff),
+          payment_status: 1,
+          brand: SelectedCard?.card?.brand,
+          last4: SelectedCard?.card?.last4,
+          created_at: params?.item?.created_at,
+          username: params?.item?.username,
+          profile_pic: params?.item?.profile_pic,
+          role: log_in_data.role_id,
+          payment: true,
+        };
+        navigation.navigate(Routes.TransactionDetails, payload);
         console.log(payment_transfer_res, 'payment_transfer_res');
       }
       if (payment_transfer_fail) {
@@ -102,18 +129,19 @@ const ConfirmPayment = ({route}) => {
     }
   };
   const onPay = () => {
-    if (Selected) {
+    if (Selected || SelectedCard) {
       const payload = {
         to_user_id: params?.item?.id,
-        amount: parseInt(params?.amount),
-        net_amount: calculateTotalStripeAmount(params?.amount),
-        payment_method_id: Selected,
+        amount: parseInt(roundOff),
+        net_amount: calculateTotalStripeAmount(roundOff),
+        payment_method_id: Selected ? Selected : SelectedCard?.id,
         payment_request_id: null,
+        created_at: new Date().toString(),
       };
       dispatch(showAppLoader());
       dispatch(paymentTransfer(payload));
     } else {
-      dispatch(showAppToast(true, 'Please Select or Add Card.'));
+      dispatch(showAppToast(true, 'Please select a card to proceed.'));
     }
   };
   return (
@@ -130,16 +158,12 @@ const ConfirmPayment = ({route}) => {
           <Text style={styles.mainText}>
             {Strings.confirmPassword.CONFIRM_PAYMENT}
           </Text>
-          <Text style={styles.ammount}>
-            {params.amount % 1 === 0
-              ? `$${parseInt(params.amount).toFixed(2)}`
-              : `$${params.amount}`}
-          </Text>
+          <Text style={styles.ammount}>{`$${params.amount}`}</Text>
           <View style={styles.borderBlue}>
             <Image style={styles.warningImg} source={Images.BlueWarning} />
             <Text style={styles.warningText}>
-              An additional fee of ${calculateStripeAmount(params?.amount)} will
-              be charged.
+              An additional fee of ${calculateStripeAmount(roundOff)} will be
+              charged.
             </Text>
           </View>
           {_.isEmpty(getCardListResponse?.info?.data) ? (
@@ -170,7 +194,9 @@ const ConfirmPayment = ({route}) => {
                       index={item?.id}
                       onPress={() => {
                         setSelected(item?.id);
+                        setSelectedCard(item);
                       }}
+                      Data={getCardListResponse?.info?.data}
                       Icon={item?.card?.brand}
                       number={`${Strings.Hera_Pay.CARD_DOT}${item?.card?.last4}`}
                       Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(
@@ -194,7 +220,7 @@ const ConfirmPayment = ({route}) => {
             onPress={() => onPay()}
             style={styles.btnContainerPay}>
             <Text style={styles.btnText}>
-              PAY ${calculateTotalStripeAmount(params?.amount)}
+              PAY ${calculateTotalStripeAmount(roundOff)}
             </Text>
           </TouchableOpacity>
         </View>

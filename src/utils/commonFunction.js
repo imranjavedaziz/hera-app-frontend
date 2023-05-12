@@ -2,6 +2,7 @@ import {Alert, BackHandler} from 'react-native';
 import {Routes} from '../constants/Constants';
 import {ValidationMessages} from '../constants/Strings';
 import moment from 'moment';
+import {Images} from '../constants';
 
 export const deviceHandler = (navigation, screen) => {
   const backAction = () => {
@@ -285,11 +286,56 @@ export const calculateStripeAmount = amount => {
   }
   return ZERO;
 };
+
 export const calculateTotalStripeAmount = amount => {
   if (amount > ZERO) {
     const taxAmount =
       (amount * STRIPE_PROCESSING_FEES) / 100 + STRIPE_ADDITIONAL_FEES;
-    return (taxAmount + parseInt(amount)).toFixed(2);
+    return (taxAmount + parseFloat(amount)).toFixed(2);
   }
   return ZERO;
 };
+export const digitBeforeDecimal = txt => {
+  if (!txt || txt === '') {
+    return '';
+  }
+  let updatedTxt = txt.replace(/,/g, '');
+  let formatted = parseFloat(updatedTxt)?.toLocaleString('en-US', {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+  });
+  updatedTxt = formatted;
+  if (formatted.length >= 8) {
+    updatedTxt = formatted.substring(0, 8);
+  }
+  return updatedTxt === 'NaN' ? '' : updatedTxt;
+};
+export function convertDateFormat(dateString) {
+  const date = new Date(dateString);
+
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  };
+
+  const formattedDate = date.toLocaleString('en-US', options);
+
+  return `${formattedDate}`;
+}
+export function getCardImage(cardType) {
+  const cardTypeLowercase = cardType.toLowerCase();
+  const cardTypeToImageMap = {
+    visa: Images.iconVisacardbig,
+    mastercard: Images.iconMasterbig,
+    'american express': Images.iconAmexbig,
+    unionpay: Images.iconUnionPaybig,
+    jcb: Images.iconJcbbig,
+    discover: Images.iconDiscoverbig,
+    amex: Images.iconAmexbig,
+  };
+  return cardTypeToImageMap[cardTypeLowercase] || Images.defaultCardbig;
+}

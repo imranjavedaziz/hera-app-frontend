@@ -27,21 +27,21 @@ const WebViewUrl = props => {
           flexDirection: Alignment.ROW,
         }}>
         <TouchableOpacity
-          style={{alignItems: Alignment.FLEX_START}}
+          style={{
+            justifyContent: Alignment.CENTER,
+            width: Value.CONSTANT_VALUE_40,
+            alignItems: Alignment.CENTER,
+            marginLeft: Value.CONSTANT_VALUE_10,
+          }}
           onPress={navigation.goBack}>
-          <Image
-            source={Images.webIcon}
-            style={{
-              marginLeft: Value.CONSTANT_VALUE_20,
-            }}
-          />
+          <Image source={Images.webIcon} />
         </TouchableOpacity>
         <View
           style={{
             justifyContent: Alignment.CENTER,
             alignItems: Alignment.CENTER,
             flex: Value.CONSTANT_VALUE_1,
-            right: 20,
+            right: Value.CONSTANT_VALUE_20,
           }}>
           <Text
             style={{

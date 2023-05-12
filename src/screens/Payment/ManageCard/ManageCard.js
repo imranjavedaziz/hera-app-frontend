@@ -52,9 +52,10 @@ const ManageCard = ({route}) => {
   const params = route?.params;
   console.log(params?.params?.item, 'koko');
   const {paymentIntentRes} = useSelector(store => store.paymentIntent);
-  const {stripe_customer_id} = useSelector(state => state.Auth);
+  const {stripe_customer_id,log_in_data} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
   const [check, setCheck] = React.useState(true);
+
   const {
     payment_transfer_success,
     payment_transfer_loading,
@@ -63,6 +64,11 @@ const ManageCard = ({route}) => {
     payment_transfer_fail,
   } = useSelector(state => state.Payment);
   const loadingRef = useRef(null);
+  function float2int(value) {
+    return value | 0;
+  }
+  const Amount = params?.params?.amount.replace(/,/g, '');
+  const roundOff = float2int(Amount);
   useEffect(() => {
     if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
@@ -72,8 +78,8 @@ const ManageCard = ({route}) => {
         console.log('without save card for future', info);
         const payload = {
           to_user_id: params?.params?.item?.id,
-          amount: parseInt(params?.params?.amount),
-          net_amount: calculateTotalStripeAmount(params?.params?.amount),
+          amount: roundOff,
+          net_amount: calculateTotalStripeAmount(roundOff),
           payment_method_id: info?.id,
           payment_request_id: null,
         };
@@ -105,6 +111,21 @@ const ManageCard = ({route}) => {
       if (payment_transfer_success) {
         dispatch(hideAppLoader());
         dispatch({type: PAYMENT_INTENT.CLEAN});
+        const payload = {
+          id: params?.item?.id,
+          payment_intent: payment_transfer_res?.payment_intent_id,
+          amount: roundOff,
+          net_amount: calculateTotalStripeAmount(roundOff),
+          payment_status: 1,
+          brand: paymentIntentRes?.info?.card?.brand,
+          last4: paymentIntentRes?.info?.card?.last4,
+          created_at: params?.item?.created_at,
+          username: params?.item?.username,
+          profile_pic: params?.item?.profile_pic,
+          role: log_in_data.role_id,
+          payment: true,
+        };
+        navigation.navigate(Routes.TransactionDetails, payload);
         console.log(payment_transfer_res, 'payment_transfer_res');
       }
       if (payment_transfer_fail) {
@@ -363,7 +384,7 @@ const ManageCard = ({route}) => {
             <Button
               label={
                 params && params.params
-                  ? `PAY $${calculateTotalStripeAmount(params?.params?.amount)}`
+                  ? `PAY $${calculateTotalStripeAmount(roundOff)}`
                   : Strings.ManageCard.SAVE_CARD
               }
               style={styles.addBtn}

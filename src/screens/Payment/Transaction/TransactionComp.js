@@ -3,12 +3,15 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
-import {Fonts, Routes} from '../../../constants/Constants';
+import {Routes} from '../../../constants/Constants';
+import {convertDateFormat, getCardImage} from '../../../utils/commonFunction';
 
 export const TransactionItem = ({item}) => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity style={{flex: 1}} onPress={()=>navigation.navigate(Routes.TransactionDetails,item)}>
+    <TouchableOpacity
+      style={{flex: 1}}
+      onPress={() => navigation.navigate(Routes.TransactionDetails, item)}>
       <View style={[styles.transRow, {justifyContent: 'space-between'}]}>
         <Text style={styles.transId}>{`Transaction ID: ${item?.id}`}</Text>
         <TransactionStatus status={item?.status} />
@@ -20,17 +23,16 @@ export const TransactionItem = ({item}) => {
             <Text
               style={
                 styles.transName
-              }>{`$${item?.amount} Sent to #${item?.name}`}</Text>
+              }>{`$${item?.amount} Sent to #${item?.username}`}</Text>
           )}
           {item?.role === 2 && (
-            <View style={[styles.wrapRow,{marginTop: 5}]}>
-                <Text style={styles.transDetail}>
-                {`Paid by Card:`}
-                </Text>
-                <Image source={Images.ICON_MASTER} style={{height: 20,resizeMode: 'contain'}}/>
-                <Text style={styles.transDetail}>
-                {`●●●● ${item?.card}`}
-                </Text>
+            <View style={[styles.wrapRow, {marginTop: 5}]}>
+              <Text style={styles.transDetail}>{`Paid by Card:`}</Text>
+              <Image
+                source={getCardImage(item?.brand)}
+                style={{height: 20, resizeMode: 'contain'}}
+              />
+              <Text style={styles.transDetail}>{`●●●● ${item?.last4}`}</Text>
             </View>
           )}
 
@@ -41,11 +43,13 @@ export const TransactionItem = ({item}) => {
               }>{`$${item?.amount} from ${item?.name}`}</Text>
           )}
           {item?.role !== 2 && (
-            <Text style={[styles.transDetail,{marginTop: 5}]}>
+            <Text style={[styles.transDetail, {marginTop: 5}]}>
               {`Sent to: ●●●● ${item?.card} (${item?.bank})`}
             </Text>
           )}
-          <Text style={styles.transDate}>{item?.date}</Text>
+          <Text style={styles.transDate}>
+            {convertDateFormat(item?.created_at)}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -94,7 +98,7 @@ export const TransactionStatus = React.memo(({status = 0}) => {
         <View style={styles.wrapRow}>
           <Image source={Images.TIME} style={styles.statusIcon} />
           <Text style={[styles.transStatus, {color: Colors.COLOR_747474}]}>
-            Pending
+            In Process
           </Text>
         </View>
       );

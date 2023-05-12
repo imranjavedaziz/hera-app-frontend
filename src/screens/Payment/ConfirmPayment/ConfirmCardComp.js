@@ -5,7 +5,7 @@ import {dynamicSize} from '../../../utils/responsive';
 import {Value} from '../../../constants/FixedValues';
 import {Fonts} from '../../../constants/Constants';
 
-const ConfirmCardComp = ({number, Time, Icon, index, onPress, value}) => {
+const ConfirmCardComp = ({number, Time, Icon, index, onPress, value, Data}) => {
   function getCardImage(cardType) {
     const cardTypeLowercase = cardType.toLowerCase();
     const cardTypeToImageMap = {
@@ -20,23 +20,39 @@ const ConfirmCardComp = ({number, Time, Icon, index, onPress, value}) => {
     return cardTypeToImageMap[cardTypeLowercase] || Images.defaultCardbig;
   }
   return (
-    <TouchableOpacity
-      key={index}
-      activeOpacity={1}
-      onPress={onPress}
-      style={styles.mainView}>
-      <Image
-        style={{resizeMode: 'contain'}}
-        source={value === index ? Images.iconRadiosel : Images.iconRadiounsel}
-      />
-      <View style={styles.cardsContainer}>
-        <Image source={getCardImage(Icon)} style={styles.cardImg} />
-        <View style={{marginLeft: dynamicSize(Value.CONSTANT_VALUE_11)}}>
-          <Text style={styles.cardNo}>{number}</Text>
-          <Text style={styles.cardTime}>{Time}</Text>
+    <>
+      {Data.length > 1 ? (
+        <TouchableOpacity
+          key={index}
+          activeOpacity={1}
+          onPress={onPress}
+          style={styles.mainView}>
+          <Image
+            style={{resizeMode: 'contain'}}
+            source={
+              value === index ? Images.iconRadiosel : Images.iconRadiounsel
+            }
+          />
+          <View style={styles.cardsContainer}>
+            <Image source={getCardImage(Icon)} style={styles.cardImg} />
+            <View style={{marginLeft: dynamicSize(Value.CONSTANT_VALUE_11)}}>
+              <Text style={styles.cardNo}>{number}</Text>
+              <Text style={styles.cardTime}>{Time}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.mainView}>
+          <View style={styles.cardsContainer}>
+            <Image source={getCardImage(Icon)} style={styles.cardImg} />
+            <View style={{marginLeft: dynamicSize(Value.CONSTANT_VALUE_11)}}>
+              <Text style={styles.cardNo}>{number}</Text>
+              <Text style={styles.cardTime}>{Time}</Text>
+            </View>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      )}
+    </>
   );
 };
 const styles = StyleSheet.create({

@@ -127,7 +127,7 @@ function* paymentTransfer(payload) {
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({
         type: PAYMENT_TRANSFER_SUCCESS,
-        data: result.data?.message,
+        data: result.data?.data,
       });
     } else {
       yield put({
