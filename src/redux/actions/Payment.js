@@ -2,6 +2,7 @@ import {
   GET_MATCH_LIST,
   GET_PAYMENT_REQUEST_LIST,
   UPDATE_REQUEST_STATUS,
+  TRANSACTION_HISTORY,
   PAYMENT_TRANSFER,
 } from '../Type';
 
@@ -22,6 +23,9 @@ export const updateRequestStatus = data => {
     data: data,
   };
 };
+export const getTransactionHistory = () => ({
+  type: TRANSACTION_HISTORY,
+});
 export const paymentTransfer = data => {
   return {
     type: PAYMENT_TRANSFER,

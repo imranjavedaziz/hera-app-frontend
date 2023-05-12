@@ -63,6 +63,7 @@ import {
   watchGetPaymentRequestList,
   watchPaymentTransfer,
   watchUpdateRequestStatus,
+  watchPaymentHistory,
 } from './Payment';
 import {watchSendPaymentRequest} from './PaymentRequest';
 
@@ -120,6 +121,7 @@ export default function* rootSaga() {
     fork(watchGetPaymentRequestList),
     fork(watchUpdateRequestStatus),
     fork(watchSendPaymentRequest),
+    fork(watchPaymentHistory),
     fork(watchPaymentTransfer),
   ]);
 }

@@ -128,7 +128,7 @@ const PaymentRequest = () => {
     console.log(item, 'itemitem');
     const url = item?.doc_url;
     // Extract the file extension from the URL
-    const fileExtension = url.split('.').pop();
+    const fileExtension = url?.split('.').pop()||'';
     // Conditionally set the 'pdf' prop
     const pdf = fileExtension.toLowerCase() === 'pdf';
     const formattedAmount = Number.isInteger(item?.amount)

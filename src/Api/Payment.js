@@ -10,6 +10,9 @@ export const GetPaymentRequestListApi = () => {
 export const UpdateRequestStatus = data => {
   return axiosRequest.post(ApiPath.payment_request_status, data);
 };
+export const GetPaymentHistoryApi = () => {
+  return axiosRequest.get(ApiPath.transactionHistory);
+}
 export const paymentTransferApi = data => {
   return axiosRequest.post(ApiPath.payment_transfer, data);
 };
