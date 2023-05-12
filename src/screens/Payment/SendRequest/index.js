@@ -1,6 +1,13 @@
-import React, {useState,useEffect} from 'react';
-import {View, Text, Image, TouchableOpacity, Keyboard,Alert} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  Alert,
+} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -13,9 +20,11 @@ import CustomImagePicker, {
   ActionSheetOptions,
 } from '../../../components/Document/CustomImagePicker';
 import {showAppToast} from '../../../redux/actions/loader';
-import {Input_Type} from '../../../constants/Constants';
-import { DocumentUploadPayment } from '../../../redux/actions/DocumentUpload';
-import { SendPaymentRequest } from '../../../redux/actions/PaymentRequest';
+import {Input_Type, Routes} from '../../../constants/Constants';
+import {DocumentUploadPayment} from '../../../redux/actions/DocumentUpload';
+import {SendPaymentRequest} from '../../../redux/actions/PaymentRequest';
+import {getAccountStatus} from '../../../redux/actions/AccountStatus';
+import getKycStatusFunction from '../../../utils/getkycStatusFunc';
 
 const options = [
   ActionSheetOptions.openCamera,
@@ -28,6 +37,9 @@ const SendRequest = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {log_in_data} = useSelector(state => state.Auth);
+  const {account_status_success, account_status_res} = useSelector(
+    state => state.AccountStatus,
+  );
   const {
     document_upload_success,
     document_upload_res,
@@ -36,7 +48,7 @@ const SendRequest = ({route}) => {
     document_upload_loading,
   } = useSelector(state => state.DocumentUpload);
   const params = route.params;
-  console.log('params',params);
+  console.log('params', params);
   const [isPhotoPopupVisible, setIsPhotoPopupVisible] = useState(false);
   const [fileType, setFileType] = useState('');
   const [errorsData, setErrors] = useState({});
@@ -79,21 +91,50 @@ const SendRequest = ({route}) => {
       handleError(null, Input_Type.selectField);
     }
   };
-  const onSubmit = (data)=>{
-    console.log('onSubmit',data);
-    const payload = {
+  const onSubmit = data => {
+    if (account_status_res.status) {
+      console.log('onSubmit', data);
+      const payload = {
         ...data,
         to_user_id: params.id,
+      };
+      if (!payload.doc_url) {
+        payload.doc_url = '';
+      }
+      dispatch(SendPaymentRequest(payload));
+    } else if (
+      account_status_res.bank_account === null ||
+      account_status_res.bank_account === ''
+    ) {
+      navigation.navigate(Routes.ManageBank);
+    } else if (account_status_res.kyc_status === 'incomplete') {
+      navigation.navigate(Routes.KycScreen);
+    } else {
+      dispatch(
+        showAppToast(
+          true,
+          `You can\'t send payment request because your ${getKycStatusFunction(
+            account_status_res.kyc_status,
+          )}.`,
+        ),
+      );
     }
-    if(!payload.doc_url){
-      payload.doc_url = '';
+  };
+  useEffect(() => {
+    if (account_status_success) {
+      console.log('account_status_res', JSON.stringify(account_status_res));
     }
-    dispatch(SendPaymentRequest(payload));
-  }
+  }, [account_status_success, account_status_res]);
+  useFocusEffect(
+    useCallback(() => {
+      console.log('useFocusEffect');
+      dispatch(getAccountStatus());
+    }, []),
+  );
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={!isDirty?navigation.goBack:backAction}
+      onPress={!isDirty ? navigation.goBack : backAction}
       accessibilityLabel={Strings.inqueryForm.LEFT_ARROW_BUTTON}
       Fixedstyle={Styles.header}
     />
@@ -111,12 +152,12 @@ const SendRequest = ({route}) => {
   useEffect(() => {
     console.log('imageCross', file);
   }, [file]);
-  useEffect(()=>{
-    if(document_upload_success){
-        setValue('doc_url',document_upload_res.file_url);
-        console.log('document_upload_res',JSON.stringify(document_upload_res));
+  useEffect(() => {
+    if (document_upload_success) {
+      setValue('doc_url', document_upload_res.file_url);
+      console.log('document_upload_res', JSON.stringify(document_upload_res));
     }
-  },[document_upload_success,document_upload_loading,document_upload_res]);
+  }, [document_upload_success, document_upload_loading, document_upload_res]);
   return (
     <Container
       mainStyle={false}
