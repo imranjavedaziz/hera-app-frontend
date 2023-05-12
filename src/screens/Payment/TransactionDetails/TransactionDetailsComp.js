@@ -11,7 +11,7 @@ import {Fonts} from '../../../constants/Constants';
 
 export const TransactionStatusCircle = React.memo(({status = 0}) => {
     switch (status.toString()) {
-      case '1':
+      case '2':
         return (
             <View
               style={[styles.statusContainer,{backgroundColor: Colors.BLUE,}]}>
@@ -21,7 +21,7 @@ export const TransactionStatusCircle = React.memo(({status = 0}) => {
               />
             </View>
         );
-      case '0':
+      case '3':
         return (
             <View
               style={[styles.statusContainer,{backgroundColor: Colors.RED,}]}>

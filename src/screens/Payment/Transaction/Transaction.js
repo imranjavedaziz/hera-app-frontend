@@ -89,6 +89,7 @@ const Transaction = () => {
             ListHeaderComponent={() => <ListHeader isShow={paymentHistory.length > 0} />}
             ListEmptyComponent={() => <EmptyList />}
             showsVerticalScrollIndicator={false}
+            ListFooterComponent={()=><View style={{marginBottom: 40}}/>}
           />
         </View>
       </View>

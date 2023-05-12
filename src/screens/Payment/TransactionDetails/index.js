@@ -36,7 +36,7 @@ const TransactionDetails = ({route}) => {
         <View style={styles.mainContainer}>
           <View style={{marginVertical: 30}}>
             <Image source={{uri: route?.params?.profile_pic}} style={styles.userImg} />
-            <TransactionStatusCircle status={route?.params?.payment_status} />
+            <TransactionStatusCircle status={route?.params?.payout_status} />
           </View>
           {route?.params?.role === 2 && (
             <Text style={styles.heading}>
