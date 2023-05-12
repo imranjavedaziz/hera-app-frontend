@@ -104,8 +104,13 @@ const MatchScreen = () => {
           log_in_data.role_id === 2 ? `#${item?.username}` : item?.first_name
         }
         type={item.role_id}
-        noBank={log_in_data.role_id === 2 ? item?.connected_acc_status : true}
-        onPress={() => navigation.navigate(Routes.SendRequest, item)}
+        noBank={log_in_data.role_id === 2 ? item?.bank_acc_token : true}
+        onPress={() =>
+          navigation.navigate(
+            log_in_data.role_id === 2 ? Routes.PaymentSent : Routes.SendRequest,
+            item,
+          )
+        }
       />
     );
   };

@@ -8,6 +8,9 @@ import {
   UPDATE_REQUEST_STATUS,
   UPDATE_REQUEST_STATUS_FAIL,
   UPDATE_REQUEST_STATUS_SUCCESS,
+  PAYMENT_TRANSFER,
+  PAYMENT_TRANSFER_FAIL,
+  PAYMENT_TRANSFER_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -29,6 +32,13 @@ const initState = {
   update_request_status_error_msg: '',
   update_request_status_res: {},
   update_request_status_fail: false,
+
+  //payment tranfer
+  payment_transfer_success: false,
+  payment_transfer_loading: false,
+  payment_transfer_error_msg: '',
+  payment_transfer_res: {},
+  payment_transfer_fail: false,
 };
 
 export default (state = initState, action) => {
@@ -118,6 +128,35 @@ export default (state = initState, action) => {
         update_request_status_error_msg: action.data.msg,
         update_request_status_res: '',
         update_request_status_fail: true,
+      };
+
+    //Payment Transfer
+    case PAYMENT_TRANSFER:
+      return {
+        ...state,
+        payment_transfer_success: false,
+        payment_transfer_loading: true,
+        payment_transfer_error_msg: '',
+        payment_transfer_res: {},
+        payment_transfer_fail: false,
+      };
+    case PAYMENT_TRANSFER_SUCCESS:
+      return {
+        ...state,
+        payment_transfer_success: true,
+        payment_transfer_loading: false,
+        payment_transfer_error_msg: '',
+        payment_transfer_res: action.data,
+        payment_transfer_fail: false,
+      };
+    case PAYMENT_TRANSFER_FAIL:
+      return {
+        ...state,
+        payment_transfer_success: false,
+        payment_transfer_loading: false,
+        payment_transfer_error_msg: action.data.msg,
+        payment_transfer_res: '',
+        payment_transfer_fail: true,
       };
     default:
       return state;

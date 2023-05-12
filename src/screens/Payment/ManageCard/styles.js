@@ -34,5 +34,13 @@ export default {
     height: 80,
     marginTop: Value.CONSTANT_VALUE_45,
     marginBottom: Value.CONSTANT_VALUE_20,
+    width: 305,
+  },
+  addFutureCard: {
+    fontFamily: Fonts.OpenSansRegular,
+    fontSize: Value.CONSTANT_VALUE_13,
+    color: Colors.BLACK,
+    textAlign: Alignment.CENTER,
+    marginLeft: Value.CONSTANT_VALUE_10,
   },
 };

@@ -144,7 +144,6 @@ const HeraPay = () => {
       let error = deleteCardResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
-
       dispatch({type: DELETE_BANK.CLEAN});
       dispatch({type: DELETE_CARD.CLEAN});
     } else {

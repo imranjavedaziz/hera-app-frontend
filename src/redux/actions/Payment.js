@@ -2,6 +2,7 @@ import {
   GET_MATCH_LIST,
   GET_PAYMENT_REQUEST_LIST,
   UPDATE_REQUEST_STATUS,
+  PAYMENT_TRANSFER,
 } from '../Type';
 
 export const getMatchList = payload => {
@@ -18,6 +19,12 @@ export const getPaymentRequestList = () => {
 export const updateRequestStatus = data => {
   return {
     type: UPDATE_REQUEST_STATUS,
+    data: data,
+  };
+};
+export const paymentTransfer = data => {
+  return {
+    type: PAYMENT_TRANSFER,
     data: data,
   };
 };

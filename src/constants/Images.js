@@ -135,4 +135,5 @@ export default {
   SuccessPayment: require('../assets/icons/success/success.png'),
   PendingPayment: require('../assets/icons/pending/time.png'),
   RejectPayment: require('../assets/icons/rejected/rejected.png'),
+  BlueWarning: require('../assets/icons/blueWarning/warning.png'),
 };
