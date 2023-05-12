@@ -3,8 +3,10 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
-import {Routes} from '../../../constants/Constants';
+import {Routes,Fonts} from '../../../constants/Constants';
 import {convertDateFormat, getCardImage} from '../../../utils/commonFunction';
+import moment from 'moment';
+
 
 export const TransactionItem = ({item}) => {
   const navigation = useNavigation();
@@ -14,10 +16,10 @@ export const TransactionItem = ({item}) => {
       onPress={() => navigation.navigate(Routes.TransactionDetails, item)}>
       <View style={[styles.transRow, {justifyContent: 'space-between'}]}>
         <Text style={styles.transId}>{`Transaction ID: ${item?.id}`}</Text>
-        <TransactionStatus status={item?.status} />
+        <TransactionStatus status={item?.payment_status} />
       </View>
       <View style={styles.transRow}>
-        <Image source={Images.BABY_MOTHER} style={styles.transImg} />
+        <Image source={{uri: item?.profile_pic}} style={styles.transImg} />
         <View style={styles.transColumn}>
           {item?.role === 2 && (
             <Text
@@ -26,6 +28,7 @@ export const TransactionItem = ({item}) => {
               }>{`$${item?.amount} Sent to #${item?.username}`}</Text>
           )}
           {item?.role === 2 && (
+
             <View style={[styles.wrapRow, {marginTop: 5}]}>
               <Text style={styles.transDetail}>{`Paid by Card:`}</Text>
               <Image
@@ -33,6 +36,7 @@ export const TransactionItem = ({item}) => {
                 style={{height: 20, resizeMode: 'contain'}}
               />
               <Text style={styles.transDetail}>{`●●●● ${item?.last4}`}</Text>
+
             </View>
           )}
 
@@ -40,16 +44,14 @@ export const TransactionItem = ({item}) => {
             <Text
               style={
                 styles.transName
-              }>{`$${item?.amount} from ${item?.name}`}</Text>
+              }>{`$${item?.amount} from ${item?.username}`}</Text>
           )}
           {item?.role !== 2 && (
-            <Text style={[styles.transDetail, {marginTop: 5}]}>
-              {`Sent to: ●●●● ${item?.card} (${item?.bank})`}
+            <Text style={[styles.transDetail,{marginTop: 5}]}>
+              {`Sent to: ●●●● ${item?.bank_last4} (${item?.bank_name})`}
             </Text>
           )}
-          <Text style={styles.transDate}>
-            {convertDateFormat(item?.created_at)}
-          </Text>
+          <Text style={styles.transDate}>{moment(item?.created_at).calendar()}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -86,7 +88,7 @@ export const TransactionStatus = React.memo(({status = 0}) => {
           <Text style={[styles.transStatus, {color: Colors.BLUE}]}>Paid</Text>
         </View>
       );
-    case '2':
+    case '0':
       return (
         <View style={styles.wrapRow}>
           <Image source={Images.WARNING_RED} style={styles.statusIcon} />

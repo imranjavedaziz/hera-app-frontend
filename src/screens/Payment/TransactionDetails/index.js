@@ -8,11 +8,15 @@ import {Images, Strings, Colors} from '../../../constants';
 import {Container} from '../../../components';
 import {Fonts, Routes} from '../../../constants/Constants';
 import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
-import {TransactionStatus} from '../Transaction/TransactionComp';
+
+import {TransactionStatus, ItemSeperator} from '../Transaction/TransactionComp';
 import {
   calculateStripeAmount,
   getCardImage,
 } from '../../../utils/commonFunction';
+
+import moment from 'moment';
+
 
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
@@ -42,19 +46,19 @@ const TransactionDetails = ({route}) => {
       <View style={styles.flex}>
         <View style={styles.mainContainer}>
           <View style={{marginVertical: 30}}>
-            <Image source={Images.BABY_MOTHER} style={styles.userImg} />
-            <TransactionStatusCircle status={route?.params?.status} />
+            <Image source={{uri: route?.params?.profile_pic}} style={styles.userImg} />
+            <TransactionStatusCircle status={route?.params?.payment_status} />
           </View>
           {route?.params?.role === 2 && (
             <Text style={styles.heading}>
-              {Strings.TransDetail.paymentTo.replace('{DONOR_ID}', '#SM5882')}
+              {Strings.TransDetail.paymentTo.replace('{DONOR_ID}', `#${route?.params?.username}`)}
             </Text>
           )}
           {route?.params?.role !== 2 && (
             <Text style={styles.heading}>
               {Strings.TransDetail.paymentFrom
                 .replace('{AMOUNT}', route?.params?.amount)
-                .replace('{USER_NAME}', route?.params?.name)}
+                .replace('{USER_NAME}', route?.params?.username)}
             </Text>
           )}
           {route?.params?.role !== 2 && <Seperator />}
@@ -90,7 +94,7 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  ${calculateStripeAmount(route?.params?.amount)}
+                  {`$${(route?.params?.net_amount - route?.params?.amount).toFixed(2)}`}
                 </Text>
               </View>
               <Seperator />
@@ -108,7 +112,7 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  ${route?.params?.net_amount}
+                  {`$${route?.params?.net_amount}`}
                 </Text>
               </View>
               <Seperator />
@@ -159,7 +163,7 @@ const TransactionDetails = ({route}) => {
                   style={[
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold, fontSize: 16},
-                  ]}>{`●●●● ${route?.params.card} (${route?.params.bank})`}</Text>
+                  ]}>{`●●●● ${route?.params.bank_last4} (${route?.params.bank_name})`}</Text>
               </View>
             )}
             <View style={styles.bottomRow}>
@@ -171,16 +175,14 @@ const TransactionDetails = ({route}) => {
                   styles.transDetail,
                   {fontFamily: Fonts.OpenSansBold, fontSize: 16},
                 ]}>
-                {route?.params.date}
+                {moment(route?.params.created_at).calendar()}
               </Text>
             </View>
-            {route?.params?.role !== 2 && (
-              <Text style={styles.smDonorPara}>
-                <Text style={{color: Colors.RED}}>*</Text> A processing fee is
-                applied for every payment that you receive. An amount $1.99 has
-                been charged for this transaction.
-              </Text>
-            )}
+            {route?.params?.role !== 2 && <Text style={styles.smDonorPara}>
+              <Text style={{color: Colors.RED}}>*</Text> A processing fee is
+              applied for every payment that you receive. An amount ${(route?.params?.net_amount - route?.params?.amount).toFixed(2)} has
+              been charged for this transaction.
+            </Text>}
           </View>
         </View>
       </View>
