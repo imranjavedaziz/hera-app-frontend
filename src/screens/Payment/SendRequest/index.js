@@ -107,15 +107,13 @@ const SendRequest = ({route}) => {
       account_status_res.bank_account === ''
     ) {
       navigation.navigate(Routes.ManageBank,{redirectTo: Routes.SendRequest});
-    } else if (account_status_res.kyc_status === 'incomplete') {
+    } else if (account_status_res.kyc_status === 'incomplete' || account_status_res.kyc_status === 'unverified') {
       navigation.navigate(Routes.KycScreen,{redirectTo: Routes.SendRequest});
     } else {
       dispatch(
         showAppToast(
           true,
-          `You can\'t send payment request because your ${getKycStatusFunction(
-            account_status_res.kyc_status,
-          )}.`,
+          `KYC approval is pending.`,
         ),
       );
     }
