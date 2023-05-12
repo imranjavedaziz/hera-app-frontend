@@ -15,7 +15,7 @@ export const TransactionItem = ({item}) => {
       onPress={() => navigation.navigate(Routes.TransactionDetails, item)}>
       <View style={[styles.transRow, {justifyContent: 'space-between'}]}>
         <Text style={styles.transId}>{`Transaction ID: ${item?.id}`}</Text>
-        <TransactionStatus status={item?.payout_status} />
+        {item?.role === 2 && <TransactionStatus status={item?.payout_status} />}
       </View>
       <View style={styles.transRow}>
         <Image source={{uri: item?.profile_pic}} style={styles.transImg} />
