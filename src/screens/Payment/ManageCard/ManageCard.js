@@ -67,7 +67,10 @@ const ManageCard = ({route}) => {
   function float2int(value) {
     return value | 0;
   }
-  const Amount = params?.params?.amount?.replace(/,/g, '');
+  const amountParam = params.amount.toString();
+  const Amount = amountParam?.includes(',')
+    ? amountParam?.replace(/,/g, '')
+    : amountParam;
   const roundOff = float2int(Amount);
   useEffect(() => {
     if (paymentIntentRes?.status === PAYMENT_INTENT.START) {

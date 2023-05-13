@@ -73,10 +73,11 @@ export default {
   },
   textInputStyle: {
     flex: Value.CONSTANT_VALUE_0,
-    height: Value.CONSTANT_VALUE_68,
     fontFamily: 'OpenSans',
     fontSize: Value.CONSTANT_VALUE_50,
     color: Colors.BLACK,
+    textAlign: Alignment.CENTER,
+    alignItems: Alignment.CENTER,
   },
   addProcess: {
     fontFamily: Fonts.OpenSansItalic,
@@ -94,7 +95,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
     marginBottom: scaleHeight(Value.CONSTANT_VALUE_50),
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_60),
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_50),
     marginHorizontal: Value.CONSTANT_VALUE_15,
   },
   btnText: {
@@ -106,8 +107,8 @@ export default {
   },
   bottonFloat: {
     alignItems: Alignment.CENTER,
-    top: 650,
-    position: 'absolute',
+    flex: 1,
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_200),
     alignSelf: Alignment.CENTER,
   },
 };

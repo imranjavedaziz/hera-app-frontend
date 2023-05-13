@@ -152,6 +152,7 @@ const PaymentSent = ({route}) => {
             <Text style={styles.dollar}>{Strings.PaymentSent.dollar}</Text>
             <TextInput
               ref={inputRefs}
+              autoFocus={false}
               style={styles.textInputStyle}
               onFocus={focusTextInput}
               keyboardType="numeric"

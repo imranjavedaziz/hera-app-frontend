@@ -106,6 +106,12 @@ const MessageToast = ({message}) => {
     if (toastState?.pushRes?.notify_type === 'subscribe') {
       toastState?.navigation.navigate(Routes.PtbProfile);
     }
+    if (toastState?.pushRes?.notify_type === 'payment_request') {
+      toastState?.navigation.navigate(Routes.PaymentRequest);
+    }
+    if (toastState?.pushRes?.notify_type === 'payment_transfer') {
+      toastState?.navigation.navigate(Routes.Transaction);
+    }
   };
   return (
     <View style={[styles.container, {backgroundColor: backgroundColor}]}>
