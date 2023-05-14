@@ -42,7 +42,7 @@ import {Alignment} from '../../../constants';
 import {getMessageID} from '../../../redux/actions/MessageId';
 import ButtonPay from '../../../components/BtnPay';
 const images = [];
-const DashboardDetailScreen = () => {
+const DashboardDetailScreen = ({route}) => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
@@ -214,6 +214,23 @@ const DashboardDetailScreen = () => {
     setImgPreviewIndex(index);
     setIsVisible(true);
   };
+  const onClickSend = () => {
+    if (route?.params?.filteredItem) {
+      navigation.navigate(Routes.PaymentSent, {
+        ...smDetailRes,
+        redirectTo: Routes.DashboardDetailScreen,
+        userid: userId,
+      });
+    } else {
+      dispatch(
+        showAppToast(
+          true,
+          `#${smDetailRes?.username} is not added a bank account`,
+        ),
+      );
+    }
+  };
+
   const renderItemData = item => {
     return (
       <>
@@ -473,13 +490,7 @@ const DashboardDetailScreen = () => {
                     <ButtonPay
                       label={Strings.dashboard.SendPayment}
                       style={styles.loginBtn}
-                      onPress={() =>
-                        navigation.navigate(Routes.PaymentSent, {
-                          ...smDetailRes,
-                          redirectTo: Routes.DashboardDetailScreen,
-                          userid: userId,
-                        })
-                      }
+                      onPress={() => onClickSend()}
                     />
                   </View>
                 </>

@@ -350,14 +350,7 @@ const ChatDetail = props => {
         console.log(Strings.chats.confirmProfile);
         break;
       case Strings.chats.sendPayment:
-        navigation.navigate(Routes.PaymentSent, {
-          id: props?.route?.params?.item?.recieverId,
-          profile_pic: props?.route?.params?.item?.recieverImage,
-          username: props?.route?.params?.item?.recieverUserName,
-          role_id: props?.route?.params?.item?.currentRole,
-          redirectTo: Routes.ChatDetail,
-          ChatItem: {...props?.route?.params},
-        });
+        onClickSend();
         break;
       case Strings.chats.seeProfile:
         navigateDetailScreen();
@@ -370,6 +363,29 @@ const ChatDetail = props => {
       case Strings.chats.reportUser:
         Platform.OS === 'ios' ? backAction() : setShowModal(true);
         break;
+    }
+  };
+  const onClickSend = () => {
+    if (log_in_data?.role_id === 2) {
+      if (props?.route?.params?.filteredItem) {
+        if (props?.route?.params?.filteredItem?.connected_acc_status) {
+          navigation.navigate(Routes.PaymentSent, {
+            id: props?.route?.params?.item?.recieverId,
+            profile_pic: props?.route?.params?.item?.recieverImage,
+            username: props?.route?.params?.item?.recieverUserName,
+            role_id: props?.route?.params?.item?.currentRole,
+            redirectTo: Routes.ChatDetail,
+            ChatItem: {...props?.route?.params},
+          });
+        } else {
+          dispatch(
+            showAppToast(
+              true,
+              `#${props?.route?.params?.item?.recieverUserName} is not added a bank account`,
+            ),
+          );
+        }
+      }
     }
   };
   const cb = image => {
@@ -631,6 +647,9 @@ const ChatDetail = props => {
       navigation.navigate(Routes.DashboardDetailScreen, {
         userId: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
+        filteredItem: props?.route?.params?.filteredItem?.connected_acc_status
+          ? props?.route?.params?.filteredItem?.connected_acc_status
+          : '',
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
@@ -1111,17 +1130,8 @@ const ChatDetail = props => {
             <TouchableOpacity
               onPress={() => {
                 setOpen(false);
-                if (log_in_data?.role_id === 2) {
-                  console.log(Strings.chats.shareUser);
-                  navigation.navigate(Routes.PaymentSent, {
-                    id: props?.route?.params?.item?.recieverId,
-                    profile_pic: props?.route?.params?.item?.recieverImage,
-                    username: props?.route?.params?.item?.recieverUserName,
-                    role_id: props?.route?.params?.item?.currentRole,
-                    redirectTo: Routes.ChatDetail,
-                    ChatItem: {...props?.route?.params},
-                  });
-                } else {
+                onClickSend();
+                {
                   const nameArr =
                     props?.route?.params?.item?.recieverName.split(' ');
                   navigation.navigate(Routes.SendRequest, {

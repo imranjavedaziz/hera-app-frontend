@@ -46,10 +46,6 @@ const MatchScreen = () => {
         dispatch(hideAppLoader());
         setData(get_match_list_res?.data?.data);
         setallUser(get_match_list_res?.data?.data);
-        console.log(
-          get_match_list_res?.data?.data,
-          'get_match_list_res?.data?.data',
-        );
       }
       if (get_match_list_fail) {
         dispatch(hideAppLoader());
