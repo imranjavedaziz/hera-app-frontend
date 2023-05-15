@@ -12,3 +12,7 @@ export const subscriptionPlanApi = () => {
 export const subscriptionStatusApi = () => {
   return axiosRequest.get(ApiPath.subscriptionStatus);
 };
+
+export const cancelStripeSubscriptionApi = () => {
+  return axiosRequest.post(ApiPath.cancelSubscription);
+};

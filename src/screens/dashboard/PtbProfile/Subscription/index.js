@@ -11,13 +11,13 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Container from '../../../../components/Container';
 import Images from '../../../../constants/Images';
 import Button from '../../../../components/Button';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import TitleComp from '../../../../components/dashboard/TitleComp';
 import Commitment from '../../../../components/dashboard/PtbProfile/Committment';
 import InAPPPurchase from '../../../../utils/inAppPurchase';
@@ -46,6 +46,7 @@ import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
 import {capitalizeStr} from '../../../../utils/commonFunction';
+import { getCardList,GET_CARD_LIST } from '../../../../redux/actions/stripe.action';
 
 export const CancelSubscription = ({
   changeModal,
@@ -99,11 +100,14 @@ const Subscription = () => {
   const [isPlanUpgrade, setPlanUpgrade] = useState(false);
   const [isPlanChanged, setPlanChanged] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
-  const [_purchasereceipt, setPurchaseReceipt] = React.useState(null);
+  const [_purchasereceipt, setPurchaseReceipt] = useState(null);
+  const [androidCards,setCards] = useState([]);
   const IAPService = InAPPPurchase.getInstance();
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
-  const [isCallApi, setCallApi] = React.useState(false);
+  const [isCallApi, setCallApi] = useState(false);
+  const {stripe_customer_id} = useSelector(state => state.Auth);
+  const {getCardListResponse} = useSelector(store => store.getCardList);
   const {subscription_status_success} = useSelector(
     state => state.Subscription,
   );
@@ -121,6 +125,22 @@ const Subscription = () => {
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
+  useFocusEffect(useCallback(()=>{
+    if(Platform.OS==='android'){
+      dispatch(getCardList(stripe_customer_id, 10));
+    }
+  },[stripe_customer_id]))
+  //Get Card List
+  useEffect(() => {
+    if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
+      const info = getCardListResponse?.info;
+      setCards(info?.data || []);
+      console.log('info?.data',JSON.stringify(info?.data));
+    } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
+      let error = getCardListResponse?.info ?? 'Something went wrong';
+      dispatch(showAppToast(false, error));
+    }
+  }, [getCardListResponse]);
   useEffect(() => {
     if (loadingRef.current && !subscription_plan_loading) {
       if (subscription_plan_success) {
@@ -253,18 +273,7 @@ const Subscription = () => {
       dispatch(showAppLoader());
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
     } else {
-      dispatch(showAppLoader());
-      console.log(
-        'LINE ANDROID 186 item',
-        item,
-        selectCheckBox?.android_product,
-      );
-      requestSubscriptionAndroid(
-        selectCheckBox?.android_product,
-        // 'hera_monthly',
-        selectCheckBox,
-        type,
-      );
+      navigation.navigate(androidCards.length>0?Routes.ConfirmSubscription:Routes.SubscriptionCard,selectCheckBox);
     }
   };
 
@@ -426,7 +435,10 @@ const Subscription = () => {
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
     } else {
-      if (
+      if(Platform.OS==='android' && androidCards.length===0){
+        navigation.navigate(Routes.SubscriptionCard,{redirectTo: Routes.Subscription,...selectCheckBox});
+      }
+      else if (
         selectCheckBox !== null &&
         subscription_plan_res?.data?.preference?.role_id_looking_for !==
           selectCheckBox.role_id_looking_for
@@ -619,7 +631,7 @@ const Subscription = () => {
             onPress={() => setChangeModal(!changeModal)}
           />
           <View style={styles.changeModalBox}>
-            <Text style={styles.changeModalTitle} numberOfLines={1}>
+            <Text style={styles.changeModalTitle} numberOfLines={2}>
               {!isPlanChanged
                 ? Strings.Subscription.ChangePlan
                 : Strings.Subscription.UpgradePlan.replace(
@@ -672,7 +684,7 @@ const Subscription = () => {
             onPress={() => setSuccessModal(!successModal)}
           />
           <View style={styles.changeModalBox}>
-            <Text style={styles.changeModalTitle} numberOfLines={1}>
+            <Text style={styles.changeModalTitle} numberOfLines={2}>
               {Strings.Subscription.SuccessChanged}
             </Text>
             <Text style={styles.changeModalPara}>
