@@ -50,7 +50,6 @@ const ManageCard = ({route}) => {
     store => store.attachPaymentIntent,
   );
   const params = route?.params;
-  console.log(params?.params?.item, 'koko');
   const {paymentIntentRes} = useSelector(store => store.paymentIntent);
   const {stripe_customer_id, log_in_data} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
@@ -67,7 +66,7 @@ const ManageCard = ({route}) => {
   function float2int(value) {
     return value | 0;
   }
-  const amountParam = params.amount.toString();
+  const amountParam = params?.amount?.toString();
   const Amount = amountParam?.includes(',')
     ? amountParam?.replace(/,/g, '')
     : amountParam;

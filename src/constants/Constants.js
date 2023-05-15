@@ -72,7 +72,7 @@ export const validationBank = {
   CAMPAIGN_TITLE: 50,
   CAMPAIGN_TITLE_MIN_CHAR: 2,
   ZIP_CODE_MIN: 3,
-  ZIP_CODE_MAX: 10,
+  ZIP_CODE_MAX: 5,
   MAX_FILE_SIZE: 10 * 1024 * 1024,
   DATE_ERROR: 'Please set an end Date.',
   ENTER_AMOUNT_ERROR: 'Please enter a valid amount',

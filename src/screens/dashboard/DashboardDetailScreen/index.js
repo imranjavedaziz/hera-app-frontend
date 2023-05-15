@@ -222,12 +222,7 @@ const DashboardDetailScreen = ({route}) => {
         userid: userId,
       });
     } else {
-      dispatch(
-        showAppToast(
-          true,
-          `#${smDetailRes?.username} is not added a bank account`,
-        ),
-      );
+      dispatch(showAppToast(true, `Bank not added by ${smDetailRes?.role}!`));
     }
   };
 

@@ -25,6 +25,7 @@ import {DocumentUploadPayment} from '../../../redux/actions/DocumentUpload';
 import {SendPaymentRequest} from '../../../redux/actions/PaymentRequest';
 import {getAccountStatus} from '../../../redux/actions/AccountStatus';
 import getKycStatusFunction from '../../../utils/getkycStatusFunc';
+import { digitBeforeDecimal } from '../../../utils/commonFunction';
 
 const options = [
   ActionSheetOptions.openCamera,
@@ -92,7 +93,11 @@ const SendRequest = ({route}) => {
     }
   };
   const onSubmit = data => {
-    if (account_status_res.status || (account_status_res.bank_account && account_status_res.kyc_status==='verified')) {
+    if (
+      account_status_res.status ||
+      (account_status_res.bank_account &&
+        account_status_res.kyc_status === 'verified')
+    ) {
       console.log('onSubmit', data);
       const payload = {
         ...data,
@@ -106,16 +111,14 @@ const SendRequest = ({route}) => {
       account_status_res.bank_account === null ||
       account_status_res.bank_account === ''
     ) {
-      navigation.navigate(Routes.ManageBank,{redirectTo: Routes.SendRequest});
-    } else if (account_status_res.kyc_status === 'incomplete' || account_status_res.kyc_status === 'unverified') {
-      navigation.navigate(Routes.KycScreen,{redirectTo: Routes.SendRequest});
+      navigation.navigate(Routes.ManageBank, {redirectTo: Routes.SendRequest});
+    } else if (
+      account_status_res.kyc_status === 'incomplete' ||
+      account_status_res.kyc_status === 'unverified'
+    ) {
+      navigation.navigate(Routes.KycScreen, {redirectTo: Routes.SendRequest});
     } else {
-      dispatch(
-        showAppToast(
-          true,
-          `KYC approval is pending.`,
-        ),
-      );
+      dispatch(showAppToast(true, `KYC approval is pending.`));
     }
   };
   useEffect(() => {
@@ -156,6 +159,17 @@ const SendRequest = ({route}) => {
       console.log('document_upload_res', JSON.stringify(document_upload_res));
     }
   }, [document_upload_success, document_upload_loading, document_upload_res]);
+  const conTwoDecDigit = digit => {
+    let splits = digit.split('.');
+    if (splits[0] == '') {
+      return '0' + digit;
+    } else {
+      return splits.length >= 2
+        ? digitBeforeDecimal(splits[0]) + '.' + splits[1].substring(-1, 2)
+        : digit;
+    }
+  };
+
   return (
     <Container
       mainStyle={false}
@@ -184,19 +198,44 @@ const SendRequest = ({route}) => {
         <View style={{flex: 1, marginHorizontal: 15, marginTop: 10}}>
           <Controller
             control={control}
-            render={({field: {onChange, value}}) => (
-              <FloatingLabelInput
-                label={Strings.SendRequest.amountField}
-                value={value}
-                onChangeText={v => onChange(v.trim())}
-                required={true}
-                maxLength={30}
-                error={errors && errors.amount?.message}
-                // autoFocus={true}
-                inputMode={'numeric'}
-                keyboardType={'numeric'}
-              />
-            )}
+            render={({field: {onChange, value}}) => {
+              const handleAmountChange = text => {
+                let txt = text.replace(/\s/g, '');
+                if (text?.length === 0 || Number(text) === 0 || text === ',') {
+                  onChange('');
+                } else {
+                  if (txt?.includes(',')) {
+                    txt = txt?.replace(/,/g, '');
+                  }
+                  if (isNaN(txt)) {
+                    onChange(value ?? '');
+                    return;
+                  }
+                  if (txt.includes('.')) {
+                    txt = conTwoDecDigit(txt);
+                    onChange(txt);
+                  } else {
+                    onChange(digitBeforeDecimal(txt));
+                  }
+                }
+              };
+
+              return (
+                <FloatingLabelInput
+                  label={Strings.SendRequest.amountField}
+                  value={value}
+                  onChangeText={v => {
+                    onChange(v.trim());
+                    handleAmountChange(v);
+                  }}
+                  required={true}
+                  maxLength={7}
+                  error={errors && errors.amount?.message}
+                  inputMode={'numeric'}
+                  keyboardType={'numeric'}
+                />
+              );
+            }}
             name="amount"
           />
           <Text style={Styles.uploadImgTxt}>
@@ -231,7 +270,10 @@ const SendRequest = ({route}) => {
                     right: -10,
                     zIndex: 1,
                   }}
-                  onPress={() => setFile(null)}>
+                  onPress={() => {
+                    setFile(null);
+                    setValue('doc_url', null);
+                  }}>
                   <Image
                     source={Images.imageCross}
                     style={{height: 29, width: 29, resizeMode: 'cover'}}
@@ -251,7 +293,6 @@ const SendRequest = ({route}) => {
           </TouchableOpacity>
         </View>
       </View>
-
       {isPhotoPopupVisible && (
         <CustomImagePicker
           freeCrop={true}

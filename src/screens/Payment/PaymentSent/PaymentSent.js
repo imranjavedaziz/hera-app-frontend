@@ -5,6 +5,7 @@ import {
   Image,
   Keyboard,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import React, {useRef, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -37,24 +38,27 @@ const PaymentSent = ({route}) => {
 
   const dispatch = useDispatch();
   const [keyboardOpen, setKeyboardOpen] = useState(false);
-  const [amountMaxLength, setMaxLength] = useState(8);
+
   useEffect(() => {
     if (route?.params?.amount) {
       console.log('route?.params?.amount');
     } else {
-      inputRefs.current.focus();
       const keyboardHideListener = Keyboard.addListener(
         'keyboardDidHide',
         () => {
           setKeyboardOpen(false);
         },
       );
+
       const keyboardShowListener = Keyboard.addListener(
         'keyboardDidShow',
         () => {
           setKeyboardOpen(true);
         },
       );
+
+      // Focus the input field
+      inputRefs.current.focus();
 
       return () => {
         keyboardHideListener.remove();
@@ -86,15 +90,8 @@ const PaymentSent = ({route}) => {
       }
       if (txt.includes('.')) {
         txt = conTwoDecDigit(txt);
-        var totalDigit = 11;
-        let splits = txt.split('.');
-        if (splits.length > 2) {
-          totalDigit = totalDigit + splits[1].length;
-        }
-        setMaxLength(totalDigit);
         setAmount(txt);
       } else {
-        setMaxLength(9);
         setAmount(digitBeforeDecimal(txt));
       }
     }
@@ -133,50 +130,52 @@ const PaymentSent = ({route}) => {
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps="handled"
-        extraScrollHeight={20}
-        enableAutoAutomaticScroll={true}
-        keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
-        showsVerticalScrollIndicator={false}
-        ref={scrollRef}>
-        <View style={styles.mainContainer}>
-          <Text style={styles.mainText}>{Strings.PaymentSent.SendTo}</Text>
-          <Image
-            style={styles.profileImg}
-            source={{uri: params?.profile_pic}}
-          />
-          <Text style={styles.userName}>#{params?.username}</Text>
-          <Text style={styles.type}>{getRoleData(params?.role_id)}</Text>
-          <View style={styles.rowView}>
-            <Text style={styles.dollar}>{Strings.PaymentSent.dollar}</Text>
-            <TextInput
-              ref={inputRefs}
-              autoFocus={false}
-              style={styles.textInputStyle}
-              onFocus={focusTextInput}
-              keyboardType="numeric"
-              value={amount}
-              onChangeText={handleAmountChange}
-              maxLength={amountMaxLength}
-              editable={!route?.params?.amount ? true : false}
+      <KeyboardAvoidingView style={styles.flex} behavior="padding">
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          extraScrollHeight={20}
+          enableAutoAutomaticScroll={true}
+          keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+          showsVerticalScrollIndicator={false}
+          ref={scrollRef}>
+          <View style={styles.mainContainer}>
+            <Text style={styles.mainText}>{Strings.PaymentSent.SendTo}</Text>
+            <Image
+              style={styles.profileImg}
+              source={{uri: params?.profile_pic}}
             />
+            <Text style={styles.userName}>#{params?.username}</Text>
+            <Text style={styles.type}>{getRoleData(params?.role_id)}</Text>
+            <View style={styles.rowView}>
+              <Text style={styles.dollar}>{Strings.PaymentSent.dollar}</Text>
+              <TextInput
+                ref={inputRefs}
+                autoFocus={false}
+                style={styles.textInputStyle}
+                onFocus={focusTextInput}
+                keyboardType="numeric"
+                value={amount}
+                onChangeText={handleAmountChange}
+                maxLength={7}
+                editable={!route?.params?.amount ? true : false}
+              />
+            </View>
+            <View style={styles.rowStyle}>
+              <Text style={styles.star}>*</Text>
+              <Text style={styles.addProcess}>
+                {Strings.PaymentSent.AdditionalCharges}
+              </Text>
+            </View>
           </View>
-          <View style={styles.rowStyle}>
-            <Text style={styles.star}>*</Text>
-            <Text style={styles.addProcess}>
-              {Strings.PaymentSent.AdditionalCharges}
-            </Text>
+          <View style={!keyboardOpen && styles.bottonFloat}>
+            <TouchableOpacity
+              onPress={() => onSubmit()}
+              style={styles.btnContainer}>
+              <Text style={styles.btnText}>{Strings.PaymentSent.PROCEED}</Text>
+            </TouchableOpacity>
           </View>
-        </View>
-        <View style={!keyboardOpen && styles.bottonFloat}>
-          <TouchableOpacity
-            onPress={() => onSubmit()}
-            style={styles.btnContainer}>
-            <Text style={styles.btnText}>{Strings.PaymentSent.PROCEED}</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
