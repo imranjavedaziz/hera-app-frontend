@@ -10,12 +10,14 @@ import {
 import React, {useState, useEffect} from 'react';
 import styles from './style';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import {Colors, Images, Strings} from '../../../../constants';
 import {Fonts} from '../../../../constants/Constants';
 import {CancelSubscription} from '../../../../screens/dashboard/PtbProfile/Subscription';
 import {capitalizeStr} from '../../../../utils/commonFunction';
+import {canncelSubscription} from '../../../../redux/actions/Subsctiption';
+import {showAppLoader, hideAppLoader} from '../../../../redux/actions/loader';
 
 const cancelURL = Platform.select({
   ios: 'https://apps.apple.com/account/subscriptions',
@@ -40,26 +42,23 @@ const Subscribe = ({MainText, InnerText, Icon, is_trial}) => {
 };
 const nextPlanStr = 'Your plan will be updated on {DATE}';
 export const Subscribed = () => {
+  const dispatch = useDispatch();
   const [changeModal, setChangeModal] = useState(false);
   const [hasUpgraded, setUpgraded] = useState(false);
-  const [isUpgradeDowngrade, setUpgradeDowngrade] = useState('upgraded');
   const navigation = useNavigation();
   const {get_user_detail_res} = useSelector(state => state.Edit_profile);
+  const {cancel_subscription_success, cancel_subscription_loading} =
+    useSelector(state => state.Subscription);
   console.log('get_user_detail_res', JSON.stringify(get_user_detail_res));
   useEffect(() => {
     setUpgraded(get_user_detail_res?.upcomingSubscription != null);
-    if (
-      get_user_detail_res?.subscription &&
-      get_user_detail_res?.upcomingSubscription
-    ) {
-      setUpgradeDowngrade(
-        get_user_detail_res?.subscription?.price <
-          get_user_detail_res?.upcomingSubscription?.price
-          ? 'upgraded'
-          : 'downgraded',
-      );
-    }
   }, [get_user_detail_res]);
+  useEffect(() => {
+    if (cancel_subscription_success && !cancel_subscription_loading) {
+      dispatch(hideAppLoader());
+      setChangeModal(false);
+    }
+  }, [cancel_subscription_success, cancel_subscription_loading]);
   const handleCancelPress = () => {
     if (Platform.OS === 'ios') {
       Alert.alert(
@@ -128,11 +127,13 @@ export const Subscribed = () => {
               },
             ]}>
             {
-              (Strings?.STATIC_ROLE.find(
-                r =>
-                  r.id ===
-                  get_user_detail_res.subscription?.role_id_looking_for,
-              )||{name:''}).name
+              (
+                Strings?.STATIC_ROLE.find(
+                  r =>
+                    r.id ===
+                    get_user_detail_res.subscription?.role_id_looking_for,
+                ) || {name: ''}
+              ).name
             }
           </Text>
           <Text
@@ -151,13 +152,12 @@ export const Subscribed = () => {
           {hasUpgraded && (
             <Text style={[styles.price, {marginTop: 10, fontSize: 12}]}>
               <Text style={{color: Colors.RED}}>*</Text>
-              {nextPlanStr
-                .replace(
-                  '{DATE}',
-                  moment(
-                    get_user_detail_res.subscription.current_period_end,
-                  ).format('LL'),
-                )}
+              {nextPlanStr.replace(
+                '{DATE}',
+                moment(
+                  get_user_detail_res.subscription.current_period_end,
+                ).format('LL'),
+              )}
             </Text>
           )}
           <View style={styles.row}>
@@ -177,7 +177,10 @@ export const Subscribed = () => {
       <CancelSubscription
         setChangeModal={setChangeModal}
         changeModal={changeModal}
-        handleCanncel={() => Linking.openURL(cancelURL)}
+        handleCanncel={() => {
+          dispatch(showAppLoader());
+          dispatch(canncelSubscription());
+        }}
       />
     </>
   );

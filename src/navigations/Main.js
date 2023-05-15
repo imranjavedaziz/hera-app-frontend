@@ -60,6 +60,8 @@ import SendRequest from '../screens/Payment/SendRequest';
 import TransactionDetails from '../screens/Payment/TransactionDetails';
 import PaymentSent from '../screens/Payment/PaymentSent/PaymentSent';
 import ConfirmPayment from '../screens/Payment/ConfirmPayment/ConfirmPayment';
+import ConfirmSubscription from '../screens/Payment/ConfirmSubscription';
+import SubscriptionCard from '../screens/Payment/SubscriptionCard';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -239,6 +241,8 @@ const Main = () => {
           <Stack.Screen name={Routes.TransactionDetails} component={TransactionDetails} />
           <Stack.Screen name={Routes.PaymentSent} component={PaymentSent} />
           <Stack.Screen name={Routes.ConfirmPayment} component={ConfirmPayment} />
+          <Stack.Screen name={Routes.ConfirmSubscription} component={ConfirmSubscription} />
+          <Stack.Screen name={Routes.SubscriptionCard} component={SubscriptionCard} />
         </Stack.Navigator>
       </NavigationContainer>
     )

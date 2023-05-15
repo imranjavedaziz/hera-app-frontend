@@ -123,10 +123,4 @@ export default {
     position: 'absolute',
     alignSelf: 'center',
   },
-  bottomPara: {
-    fontSize: Value.CONSTANT_VALUE_13,
-    fontFamily: Fonts.OpenSansRegular,
-    color: Colors.COLOR_535858,
-    marginTop: Value.CONSTANT_VALUE_26,
-  }
 };
