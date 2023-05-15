@@ -519,7 +519,7 @@ const SetPreference = ({route, navigation}) => {
                   <TouchableOpacity
                     style={styles.changePlan}
                     onPress={() => navigation.navigate(Routes.Subscription)}>
-                    <Text style={styles.changePlanTxt} numberOfLines={1}>
+                    <Text style={styles.changePlanTxt} numberOfLines={2}>
                       Change Plan to find other User Type
                     </Text>
                     <Image

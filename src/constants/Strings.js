@@ -480,6 +480,7 @@ export default {
     Later: 'Later',
     yearPrice: '$199.00/mo',
     Cancel: 'Cancel',
+    NotNow: 'Not Now',
     TrailOver:
       'Your trial period is over. Please subscribe now to find new match.',
     ChatTrailOver:
@@ -490,12 +491,18 @@ export default {
       'Your subscription has expired. Please renew your subscription now to continue your conversation.',
     ChangePlan: 'Change of Plan?',
     ChangePlanPara:
-      'You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.',
-    YesProceed: 'YES, PROCEED',
-    UpgradePlan: 'Change to {SELECTED_ROLE}?',
-    UpgradePlanPara: `You have to first cancel your ongoing plan to select a new subscription.
-    Click your Account Settings,
+    `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended. 
+    To cancel your subscription you need to Click your Account Settings,
     Scroll to Subscriptions, then click Manage.
+    Next to the HERA subscription,
+    Click Cancel Subscription.`,
+    YesProceed: 'YES, CANCEL',
+    UpgradePlan: 'Change search to {SELECTED_ROLE}?',
+    UpgradePlanPara: `Based on your current subscription, you can only search for {SELECTED_ROLE}. To search for another user type, you will have to first cancel your current subscription & then select a new subscription.
+    You have to first cancel your ongoing plan to select a new subscription.
+    Click your Account Settings,
+    Scroll to Subscriptions, 
+    then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,
     UpgradePlanParaAndroid: `You have to first cancel your ongoing plan to select a new subscription.
@@ -509,7 +516,8 @@ export default {
     SuccessUpgradePara:
       'The updated plan will be activated on {DATE_END} as you have an ongoing subscription.',
     CancelSub: 'Cancel Subscription?',
-    CancelSubParaIos: `To cancel your subscription you need to Click your Account Settings,
+    CancelSubParaIos: `If you cancel the subscription, you will not be able to send a like, match or chat with any profile.
+    To cancel your subscription you need to Click your Account Settings,
     Scroll to Subscriptions, then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,

@@ -90,9 +90,8 @@ export default {
   }),
   blueContain: {
     backgroundColor: 'rgb(90,188,236)',
-    minWidth: Value.CONSTANT_VALUE_324,
     flex: 1,
-    height: Value.CONSTANT_VALUE_64,
+    padding: Value.CONSTANT_VALUE_22,
     borderRadius: Value.CONSTANT_VALUE_11,
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
