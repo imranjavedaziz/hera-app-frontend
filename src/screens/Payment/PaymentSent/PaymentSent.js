@@ -128,55 +128,59 @@ const PaymentSent = ({route}) => {
     inputRefs.current.focus();
   };
   return (
-    <View style={styles.flex}>
-      <Header end={false}>{headerComp()}</Header>
-      <KeyboardAvoidingView style={styles.flex} behavior="padding">
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          extraScrollHeight={20}
-          enableAutoAutomaticScroll={true}
-          keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
-          showsVerticalScrollIndicator={false}
-          ref={scrollRef}>
-          <View style={styles.mainContainer}>
-            <Text style={styles.mainText}>{Strings.PaymentSent.SendTo}</Text>
-            <Image
-              style={styles.profileImg}
-              source={{uri: params?.profile_pic}}
-            />
-            <Text style={styles.userName}>#{params?.username}</Text>
-            <Text style={styles.type}>{getRoleData(params?.role_id)}</Text>
-            <View style={styles.rowView}>
-              <Text style={styles.dollar}>{Strings.PaymentSent.dollar}</Text>
-              <TextInput
-                ref={inputRefs}
-                autoFocus={false}
-                style={styles.textInputStyle}
-                onFocus={focusTextInput}
-                keyboardType="numeric"
-                value={amount}
-                onChangeText={handleAmountChange}
-                maxLength={7}
-                editable={!route?.params?.amount ? true : false}
+    <KeyboardAvoidingView style={[styles.flex, {marginBottom:45}]} behavior="padding" >
+      <View style={styles.flex}>
+        <Header end={false}>{headerComp()}</Header>
+        <KeyboardAvoidingView style={styles.flex}>
+          <KeyboardAwareScrollView
+            keyboardShouldPersistTaps="handled"
+            enableAutoAutomaticScroll={true}
+            keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+            contentContainerStyle={styles.flex}
+            showsVerticalScrollIndicator={false}
+            ref={scrollRef}>
+            <View style={styles.mainContainer}>
+              <Text style={styles.mainText}>{Strings.PaymentSent.SendTo}</Text>
+              <Image
+                style={styles.profileImg}
+                source={{uri: params?.profile_pic}}
               />
+              <Text style={styles.userName}>#{params?.username}</Text>
+              <Text style={styles.type}>{getRoleData(params?.role_id)}</Text>
+              <View style={styles.rowView}>
+                <Text style={styles.dollar}>{Strings.PaymentSent.dollar}</Text>
+                <TextInput
+                  ref={inputRefs}
+                  autoFocus={false}
+                  style={styles.textInputStyle}
+                  onFocus={focusTextInput}
+                  keyboardType="numeric"
+                  value={amount}
+                  onChangeText={handleAmountChange}
+                  maxLength={7}
+                  editable={!route?.params?.amount ? true : false}
+                />
+              </View>
+              <View style={styles.rowStyle}>
+                <Text style={styles.star}>*</Text>
+                <Text style={styles.addProcess}>
+                  {Strings.PaymentSent.AdditionalCharges}
+                </Text>
+              </View>
             </View>
-            <View style={styles.rowStyle}>
-              <Text style={styles.star}>*</Text>
-              <Text style={styles.addProcess}>
-                {Strings.PaymentSent.AdditionalCharges}
-              </Text>
+            <View style={styles.bottonFloat}>
+              <TouchableOpacity
+                onPress={() => onSubmit()}
+                style={styles.btnContainer}>
+                <Text style={styles.btnText}>
+                  {Strings.PaymentSent.PROCEED}
+                </Text>
+              </TouchableOpacity>
             </View>
-          </View>
-          <View style={!keyboardOpen && styles.bottonFloat}>
-            <TouchableOpacity
-              onPress={() => onSubmit()}
-              style={styles.btnContainer}>
-              <Text style={styles.btnText}>{Strings.PaymentSent.PROCEED}</Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAwareScrollView>
-      </KeyboardAvoidingView>
-    </View>
+          </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

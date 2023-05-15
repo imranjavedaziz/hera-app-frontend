@@ -97,8 +97,8 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {route?.params?.amount % 1 === 0
-                    ? `$${(route?.params?.amount).toFixed(2)}`
+                  {Number.isInteger(route?.params?.amount)
+                    ? `$${route?.params?.amount}.00`
                     : `$${route?.params?.amount}`}
                 </Text>
               </View>
@@ -139,11 +139,15 @@ const TransactionDetails = ({route}) => {
           )}
           <View style={{flex: 1, width: '100%'}}>
             <View style={styles.bottomRow}>
-              <Text style={styles.transDetail}>
+              <Text style={[styles.transDetail, {alignSelf: 'baseline'}]}>
                 {Strings.TransDetail.transId}
               </Text>
               <Text
-                style={[styles.transDetail, {fontFamily: Fonts.OpenSansBold}]}>
+                numberOfLines={2}
+                style={[
+                  styles.transDetail,
+                  {width: '70%', fontFamily: Fonts.OpenSansBold},
+                ]}>
                 {route?.params?.payment_intent}
               </Text>
             </View>

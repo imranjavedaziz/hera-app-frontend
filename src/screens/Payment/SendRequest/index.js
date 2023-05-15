@@ -24,8 +24,7 @@ import {Input_Type, Routes} from '../../../constants/Constants';
 import {DocumentUploadPayment} from '../../../redux/actions/DocumentUpload';
 import {SendPaymentRequest} from '../../../redux/actions/PaymentRequest';
 import {getAccountStatus} from '../../../redux/actions/AccountStatus';
-import getKycStatusFunction from '../../../utils/getkycStatusFunc';
-import { digitBeforeDecimal } from '../../../utils/commonFunction';
+import {digitBeforeDecimal} from '../../../utils/commonFunction';
 
 const options = [
   ActionSheetOptions.openCamera,
@@ -63,6 +62,7 @@ const SendRequest = ({route}) => {
   } = useForm({
     resolver: yupResolver(sendRequestSchema),
   });
+
   const backAction = () => {
     Alert.alert(
       Strings.SendRequest.DiscardEdit,
@@ -83,6 +83,7 @@ const SendRequest = ({route}) => {
     return true;
   };
   const handleError = (error, input) => {
+    console.log(error, input, 'error, input');
     setErrors(prevState => ({...prevState, [input]: error}));
   };
   const addImageButtonAction = () => {
@@ -118,7 +119,7 @@ const SendRequest = ({route}) => {
     ) {
       navigation.navigate(Routes.KycScreen, {redirectTo: Routes.SendRequest});
     } else {
-      dispatch(showAppToast(true, `KYC approval is pending.`));
+      dispatch(showAppToast(true, 'KYC approval is pending.'));
     }
   };
   useEffect(() => {

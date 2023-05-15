@@ -627,7 +627,7 @@ export default {
     Pay: 'Pay',
     code: '#SM5882',
     type: 'Surrogate Mother',
-    noBank: 'Bank not added by \n',
+    noBank: 'Bank not added by\n',
     Request: 'Request',
     Decline: 'Decline',
   },

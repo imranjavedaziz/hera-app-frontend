@@ -15,6 +15,7 @@ import {Value} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
 import {Fonts} from '../constants/Constants';
 import {useSelector} from 'react-redux';
+import {dynamicSize, width} from '../utils/responsive';
 
 const Searchbar = props => {
   const {log_in_data} = useSelector(state => state.Auth);
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   searchBarContainer: {
     backgroundColor: Colors.WHITE,
     flexDirection: Alignment.ROW,
-    width: Value.CONSTANT_VALUE_350,
+    width: width - dynamicSize(60),
     height: Value.CONSTANT_VALUE_50,
     alignSelf: Alignment.CENTER,
     padding: Value.CONSTANT_VALUE_5,

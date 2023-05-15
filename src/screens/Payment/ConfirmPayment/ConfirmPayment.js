@@ -36,7 +36,7 @@ const ConfirmPayment = ({route}) => {
     payment_transfer_res,
     payment_transfer_fail,
   } = useSelector(state => state.Payment);
-  console.log(params, 'hjjojo');
+
   const loadingRef = useRef(null);
   let scrollRef = React.createRef();
   const dispatch = useDispatch();
@@ -51,14 +51,11 @@ const ConfirmPayment = ({route}) => {
       style={styles.androidHeaderIcons}
     />
   );
-  function float2int(value) {
-    return value | 0;
-  }
   const amountParam = params.amount.toString();
   const Amount = amountParam?.includes(',')
     ? amountParam?.replace(/,/g, '')
     : amountParam;
-  const roundOff = float2int(Amount);
+  const roundOff = Amount;
   useEffect(() => {
     if (_.isEmpty(getCardListResponse?.info?.data)) {
       dispatch(getCardList(stripe_customer_id, 10));
@@ -89,7 +86,7 @@ const ConfirmPayment = ({route}) => {
           ...route?.params,
           id: params?.item?.id,
           payment_intent: payment_transfer_res?.payment_intent_id,
-          amount: parseInt(roundOff),
+          amount: roundOff,
           net_amount: calculateTotalStripeAmount(roundOff),
           payment_status: 1,
           brand: SelectedCard?.card?.brand,
@@ -136,7 +133,7 @@ const ConfirmPayment = ({route}) => {
     if (Selected || SelectedCard) {
       const payload = {
         to_user_id: params?.item?.id,
-        amount: parseInt(roundOff),
+        amount: roundOff,
         net_amount: calculateTotalStripeAmount(roundOff),
         payment_method_id: Selected ? Selected : SelectedCard?.id,
         payment_request_id: params?.requestId,

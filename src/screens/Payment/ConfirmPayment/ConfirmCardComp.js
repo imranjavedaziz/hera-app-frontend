@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
   },
 
   cardImg: {
-    height: Value.CONSTANT_VALUE_32,
-    width: Value.CONSTANT_VALUE_51,
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_14),
   },
   cardImgSingle: {
