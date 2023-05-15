@@ -48,6 +48,7 @@ const PaymentRequest = () => {
   } = useSelector(state => state.Payment);
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(showAppLoader());
     dispatch(getPaymentRequestList());
   }, [dispatch]);
   useEffect(() => {
@@ -128,7 +129,7 @@ const PaymentRequest = () => {
     console.log(item, 'itemitem');
     const url = item?.doc_url;
     // Extract the file extension from the URL
-    const fileExtension = url?.split('.').pop()||'';
+    const fileExtension = url?.split('.').pop() || '';
     // Conditionally set the 'pdf' prop
     const pdf = fileExtension.toLowerCase() === 'pdf';
     const formattedAmount = Number.isInteger(item?.amount)
@@ -163,7 +164,9 @@ const PaymentRequest = () => {
           setUserName(item?.donar?.username);
           OnPressDecline(item);
         }}
-        // OnPressPay
+        OnPressPay={() => {
+          navigation.navigate(Routes.PaymentSent, item);
+        }}
       />
     );
   };
@@ -215,7 +218,8 @@ const PaymentRequest = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled">
-        {!_.isEmpty(Data) ? (
+        {((log_in_data.role_id !== 2 && !_.isEmpty(Data)) ||
+          (log_in_data.role_id === 2 && !_.isEmpty(PtbData))) && (
           <View style={styles.container}>
             <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
             <Text style={styles.sendPayment}>
@@ -223,25 +227,30 @@ const PaymentRequest = () => {
                 ? Strings.SendAndRequest.GetPaymentRequest
                 : Strings.SendAndRequest.SendPaymentRequest}
             </Text>
-            <FlatList
-              data={log_in_data.role_id === 2 ? PtbData : Data}
-              renderItem={item => renderItemData(item)}
-            />
-          </View>
-        ) : (
-          <View style={styles.mainContainer}>
-            <Text style={styles.emptyText}>
-              {log_in_data?.role_id === 2
-                ? 'No New Request'
-                : 'No Request Sent'}
-            </Text>
-            <Text style={styles.secondEmptyText}>
-              {log_in_data?.role_id === 2
-                ? 'You have not received any payment request from your matches.'
-                : 'You have not sent any payment request to Intended Parents.'}
-            </Text>
+            {!get_payment_request_list_loading && (
+              <FlatList
+                data={log_in_data.role_id === 2 ? PtbData : Data}
+                renderItem={item => renderItemData(item)}
+              />
+            )}
           </View>
         )}
+        {((log_in_data.role_id !== 2 && _.isEmpty(Data)) ||
+          (log_in_data.role_id === 2 && _.isEmpty(PtbData))) &&
+          !get_payment_request_list_loading && (
+            <View style={styles.mainContainer}>
+              <Text style={styles.emptyText}>
+                {log_in_data?.role_id === 2
+                  ? 'No New Request'
+                  : 'No Request Sent'}
+              </Text>
+              <Text style={styles.secondEmptyText}>
+                {log_in_data?.role_id === 2
+                  ? 'You have not received any payment request from your matches.'
+                  : 'You have not sent any payment request to Intended Parents.'}
+              </Text>
+            </View>
+          )}
       </ScrollView>
       <PaymentRequestModal
         showModal={showModal}

@@ -176,6 +176,12 @@ const SmDashboard = ({route}) => {
               chatPush: true,
             });
           }
+          if (notification.data.notify_type === 'payment_request') {
+            navigation.navigate(Routes.PaymentRequest);
+          }
+          if (notification.data.notify_type === 'payment_transfer') {
+            navigation.navigate(Routes.Transaction);
+          }
         }
         if (notification.userInteraction === false) {
           if (

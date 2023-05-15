@@ -40,7 +40,7 @@ const initState = {
   payment_history_success: false,
   payment_history_loading: false,
   payment_history_error_msg: '',
-  payment_history_res: {data:[]},
+  payment_history_res: {data: []},
   payment_history_fail: false,
   //payment tranfer
   payment_transfer_success: false,
@@ -61,7 +61,7 @@ export default (state = initState, action) => {
         get_match_list_success: false,
         get_match_list_loading: true,
         get_match_list_error_msg: '',
-        get_match_list_res: {},
+        // get_match_list_res: {},
         get_match_list_fail: false,
       };
     case GET_MATCH_LIST_SUCCESS:
@@ -146,7 +146,7 @@ export default (state = initState, action) => {
         payment_history_success: false,
         payment_history_loading: true,
         payment_history_error_msg: '',
-        payment_history_res: {data:[]},
+        payment_history_res: {data: []},
         payment_history_fail: false,
       };
     case TRANSACTION_HISTORY_SUCCESS:
@@ -162,7 +162,7 @@ export default (state = initState, action) => {
         payment_history_loading: false,
         payment_history_error_msg: action.data.msg,
         payment_history_fail: true,
-      }
+      };
     //Payment Transfer
     case PAYMENT_TRANSFER:
       return {

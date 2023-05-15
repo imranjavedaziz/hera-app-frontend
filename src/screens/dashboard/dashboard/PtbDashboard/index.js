@@ -129,16 +129,21 @@ const PtbDashboard = props => {
       },
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: function (notification) {
-        
         const {recieverId} = notification?.data;
         const showNotification =
           messageIdRx?.messageIdRx === parseInt(recieverId);
         console.log(messageIdRx, 'messageIdRxPush');
         console.log(recieverId, 'recieverIsd');
-        console.log(showNotification, 'showNotification');
+        console.log(notification, 'showNotification');
         if (notification.userInteraction === true) {
           if (notification.data.notify_type === 'subscribe') {
             navigation.navigate(Routes.PtbProfile);
+          }
+          if (notification.data.notify_type === 'payment_request') {
+            navigation.navigate(Routes.PaymentRequest);
+          }
+          if (notification.data.notify_type === 'payment_transfer') {
+            navigation.navigate(Routes.Transaction);
           }
           if (notification.data.notify_type === 'profile') {
             const {status} = JSON.parse(notification.data?.match_request);

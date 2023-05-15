@@ -30,7 +30,9 @@ export const TransactionItem = ({item}) => {
             <View style={[styles.wrapRow, {marginTop: 5}]}>
               <Text style={styles.transDetail}>{`Paid by Card:`}</Text>
               <Image
-                source={getCardImage(item?.brand)}
+                source={
+                  item?.brand ? getCardImage(item?.brand) : Images.ICON_MASTER
+                }
                 style={{height: 20, resizeMode: 'contain'}}
               />
               <Text style={styles.transDetail}>{`●●●● ${item?.last4}`}</Text>
@@ -69,7 +71,7 @@ export const ListHeader = React.memo(({isShow = true}) => {
 });
 
 export const EmptyList = React.memo(() => (
-  <View style={styles.mainContainer}>
+  <View style={styles.EmptymainContainer}>
     <Text style={styles.emptyText}>{Strings.Transaction.emptyTitle}</Text>
     <Text style={styles.secondEmptyText}>{Strings.Transaction.emptyDesc}</Text>
   </View>

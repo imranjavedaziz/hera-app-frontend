@@ -335,10 +335,11 @@ const ChatDetail = props => {
         break;
       case Strings.chats.reqPayment:
         const nameArr = props?.route?.params?.item?.recieverName.split(' ');
-        navigation.navigate(Routes.SendRequest,{id:props?.route?.params?.item?.recieverId,
+        navigation.navigate(Routes.SendRequest, {
+          id: props?.route?.params?.item?.recieverId,
           profile_pic: props?.route?.params?.item?.recieverImage,
           first_name: nameArr[0],
-          last_name: nameArr[1]||'',
+          last_name: nameArr[1] || '',
         });
         break;
       case Strings.chats.confirmProfile:
@@ -349,7 +350,7 @@ const ChatDetail = props => {
         console.log(Strings.chats.confirmProfile);
         break;
       case Strings.chats.sendPayment:
-        console.log(Strings.chats.sendPayment);
+        onClickSend();
         break;
       case Strings.chats.seeProfile:
         navigateDetailScreen();
@@ -362,6 +363,29 @@ const ChatDetail = props => {
       case Strings.chats.reportUser:
         Platform.OS === 'ios' ? backAction() : setShowModal(true);
         break;
+    }
+  };
+  const onClickSend = () => {
+    if (log_in_data?.role_id === 2) {
+      if (props?.route?.params?.filteredItem) {
+        if (props?.route?.params?.filteredItem?.connected_acc_status) {
+          navigation.navigate(Routes.PaymentSent, {
+            id: props?.route?.params?.item?.recieverId,
+            profile_pic: props?.route?.params?.item?.recieverImage,
+            username: props?.route?.params?.item?.recieverUserName,
+            role_id: props?.route?.params?.item?.currentRole,
+            redirectTo: Routes.ChatDetail,
+            ChatItem: {...props?.route?.params},
+          });
+        } else {
+          dispatch(
+            showAppToast(
+              true,
+              `#${props?.route?.params?.item?.recieverUserName} is not added a bank account`,
+            ),
+          );
+        }
+      }
     }
   };
   const cb = image => {
@@ -623,6 +647,9 @@ const ChatDetail = props => {
       navigation.navigate(Routes.DashboardDetailScreen, {
         userId: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
+        filteredItem: props?.route?.params?.filteredItem?.connected_acc_status
+          ? props?.route?.params?.filteredItem?.connected_acc_status
+          : '',
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
@@ -682,6 +709,7 @@ const ChatDetail = props => {
     }
     return role;
   }
+
   async function arrowFunction() {
     if (
       props?.route?.params?.isComingFrom === true ||
@@ -869,7 +897,6 @@ const ChatDetail = props => {
             />
           </View>
         )}
-
       {parseInt(props?.route?.params?.item?.currentRole) === 1 &&
         db?.messages.length === 0 &&
         loader !== true && (
@@ -1103,15 +1130,15 @@ const ChatDetail = props => {
             <TouchableOpacity
               onPress={() => {
                 setOpen(false);
-                if(log_in_data?.role_id === 2){
-                  console.log(Strings.chats.shareUser);
-                }
-                else{
-                  const nameArr = props?.route?.params?.item?.recieverName.split(' ');
-                  navigation.navigate(Routes.SendRequest,{id:props?.route?.params?.item?.recieverId,
+                onClickSend();
+                {
+                  const nameArr =
+                    props?.route?.params?.item?.recieverName.split(' ');
+                  navigation.navigate(Routes.SendRequest, {
+                    id: props?.route?.params?.item?.recieverId,
                     profile_pic: props?.route?.params?.item?.recieverImage,
                     first_name: nameArr[0],
-                    last_name: nameArr[1]||'',
+                    last_name: nameArr[1] || '',
                   });
                 }
               }}

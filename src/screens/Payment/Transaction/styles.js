@@ -17,6 +17,7 @@ export default {
     marginTop: statusHide(Value.CONSTANT_VALUE_105),
     marginHorizontal: 10,
   },
+  EmptymainContainer: {flex: 1, alignItems: 'center', justifyContent: 'center'},
   emptyText: {
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_23,

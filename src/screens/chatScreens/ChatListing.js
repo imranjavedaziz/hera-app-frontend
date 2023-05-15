@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {View, Text, RefreshControl} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
@@ -15,9 +15,14 @@ import database from '@react-native-firebase/database';
 import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
-import {showAppToast} from '../../redux/actions/loader';
+import {
+  hideAppLoader,
+  showAppLoader,
+  showAppToast,
+} from '../../redux/actions/loader';
 import {getMessageID} from '../../redux/actions/MessageId';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
+import {getMatchList} from '../../redux/actions/Payment';
 
 const ChatListing = () => {
   const navigation = useNavigation();
@@ -25,6 +30,16 @@ const ChatListing = () => {
   const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
   const dispatch = useDispatch();
+  const LoadingRef = useRef(null);
+  const [BankData, setData] = useState('');
+  const {
+    get_match_list_success,
+    get_match_list_fail,
+    get_match_list_error_msg,
+    get_match_list_loading,
+    get_match_list_res,
+  } = useSelector(state => state.Payment);
+
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
@@ -55,6 +70,35 @@ const ChatListing = () => {
       navigation.navigate(Routes.SmDashboard);
     }
   };
+  useEffect(() => {
+    if (log_in_data?.role_id === 2) {
+      let payload = {
+        keyword: '',
+      };
+      dispatch(showAppLoader());
+      dispatch(getMatchList(payload));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (LoadingRef.current && !get_match_list_loading) {
+      if (get_match_list_success) {
+        dispatch(hideAppLoader());
+        setData(get_match_list_res?.data?.data);
+      }
+      if (get_match_list_fail) {
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(true, get_match_list_error_msg));
+      }
+    }
+    LoadingRef.current = get_match_list_loading;
+  }, [
+    get_match_list_success,
+    get_match_list_loading,
+    get_match_list_error_msg,
+    get_match_list_res,
+    get_match_list_fail,
+  ]);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -141,12 +185,16 @@ const ChatListing = () => {
                 ? `#${item?.recieverUserName}`
                 : item?.recieverName
             }
-            onPress={() =>
+            onPress={() => {
+              const filteredItem = BankData.find(
+                bankdata => bankdata?.id === item?.recieverId,
+              );
               navigation.navigate(Routes.ChatDetail, {
                 item,
                 isComingFrom: false,
-              })
-            }
+                filteredItem: filteredItem ? filteredItem : '',
+              });
+            }}
             message={item?.message}
             read={item?.read}
             time={item?.time !== undefined && getChatDate(item?.time)}
