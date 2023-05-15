@@ -71,9 +71,10 @@ export const Subscribed = () => {
             onPress: () => {
               Linking.openURL(cancelURL);
             },
+            style: 'destructive',
           },
           {
-            text: Strings.Subscription.Cancel,
+            text: Strings.Subscription.NotNow,
             onPress: () => null,
           },
         ],
@@ -127,11 +128,11 @@ export const Subscribed = () => {
               },
             ]}>
             {
-              Strings?.STATIC_ROLE.find(
+              (Strings?.STATIC_ROLE.find(
                 r =>
                   r.id ===
                   get_user_detail_res.subscription?.role_id_looking_for,
-              ).name
+              )||{name:''}).name
             }
           </Text>
           <Text

@@ -359,25 +359,32 @@ const Subscription = () => {
   }, [subscription_plan_res]);
   const showChangePlanToast = () => {
     if (Platform.OS === 'ios') {
+      const roleName = Strings?.STATIC_ROLE.find(
+        r => r.id === selectCheckBox?.role_id_looking_for,
+      ).name;
       Alert.alert(
         Strings.Subscription.UpgradePlan.replace(
           '{SELECTED_ROLE}',
           selectCheckBox == null
             ? '{SELECTED_ROLE}'
-            : Strings?.STATIC_ROLE.find(
-                r => r.id === selectCheckBox?.role_id_looking_for,
-              ).name,
+            : roleName,
         ),
-        Strings.Subscription.UpgradePlanPara,
+        Strings.Subscription.UpgradePlanPara.replace(
+          '{SELECTED_ROLE}',
+          selectCheckBox == null
+            ? '{SELECTED_ROLE}'
+            : roleName,
+        ),
         [
           {
             text: capitalizeStr(Strings.Subscription.YesProceed),
             onPress: () => {
               subscribePlan(selectCheckBox, 'credit');
             },
+            style: 'destructive',
           },
           {
-            text: Strings.Subscription.Cancel,
+            text: Strings.Subscription.NotNow,
             onPress: () => null,
           },
         ],
@@ -403,9 +410,10 @@ const Subscription = () => {
             onPress: () => {
               subscribePlan(selectCheckBox, 'credit');
             },
+            style: 'destructive',
           },
           {
-            text: Strings.Subscription.Cancel,
+            text: Strings.Subscription.NotNow,
             onPress: () => null,
           },
         ],
