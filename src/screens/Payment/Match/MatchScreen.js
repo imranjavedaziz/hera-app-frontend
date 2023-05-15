@@ -72,6 +72,7 @@ const MatchScreen = () => {
   const onSearch = value => {
     if (value === '') {
       setSearch('');
+      setallUser(Data);
       return;
     }
     const trimmedValue = value.startsWith('#') ? value.substring(1) : value;

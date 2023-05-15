@@ -196,24 +196,7 @@ const HeraPay = () => {
     return true;
   };
   const onClickMatch = () => {
-    if (_.isEmpty(Data)) {
-      if (log_in_data.role_id !== 2) {
-        if (
-          KycUpdated &&
-          KycStatus !== null &&
-          getKycStatusFunction(account_status_res?.kyc_status) !==
-            Strings.Hera_Pay.KYC_PENDING
-        ) {
-          navigation.navigate(Routes.KycScreen);
-        } else {
-          navigation.navigate(Routes.ManageBank);
-        }
-      } else {
-        navigation.navigate(Routes.ManageCard);
-      }
-    } else {
-      navigation.navigate(Routes.MatchScreen);
-    }
+    navigation.navigate(Routes.MatchScreen);
   };
   return (
     <View style={styles.flex}>
