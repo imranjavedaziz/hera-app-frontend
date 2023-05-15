@@ -68,7 +68,6 @@ const ConfirmPayment = ({route}) => {
       });
     }
   }, [dispatch, stripe_customer_id]);
-  console.log(SelectedCard, 'SelectedCardSelectedCard');
   //Get Card List
   useEffect(() => {
     if (getCardListResponse?.status === GET_CARD_LIST.START) {
@@ -133,7 +132,6 @@ const ConfirmPayment = ({route}) => {
       });
     }
   };
-  console.log(route.params, 'confirmPaymentrooute');
   const onPay = () => {
     if (Selected || SelectedCard) {
       const payload = {

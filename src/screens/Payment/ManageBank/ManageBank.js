@@ -87,9 +87,9 @@ const ManageBank = ({route}) => {
           getKycStatusFunction(account_status_res?.kyc_status) ===
             Strings.Hera_Pay.KYC_REJECTED
         ) {
-          replace(Routes.KycScreen,{redirectTo});
+          replace(Routes.KycScreen, {redirectTo});
         } else {
-          navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
+          navigation.navigate(redirectTo !== '' ? redirectTo : Routes.HeraPay);
         }
         dispatch(hideAppLoader());
       }

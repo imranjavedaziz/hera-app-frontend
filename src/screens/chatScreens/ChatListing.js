@@ -170,6 +170,23 @@ const ChatListing = () => {
       navigation.navigate(Routes.ChatDetail, {item: item});
     }
   }
+  const onNavigateDetail = item => {
+    if (log_in_data?.role_id === 2) {
+      const filteredItem = BankData.find(
+        bankdata => bankdata?.id === item?.recieverId,
+      );
+      navigation.navigate(Routes.ChatDetail, {
+        item,
+        isComingFrom: false,
+        filteredItem: filteredItem ? filteredItem : '',
+      });
+    } else {
+      navigation.navigate(Routes.ChatDetail, {
+        item,
+        isComingFrom: false,
+      });
+    }
+  };
   const renderChatList = ({item}) => {
     return (
       <>
@@ -186,14 +203,7 @@ const ChatListing = () => {
                 : item?.recieverName
             }
             onPress={() => {
-              const filteredItem = BankData.find(
-                bankdata => bankdata?.id === item?.recieverId,
-              );
-              navigation.navigate(Routes.ChatDetail, {
-                item,
-                isComingFrom: false,
-                filteredItem: filteredItem ? filteredItem : '',
-              });
+              onNavigateDetail(item);
             }}
             message={item?.message}
             read={item?.read}

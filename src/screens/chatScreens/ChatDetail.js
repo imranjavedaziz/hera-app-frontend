@@ -381,11 +381,21 @@ const ChatDetail = props => {
           dispatch(
             showAppToast(
               true,
-              `#${props?.route?.params?.item?.recieverUserName} is not added a bank account`,
+              `Bank not added by ${getRoleData(
+                props?.route?.params?.item?.currentRole,
+              )} !`,
             ),
           );
         }
       }
+    } else {
+      const nameArr = props?.route?.params?.item?.recieverName.split(' ');
+      navigation.navigate(Routes.SendRequest, {
+        id: props?.route?.params?.item?.recieverId,
+        profile_pic: props?.route?.params?.item?.recieverImage,
+        first_name: nameArr[0],
+        last_name: nameArr[1] || '',
+      });
     }
   };
   const cb = image => {
@@ -1131,16 +1141,6 @@ const ChatDetail = props => {
               onPress={() => {
                 setOpen(false);
                 onClickSend();
-                {
-                  const nameArr =
-                    props?.route?.params?.item?.recieverName.split(' ');
-                  navigation.navigate(Routes.SendRequest, {
-                    id: props?.route?.params?.item?.recieverId,
-                    profile_pic: props?.route?.params?.item?.recieverImage,
-                    first_name: nameArr[0],
-                    last_name: nameArr[1] || '',
-                  });
-                }
               }}
               style={[
                 log_in_data?.role_id === 2

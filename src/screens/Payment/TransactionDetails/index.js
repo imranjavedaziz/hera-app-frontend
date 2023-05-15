@@ -11,7 +11,6 @@ import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
 import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
-
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const redirectTo = route?.params?.redirectTo || '';
@@ -145,7 +144,7 @@ const TransactionDetails = ({route}) => {
               </Text>
               <Text
                 style={[styles.transDetail, {fontFamily: Fonts.OpenSansBold}]}>
-                {route?.params.id}
+                {route?.params?.payment_intent}
               </Text>
             </View>
             <View style={styles.bottomRow}>
