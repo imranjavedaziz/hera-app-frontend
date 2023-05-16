@@ -22,10 +22,14 @@ import {
   TRANSACTION_HISTORY,
   TRANSACTION_HISTORY_FAIL,
   TRANSACTION_HISTORY_SUCCESS,
+  TRANSACTION_HISTORY_PAGE,
+  TRANSACTION_HISTORY_PAGE_FAIL,
+  TRANSACTION_HISTORY_PAGE_SUCCESS
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
 import {ValidationMessages} from '../../constants/Strings';
 import { showAppLoader,hideAppLoader } from '../actions/loader';
+import { store } from '../store';
 
 function* getMatchList(payload) {
   try {
@@ -145,4 +149,27 @@ function* paymentTransfer(payload) {
 }
 export function* watchPaymentTransfer() {
   yield takeLatest(PAYMENT_TRANSFER, paymentTransfer);
+}
+
+function* getPaymentHistoryPage() {
+  try {
+    const payment_history_res = store.getState().Payment.payment_history_res;
+    const result = yield GetPaymentHistoryApi(payment_history_res.current_page+1);
+    if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      yield put({type: TRANSACTION_HISTORY_PAGE_SUCCESS, data: result.data?.data});
+    } else {
+      yield put({
+        type: TRANSACTION_HISTORY_PAGE_FAIL,
+        data: {msg: result.data.message},
+      });
+    }
+  } catch (err) {
+    yield put({
+      type: TRANSACTION_HISTORY_PAGE_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
+  }
+}
+export function* watchPaymentHistoryPage() {
+  yield takeLatest(TRANSACTION_HISTORY_PAGE, getPaymentHistoryPage);
 }

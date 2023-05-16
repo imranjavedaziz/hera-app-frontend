@@ -65,6 +65,7 @@ import {
   watchPaymentTransfer,
   watchUpdateRequestStatus,
   watchPaymentHistory,
+  watchPaymentHistoryPage,
 } from './Payment';
 import {watchSendPaymentRequest} from './PaymentRequest';
 
@@ -126,5 +127,6 @@ export default function* rootSaga() {
     fork(watchPaymentTransfer),
     fork(watchBankUpdate),
     fork(watchCancelSubscription),
+    fork(watchPaymentHistoryPage),
   ]);
 }

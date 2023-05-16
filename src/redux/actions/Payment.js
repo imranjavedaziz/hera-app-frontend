@@ -4,6 +4,7 @@ import {
   UPDATE_REQUEST_STATUS,
   TRANSACTION_HISTORY,
   PAYMENT_TRANSFER,
+  TRANSACTION_HISTORY_PAGE,
 } from '../Type';
 
 export const getMatchList = payload => {
@@ -32,3 +33,6 @@ export const paymentTransfer = data => {
     data: data,
   };
 };
+export const getTransactionHistoryPages = () => ({
+  type: TRANSACTION_HISTORY_PAGE,
+});
