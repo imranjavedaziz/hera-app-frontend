@@ -1,4 +1,11 @@
-import { CREATE_SUBSCRIPTION, SUBSCRIPTION_PLAN, SUBSCRIPTION_STATUS,UPDATE_SUBSCRIPTION_STATUS, SUBSCRIPTION_STATUS_SUCCESS } from '../Type';
+import {
+  CREATE_SUBSCRIPTION,
+  SUBSCRIPTION_PLAN,
+  SUBSCRIPTION_STATUS,
+  UPDATE_SUBSCRIPTION_STATUS,
+  SUBSCRIPTION_STATUS_SUCCESS,
+  CANCEL_SUBSCRIPTION,
+} from '../Type';
 
 export const createSubscription = data => {
   return {
@@ -23,9 +30,15 @@ export const getSubscriptionStatus = data => {
 export const updateSubscriptionStatus = data => ({
   type: UPDATE_SUBSCRIPTION_STATUS,
   data,
-})
+});
 
 export const updateTrail = data => ({
   type: SUBSCRIPTION_STATUS_SUCCESS,
   data,
-})
+});
+
+export const canncelSubscription = () => {
+  return {
+    type: CANCEL_SUBSCRIPTION,
+  };
+};

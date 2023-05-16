@@ -35,6 +35,7 @@ import {
   watchCreateSubscription,
   watchSubscriptionPlan,
   watchSubscriptionStatus,
+  watchCancelSubscription,
 } from './Subscription';
 import {watchGetFeedback, watchGetSendNotification} from './Chat';
 import {watchDeleteAccount} from './DeleteAccount';
@@ -124,5 +125,6 @@ export default function* rootSaga() {
     fork(watchPaymentHistory),
     fork(watchPaymentTransfer),
     fork(watchBankUpdate),
+    fork(watchCancelSubscription),
   ]);
 }

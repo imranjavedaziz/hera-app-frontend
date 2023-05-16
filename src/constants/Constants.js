@@ -313,6 +313,8 @@ export const Routes = {
   TransactionDetails: 'TransactionDetails',
   PaymentSent: 'PaymentSent',
   ConfirmPayment: 'ConfirmPayment',
+  ConfirmSubscription: 'ConfirmSubscription',
+  SubscriptionCard: 'SubscriptionCard',
 };
 export const Static = {
   countries: [

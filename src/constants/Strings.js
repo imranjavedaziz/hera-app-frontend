@@ -142,6 +142,8 @@ export default {
     AddCardButton: '+ ADD CARD',
     PayWithcard: 'Pay with your card',
     PayWithAnotherCard: 'Pay using another card',
+    ChangeCard: 'Change Card',
+    BottomPara: `Once you make the payment, your subscription will be activated. The card details will be linked to your subscription. Your card will be charged automatically every month as per the subscribed amount. You can cancel the subscription anytime.`,
   },
   landing: {
     LOG_IN: ' LOG IN  ',

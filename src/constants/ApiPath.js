@@ -24,6 +24,7 @@ export default {
   registerDevice: 'register-device',
   parentsMatchedDoner: 'parents-matched-doner',
   createSubscription: 'create-subscription',
+  cancelSubscription: 'cancel-subscription',
   subscriptionPlan: 'subscription-plan',
   subscriptionStatus: 'subscription-status',
   register: 'register',

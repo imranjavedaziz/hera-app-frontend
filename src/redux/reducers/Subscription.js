@@ -9,6 +9,9 @@ import {
   SUBSCRIPTION_STATUS_SUCCESS,
   SUBSCRIPTION_STATUS_FAIL,
   UPDATE_SUBSCRIPTION_STATUS,
+  CANCEL_SUBSCRIPTION,
+  CANCEL_SUBSCRIPTION_FAIL,
+  CANCEL_SUBSCRIPTION_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -29,6 +32,11 @@ const initState = {
   subscription_status_res: {
     data: {is_trial: true, status: 1}
   },
+  // CANCEL
+  cancel_subscription_success: false,
+  cancel_subscription_loading: false,
+  cancel_subscription_error_msg: '',
+  cancel_subscription_res: '',
 };
 
 export default (state = initState, action) => {
@@ -130,6 +138,30 @@ export default (state = initState, action) => {
         }
       }
     }
+    /**
+     * CREATE_SUBSCRIPTION
+     */
+    case CANCEL_SUBSCRIPTION:
+      return {
+        ...state,
+        cancel_subscription_success: false,
+        cancel_subscription_loading: true,
+        cancel_subscription_error_msg: '',
+        create_subscription_res: action.data,
+      };
+    case CANCEL_SUBSCRIPTION_SUCCESS:
+      return {
+        ...state,
+        cancel_subscription_success: true,
+        cancel_subscription_loading: false,
+        cancel_subscription_res: action.data?.data?.message,
+      };
+    case CANCEL_SUBSCRIPTION_FAIL:
+      return {
+        ...state,
+        cancel_subscription_loading: false,
+        cancel_subscription_error_msg: action.data.msg,
+      };
     default:
       return state;
   }

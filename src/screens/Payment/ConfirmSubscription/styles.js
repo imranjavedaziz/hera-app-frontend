@@ -85,7 +85,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
     marginBottom: scaleHeight(Value.CONSTANT_VALUE_50),
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_35),
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_60),
     marginHorizontal: Value.CONSTANT_VALUE_15,
   },
   btnContainerPay: {
@@ -123,10 +123,4 @@ export default {
     position: 'absolute',
     alignSelf: 'center',
   },
-  bottomPara: {
-    fontSize: Value.CONSTANT_VALUE_13,
-    fontFamily: Fonts.OpenSansRegular,
-    color: Colors.COLOR_535858,
-    marginTop: Value.CONSTANT_VALUE_26,
-  }
 };
