@@ -539,10 +539,10 @@ export const editProfileSchema = yup.object().shape({
 export const sendRequestSchema = yup.object().shape({
   amount: yup
     .number()
+    .typeError(ValidationMessages.AMOUNT)
     .required(ValidationMessages.AMOUNT)
     .positive(ValidationMessages.AMOUNT_POSITIVE)
-    .integer(ValidationMessages.AMOUNT_VALID)
-    .max(10000, ValidationMessages.AMOUNT_MAX),
+    .max(999999.9, ValidationMessages.AMOUNT_MAX),
   doc_url: yup
     .string()
     .nullable(),

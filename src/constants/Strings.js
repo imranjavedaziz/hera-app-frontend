@@ -129,7 +129,7 @@ export const ValidationMessages = {
   AMOUNT: 'Pleease enter amount',
   AMOUNT_VALID: 'Pleease enter a valid amount',
   AMOUNT_POSITIVE: 'Pleease enter a positive amount',
-  AMOUNT_MAX: 'Amount is beyond the max limit i.e. 10000$',
+  AMOUNT_MAX: 'Amount is beyond the max limit i.e. 999,999.9$',
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
