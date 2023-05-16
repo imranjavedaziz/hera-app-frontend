@@ -82,8 +82,18 @@ export const CancelSubscription = ({
               setChangeModal(!changeModal);
               handleCanncel();
             }}>
+            <Text style={[styles.changeModalBtnTxt,{color: Colors.RED}]}>
+              {capitalizeStr(Strings.Subscription.YesProceed)}
+            </Text>
+          </Pressable>
+          <View style={styles.seperator}/>
+          <Pressable
+            style={styles.changeModalBtn}
+            onPress={() => {
+              setChangeModal(!changeModal);
+            }}>
             <Text style={styles.changeModalBtnTxt}>
-              {Strings.Subscription.YesProceed}
+              {Strings.Subscription.NotNow}
             </Text>
           </Pressable>
         </View>
@@ -645,7 +655,7 @@ const Subscription = () => {
             </Text>
             <Text style={styles.changeModalPara}>
               {!isPlanChanged
-                ? Strings.Subscription.ChangePlanPara.replace(
+                ? Strings.Subscription.ChangePlanParaAndroid.replace(
                     '{DATE_END}',
                     moment(
                       subscription_plan_res?.data?.subscription
@@ -653,10 +663,14 @@ const Subscription = () => {
                       'YYYY-MM-DD',
                     ).format('LL'),
                   )
-                : Platform.select({
-                    ios: Strings.Subscription.UpgradePlanPara,
-                    android: Strings.Subscription.UpgradePlanParaAndroid,
-                  })}
+                : Strings.Subscription.UpgradePlanParaAndroid.replace(
+                  '{SELECTED_ROLE}',
+                  selectCheckBox == null
+                    ? '{SELECTED_ROLE}'
+                    : Strings?.STATIC_ROLE.find(
+                        r => r.id === selectCheckBox?.role_id_looking_for,
+                      ).name,
+                )}
             </Text>
             <Pressable
               style={styles.changeModalBtn}
@@ -664,8 +678,18 @@ const Subscription = () => {
                 subscribePlan(selectCheckBox, 'credit');
                 setChangeModal(!changeModal);
               }}>
+              <Text style={[styles.changeModalBtnTxt,{color: Colors.RED}]}>
+                {capitalizeStr(Strings.Subscription.YesProceed)}
+              </Text>
+            </Pressable>
+            <View style={styles.seperator}/>
+            <Pressable
+              style={styles.changeModalBtn}
+              onPress={() => {
+                setChangeModal(!changeModal);
+              }}>
               <Text style={styles.changeModalBtnTxt}>
-                {Strings.Subscription.YesProceed}
+                {Strings.Subscription.NotNow}
               </Text>
             </Pressable>
           </View>

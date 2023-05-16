@@ -125,6 +125,7 @@ export function* watchPaymentHistory() {
 
 function* paymentTransfer(payload) {
   try {
+    console.log('paymentTransfer',JSON.stringify(payload));
     const result = yield paymentTransferApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({

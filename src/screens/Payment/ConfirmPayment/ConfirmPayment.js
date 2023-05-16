@@ -96,6 +96,7 @@ const ConfirmPayment = ({route}) => {
           profile_pic: params?.item?.profile_pic,
           role: log_in_data.role_id,
           payment: true,
+          payout_status: 1,
         };
         navigation.navigate(Routes.TransactionDetails, payload);
         console.log(payment_transfer_res, 'payment_transfer_res');
