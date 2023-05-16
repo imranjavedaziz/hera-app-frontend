@@ -1,6 +1,5 @@
 import {View, Text, FlatList, Alert, Platform} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
 import styles from './styles';
@@ -35,6 +34,7 @@ const PaymentRequest = () => {
   const [showModal, setShowModal] = useState(false);
   const [visible, setIsVisible] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
   const {
     get_payment_request_list_success,
     get_payment_request_list_loading,
@@ -55,6 +55,7 @@ const PaymentRequest = () => {
   useEffect(() => {
     if (LoadingRef.current && !get_payment_request_list_loading) {
       if (get_payment_request_list_success) {
+        setIsRefreshing(false);
         dispatch(hideEditLoader());
         setData(get_payment_request_list_res?.data);
         const filteredData = get_payment_request_list_res?.data.filter(
@@ -64,6 +65,7 @@ const PaymentRequest = () => {
       }
       if (get_payment_request_list_fail) {
         dispatch(hideEditLoader());
+        setIsRefreshing(false);
         dispatch(showAppToast(true, get_payment_request_list_error_msg));
       }
     }
@@ -81,6 +83,7 @@ const PaymentRequest = () => {
       dispatch(showEditAppLoader());
       if (update_request_status_success) {
         dispatch(hideAppLoader());
+        setIsRefreshing(false);
         dispatch(getPaymentRequestList());
         if (
           update_request_status_res ===
@@ -88,7 +91,7 @@ const PaymentRequest = () => {
         ) {
           dispatch(showAppToast(false, `Request marked as already paid.`));
         } else {
-          console.log(update_request_status_res, 'update_request_status_res');
+          setIsRefreshing(false);
           dispatch(
             showAppToast(false, `Payment Request from ${UserName} declined.`),
           );
@@ -133,8 +136,15 @@ const PaymentRequest = () => {
   const ImageClick = item => {
     setIsVisible(true);
   };
+  const onRefresh = () => {
+    //set isRefreshing to true
+
+    setIsRefreshing(true);
+    dispatch(getPaymentRequestList());
+  };
+
   const renderItemData = ({item}) => {
-    console.log(item, 'itemitem');
+    console.log(item, 'asad');
     const url = item?.doc_url;
     // Extract the file extension from the URL
     const fileExtension = url?.split('.').pop() || '';
@@ -148,7 +158,7 @@ const PaymentRequest = () => {
       <PaymentRequestComp
         pdf={pdf}
         DocImg={item?.doc_url}
-        PaymentStatus={item?.status}
+        PaymentStatus={item?.payout_status}
         profileImage={
           log_in_data.role_id === 2
             ? item?.donar?.profile_pic
@@ -225,9 +235,7 @@ const PaymentRequest = () => {
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
+      <View style={styles.flex}>
         {((log_in_data.role_id !== 2 && !_.isEmpty(Data)) ||
           (log_in_data.role_id === 2 && !_.isEmpty(PtbData))) && (
           <View style={styles.container}>
@@ -237,12 +245,12 @@ const PaymentRequest = () => {
                 ? Strings.SendAndRequest.GetPaymentRequest
                 : Strings.SendAndRequest.SendPaymentRequest}
             </Text>
-            {!get_payment_request_list_loading && (
-              <FlatList
-                data={log_in_data.role_id === 2 ? PtbData : Data}
-                renderItem={item => renderItemData(item)}
-              />
-            )}
+            <FlatList
+              data={log_in_data.role_id === 2 ? PtbData : Data}
+              renderItem={item => renderItemData(item)}
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+            />
           </View>
         )}
         {((log_in_data.role_id !== 2 && _.isEmpty(Data)) ||
@@ -261,7 +269,7 @@ const PaymentRequest = () => {
               </Text>
             </View>
           )}
-      </ScrollView>
+      </View>
       <PaymentRequestModal
         showModal={showModal}
         onRequestClose={() => {

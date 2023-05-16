@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   Keyboard,
   Alert,
+  Platform,
 } from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {sendRequestSchema} from '../../../constants/schemas';
-import {Container, FloatingLabelInput} from '../../../components';
+import {Container, FloatingLabelInput, ModalMiddle} from '../../../components';
 import {Colors, Images, Strings} from '../../../constants';
 import {CircleBtn} from '../../../components/Header';
 import Styles from './style';
@@ -43,8 +44,6 @@ const SendRequest = ({route}) => {
   const {
     document_upload_success,
     document_upload_res,
-    document_upload_fail,
-    document_upload_error_msg,
     document_upload_loading,
   } = useSelector(state => state.DocumentUpload);
   const params = route.params;
@@ -52,11 +51,11 @@ const SendRequest = ({route}) => {
   const [isPhotoPopupVisible, setIsPhotoPopupVisible] = useState(false);
   const [fileType, setFileType] = useState('');
   const [errorsData, setErrors] = useState({});
+  const [showModal, setShowModal] = React.useState(false);
   const [file, setFile] = useState(null);
   const {
     handleSubmit,
     control,
-    clearErrors,
     setValue,
     formState: {errors, isDirty},
   } = useForm({
@@ -133,10 +132,21 @@ const SendRequest = ({route}) => {
       dispatch(getAccountStatus());
     }, []),
   );
+  const onGoBack = () => {
+    if (!isDirty) {
+      navigation.goBack();
+    } else if (Platform.OS === 'ios') {
+      backAction();
+    } else {
+      setShowModal(true);
+    }
+  };
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
-      onPress={!isDirty ? navigation.goBack : backAction}
+      onPress={() => {
+        onGoBack();
+      }}
       accessibilityLabel={Strings.inqueryForm.LEFT_ARROW_BUTTON}
       Fixedstyle={Styles.header}
     />
@@ -189,7 +199,7 @@ const SendRequest = ({route}) => {
               source={{uri: params?.profile_pic}}
               style={Styles.profileImg}
             />
-            <Text style={Styles.profileName}>
+            <Text style={Styles.profileName} numberOfLines={1}>
               {log_in_data.role_id === 2
                 ? `#${params?.username}`
                 : `${params?.first_name} ${params?.last_name}`}
@@ -220,7 +230,6 @@ const SendRequest = ({route}) => {
                   }
                 }
               };
-
               return (
                 <FloatingLabelInput
                   label={Strings.SendRequest.amountField}
@@ -253,16 +262,22 @@ const SendRequest = ({route}) => {
                 style={{
                   flex: 1,
                   alignItems: 'center',
+                  backgroundColor: '#f7f5f0',
+                  shadowColor: 'rgba(0, 0, 0, 0.06)',
+                  shadowOffset: {
+                    width: 0,
+                    height: 6,
+                  },
+                  shadowRadius: 18,
+                  shadowOpacity: 1,
                   justifyContent: 'center',
                 }}>
                 <Image
                   source={
                     file.type === 'image/jpeg' ? {uri: file.path} : Images.PDF
                   }
-                  style={[
-                    Styles.selectImgContainer,
-                    {resizeMode: 'cover', flex: 1},
-                  ]}
+                  resizeMode={file.type !== 'image/jpeg' && "center"}
+                  style={[Styles.Imgs]}
                 />
                 <TouchableOpacity
                   style={{
@@ -331,6 +346,23 @@ const SendRequest = ({route}) => {
           cancelButtonIndex={options.length - 1}
         />
       )}
+      <ModalMiddle
+        showModal={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}
+        String_1={Strings.SendRequest.DiscardEdit}
+        String_2={Strings.SendRequest.DiscardEditDisc}
+        String_3={Strings.profile.ModalOption1}
+        String_4={Strings.profile.ModalOption2}
+        onPressNav={() => {
+          setShowModal(false);
+          navigation.goBack();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </Container>
   );
 };

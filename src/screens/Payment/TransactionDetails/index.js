@@ -1,5 +1,5 @@
 // TransactionDetails
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Clipboard} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
@@ -11,6 +11,7 @@ import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
 import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
+import {ToastAndroid} from 'react-native';
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const redirectTo = route?.params?.redirectTo || '';
@@ -45,6 +46,12 @@ const TransactionDetails = ({route}) => {
       <Text style={[styles.doneText]}>Done</Text>
     </TouchableOpacity>
   );
+  const handleCopyPaymentIntent = () => {
+    const paymentIntent = route?.params?.payment_intent;
+    if (paymentIntent) {
+      Clipboard.setString(paymentIntent);
+    }
+  };
   return (
     <Container
       mainStyle={false}
@@ -147,7 +154,8 @@ const TransactionDetails = ({route}) => {
                 style={[
                   styles.transDetail,
                   {width: '70%', fontFamily: Fonts.OpenSansBold},
-                ]}>
+                ]}
+                onPress={() => handleCopyPaymentIntent()}>
                 {route?.params?.payment_intent}
               </Text>
             </View>

@@ -23,22 +23,27 @@ const PaymentRequestComp = props => {
   function getPaymentStatusImage(paymentType) {
     if (paymentType !== undefined) {
       const PaymentTypeToImageMap = {
-        1: Images.SuccessPayment,
-        2: Images.RejectPayment,
+        2: Images.SuccessPayment,
+        3: Images.RejectPayment,
         0: Images.PendingPayment,
-        3: Images.SuccessPayment,
+        1: Images.PendingPayment,
+        4: Images.RejectPayment,
+        5: Images.RejectPayment,
+        6: Images.RejectPayment,
       };
       return PaymentTypeToImageMap[paymentType] || Images.PendingPayment;
     }
   }
-
   function getPaymentStatusText(paymentType) {
     if (paymentType !== undefined) {
       const PaymentTypeToTextMap = {
-        1: Strings.SendAndRequest.Payment_Received,
-        2: Strings.SendAndRequest.Request_Declined,
+        2: Strings.SendAndRequest.Payment_Received,
+        3: Strings.SendAndRequest.Request_Declined,
         0: Strings.SendAndRequest.Not_Received_Yet,
-        3: Strings.SendAndRequest.Payment_Received,
+        1: Strings.SendAndRequest.Not_Received_Yet,
+        4: Strings.SendAndRequest.Request_Declined,
+        5: Strings.SendAndRequest.Request_Declined,
+        6: Strings.SendAndRequest.Request_Declined,
       };
       return (
         PaymentTypeToTextMap[paymentType] ||
@@ -48,9 +53,9 @@ const PaymentRequestComp = props => {
   }
 
   function getColor(paymentType) {
-    if (paymentType === 2 || paymentType === 0) {
+    if (paymentType === 1 || paymentType === 0) {
       return Colors.RED;
-    } else if (paymentType === 1 || paymentType === 3) {
+    } else if (paymentType === 2) {
       return Colors.COLOR_5ABCEC;
     } else {
       return Colors.RED;
@@ -68,15 +73,21 @@ const PaymentRequestComp = props => {
           </View>
         </View>
         {DocImg && (
-          <TouchableOpacity
-            style={styles.touchableAlignment}
-            onPress={onPressMedia}>
+          <TouchableOpacity style={styles.ImageView} onPress={onPressMedia}>
             <Image style={styles.BlueLink} source={Images.BlueLink} />
-            <Image
-              style={styles.ImageView}
-              resizeMode={pdf === true && 'center'}
-              source={pdf ? Images.PDF : {uri: DocImg}}
-            />
+            {pdf ? (
+              <Image
+                style={styles.imgpdf}
+                resizeMode={'center'}
+                source={Images.PDF}
+              />
+            ) : (
+              <Image
+                style={styles.img}
+                resizeMode={'cover'}
+                source={{uri: DocImg}}
+              />
+            )}
           </TouchableOpacity>
         )}
       </View>
