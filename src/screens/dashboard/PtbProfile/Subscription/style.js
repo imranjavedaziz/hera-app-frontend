@@ -121,6 +121,7 @@ export default {
     height: Value.CONSTANT_VALUE_1,
     width: '100%',
     backgroundColor: Colors.COLOR_228226216,
+    flex: 0,
   },
   subscribeBtn: {
     marginLeft: Value.CONSTANT_VALUE_10,
@@ -158,6 +159,8 @@ export default {
     alignItems: Alignment.CENTER,
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     maxWidth: Prencentage.PRECENTAGE_70,
+    flex: 0,
+    width: '100%',
   },
   changeModalTitle: {
     fontSize: Value.CONSTANT_VALUE_16,
@@ -170,14 +173,14 @@ export default {
     textAlign: Alignment.CENTER,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.COLOR_535858,
-    marginBottom: Value.CONSTANT_VALUE_25,
+    // marginBottom: Value.CONSTANT_VALUE_25,
     marginTop: Value.CONSTANT_VALUE_10,
   },
   changeModalBtn: {
     borderRadius: Value.CONSTANT_VALUE_30,
     paddingHorizontal: Value.CONSTANT_VALUE_30,
     paddingVertical: Value.CONSTANT_VALUE_20,
-    backgroundColor: Colors.COLOR_A3C6C4,
+    // backgroundColor: Colors.COLOR_A3C6C4,
   },
   changeModalBtnTxt: {
     color: Colors.COLOR_535858,

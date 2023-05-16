@@ -498,6 +498,8 @@ export default {
     Scroll to Subscriptions, then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,
+    ChangePlanParaAndroid:
+    `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.`,
     YesProceed: 'YES, CANCEL',
     UpgradePlan: 'Change search to {SELECTED_ROLE}?',
     UpgradePlanPara: `Based on your current subscription, you can only search for {SELECTED_ROLE}. To search for another user type, you will have to first cancel your current subscription & then select a new subscription.
@@ -507,11 +509,7 @@ export default {
     then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,
-    UpgradePlanParaAndroid: `You have to first cancel your ongoing plan to select a new subscription.
-    Open the Google Play App then 
-    Tap the profile icon on top right,
-    Tap Payments & Subscription,
-    Select the subscription you want to cancel & Tap Cancel Subscription.`,
+    UpgradePlanParaAndroid: `Based on your current subscription, you can only search for {SELECTED_ROLE}. To search for another user type, you will have to first cancel your current subscription & then select a new subscription.`,
     GotIt: 'OKAY, GOT IT!',
     SuccessChanged: 'Subscription Updated!',
     SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
@@ -523,10 +521,7 @@ export default {
     Scroll to Subscriptions, then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,
-    CancelSubParaAndroid: `To cancel your ongoing plan, Open the Google Play App then 
-    Tap the profile icon on top right,
-    Tap Payments & Subscription,
-    Select the subscription you want to cancel & Tap Cancel Subscription.`,
+    CancelSubParaAndroid: `If you cancel the subscription, you will not be able to send a like, match or chat with any profile.`,
     NotProcessed: 'Subscription could not be processed.',
   },
   Chat: {
