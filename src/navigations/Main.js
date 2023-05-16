@@ -160,7 +160,7 @@ const Main = () => {
             firstLaunch === false &&
             getRoute(auth?.access_token, auth?.role_id, auth?.registration_step)
           }
-          screenOptions={{headerShown: false}}>
+          screenOptions={{headerShown: false,gestureEnabled: false}}>
           {firstLaunch && (
             <Stack.Screen name={Routes.WalkThrough} component={WalkThrough} />
           )}

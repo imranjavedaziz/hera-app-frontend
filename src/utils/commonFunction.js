@@ -295,7 +295,7 @@ export const calculateTotalStripeAmount = amount => {
   }
   return ZERO;
 };
-export const digitBeforeDecimal = txt => {
+export const digitBeforeDecimal = (txt,maxToEight=true) => {
   if (!txt || txt === '') {
     return '';
   }
@@ -305,7 +305,7 @@ export const digitBeforeDecimal = txt => {
     minimumFractionDigits: 0,
   });
   updatedTxt = formatted;
-  if (formatted.length >= 8) {
+  if (formatted.length >= 8 && maxToEight) {
     updatedTxt = formatted.substring(0, 8);
   }
   return updatedTxt === 'NaN' ? '' : updatedTxt;

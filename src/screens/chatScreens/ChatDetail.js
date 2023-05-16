@@ -41,9 +41,7 @@ let onChildAdd;
 let images = [];
 const ChatDetail = props => {
   const routeData = props?.route?.params?.item;
-  const nextStep = routeData.hasOwnProperty('next_step')
-    ? Boolean(routeData.next_step)
-    : false;
+  const [nextStep,setNextStep] = useState(false);
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
@@ -86,6 +84,11 @@ const ChatDetail = props => {
   } = useSelector(state => state.NextStep);
   const giftedref = useRef(null);
   const loadingUploadRef = useRef(null);
+  useEffect(()=>{
+    setNextStep(routeData.hasOwnProperty('next_step')
+    ? Boolean(routeData.next_step)
+    : false);
+  },[routeData]);
   useEffect(() => {
     deviceHandler(navigation, 'deviceGoBack');
   }, [navigation]);
@@ -124,6 +127,7 @@ const ChatDetail = props => {
       if (next_step_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, 'Profile confirmed!'));
+        setNextStep(true);
       }
       if (next_step_fail) {
         dispatch(hideAppLoader());
@@ -1084,7 +1088,7 @@ const ChatDetail = props => {
       <ActionSheet
         ref={actionSheet}
         options={threeOption}
-        destructiveButtonIndex={selection ? 4 : 3}
+        destructiveButtonIndex={log_in_data?.role_id !== 2?3:(selection ? (nextStep?3:4) : 3)}
         cancelButtonIndex={selection ? 4 : 3}
         onPress={index => {
           handleThreeOption(threeOption[index]);
