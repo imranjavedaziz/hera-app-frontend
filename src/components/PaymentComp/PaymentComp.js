@@ -35,7 +35,7 @@ const PaymentComp = ({
             },
           ]}>
           <View style={styles.innerView}>
-            <Image style={styles.Icon} source={Icon} />
+            <Image style={styles.Icon} source={Icon} resizeMode="center" />
             <Text style={styles.heading}>{Heading}</Text>
           </View>
           <Text

@@ -19,6 +19,11 @@ const environment = {
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1/',
     chat: 'stage',
   },
+  prod: {
+    bucket: '',
+    api_url: 'https://api.makingbabyconnection.com/api/v1/',
+    chat: 'prod',
+  },
 };
 
 export const {bucket, api_url, chat} = environment.qa;

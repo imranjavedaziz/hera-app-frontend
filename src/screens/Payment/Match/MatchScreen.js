@@ -23,6 +23,7 @@ const MatchScreen = () => {
   const [search, setSearch] = React.useState('');
   const [allUser, setallUser] = React.useState([]);
   const [Data, setData] = React.useState([]);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
   const LoadingRef = useRef(null);
   const {
     get_match_list_success,
@@ -43,11 +44,13 @@ const MatchScreen = () => {
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
       if (get_match_list_success) {
+        setIsRefreshing(false);
         dispatch(hideEditLoader());
         setData(get_match_list_res?.data?.data);
         setallUser(get_match_list_res?.data?.data);
       }
       if (get_match_list_fail) {
+        setIsRefreshing(false);
         dispatch(hideEditLoader());
         dispatch(showAppToast(true, get_match_list_error_msg));
       }
@@ -81,14 +84,24 @@ const MatchScreen = () => {
       if (trimmedValue.startsWith('#')) {
         setallUser(
           Data.filter(item =>
-            item.username.includes(trimmedValue.substring(1)),
+            item.username
+              .toUpperCase()
+              .includes(trimmedValue.substring(1).toUpperCase()),
           ),
         );
       } else {
-        setallUser(Data.filter(item => item.username.match(trimmedValue)));
+        setallUser(
+          Data.filter(item =>
+            item.username.toUpperCase().match(trimmedValue.toUpperCase()),
+          ),
+        );
       }
     } else {
-      setallUser(Data.filter(item => item?.first_name.match(trimmedValue)));
+      setallUser(
+        Data.filter(item =>
+          item?.first_name.toUpperCase().match(trimmedValue.toUpperCase()),
+        ),
+      );
     }
   };
 
@@ -114,6 +127,15 @@ const MatchScreen = () => {
     setallUser(Data);
     setSearch('');
   };
+  const onRefresh = () => {
+    //set isRefreshing to true
+    setIsRefreshing(true);
+    let payload = {
+      keyword: search ? search : '',
+    };
+    dispatch(getMatchList(payload));
+  };
+
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -131,11 +153,13 @@ const MatchScreen = () => {
               editing={true}
             />
           </View>
-          {!_.isEmpty(allUser) && !get_match_list_loading && (
+          {!_.isEmpty(allUser) && (
             <FlatList
               data={allUser}
               renderItem={renderItemData}
               showsVerticalScrollIndicator={false}
+              onRefresh={onRefresh}
+              refreshing={isRefreshing}
             />
           )}
           {_.isEmpty(allUser) && !get_match_list_loading && (

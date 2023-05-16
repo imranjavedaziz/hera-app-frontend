@@ -55,6 +55,8 @@ export default StyleSheet.create({
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.COLOR_535858,
+    textAlign: Alignment.CENTER,
+    maxWidth: '70%',
   },
   uploadImgTxt: {
     fontSize: Value.CONSTANT_VALUE_16,
@@ -70,6 +72,11 @@ export default StyleSheet.create({
     flex: 0,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
+  },
+  Imgs: {
+    backgroundColor: Colors.DocBack,
+    width: 95,
+    flex: 1,
   },
   btnContainer: {
     width: px(Value.CONSTANT_VALUE_306),

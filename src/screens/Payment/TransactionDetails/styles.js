@@ -79,6 +79,14 @@ export default {
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_100),
     borderWidth: Value.CONSTANT_VALUE_5,
     borderColor: Colors.WHITE,
+    backgroundColor: '#d8d8d8',
+    shadowColor: 'rgba(0, 0, 0, 0.17)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 34,
+    shadowOpacity: 1,
   },
   heading: {
     fontSize: Value.CONSTANT_VALUE_30,

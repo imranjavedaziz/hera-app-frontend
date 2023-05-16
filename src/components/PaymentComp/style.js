@@ -20,6 +20,8 @@ export default {
   },
   Icon: {
     marginRight: dynamicSize(Value.CONSTANT_VALUE_10),
+    height: dynamicSize(24),
+    width: dynamicSize(24),
   },
   heading: {
     fontFamily: Fonts.OpenSansBold,
