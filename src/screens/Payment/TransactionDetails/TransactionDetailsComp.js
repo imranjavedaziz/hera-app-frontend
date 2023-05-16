@@ -6,13 +6,23 @@ import {Images, Colors} from '../../../constants';
 
 export const TransactionStatusCircle = React.memo(({status = 0}) => {
   switch (status.toString()) {
+    case '1':
+      return (
+        <View
+          style={[
+            styles.statusContainer,
+            {backgroundColor: Colors.COLOR_747474},
+          ]}>
+          <Image source={Images.TIME} style={styles.statusIcon} />
+        </View>
+      );
     case '2':
       return (
         <View style={[styles.statusContainer, {backgroundColor: Colors.BLUE}]}>
           <Image source={Images.path} style={styles.statusIcon} />
         </View>
       );
-    case '3':
+    default:
       return (
         <View style={[styles.statusContainer, {backgroundColor: Colors.RED}]}>
           <Image
@@ -22,16 +32,6 @@ export const TransactionStatusCircle = React.memo(({status = 0}) => {
               {tintColor: Colors.RED, backgroundColor: Colors.WHITE},
             ]}
           />
-        </View>
-      );
-    default:
-      return (
-        <View
-          style={[
-            styles.statusContainer,
-            {backgroundColor: Colors.COLOR_747474},
-          ]}>
-          <Image source={Images.TIME} style={styles.statusIcon} />
         </View>
       );
   }

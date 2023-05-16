@@ -14,7 +14,7 @@ export const TransactionItem = ({item}) => {
       style={{flex: 1}}
       onPress={() => navigation.navigate(Routes.TransactionDetails, item)}>
       <View style={[styles.transRow, {justifyContent: 'space-between'}]}>
-        <Text style={styles.transId}>{`Transaction ID: ${item?.id}`}</Text>
+        <Text style={styles.transId}>{`Transaction ID: ${item?.payment_intent}`}</Text>
         {item?.role === 2 && <TransactionStatus status={item?.payout_status} />}
       </View>
       <View style={styles.transRow}>
@@ -79,6 +79,15 @@ export const EmptyList = React.memo(() => (
 
 export const TransactionStatus = React.memo(({status = 0}) => {
   switch (status.toString()) {
+    case '1':
+      return (
+        <View style={styles.wrapRow}>
+          <Image source={Images.TIME} style={styles.statusIcon} />
+          <Text style={[styles.transStatus, {color: Colors.COLOR_747474}]}>
+            In Process
+          </Text>
+        </View>
+      );
     case '2':
       return (
         <View style={styles.wrapRow}>
@@ -89,20 +98,11 @@ export const TransactionStatus = React.memo(({status = 0}) => {
           <Text style={[styles.transStatus, {color: Colors.BLUE}]}>Paid</Text>
         </View>
       );
-    case '3':
+    default:
       return (
         <View style={styles.wrapRow}>
           <Image source={Images.WARNING_RED} style={styles.statusIcon} />
           <Text style={[styles.transStatus, {color: Colors.RED}]}>Failed</Text>
-        </View>
-      );
-    default:
-      return (
-        <View style={styles.wrapRow}>
-          <Image source={Images.TIME} style={styles.statusIcon} />
-          <Text style={[styles.transStatus, {color: Colors.COLOR_747474}]}>
-            In Process
-          </Text>
         </View>
       );
   }
