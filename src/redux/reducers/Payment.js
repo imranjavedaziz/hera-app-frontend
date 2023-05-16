@@ -14,6 +14,9 @@ import {
   PAYMENT_TRANSFER,
   PAYMENT_TRANSFER_FAIL,
   PAYMENT_TRANSFER_SUCCESS,
+  TRANSACTION_HISTORY_PAGE,
+  TRANSACTION_HISTORY_PAGE_FAIL,
+  TRANSACTION_HISTORY_PAGE_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -48,6 +51,12 @@ const initState = {
   payment_transfer_error_msg: '',
   payment_transfer_res: {},
   payment_transfer_fail: false,
+  //get payment history pages
+  payment_history_page_success: false,
+  payment_history_page_loading: false,
+  payment_history_page_error_msg: '',
+  payment_history_page_res: {data: []},
+  payment_history_page_fail: false,
 };
 
 export default (state = initState, action) => {
@@ -190,6 +199,34 @@ export default (state = initState, action) => {
         payment_transfer_error_msg: action.data.msg,
         payment_transfer_res: '',
         payment_transfer_fail: true,
+      };
+    //Payment history pages
+    case TRANSACTION_HISTORY_PAGE:
+      return {
+        ...state,
+        payment_history_page_success: false,
+        payment_history_page_loading: true,
+        payment_history_page_error_msg: '',
+        payment_history_page_res: {data: []},
+        payment_history_page_fail: false,
+      };
+    case TRANSACTION_HISTORY_PAGE_SUCCESS:
+      return {
+        ...state,
+        payment_history_page_success: true,
+        payment_history_page_loading: false,
+        payment_history_page_res: action.data,
+        payment_history_res: {
+          ...action.data,
+          data: [...state.payment_history_res.data, ...action.data.data],
+        },
+      };
+    case TRANSACTION_HISTORY_PAGE_FAIL:
+      return {
+        ...state,
+        payment_history_page_loading: false,
+        payment_history_page_error_msg: action.data.msg,
+        payment_history_page_fail: true,
       };
     default:
       return state;

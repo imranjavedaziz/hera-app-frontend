@@ -1,4 +1,4 @@
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, Image, TouchableOpacity,ActivityIndicator} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -12,7 +12,7 @@ import {
   ListHeader,
   EmptyList,
 } from './TransactionComp';
-import {getTransactionHistory} from '../../../redux/actions/Payment';
+import {getTransactionHistory,getTransactionHistoryPages} from '../../../redux/actions/Payment';
 import {hideEditLoader} from '../../../redux/actions/loader';
 
 const Transaction = () => {
@@ -21,7 +21,7 @@ const Transaction = () => {
   const [paymentHistory, setHistory] = useState([]);
   const {log_in_data} = useSelector(state => state.Auth);
 
-  const {payment_history_res, payment_history_success} = useSelector(
+  const {payment_history_res, payment_history_success,payment_history_page_loading} = useSelector(
     state => state.Payment,
   );
   React.useEffect(() => {
@@ -56,7 +56,7 @@ const Transaction = () => {
           <View style={styles.mainContainer}>
             <FlatList
               data={paymentHistory}
-              keyExtractor={item => item.id.toString()}
+              keyExtractor={item => item.payment_intent}
               showsVerticalScrollIndicator={false}
               renderItem={({item}) => (
                 <TransactionItem item={{...item, role: log_in_data?.role_id}} />
@@ -65,7 +65,17 @@ const Transaction = () => {
               ListHeaderComponent={() => (
                 <ListHeader isShow={paymentHistory.length > 0} />
               )}
-              ListFooterComponent={() => <View style={{marginBottom: 40}} />}
+              ListFooterComponent={() => (<View style={{marginBottom: 40,alignItems: 'center',justifyContent: 'center',}}>
+                {
+                  payment_history_page_loading && <ActivityIndicator style={{marginTop: 40,}}/>
+                }
+              </View>)}
+              onEndReached={()=>{
+                if(payment_history_res.current_page<payment_history_res.last_page){
+                  dispatch(getTransactionHistoryPages());
+                }
+              }}
+              // extraData={payment_history_res.data}
             />
           </View>
         ) : (
