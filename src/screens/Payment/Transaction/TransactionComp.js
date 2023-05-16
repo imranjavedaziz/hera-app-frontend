@@ -3,18 +3,26 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
-import {Routes, Fonts} from '../../../constants/Constants';
-import {convertDateFormat, getCardImage} from '../../../utils/commonFunction';
+import {Routes} from '../../../constants/Constants';
+import {getCardImage} from '../../../utils/commonFunction';
 import moment from 'moment';
+import {useSelector} from 'react-redux';
+import {width} from '../../../utils/responsive';
 
 export const TransactionItem = ({item}) => {
+  const {log_in_data} = useSelector(state => state.Auth);
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={{flex: 1}}
       onPress={() => navigation.navigate(Routes.TransactionDetails, item)}>
       <View style={[styles.transRow, {justifyContent: 'space-between'}]}>
-        <Text style={styles.transId}>{`Transaction ID: ${item?.payment_intent}`}</Text>
+        <Text
+          style={[
+            styles.transId,
+            log_in_data.role_id === 2 ? {width: '70%'} : {width: width - 60},
+          ]}
+          numberOfLines={2}>{`Transaction ID: ${item?.payment_intent}`}</Text>
         {item?.role === 2 && <TransactionStatus status={item?.payout_status} />}
       </View>
       <View style={styles.transRow}>

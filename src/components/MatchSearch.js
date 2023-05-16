@@ -14,8 +14,11 @@ import Alignment from '../constants/Alignment';
 import {Value} from '../constants/FixedValues';
 import Colors from '../constants/Colors';
 import {Fonts} from '../constants/Constants';
+import {useSelector} from 'react-redux';
+import {dynamicSize, width} from '../utils/responsive';
 
 const Searchbar = props => {
+  const {log_in_data} = useSelector(state => state.Auth);
   const {onChangeText, editing, croxxIcon, onClear, value} = props;
   return (
     <View style={styles.mainContainer}>
@@ -28,7 +31,11 @@ const Searchbar = props => {
           style={styles.searchBar}
           value={value}
           onChangeText={text => onChangeText(text)}
-          placeholder={Strings.search_Bar.search}
+          placeholder={
+            log_in_data.role_id !== 2
+              ? Strings.search_Bar.search
+              : 'Search by user ID'
+          }
           placeholderTextColor={Colors.BLACK}
           keyboardType={'web-search'}
           autoCorrect={false}
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
   searchBarContainer: {
     backgroundColor: Colors.WHITE,
     flexDirection: Alignment.ROW,
-    width: Value.CONSTANT_VALUE_350,
+    width: width - dynamicSize(60),
     height: Value.CONSTANT_VALUE_50,
     alignSelf: Alignment.CENTER,
     padding: Value.CONSTANT_VALUE_5,

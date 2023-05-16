@@ -13,6 +13,7 @@ import {
   EmptyList,
 } from './TransactionComp';
 import {getTransactionHistory,getTransactionHistoryPages} from '../../../redux/actions/Payment';
+import {hideEditLoader} from '../../../redux/actions/loader';
 
 const Transaction = () => {
   const navigation = useNavigation();
@@ -30,7 +31,8 @@ const Transaction = () => {
     console.log('payment_history_res', JSON.stringify(payment_history_res));
     if (payment_history_success) {
       setHistory(payment_history_res.data);
-    }
+      dispatch(hideEditLoader());
+    } 
   }, [payment_history_res, payment_history_success]);
   const headerComp = () => (
     <IconHeader

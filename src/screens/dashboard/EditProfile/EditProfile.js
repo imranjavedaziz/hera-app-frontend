@@ -251,15 +251,16 @@ const EditProfile = props => {
     const sexual_orientations_id =
       get_profile_setter_res?.sexual_orientation.find(obj => {
         return (
-          obj.id === get_user_detail_res?.user_profile?.sexual_orientations_id
+          obj.id === get_user_detail_res?.userProfile?.sexual_orientations_id
         );
       });
     const relationship_status_id =
       get_profile_setter_res?.relationship_status.find(obj => {
         return (
-          obj.id === get_user_detail_res?.user_profile?.relationship_status_id
+          obj.id === get_user_detail_res?.userProfile?.relationship_status_id
         );
       });
+
     const state_id = get_state_res?.find(obj => {
       return obj.id === get_user_detail_res?.location?.state_id;
     });
@@ -268,17 +269,17 @@ const EditProfile = props => {
     setValue('middle_name', get_user_detail_res?.middle_name);
     setValue('last_name', get_user_detail_res?.last_name);
     setValue('email', get_user_detail_res?.email);
-    setValue('gender_id', get_user_detail_res?.user_profile?.gender_id);
+    setValue('gender_id', get_user_detail_res?.userProfile?.gender_id);
     setValue('dob', moment(get_user_detail_res?.dob).format('MMM DD, YYYY'));
     setValue('state_id', state_id);
     setValue('zipcode', get_user_detail_res?.location?.zipcode);
     setValue(
       'occupation',
-      get_user_detail_res?.user_profile?.occupation === null
+      get_user_detail_res?.userProfile?.occupation === null
         ? ''
-        : get_user_detail_res?.user_profile?.occupation,
+        : get_user_detail_res?.userProfile?.occupation,
     );
-    setValue('bio', get_user_detail_res?.user_profile.bio);
+    setValue('bio', get_user_detail_res?.userProfile.bio);
     setValue('sexual_orientations_id', sexual_orientations_id);
     setValue('relationship_status_id', relationship_status_id);
   };

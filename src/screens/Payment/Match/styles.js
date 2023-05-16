@@ -1,5 +1,10 @@
 import {Value} from '../../../constants/FixedValues';
-import {dynamicSize, height, statusHide} from '../../../utils/responsive';
+import {
+  dynamicSize,
+  height,
+  statusHide,
+  width,
+} from '../../../utils/responsive';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 
@@ -77,6 +82,7 @@ export default {
     color: Colors.BLACK,
   },
   compMaincontainer: {
+    width: width - dynamicSize(60),
     flex: 1,
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,

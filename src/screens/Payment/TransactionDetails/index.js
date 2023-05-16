@@ -1,5 +1,5 @@
 // TransactionDetails
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Clipboard} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
@@ -11,6 +11,7 @@ import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
 import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
+import {ToastAndroid} from 'react-native';
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const redirectTo = route?.params?.redirectTo || '';
@@ -45,6 +46,12 @@ const TransactionDetails = ({route}) => {
       <Text style={[styles.doneText]}>Done</Text>
     </TouchableOpacity>
   );
+  const handleCopyPaymentIntent = () => {
+    const paymentIntent = route?.params?.payment_intent;
+    if (paymentIntent) {
+      Clipboard.setString(paymentIntent);
+    }
+  };
   return (
     <Container
       mainStyle={false}
@@ -97,8 +104,8 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {route?.params?.amount % 1 === 0
-                    ? `$${(route?.params?.amount).toFixed(2)}`
+                  {Number.isInteger(route?.params?.amount)
+                    ? `$${route?.params?.amount}.00`
                     : `$${route?.params?.amount}`}
                 </Text>
               </View>
@@ -139,11 +146,16 @@ const TransactionDetails = ({route}) => {
           )}
           <View style={{flex: 1, width: '100%'}}>
             <View style={styles.bottomRow}>
-              <Text style={styles.transDetail}>
+              <Text style={[styles.transDetail, {alignSelf: 'baseline'}]}>
                 {Strings.TransDetail.transId}
               </Text>
               <Text
-                style={[styles.transDetail, {fontFamily: Fonts.OpenSansBold}]}>
+                numberOfLines={2}
+                style={[
+                  styles.transDetail,
+                  {width: '70%', fontFamily: Fonts.OpenSansBold},
+                ]}
+                onPress={() => handleCopyPaymentIntent()}>
                 {route?.params?.payment_intent}
               </Text>
             </View>

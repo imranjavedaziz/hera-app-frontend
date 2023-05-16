@@ -61,6 +61,7 @@ import {
   GET_CARD_LIST,
 } from '../../../redux/actions/stripe.action';
 import {GetPreferenceRes} from '../../../redux/actions/SetPreference';
+import {getPaymentRequestList} from '../../../redux/actions/Payment';
 
 const PtbProfile = () => {
   const navigation = useNavigation();
@@ -92,12 +93,16 @@ const PtbProfile = () => {
   const {gallery_success, gallery_loading, gallery_data} = useSelector(
     state => state.CreateGallery,
   );
+  const [Notifications, setNotifications] = useState(0);
+  const {get_payment_request_list_success, get_payment_request_list_res} =
+    useSelector(state => state.Payment);
   const {Device_ID} = useContext(NotificationContext);
   useFocusEffect(
     useCallback(() => {
       dispatch(getEditProfile());
       dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
+      dispatch(getPaymentRequestList());
     }, [dispatch]),
   );
   const LogoutLoadingRef = useRef(false);
@@ -112,6 +117,22 @@ const PtbProfile = () => {
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [navigation, dispatch]);
+  useEffect(() => {
+    if (get_payment_request_list_success) {
+      if (!_.isEmpty(get_payment_request_list_res?.data)) {
+        const filteredData = get_payment_request_list_res?.data.filter(
+          item => item.status === 0,
+        );
+        setNotifications(filteredData?.length);
+      } else {
+        setNotifications(0);
+      }
+    }
+  }, [
+    get_payment_request_list_success,
+    get_payment_request_list_res,
+    dispatch,
+  ]);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -356,8 +377,10 @@ const PtbProfile = () => {
                 leftIcon={Images.DOLLAR_LOGO}
                 title={Strings.smSetting.Hera_Pay}
                 onPress={() => navigation.navigate(Routes.HeraPay)}
-                RedDot={true}
-                Pending={'2 Pending Request'}
+                RedDot={Notifications > 0 ? true : false}
+                Pending={
+                  Notifications > 0 && `${Notifications} Pending Request`
+                }
               />
               <PtbAccount
                 leftIcon={Images.video}

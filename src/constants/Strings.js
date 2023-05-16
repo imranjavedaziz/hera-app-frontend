@@ -492,8 +492,7 @@ export default {
     ChatSubscriptionExpired:
       'Your subscription has expired. Please renew your subscription now to continue your conversation.',
     ChangePlan: 'Change of Plan?',
-    ChangePlanPara:
-    `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended. 
+    ChangePlanPara: `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended. 
     To cancel your subscription you need to Click your Account Settings,
     Scroll to Subscriptions, then click Manage.
     Next to the HERA subscription,
@@ -616,15 +615,16 @@ export default {
     KYC_INCOMPLETE: 'KYC Incomplete  ',
     KYC_VERIFYIED: 'KYC verified  ',
     PTB_NO_MATCH:
-      'After you have matched, You can send payments to them using HERA Pay.',
-    SM_NO_MATCH: 'You can send money to your matches using HERA Pay.',
+      'After you have matched, You can request for payments from Intended Parents using HERA Pay.',
+    SM_NO_MATCH:
+      'You can request for payment from your matches using HERA Pay.',
   },
   Match_Screen: {
     Send_Payment: 'Send Payment',
     Pay: 'Pay',
     code: '#SM5882',
     type: 'Surrogate Mother',
-    noBank: 'Bank not added by \n',
+    noBank: 'Bank not added by\n',
     Request: 'Request',
     Decline: 'Decline',
   },

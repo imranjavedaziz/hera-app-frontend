@@ -45,6 +45,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_11,
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 2.8,
+    textTransform: 'uppercase',
   },
   transId: {
     marginBottom: Value.CONSTANT_VALUE_15,
@@ -62,6 +63,7 @@ export default {
     height: Value.CONSTANT_VALUE_35,
     width: Value.CONSTANT_VALUE_35,
     borderRadius: Value.CONSTANT_VALUE_18,
+    backgroundColor: '#d8d8d8',
   },
   transColumn: {
     flex: Value.CONSTANT_VALUE_1,

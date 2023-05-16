@@ -93,6 +93,7 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_100,
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.INPUT_BORDER,
+    backgroundColor: '#d8d8d8',
   },
   marginFromImg: {marginLeft: Value.CONSTANT_VALUE_10},
   userRequestName: {
@@ -115,14 +116,19 @@ export default {
     color: Colors.TIME_COLOR,
     marginTop: Value.CONSTANT_VALUE_5,
   },
-  touchableAlignment: {alignItems: Alignment.CENTER},
   BlueLink: {
-    hieght: Value.CONSTANT_VALUE_25,
+    height: Value.CONSTANT_VALUE_25,
     width: Value.CONSTANT_VALUE_25,
     position: Alignment.ABSOLUTE,
     right: -8,
+
     top: -8,
     zIndex: Value.CONSTANT_VALUE_1,
+  },
+  imgpdf: {width: 29, height: 33},
+  img: {
+    height: '99%',
+    width: '100%',
   },
   ImageView: {
     height: Value.CONSTANT_VALUE_62,
@@ -130,6 +136,8 @@ export default {
     borderWidth: Value.CONSTANT_VALUE_2,
     backgroundColor: Colors.BACKGROUND,
     borderColor: Colors.COLOR_5ABCEC,
+    alignItems: Alignment.CENTER,
+    justifyContent: 'center',
   },
   AcceptRejectBtn: {
     alignItems: Alignment.CENTER,

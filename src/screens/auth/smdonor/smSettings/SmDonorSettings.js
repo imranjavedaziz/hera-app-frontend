@@ -58,6 +58,7 @@ import {
   GET_BANK_LIST,
   GET_CARD_LIST,
 } from '../../../../redux/actions/stripe.action';
+import {getPaymentRequestList} from '../../../../redux/actions/Payment';
 
 const SmDonorSettings = () => {
   const navigation = useNavigation();
@@ -91,6 +92,9 @@ const SmDonorSettings = () => {
   const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
   );
+  const [Notifications, setNotifications] = useState(0);
+  const {get_payment_request_list_success, get_payment_request_list_res} =
+    useSelector(state => state.Payment);
   const {gallery_data, gallery_success, gallery_loading} = useSelector(
     state => state.CreateGallery,
   );
@@ -98,8 +102,22 @@ const SmDonorSettings = () => {
     useCallback(() => {
       dispatch(getEditProfile());
       dispatch(getUserGallery());
+      dispatch(getPaymentRequestList());
     }, [dispatch]),
   );
+  useEffect(() => {
+    if (get_payment_request_list_success) {
+      if (!_.isEmpty(get_payment_request_list_res?.data)) {
+        setNotifications(get_payment_request_list_res?.data?.length);
+      } else {
+        setNotifications(0);
+      }
+    }
+  }, [
+    get_payment_request_list_success,
+    get_payment_request_list_res,
+    dispatch,
+  ]);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -311,8 +329,8 @@ const SmDonorSettings = () => {
               leftIcon={Images.DOLLAR_LOGO}
               title={Strings.smSetting.Hera_Pay}
               onPress={() => navigation.navigate(Routes.HeraPay)}
-              RedDot={true}
-              Pending={'Notifications'}
+              RedDot={Notifications > 0 ? true : false}
+              Pending={Notifications > 0 && 'Notifications'}
             />
             <PtbAccount
               leftIcon={Images.galleryimage}

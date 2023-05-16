@@ -6,6 +6,7 @@ import {
   Keyboard,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import React, {useRef, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -73,7 +74,7 @@ const PaymentSent = ({route}) => {
       onPress={() => {
         navigation.goBack();
       }}
-      style={styles.androidHeaderIcons}
+      style={styles.header}
     />
   );
   const handleAmountChange = text => {
@@ -128,14 +129,16 @@ const PaymentSent = ({route}) => {
     inputRefs.current.focus();
   };
   return (
-    <View style={styles.flex}>
-      <Header end={false}>{headerComp()}</Header>
-      <KeyboardAvoidingView style={styles.flex} behavior="padding">
+    <KeyboardAvoidingView
+      style={[styles.flex, {marginBottom: 45}]}
+      behavior={Platform.OS === 'ios' && 'padding'}>
+      <View style={styles.flex}>
+        <Header end={false}>{headerComp()}</Header>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
-          extraScrollHeight={20}
           enableAutoAutomaticScroll={true}
           keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+          contentContainerStyle={styles.flex}
           showsVerticalScrollIndicator={false}
           ref={scrollRef}>
           <View style={styles.mainContainer}>
@@ -167,7 +170,7 @@ const PaymentSent = ({route}) => {
               </Text>
             </View>
           </View>
-          <View style={!keyboardOpen && styles.bottonFloat}>
+          <View style={styles.bottonFloat}>
             <TouchableOpacity
               onPress={() => onSubmit()}
               style={styles.btnContainer}>
@@ -175,8 +178,8 @@ const PaymentSent = ({route}) => {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

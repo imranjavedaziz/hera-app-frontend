@@ -28,8 +28,13 @@ import {
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
 import {ValidationMessages} from '../../constants/Strings';
-import { showAppLoader,hideAppLoader } from '../actions/loader';
 import { store } from '../store';
+import {
+  hideEditLoader,
+  showEditAppLoader,
+  showAppLoader,
+  hideAppLoader,
+} from '../actions/loader';
 
 function* getMatchList(payload) {
   try {
@@ -101,7 +106,7 @@ export function* watchUpdateRequestStatus() {
 
 function* getPaymentHistory() {
   try {
-    yield put(showAppLoader());
+    yield put(showEditAppLoader());
     const result = yield GetPaymentHistoryApi();
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: TRANSACTION_HISTORY_SUCCESS, data: result.data?.data});
@@ -116,9 +121,8 @@ function* getPaymentHistory() {
       type: TRANSACTION_HISTORY_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
     });
-  }
-  finally{
-    yield put(hideAppLoader());
+  } finally {
+    yield put(hideEditLoader());
   }
 }
 export function* watchPaymentHistory() {

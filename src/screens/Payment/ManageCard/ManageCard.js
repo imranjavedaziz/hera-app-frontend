@@ -63,14 +63,12 @@ const ManageCard = ({route}) => {
     payment_transfer_fail,
   } = useSelector(state => state.Payment);
   const loadingRef = useRef(null);
-  function float2int(value) {
-    return value | 0;
-  }
+
   const amountParam = params?.amount?.toString();
   const Amount = amountParam?.includes(',')
     ? amountParam?.replace(/,/g, '')
     : amountParam;
-  const roundOff = float2int(Amount);
+  const roundOff = Amount;
   useEffect(() => {
     if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
