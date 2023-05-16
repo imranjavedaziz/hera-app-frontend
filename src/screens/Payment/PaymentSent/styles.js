@@ -13,6 +13,7 @@ export default {
   flex: {
     flex: 1,
     backgroundColor: Colors.BACKGROUND,
+    justifyContent: Alignment.SPACE_BETWEEN,
   },
   androidHeaderIcons: {
     marginRight: Value.CONSTANT_VALUE_30,
@@ -21,6 +22,7 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     marginTop: statusHide(105),
     alignItems: Alignment.CENTER,
+    justifyContent: Alignment.FLEX_START,
   },
   mainText: {
     fontFamily: Fonts.OpenSansBold,
@@ -32,7 +34,7 @@ export default {
   profileImg: {
     width: Value.CONSTANT_VALUE_66,
     height: Value.CONSTANT_VALUE_66,
-    borderStyle: 'solid',
+    borderStyle: Alignment.SOLID,
     borderWidth: 1,
     borderColor: Colors.WHITE,
     borderRadius: 100,
@@ -59,10 +61,10 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_17,
   },
   rowView: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: Alignment.ROW,
+    alignItems: Alignment.CENTER,
     maxWidth: width - 60,
-    justifyContent: 'center',
+    justifyContent: Alignment.CENTER,
     marginBottom: Value.CONSTANT_VALUE_21,
   },
   dollar: {
@@ -73,7 +75,7 @@ export default {
   },
   textInputStyle: {
     flex: Value.CONSTANT_VALUE_0,
-    fontFamily: 'OpenSans',
+    fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_50,
     color: Colors.BLACK,
     textAlign: Alignment.CENTER,
@@ -82,10 +84,10 @@ export default {
   addProcess: {
     fontFamily: Fonts.OpenSansItalic,
     fontSize: Value.CONSTANT_VALUE_13,
-    fontStyle: 'italic',
+    fontStyle: Alignment.ITALIC,
     color: Colors.BLACK_KEY,
   },
-  rowStyle: {flexDirection: 'row'},
+  rowStyle: {flexDirection: Alignment.ROW},
   star: {color: Colors.RED, fontSize: Value.CONSTANT_VALUE_13},
   btnContainer: {
     width: px(Value.CONSTANT_VALUE_306),
@@ -94,7 +96,7 @@ export default {
     height: scaleHeight(Value.CONSTANT_VALUE_80),
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
-    marginBottom: scaleHeight(Value.CONSTANT_VALUE_50),
+    marginBottom: scaleHeight(Value.CONSTANT_VALUE_45),
     marginTop: scaleHeight(Value.CONSTANT_VALUE_50),
     marginHorizontal: Value.CONSTANT_VALUE_15,
   },
@@ -108,7 +110,7 @@ export default {
   bottonFloat: {
     alignItems: Alignment.CENTER,
     flex: 1,
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_200),
+    justifyContent: Alignment.FLEXEND,
     alignSelf: Alignment.CENTER,
   },
 };

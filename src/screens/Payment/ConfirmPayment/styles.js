@@ -85,7 +85,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
     marginBottom: scaleHeight(Value.CONSTANT_VALUE_50),
-    marginTop: scaleHeight(Value.CONSTANT_VALUE_60),
+    marginTop: scaleHeight(Value.CONSTANT_VALUE_35),
     marginHorizontal: Value.CONSTANT_VALUE_15,
   },
   btnContainerPay: {

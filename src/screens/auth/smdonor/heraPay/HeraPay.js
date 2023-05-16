@@ -39,6 +39,7 @@ import _ from 'lodash';
 import {getAccountStatus} from '../../../../redux/actions/AccountStatus';
 import {monthGet} from '../../../../utils/commonFunction';
 import getKycStatusFunction from '../../../../utils/getkycStatusFunc';
+import {getPaymentRequestList} from '../../../../redux/actions/Payment';
 
 const HeraPay = () => {
   const navigation = useNavigation();
@@ -63,6 +64,9 @@ const HeraPay = () => {
   const [KycStatus, setKycStatus] = useState(null);
   const [KycUpdated, setKycUpdated] = useState(false);
   const [Item, setItem] = useState(null);
+  const [Notifications, setNotifications] = useState(0);
+  const {get_payment_request_list_success, get_payment_request_list_res} =
+    useSelector(state => state.Payment);
   useFocusEffect(
     useCallback(() => {
       if (!_.isEmpty(stripe_customer_id)) {
@@ -73,8 +77,30 @@ const HeraPay = () => {
           dispatch(getAccountStatus());
         }
       }
+      dispatch(getPaymentRequestList());
     }, [dispatch]),
   );
+  useEffect(() => {
+    if (get_payment_request_list_success) {
+      if (!_.isEmpty(get_payment_request_list_res?.data)) {
+        if (log_in_data.role_id !== 2) {
+          setNotifications(get_payment_request_list_res?.data?.length);
+        } else {
+          const filteredData = get_payment_request_list_res?.data.filter(
+            item => item.status === 0,
+          );
+          setNotifications(filteredData?.length);
+          console.log(filteredData?.length, 'huihi');
+        }
+      } else {
+        setNotifications(0);
+      }
+    }
+  }, [
+    get_payment_request_list_success,
+    get_payment_request_list_res,
+    dispatch,
+  ]);
   //Get Account Status
   useFocusEffect(
     useCallback(() => {
@@ -196,24 +222,7 @@ const HeraPay = () => {
     return true;
   };
   const onClickMatch = () => {
-    if (_.isEmpty(Data)) {
-      if (log_in_data.role_id !== 2) {
-        if (
-          KycUpdated &&
-          KycStatus !== null &&
-          getKycStatusFunction(account_status_res?.kyc_status) !==
-            Strings.Hera_Pay.KYC_PENDING
-        ) {
-          navigation.navigate(Routes.KycScreen);
-        } else {
-          navigation.navigate(Routes.ManageBank);
-        }
-      } else {
-        navigation.navigate(Routes.ManageCard);
-      }
-    } else {
-      navigation.navigate(Routes.MatchScreen);
-    }
+    navigation.navigate(Routes.MatchScreen);
   };
   return (
     <View style={styles.flex}>
@@ -256,8 +265,11 @@ const HeraPay = () => {
                   : Strings.Payment_Comp.Parent_Description
               }
               Pending={
-                log_in_data?.role_id === 2 &&
-                Strings.Payment_Comp.Pending_Request
+                Notifications > 0 && log_in_data?.role_id === 2
+                  ? `${Notifications} Pending Request`
+                  : Notifications > 0 &&
+                    log_in_data?.role_id !== 2 &&
+                    'Notification'
               }
               line
             />

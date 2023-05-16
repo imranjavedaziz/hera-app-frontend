@@ -15,8 +15,9 @@ import {
 import ImageView from 'react-native-image-viewing';
 import {
   hideAppLoader,
-  showAppLoader,
+  hideEditLoader,
   showAppToast,
+  showEditAppLoader,
 } from '../../../redux/actions/loader';
 import _ from 'lodash';
 import PaymentRequestModal from '../../../components/PaymentRequestModal/PaymentRequestModal';
@@ -48,14 +49,13 @@ const PaymentRequest = () => {
   } = useSelector(state => state.Payment);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(showAppLoader());
+    dispatch(showEditAppLoader());
     dispatch(getPaymentRequestList());
   }, [dispatch]);
   useEffect(() => {
     if (LoadingRef.current && !get_payment_request_list_loading) {
-      dispatch(showAppLoader());
       if (get_payment_request_list_success) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
         setData(get_payment_request_list_res?.data);
         const filteredData = get_payment_request_list_res?.data.filter(
           item => item.status === 0,
@@ -63,7 +63,7 @@ const PaymentRequest = () => {
         setPtbData(filteredData);
       }
       if (get_payment_request_list_fail) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
         dispatch(showAppToast(true, get_payment_request_list_error_msg));
       }
     }
@@ -78,13 +78,21 @@ const PaymentRequest = () => {
   ]);
   useEffect(() => {
     if (loadingRef.current && !update_request_status_loading) {
-      dispatch(showAppLoader());
+      dispatch(showEditAppLoader());
       if (update_request_status_success) {
         dispatch(hideAppLoader());
         dispatch(getPaymentRequestList());
-        dispatch(
-          showAppToast(false, `Payment Request from ${UserName} declined.`),
-        );
+        if (
+          update_request_status_res ===
+          'Payment mark already paid successfully!'
+        ) {
+          dispatch(showAppToast(false, `Request marked as already paid.`));
+        } else {
+          console.log(update_request_status_res, 'update_request_status_res');
+          dispatch(
+            showAppToast(false, `Payment Request from ${UserName} declined.`),
+          );
+        }
         setUserName('');
       }
       if (update_request_status_fail) {
@@ -183,6 +191,7 @@ const PaymentRequest = () => {
               payment_request_id: item?.id,
               status: 2,
             };
+            dispatch(showEditAppLoader());
             dispatch(updateRequestStatus(payload));
           },
         },
@@ -193,6 +202,7 @@ const PaymentRequest = () => {
               payment_request_id: item?.id,
               status: 3,
             };
+            dispatch(showEditAppLoader());
             dispatch(updateRequestStatus(payload));
           },
         },

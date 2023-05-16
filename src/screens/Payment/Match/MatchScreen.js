@@ -10,9 +10,9 @@ import Searchbar from '../../../components/MatchSearch';
 import MatchComp from './MatchComp';
 import {getMatchList} from '../../../redux/actions/Payment';
 import {
-  hideAppLoader,
-  showAppLoader,
+  hideEditLoader,
   showAppToast,
+  showEditAppLoader,
 } from '../../../redux/actions/loader';
 import _ from 'lodash';
 import {Routes} from '../../../constants/Constants';
@@ -36,19 +36,19 @@ const MatchScreen = () => {
     let payload = {
       keyword: search ? search : '',
     };
-    dispatch(showAppLoader());
+    dispatch(showEditAppLoader());
     dispatch(getMatchList(payload));
   }, [dispatch]);
 
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
       if (get_match_list_success) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
         setData(get_match_list_res?.data?.data);
         setallUser(get_match_list_res?.data?.data);
       }
       if (get_match_list_fail) {
-        dispatch(hideAppLoader());
+        dispatch(hideEditLoader());
         dispatch(showAppToast(true, get_match_list_error_msg));
       }
     }
@@ -72,6 +72,7 @@ const MatchScreen = () => {
   const onSearch = value => {
     if (value === '') {
       setSearch('');
+      setallUser(Data);
       return;
     }
     const trimmedValue = value.startsWith('#') ? value.substring(1) : value;
