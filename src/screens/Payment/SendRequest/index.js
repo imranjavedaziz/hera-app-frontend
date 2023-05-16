@@ -165,7 +165,7 @@ const SendRequest = ({route}) => {
       return '0' + digit;
     } else {
       return splits.length >= 2
-        ? digitBeforeDecimal(splits[0]) + '.' + splits[1].substring(-1, 2)
+        ? digitBeforeDecimal(splits[0],false) + '.' + splits[1].substring(-1, 2)
         : digit;
     }
   };
@@ -200,36 +200,36 @@ const SendRequest = ({route}) => {
             control={control}
             render={({field: {onChange, value}}) => {
               const handleAmountChange = text => {
-                let txt = text.replace(/\s/g, '');
+                console.log('handleAmountChange',text);
+                let txt = (text?.length>0 && typeof text==='string')?text.replace(/\s/g, ''):'';
                 if (text?.length === 0 || Number(text) === 0 || text === ',') {
-                  onChange('');
+                  txt = '';
                 } else {
                   if (txt?.includes(',')) {
                     txt = txt?.replace(/,/g, '');
                   }
                   if (isNaN(txt)) {
-                    onChange(value ?? '');
-                    return;
+                    txt = txt.replace(/\D/g,'');
+                    onChange(value.replace(/\D/g,''));
                   }
                   if (txt.includes('.')) {
                     txt = conTwoDecDigit(txt);
-                    onChange(txt);
                   } else {
-                    onChange(digitBeforeDecimal(txt));
+                    txt = digitBeforeDecimal(txt,false);
                   }
                 }
+                return txt;
               };
 
               return (
                 <FloatingLabelInput
                   label={Strings.SendRequest.amountField}
-                  value={value}
+                  value={handleAmountChange(value)}
                   onChangeText={v => {
-                    onChange(v.trim());
-                    handleAmountChange(v);
+                    onChange(v.trim().split(',').join(''));
                   }}
                   required={true}
-                  maxLength={7}
+                  maxLength={15}
                   error={errors && errors.amount?.message}
                   inputMode={'numeric'}
                   keyboardType={'numeric'}

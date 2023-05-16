@@ -119,6 +119,7 @@ const ManageCard = ({route}) => {
           profile_pic: params?.params?.item?.profile_pic,
           role: log_in_data.role_id,
           payment: true,
+          payout_status: 1,
         };
         navigation.navigate(Routes.TransactionDetails, payload);
         dispatch({type: PAYMENT_INTENT.CLEAN});
