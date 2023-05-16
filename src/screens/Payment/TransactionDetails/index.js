@@ -163,7 +163,7 @@ const TransactionDetails = ({route}) => {
               <Text style={styles.transDetail}>
                 {Strings.TransDetail.trans}
               </Text>
-              <TransactionStatus status={route?.params?.status} />
+              <TransactionStatus status={route?.params?.payout_status} />
             </View>
             {route?.params?.role === 2 && (
               <View style={styles.bottomRow}>
