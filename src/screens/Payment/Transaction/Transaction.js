@@ -69,7 +69,9 @@ const Transaction = () => {
                 }
               </View>)}
               onEndReached={()=>{
-                dispatch(getTransactionHistoryPages());
+                if(payment_history_res.current_page<payment_history_res.last_page){
+                  dispatch(getTransactionHistoryPages());
+                }
               }}
               // extraData={payment_history_res.data}
             />
