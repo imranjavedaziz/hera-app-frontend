@@ -111,7 +111,7 @@ export default {
 
   headerIcon2: {
     marginLeft: 30,
-    marginTop: Platform.OS === 'android' ? 100 : statusHide(54),
+    marginTop: Platform.OS === 'android' ? 100 : statusHide(80),
   },
   secondContainer: {
     marginTop: px(39),

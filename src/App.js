@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StatusBar, Text, TextInput} from 'react-native';
+import {Text, TextInput} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './redux/store';
@@ -17,7 +17,6 @@ import FormLoader from './components/FormLoader';
 import Toast from './components/Toast';
 import NotificationContextManager from './context/NotificationContextManager';
 import {Colors} from './constants';
-
 import {MessageToast} from './components';
 import {ToastProvider} from 'react-native-toast-notifications';
 const App = () => {
@@ -42,13 +41,6 @@ const App = () => {
               renderType={{
                 custom: toast => <MessageToast />,
               }}>
-              <StatusBar
-                barStyle="dark-content"
-                backgroundColor={Colors.BACKGROUND}
-                animated={true}
-                hidden={false}
-              />
-              <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
               <Main />
               <Loader />
               <FormLoader />

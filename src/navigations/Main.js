@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {SafeAreaView, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import RNBootSplash from 'react-native-bootsplash';
@@ -40,7 +41,7 @@ import DeleteAccount from '../screens/dashboard/PtbProfile/DeleteAccount';
 import ProfileLikedSm from '../screens/chatScreens/ProfileLikedSm';
 import DeactivateAccount from '../screens/dashboard/PtbProfile/Deactivate';
 import {showAppToast} from '../redux/actions/loader';
-import {Strings} from '../constants';
+import {Strings, Colors} from '../constants';
 import {Value} from '../constants/FixedValues';
 import WalkThrough from '../screens/walkThrough';
 import ForegroundHandler from '../utils/ForegroundHandler';
@@ -78,6 +79,7 @@ const Main = () => {
   const dispatch = useDispatch();
   const [firstLaunch, setFirstLaunch] = React.useState(null);
   const [toastShowed, setToastShowed] = React.useState(false);
+  const [showSafeArea, setShowSafeArea] = React.useState(false);
   const auth = useSelector(state => state.Auth.user);
   const {register_user_success} = useSelector(state => state.Auth);
   const subscriptionStatus = useSelector(
@@ -155,12 +157,41 @@ const Main = () => {
         ref={toastState?.showMessageToast ? navigationRefNew : navigationRef}
         onReady={() => RNBootSplash.hide()}>
         <ForegroundHandler />
+        {showSafeArea && <StatusBar
+          barStyle="dark-content"
+          backgroundColor={Colors.BACKGROUND}
+          animated={true}
+          hidden={false}
+        />}
+        {!showSafeArea && (
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={'transparent'}
+            animated={true}
+            hidden={false}
+            translucent={true}
+          />
+        )}
+        {showSafeArea && (
+          <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
+        )}
         <Stack.Navigator
           initialRouteName={
             firstLaunch === false &&
             getRoute(auth?.access_token, auth?.role_id, auth?.registration_step)
           }
-          screenOptions={{headerShown: false,gestureEnabled: false}}>
+          screenListeners={{
+            state: e => {
+              const navState = e.data.state;
+              console.log('screenListeners navState', JSON.stringify(navState));
+              if (navState.routes[navState.index].name === Routes.Landing || firstLaunch) {
+                setShowSafeArea(false);
+              } else {
+                setShowSafeArea(true);
+              }
+            },
+          }}
+          screenOptions={{headerShown: false, gestureEnabled: false}}>
           {firstLaunch && (
             <Stack.Screen name={Routes.WalkThrough} component={WalkThrough} />
           )}
@@ -238,11 +269,23 @@ const Main = () => {
           <Stack.Screen name={Routes.ManageCard} component={ManageCard} />
           <Stack.Screen name={Routes.KycScreen} component={KycScreen} />
           <Stack.Screen name={Routes.SendRequest} component={SendRequest} />
-          <Stack.Screen name={Routes.TransactionDetails} component={TransactionDetails} />
+          <Stack.Screen
+            name={Routes.TransactionDetails}
+            component={TransactionDetails}
+          />
           <Stack.Screen name={Routes.PaymentSent} component={PaymentSent} />
-          <Stack.Screen name={Routes.ConfirmPayment} component={ConfirmPayment} />
-          <Stack.Screen name={Routes.ConfirmSubscription} component={ConfirmSubscription} />
-          <Stack.Screen name={Routes.SubscriptionCard} component={SubscriptionCard} />
+          <Stack.Screen
+            name={Routes.ConfirmPayment}
+            component={ConfirmPayment}
+          />
+          <Stack.Screen
+            name={Routes.ConfirmSubscription}
+            component={ConfirmSubscription}
+          />
+          <Stack.Screen
+            name={Routes.SubscriptionCard}
+            component={SubscriptionCard}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     )

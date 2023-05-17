@@ -38,9 +38,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     flex: 0,
-    // width: Value.CONSTANT_VALUE_50,
     resizeMode: 'contain',
-    // height: Value.CONSTANT_VALUE_50,
   },
   subscribeBtn: {
     marginLeft: Value.CONSTANT_VALUE_10,
@@ -68,7 +66,7 @@ export default {
     borderColor: Colors.COLOR_RED,
     borderWidth: 1,
     maxWidth: 150,
-    flex: 0,
+    flex: 1,
   },
   upComingTxt: {
     color: Colors.COLOR_RED,
@@ -76,4 +74,7 @@ export default {
     flex: 1,
     textAlign: Alignment.CENTER
   },
+  innerView: {
+    flex: 0,
+  }
 };
