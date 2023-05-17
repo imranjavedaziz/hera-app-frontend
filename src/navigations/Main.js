@@ -157,12 +157,14 @@ const Main = () => {
         ref={toastState?.showMessageToast ? navigationRefNew : navigationRef}
         onReady={() => RNBootSplash.hide()}>
         <ForegroundHandler />
-        {showSafeArea && <StatusBar
-          barStyle="dark-content"
-          backgroundColor={Colors.BACKGROUND}
-          animated={true}
-          hidden={false}
-        />}
+        {showSafeArea && (
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={Colors.BACKGROUND}
+            animated={true}
+            hidden={false}
+          />
+        )}
         {!showSafeArea && (
           <StatusBar
             barStyle="dark-content"
@@ -183,8 +185,10 @@ const Main = () => {
           screenListeners={{
             state: e => {
               const navState = e.data.state;
-              console.log('screenListeners navState', JSON.stringify(navState));
-              if (navState.routes[navState.index].name === Routes.Landing || firstLaunch) {
+              if (
+                navState.routes[navState.index].name === Routes.Landing ||
+                navState.routes[navState.index].name === Routes.WalkThrough
+              ) {
                 setShowSafeArea(false);
               } else {
                 setShowSafeArea(true);
