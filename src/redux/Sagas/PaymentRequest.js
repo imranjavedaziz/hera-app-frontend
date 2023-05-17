@@ -7,7 +7,6 @@ import {
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
 import {ValidationMessages} from '../../constants/Strings';
-import {navigationRef} from '../../navigations/Main';
 import {showAppToast, showAppLoader, hideAppLoader} from '../actions/loader';
 
 function* sendPaymentRequest(payload) {
@@ -18,9 +17,8 @@ function* sendPaymentRequest(payload) {
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SEND_PAYMENT_REQUEST_SUCCESS, data: result.data?.data});
       yield put(showAppToast(false, 'Payment Request Sent!'));
-      navigationRef.current?.goBack();
     } else {
-        console.log('sendPaymentRequest.data', JSON.stringify(result));
+      console.log('sendPaymentRequest.data', JSON.stringify(result));
       yield put({
         type: SEND_PAYMENT_REQUEST_FAIL,
         data: {msg: result.data.message},

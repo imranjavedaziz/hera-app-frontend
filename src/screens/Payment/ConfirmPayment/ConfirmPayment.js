@@ -141,20 +141,16 @@ const ConfirmPayment = ({route}) => {
     }
   };
   const onPay = () => {
-    if (Selected || SelectedCard) {
-      const payload = {
-        to_user_id: params?.item?.id,
-        amount: roundOff,
-        net_amount: calculateTotalStripeAmount(roundOff),
-        payment_method_id: Selected ? Selected : SelectedCard?.id,
-        payment_request_id: params?.requestId,
-        created_at: new Date().toString(),
-      };
-      dispatch(showAppLoader());
-      dispatch(paymentTransfer(payload));
-    } else {
-      dispatch(showAppToast(true, 'Please select a card to proceed.'));
-    }
+    const payload = {
+      to_user_id: params?.item?.id,
+      amount: roundOff,
+      net_amount: calculateTotalStripeAmount(roundOff),
+      payment_method_id: Selected ? Selected : SelectedCard?.id,
+      payment_request_id: params?.requestId,
+      created_at: new Date().toString(),
+    };
+    dispatch(showAppLoader());
+    dispatch(paymentTransfer(payload));
   };
   const backAction = () => {
     Alert.alert(
@@ -178,6 +174,13 @@ const ConfirmPayment = ({route}) => {
       ],
     );
     return true;
+  };
+  const onPressProceed = () => {
+    if (Selected || SelectedCard) {
+      Platform.OS === 'ios' ? backAction() : setShowModal(true);
+    } else {
+      dispatch(showAppToast(true, 'Please select a card to proceed.'));
+    }
   };
   return (
     <View style={styles.flex}>
@@ -253,7 +256,7 @@ const ConfirmPayment = ({route}) => {
         <View style={styles.bottonFloat}>
           <TouchableOpacity
             onPress={() => {
-              Platform.OS === 'ios' ? backAction() : setShowModal(true);
+              onPressProceed();
             }}
             style={styles.btnContainerPay}>
             <Text style={styles.btnText}>

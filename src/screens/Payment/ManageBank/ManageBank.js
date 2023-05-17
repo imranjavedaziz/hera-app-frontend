@@ -50,6 +50,7 @@ const ManageBank = ({route}) => {
   const {connected_acc_token} = useSelector(state => state.Auth);
   const {bankResponse} = useSelector(store => store.addBankTokenReducer);
   const {deleteBankResponse} = useSelector(store => store.deleteBank);
+  const [disable, setDisable] = React.useState(false);
   const Item = route?.params?.Item;
   const loadingRef = useRef();
   const {
@@ -66,6 +67,7 @@ const ManageBank = ({route}) => {
       dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {
       dispatch(hideAppLoader());
+      setDisable(false);
       dispatch(
         showAppToast(true, bankResponse?.info ?? 'Something went wrong'),
       );
@@ -83,14 +85,16 @@ const ManageBank = ({route}) => {
             Strings.Hera_Pay.KYC_REJECTED
         ) {
           replace(Routes.KycScreen, {redirectTo});
+          setDisable(false);
         } else {
           navigation.navigate(redirectTo !== '' ? redirectTo : Routes.HeraPay);
+          setDisable(false);
         }
         dispatch(hideAppLoader());
       }
       if (account_status_fail) {
+        setDisable(false);
         dispatch(hideAppLoader());
-
         dispatch(showAppToast(true, account_status_error_msg));
       }
       dispatch(hideAppLoader());
@@ -105,6 +109,7 @@ const ManageBank = ({route}) => {
       dispatch(hideAppLoader());
       dispatch({type: DELETE_BANK.CLEAN});
     } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
+      setDisable(false);
       let error = deleteBankResponse?.info ?? 'Something went wrong';
       dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
@@ -132,6 +137,7 @@ const ManageBank = ({route}) => {
       dispatch(hideAppLoader());
       dispatch({type: ADD_BANK.CLEAN});
     } else if (addBanks?.status === ADD_BANK.FAIL) {
+      setDisable(false);
       dispatch(hideAppLoader());
       let error = addBanks?.info ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
@@ -222,6 +228,7 @@ const ManageBank = ({route}) => {
   const validate = async () => {
     Keyboard.dismiss();
     if (validateData()) {
+      setDisable(true);
       let bankInfo = {
         'bank_account[country]': 'US',
         'bank_account[currency]': 'USD',
@@ -327,6 +334,7 @@ const ManageBank = ({route}) => {
               label={Strings.ManageBank.Add}
               style={styles.addBtn}
               onPress={() => validate()}
+              disabled={disable}
             />
           </View>
         </View>

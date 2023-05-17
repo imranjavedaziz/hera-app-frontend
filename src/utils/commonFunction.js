@@ -4,6 +4,7 @@ import {ValidationMessages} from '../constants/Strings';
 import moment from 'moment';
 import {Images} from '../constants';
 import numeral from 'numeral';
+import {store} from '../redux/store';
 
 export const deviceHandler = (navigation, screen) => {
   const backAction = () => {
@@ -275,23 +276,25 @@ export function getRequestTime(createdAt) {
 
   return time;
 }
-const STRIPE_PROCESSING_FEES = 2.9;
-const STRIPE_ADDITIONAL_FEES = 0.3;
 const ZERO = 0;
 
 export const calculateStripeAmount = amount => {
+  const {stripe_processing_fees, stripe_additional_fees} =
+    store.getState().Auth;
   if (amount > ZERO) {
     const taxAmount =
-      (amount * STRIPE_PROCESSING_FEES) / 100 + STRIPE_ADDITIONAL_FEES;
+      (amount * stripe_processing_fees) / 100 + stripe_additional_fees;
     return taxAmount.toFixed(2);
   }
   return ZERO;
 };
 
 export const calculateTotalStripeAmount = amount => {
+  const {stripe_processing_fees, stripe_additional_fees} =
+    store.getState().Auth;
   if (amount > ZERO) {
     const taxAmount =
-      (amount * STRIPE_PROCESSING_FEES) / 100 + STRIPE_ADDITIONAL_FEES;
+      (amount * stripe_processing_fees) / 100 + stripe_additional_fees;
     return (taxAmount + parseFloat(amount)).toFixed(2);
   }
   return ZERO;

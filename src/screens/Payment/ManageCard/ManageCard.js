@@ -63,6 +63,7 @@ const ManageCard = ({route}) => {
   const dispatch = useDispatch();
   const [check, setCheck] = React.useState(true);
   const [fieldChanged, setFieldChanged] = React.useState(false);
+  const [disable, setDisable] = React.useState(false);
   const [backShow, setBackShow] = React.useState(false);
   const {
     payment_transfer_success,
@@ -102,6 +103,7 @@ const ManageCard = ({route}) => {
         dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
       }
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
+      setDisable(false);
       dispatch(hideAppLoader());
       let error = paymentIntentRes?.error ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
@@ -129,10 +131,13 @@ const ManageCard = ({route}) => {
           payout_status: 1,
         };
         navigation.navigate(Routes.TransactionDetails, payload);
+        if (!check && params) {
+          setDisable(false);
+        }
         dispatch({type: PAYMENT_INTENT.CLEAN});
-        console.log(payment_transfer_res, 'payment_transfer_res');
       }
       if (payment_transfer_fail) {
+        setDisable(false);
         dispatch(hideAppLoader());
       }
       dispatch(hideAppLoader());
@@ -152,6 +157,7 @@ const ManageCard = ({route}) => {
     } else if (
       attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
     ) {
+      setDisable(false);
       if (check && params) {
         dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
       } else {
@@ -163,6 +169,7 @@ const ManageCard = ({route}) => {
       }
     } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());
+      setDisable(false);
       let error = attachPaymentIntentRes?.error ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
       dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
@@ -292,6 +299,7 @@ const ManageCard = ({route}) => {
       if (route?.params) {
         Platform.OS === 'ios' ? backAction() : setShowModal(true);
       } else {
+        setDisable(true);
         dispatch(createPaymentIntent(cardInfo));
       }
     }
@@ -310,6 +318,7 @@ const ManageCard = ({route}) => {
         {
           text: ValidationMessages.YES_CONFIRM,
           onPress: () => {
+            setDisable(true);
             dispatch(createPaymentIntent(cardInfo));
           },
         },
@@ -459,6 +468,7 @@ const ManageCard = ({route}) => {
                   : Strings.ManageCard.SAVE_CARD
               }
               style={styles.addBtn}
+              disabled={disable}
               onPress={() => validate()}
             />
           </View>
@@ -482,6 +492,7 @@ const ManageCard = ({route}) => {
         String_4={ValidationMessages.CANCEL}
         onPressNav={() => {
           setShowModal(false);
+          setDisable(true);
           dispatch(createPaymentIntent(cardInfo));
         }}
         onPressOff={() => {

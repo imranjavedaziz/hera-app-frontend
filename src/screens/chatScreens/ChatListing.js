@@ -4,7 +4,7 @@ import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
 import styles from './styles';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
@@ -23,6 +23,7 @@ import {
 import {getMessageID} from '../../redux/actions/MessageId';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {getMatchList} from '../../redux/actions/Payment';
+import {getAccountStatus} from '../../redux/actions/AccountStatus';
 
 const ChatListing = () => {
   const navigation = useNavigation();
@@ -32,6 +33,9 @@ const ChatListing = () => {
   const dispatch = useDispatch();
   const LoadingRef = useRef(null);
   const [BankData, setData] = useState('');
+  const {account_status_success, account_status_res} = useSelector(
+    state => state.AccountStatus,
+  );
   const {
     get_match_list_success,
     get_match_list_fail,
@@ -70,15 +74,24 @@ const ChatListing = () => {
       navigation.navigate(Routes.SmDashboard);
     }
   };
+  useFocusEffect(
+    useCallback(() => {
+      if (log_in_data?.role_id === 2) {
+        let payload = {
+          keyword: '',
+        };
+        dispatch(showAppLoader());
+        dispatch(getMatchList(payload));
+      } else {
+        dispatch(getAccountStatus());
+      }
+    }, [dispatch]),
+  );
   useEffect(() => {
-    if (log_in_data?.role_id === 2) {
-      let payload = {
-        keyword: '',
-      };
-      dispatch(showAppLoader());
-      dispatch(getMatchList(payload));
+    if (account_status_success) {
+      console.log('account_status_res', JSON.stringify(account_status_res));
     }
-  }, [dispatch]);
+  }, [account_status_success, account_status_res]);
 
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
@@ -167,7 +180,10 @@ const ChatListing = () => {
         item: item,
       });
     } else {
-      navigation.navigate(Routes.ChatDetail, {item: item});
+      navigation.navigate(Routes.ChatDetail, {
+        item: item,
+        account_status_res: account_status_res || '',
+      });
     }
   }
   const onNavigateDetail = item => {
@@ -184,6 +200,7 @@ const ChatListing = () => {
       navigation.navigate(Routes.ChatDetail, {
         item,
         isComingFrom: false,
+        account_status_res: account_status_res || '',
       });
     }
   };

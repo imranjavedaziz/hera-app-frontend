@@ -222,7 +222,49 @@ const HeraPay = () => {
     return true;
   };
   const onClickMatch = () => {
-    navigation.navigate(Routes.MatchScreen);
+    if (log_in_data?.role_id === 2) {
+      navigation.navigate(Routes.MatchScreen);
+    } else {
+      if (
+        KycUpdated === false ||
+        (account_status_res.bank_account &&
+          getKycStatusFunction(account_status_res?.kyc_status) ===
+            Strings.Hera_Pay.KYC_VERIFYIED)
+      ) {
+        navigation.navigate(Routes.MatchScreen);
+      } else if (_.isEmpty(Data) || Data === null) {
+        dispatch(
+          showAppToast(
+            true,
+            'Please add your bank details to request for a payment.',
+          ),
+        );
+      } else if (
+        KycUpdated === true &&
+        KycStatus !== null &&
+        getKycStatusFunction(account_status_res?.kyc_status) ===
+          Strings.Hera_Pay.KYC_INCOMPLETE
+      ) {
+        dispatch(
+          showAppToast(
+            true,
+            'You can request for a payment, once your bank KYC has been submitted.',
+          ),
+        );
+      } else if (
+        getKycStatusFunction(account_status_res?.kyc_status) ===
+          Strings.Hera_Pay.KYC_PENDING ||
+        getKycStatusFunction(account_status_res?.kyc_status) ===
+          Strings.Hera_Pay.KYC_REJECTED
+      ) {
+        dispatch(
+          showAppToast(
+            true,
+            'You can request for a payment, once your bank KYC has been verified.',
+          ),
+        );
+      }
+    }
   };
   return (
     <View style={styles.flex}>
@@ -269,7 +311,7 @@ const HeraPay = () => {
                   ? `${Notifications} Pending Request`
                   : Notifications > 0 &&
                     log_in_data?.role_id !== 2 &&
-                    'Notification'
+                    'Notifications'
               }
               line
             />

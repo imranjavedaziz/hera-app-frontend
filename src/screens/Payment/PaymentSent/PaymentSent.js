@@ -26,6 +26,7 @@ const PaymentSent = ({route}) => {
   const [params, setParams] = useState(null);
   const [amount, setAmount] = useState('');
   const [requestId, setRequestId] = useState(null);
+  const [valueDot, setValueDot] = React.useState('');
   useEffect(() => {
     const updatedParams = route?.params?.amount
       ? route.params.donar
@@ -79,6 +80,7 @@ const PaymentSent = ({route}) => {
     />
   );
   const handleAmountChange = text => {
+    setValueDot(text);
     let txt = text.replace(/\s/g, '');
     if (text?.length === 0 || Number(text) === 0 || text === ',') {
       setAmount('');
@@ -110,32 +112,36 @@ const PaymentSent = ({route}) => {
   };
 
   const onSubmit = () => {
-    const updatedTxt = amount?.replace(/,/g, '');
-    let Amount;
+    if (valueDot.endsWith('.')) {
+      dispatch(showAppToast(true, 'Please enter valid amount'));
+    } else {
+      const updatedTxt = amount?.replace(/,/g, '');
+      let Amount;
 
-    if (Platform.OS === 'android') {
-      const parsedAmount = parseFloat(updatedTxt);
-      if (isNaN(parsedAmount)) {
-        Amount = ''; // Invalid input, return an empty string or handle it as desired
+      if (Platform.OS === 'android') {
+        const parsedAmount = parseFloat(updatedTxt);
+        if (isNaN(parsedAmount)) {
+          Amount = ''; // Invalid input, return an empty string or handle it as desired
+        } else {
+          const decimalPart = (parsedAmount % 1).toFixed(2).substring(1);
+          Amount = numeral(parsedAmount).format('0,0') + decimalPart;
+        }
       } else {
-        const decimalPart = (parsedAmount % 1).toFixed(2).substring(1);
-        Amount = numeral(parsedAmount).format('0,0') + decimalPart;
+        Amount = parseFloat(updatedTxt)?.toLocaleString('en-US', {
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2,
+        });
       }
-    } else {
-      Amount = parseFloat(updatedTxt)?.toLocaleString('en-US', {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 2,
-      });
-    }
-    if (amount == '') {
-      dispatch(showAppToast(true, 'Please enter a valid amount.'));
-    } else {
-      navigation.navigate(Routes.ConfirmPayment, {
-        item: params,
-        amount: Amount,
-        requestId: requestId,
-        ...route.params,
-      });
+      if (amount == '') {
+        dispatch(showAppToast(true, 'Please enter a valid amount.'));
+      } else {
+        navigation.navigate(Routes.ConfirmPayment, {
+          item: params,
+          amount: Amount,
+          requestId: requestId,
+          ...route.params,
+        });
+      }
     }
   };
   const focusTextInput = () => {

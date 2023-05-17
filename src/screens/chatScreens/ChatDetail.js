@@ -35,13 +35,12 @@ import openCamera from '../../utils/openCamera';
 import ImageView from 'react-native-image-viewing';
 import {DocumentUpload} from '../../redux/actions/DocumentUpload';
 import {NextStep} from '../../redux/actions/NextStep';
-
 let fireDB;
 let onChildAdd;
 let images = [];
 const ChatDetail = props => {
   const routeData = props?.route?.params?.item;
-  const [nextStep,setNextStep] = useState(false);
+  const [nextStep, setNextStep] = useState(false);
   const navigation = useNavigation();
   const [showFeedback, setShowFeedback] = useState(true);
   const [textData, setTextData] = useState('');
@@ -84,11 +83,13 @@ const ChatDetail = props => {
   } = useSelector(state => state.NextStep);
   const giftedref = useRef(null);
   const loadingUploadRef = useRef(null);
-  useEffect(()=>{
-    setNextStep(routeData.hasOwnProperty('next_step')
-    ? Boolean(routeData.next_step)
-    : false);
-  },[routeData]);
+  useEffect(() => {
+    setNextStep(
+      routeData.hasOwnProperty('next_step')
+        ? Boolean(routeData.next_step)
+        : false,
+    );
+  }, [routeData]);
   useEffect(() => {
     deviceHandler(navigation, 'deviceGoBack');
   }, [navigation]);
@@ -338,13 +339,7 @@ const ChatDetail = props => {
         console.log('Cancel');
         break;
       case Strings.chats.reqPayment:
-        const nameArr = props?.route?.params?.item?.recieverName.split(' ');
-        navigation.navigate(Routes.SendRequest, {
-          id: props?.route?.params?.item?.recieverId,
-          profile_pic: props?.route?.params?.item?.recieverImage,
-          first_name: nameArr[0],
-          last_name: nameArr[1] || '',
-        });
+        onClickSend();
         break;
       case Strings.chats.confirmProfile:
         const payload = {
@@ -393,13 +388,48 @@ const ChatDetail = props => {
         }
       }
     } else {
-      const nameArr = props?.route?.params?.item?.recieverName.split(' ');
-      navigation.navigate(Routes.SendRequest, {
-        id: props?.route?.params?.item?.recieverId,
-        profile_pic: props?.route?.params?.item?.recieverImage,
-        first_name: nameArr[0],
-        last_name: nameArr[1] || '',
-      });
+      if (
+        props?.route?.params?.account_status_res?.status ||
+        (props?.route?.params?.account_status_res?.bank_account &&
+          props?.route?.params?.account_status_res?.kyc_status === 'verified')
+      ) {
+        const nameArr = props?.route?.params?.item?.recieverName.split(' ');
+        navigation.navigate(Routes.SendRequest, {
+          id: props?.route?.params?.item?.recieverId,
+          profile_pic: props?.route?.params?.item?.recieverImage,
+          first_name: nameArr[0],
+          last_name: nameArr[1] || '',
+        });
+      } else if (
+        props?.route?.params?.account_status_res?.bank_account === null ||
+        props?.route?.params?.account_status_res?.bank_account === ''
+      ) {
+        dispatch(
+          showAppToast(
+            true,
+            'Please add your bank details to request for a payment.',
+          ),
+        );
+      } else if (
+        props?.route?.params?.account_status_res?.kyc_status === 'incomplete'
+      ) {
+        dispatch(
+          showAppToast(
+            true,
+            'You can request for a payment, once your bank KYC has been submitted.',
+          ),
+        );
+      } else if (
+        props?.route?.params?.account_status_res?.kyc_status === 'pending' ||
+        props?.route?.params?.account_status_res?.kyc_status === 'rejected'
+      ) {
+        dispatch(
+          showAppToast(
+            true,
+            'You can request for a payment, once your bank KYC has been verified.',
+          ),
+        );
+      }
     }
   };
   const cb = image => {
@@ -669,6 +699,9 @@ const ChatDetail = props => {
       navigation.navigate(Routes.ProfileDetails, {
         userid: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
+        account_status_res: props?.route?.params?.account_status_res
+          ? props?.route?.params?.account_status_res
+          : '',
       });
     }
     setOpen(false);
@@ -1088,7 +1121,9 @@ const ChatDetail = props => {
       <ActionSheet
         ref={actionSheet}
         options={threeOption}
-        destructiveButtonIndex={log_in_data?.role_id !== 2?3:(selection ? (nextStep?3:4) : 3)}
+        destructiveButtonIndex={
+          log_in_data?.role_id !== 2 ? 3 : selection ? (nextStep ? 3 : 4) : 3
+        }
         cancelButtonIndex={selection ? 4 : 3}
         onPress={index => {
           handleThreeOption(threeOption[index]);

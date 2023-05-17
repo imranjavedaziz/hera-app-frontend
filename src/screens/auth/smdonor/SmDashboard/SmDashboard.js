@@ -23,7 +23,7 @@ import globalStyle from '../../../../styles/global';
 import Strings from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
 import {Routes} from '../../../../constants/Constants';
-import {Value} from '../../../../constants/FixedValues';
+import {Prencentage, Value} from '../../../../constants/FixedValues';
 import Alignment from '../../../../constants/Alignment';
 import styles from './Styles';
 import LinearGradient from 'react-native-linear-gradient';
@@ -338,7 +338,10 @@ const SmDashboard = ({route}) => {
             isFastImg={true}
             style={[
               styles.profileImgView,
-              {borderRadius: Value.CONSTANT_VALUE_18},
+              {
+                borderRadius: Value.CONSTANT_VALUE_18,
+                width: Prencentage.PRECENTAGE_100,
+              },
             ]}
             source={{
               uri: item.profile_pic,

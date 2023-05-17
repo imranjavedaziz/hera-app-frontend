@@ -20,12 +20,13 @@ import Styles from './style';
 import CustomImagePicker, {
   ActionSheetOptions,
 } from '../../../components/Document/CustomImagePicker';
-import {showAppToast} from '../../../redux/actions/loader';
+import {hideAppLoader, showAppToast} from '../../../redux/actions/loader';
 import {Input_Type, Routes} from '../../../constants/Constants';
 import {DocumentUploadPayment} from '../../../redux/actions/DocumentUpload';
 import {SendPaymentRequest} from '../../../redux/actions/PaymentRequest';
 import {getAccountStatus} from '../../../redux/actions/AccountStatus';
 import {digitBeforeDecimal} from '../../../utils/commonFunction';
+import {useRef} from 'react';
 
 const options = [
   ActionSheetOptions.openCamera,
@@ -38,20 +39,25 @@ const SendRequest = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {log_in_data} = useSelector(state => state.Auth);
-  const {account_status_success, account_status_res} = useSelector(
-    state => state.AccountStatus,
-  );
   const {
     document_upload_success,
     document_upload_res,
     document_upload_loading,
   } = useSelector(state => state.DocumentUpload);
   const params = route.params;
-  console.log('params', params);
+  const LoadingRef = useRef(null);
+  const {
+    send_payment_request_success,
+    send_payment_request_loading,
+    send_payment_request_error_msg,
+    send_payment_request_res,
+    send_payment_request_fail,
+  } = useSelector(state => state.PaymentRequest);
   const [isPhotoPopupVisible, setIsPhotoPopupVisible] = useState(false);
   const [fileType, setFileType] = useState('');
   const [errorsData, setErrors] = useState({});
   const [showModal, setShowModal] = React.useState(false);
+  const [valueDot, setValueDot] = React.useState('');
   const [file, setFile] = useState(null);
   const {
     handleSubmit,
@@ -61,7 +67,26 @@ const SendRequest = ({route}) => {
   } = useForm({
     resolver: yupResolver(sendRequestSchema),
   });
-
+  useEffect(() => {
+    if (LoadingRef.current && !send_payment_request_loading) {
+      if (send_payment_request_success) {
+        dispatch(hideAppLoader());
+        navigation.goBack();
+      }
+      if (send_payment_request_fail) {
+        dispatch(hideAppLoader());
+      }
+    }
+    LoadingRef.current = send_payment_request_loading;
+  }, [
+    send_payment_request_success,
+    send_payment_request_loading,
+    send_payment_request_error_msg,
+    send_payment_request_res,
+    send_payment_request_fail,
+    navigation,
+    dispatch,
+  ]);
   const backAction = () => {
     Alert.alert(
       Strings.SendRequest.DiscardEdit,
@@ -93,45 +118,18 @@ const SendRequest = ({route}) => {
     }
   };
   const onSubmit = data => {
-    if (
-      account_status_res.status ||
-      (account_status_res.bank_account &&
-        account_status_res.kyc_status === 'verified')
-    ) {
-      console.log('onSubmit', data);
+    if (valueDot.endsWith('.')) {
+      dispatch(showAppToast(true, 'Please enter valid amount'));
+    } else {
       const payload = {
         ...data,
         to_user_id: params.id,
+        doc_url: data.doc_url || '',
       };
-      if (!payload.doc_url) {
-        payload.doc_url = '';
-      }
       dispatch(SendPaymentRequest(payload));
-    } else if (
-      account_status_res.bank_account === null ||
-      account_status_res.bank_account === ''
-    ) {
-      navigation.navigate(Routes.ManageBank, {redirectTo: Routes.SendRequest});
-    } else if (
-      account_status_res.kyc_status === 'incomplete' ||
-      account_status_res.kyc_status === 'unverified'
-    ) {
-      navigation.navigate(Routes.KycScreen, {redirectTo: Routes.SendRequest});
-    } else {
-      dispatch(showAppToast(true, 'KYC approval is pending.'));
     }
   };
-  useEffect(() => {
-    if (account_status_success) {
-      console.log('account_status_res', JSON.stringify(account_status_res));
-    }
-  }, [account_status_success, account_status_res]);
-  useFocusEffect(
-    useCallback(() => {
-      console.log('useFocusEffect');
-      dispatch(getAccountStatus());
-    }, []),
-  );
+
   const onGoBack = () => {
     if (!isDirty) {
       navigation.goBack();
@@ -241,10 +239,11 @@ const SendRequest = ({route}) => {
                   label={Strings.SendRequest.amountField}
                   value={handleAmountChange(value)}
                   onChangeText={v => {
+                    setValueDot(v);
                     onChange(v.trim().split(',').join(''));
                   }}
                   required={true}
-                  maxLength={15}
+                  maxLength={9}
                   error={errors && errors.amount?.message}
                   inputMode={'numeric'}
                   keyboardType={'numeric'}

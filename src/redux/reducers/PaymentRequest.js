@@ -32,6 +32,8 @@ export default (state = initState, action) => {
         send_payment_request_success: true,
         send_payment_request_loading: false,
         send_payment_request_res: action.data,
+        send_payment_request_fail: false,
+        send_payment_request_error_msg: initState.send_payment_request_res,
       };
     case SEND_PAYMENT_REQUEST_FAIL:
       return {
@@ -39,6 +41,7 @@ export default (state = initState, action) => {
         send_payment_request_loading: false,
         get_match_list_error_msg: action.data.msg,
         send_payment_request_fail: true,
+        send_payment_request_res: initState.send_payment_request_res,
       };
     default:
       return state;
