@@ -117,7 +117,6 @@ const HeraPay = () => {
         }
         if (account_status_fail) {
           dispatch(hideAppLoader());
-
           dispatch(showAppToast(true, account_status_error_msg));
         }
         dispatch(hideAppLoader());
@@ -208,6 +207,7 @@ const HeraPay = () => {
             log_in_data?.role_id === 2
               ? Strings.Hera_Pay.Yes_Remove
               : 'Yes, Change',
+          style: 'destructive',
           onPress: () =>
             log_in_data?.role_id === 2
               ? OnDeleteBank(item)

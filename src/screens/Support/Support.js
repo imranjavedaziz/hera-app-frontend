@@ -124,6 +124,7 @@ export default function Support() {
           onPress: () => {
             navigation.goBack();
           },
+          style: 'destructive',
         },
         {
           text: Strings.profile.ModalOption2,

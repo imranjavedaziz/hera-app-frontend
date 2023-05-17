@@ -161,6 +161,7 @@ const MyVideo = () => {
         {
           text: Strings.sm_create_gallery.modalText,
           onPress: () => deleteVideo(),
+          style: 'destructive',
         },
         {
           text: Strings.sm_create_gallery.modalText_2,

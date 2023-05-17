@@ -5,7 +5,7 @@ import {dynamicSize, scaleWidth, width} from '../../../utils/responsive';
 
 export default {
   profileImgContainner: {
-    borderWidth: Value.CONSTANT_VALUE_1,
+    borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.GREEN,
     borderRadius: Value.CONSTANT_VALUE_40,
     marginBottom: Value.CONSTANT_VALUE_15,
@@ -29,7 +29,6 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_20,
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.WHITE,
-    marginTop: 2,
   },
   galleryImgContainer: {
     flex: Value.CONSTANT_VALUE_1,
@@ -110,7 +109,6 @@ export default {
   rmvText: {
     fontFamily: Fonts.OpenSansBold,
     textDecorationLine: Alignment.UNDERLINE,
-    letterSpacing: Value.CONSTANT_VALUE_FRAC36,
     marginLeft: Value.CONSTANT_VALUE_15,
   },
   selectIcon: {

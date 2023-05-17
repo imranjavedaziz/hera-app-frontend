@@ -27,6 +27,7 @@ import {SendPaymentRequest} from '../../../redux/actions/PaymentRequest';
 import {getAccountStatus} from '../../../redux/actions/AccountStatus';
 import {digitBeforeDecimal} from '../../../utils/commonFunction';
 import {useRef} from 'react';
+import {Value} from '../../../constants/FixedValues';
 
 const options = [
   ActionSheetOptions.openCamera,
@@ -97,6 +98,7 @@ const SendRequest = ({route}) => {
           onPress: () => {
             navigation.goBack();
           },
+          style: 'destructive',
         },
         {
           text: Strings.profile.ModalOption2,
@@ -206,7 +208,12 @@ const SendRequest = ({route}) => {
             </Text>
           </View>
         </View>
-        <View style={{flex: 1, marginHorizontal: 15, marginTop: 10}}>
+        <View
+          style={{
+            flex: 1,
+            marginTop: 10,
+            marginHorizontal: Value.CONSTANT_VALUE_15,
+          }}>
           <Controller
             control={control}
             render={({field: {onChange, value}}) => {

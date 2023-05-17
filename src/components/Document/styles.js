@@ -1,13 +1,11 @@
 import {StyleSheet} from 'react-native';
-import {Colors} from '../../constants';
+import {Alignment, Colors} from '../../constants';
 import {Fonts} from '../../constants/Constants';
 import {normalizeFont, scaleHeight, scaleWidth} from '../../utils/responsive';
+import {Value} from '../../constants/FixedValues';
 
 export const styles = StyleSheet.create({
-  docsContainer: {
-    // flex: 1,
-    marginBottom: scaleHeight(25),
-  },
+  docsContainer: {},
   selectField: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: normalizeFont(16),
@@ -45,9 +43,11 @@ export const styles = StyleSheet.create({
     top: -9,
   },
   errorText: {
-    color: Colors.errorRed,
-    fontSize: normalizeFont(12),
-    textAlign: 'right',
+    color: Colors.RED,
+    textAlign: Alignment.RIGHT,
+    marginVertical: Value.CONSTANT_VALUE_5,
+    fontSize: Value.CONSTANT_VALUE_14,
+    lineHeight: Value.CONSTANT_VALUE_21,
     fontFamily: Fonts.OpenSansRegular,
   },
   selectFieldDesc: {
