@@ -20,7 +20,6 @@ export default (state = initState, action) => {
         account_status_success: false,
         account_status_loading: true,
         account_status_error_msg: '',
-        account_status_res: '',
         account_status_fail: false,
       };
     }
