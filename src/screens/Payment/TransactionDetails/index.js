@@ -11,7 +11,7 @@ import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
 import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
-import {ToastAndroid} from 'react-native';
+import {formatDigit} from '../../../utils/commonFunction';
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const redirectTo = route?.params?.redirectTo || '';
@@ -36,7 +36,6 @@ const TransactionDetails = ({route}) => {
     } else {
       navigation.goBack();
     }
-    console.log(route?.params, 'ihhii');
   };
   const headerComp = () => (
     <TouchableOpacity
@@ -104,9 +103,7 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {Number.isInteger(route?.params?.amount)
-                    ? `$${route?.params?.amount}.00`
-                    : `$${route?.params?.amount}`}
+                  {`$${formatDigit(route?.params?.amount)}`}
                 </Text>
               </View>
               <View style={[styles.bottomRow, styles.spaceBetween]}>
@@ -118,9 +115,9 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {`$${(
-                    route?.params?.net_amount - route?.params?.amount
-                  ).toFixed(2)}`}
+                  {`$${formatDigit(
+                    route?.params?.net_amount - route?.params?.amount,
+                  )}`}
                 </Text>
               </View>
               <Seperator />
@@ -138,7 +135,7 @@ const TransactionDetails = ({route}) => {
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold},
                   ]}>
-                  {`$${route?.params?.net_amount}`}
+                  {`$${formatDigit(route?.params?.net_amount)}`}
                 </Text>
               </View>
               <Seperator />
@@ -163,7 +160,7 @@ const TransactionDetails = ({route}) => {
               <Text style={styles.transDetail}>
                 {Strings.TransDetail.trans}
               </Text>
-              <TransactionStatus status={route?.params?.status} />
+              <TransactionStatus status={route?.params?.payout_status} />
             </View>
             {route?.params?.role === 2 && (
               <View style={styles.bottomRow}>

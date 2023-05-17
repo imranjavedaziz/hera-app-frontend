@@ -93,7 +93,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
     color: Colors.COLOR_535858,
-    marginBottom: Value.CONSTANT_VALUE_50,
+    marginBottom: Value.CONSTANT_VALUE_40,
   },
   spaceBetween: {
     flex: Value.CONSTANT_VALUE_1,

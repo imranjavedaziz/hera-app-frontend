@@ -1,8 +1,9 @@
-import {Alert, BackHandler} from 'react-native';
+import {Alert, BackHandler, Platform} from 'react-native';
 import {Routes} from '../constants/Constants';
 import {ValidationMessages} from '../constants/Strings';
 import moment from 'moment';
 import {Images} from '../constants';
+import numeral from 'numeral';
 
 export const deviceHandler = (navigation, screen) => {
   const backAction = () => {
@@ -295,15 +296,20 @@ export const calculateTotalStripeAmount = amount => {
   }
   return ZERO;
 };
-export const digitBeforeDecimal = (txt,maxToEight=true) => {
+export const digitBeforeDecimal = (txt, maxToEight = true) => {
   if (!txt || txt === '') {
     return '';
   }
   let updatedTxt = txt.replace(/,/g, '');
-  let formatted = parseFloat(updatedTxt)?.toLocaleString('en-US', {
-    maximumFractionDigits: 2,
-    minimumFractionDigits: 0,
-  });
+  let formatted = parseFloat(updatedTxt);
+  if (Platform.OS === 'android') {
+    formatted = formatted?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  } else {
+    formatted = formatted?.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 0,
+    });
+  }
   updatedTxt = formatted;
   if (formatted.length >= 8 && maxToEight) {
     updatedTxt = formatted.substring(0, 8);
@@ -339,3 +345,7 @@ export function getCardImage(cardType) {
   };
   return cardTypeToImageMap[cardTypeLowercase] || Images.defaultCardbig;
 }
+export const formatDigit = digit => {
+  const formatted = numeral(digit).format('0,0.00');
+  return formatted;
+};

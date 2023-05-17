@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
 import {Routes} from '../../../constants/Constants';
-import {getCardImage} from '../../../utils/commonFunction';
+import {formatDigit, getCardImage} from '../../../utils/commonFunction';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
 import {width} from '../../../utils/responsive';
@@ -29,10 +29,9 @@ export const TransactionItem = ({item}) => {
         <Image source={{uri: item?.profile_pic}} style={styles.transImg} />
         <View style={styles.transColumn}>
           {item?.role === 2 && (
-            <Text
-              style={
-                styles.transName
-              }>{`$${item?.amount} Sent to #${item?.username}`}</Text>
+            <Text style={styles.transName}>{`$${formatDigit(
+              item?.amount,
+            )} Sent to #${item?.username}`}</Text>
           )}
           {item?.role === 2 && (
             <View style={[styles.wrapRow, {marginTop: 5}]}>
@@ -48,10 +47,9 @@ export const TransactionItem = ({item}) => {
           )}
 
           {item?.role !== 2 && (
-            <Text
-              style={
-                styles.transName
-              }>{`$${item?.amount} from ${item?.username}`}</Text>
+            <Text style={styles.transName}>{`$${formatDigit(
+              item?.amount,
+            )} from ${item?.username}`}</Text>
           )}
           {item?.role !== 2 && (
             <Text style={[styles.transDetail, {marginTop: 5}]}>

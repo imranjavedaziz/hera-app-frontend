@@ -33,6 +33,7 @@
     "lodash.debounce": "^4.0.8",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.39",
+    "numeral": "^2.0.6",
     "react": "18.0.0",
     "react-hook-form": "^7.34.2",
     "react-native": "0.69.5",

@@ -88,7 +88,7 @@ const KycScreen = ({route}) => {
       );
       dispatch({type: KYC_UPDATE.END});
       dispatch(hideAppLoader());
-      navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
+      navigation.navigate(redirectTo !== '' ? redirectTo : Routes.HeraPay);
     } else if (response?.status === KYC_UPDATE.FAIL) {
       dispatch(hideAppLoader());
       dispatch({type: KYC_UPDATE.END});
@@ -102,7 +102,9 @@ const KycScreen = ({route}) => {
         {
           text: ValidationMessages.YES_DISCARD,
           onPress: () => {
-            navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
+            navigation.navigate(
+              redirectTo !== '' ? redirectTo : Routes.HeraPay,
+            );
           },
         },
         {
@@ -511,7 +513,7 @@ const KycScreen = ({route}) => {
         String_4={ValidationMessages.NOT_NOW}
         onPressNav={() => {
           setShowModal(false);
-          navigation.navigate(redirectTo!==''?redirectTo:Routes.HeraPay);
+          navigation.navigate(redirectTo !== '' ? redirectTo : Routes.HeraPay);
         }}
         onPressOff={() => {
           setShowModal(false);

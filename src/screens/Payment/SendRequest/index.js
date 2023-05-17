@@ -176,7 +176,9 @@ const SendRequest = ({route}) => {
       return '0' + digit;
     } else {
       return splits.length >= 2
-        ? digitBeforeDecimal(splits[0],false) + '.' + splits[1].substring(-1, 2)
+        ? digitBeforeDecimal(splits[0], false) +
+            '.' +
+            splits[1].substring(-1, 2)
         : digit;
     }
   };
@@ -211,8 +213,11 @@ const SendRequest = ({route}) => {
             control={control}
             render={({field: {onChange, value}}) => {
               const handleAmountChange = text => {
-                console.log('handleAmountChange',text);
-                let txt = (text?.length>0 && typeof text==='string')?text.replace(/\s/g, ''):'';
+                console.log('handleAmountChange', text);
+                let txt =
+                  text?.length > 0 && typeof text === 'string'
+                    ? text.replace(/\s/g, '')
+                    : '';
                 if (text?.length === 0 || Number(text) === 0 || text === ',') {
                   txt = '';
                 } else {
@@ -220,13 +225,13 @@ const SendRequest = ({route}) => {
                     txt = txt?.replace(/,/g, '');
                   }
                   if (isNaN(txt)) {
-                    txt = txt.replace(/\D/g,'');
-                    onChange(value.replace(/\D/g,''));
+                    txt = txt.replace(/\D/g, '');
+                    onChange(value.replace(/\D/g, ''));
                   }
                   if (txt.includes('.')) {
                     txt = conTwoDecDigit(txt);
                   } else {
-                    txt = digitBeforeDecimal(txt,false);
+                    txt = digitBeforeDecimal(txt, false);
                   }
                 }
                 return txt;
@@ -276,7 +281,7 @@ const SendRequest = ({route}) => {
                   source={
                     file.type === 'image/jpeg' ? {uri: file.path} : Images.PDF
                   }
-                  resizeMode={file.type !== 'image/jpeg' && "center"}
+                  resizeMode={file.type !== 'image/jpeg' && 'center'}
                   style={[Styles.Imgs]}
                 />
                 <TouchableOpacity

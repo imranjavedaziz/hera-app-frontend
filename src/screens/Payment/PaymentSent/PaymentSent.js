@@ -18,6 +18,7 @@ import {digitBeforeDecimal, getRoleData} from '../../../utils/commonFunction';
 import {showAppToast} from '../../../redux/actions/loader';
 import {useDispatch} from 'react-redux';
 import {Routes} from '../../../constants/Constants';
+import numeral from 'numeral';
 
 const PaymentSent = ({route}) => {
   const navigation = useNavigation();
@@ -32,7 +33,7 @@ const PaymentSent = ({route}) => {
     setParams(updatedParams);
     if (route?.params?.amount) {
       setRequestId(route?.params?.id);
-      setAmount(route.params.amount.toString());
+      setAmount(digitBeforeDecimal(route.params.amount.toString()));
     }
   }, [route?.params?.amount, route?.params?.donar, route.params]);
   const inputRefs = useRef();
@@ -74,7 +75,7 @@ const PaymentSent = ({route}) => {
       onPress={() => {
         navigation.goBack();
       }}
-      style={styles.header}
+      style={styles.androidHeaderIcons}
     />
   );
   const handleAmountChange = text => {
@@ -110,10 +111,22 @@ const PaymentSent = ({route}) => {
 
   const onSubmit = () => {
     const updatedTxt = amount?.replace(/,/g, '');
-    let Amount = parseFloat(updatedTxt)?.toLocaleString('en-US', {
-      maximumFractionDigits: 2,
-      minimumFractionDigits: 2,
-    });
+    let Amount;
+
+    if (Platform.OS === 'android') {
+      const parsedAmount = parseFloat(updatedTxt);
+      if (isNaN(parsedAmount)) {
+        Amount = ''; // Invalid input, return an empty string or handle it as desired
+      } else {
+        const decimalPart = (parsedAmount % 1).toFixed(2).substring(1);
+        Amount = numeral(parsedAmount).format('0,0') + decimalPart;
+      }
+    } else {
+      Amount = parseFloat(updatedTxt)?.toLocaleString('en-US', {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2,
+      });
+    }
     if (amount == '') {
       dispatch(showAppToast(true, 'Please enter a valid amount.'));
     } else {
