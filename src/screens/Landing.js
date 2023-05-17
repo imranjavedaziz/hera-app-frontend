@@ -1,6 +1,6 @@
 // Landing
 import React, {useEffect} from 'react';
-import {View, Image, Text, TouchableOpacity, SafeAreaView} from 'react-native';
+import {View, Image, Text, TouchableOpacity, SafeAreaView,StatusBar} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import Button from '../components/Button';
@@ -21,10 +21,11 @@ const Landing = () => {
     deviceHandler(navigation, 'exit');
   }, [navigation]);
   return (
+    <View style={styles.flex}>
+    <View style={styles.bgContainer}>
+      <Image source={Images.LANDING_BG} style={styles.bgImg} />
+    </View>
     <SafeAreaView style={styles.flex}>
-      <View style={styles.bgContainer}>
-        <Image source={Images.LANDING_BG} style={styles.bgImg} />
-      </View>
       <View style={styles.mainContainer}>
         <Image
           source={Images.LOGO}
@@ -67,6 +68,7 @@ const Landing = () => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
+    </View>
   );
 };
 export default React.memo(Landing);

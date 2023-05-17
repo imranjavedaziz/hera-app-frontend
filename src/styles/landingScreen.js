@@ -2,27 +2,34 @@ import {Platform} from 'react-native';
 import {Value, Prencentage} from '../constants/FixedValues';
 import {Alignment, Colors} from '../constants';
 import {Fonts} from '../constants/Constants';
-import {dynamicSize, scaleWidth, scaleHeight} from '../utils/responsive';
+import {dynamicSize, scaleWidth, scaleHeight,width} from '../utils/responsive';
 
+const BG_IMG_WIDTH = 414;
+const BG_IMG_HEIGHT = 342;
+const calHeight = (BG_IMG_HEIGHT/BG_IMG_WIDTH)*width;
 export default {
   flex: {flex: Value.CONSTANT_VALUE_1, backgroundColor: Colors.BACKGROUND},
   bgContainer: {
     width: Prencentage.PRECENTAGE_100,
     ...Platform.select({
       android: {
-        height: Prencentage.PRECENTAGE_35,
+        // height: Prencentage.PRECENTAGE_35,
       },
       ios: {
-        height: Prencentage.PRECENTAGE_40,
+        // height: (BG_IMG_WIDTH/BG_IMG_HEIGHT)*width,
       },
     }),
+    height: calHeight,
     backgroundColor: Colors.BACKGROUND,
+    marginBottom: 10,
   },
   bgImg: {
     width: Prencentage.PRECENTAGE_100,
+    height: calHeight,
     resizeMode: 'cover',
-    bottom: Value.CONSTANT_VALUE_0,
-    position: 'absolute',
+    // bottom: Value.CONSTANT_VALUE_0,
+    // top: 0,
+    // position: 'absolute',
   },
   mainContainer: {
     flex: 1,
