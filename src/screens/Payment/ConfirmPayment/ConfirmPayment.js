@@ -1,4 +1,11 @@
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Platform,
+} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import {Images, Strings} from '../../../constants';
@@ -16,12 +23,15 @@ import _ from 'lodash';
 import {
   calculateStripeAmount,
   calculateTotalStripeAmount,
+  formatDigit,
   monthGet,
 } from '../../../utils/commonFunction';
 import ConfirmCardComp from './ConfirmCardComp';
 import {paymentTransfer} from '../../../redux/actions/Payment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Value} from '../../../constants/FixedValues';
+import {ModalMiddle} from '../../../components';
+import {ValidationMessages} from '../../../constants/Strings';
 
 const ConfirmPayment = ({route}) => {
   const navigation = useNavigation();
@@ -36,7 +46,7 @@ const ConfirmPayment = ({route}) => {
     payment_transfer_res,
     payment_transfer_fail,
   } = useSelector(state => state.Payment);
-
+  const [showModal, setShowModal] = React.useState(false);
   const loadingRef = useRef(null);
   let scrollRef = React.createRef();
   const dispatch = useDispatch();
@@ -131,17 +141,43 @@ const ConfirmPayment = ({route}) => {
     }
   };
   const onPay = () => {
+    const payload = {
+      to_user_id: params?.item?.id,
+      amount: roundOff,
+      net_amount: calculateTotalStripeAmount(roundOff),
+      payment_method_id: Selected ? Selected : SelectedCard?.id,
+      payment_request_id: params?.requestId,
+      created_at: new Date().toString(),
+    };
+    dispatch(showAppLoader());
+    dispatch(paymentTransfer(payload));
+  };
+  const backAction = () => {
+    Alert.alert(
+      ValidationMessages.CONFIRM_PAYMENT,
+      `${ValidationMessages.CONFIRM_PAYMENT_DIS}${formatDigit(
+        calculateTotalStripeAmount(roundOff),
+      )}${ValidationMessages.SECOND_CONFIRM_DIS}${Strings.Hera_Pay.CARD_DOT}${
+        SelectedCard?.card?.last4
+      }${ValidationMessages.LAST_CONFIRM_DIS}`,
+      [
+        {
+          text: ValidationMessages.YES_CONFIRM,
+          onPress: () => {
+            onPay();
+          },
+        },
+        {
+          text: ValidationMessages.CANCEL,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+  const onPressProceed = () => {
     if (Selected || SelectedCard) {
-      const payload = {
-        to_user_id: params?.item?.id,
-        amount: roundOff,
-        net_amount: calculateTotalStripeAmount(roundOff),
-        payment_method_id: Selected ? Selected : SelectedCard?.id,
-        payment_request_id: params?.requestId,
-        created_at: new Date().toString(),
-      };
-      dispatch(showAppLoader());
-      dispatch(paymentTransfer(payload));
+      Platform.OS === 'ios' ? backAction() : setShowModal(true);
     } else {
       dispatch(showAppToast(true, 'Please select a card to proceed.'));
     }
@@ -160,12 +196,12 @@ const ConfirmPayment = ({route}) => {
           <Text style={styles.mainText}>
             {Strings.confirmPassword.CONFIRM_PAYMENT}
           </Text>
-          <Text style={styles.ammount}>{`$${params.amount}`}</Text>
+          <Text style={styles.ammount}>{`$${formatDigit(params.amount)}`}</Text>
           <View style={styles.borderBlue}>
             <Image style={styles.warningImg} source={Images.BlueWarning} />
             <Text style={styles.warningText}>
-              An additional fee of ${calculateStripeAmount(roundOff)} will be
-              charged.
+              An additional fee of $
+              {formatDigit(calculateStripeAmount(roundOff))} will be charged.
             </Text>
           </View>
           {_.isEmpty(getCardListResponse?.info?.data) ? (
@@ -219,14 +255,37 @@ const ConfirmPayment = ({route}) => {
       {!_.isEmpty(getCardListResponse?.info?.data) && (
         <View style={styles.bottonFloat}>
           <TouchableOpacity
-            onPress={() => onPay()}
+            onPress={() => {
+              onPressProceed();
+            }}
             style={styles.btnContainerPay}>
             <Text style={styles.btnText}>
-              PAY ${calculateTotalStripeAmount(roundOff)}
+              PAY ${formatDigit(calculateTotalStripeAmount(roundOff))}
             </Text>
           </TouchableOpacity>
         </View>
       )}
+      <ModalMiddle
+        showModal={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}
+        String_1={ValidationMessages.CONFIRM_PAYMENT}
+        String_2={`${ValidationMessages.CONFIRM_PAYMENT_DIS}${formatDigit(
+          calculateTotalStripeAmount(roundOff),
+        )}${ValidationMessages.SECOND_CONFIRM_DIS}${Strings.Hera_Pay.CARD_DOT}${
+          SelectedCard?.card?.last4
+        }${ValidationMessages.LAST_CONFIRM_DIS}`}
+        String_3={ValidationMessages.YES_CONFIRM}
+        String_4={ValidationMessages.CANCEL}
+        onPressNav={() => {
+          setShowModal(false);
+          onPay();
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
     </View>
   );
 };

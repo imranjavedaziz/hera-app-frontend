@@ -20,7 +20,7 @@ import {
 } from '../../../redux/actions/loader';
 import _ from 'lodash';
 import PaymentRequestModal from '../../../components/PaymentRequestModal/PaymentRequestModal';
-import {getRequestTime} from '../../../utils/commonFunction';
+import {formatDigit, getRequestTime} from '../../../utils/commonFunction';
 import {Routes} from '../../../constants/Constants';
 let images = [];
 const PaymentRequest = () => {
@@ -89,7 +89,7 @@ const PaymentRequest = () => {
           update_request_status_res ===
           'Payment mark already paid successfully!'
         ) {
-          dispatch(showAppToast(false, `Request marked as already paid.`));
+          dispatch(showAppToast(false, 'Request marked as already paid.'));
         } else {
           setIsRefreshing(false);
           dispatch(
@@ -144,15 +144,12 @@ const PaymentRequest = () => {
   };
 
   const renderItemData = ({item}) => {
-    console.log(item, 'asad');
     const url = item?.doc_url;
     // Extract the file extension from the URL
     const fileExtension = url?.split('.').pop() || '';
     // Conditionally set the 'pdf' prop
     const pdf = fileExtension.toLowerCase() === 'pdf';
-    const formattedAmount = Number.isInteger(item?.amount)
-      ? `${item?.amount}.00`
-      : item?.amount;
+    const formattedAmount = formatDigit(item?.amount);
 
     return (
       <PaymentRequestComp
@@ -250,6 +247,7 @@ const PaymentRequest = () => {
               renderItem={item => renderItemData(item)}
               refreshing={isRefreshing}
               onRefresh={onRefresh}
+              showsVerticalScrollIndicator={false}
             />
           </View>
         )}

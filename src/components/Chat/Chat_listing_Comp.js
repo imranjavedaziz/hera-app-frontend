@@ -26,7 +26,13 @@ const Chat_listing_Comp = props => {
     match === 1 && message === ''
       ? Strings.Chat.PARENT_TO_BE_SEND_REQUEST
       : message;
-
+  const msgShare =
+    message === 'You Shared an Attachment' ||
+    message === 'Shared an Attachment';
+  const smMatchMsg = smMatch === 'Intended Parent sent you a request';
+  const styleMatchOneMsg = styleMatchOne === `Hey, It's a Match!`;
+  const styleAdmin = message !== '' && message === 'No Messages Yet!';
+  console.log(styleAdmin, 'styleMatchOnestyleMatchOne');
   return (
     <>
       {currentRole !== 1 && roleId === 2 && (
@@ -69,7 +75,13 @@ const Chat_listing_Comp = props => {
                 </Text>
               )}
               {currentRole !== 1 ? (
-                <Text numberOfLines={2} style={styleMatchThree}>
+                <Text
+                  numberOfLines={2}
+                  style={
+                    msgShare || styleMatchOneMsg
+                      ? [styleMatchThree, {fontStyle: 'italic'}]
+                      : styleMatchThree
+                  }>
                   {styleMatchOne}
                 </Text>
               ) : (
@@ -131,13 +143,29 @@ const Chat_listing_Comp = props => {
               {currentRole !== 1 ? (
                 <Text
                   numberOfLines={2}
-                  style={read === 0 ? styles.msg : styles.msgRead}>
+                  style={
+                    read === 0
+                      ? smMatchMsg
+                        ? [styles.msg, {fontStyle: 'italic'}]
+                        : styles.msg
+                      : smMatchMsg
+                      ? [styles.msgRead, {fontStyle: 'italic'}]
+                      : styles.msgRead
+                  }>
                   {smMatch}
                 </Text>
               ) : (
                 <Text
                   numberOfLines={2}
-                  style={read === 0 ? styles.msg : styles.msgRead}>
+                  style={
+                    read === 0
+                      ? styleAdmin
+                        ? [styles.msg, {fontStyle: 'italic'}]
+                        : styles.msg
+                      : styleAdmin
+                      ? [styles.msgRead, {fontStyle: 'italic'}]
+                      : styles.msgRead
+                  }>
                   {styleMatchTwo}
                 </Text>
               )}

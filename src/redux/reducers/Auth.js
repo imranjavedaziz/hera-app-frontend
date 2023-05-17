@@ -125,6 +125,8 @@ const initState = {
   stripe_secret: '',
   bank_token: '',
   connected_acc_token: '',
+  stripe_processing_fees: '',
+  stripe_additional_fees: '',
 };
 
 export default (state = initState, action) => {
@@ -160,6 +162,8 @@ export default (state = initState, action) => {
         stripe_customer_id,
         stripe_key,
         stripe_secret,
+        stripe_processing_fees,
+        stripe_additional_fees,
         connected_acc_token,
       } = action.data.data.data;
       return {
@@ -174,6 +178,8 @@ export default (state = initState, action) => {
         stripe_customer_id: stripe_customer_id,
         stripe_key: stripe_key,
         stripe_secret: stripe_secret,
+        stripe_processing_fees: stripe_processing_fees,
+        stripe_additional_fees: stripe_additional_fees,
         connected_acc_token: connected_acc_token,
         login: true,
         register_user_success: false,
@@ -371,6 +377,8 @@ export default (state = initState, action) => {
         stripe_customer_id: '',
         stripe_key: '',
         stripe_secret: '',
+        stripe_processing_fees: '',
+        stripe_additional_fees: '',
         refresh_token: '',
         connected_acc_token: '',
         registration_step: 1,
@@ -383,6 +391,8 @@ export default (state = initState, action) => {
         stripe_customer_id: '',
         stripe_key: '',
         stripe_secret: '',
+        stripe_processing_fees: '',
+        stripe_additional_fees: '',
         refresh_token: '',
         connected_acc_token: '',
       };
@@ -417,6 +427,8 @@ export default (state = initState, action) => {
         stripe_customer_id,
         stripe_secret,
         connected_acc_token,
+        stripe_processing_fees,
+        stripe_additional_fees,
         stripe_key,
       } = action.data.data.data;
       return {
@@ -435,6 +447,8 @@ export default (state = initState, action) => {
         stripe_customer_id: stripe_customer_id,
         stripe_key: stripe_key,
         stripe_secret: stripe_secret,
+        stripe_processing_fees: stripe_processing_fees,
+        stripe_additional_fees: stripe_additional_fees,
         connected_acc_token: connected_acc_token,
         login: true,
       };

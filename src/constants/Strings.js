@@ -130,6 +130,13 @@ export const ValidationMessages = {
   AMOUNT_VALID: 'Pleease enter a valid amount',
   AMOUNT_POSITIVE: 'Pleease enter a positive amount',
   AMOUNT_MAX: 'Amount is beyond the max limit i.e. 999,999.9$',
+  CONFIRM_PAYMENT: 'Confirm Payment?',
+  YES_CONFIRM: 'Yes, Confirm',
+  CONFIRM_PAYMENT_DIS: 'Once you proceed with the payment, we will deduct $',
+  SECOND_CONFIRM_DIS: ' from your account ending with ',
+  LAST_CONFIRM_DIS: '. Please confirm this payment.',
+  CARD_NOT_SAVED: 'Card not saved!',
+  CARD_DETAIL_SAVED: 'Your card details have not been saved.',
 };
 const LIKE_CONST = 'Like, Match & Connect!';
 const MOBILE_CONST = 'Mobile Number';
@@ -497,8 +504,7 @@ export default {
     Scroll to Subscriptions, then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,
-    ChangePlanParaAndroid:
-    `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.`,
+    ChangePlanParaAndroid: `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.`,
     YesProceed: 'YES, CANCEL',
     UpgradePlan: 'Change search to {SELECTED_ROLE}?',
     UpgradePlanPara: `Based on your current subscription, you can only search for {SELECTED_ROLE}. To search for another user type, you will have to first cancel your current subscription & then select a new subscription.

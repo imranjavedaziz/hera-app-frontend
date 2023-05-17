@@ -5,9 +5,15 @@ import {
   Keyboard,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useRef, useEffect} from 'react';
-import {Button, FloatingLabelInput, Header} from '../../../components';
+import {
+  Button,
+  FloatingLabelInput,
+  Header,
+  ModalMiddle,
+} from '../../../components';
 import styles from './styles';
 import {Alignment, Images, Strings} from '../../../constants';
 import {useNavigation} from '@react-navigation/native';
@@ -16,6 +22,7 @@ import {validationBank, Input_Type, Routes} from '../../../constants/Constants';
 import {
   calculateTotalStripeAmount,
   formatACNumber,
+  formatDigit,
   validateExpiryDate,
   validateFullName,
 } from '../../../utils/commonFunction';
@@ -46,6 +53,7 @@ const ManageCard = ({route}) => {
   let scrollRef = React.createRef();
   const [inputs, setInputs] = React.useState({});
   const [errors, setErrors] = React.useState({});
+  const [showModal, setShowModal] = React.useState(false);
   const {attachPaymentIntentRes} = useSelector(
     store => store.attachPaymentIntent,
   );
@@ -54,7 +62,9 @@ const ManageCard = ({route}) => {
   const {stripe_customer_id, log_in_data} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
   const [check, setCheck] = React.useState(true);
-
+  const [fieldChanged, setFieldChanged] = React.useState(false);
+  const [disable, setDisable] = React.useState(false);
+  const [backShow, setBackShow] = React.useState(false);
   const {
     payment_transfer_success,
     payment_transfer_loading,
@@ -93,6 +103,7 @@ const ManageCard = ({route}) => {
         dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
       }
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
+      setDisable(false);
       dispatch(hideAppLoader());
       let error = paymentIntentRes?.error ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
@@ -120,10 +131,13 @@ const ManageCard = ({route}) => {
           payout_status: 1,
         };
         navigation.navigate(Routes.TransactionDetails, payload);
+        if (!check && params) {
+          setDisable(false);
+        }
         dispatch({type: PAYMENT_INTENT.CLEAN});
-        console.log(payment_transfer_res, 'payment_transfer_res');
       }
       if (payment_transfer_fail) {
+        setDisable(false);
         dispatch(hideAppLoader());
       }
       dispatch(hideAppLoader());
@@ -143,6 +157,7 @@ const ManageCard = ({route}) => {
     } else if (
       attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
     ) {
+      setDisable(false);
       if (check && params) {
         dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
       } else {
@@ -154,18 +169,44 @@ const ManageCard = ({route}) => {
       }
     } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());
+      setDisable(false);
       let error = attachPaymentIntentRes?.error ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
       dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
       dispatch({type: PAYMENT_INTENT.CLEAN});
     }
   }, [attachPaymentIntentRes]);
-
+  const handleGoBack = () => {
+    if (fieldChanged) {
+      Platform.OS === 'ios' ? backActionCall() : setBackShow(true);
+    } else {
+      navigation.goBack();
+    }
+  };
+  const backActionCall = () => {
+    Alert.alert(
+      ValidationMessages.CARD_NOT_SAVED,
+      ValidationMessages.CARD_DETAIL_SAVED,
+      [
+        {
+          text: ValidationMessages.YES_DISCARD,
+          onPress: () => {
+            navigation.goBack();
+          },
+        },
+        {
+          text: Strings.profile.ModalOption2,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={() => {
-        navigation.goBack();
+        handleGoBack();
       }}
       style={styles.androidHeaderIcons}
     />
@@ -242,22 +283,54 @@ const ManageCard = ({route}) => {
     }
     return isValid;
   };
+  let date = inputs?.expiryDate?.split('/');
+  let cardInfo;
+  cardInfo = {
+    'card[number]': inputs?.cardNumber,
+    'card[exp_month]': date && date[0],
+    'card[exp_year]': date && date[1],
+    'card[cvc]': inputs?.cvv,
+    'billing_details[name]': inputs?.fullName,
+  };
   const validate = async () => {
     Keyboard.dismiss();
+
     if (validateData()) {
-      // dispatch(showAppLoader());
-      let date = inputs.expiryDate.split('/');
-      let cardInfo;
-      cardInfo = {
-        'card[number]': inputs.cardNumber,
-        'card[exp_month]': date[0],
-        'card[exp_year]': date[1],
-        'card[cvc]': inputs.cvv,
-        'billing_details[name]': inputs.fullName,
-      };
-      dispatch(createPaymentIntent(cardInfo));
+      if (route?.params) {
+        Platform.OS === 'ios' ? backAction() : setShowModal(true);
+      } else {
+        setDisable(true);
+        dispatch(createPaymentIntent(cardInfo));
+      }
     }
   };
+  const backAction = () => {
+    Alert.alert(
+      ValidationMessages.CONFIRM_PAYMENT,
+      `${ValidationMessages.CONFIRM_PAYMENT_DIS}${formatDigit(
+        calculateTotalStripeAmount(roundOff),
+      )}${ValidationMessages.SECOND_CONFIRM_DIS}${
+        Strings.Hera_Pay.CARD_DOT
+      }${inputs?.cardNumber?.toString()?.slice(-4)}${
+        ValidationMessages.LAST_CONFIRM_DIS
+      }`,
+      [
+        {
+          text: ValidationMessages.YES_CONFIRM,
+          onPress: () => {
+            setDisable(true);
+            dispatch(createPaymentIntent(cardInfo));
+          },
+        },
+        {
+          text: ValidationMessages.CANCEL,
+          onPress: () => null,
+        },
+      ],
+    );
+    return true;
+  };
+
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -277,7 +350,10 @@ const ManageCard = ({route}) => {
           <FloatingLabelInput
             label={Strings.ManageCard.CardNumber}
             value={formatACNumber(inputs.cardNumber)}
-            onChangeText={text => handleOnchange(text, Input_Type.cardNumber)}
+            onChangeText={text => {
+              handleOnchange(text, Input_Type.cardNumber);
+              setFieldChanged(true);
+            }}
             onFocusHandle={() => handleError(null, Input_Type.cardNumber)}
             error={errors.cardNumber}
             required={true}
@@ -293,7 +369,10 @@ const ManageCard = ({route}) => {
             label={Strings.ManageCard.ValidThrough}
             value={inputs.expiryDate}
             maxLength={validationBank.ExpiryDate}
-            onChangeText={text => handleOnchange(text, Input_Type.expiryDate)}
+            onChangeText={text => {
+              handleOnchange(text, Input_Type.expiryDate);
+              setFieldChanged(true);
+            }}
             onFocusHandle={() => handleError(null, Input_Type.expiryDate)}
             required={true}
             keyboardType={'numeric'}
@@ -307,7 +386,10 @@ const ManageCard = ({route}) => {
           <FloatingLabelInput
             label={Strings.ManageCard.CVV}
             value={inputs.cvv}
-            onChangeText={text => handleOnchange(text, Input_Type.cvv)}
+            onChangeText={text => {
+              handleOnchange(text, Input_Type.cvv);
+              setFieldChanged(true);
+            }}
             onFocusHandle={() => handleError(null, Input_Type.cvv)}
             required={true}
             keyboardType={'numeric'}
@@ -323,7 +405,10 @@ const ManageCard = ({route}) => {
           <FloatingLabelInput
             label={Strings.ManageCard.cardHolderName}
             value={inputs.fullName}
-            onChangeText={text => handleOnchange(text, Input_Type.fullName)}
+            onChangeText={text => {
+              handleOnchange(text, Input_Type.fullName);
+              setFieldChanged(true);
+            }}
             onFocusHandle={() => {
               handleError(null, Input_Type.fullName);
               if (Platform.OS === 'android') {
@@ -377,18 +462,61 @@ const ManageCard = ({route}) => {
             <Button
               label={
                 params && params.params
-                  ? `PAY $${calculateTotalStripeAmount(roundOff)}`
+                  ? `PROCEED $${formatDigit(
+                      calculateTotalStripeAmount(roundOff),
+                    )}`
                   : Strings.ManageCard.SAVE_CARD
               }
               style={styles.addBtn}
+              disabled={disable}
               onPress={() => validate()}
             />
           </View>
         </View>
         <ExtraBottomView />
       </KeyboardAwareScrollView>
+      <ModalMiddle
+        showModal={showModal}
+        onRequestClose={() => {
+          setShowModal(!showModal);
+        }}
+        String_1={ValidationMessages.CONFIRM_PAYMENT}
+        String_2={`${ValidationMessages.CONFIRM_PAYMENT_DIS}${formatDigit(
+          calculateTotalStripeAmount(roundOff),
+        )}${ValidationMessages.SECOND_CONFIRM_DIS}${
+          Strings.Hera_Pay.CARD_DOT
+        }${inputs?.cardNumber?.toString()?.slice(-4)}${
+          ValidationMessages.LAST_CONFIRM_DIS
+        }`}
+        String_3={ValidationMessages.YES_CONFIRM}
+        String_4={ValidationMessages.CANCEL}
+        onPressNav={() => {
+          setShowModal(false);
+          setDisable(true);
+          dispatch(createPaymentIntent(cardInfo));
+        }}
+        onPressOff={() => {
+          setShowModal(false);
+        }}
+      />
+      <ModalMiddle
+        showModal={backShow}
+        onRequestClose={() => {
+          setBackShow(!showModal);
+        }}
+        String_1={ValidationMessages.CARD_NOT_SAVED}
+        String_2={ValidationMessages.CARD_DETAIL_SAVED}
+        String_3={ValidationMessages.YES_DISCARD}
+        String_4={Strings.profile.ModalOption2}
+        onPressNav={() => {
+          setBackShow(false);
+          navigation.goBack();
+        }}
+        onPressOff={() => {
+          setBackShow(false);
+        }}
+      />
     </View>
   );
 };
-
 export default ManageCard;

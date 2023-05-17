@@ -24,7 +24,11 @@ import {
   getPtbProfileDetail,
   sendLikePtb,
 } from '../../../redux/actions/PtbProfileDetail';
-import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
+import {
+  showAppLoader,
+  hideAppLoader,
+  showAppToast,
+} from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
@@ -108,6 +112,9 @@ const PTB_profile = props => {
           if (stateRes?.profile_match_request?.status === 2) {
             navigation.navigate(Routes.ChatDetail, {
               item: stateRes?.profile_match_chat,
+              account_status_res: props?.route?.params?.account_status_res
+                ? props?.route?.params?.account_status_res
+                : '',
             });
           } else {
             navigation.goBack();
@@ -164,6 +171,44 @@ const PTB_profile = props => {
     dispatch(profileMatchResponse(payload));
     setIsVisibleLogo(true);
     setIslikedLogo('disliked');
+  };
+  const onClickRequest = () => {
+    if (
+      props?.route?.params?.account_status_res?.status ||
+      (props?.route?.params?.account_status_res?.bank_account &&
+        props?.route?.params?.account_status_res?.kyc_status === 'verified')
+    ) {
+      navigation.navigate(Routes.SendRequest, stateRes);
+    } else if (
+      props?.route?.params?.account_status_res?.bank_account === null ||
+      props?.route?.params?.account_status_res?.bank_account === ''
+    ) {
+      dispatch(
+        showAppToast(
+          true,
+          'Please add your bank details to request for a payment.',
+        ),
+      );
+    } else if (
+      props?.route?.params?.account_status_res?.kyc_status === 'incomplete'
+    ) {
+      dispatch(
+        showAppToast(
+          true,
+          'You can request for a payment, once your bank KYC has been submitted.',
+        ),
+      );
+    } else if (
+      props?.route?.params?.account_status_res?.kyc_status === 'pending' ||
+      props?.route?.params?.account_status_res?.kyc_status === 'rejected'
+    ) {
+      dispatch(
+        showAppToast(
+          true,
+          'You can request for a payment, once your bank KYC has been verified.',
+        ),
+      );
+    }
   };
   return (
     <View style={[styles.flex]}>
@@ -290,7 +335,7 @@ const PTB_profile = props => {
                   <ButtonPay
                     label={Strings.dashboard.ReqPayment}
                     style={styles.loginBtn}
-                    onPress={()=>navigation.navigate(Routes.SendRequest,stateRes)}
+                    onPress={() => onClickRequest()}
                   />
                 </View>
               </>
