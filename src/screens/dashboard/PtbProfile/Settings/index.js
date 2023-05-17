@@ -28,6 +28,7 @@ const Settings = () => {
       [
         {
           text: Strings.sm_create_gallery.deleteModal,
+          style: 'destructive',
           onPress: () => {
             navigation.navigate('DeleteAccount');
           },
@@ -51,6 +52,7 @@ const Settings = () => {
           onPress: () => {
             navigation.navigate(Routes.DeactivateAccount);
           },
+          style: 'destructive',
         },
         {
           text: Strings.sm_create_gallery.StayHera,

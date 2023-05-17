@@ -18,4 +18,15 @@ export default {
   androidHeaderIcons: {
     marginLeft: Value.CONSTANT_VALUE_30,
   },
+  container: {
+    position: Alignment.ABSOLUTE,
+    alignSelf: Alignment.CENTER,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
+  },
 };

@@ -193,6 +193,7 @@ const ManageCard = ({route}) => {
           onPress: () => {
             navigation.goBack();
           },
+          style: 'destructive',
         },
         {
           text: Strings.profile.ModalOption2,
@@ -316,15 +317,16 @@ const ManageCard = ({route}) => {
       }`,
       [
         {
+          text: ValidationMessages.CANCEL,
+          onPress: () => null,
+          style: 'destructive',
+        },
+        {
           text: ValidationMessages.YES_CONFIRM,
           onPress: () => {
             setDisable(true);
             dispatch(createPaymentIntent(cardInfo));
           },
-        },
-        {
-          text: ValidationMessages.CANCEL,
-          onPress: () => null,
         },
       ],
     );
@@ -462,9 +464,7 @@ const ManageCard = ({route}) => {
             <Button
               label={
                 params && params.params
-                  ? `PROCEED $${formatDigit(
-                      calculateTotalStripeAmount(roundOff),
-                    )}`
+                  ? `PAY $${formatDigit(calculateTotalStripeAmount(roundOff))}`
                   : Strings.ManageCard.SAVE_CARD
               }
               style={styles.addBtn}

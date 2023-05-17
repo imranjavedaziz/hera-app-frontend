@@ -162,14 +162,15 @@ const ConfirmPayment = ({route}) => {
       }${ValidationMessages.LAST_CONFIRM_DIS}`,
       [
         {
+          text: ValidationMessages.CANCEL,
+          onPress: () => null,
+          style: 'destructive',
+        },
+        {
           text: ValidationMessages.YES_CONFIRM,
           onPress: () => {
             onPay();
           },
-        },
-        {
-          text: ValidationMessages.CANCEL,
-          onPress: () => null,
         },
       ],
     );

@@ -722,6 +722,7 @@ const ChatDetail = props => {
           onPress: () => {
             toastFunc();
           },
+          style: 'destructive',
         },
         {
           text: Strings.ReportUser.Not_Now,

@@ -10,21 +10,26 @@ import {HttpStatus} from '../../constants/Constants';
 import {ValidationMessages} from '../../constants/Strings';
 
 function* kycUpdate(action) {
-  console.log('requestVerification--saga');
   const {data} = action;
   try {
-    yield put({
-      type: KYC_UPDATE.START,
-    });
-    const response = yield call(kycUpdateApi, data);
-    yield put({
-      type: KYC_UPDATE.SUCCESS,
-      payload: response,
-    });
-  } catch (error) {
+    const result = yield kycUpdateApi(data);
+    console.log('requestVerification--saga', result);
+    if (result?.status === HttpStatus.SUCCESS_REQUEST) {
+      yield put({
+        type: KYC_UPDATE.SUCCESS,
+        data: result.data?.message,
+      });
+    } else {
+      yield put({
+        type: KYC_UPDATE.FAIL,
+        data: {msg: result},
+      });
+    }
+  } catch (err) {
+    console.log(err,'errs');
     yield put({
       type: KYC_UPDATE.FAIL,
-      payload: error?.data ?? error,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
     });
   }
   yield put({
@@ -38,6 +43,7 @@ export default function* kycUpdateWatcher() {
 function* bankUpdate(payload) {
   try {
     const result = yield bankUpdateApi(payload.data);
+
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({
         type: BANK_UPDATE_SUCCESS,
@@ -46,7 +52,7 @@ function* bankUpdate(payload) {
     } else {
       yield put({
         type: BANK_UPDATE_FAIL,
-        data: {msg: result.data?.message},
+        data: {msg: result.data},
       });
     }
   } catch (err) {

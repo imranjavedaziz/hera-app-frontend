@@ -106,6 +106,7 @@ export default {
     borderRadius: dynamicSize(Value.CONSTANT_VALUE_50),
     borderWidth: 1,
     borderColor: '#ffffff',
+    backgroundColor: '#E8E6DD',
   },
   noBank: {
     fontFamily: Fonts.OpenSansRegular,

@@ -83,7 +83,8 @@ const KycScreen = ({route}) => {
       dispatch(
         showAppToast(
           false,
-          response?.info?.message ?? 'Bank added to profile!',
+          response?.info?.message ??
+            'Bank added to profile & KYC sent for approval!',
         ),
       );
       dispatch({type: KYC_UPDATE.END});
@@ -106,6 +107,7 @@ const KycScreen = ({route}) => {
               redirectTo !== '' ? redirectTo : Routes.HeraPay,
             );
           },
+          style: 'destructive',
         },
         {
           text: ValidationMessages.NOT_NOW,
@@ -149,6 +151,7 @@ const KycScreen = ({route}) => {
   const validateData = () => {
     Keyboard.dismiss();
     let isValid = true;
+
     if (!inputs.firstName) {
       handleError(ValidationMessages.FirstName_REQUIRED, Input_Type.firstName);
       isValid = false;
@@ -236,35 +239,44 @@ const KycScreen = ({route}) => {
     const day = dateObject.getDate();
     if (validateData()) {
       let media = selectedPhotos.map(img => getMediaFormatedForLibrary(img));
-      const num = getNumberFromString(inputs.phoneNumber);
-      const numWithPad = padLeadingZeros(num, validationBank.PhoneNumber - 4);
-      let payload = {
-        postal_code: inputs.zipCode,
-        address: inputs.address,
-        date_of_birth: getDateStr(),
-        ssn_last_4: inputs.ssn,
-        phone_no: numWithPad,
-        last_name: inputs.lastName,
-        first_name: inputs.firstName,
-        country: 'US',
-        state: inputs.state,
-        city: inputs.city,
-        bank_token_id: bank_token,
-        dob_year: year,
-        dob_month: month,
-        dob_day: day,
-      };
-      if (media.length > 0) {
-        let document_front = media[0];
-        payload.document_front = document_front;
+      if (media.length === 1) {
+        dispatch(
+          showAppToast(
+            true,
+            'Please upload front & back of the verification document.',
+          ),
+        );
+      } else {
+        const num = getNumberFromString(inputs.phoneNumber);
+        const numWithPad = padLeadingZeros(num, validationBank.PhoneNumber - 4);
+        let payload = {
+          postal_code: inputs.zipCode,
+          address: inputs.address,
+          date_of_birth: getDateStr(),
+          ssn_last_4: inputs.ssn,
+          phone_no: numWithPad,
+          last_name: inputs.lastName,
+          first_name: inputs.firstName,
+          country: 'US',
+          state: inputs.state,
+          city: inputs.city,
+          bank_token_id: bank_token,
+          dob_year: year,
+          dob_month: month,
+          dob_day: day,
+        };
+        if (media.length > 0) {
+          let document_front = media[0];
+          payload.document_front = document_front;
+        }
+        if (media.length > 1) {
+          let document_back = media[1];
+          payload.document_back = document_back;
+        }
+        dispatch(showAppLoader());
+        let formDataPayload = jsonToFormData(payload);
+        dispatch(kyc_update(formDataPayload));
       }
-      if (media.length > 1) {
-        let document_back = media[1];
-        payload.document_back = document_back;
-      }
-      dispatch(showAppLoader());
-      let formDataPayload = jsonToFormData(payload);
-      dispatch(kyc_update(formDataPayload));
     }
   };
 

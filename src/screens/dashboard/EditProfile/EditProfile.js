@@ -211,6 +211,7 @@ const EditProfile = props => {
           onPress: () => {
             navCondition();
           },
+          style:'destructive',
         },
         {
           text: Strings.profile.ModalOption2,

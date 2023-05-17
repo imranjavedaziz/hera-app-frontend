@@ -46,7 +46,7 @@ export default function kycUpdateReducer(action, state = initialState) {
       return {
         ...state,
         kycResponse: {
-          info: action?.payload,
+          info: action?.data,
           loading: false,
           status: KYC_UPDATE.SUCCESS,
         },
@@ -56,7 +56,7 @@ export default function kycUpdateReducer(action, state = initialState) {
       return {
         ...state,
         kycResponse: {
-          info: action?.payload,
+          info: action?.data?.msg,
           loading: false,
           status: KYC_UPDATE.FAIL,
         },
