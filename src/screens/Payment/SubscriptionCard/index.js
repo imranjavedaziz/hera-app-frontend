@@ -80,10 +80,9 @@ const SubscriptionCard = ({route}) => {
         payment_method_id: info?.id,
         purchase_token: 'null',
       };
-      console.log('payload',payload);
       setCallApi(true);
       dispatch(showAppLoader());
-      alert('createSubscription');
+      console.log('createSubscription',payload);
       dispatch(createSubscription(payload));
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());

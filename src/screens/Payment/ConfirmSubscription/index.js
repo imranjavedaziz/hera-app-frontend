@@ -53,11 +53,11 @@ const ConfirmSubscription = ({route}) => {
     if (_.isEmpty(getCardListResponse?.info?.data)) {
       dispatch(getCardList(stripe_customer_id, 10));
     } else if (getCardListResponse?.info?.data.length === 1) {
-      getCardListResponse?.info?.data.map((item, index) => {
-        return setSelectedCard(item);
-      });
+      const item = getCardListResponse?.info?.data[0];
+      setSelected(item?.id);
+      setSelectedCard(item);
     }
-  }, [dispatch, stripe_customer_id]);
+  }, [dispatch, stripe_customer_id,getCardListResponse]);
   useEffect(() => {
     console.log('CHECKING CREATE SUB LINE NO 74');
     if (
