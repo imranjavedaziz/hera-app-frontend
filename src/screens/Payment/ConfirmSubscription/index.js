@@ -19,7 +19,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Value} from '../../../constants/FixedValues';
 import {createSubscription} from '../../../redux/actions/Subsctiption';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
-
+// selectCheckBox
 const ConfirmSubscription = ({route}) => {
   const navigation = useNavigation();
   const [isCallApi, setCallApi] = useState(false);
@@ -57,7 +57,7 @@ const ConfirmSubscription = ({route}) => {
       setSelected(item?.id);
       setSelectedCard(item);
     }
-  }, [dispatch, stripe_customer_id,getCardListResponse]);
+  }, [dispatch, stripe_customer_id, getCardListResponse]);
   useEffect(() => {
     console.log('CHECKING CREATE SUB LINE NO 74');
     if (
@@ -69,7 +69,7 @@ const ConfirmSubscription = ({route}) => {
       if (subscription_status_success) {
         setCallApi(false);
         dispatch(hideAppLoader());
-        navigation.navigate(Routes.PtbProfile);
+        navigation.navigate(Routes.PtbProfile, params);
       }
     }
   }, [
@@ -109,7 +109,7 @@ const ConfirmSubscription = ({route}) => {
     if (Selected || SelectedCard) {
       const payload = {
         device_type: Platform.OS,
-        product_id: params.android_product,
+        product_id: params.selectCheckBox.android_product,
         payment_method_id: Selected,
         purchase_token: 'null',
       };
@@ -135,7 +135,9 @@ const ConfirmSubscription = ({route}) => {
           <Text style={styles.mainText}>
             {Strings.confirmPassword.CONFIRM_PAYMENT}
           </Text>
-          <Text style={styles.ammount}>{`$${params.price.toFixed(2)}`}</Text>
+          <Text style={styles.ammount}>{`$${params.selectCheckBox.price.toFixed(
+            2,
+          )}`}</Text>
           {_.isEmpty(getCardListResponse?.info?.data) ? (
             <View style={styles.emptyCardView}>
               <Text style={styles.emptyText}>
@@ -180,9 +182,10 @@ const ConfirmSubscription = ({route}) => {
               <Text style={styles.moreCard} onPress={() => onADDCARD(true)}>
                 {Strings.confirmPassword.ChangeCard}
               </Text>
-            <Text style={styles.bottomPara}>
-              <Text style={{color: Colors.RED}}>*</Text>{Strings.confirmPassword.BottomPara}
-            </Text>
+              <Text style={styles.bottomPara}>
+                <Text style={{color: Colors.RED}}>*</Text>
+                {Strings.confirmPassword.BottomPara}
+              </Text>
             </View>
           )}
         </View>
@@ -192,7 +195,9 @@ const ConfirmSubscription = ({route}) => {
           <TouchableOpacity
             onPress={() => onPay()}
             style={styles.btnContainerPay}>
-            <Text style={styles.btnText}>PAY ${params.price.toFixed(2)}</Text>
+            <Text style={styles.btnText}>
+              PAY ${params.selectCheckBox.price.toFixed(2)}
+            </Text>
           </TouchableOpacity>
         </View>
       )}

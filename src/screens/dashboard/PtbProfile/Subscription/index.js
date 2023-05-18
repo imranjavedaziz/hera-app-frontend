@@ -46,7 +46,10 @@ import moment from 'moment';
 import {Value} from '../../../../constants/FixedValues';
 import {Colors} from '../../../../constants';
 import {capitalizeStr} from '../../../../utils/commonFunction';
-import { getCardList,GET_CARD_LIST } from '../../../../redux/actions/stripe.action';
+import {
+  getCardList,
+  GET_CARD_LIST,
+} from '../../../../redux/actions/stripe.action';
 
 export const CancelSubscription = ({
   changeModal,
@@ -82,11 +85,11 @@ export const CancelSubscription = ({
               setChangeModal(!changeModal);
               handleCanncel();
             }}>
-            <Text style={[styles.changeModalBtnTxt,{color: Colors.RED}]}>
+            <Text style={[styles.changeModalBtnTxt, {color: Colors.RED}]}>
               {capitalizeStr(Strings.Subscription.YesProceed)}
             </Text>
           </Pressable>
-          <View style={styles.seperator}/>
+          <View style={styles.seperator} />
           <Pressable
             style={styles.changeModalBtn}
             onPress={() => {
@@ -111,7 +114,7 @@ const Subscription = () => {
   const [isPlanChanged, setPlanChanged] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
   const [_purchasereceipt, setPurchaseReceipt] = useState(null);
-  const [androidCards,setCards] = useState([]);
+  const [androidCards, setCards] = useState([]);
   const IAPService = InAPPPurchase.getInstance();
   const loadingRef = React.useRef(false);
   const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
@@ -135,17 +138,19 @@ const Subscription = () => {
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
-  useFocusEffect(useCallback(()=>{
-    if(Platform.OS==='android'){
-      dispatch(getCardList(stripe_customer_id, 10));
-    }
-  },[stripe_customer_id]))
+  useFocusEffect(
+    useCallback(() => {
+      if (Platform.OS === 'android') {
+        dispatch(getCardList(stripe_customer_id, 10));
+      }
+    }, [stripe_customer_id]),
+  );
   //Get Card List
   useEffect(() => {
     if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
       const info = getCardListResponse?.info;
       setCards(info?.data || []);
-      console.log('info?.data',JSON.stringify(info?.data));
+      console.log('info?.data', JSON.stringify(info?.data));
     } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
       let error = getCardListResponse?.info ?? 'Something went wrong';
       dispatch(showAppToast(false, error));
@@ -283,7 +288,17 @@ const Subscription = () => {
       dispatch(showAppLoader());
       requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
     } else {
-      navigation.navigate(androidCards.length>0?Routes.ConfirmSubscription:Routes.SubscriptionCard,selectCheckBox);
+      navigation.navigate(
+        androidCards.length > 0
+          ? Routes.ConfirmSubscription
+          : Routes.SubscriptionCard,
+        {
+          selectCheckBox,
+          isPlanChanged,
+          isPlanUpgrade,
+          subscription: subscription_plan_res?.data?.subscription,
+        },
+      );
     }
   };
 
@@ -384,15 +399,11 @@ const Subscription = () => {
       Alert.alert(
         Strings.Subscription.UpgradePlan.replace(
           '{SELECTED_ROLE}',
-          selectCheckBox == null
-            ? '{SELECTED_ROLE}'
-            : roleName,
+          selectCheckBox == null ? '{SELECTED_ROLE}' : roleName,
         ),
         Strings.Subscription.UpgradePlanPara.replace(
           '{SELECTED_ROLE}',
-          selectCheckBox == null
-            ? '{SELECTED_ROLE}'
-            : roleName,
+          selectCheckBox == null ? '{SELECTED_ROLE}' : roleName,
         ),
         [
           {
@@ -445,10 +456,15 @@ const Subscription = () => {
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
     } else {
-      if(Platform.OS==='android' && androidCards.length===0){
-        navigation.navigate(Routes.SubscriptionCard,{redirectTo: Routes.Subscription,...selectCheckBox});
-      }
-      else if (
+      if (Platform.OS === 'android' && androidCards.length === 0) {
+        navigation.navigate(Routes.SubscriptionCard, {
+          redirectTo: Routes.Subscription,
+          selectCheckBox,
+          isPlanChanged,
+          isPlanUpgrade,
+          subscription: subscription_plan_res?.data?.subscription,
+        });
+      } else if (
         selectCheckBox !== null &&
         subscription_plan_res?.data?.preference?.role_id_looking_for !==
           selectCheckBox.role_id_looking_for
@@ -664,13 +680,13 @@ const Subscription = () => {
                     ).format('LL'),
                   )
                 : Strings.Subscription.UpgradePlanParaAndroid.replace(
-                  '{SELECTED_ROLE}',
-                  selectCheckBox == null
-                    ? '{SELECTED_ROLE}'
-                    : Strings?.STATIC_ROLE.find(
-                        r => r.id === selectCheckBox?.role_id_looking_for,
-                      ).name,
-                )}
+                    '{SELECTED_ROLE}',
+                    selectCheckBox == null
+                      ? '{SELECTED_ROLE}'
+                      : Strings?.STATIC_ROLE.find(
+                          r => r.id === selectCheckBox?.role_id_looking_for,
+                        ).name,
+                  )}
             </Text>
             <Pressable
               style={styles.changeModalBtn}
@@ -678,11 +694,11 @@ const Subscription = () => {
                 subscribePlan(selectCheckBox, 'credit');
                 setChangeModal(!changeModal);
               }}>
-              <Text style={[styles.changeModalBtnTxt,{color: Colors.RED}]}>
+              <Text style={[styles.changeModalBtnTxt, {color: Colors.RED}]}>
                 {capitalizeStr(Strings.Subscription.YesProceed)}
               </Text>
             </Pressable>
-            <View style={styles.seperator}/>
+            <View style={styles.seperator} />
             <Pressable
               style={styles.changeModalBtn}
               onPress={() => {

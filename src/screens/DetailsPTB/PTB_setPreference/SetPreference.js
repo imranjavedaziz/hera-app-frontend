@@ -71,7 +71,7 @@ import {Rotate} from 'hammerjs';
 import {navigate} from '../../../utils/RootNavigation';
 import {updateTrail} from '../../../redux/actions/Subsctiption';
 import debounce from '../../../utils/debounce';
-import { dynamicSize } from '../../../utils/responsive';
+import {dynamicSize} from '../../../utils/responsive';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -142,7 +142,10 @@ const SetPreference = ({route, navigation}) => {
       if (EditPreferences === true) {
         dispatch(showEditAppLoader());
       }
-    }, [dispatch]),
+      if (get_preference_success || get_preference_error_msg) {
+        dispatch(hideEditLoader());
+      }
+    }, [dispatch, get_preference_success, get_preference_error_msg]),
   );
   useEffect(() => {
     if (
