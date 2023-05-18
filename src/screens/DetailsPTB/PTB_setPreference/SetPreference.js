@@ -555,7 +555,7 @@ const SetPreference = ({route, navigation}) => {
                           style={styles.flexRow}
                           key={whom.id}
                           disabled={
-                            !subscriptionStatus?.data?.is_trial &&
+                            (!subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status>0) &&
                             EditPreferences
                           }
                           activeOpacity={1}
@@ -571,8 +571,8 @@ const SetPreference = ({route, navigation}) => {
                           <Text
                             style={
                               value === whom.id ||
-                              subscriptionStatus?.data?.is_trial ||
-                              !EditPreferences
+                              (subscriptionStatus?.data?.is_trial ||
+                              !EditPreferences || subscriptionStatus?.data?.status===0)
                                 ? styles.lookingsm
                                 : styles.lookingsmDisabled
                             }>

@@ -294,7 +294,7 @@ const Subscription = () => {
           : Routes.SubscriptionCard,
         {
           selectCheckBox,
-          isPlanChanged,
+          isPlanChanged: isPlanChanged||isPlanUpgrade?isPlanChanged:true,
           isPlanUpgrade,
           subscription: subscription_plan_res?.data?.subscription,
         },
@@ -357,6 +357,11 @@ const Subscription = () => {
           }
         } catch (ackErr) {
           console.log('ERROR LINE NO 101', ackErr);
+        }
+        finally{
+          if(!(isPlanChanged||isPlanUpgrade)){
+            setPlanChanged(true);
+          }
         }
       })
       .catch(err => {
@@ -460,7 +465,7 @@ const Subscription = () => {
         navigation.navigate(Routes.SubscriptionCard, {
           redirectTo: Routes.Subscription,
           selectCheckBox,
-          isPlanChanged,
+          isPlanChanged: (isPlanChanged||isPlanUpgrade)?isPlanChanged:true,
           isPlanUpgrade,
           subscription: subscription_plan_res?.data?.subscription,
         });
