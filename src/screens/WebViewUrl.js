@@ -1,17 +1,26 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {
-  ActivityIndicator,
-  TouchableOpacity,
-  View,
-  Image,
-  Text,
-} from 'react-native';
+import {TouchableOpacity, View, Image, Text} from 'react-native';
 import {WebView} from 'react-native-webview';
 import {Alignment, Colors, Images, Strings} from '../constants';
 import {Value} from '../constants/FixedValues';
 import {Fonts} from '../constants/Constants';
-
+import {dynamicSize, height} from '../utils/responsive';
+import {MaterialIndicator} from 'react-native-indicators';
+const styles = {
+  container: {
+    position: Alignment.ABSOLUTE,
+    alignSelf: Alignment.CENTER,
+    marginTop: height / 2.5,
+    width: Value.CONSTANT_VALUE_50,
+    height: Value.CONSTANT_VALUE_50,
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+    borderRadius: Value.CONSTANT_VALUE_35,
+    backgroundColor: Colors.WHITE,
+    zIndex: Value.CONSTANT_VALUE_999999,
+  },
+};
 const WebViewUrl = props => {
   const navigation = useNavigation();
   const INJECTED_JAVASCRIPT = `(function() {
@@ -66,12 +75,11 @@ const WebViewUrl = props => {
         startInLoadingState
         injectedJavaScript={INJECTED_JAVASCRIPT}
         renderLoading={() => (
-          <View
-            style={{
-              flex: Value.CONSTANT_VALUE_1,
-              alignItems: Alignment.CENTER,
-            }}>
-            <ActivityIndicator size="large" />
+          <View style={styles.container}>
+            <MaterialIndicator
+              color={Colors.COLOR_A3C6C4}
+              size={dynamicSize(25)}
+            />
           </View>
         )}
         automaticallyAdjustContentInsets={true}

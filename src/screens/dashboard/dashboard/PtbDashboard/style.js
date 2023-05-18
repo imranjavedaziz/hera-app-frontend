@@ -34,7 +34,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     paddingHorizontal: dynamicSize(10),
-    bottom: px(58),
+    bottom: px(48),
   },
   iconContainer: {
     flex: dynamicSize(Value.CONSTANT_VALUE_FRAC88),

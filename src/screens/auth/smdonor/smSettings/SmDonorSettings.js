@@ -277,6 +277,7 @@ const SmDonorSettings = () => {
           dispatch(showAppLoader());
           logoutScreen();
         },
+        style: 'destructive',
       },
       {
         text: Strings.profile.ModalOption2,

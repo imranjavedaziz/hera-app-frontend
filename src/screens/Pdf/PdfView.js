@@ -5,7 +5,9 @@ import Pdf from 'react-native-pdf';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Header} from '../../components';
 import {IconHeader} from '../../components/Header';
-import {Images} from '../../constants';
+import {Colors, Images} from '../../constants';
+import {MaterialIndicator} from 'react-native-indicators';
+import {dynamicSize} from '../../utils/responsive';
 const PdfView = () => {
   const {
     params: {url},
@@ -39,6 +41,17 @@ const PdfView = () => {
           console.log(`Link presse: ${uri}`);
         }}
         style={styles.pdf}
+        renderActivityIndicator={() => {
+          return (
+            <View style={styles.container}>
+              <MaterialIndicator
+                color={Colors.COLOR_A3C6C4}
+                size={dynamicSize(25)}
+              />
+            </View>
+          );
+        }}
+        cache={true}
       />
     </View>
   );

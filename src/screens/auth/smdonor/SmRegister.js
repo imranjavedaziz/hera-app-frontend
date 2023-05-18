@@ -178,6 +178,7 @@ const SmRegister = () => {
         onPress: () => {
           logoutScreen();
         },
+        style: 'destructive',
       },
       {
         text: Strings.profile.ModalOption2,

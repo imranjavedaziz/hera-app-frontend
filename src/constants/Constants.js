@@ -107,6 +107,7 @@ export const Input_Type = {
   phoneNumber: 'phoneNumber',
   dob: 'dob',
   lastName: 'lastName',
+  selectField: 'selectField',
 };
 export const HttpStatus = {
   UNAUTHORISED: 401,

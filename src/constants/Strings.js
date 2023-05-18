@@ -621,9 +621,9 @@ export default {
     KYC_INCOMPLETE: 'KYC Incomplete  ',
     KYC_VERIFYIED: 'KYC verified  ',
     PTB_NO_MATCH:
-      'After you have matched, You can request for payments from Intended Parents using HERA Pay.',
+      'After you have matched, You can send payments to them using HERA Pay.',
     SM_NO_MATCH:
-      'You can request for payment from your matches using HERA Pay.',
+      'After you have matched, You can request for payment from Intended Parents using HERA Pay.',
   },
   Match_Screen: {
     Send_Payment: 'Send Payment',
@@ -771,7 +771,7 @@ export default {
     LAST_NAME: 'Last Name',
     ADDRESS: 'Address',
     ZIP_CODE: 'ZipCode',
-    SSN: 'SNN',
+    SSN: 'SNN (Last 4 digits)',
     STATE: 'State',
     CITY: 'City',
     PhoneNumber: 'Phone Number',

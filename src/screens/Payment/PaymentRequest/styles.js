@@ -70,7 +70,7 @@ export default {
   },
   DeclinebtnContainer: {marginRight: Value.CONSTANT_VALUE_18},
   comContainer: {
-    marginVertical: Value.CONSTANT_VALUE_15,
+    marginVertical: Value.CONSTANT_VALUE_FRAC705,
     backgroundColor: Colors.WHITE,
     borderRadius: Value.CONSTANT_VALUE_11,
     paddingTop: Value.CONSTANT_VALUE_20,

@@ -297,6 +297,7 @@ const PtbProfile = () => {
           setDisable(true);
           logoutFunc();
         },
+        style: 'destructive',
       },
       {
         text: Strings.profile.ModalOption2,

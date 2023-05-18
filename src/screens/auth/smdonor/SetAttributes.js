@@ -263,6 +263,7 @@ const SetAttributes = ({route}) => {
           onPress: () => {
             navigation.navigate(Routes.SmSetting);
           },
+          style: 'destructive',
         },
         {
           text: Strings.profile.ModalOption2,
