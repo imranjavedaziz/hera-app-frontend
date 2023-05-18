@@ -142,7 +142,10 @@ const SetPreference = ({route, navigation}) => {
       if (EditPreferences === true) {
         dispatch(showEditAppLoader());
       }
-    }, [dispatch]),
+      if (get_preference_success || get_preference_error_msg) {
+        dispatch(hideEditLoader());
+      }
+    }, [dispatch, get_preference_success, get_preference_error_msg]),
   );
   useEffect(() => {
     if (

@@ -37,7 +37,7 @@ import ExtraBottomView from '../../../components/ExtraBottomView';
 import {Value} from '../../../constants/FixedValues';
 import {createSubscription} from '../../../redux/actions/Subsctiption';
 import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
-
+// selectCheckBox
 const SubscriptionCard = ({route}) => {
   const params = route?.params;
   const navigation = useNavigation();
@@ -76,14 +76,13 @@ const SubscriptionCard = ({route}) => {
 
       const payload = {
         device_type: Platform.OS,
-        product_id: params.android_product,
+        product_id: params.selectCheckBox.android_product,
         payment_method_id: info?.id,
         purchase_token: 'null',
       };
-      console.log('payload',payload);
       setCallApi(true);
       dispatch(showAppLoader());
-      alert('createSubscription');
+      console.log('createSubscription', payload);
       dispatch(createSubscription(payload));
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());
@@ -105,7 +104,7 @@ const SubscriptionCard = ({route}) => {
         dispatch(hideAppLoader());
         dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
         dispatch({type: PAYMENT_INTENT.CLEAN});
-        navigation.navigate(Routes.PtbProfile);
+        navigation.navigate(Routes.PtbProfile, params);
       }
     }
   }, [
@@ -116,9 +115,7 @@ const SubscriptionCard = ({route}) => {
     isCallApi,
   ]);
   useEffect(() => {
-    if (
-      attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
-    ) {
+    if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS) {
       dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
       dispatch({type: PAYMENT_INTENT.CLEAN});
     } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
@@ -128,9 +125,9 @@ const SubscriptionCard = ({route}) => {
       dispatch({type: PAYMENT_INTENT.CLEAN});
     }
   }, [attachPaymentIntentRes]);
-  useEffect(()=>{
-    console.log('check-',check);
-  },[check])
+  useEffect(() => {
+    console.log('check-', check);
+  }, [check]);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -309,16 +306,17 @@ const SubscriptionCard = ({route}) => {
               validate();
             }}
           />
-          
+
           <Text style={styles.bottomPara}>
-              <Text style={{color: Colors.RED}}>*</Text>{Strings.confirmPassword.BottomPara}
-            </Text>
+            <Text style={{color: Colors.RED}}>*</Text>
+            {Strings.confirmPassword.BottomPara}
+          </Text>
           <View
             style={{
               alignItems: Alignment.CENTER,
             }}>
             <Button
-              label={`PAY $${params.price.toFixed(2)}`}
+              label={`PAY $${params.selectCheckBox.price.toFixed(2)}`}
               style={styles.addBtn}
               onPress={() => validate()}
             />

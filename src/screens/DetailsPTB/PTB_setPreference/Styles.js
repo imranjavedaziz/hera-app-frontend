@@ -58,7 +58,7 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     flex: 1,
-    paddingHorizontal:dynamicSize(30)
+    paddingHorizontal: dynamicSize(30),
   },
   ageContainerView: {
     flexDirection: Alignment.ROW,
@@ -266,6 +266,7 @@ export default {
     fontSize: 14,
     fontFamily: Fonts.OpenSansBold,
     flex: 1,
+    color: Colors.COLOR_535858,
   },
   disableing: {
     backgroundColor: Colors.CLEAR,
