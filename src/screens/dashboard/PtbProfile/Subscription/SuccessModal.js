@@ -3,6 +3,7 @@ import React from 'react';
 import Strings from '../../../../constants/Strings';
 import styles from './style';
 import moment from 'moment';
+import { Colors } from '../../../../constants';
 
 const SuccessModal = props => {
   const {
@@ -47,7 +48,7 @@ const SuccessModal = props => {
                 )}
           </Text>
           <Pressable
-            style={styles.changeModalBtn}
+            style={[styles.changeModalBtn,{backgroundColor: Colors.COLOR_A3C6C4,marginTop: 20}]}
             onPress={() => {
               setSuccessModal(!successModal);
             }}>
