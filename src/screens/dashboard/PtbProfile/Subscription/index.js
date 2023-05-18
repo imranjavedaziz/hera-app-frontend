@@ -86,7 +86,7 @@ export const CancelSubscription = ({
               handleCanncel();
             }}>
             <Text style={[styles.changeModalBtnTxt, {color: Colors.RED}]}>
-              {capitalizeStr(Strings.Subscription.YesProceed)}
+              {capitalizeStr(Strings.Subscription.YesCancel)}
             </Text>
           </Pressable>
           <View style={styles.seperator} />
@@ -412,7 +412,7 @@ const Subscription = () => {
         ),
         [
           {
-            text: capitalizeStr(Strings.Subscription.YesProceed),
+            text: capitalizeStr(Strings.Subscription.YesCancel),
             onPress: () => {
               subscribePlan(selectCheckBox, 'credit');
             },
@@ -700,7 +700,7 @@ const Subscription = () => {
                 setChangeModal(!changeModal);
               }}>
               <Text style={[styles.changeModalBtnTxt, {color: Colors.RED}]}>
-                {capitalizeStr(Strings.Subscription.YesProceed)}
+                {capitalizeStr(!isPlanChanged?Strings.Subscription.YesProceed:Strings.Subscription.YesCancel)}
               </Text>
             </Pressable>
             <View style={styles.seperator} />
