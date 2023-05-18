@@ -13,8 +13,8 @@ import {
 } from '../../../redux/actions/Payment';
 import ImageView from 'react-native-image-viewing';
 import {
+  showAppLoader,
   hideAppLoader,
-  hideEditLoader,
   showAppToast,
   showEditAppLoader,
 } from '../../../redux/actions/loader';
@@ -49,14 +49,14 @@ const PaymentRequest = () => {
   } = useSelector(state => state.Payment);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(showEditAppLoader());
+    dispatch(showAppLoader());
     dispatch(getPaymentRequestList());
   }, [dispatch]);
   useEffect(() => {
     if (LoadingRef.current && !get_payment_request_list_loading) {
       if (get_payment_request_list_success) {
         setIsRefreshing(false);
-        dispatch(hideEditLoader());
+        dispatch(hideAppLoader());
         setData(get_payment_request_list_res?.data);
         const filteredData = get_payment_request_list_res?.data.filter(
           item => item.status === 0,
@@ -64,7 +64,7 @@ const PaymentRequest = () => {
         setPtbData(filteredData);
       }
       if (get_payment_request_list_fail) {
-        dispatch(hideEditLoader());
+        dispatch(hideAppLoader());
         setIsRefreshing(false);
         dispatch(showAppToast(true, get_payment_request_list_error_msg));
       }
@@ -80,7 +80,7 @@ const PaymentRequest = () => {
   ]);
   useEffect(() => {
     if (loadingRef.current && !update_request_status_loading) {
-      dispatch(showEditAppLoader());
+      dispatch(showAppLoader());
       if (update_request_status_success) {
         dispatch(hideAppLoader());
         setIsRefreshing(false);
@@ -198,7 +198,7 @@ const PaymentRequest = () => {
               payment_request_id: item?.id,
               status: 2,
             };
-            dispatch(showEditAppLoader());
+            dispatch(showAppLoader());
             dispatch(updateRequestStatus(payload));
           },
         },
@@ -209,7 +209,7 @@ const PaymentRequest = () => {
               payment_request_id: item?.id,
               status: 3,
             };
-            dispatch(showEditAppLoader());
+            dispatch(showAppLoader());
             dispatch(updateRequestStatus(payload));
           },
         },

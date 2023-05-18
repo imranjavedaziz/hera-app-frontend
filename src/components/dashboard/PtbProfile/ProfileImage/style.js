@@ -34,7 +34,6 @@ export default {
     borderRadius: dynamicSize(100),
     width: Value.CONSTANT_VALUE_95,
     height: Value.CONSTANT_VALUE_95,
-    backgroundColor: Platform.OS === 'ios' ? '#E2E1D8' : '#f2f2f2',
   },
   SmImage: {
     height: Value.CONSTANT_VALUE_86,
@@ -43,6 +42,7 @@ export default {
     borderRadius: dynamicSize(90),
     borderColor: Colors.WHITE,
     borderWidth: 1,
+    backgroundColor: Platform.OS === 'ios' ? '#E2E1D8' : '#f2f2f2',
   },
   Image: {
     height: Value.CONSTANT_VALUE_86,

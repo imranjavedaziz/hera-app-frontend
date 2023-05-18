@@ -190,7 +190,7 @@ const SendRequest = ({route}) => {
   return (
     <KeyboardAvoidingView
       style={Styles.flex}
-      behavior={Platform.OS === 'ios' && 'padding'}>
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={Styles.flex}>
         <Header end={true}>{headerComp()}</Header>
         <KeyboardAwareScrollView
