@@ -5,7 +5,7 @@ import {Fonts} from '../../constants/Constants';
 
 export default {
   errMessage: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -17,7 +17,7 @@ export default {
     right: 40,
   },
   errMessageSupport: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,

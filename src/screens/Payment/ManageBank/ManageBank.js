@@ -86,11 +86,12 @@ const ManageBank = ({route}) => {
         ) {
           replace(Routes.KycScreen, {redirectTo});
           setDisable(false);
+          dispatch(hideAppLoader());
         } else {
           navigation.navigate(redirectTo !== '' ? redirectTo : Routes.HeraPay);
           setDisable(false);
+          dispatch(hideAppLoader());
         }
-        dispatch(hideAppLoader());
       }
       if (account_status_fail) {
         setDisable(false);
@@ -106,7 +107,6 @@ const ManageBank = ({route}) => {
     if (deleteBankResponse?.status === DELETE_BANK.START) {
       dispatch(showAppLoader());
     } else if (deleteBankResponse?.status === DELETE_BANK.SUCCESS) {
-      dispatch(hideAppLoader());
       dispatch({type: DELETE_BANK.CLEAN});
     } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
       setDisable(false);
@@ -134,7 +134,6 @@ const ManageBank = ({route}) => {
       } else {
         dispatch(hideAppLoader());
       }
-      dispatch(hideAppLoader());
       dispatch({type: ADD_BANK.CLEAN});
     } else if (addBanks?.status === ADD_BANK.FAIL) {
       setDisable(false);

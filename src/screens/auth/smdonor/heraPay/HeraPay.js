@@ -40,6 +40,7 @@ import {getAccountStatus} from '../../../../redux/actions/AccountStatus';
 import {monthGet} from '../../../../utils/commonFunction';
 import getKycStatusFunction from '../../../../utils/getkycStatusFunc';
 import {getPaymentRequestList} from '../../../../redux/actions/Payment';
+import {ValidationMessages} from '../../../../constants/Strings';
 
 const HeraPay = () => {
   const navigation = useNavigation();
@@ -226,43 +227,25 @@ const HeraPay = () => {
       navigation.navigate(Routes.MatchScreen);
     } else {
       if (
-        KycUpdated === false ||
-        (account_status_res.bank_account &&
-          getKycStatusFunction(account_status_res?.kyc_status) ===
-            Strings.Hera_Pay.KYC_VERIFYIED)
+        account_status_res.bank_account &&
+        account_status_res?.kyc_status === 'verified'
       ) {
         navigation.navigate(Routes.MatchScreen);
       } else if (_.isEmpty(Data) || Data === null) {
-        dispatch(
-          showAppToast(
-            true,
-            'Please add your bank details to request for a payment.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_NOT_ADDED));
       } else if (
         KycUpdated === true &&
         KycStatus !== null &&
-        getKycStatusFunction(account_status_res?.kyc_status) ===
-          Strings.Hera_Pay.KYC_INCOMPLETE
+        account_status_res?.kyc_status === 'incomplete'
       ) {
-        dispatch(
-          showAppToast(
-            true,
-            'You can request for a payment, once your bank KYC has been submitted.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_INCOMPLETE));
       } else if (
-        getKycStatusFunction(account_status_res?.kyc_status) ===
-          Strings.Hera_Pay.KYC_PENDING ||
-        getKycStatusFunction(account_status_res?.kyc_status) ===
-          Strings.Hera_Pay.KYC_REJECTED
+        account_status_res?.kyc_status === 'pending' ||
+        account_status_res?.kyc_status === 'unverified'
       ) {
-        dispatch(
-          showAppToast(
-            true,
-            'You can request for a payment, once your bank KYC has been verified.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_UNVERIFIED));
+      } else {
+        dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
       }
     }
   };

@@ -72,12 +72,13 @@ const styles = {
     backgroundColor: Colors.COLOR_RED,
     borderRadius: Value.CONSTANT_VALUE_6,
     position: Alignment.ABSOLUTE,
-    right: Value.CONSTANT_VALUE_0,
+    right: -1,
     zIndex: 9999,
     borderStyle: Alignment.SOLID,
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.WHITE,
     marginRight: Value.CONSTANT_VALUE_30,
+    top: -1,
   },
   blankContainerptb: {
     width: Value.CONSTANT_VALUE_12,
@@ -145,7 +146,11 @@ export const IconHeader = props => {
               <Image source={leftIcon} style={styles.innerProfileimg} />
             </View>
           ) : (
-            <Image accessible={false} source={leftIcon} style={[styles.img, leftIicon]} />
+            <Image
+              accessible={false}
+              source={leftIcon}
+              style={[styles.img, leftIicon]}
+            />
           )}
         </TouchableOpacity>
       )}
@@ -174,7 +179,11 @@ export const IconHeader = props => {
           accessibilityRole="button">
           {chat === true && <View style={styles.blankContainer} />}
           {chatptb === true && <View style={styles.blankContainerptb} />}
-          <Image accessible={false} source={rightIcon} style={[styles.img, iIcon]} />
+          <Image
+            accessible={false}
+            source={rightIcon}
+            style={[styles.img, iIcon]}
+          />
         </TouchableOpacity>
       </View>
     </>

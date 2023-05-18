@@ -624,6 +624,11 @@ export default {
       'After you have matched, You can send payments to them using HERA Pay.',
     SM_NO_MATCH:
       'After you have matched, You can request for payment from Intended Parents using HERA Pay.',
+    BANK_NOT_ADDED: 'Please add your bank details to request for a payment.',
+    BANK_INCOMPLETE:
+      'You can request for a payment, once your bank KYC has been submitted.',
+    BANK_UNVERIFIED:
+      'You can request for a payment, once your bank KYC has been verified.',
   },
   Match_Screen: {
     Send_Payment: 'Send Payment',

@@ -404,29 +404,8 @@ const CreateGallery = () => {
             rmvImgCount={rmvImgCount}
             remove={remove}
           />
-          {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
-            <View style={styles.delContainer}>
-              {rmvVideoCount > 0 && (
-                <Text style={styles.selectedText}>
-                  {rmvVideoCount} Video Selected
-                </Text>
-              )}
-              {rmvImgCount > 0 && (
-                <Text style={styles.selectedText}>
-                  {rmvImgCount}{' '}
-                  {rmvImgCount === 1 ? 'Item Selected' : 'Items Selected'}
-                </Text>
-              )}
-              <TouchableOpacity
-                onPress={() => {
-                  Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
-                }}
-                style={styles.deleteBtnContainer}>
-                <Image source={Images.trashRed} />
-                <Text style={styles.rmvText}>Remove From Gallery</Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
+          {((!isDel && rmvImgCount === 0) ||
+            (!isDel && rmvVideoCount <= 0)) && (
             <TouchableOpacity
               style={styles.dashboardBtn}
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
@@ -446,6 +425,29 @@ const CreateGallery = () => {
           )}
         </View>
       </Container>
+      {((isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0)) && (
+        <View style={styles.delContainer}>
+          {rmvVideoCount > 0 && (
+            <Text style={styles.selectedText}>
+              {rmvVideoCount} Video Selected
+            </Text>
+          )}
+          {rmvImgCount > 0 && (
+            <Text style={styles.selectedText}>
+              {rmvImgCount}{' '}
+              {rmvImgCount === 1 ? 'Item Selected' : 'Items Selected'}
+            </Text>
+          )}
+          <TouchableOpacity
+            onPress={() => {
+              Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
+            }}
+            style={styles.deleteBtnContainer}>
+            <Image source={Images.trashRed} />
+            <Text style={styles.rmvText}>Remove From Gallery</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <ActionSheet
         ref={actionSheet}
         destructiveButtonIndex={2}

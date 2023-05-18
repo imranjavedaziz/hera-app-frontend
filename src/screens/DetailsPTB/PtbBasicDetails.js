@@ -24,6 +24,7 @@ import Dropdown from '../../components/inputs/Dropdown';
 import styles from '../../styles/auth/smdonor/basicDetailsScreen';
 import {MultiTextInput} from '../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Colors} from '../../constants';
 
 const PtbBasicDetails = ({route}) => {
   const navigation = useNavigation();
@@ -71,7 +72,7 @@ const PtbBasicDetails = ({route}) => {
                 accessible={true}
                 accessibilityLabel={'Gender'}>
                 Gender
-                <Text style={[{color: 'red'}]}>*</Text>
+                <Text style={[{color: Colors.RED}]}>*</Text>
               </Text>
               <Controller
                 control={control}

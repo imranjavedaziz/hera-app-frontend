@@ -28,7 +28,7 @@ export default {
     color: Colors.BLACK,
   },
   Deactivate: {
-    color: '#ff4544',
+    color: Colors.RED,
     fontFamily: Fonts.OpenSansBold,
     fontSize: Value.CONSTANT_VALUE_16,
     lineHeight: Value.CONSTANT_VALUE_21,
@@ -41,7 +41,7 @@ export default {
   pending: {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: Value.CONSTANT_VALUE_13,
-    color: '#ff4544',
+    color: Colors.RED,
     marginLeft: dynamicSize(Value.CONSTANT_VALUE_7),
   },
   dot: {
@@ -49,7 +49,7 @@ export default {
     height: px(Value.CONSTANT_VALUE_12),
     borderStyle: Alignment.SOLID,
     borderRadius: px(Value.CONSTANT_VALUE_12),
-    backgroundColor: '#ff4544',
+    backgroundColor: Colors.RED,
     borderWidth: px(Value.CONSTANT_VALUE_1),
     borderColor: '#ffffff',
   },

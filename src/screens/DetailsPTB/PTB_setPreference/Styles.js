@@ -58,7 +58,7 @@ export default {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
     flex: 1,
-    paddingHorizontal:dynamicSize(30)
+    paddingHorizontal: dynamicSize(30),
   },
   ageContainerView: {
     flexDirection: Alignment.ROW,
@@ -214,7 +214,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   errMessage: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -226,7 +226,7 @@ export default {
     right: 0,
   },
   errLooking: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
