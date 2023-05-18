@@ -1,5 +1,5 @@
 import Alignment from '../../../../constants/Alignment';
-import {Value,Prencentage} from '../../../../constants/FixedValues';
+import {Value, Prencentage} from '../../../../constants/FixedValues';
 import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {
@@ -116,7 +116,11 @@ export default {
     borderRadius: Value.CONSTANT_VALUE_11,
     marginVertical: Value.CONSTANT_VALUE_10,
   },
-  roleTxt: {fontSize: Value.CONSTANT_VALUE_16, fontFamily: Fonts.OpenSansBold},
+  roleTxt: {
+    fontSize: Value.CONSTANT_VALUE_16,
+    fontFamily: Fonts.OpenSansBold,
+    color: Colors.COLOR_535858,
+  },
   seperator: {
     height: Value.CONSTANT_VALUE_1,
     width: '100%',

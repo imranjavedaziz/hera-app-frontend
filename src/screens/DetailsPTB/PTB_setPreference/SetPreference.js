@@ -142,7 +142,10 @@ const SetPreference = ({route, navigation}) => {
       if (EditPreferences === true) {
         dispatch(showEditAppLoader());
       }
-    }, [dispatch]),
+      if (get_preference_success || get_preference_error_msg) {
+        dispatch(hideEditLoader());
+      }
+    }, [dispatch, get_preference_success, get_preference_error_msg]),
   );
   useEffect(() => {
     if (
@@ -552,7 +555,7 @@ const SetPreference = ({route, navigation}) => {
                           style={styles.flexRow}
                           key={whom.id}
                           disabled={
-                            !subscriptionStatus?.data?.is_trial &&
+                            (!subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status>0) &&
                             EditPreferences
                           }
                           activeOpacity={1}
@@ -568,8 +571,8 @@ const SetPreference = ({route, navigation}) => {
                           <Text
                             style={
                               value === whom.id ||
-                              subscriptionStatus?.data?.is_trial ||
-                              !EditPreferences
+                              (subscriptionStatus?.data?.is_trial ||
+                              !EditPreferences || subscriptionStatus?.data?.status===0)
                                 ? styles.lookingsm
                                 : styles.lookingsmDisabled
                             }>

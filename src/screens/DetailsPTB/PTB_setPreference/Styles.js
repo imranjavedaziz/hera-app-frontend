@@ -266,6 +266,7 @@ export default {
     fontSize: 14,
     fontFamily: Fonts.OpenSansBold,
     flex: 1,
+    color: Colors.COLOR_535858,
   },
   disableing: {
     backgroundColor: Colors.CLEAR,

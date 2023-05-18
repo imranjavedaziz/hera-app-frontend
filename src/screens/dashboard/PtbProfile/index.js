@@ -62,9 +62,11 @@ import {
 } from '../../../redux/actions/stripe.action';
 import {GetPreferenceRes} from '../../../redux/actions/SetPreference';
 import {getPaymentRequestList} from '../../../redux/actions/Payment';
+import SuccessModal from './Subscription/SuccessModal';
 
-const PtbProfile = () => {
+const PtbProfile = ({route}) => {
   const navigation = useNavigation();
+  const [successModal, setSuccessModal] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [threeOption, setThreeOption] = useState([]);
@@ -105,6 +107,11 @@ const PtbProfile = () => {
       dispatch(getPaymentRequestList());
     }, [dispatch]),
   );
+  useEffect(() => {
+    if (route.params?.isPlanChanged || route.params?.isPlanUpgrade) {
+      setSuccessModal(true);
+    }
+  }, [route.params]);
   const LogoutLoadingRef = useRef(false);
   const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
     state => state.Auth,
@@ -508,6 +515,16 @@ const PtbProfile = () => {
           setShowModal(false);
         }}
       />
+      {Platform.OS === 'android' && successModal && (
+        <SuccessModal
+          successModal={successModal}
+          setSuccessModal={setSuccessModal}
+          selectCheckBox={route.params?.selectCheckBox}
+          isPlanChanged={route.params?.isPlanChanged}
+          isPlanUpgrade={route.params?.isPlanUpgrade}
+          subscription={route.params?.subscription}
+        />
+      )}
     </>
   );
 };

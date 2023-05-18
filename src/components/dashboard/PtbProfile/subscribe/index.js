@@ -66,7 +66,7 @@ export const Subscribed = () => {
         Strings.Subscription.CancelSubParaIos,
         [
           {
-            text: capitalizeStr(Strings.Subscription.YesProceed),
+            text: capitalizeStr(Strings.Subscription.YesCancel),
             onPress: () => {
               Linking.openURL(cancelURL);
             },
