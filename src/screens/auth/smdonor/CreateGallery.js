@@ -361,7 +361,7 @@ const CreateGallery = () => {
                         source={
                           remove.includes(img.id)
                             ? Images.iconRadiosel
-                            : Images.iconRadiounsel
+                            : Images.RingWhite
                         }
                         style={styles.selectIcon}
                       />

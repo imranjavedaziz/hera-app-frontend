@@ -126,33 +126,37 @@ const HeraPay = () => {
     }, [account_status_success, account_status_loading, account_status_res]),
   );
   //Get Bank List
-  useEffect(() => {
-    if (getBankListResponse?.status === GET_BANK_LIST.START) {
-      dispatch(showAppLoader());
-    } else if (getBankListResponse?.status === GET_BANK_LIST.SUCCESS) {
-      let info = getBankListResponse?.info;
-      setData(info?.data);
-      dispatch(hideAppLoader());
-    } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
-      let error = getBankListResponse?.error ?? 'Something went wrong';
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(true, error));
-    }
-  }, [getBankListResponse]);
+  useFocusEffect(
+    useCallback(() => {
+      if (getBankListResponse?.status === GET_BANK_LIST.START) {
+        dispatch(showAppLoader());
+      } else if (getBankListResponse?.status === GET_BANK_LIST.SUCCESS) {
+        let info = getBankListResponse?.info;
+        setData(info?.data);
+        dispatch(hideAppLoader());
+      } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
+        let error = getBankListResponse?.error ?? 'Something went wrong';
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(true, error));
+      }
+    }, [getBankListResponse]),
+  );
   //Get Card List
-  useEffect(() => {
-    if (getCardListResponse?.status === GET_CARD_LIST.START) {
-      dispatch(showAppLoader());
-    } else if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
-      let info = getCardListResponse?.info;
-      setData(info?.data);
-      dispatch(hideAppLoader());
-    } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
-      let error = getCardListResponse?.info ?? 'Something went wrong';
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(false, error));
-    }
-  }, [getCardListResponse]);
+  useFocusEffect(
+    useCallback(() => {
+      if (getCardListResponse?.status === GET_CARD_LIST.START) {
+        dispatch(showAppLoader());
+      } else if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
+        let info = getCardListResponse?.info;
+        setData(info?.data);
+        dispatch(hideAppLoader());
+      } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
+        let error = getCardListResponse?.info ?? 'Something went wrong';
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, error));
+      }
+    }, [getCardListResponse]),
+  );
   //Delete Bank or Card
 
   useEffect(() => {
@@ -469,10 +473,7 @@ const HeraPay = () => {
               style={[
                 styles.addCardContainer,
                 {
-                  marginTop:
-                    log_in_data?.role_id === 2
-                      ? dynamicSize(Value.CONSTANT_VALUE_15)
-                      : dynamicSize(Value.CONSTANT_VALUE_6),
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
                   marginLeft: dynamicSize(35),
                 },
               ]}>

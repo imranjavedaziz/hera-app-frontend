@@ -148,10 +148,10 @@ const PaymentSent = ({route}) => {
     inputRefs.current.focus();
   };
   return (
-    <KeyboardAvoidingView
-      style={[styles.flex, {marginBottom: 45}]}
-      behavior={Platform.OS === 'ios' && 'padding'}>
-      <View style={styles.flex}>
+    <View style={styles.flex}>
+      <KeyboardAvoidingView
+        style={[styles.flex]}
+        behavior={Platform.OS === 'ios' && 'padding'}>
         <Header end={false}>{headerComp()}</Header>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
@@ -197,8 +197,8 @@ const PaymentSent = ({route}) => {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 

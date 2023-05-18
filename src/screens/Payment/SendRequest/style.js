@@ -10,11 +10,17 @@ import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
 
-export default StyleSheet.create({
+export default {
   androidMainContainer: {
     flex: 1,
     justifyContent: Alignment.FLEX_START,
     marginTop: statusHide(Value.CONSTANT_VALUE_105),
+    paddingHorizontal: 25,
+  },
+  flex: {
+    flex: 1,
+    backgroundColor: Colors.BACKGROUND,
+    // justifyContent: Alignment.SPACE_BETWEEN,
   },
   title: {
     color: Colors.BLACK,
@@ -96,4 +102,4 @@ export default StyleSheet.create({
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 1.8,
   },
-});
+};

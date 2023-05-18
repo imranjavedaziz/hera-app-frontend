@@ -289,7 +289,7 @@ const SmDonorSettings = () => {
 
   return (
     <>
-      <SafeAreaView style={Styles.flex}>
+      <View style={Styles.flex}>
         <Header end={false}>{headerComp()}</Header>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={Styles.androidHeaderContainer}>
@@ -414,7 +414,7 @@ const SmDonorSettings = () => {
           </View>
           {disable && <View style={Styles.disableing} />}
         </ScrollView>
-      </SafeAreaView>
+      </View>
       <ActionSheet
         ref={actionSheet}
         options={threeOption}

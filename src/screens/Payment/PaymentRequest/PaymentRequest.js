@@ -248,6 +248,15 @@ const PaymentRequest = () => {
               refreshing={isRefreshing}
               onRefresh={onRefresh}
               showsVerticalScrollIndicator={false}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    marginBottom: 40,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                />
+              )}
             />
           </View>
         )}

@@ -42,11 +42,11 @@ const VideoUploading = props => {
   }, []);
   const IMG_CONDI = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
-    : Images.iconWhite;
+    : Images.RingWhite;
 
   const IMG_CONDITWO = props?.remove?.includes(props?.video?.id)
     ? Images.iconRadiosel
-    : Images.iconWhite;
+    : Images.RingWhite;
   let boolTrue = true;
   return (
     <TouchableOpacity

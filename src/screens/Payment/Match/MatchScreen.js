@@ -160,6 +160,14 @@ const MatchScreen = () => {
               showsVerticalScrollIndicator={false}
               onRefresh={onRefresh}
               refreshing={isRefreshing}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    marginBottom: 40,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}></View>
+              )}
             />
           )}
           {_.isEmpty(allUser) && !get_match_list_loading && (

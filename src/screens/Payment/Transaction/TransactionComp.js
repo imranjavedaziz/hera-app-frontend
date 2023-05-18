@@ -4,7 +4,11 @@ import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
 import {Routes} from '../../../constants/Constants';
-import {formatDigit, getCardImage} from '../../../utils/commonFunction';
+import {
+  formatDigit,
+  getCardImage,
+  getRequestTime,
+} from '../../../utils/commonFunction';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
 import {width} from '../../../utils/responsive';
@@ -57,7 +61,9 @@ export const TransactionItem = ({item}) => {
             </Text>
           )}
           <Text style={styles.transDate}>
-            {moment(item?.created_at).calendar()}
+            {`${getRequestTime(item.created_at)} ${moment(
+              item.created_at,
+            ).format('h:mm A')}`}
           </Text>
         </View>
       </View>

@@ -46,6 +46,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 2.8,
     textTransform: 'uppercase',
+    color: Colors.BLACK,
   },
   transId: {
     marginBottom: Value.CONSTANT_VALUE_15,
