@@ -1,4 +1,3 @@
-
 import {Alert, BackHandler, Platform} from 'react-native';
 
 import {Routes} from '../constants/Constants';
@@ -308,10 +307,9 @@ export const digitBeforeDecimal = (txt, maxToEight = true) => {
   let updatedTxt = txt.replace(/,/g, '');
   let formatted = parseFloat(updatedTxt);
 
-  if(Platform.OS==='android'){
-    formatted = formatted?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  }
-  else{
+  if (Platform.OS === 'android') {
+    formatted = formatted?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  } else {
     formatted = formatted?.toLocaleString('en-US', {
       maximumFractionDigits: 2,
       minimumFractionDigits: 0,

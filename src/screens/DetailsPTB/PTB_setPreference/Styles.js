@@ -214,7 +214,7 @@ export default {
     fontFamily: Fonts.OpenSansBold,
   },
   errMessage: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -226,7 +226,7 @@ export default {
     right: 0,
   },
   errLooking: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,

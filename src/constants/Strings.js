@@ -129,7 +129,7 @@ export const ValidationMessages = {
   AMOUNT: 'Pleease enter amount',
   AMOUNT_VALID: 'Pleease enter a valid amount',
   AMOUNT_POSITIVE: 'Pleease enter a positive amount',
-  AMOUNT_MAX: 'Amount is beyond the max limit i.e. 999,999.9$',
+  AMOUNT_MAX: 'Amount is beyond the max limit i.e. $999,999.9',
   CONFIRM_PAYMENT: 'Confirm Payment?',
   YES_CONFIRM: 'Yes, Confirm',
   CONFIRM_PAYMENT_DIS: 'Once you proceed with the payment, we will deduct $',
@@ -624,6 +624,11 @@ export default {
       'After you have matched, You can send payments to them using HERA Pay.',
     SM_NO_MATCH:
       'After you have matched, You can request for payment from Intended Parents using HERA Pay.',
+    BANK_NOT_ADDED: 'Please add your bank details to request for a payment.',
+    BANK_INCOMPLETE:
+      'You can request for a payment, once your bank KYC has been submitted.',
+    BANK_UNVERIFIED:
+      'You can request for a payment, once your bank KYC has been verified.',
   },
   Match_Screen: {
     Send_Payment: 'Send Payment',

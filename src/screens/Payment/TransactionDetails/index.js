@@ -11,7 +11,7 @@ import {TransactionStatusCircle, Seperator} from './TransactionDetailsComp';
 import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
-import {formatDigit} from '../../../utils/commonFunction';
+import {formatDigit, getRequestTime} from '../../../utils/commonFunction';
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const redirectTo = route?.params?.redirectTo || '';
@@ -62,7 +62,7 @@ const TransactionDetails = ({route}) => {
       safeAreViewStyle={{backgroundColor: Colors.BACKGROUND}}>
       <View style={styles.flex}>
         <View style={styles.mainContainer}>
-          <View style={{marginVertical: 30}}>
+          <View>
             <Image
               source={{uri: route?.params?.profile_pic}}
               style={styles.userImg}
@@ -80,7 +80,7 @@ const TransactionDetails = ({route}) => {
           {route?.params?.role !== 2 && (
             <Text style={styles.heading}>
               {Strings.TransDetail.paymentFrom
-                .replace('{AMOUNT}', route?.params?.amount)
+                .replace('{AMOUNT}', formatDigit(route?.params?.amount))
                 .replace('{USER_NAME}', route?.params?.username)}
             </Text>
           )}
@@ -150,7 +150,7 @@ const TransactionDetails = ({route}) => {
                 numberOfLines={2}
                 style={[
                   styles.transDetail,
-                  {width: '70%', fontFamily: Fonts.OpenSansBold},
+                  {width: '65%', fontFamily: Fonts.OpenSansBold},
                 ]}
                 onPress={() => handleCopyPaymentIntent()}>
                 {route?.params?.payment_intent}
@@ -175,7 +175,7 @@ const TransactionDetails = ({route}) => {
                   style={[
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold, fontSize: 16},
-                  ]}>{`●●●● ${route?.params.last4}`}</Text>
+                  ]}>{` ●●●● ${route?.params.last4}`}</Text>
               </View>
             )}
             {route?.params?.role !== 2 && (
@@ -191,7 +191,7 @@ const TransactionDetails = ({route}) => {
                   style={[
                     styles.transDetail,
                     {fontFamily: Fonts.OpenSansBold, fontSize: 16},
-                  ]}>{`●●●● ${route?.params.bank_last4} (${route?.params.bank_name})`}</Text>
+                  ]}>{` ●●●● ${route?.params.bank_last4} (${route?.params.bank_name})`}</Text>
               </View>
             )}
             <View style={styles.bottomRow}>
@@ -203,7 +203,9 @@ const TransactionDetails = ({route}) => {
                   styles.transDetail,
                   {fontFamily: Fonts.OpenSansBold, fontSize: 16},
                 ]}>
-                {moment(route?.params.created_at).calendar()}
+                {`${getRequestTime(route?.params.created_at)} ${moment(
+                  route?.params.created_at,
+                ).format('h:mm A')}`}
               </Text>
             </View>
             {route?.params?.role !== 2 && (

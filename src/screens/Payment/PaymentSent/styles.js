@@ -19,7 +19,7 @@ export default {
     marginRight: Value.CONSTANT_VALUE_30,
   },
   mainContainer: {
-    flex: Value.CONSTANT_VALUE_1,
+    flex: 0,
     marginTop: statusHide(105),
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
@@ -100,6 +100,12 @@ export default {
     marginTop: scaleHeight(Value.CONSTANT_VALUE_50),
     marginHorizontal: Value.CONSTANT_VALUE_15,
   },
+  bottonView: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   btnText: {
     textAlign: Alignment.CENTER,
     color: Colors.COLOR_535858,
@@ -109,7 +115,7 @@ export default {
   },
   bottonFloat: {
     alignItems: Alignment.CENTER,
-    flex: 1,
+    flex: 0,
     justifyContent: Alignment.FLEXEND,
     alignSelf: Alignment.CENTER,
   },

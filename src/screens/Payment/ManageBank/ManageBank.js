@@ -79,18 +79,21 @@ const ManageBank = ({route}) => {
       dispatch(showAppLoader());
       if (account_status_success) {
         if (
-          getKycStatusFunction(account_status_res?.kyc_status) ===
-            Strings.Hera_Pay.KYC_INCOMPLETE ||
-          getKycStatusFunction(account_status_res?.kyc_status) ===
-            Strings.Hera_Pay.KYC_REJECTED
+          account_status_res?.kyc_status === 'incomplete' ||
+          account_status_res?.kyc_status === 'unverified'
         ) {
-          replace(Routes.KycScreen, {redirectTo});
+          replace(Routes.KycScreen);
           setDisable(false);
+          dispatch(hideAppLoader());
+          if (!Item && Item === undefined && _.isEmpty(Item)) {
+            dispatch({type: ADD_BANK.CLEAN});
+          }
         } else {
-          navigation.navigate(redirectTo !== '' ? redirectTo : Routes.HeraPay);
+          navigation.navigate(Routes.HeraPay);
           setDisable(false);
+          dispatch(hideAppLoader());
+          dispatch({type: ADD_BANK.CLEAN});
         }
-        dispatch(hideAppLoader());
       }
       if (account_status_fail) {
         setDisable(false);
@@ -106,7 +109,7 @@ const ManageBank = ({route}) => {
     if (deleteBankResponse?.status === DELETE_BANK.START) {
       dispatch(showAppLoader());
     } else if (deleteBankResponse?.status === DELETE_BANK.SUCCESS) {
-      dispatch(hideAppLoader());
+      dispatch({type: ADD_BANK.CLEAN});
       dispatch({type: DELETE_BANK.CLEAN});
     } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
       setDisable(false);
@@ -121,6 +124,7 @@ const ManageBank = ({route}) => {
 
   useEffect(() => {
     if (addBanks?.status === ADD_BANK.START) {
+      dispatch(showAppLoader());
     } else if (addBanks?.status === ADD_BANK.SUCCESS) {
       dispatch(getAccountStatus());
       const token = addBanks.info.id;
@@ -131,11 +135,7 @@ const ManageBank = ({route}) => {
       dispatch(bank_update(payload));
       if (Item && Item !== undefined && !_.isEmpty(Item)) {
         dispatch(deleteBank(Item));
-      } else {
-        dispatch(hideAppLoader());
       }
-      dispatch(hideAppLoader());
-      dispatch({type: ADD_BANK.CLEAN});
     } else if (addBanks?.status === ADD_BANK.FAIL) {
       setDisable(false);
       dispatch(hideAppLoader());

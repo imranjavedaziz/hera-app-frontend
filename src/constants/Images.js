@@ -138,4 +138,5 @@ export default {
   RejectPayment: require('../assets/icons/rejected/rejected.png'),
   BlueWarning: require('../assets/icons/blueWarning/warning.png'),
   webIcon: require('../assets/icons/webIcon/webIcon.png'),
+  RingWhite: require('../assets/icons/RingWhite/RingWhite.png'),
 };

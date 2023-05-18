@@ -148,47 +148,48 @@ const PaymentSent = ({route}) => {
     inputRefs.current.focus();
   };
   return (
-    <KeyboardAvoidingView
-      style={[styles.flex, {marginBottom: 45}]}
-      behavior={Platform.OS === 'ios' && 'padding'}>
-      <View style={styles.flex}>
-        <Header end={false}>{headerComp()}</Header>
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          enableAutoAutomaticScroll={true}
-          keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
-          contentContainerStyle={styles.flex}
-          showsVerticalScrollIndicator={false}
-          ref={scrollRef}>
-          <View style={styles.mainContainer}>
-            <Text style={styles.mainText}>{Strings.PaymentSent.SendTo}</Text>
-            <Image
-              style={styles.profileImg}
-              source={{uri: params?.profile_pic}}
+    <View style={styles.flex}>
+      <Header end={false}>{headerComp()}</Header>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        enableAutoAutomaticScroll={true}
+        keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
+        contentContainerStyle={styles.flex}
+        showsVerticalScrollIndicator={false}
+        ref={scrollRef}>
+        <View style={styles.mainContainer}>
+          <Text style={styles.mainText}>{Strings.PaymentSent.SendTo}</Text>
+          <Image
+            style={styles.profileImg}
+            source={{uri: params?.profile_pic}}
+          />
+          <Text style={styles.userName}>#{params?.username}</Text>
+          <Text style={styles.type}>{getRoleData(params?.role_id)}</Text>
+          <View style={styles.rowView}>
+            <Text style={styles.dollar}>{Strings.PaymentSent.dollar}</Text>
+            <TextInput
+              ref={inputRefs}
+              autoFocus={false}
+              style={styles.textInputStyle}
+              onFocus={focusTextInput}
+              keyboardType="numeric"
+              value={amount}
+              onChangeText={handleAmountChange}
+              maxLength={7}
+              editable={!route?.params?.amount ? true : false}
             />
-            <Text style={styles.userName}>#{params?.username}</Text>
-            <Text style={styles.type}>{getRoleData(params?.role_id)}</Text>
-            <View style={styles.rowView}>
-              <Text style={styles.dollar}>{Strings.PaymentSent.dollar}</Text>
-              <TextInput
-                ref={inputRefs}
-                autoFocus={false}
-                style={styles.textInputStyle}
-                onFocus={focusTextInput}
-                keyboardType="numeric"
-                value={amount}
-                onChangeText={handleAmountChange}
-                maxLength={7}
-                editable={!route?.params?.amount ? true : false}
-              />
-            </View>
-            <View style={styles.rowStyle}>
-              <Text style={styles.star}>*</Text>
-              <Text style={styles.addProcess}>
-                {Strings.PaymentSent.AdditionalCharges}
-              </Text>
-            </View>
           </View>
+          <View style={styles.rowStyle}>
+            <Text style={styles.star}>*</Text>
+            <Text style={styles.addProcess}>
+              {Strings.PaymentSent.AdditionalCharges}
+            </Text>
+          </View>
+        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.bottonView}
+          keyboardVerticalOffset={40}>
           <View style={styles.bottonFloat}>
             <TouchableOpacity
               onPress={() => onSubmit()}
@@ -196,9 +197,9 @@ const PaymentSent = ({route}) => {
               <Text style={styles.btnText}>{Strings.PaymentSent.PROCEED}</Text>
             </TouchableOpacity>
           </View>
-        </KeyboardAwareScrollView>
-      </View>
-    </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
+    </View>
   );
 };
 

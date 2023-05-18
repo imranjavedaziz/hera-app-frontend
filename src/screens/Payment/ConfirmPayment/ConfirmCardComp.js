@@ -34,7 +34,11 @@ const ConfirmCardComp = ({number, Time, Icon, index, onPress, value, Data}) => {
             }
           />
           <View style={styles.cardsContainer}>
-            <Image source={getCardImage(Icon)} style={styles.cardImg} />
+            <Image
+              source={getCardImage(Icon)}
+              style={styles.cardImg}
+              resizeMode="contain"
+            />
             <View style={{marginLeft: dynamicSize(Value.CONSTANT_VALUE_11)}}>
               <Text style={styles.cardNo}>{number}</Text>
               <Text style={styles.cardTime}>{Time}</Text>

@@ -85,7 +85,7 @@ export default {
     zIndex: Value.CONSTANT_VALUE_2,
   },
   errMessage: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -97,7 +97,7 @@ export default {
     right: 0,
   },
   errUserType: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -109,7 +109,7 @@ export default {
     right: 0,
   },
   errMessageEd: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -121,7 +121,7 @@ export default {
     right: 0,
   },
   errMessageEdCheck: {
-    color: 'red',
+    color: Colors.RED,
     textAlign: Alignment.RIGHT,
     marginTop: Value.CONSTANT_VALUE_5,
     fontSize: Value.CONSTANT_VALUE_14,
@@ -155,7 +155,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     marginHorizontal: Value.CONSTANT_VALUE_0,
     width: Prencentage.PRECENTAGE_90,
-    marginTop:10
+    marginTop: 10,
   },
   linebelow: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
@@ -164,7 +164,7 @@ export default {
   linebelowFloat: {
     borderBottomWidth: Value.CONSTANT_VALUE_2,
   },
-  red: {color: 'red'},
+  red: {color: Colors.RED},
   left: {left: '90%'},
   //CHanges
   firstName: {

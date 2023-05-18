@@ -145,10 +145,10 @@ const Chat_listing_Comp = props => {
                   numberOfLines={2}
                   style={
                     read === 0
-                      ? smMatchMsg
+                      ? smMatchMsg || styleMatchOneMsg || msgShare
                         ? [styles.msg, {fontStyle: 'italic'}]
                         : styles.msg
-                      : smMatchMsg
+                      : smMatchMsg || styleMatchOneMsg || msgShare
                       ? [styles.msgRead, {fontStyle: 'italic'}]
                       : styles.msgRead
                   }>

@@ -2,7 +2,7 @@ import {Text, View, TouchableOpacity, Image, Switch} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './style';
-import {Images, Strings} from '../../../../constants';
+import {Colors, Images, Strings} from '../../../../constants';
 import {toggleNotification} from '../../../../redux/actions/Edit_profile';
 
 const PtbAccount = ({leftIcon, title, onPress, BlueDot, RedDot, Pending}) => {
@@ -68,7 +68,7 @@ export const ToggleNotification = () => {
         </View>
       </View>
       <Text style={[styles.toggle, {marginLeft: 33, marginTop: 5}]}>
-        <Text style={{color: 'red'}}>*</Text>
+        <Text style={{color:  Colors.RED}}>*</Text>
         {user?.role_id === 2
           ? Strings.PTB_Profile.ReceiveNotiDesc
           : Strings.PTB_Profile.ReceiveNotiDescSM}

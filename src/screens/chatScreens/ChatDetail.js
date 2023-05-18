@@ -192,7 +192,7 @@ const ChatDetail = props => {
             flex: 1,
             position: 'absolute',
             bottom: Platform.OS === 'ios' ? -3 : 0,
-            backgrroundColor: 'red',
+            backgrroundColor: Colors.RED,
             right: -95,
           }}>
           <TouchableOpacity
@@ -404,31 +404,18 @@ const ChatDetail = props => {
         props?.route?.params?.account_status_res?.bank_account === null ||
         props?.route?.params?.account_status_res?.bank_account === ''
       ) {
-        dispatch(
-          showAppToast(
-            true,
-            'Please add your bank details to request for a payment.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_NOT_ADDED));
       } else if (
         props?.route?.params?.account_status_res?.kyc_status === 'incomplete'
       ) {
-        dispatch(
-          showAppToast(
-            true,
-            'You can request for a payment, once your bank KYC has been submitted.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_INCOMPLETE));
       } else if (
         props?.route?.params?.account_status_res?.kyc_status === 'pending' ||
         props?.route?.params?.account_status_res?.kyc_status === 'rejected'
       ) {
-        dispatch(
-          showAppToast(
-            true,
-            'You can request for a payment, once your bank KYC has been verified.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_UNVERIFIED));
+      } else {
+        dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
       }
     }
   };

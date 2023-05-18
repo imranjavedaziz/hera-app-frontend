@@ -40,6 +40,7 @@ import {getAccountStatus} from '../../../../redux/actions/AccountStatus';
 import {monthGet} from '../../../../utils/commonFunction';
 import getKycStatusFunction from '../../../../utils/getkycStatusFunc';
 import {getPaymentRequestList} from '../../../../redux/actions/Payment';
+import {ValidationMessages} from '../../../../constants/Strings';
 
 const HeraPay = () => {
   const navigation = useNavigation();
@@ -125,33 +126,37 @@ const HeraPay = () => {
     }, [account_status_success, account_status_loading, account_status_res]),
   );
   //Get Bank List
-  useEffect(() => {
-    if (getBankListResponse?.status === GET_BANK_LIST.START) {
-      dispatch(showAppLoader());
-    } else if (getBankListResponse?.status === GET_BANK_LIST.SUCCESS) {
-      let info = getBankListResponse?.info;
-      setData(info?.data);
-      dispatch(hideAppLoader());
-    } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
-      let error = getBankListResponse?.error ?? 'Something went wrong';
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(true, error));
-    }
-  }, [getBankListResponse]);
+  useFocusEffect(
+    useCallback(() => {
+      if (getBankListResponse?.status === GET_BANK_LIST.START) {
+        dispatch(showAppLoader());
+      } else if (getBankListResponse?.status === GET_BANK_LIST.SUCCESS) {
+        let info = getBankListResponse?.info;
+        setData(info?.data);
+        dispatch(hideAppLoader());
+      } else if (getBankListResponse?.status === GET_BANK_LIST.FAIL) {
+        let error = getBankListResponse?.error ?? 'Something went wrong';
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(true, error));
+      }
+    }, [getBankListResponse]),
+  );
   //Get Card List
-  useEffect(() => {
-    if (getCardListResponse?.status === GET_CARD_LIST.START) {
-      dispatch(showAppLoader());
-    } else if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
-      let info = getCardListResponse?.info;
-      setData(info?.data);
-      dispatch(hideAppLoader());
-    } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
-      let error = getCardListResponse?.info ?? 'Something went wrong';
-      dispatch(hideAppLoader());
-      dispatch(showAppToast(false, error));
-    }
-  }, [getCardListResponse]);
+  useFocusEffect(
+    useCallback(() => {
+      if (getCardListResponse?.status === GET_CARD_LIST.START) {
+        dispatch(showAppLoader());
+      } else if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
+        let info = getCardListResponse?.info;
+        setData(info?.data);
+        dispatch(hideAppLoader());
+      } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
+        let error = getCardListResponse?.info ?? 'Something went wrong';
+        dispatch(hideAppLoader());
+        dispatch(showAppToast(false, error));
+      }
+    }, [getCardListResponse]),
+  );
   //Delete Bank or Card
 
   useEffect(() => {
@@ -226,43 +231,25 @@ const HeraPay = () => {
       navigation.navigate(Routes.MatchScreen);
     } else {
       if (
-        KycUpdated === false ||
-        (account_status_res.bank_account &&
-          getKycStatusFunction(account_status_res?.kyc_status) ===
-            Strings.Hera_Pay.KYC_VERIFYIED)
+        account_status_res.bank_account &&
+        account_status_res?.kyc_status === 'verified'
       ) {
         navigation.navigate(Routes.MatchScreen);
       } else if (_.isEmpty(Data) || Data === null) {
-        dispatch(
-          showAppToast(
-            true,
-            'Please add your bank details to request for a payment.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_NOT_ADDED));
       } else if (
         KycUpdated === true &&
         KycStatus !== null &&
-        getKycStatusFunction(account_status_res?.kyc_status) ===
-          Strings.Hera_Pay.KYC_INCOMPLETE
+        account_status_res?.kyc_status === 'incomplete'
       ) {
-        dispatch(
-          showAppToast(
-            true,
-            'You can request for a payment, once your bank KYC has been submitted.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_INCOMPLETE));
       } else if (
-        getKycStatusFunction(account_status_res?.kyc_status) ===
-          Strings.Hera_Pay.KYC_PENDING ||
-        getKycStatusFunction(account_status_res?.kyc_status) ===
-          Strings.Hera_Pay.KYC_REJECTED
+        account_status_res?.kyc_status === 'pending' ||
+        account_status_res?.kyc_status === 'unverified'
       ) {
-        dispatch(
-          showAppToast(
-            true,
-            'You can request for a payment, once your bank KYC has been verified.',
-          ),
-        );
+        dispatch(showAppToast(true, Strings.Hera_Pay.BANK_UNVERIFIED));
+      } else {
+        dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
       }
     }
   };
@@ -486,10 +473,7 @@ const HeraPay = () => {
               style={[
                 styles.addCardContainer,
                 {
-                  marginTop:
-                    log_in_data?.role_id === 2
-                      ? dynamicSize(Value.CONSTANT_VALUE_15)
-                      : dynamicSize(Value.CONSTANT_VALUE_6),
+                  marginTop: dynamicSize(Value.CONSTANT_VALUE_15),
                   marginLeft: dynamicSize(35),
                 },
               ]}>

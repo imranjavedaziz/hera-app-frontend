@@ -33,7 +33,7 @@ export default {
     borderColor: Colors.WHITE,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    top: Value.CONSTANT_VALUE_0,
+    top: -10,
     right: Value.CONSTANT_VALUE_0,
     position: Alignment.ABSOLUTE,
   },
@@ -93,7 +93,8 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
     color: Colors.COLOR_535858,
-    marginBottom: Value.CONSTANT_VALUE_40,
+    marginBottom: Value.CONSTANT_VALUE_16,
+    marginTop: Value.CONSTANT_VALUE_20,
   },
   spaceBetween: {
     flex: Value.CONSTANT_VALUE_1,

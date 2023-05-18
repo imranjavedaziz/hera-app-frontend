@@ -29,7 +29,12 @@ export const TransactionStatusCircle = React.memo(({status = 0}) => {
             source={Images.WARNING_RED}
             style={[
               styles.statusIcon,
-              {tintColor: Colors.RED, backgroundColor: Colors.WHITE},
+              {
+                tintColor: Colors.RED,
+                width: '100%',
+                height: '100%',
+                backgroundColor: Colors.WHITE,
+              },
             ]}
           />
         </View>
