@@ -20,7 +20,7 @@ export default {
   },
   mainContainer: {
     flex: 0,
-    marginTop: statusHide(105),
+    marginTop: statusHide(95),
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.FLEX_START,
   },
