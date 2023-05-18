@@ -185,10 +185,9 @@ const Main = () => {
           screenListeners={{
             state: e => {
               const navState = e.data.state;
-              console.log('screenListeners navState', JSON.stringify(navState));
               if (
                 navState.routes[navState.index].name === Routes.Landing ||
-                firstLaunch
+                navState.routes[navState.index].name === Routes.WalkThrough
               ) {
                 setShowSafeArea(false);
               } else {
