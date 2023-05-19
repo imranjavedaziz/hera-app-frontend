@@ -5,6 +5,7 @@ import {
   Platform,
   ScrollView,
   Alert,
+  RefreshControl
 } from 'react-native';
 import React, {
   useState,
@@ -77,6 +78,7 @@ const PtbProfile = ({route}) => {
   const loadingGalleryRef = useRef(false);
   const [avaiableVideo, setVideoAviable] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isRefreshing, setRefreshing] = useState(false);
   const GetLoadingRef = useRef(false);
   const first_name = useSelector(state => state?.Auth?.user?.first_name);
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
@@ -99,12 +101,15 @@ const PtbProfile = ({route}) => {
   const {get_payment_request_list_success, get_payment_request_list_res} =
     useSelector(state => state.Payment);
   const {Device_ID} = useContext(NotificationContext);
+  const callAllApis = ()=>{
+    dispatch(getSubscriptionStatus());
+    dispatch(getEditProfile());
+    dispatch(getUserGallery());
+    dispatch(getPaymentRequestList());
+  }
   useFocusEffect(
     useCallback(() => {
-      dispatch(getEditProfile());
-      dispatch(getSubscriptionStatus());
-      dispatch(getUserGallery());
-      dispatch(getPaymentRequestList());
+      callAllApis();
     }, [dispatch]),
   );
   useEffect(() => {
@@ -160,6 +165,7 @@ const PtbProfile = ({route}) => {
       if (GetLoadingRef.current && !get_user_detail_loading) {
         dispatch(showAppLoader());
         if (get_user_detail_success) {
+          setRefreshing(false);
           const data = {
             first_name: get_user_detail_res.first_name,
             last_name: get_user_detail_res.last_name,
@@ -170,6 +176,7 @@ const PtbProfile = ({route}) => {
           dispatch(hideAppLoader());
         }
         if (get_user_detail_error) {
+          setRefreshing(false);
           dispatch(hideAppLoader());
         }
       }
@@ -323,7 +330,13 @@ const PtbProfile = ({route}) => {
         <Header end={false}>{headerComp()}</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled">
+          keyboardShouldPersistTaps="handled"
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={()=>{
+              setRefreshing(true);
+              callAllApis();
+            }} />
+          }>
           <View style={styles.andMainContainer}>
             <View style={styles.imgView}>
               <ProfileImage
