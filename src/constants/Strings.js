@@ -525,6 +525,8 @@ export default {
     Click Cancel Subscription.`,
     CancelSubParaAndroid: `If you cancel the subscription, you will not be able to send a like, match or chat with any profile.`,
     NotProcessed: 'Subscription could not be processed.',
+    SubRemoved: 'Subscription Removed!',
+    SubRemovedPara: 'Your subscription is now cancelled. No amount will be further diducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
   },
   Chat: {
     Chat: 'CHAT',

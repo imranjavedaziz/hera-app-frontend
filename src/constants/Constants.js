@@ -127,7 +127,7 @@ export const Fonts = {
   OpenSansItalic: 'OpenSans-Italic',
   OpenSansLight: 'OpenSans-Light',
   OpenSansLightItalic: 'OpenSans-LightItalic',
-  OpenSansRegular: 'OpenSans',
+  OpenSansRegular: Platform.OS==='ios'?'OpenSans':'OpenSans-Regular',
   OpenSansSemibold: 'OpenSans-Semibold',
   OpenSansSemiboldItalic: 'OpenSans-SemiboldItalic',
 };

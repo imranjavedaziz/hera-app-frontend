@@ -55,6 +55,10 @@ export const CancelSubscription = ({
   changeModal,
   setChangeModal,
   handleCanncel,
+  showSingleButton = false,
+  title = Strings.Subscription.CancelSub,
+  para = Strings.Subscription.CancelSubParaAndroid,
+  btnTxt = capitalizeStr(Strings.Subscription.YesCancel),
 }) => {
   return (
     <Modal
@@ -71,34 +75,42 @@ export const CancelSubscription = ({
         />
         <View style={styles.changeModalBox}>
           <Text style={styles.changeModalTitle} numberOfLines={1}>
-            {Strings.Subscription.CancelSub}
+            {title}
           </Text>
-          <Text style={styles.changeModalPara}>
-            {Platform.select({
-              ios: Strings.Subscription.CancelSubParaIos,
-              android: Strings.Subscription.CancelSubParaAndroid,
-            })}
-          </Text>
+          <Text style={styles.changeModalPara}>{para}</Text>
           <Pressable
-            style={styles.changeModalBtn}
+            style={[
+              styles.changeModalBtn,
+              showSingleButton
+                ? {backgroundColor: Colors.COLOR_A3C6C4, marginTop: 20}
+                : null,
+            ]}
             onPress={() => {
               setChangeModal(!changeModal);
               handleCanncel();
             }}>
-            <Text style={[styles.changeModalBtnTxt, {color: Colors.RED}]}>
-              {capitalizeStr(Strings.Subscription.YesCancel)}
+            <Text
+              style={[
+                styles.changeModalBtnTxt,
+                showSingleButton ? null : {color: Colors.RED},
+              ]}>
+              {btnTxt}
             </Text>
           </Pressable>
-          <View style={styles.seperator} />
-          <Pressable
-            style={styles.changeModalBtn}
-            onPress={() => {
-              setChangeModal(!changeModal);
-            }}>
-            <Text style={styles.changeModalBtnTxt}>
-              {Strings.Subscription.NotNow}
-            </Text>
-          </Pressable>
+          {!showSingleButton && (
+            <>
+              <View style={styles.seperator} />
+              <Pressable
+                style={styles.changeModalBtn}
+                onPress={() => {
+                  setChangeModal(!changeModal);
+                }}>
+                <Text style={styles.changeModalBtnTxt}>
+                  {Strings.Subscription.NotNow}
+                </Text>
+              </Pressable>
+            </>
+          )}
         </View>
       </View>
     </Modal>
@@ -109,7 +121,6 @@ const Subscription = () => {
   const [rolePlans, setRolePlans] = useState([]);
   const [modal, setModal] = useState(false);
   const [changeModal, setChangeModal] = useState(false);
-  const [successModal, setSuccessModal] = useState(false);
   const [isPlanUpgrade, setPlanUpgrade] = useState(false);
   const [isPlanChanged, setPlanChanged] = useState(false);
   const [selectCheckBox, setSelectCheckBox] = useState(null);
@@ -117,7 +128,6 @@ const Subscription = () => {
   const [androidCards, setCards] = useState([]);
   const IAPService = InAPPPurchase.getInstance();
   const loadingRef = React.useRef(false);
-  const [subscriptionPlan, setSubscriptionPlanRes] = useState([]);
   const [isCallApi, setCallApi] = useState(false);
   const {stripe_customer_id} = useSelector(state => state.Auth);
   const {getCardListResponse} = useSelector(store => store.getCardList);
@@ -135,6 +145,14 @@ const Subscription = () => {
   const subscriptionStatus = useSelector(
     state => state.Subscription?.subscription_status_res,
   );
+  const [formatedDate, setFormatDate] = useState('');
+  useEffect(() => {
+    if (subscriptionStatus?.data) {
+      setFormatDate(
+        moment(subscriptionStatus?.data?.trial_end).format('MMM DD, YYYY'),
+      );
+    }
+  }, [subscriptionStatus]);
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
@@ -150,24 +168,41 @@ const Subscription = () => {
     if (getCardListResponse?.status === GET_CARD_LIST.SUCCESS) {
       const info = getCardListResponse?.info;
       setCards(info?.data || []);
-      console.log('info?.data', JSON.stringify(info?.data));
     } else if (getCardListResponse?.status === GET_CARD_LIST.FAIL) {
       let error = getCardListResponse?.info ?? 'Something went wrong';
       dispatch(showAppToast(false, error));
     }
   }, [getCardListResponse]);
   useEffect(() => {
+    const sectionedPlan = [];
     if (loadingRef.current && !subscription_plan_loading) {
       if (subscription_plan_success) {
         dispatch(hideAppLoader());
-        setSubscriptionPlanRes(subscription_plan_res.data?.plan);
+        if (Array.isArray(subscription_plan_res?.data?.plan)) {
+          Strings?.STATIC_ROLE.forEach(r => {
+            const filteredData = subscription_plan_res?.data?.plan.filter(
+              i => i.role_id_looking_for === r.id,
+            );
+            if (filteredData.length > 0) {
+              sectionedPlan.push({
+                title: r.name,
+                data: filteredData,
+              });
+            }
+          });
+          setRolePlans(sectionedPlan);
+        }
       }
       dispatch(hideAppLoader());
     }
     loadingRef.current = subscription_plan_loading;
     dispatch(hideAppLoader());
-  }, [subscription_plan_success, subscription_plan_loading]);
-  const showChangeSuccessToast = () => {
+  }, [
+    subscription_plan_success,
+    subscription_plan_loading,
+    subscription_plan_res,
+  ]);
+  const showChangeSuccessToast = useCallback(() => {
     if (Platform.OS === 'ios') {
       Alert.alert(
         Strings.Subscription.SuccessChanged,
@@ -197,17 +232,12 @@ const Subscription = () => {
           },
         ],
       );
-    } else {
-      setSuccessModal(true);
     }
-  };
+  }, [isPlanChanged, selectCheckBox, subscription_plan_res]);
   useEffect(() => {
-    console.log('CHECKING CREATE SUB LINE NO 74');
     if (loadingRef.current && !create_subscription_loading) {
-      console.log('CHECKING CREATE SUB LINE NO 75');
       dispatch(showAppLoader());
       if (create_subscription_success) {
-        console.log('CHECKING CREATE SUB LINE NO 77');
         dispatch(getSubscriptionStatus());
         setCallApi(false);
         dispatch(hideAppLoader());
@@ -229,31 +259,36 @@ const Subscription = () => {
     isPlanChanged,
   ]);
 
-  const headerComp = () => (
-    <IconHeader
-      leftIcon={Images.circleIconBack}
-      leftPress={() => navigation.goBack()}
-      style={styles.headerIcon}
-      rightIcon={Images.I_CIRCLE}
-      rightPress={() => setModal(!modal)}
-      iIcon={{width: 35}}
-    />
+  const headerComp = useCallback(
+    () => (
+      <IconHeader
+        leftIcon={Images.circleIconBack}
+        leftPress={() => navigation.goBack()}
+        style={styles.headerIcon}
+        rightIcon={Images.I_CIRCLE}
+        rightPress={() => setModal(!modal)}
+        iIcon={{width: 35}}
+      />
+    ),
+    [modal],
   );
 
-  const selectCheckHandler = item => {
-    if (selectCheckBox === item) {
-      setSelectCheckBox(null);
-    } else {
-      setSelectCheckBox(item);
-    }
-  };
+  const selectCheckHandler = useCallback(
+    item => {
+      if (selectCheckBox === item) {
+        setSelectCheckBox(null);
+      } else {
+        setSelectCheckBox(item);
+      }
+    },
+    [selectCheckBox],
+  );
   useEffect(() => {
     if (isCallApi) {
       purchaseAPI(_purchasereceipt);
     }
   }, [isCallApi]);
-  const purchaseAPI = item => {
-    console.log('CHECKING CREATE SUB LINE NO 141', item);
+  const purchaseAPI = useCallback(item => {
     const payload = Platform.select({
       ios: {
         device_type: 'ios',
@@ -266,86 +301,49 @@ const Subscription = () => {
         purchase_token: item?.purchaseToken,
       },
     });
-    console.log('LINE NUMBER 143 PAYLOAD', payload);
     dispatch(createSubscription(payload));
-  };
+  }, []);
   useEffect(async () => {
-    IAPService.initializeConnection();
-    return () => {
-      IAPService.endIAPConnection();
-    };
+    if (Platform.OS === 'ios') {
+      IAPService.initializeConnection();
+      return () => {
+        IAPService.endIAPConnection();
+      };
+    }
   }, []);
 
-  const subscribePlan = (item, type) => {
-    if (item === null) {
-      dispatch(showAppToast(true, 'Please choose a plan!'));
-    } else if (Platform.OS === 'ios') {
-      console.log(
-        'LINE NUMBER IOS 134 item',
-        item,
-        selectCheckBox?.ios_product,
-      );
-      dispatch(showAppLoader());
-      requestSubscriptionIOS(selectCheckBox?.ios_product, selectCheckBox, type);
-    } else {
-      navigation.navigate(
-        androidCards.length > 0
-          ? Routes.ConfirmSubscription
-          : Routes.SubscriptionCard,
-        {
+  const subscribePlan = useCallback(
+    (item, type) => {
+      if (item === null) {
+        dispatch(showAppToast(true, 'Please choose a plan!'));
+      } else if (Platform.OS === 'ios') {
+        dispatch(showAppLoader());
+        requestSubscriptionIOS(
+          selectCheckBox?.ios_product,
           selectCheckBox,
-          isPlanChanged: isPlanChanged||isPlanUpgrade?isPlanChanged:true,
-          isPlanUpgrade,
-          subscription: subscription_plan_res?.data?.subscription,
-        },
-      );
-    }
-  };
-
-  const requestSubscriptionAndroid = async (sku, item, type) => {
-    const subscriptionOffers = {
-      subscriptionOffers: [
-        {
-          sku,
-          offerToken: item.offer_token,
-        },
-      ],
-    };
-    RNIap.requestSubscription(
-      {sku, ...subscriptionOffers},
-      subscriptionOffers.subscriptionOffers,
-    )
-      .then(async result => {
-        console.log('android purchase 215 line', result);
-        const receipt = result[0].transactionReceipt;
-        console.log('android purchase 217 line', result);
-        console.log(
-          'android purchase 218 line',
-          JSON.parse(receipt).purchaseToken,
+          type,
         );
-        if (receipt) {
-          try {
-            setPurchaseReceipt(result[0]);
-            setCallApi(true);
-            await RNIap.acknowledgePurchaseAndroid({
-              token: JSON.parse(receipt).purchaseToken,
-              developerPayload: '',
-            });
-            await RNIap.finishTransaction({result, isConsumable: true});
-          } catch (ackErr) {
-            console.log('ERROR LINE NO 101', ackErr);
-          }
-        }
-      })
-      .catch(err => {
-        console.warn(`IAP req ERROR %%%%% ${err.code}`, err.message);
-      })
-      .finally(() => dispatch(hideAppLoader()));
-  };
+      } else {
+        navigation.navigate(
+          androidCards.length > 0
+            ? Routes.ConfirmSubscription
+            : Routes.SubscriptionCard,
+          {
+            selectCheckBox,
+            isPlanChanged:
+              isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
+            isPlanUpgrade,
+            subscription: subscription_plan_res?.data?.subscription,
+          },
+        );
+      }
+    },
+    [selectCheckBox, isPlanChanged, isPlanUpgrade, subscription_plan_res],
+  );
+
   const requestSubscriptionIOS = async (sku, item, type) => {
     RNIap.requestSubscription({sku})
       .then(async result => {
-        console.log('IOS RESULT 185', result, 'Itemm', item, 'Type', type);
         try {
           const receipt = result.transactionReceipt;
           if (receipt) {
@@ -357,9 +355,8 @@ const Subscription = () => {
           }
         } catch (ackErr) {
           console.log('ERROR LINE NO 101', ackErr);
-        }
-        finally{
-          if(!(isPlanChanged||isPlanUpgrade)){
+        } finally {
+          if (!(isPlanChanged || isPlanUpgrade)) {
             setPlanChanged(true);
           }
         }
@@ -372,31 +369,7 @@ const Subscription = () => {
         }
       });
   };
-  console.log('subscriptionPlan?.data 254', subscriptionPlan);
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format(
-    'MMM DD, YYYY',
-  );
-  useEffect(() => {
-    const sectionedPlan = [];
-    console.log('subscription_plan_res?.data', subscription_plan_res?.data);
-    console.log('subscriptionStatus', subscriptionStatus);
-    if (Array.isArray(subscription_plan_res?.data?.plan)) {
-      Strings?.STATIC_ROLE.forEach(r => {
-        const filteredData = subscription_plan_res?.data?.plan.filter(
-          i => i.role_id_looking_for === r.id,
-        );
-        if (filteredData.length > 0) {
-          sectionedPlan.push({
-            title: r.name,
-            data: filteredData,
-          });
-        }
-      });
-      setRolePlans(sectionedPlan);
-      setSubscriptionPlanRes(subscription_plan_res?.data?.plan);
-    }
-  }, [subscription_plan_res]);
-  const showChangePlanToast = () => {
+  const showChangePlanToast = useCallback(() => {
     if (Platform.OS === 'ios') {
       const roleName = Strings?.STATIC_ROLE.find(
         r => r.id === selectCheckBox?.role_id_looking_for,
@@ -427,8 +400,8 @@ const Subscription = () => {
     } else {
       setChangeModal(true);
     }
-  };
-  const showUpgradePlanToast = () => {
+  }, [selectCheckBox]);
+  const showUpgradePlanToast = useCallback(() => {
     if (Platform.OS === 'ios') {
       Alert.alert(
         Strings.Subscription.ChangePlan,
@@ -456,8 +429,8 @@ const Subscription = () => {
     } else {
       setChangeModal(true);
     }
-  };
-  const handlePurchaseSubcription = () => {
+  }, [selectCheckBox, subscription_plan_res]);
+  const handlePurchaseSubcription = useCallback(() => {
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
     } else {
@@ -465,7 +438,7 @@ const Subscription = () => {
         navigation.navigate(Routes.SubscriptionCard, {
           redirectTo: Routes.Subscription,
           selectCheckBox,
-          isPlanChanged: (isPlanChanged||isPlanUpgrade)?isPlanChanged:true,
+          isPlanChanged: isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
           isPlanUpgrade,
           subscription: subscription_plan_res?.data?.subscription,
         });
@@ -489,7 +462,7 @@ const Subscription = () => {
         subscribePlan(selectCheckBox, 'credit');
       }
     }
-  };
+  }, [subscription_plan_res, androidCards, selectCheckBox]);
   return (
     <>
       <Container
@@ -700,7 +673,11 @@ const Subscription = () => {
                 setChangeModal(!changeModal);
               }}>
               <Text style={[styles.changeModalBtnTxt, {color: Colors.RED}]}>
-                {capitalizeStr(!isPlanChanged?Strings.Subscription.YesProceed:Strings.Subscription.YesCancel)}
+                {capitalizeStr(
+                  !isPlanChanged
+                    ? Strings.Subscription.YesProceed
+                    : Strings.Subscription.YesCancel,
+                )}
               </Text>
             </Pressable>
             <View style={styles.seperator} />
@@ -711,55 +688,6 @@ const Subscription = () => {
               }}>
               <Text style={styles.changeModalBtnTxt}>
                 {Strings.Subscription.NotNow}
-              </Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={successModal}
-        onRequestClose={() => {
-          setSuccessModal(!successModal);
-        }}>
-        <View style={styles.changeModalContainer}>
-          <TouchableOpacity
-            style={styles.changeModalBackdrop}
-            onPress={() => setSuccessModal(!successModal)}
-          />
-          <View style={styles.changeModalBox}>
-            <Text style={styles.changeModalTitle} numberOfLines={2}>
-              {Strings.Subscription.SuccessChanged}
-            </Text>
-            <Text style={styles.changeModalPara}>
-              {isPlanChanged
-                ? Strings.Subscription.SuccessChangedPara.replace(
-                    '{SELECTED_ROLE}',
-                    selectCheckBox == null
-                      ? '{SELECTED_ROLE}'
-                      : Strings?.STATIC_ROLE.find(
-                          r => r.id === selectCheckBox?.role_id_looking_for,
-                        ).name,
-                  )
-                : Strings.Subscription.SuccessUpgradePara.replace(
-                    '{DATE_END}',
-                    moment(
-                      subscription_plan_res?.data?.subscription
-                        ?.current_period_end,
-                      'YYYY-MM-DD',
-                    ).format('LL'),
-                  )}
-            </Text>
-            <Pressable
-              style={styles.changeModalBtn}
-              onPress={() => {
-                setSuccessModal(!successModal);
-                setSelectCheckBox(null);
-                navigation.goBack();
-              }}>
-              <Text style={styles.changeModalBtnTxt}>
-                {Strings.Subscription.GotIt}
               </Text>
             </Pressable>
           </View>
