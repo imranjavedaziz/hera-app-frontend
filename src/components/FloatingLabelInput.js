@@ -52,6 +52,7 @@ const styles = {
     lineHeight: 21,
     letterSpacing: 0,
     top: 8,
+    color: Colors.BLACK_0,
   },
   firstNameCopy: {
     fontFamily: Fonts.OpenSansRegular,
@@ -59,6 +60,7 @@ const styles = {
     lineHeight: 21,
     letterSpacing: 0,
     top: 32,
+    color: Colors.BLACK_0,
   },
   InputTextField: {
     fontFamily: Fonts.OpenSansBold,

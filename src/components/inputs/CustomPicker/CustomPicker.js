@@ -47,6 +47,7 @@ export default function CustomPicker({
   selected,
   highter,
   weight,
+  inputRef,
 }) {
   const [selectedRecord, setSelectedRecord] = useState();
   useEffect(() => {
@@ -88,6 +89,7 @@ export default function CustomPicker({
               </Text>
             </View>
             <Picker
+              ref={inputRef}
               selectedValue={selectedRecord?.id ?? selected?.id ?? 1}
               onValueChange={(_itemValue, itemIndex) => {
                 setSelectedRecord(data[itemIndex]);

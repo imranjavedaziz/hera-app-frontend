@@ -822,7 +822,7 @@ export default {
   UNABLE_TO_SHOW_DATA:
     'Unable to show data as your internet might be turned off.',
   RETRY: 'Retry',
-  UploadProof: 'Upload Proof of Verification',
+  UploadProof: 'Upload front & back of your legal ID',
   FILE_MAX_SIZE: 'Max size: 10 MB',
   INVALID_FORMAT: 'Invalid Format',
 };

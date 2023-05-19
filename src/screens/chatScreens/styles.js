@@ -319,4 +319,10 @@ export default {
     bottom: px(Value.CONSTANT_VALUE_12),
     marginLeft: px(Value.CONSTANT_VALUE_10),
   },
+  disableing: {
+    backgroundColor: Colors.CLEAR,
+    width: '100%',
+    height: '100%',
+    position: Alignment.ABSOLUTE,
+  },
 };

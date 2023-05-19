@@ -159,7 +159,7 @@ export default {
   changeModalBox: {
     margin: Value.CONSTANT_VALUE_20,
     backgroundColor: Colors.WHITE,
-    paddingVertical: Value.CONSTANT_VALUE_30,
+    paddingTop: Value.CONSTANT_VALUE_30,
     alignItems: Alignment.CENTER,
     paddingHorizontal: Value.CONSTANT_VALUE_20,
     maxWidth: Prencentage.PRECENTAGE_70,
