@@ -439,7 +439,7 @@ export default {
   subscribe: {
     Subscribe_Now: 'Subscribe Now',
     Plans: 'You can select any one of our plans & explore 5 profiles per day!',
-    Free: 'Free Trial for 30 days',
+    Free: 'Free Trial for 7 days',
     Subscribe_Trial:
       ' onwards, subscription will be mandatory to use the services.',
     URSubscribed: 'You are Subscribed',
