@@ -43,20 +43,29 @@ const Subscribe = ({MainText, InnerText, Icon, is_trial}) => {
 const nextPlanStr = 'Your plan will be updated on {DATE}';
 export const Subscribed = () => {
   const dispatch = useDispatch();
+  const [apiCall, setApiCall] = useState(false);
+  const [cancelSuccess, setCancelSucceess] = useState(false);
   const [changeModal, setChangeModal] = useState(false);
   const [hasUpgraded, setUpgraded] = useState(false);
   const navigation = useNavigation();
   const {get_user_detail_res} = useSelector(state => state.Edit_profile);
-  const {cancel_subscription_success, cancel_subscription_loading} =
-    useSelector(state => state.Subscription);
-  console.log('get_user_detail_res', JSON.stringify(get_user_detail_res));
+  const {
+    cancel_subscription_success,
+    cancel_subscription_loading,
+    subscription_status_res,
+  } = useSelector(state => state.Subscription);
   useEffect(() => {
     setUpgraded(get_user_detail_res?.upcomingSubscription != null);
   }, [get_user_detail_res]);
   useEffect(() => {
-    if (cancel_subscription_success && !cancel_subscription_loading) {
+    if (
+      (cancel_subscription_success || !cancel_subscription_loading) &&
+      apiCall
+    ) {
       dispatch(hideAppLoader());
       setChangeModal(false);
+      setApiCall(false);
+      setCancelSucceess(true);
     }
   }, [cancel_subscription_success, cancel_subscription_loading]);
   const handleCancelPress = () => {
@@ -82,6 +91,19 @@ export const Subscribed = () => {
       setChangeModal(true);
     }
   };
+  useEffect(() => {
+    if (cancelSuccess) {
+      setChangeModal(true);
+    }
+  }, [cancelSuccess]);
+  const cancelApiCall = () => {
+    dispatch(showAppLoader());
+    dispatch(canncelSubscription());
+    setApiCall(true);
+  };
+  const cancelApiSuccessCall = () => {
+    setCancelSucceess(false);
+  };
   if (!get_user_detail_res || !get_user_detail_res.subscription) {
     return (
       <Subscribe
@@ -91,10 +113,6 @@ export const Subscribed = () => {
       />
     );
   }
-  console.log(
-    moment(new Date(get_user_detail_res.subscription.current_period_end)),
-    'get_user_detail_res.subscription.current_period_end',
-  );
   return (
     <>
       <View
@@ -141,23 +159,34 @@ export const Subscribed = () => {
               styles.price,
               {marginTop: 3},
             ]}>{`$${get_user_detail_res.subscription.price} / ${get_user_detail_res.subscription.subscription_interval}`}</Text>
-          {!hasUpgraded && (
-            <Text style={[styles.price, {marginTop: 10, fontSize: 13}]}>
-              Next Due On:{' '}
-              {moment(
-                get_user_detail_res.subscription.current_period_end,
-              ).format('MMM DD, YYYY')}
-            </Text>
-          )}
-          {hasUpgraded && (
-            <Text style={[styles.price, {marginTop: 10, fontSize: 12}]}>
-              <Text style={{color: Colors.RED}}>*</Text>
-              {nextPlanStr.replace(
-                '{DATE}',
-                moment(
+          {subscription_status_res?.data?.subscription_cancel !== 1 &&
+            !hasUpgraded && (
+              <Text style={[styles.price, {marginTop: 10, fontSize: 13}]}>
+                Next Due On:{' '}
+                {moment(
                   get_user_detail_res.subscription.current_period_end,
-                ).format('LL'),
-              )}
+                ).format('MMM DD, YYYY')}
+              </Text>
+            )}
+          {subscription_status_res?.data?.subscription_cancel !== 1 &&
+            hasUpgraded && (
+              <Text style={[styles.price, {marginTop: 10, fontSize: 12}]}>
+                <Text style={{color: Colors.RED}}>*</Text>
+                {nextPlanStr.replace(
+                  '{DATE}',
+                  moment(
+                    get_user_detail_res.subscription.current_period_end,
+                  ).format('LL'),
+                )}
+              </Text>
+            )}
+          {subscription_status_res?.data?.subscription_cancel === 1 && (
+            <Text
+              style={[
+                styles.price,
+                {marginTop: 10, fontSize: 13, color: Colors.RED},
+              ]}>
+              This plan was canceled.
             </Text>
           )}
           <View style={styles.row}>
@@ -167,20 +196,37 @@ export const Subscribed = () => {
                 Change Subscription
               </Text>
             </TouchableOpacity>
-            <View style={styles.circle} />
-            <TouchableOpacity onPress={() => handleCancelPress()}>
-              <Text style={styles.headerText}>Cancel</Text>
-            </TouchableOpacity>
+            {subscription_status_res?.data?.subscription_cancel !== 1 && (
+              <>
+                <View style={styles.circle} />
+                <TouchableOpacity onPress={() => handleCancelPress()}>
+                  <Text style={styles.headerText}>Cancel</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
         </View>
       </View>
       <CancelSubscription
         setChangeModal={setChangeModal}
         changeModal={changeModal}
-        handleCanncel={() => {
-          dispatch(showAppLoader());
-          dispatch(canncelSubscription());
-        }}
+        handleCanncel={cancelSuccess ? cancelApiSuccessCall : cancelApiCall}
+        title={
+          cancelSuccess
+            ? Strings.Subscription.SubRemoved
+            : Strings.Subscription.CancelSub
+        }
+        para={
+          cancelSuccess
+            ? Strings.Subscription.SubRemovedPara
+            : Strings.Subscription.CancelSubParaAndroid
+        }
+        showSingleButton={cancelSuccess}
+        btnTxt={
+          cancelSuccess
+            ? Strings.Subscription.GotIt
+            : capitalizeStr(Strings.Subscription.YesCancel)
+        }
       />
     </>
   );

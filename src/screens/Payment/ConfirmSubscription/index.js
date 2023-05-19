@@ -1,5 +1,5 @@
 import {View, Text, Platform, Image, TouchableOpacity} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import {Colors, Images, Strings} from '../../../constants';
 import styles from '../ConfirmPayment/styles';
@@ -24,11 +24,12 @@ import {
 // selectCheckBox
 const ConfirmSubscription = ({route}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [Selected, setSelected] = useState('');
+  const [SelectedCard, setSelectedCard] = useState('');
   const [isCallApi, setCallApi] = useState(false);
   const {getCardListResponse} = useSelector(store => store.getCardList);
-  const params = route.params;
-  const {stripe_customer_id} = useSelector(state => state.Auth);
-  const {log_in_data} = useSelector(state => state.Auth);
+  const [params] = useState(route.params);
   const {
     create_subscription_success,
     create_subscription_loading,
@@ -37,31 +38,18 @@ const ConfirmSubscription = ({route}) => {
   const {subscription_status_success} = useSelector(
     state => state.Subscription,
   );
-  console.log(params, 'hjjojo');
-  let scrollRef = React.createRef();
-  const dispatch = useDispatch();
-  const [Selected, setSelected] = useState('');
-  const [SelectedCard, setSelectedCard] = useState('');
-  const headerComp = () => (
-    <IconHeader
-      leftIcon={Images.circleIconBack}
-      onPress={() => {
-        navigation.goBack();
-      }}
-      style={styles.androidHeaderIcons}
-    />
-  );
   useEffect(() => {
-    if (_.isEmpty(getCardListResponse?.info?.data)) {
-      dispatch(getCardList(stripe_customer_id, 10));
-    } else if (getCardListResponse?.info?.data.length === 1) {
+    console.log('params', params);
+  });
+  useEffect(() => {
+    console.log('getCardListResponse', JSON.stringify(getCardListResponse));
+    if (getCardListResponse?.info?.data.length === 1) {
       const item = getCardListResponse?.info?.data[0];
       setSelected(item?.id);
       setSelectedCard(item);
     }
-  }, [dispatch, stripe_customer_id, getCardListResponse]);
+  }, [getCardListResponse]);
   useEffect(() => {
-    console.log('CHECKING CREATE SUB LINE NO 74');
     if (
       create_subscription_success &&
       isCallApi &&
@@ -81,7 +69,6 @@ const ConfirmSubscription = ({route}) => {
     subscription_status_success,
     isCallApi,
   ]);
-  console.log(SelectedCard, 'SelectedCardSelectedCard');
   //Get Card List
   useEffect(() => {
     if (getCardListResponse?.status === GET_CARD_LIST.START) {
@@ -94,20 +81,23 @@ const ConfirmSubscription = ({route}) => {
       dispatch(showAppToast(false, error));
     }
   }, [getCardListResponse]);
-  const onADDCARD = another => {
-    if (another) {
-      navigation.navigate(Routes.SubscriptionCard, {
-        ...params,
-        anotherCard: another,
-      });
-    } else {
-      navigation.navigate(Routes.SubscriptionCard, {
-        ...params,
-        noCard: true,
-      });
-    }
-  };
-  const onPay = () => {
+  const onADDCARD = useCallback(
+    another => {
+      if (another) {
+        navigation.navigate(Routes.SubscriptionCard, {
+          ...params,
+          anotherCard: another,
+        });
+      } else {
+        navigation.navigate(Routes.SubscriptionCard, {
+          ...params,
+          noCard: true,
+        });
+      }
+    },
+    [params],
+  );
+  const onPay = useCallback(() => {
     if (Selected || SelectedCard) {
       const payload = {
         device_type: Platform.OS,
@@ -115,24 +105,30 @@ const ConfirmSubscription = ({route}) => {
         payment_method_id: Selected,
         purchase_token: 'null',
       };
-      console.log('payload', payload);
       setCallApi(true);
       dispatch(showAppLoader());
       dispatch(createSubscription(payload));
     } else {
       dispatch(showAppToast(true, 'Please select a card to proceed.'));
     }
-  };
+  }, [Selected, SelectedCard, params.selectCheckBox]);
   return (
     <View style={styles.flex}>
-      <Header end={false}>{headerComp()}</Header>
+      <Header end={false}>
+        <IconHeader
+          leftIcon={Images.circleIconBack}
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={styles.androidHeaderIcons}
+        />
+      </Header>
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         extraScrollHeight={210}
         enableAutoAutomaticScroll={true}
         keyboardOpeningTime={Number.MAX_SAFE_INTEGER}
-        showsVerticalScrollIndicator={false}
-        ref={scrollRef}>
+        showsVerticalScrollIndicator={false}>
         <View style={styles.mainContainer}>
           <Text style={styles.mainText}>
             {Strings.confirmPassword.CONFIRM_PAYMENT}
