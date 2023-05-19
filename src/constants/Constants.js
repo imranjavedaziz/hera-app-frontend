@@ -954,3 +954,17 @@ export const SENSORY_ARR = [
   {id: 2, img: Images.HEART, caption: Strings.Sensory.SELECT_HEART_TO},
   {id: 2, img: Images.CROSS, caption: Strings.Sensory.SELECT_CROSS},
 ];
+export const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];

@@ -17,8 +17,10 @@ import {monthGet} from '../../../utils/commonFunction';
 import ConfirmCardComp from './ConfirmCardComp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Value} from '../../../constants/FixedValues';
-import {createSubscription} from '../../../redux/actions/Subsctiption';
-import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
+import {
+  createSubscription,
+  getSubscriptionStatus,
+} from '../../../redux/actions/Subsctiption';
 // selectCheckBox
 const ConfirmSubscription = ({route}) => {
   const navigation = useNavigation();

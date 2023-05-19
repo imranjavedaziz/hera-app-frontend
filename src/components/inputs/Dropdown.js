@@ -38,6 +38,7 @@ const Dropdown = ({
   weight,
   education,
   educationStyle,
+  inputRef,
   ...dropdownProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -76,6 +77,7 @@ const Dropdown = ({
     lineHeight: 21,
     letterSpacing: 0,
     color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_KEY,
+
     top: Value.CONSTANT_VALUE_8,
     fontSize: Value.CONSTANT_VALUE_14,
   };
@@ -118,7 +120,6 @@ const Dropdown = ({
                 ) : (
                   <View />
                 )}
-
                 <Image source={Images.arrowDown} style={STYLE_CONDITION} />
                 <View>
                   {value ? (
@@ -145,7 +146,10 @@ const Dropdown = ({
                     <Text
                       style={[
                         styles.buttonTextStyle,
-                        {fontFamily: Fonts.OpenSansRegular},
+                        {
+                          fontFamily: Fonts.OpenSansRegular,
+                          color: Colors.BLACK_0,
+                        },
                       ]}
                       numberOfLines={1}>
                       {label}
@@ -171,6 +175,7 @@ const Dropdown = ({
               </View>
             </TouchableOpacity>
             <CustomPicker
+              inputRef={inputRef}
               isVisible={isVisible}
               cancel={() => {
                 setVisibility(false);
@@ -211,6 +216,7 @@ const Dropdown = ({
             </Text>
             <SelectDropdown
               data={data}
+              ref={inputRef}
               defaultValue={value}
               selectIndex={selectIndex}
               defaultButtonText={value?.name}

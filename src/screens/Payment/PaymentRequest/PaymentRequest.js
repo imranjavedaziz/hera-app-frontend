@@ -143,7 +143,7 @@ const PaymentRequest = () => {
     dispatch(getPaymentRequestList());
   };
 
-  const renderItemData = ({item}) => {
+  const renderItemData = ({item,index}) => {
     const url = item?.doc_url;
     // Extract the file extension from the URL
     const fileExtension = url?.split('.').pop() || '';
@@ -154,6 +154,7 @@ const PaymentRequest = () => {
     return (
       <PaymentRequestComp
         pdf={pdf}
+        index={index}
         DocImg={item?.doc_url}
         PaymentStatus={item?.payout_status}
         profileImage={
@@ -244,7 +245,7 @@ const PaymentRequest = () => {
             </Text>
             <FlatList
               data={log_in_data.role_id === 2 ? PtbData : Data}
-              renderItem={item => renderItemData(item)}
+              renderItem={(item,index) => renderItemData(item,index)}
               refreshing={isRefreshing}
               onRefresh={onRefresh}
               showsVerticalScrollIndicator={false}

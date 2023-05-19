@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,12 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {sendRequestSchema} from '../../../constants/schemas';
-import {Container, FloatingLabelInput, ModalMiddle} from '../../../components';
+import {FloatingLabelInput, ModalMiddle} from '../../../components';
 import {Colors, Images, Strings} from '../../../constants';
 import Header, {CircleBtn} from '../../../components/Header';
 import Styles from './style';
@@ -21,15 +21,15 @@ import CustomImagePicker, {
   ActionSheetOptions,
 } from '../../../components/Document/CustomImagePicker';
 import {hideAppLoader, showAppToast} from '../../../redux/actions/loader';
-import {Input_Type, Routes} from '../../../constants/Constants';
+import {Input_Type} from '../../../constants/Constants';
 import {DocumentUploadPayment} from '../../../redux/actions/DocumentUpload';
 import {SendPaymentRequest} from '../../../redux/actions/PaymentRequest';
-import {getAccountStatus} from '../../../redux/actions/AccountStatus';
 import {digitBeforeDecimal} from '../../../utils/commonFunction';
-import {useRef} from 'react';
 import {Value} from '../../../constants/FixedValues';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import {dynamicSize} from '../../../utils/responsive';
+import {MaterialIndicator} from 'react-native-indicators';
 
 const options = [
   ActionSheetOptions.openCamera,
@@ -46,7 +46,10 @@ const SendRequest = ({route}) => {
     document_upload_success,
     document_upload_res,
     document_upload_loading,
+    document_upload_fail,
   } = useSelector(state => state.DocumentUpload);
+  const [imageLoading, setImageLoading] = useState(true);
+  const loadingRef = useRef(null);
   const params = route.params;
   let scrollRef = React.createRef();
   const LoadingRef = useRef(null);
@@ -89,6 +92,26 @@ const SendRequest = ({route}) => {
     send_payment_request_res,
     send_payment_request_fail,
     navigation,
+    dispatch,
+  ]);
+  useEffect(() => {
+    if (loadingRef.current && !document_upload_loading) {
+      if (document_upload_success) {
+        setValue('doc_url', document_upload_res.file_url);
+        dispatch(hideAppLoader());
+        setImageLoading(false);
+      }
+      if (document_upload_fail) {
+        dispatch(hideAppLoader());
+        setImageLoading(false);
+      }
+    }
+    loadingRef.current = document_upload_loading;
+  }, [
+    document_upload_success,
+    document_upload_fail,
+    document_upload_loading,
+    document_upload_res,
     dispatch,
   ]);
   const backAction = () => {
@@ -163,17 +186,15 @@ const SendRequest = ({route}) => {
         type: file.type,
         uri: file.uri,
       });
-    file !== null && dispatch(DocumentUploadPayment(reqData));
+    if (file !== null) {
+      setImageLoading(true);
+      dispatch(DocumentUploadPayment(reqData));
+    }
   }, [file]);
   useEffect(() => {
     console.log('imageCross', file);
   }, [file]);
-  useEffect(() => {
-    if (document_upload_success) {
-      setValue('doc_url', document_upload_res.file_url);
-      console.log('document_upload_res', JSON.stringify(document_upload_res));
-    }
-  }, [document_upload_success, document_upload_loading, document_upload_res]);
+
   const conTwoDecDigit = digit => {
     let splits = digit.split('.');
     if (splits[0] == '') {
@@ -188,9 +209,7 @@ const SendRequest = ({route}) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={Styles.flex}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <>
       <View style={Styles.flex}>
         <Header end={true}>{headerComp()}</Header>
         <KeyboardAwareScrollView
@@ -293,7 +312,18 @@ const SendRequest = ({route}) => {
                       shadowRadius: 18,
                       shadowOpacity: 1,
                       justifyContent: 'center',
+                      position: 'relative',
                     }}>
+                    {imageLoading && (
+                      <MaterialIndicator
+                        color={Colors.WHITE}
+                        size={dynamicSize(20)}
+                        style={{
+                          position: 'absolute',
+                          zIndex: 1,
+                        }}
+                      />
+                    )}
                     <Image
                       source={
                         file.type === 'image/jpeg'
@@ -323,14 +353,19 @@ const SendRequest = ({route}) => {
                 )}
               </TouchableOpacity>
               <Controller control={control} render={() => {}} name="doc_url" />
-              <TouchableOpacity
-                onPress={handleSubmit(onSubmit)}
-                disabled={document_upload_loading}
-                style={Styles.btnContainer}>
-                <Text style={Styles.btnText}>
-                  {Strings.SendRequest.sendRequest}
-                </Text>
-              </TouchableOpacity>
+              <KeyboardAvoidingView
+                style={Styles.flex}
+                keyboardVerticalOffset={40}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <TouchableOpacity
+                  onPress={handleSubmit(onSubmit)}
+                  disabled={document_upload_loading}
+                  style={Styles.btnContainer}>
+                  <Text style={Styles.btnText}>
+                    {Strings.SendRequest.sendRequest}
+                  </Text>
+                </TouchableOpacity>
+              </KeyboardAvoidingView>
             </View>
           </View>
         </KeyboardAwareScrollView>
@@ -351,7 +386,7 @@ const SendRequest = ({route}) => {
                 setFile({
                   size: images.size,
                   type: images.mime,
-                  uri: images.sourceURL,
+                  uri: images.path,
                   name: images.filename,
                   path: images.path,
                   loading: false,
@@ -389,7 +424,7 @@ const SendRequest = ({route}) => {
           }}
         />
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 };
 export default SendRequest;

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Animated,
   Text,
-  Alert,
 } from 'react-native';
 import React, {
   useRef,
@@ -309,7 +308,7 @@ const PtbDashboard = props => {
   const handleOnSwipedLeft = () => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count === get_ptb_dashboard_res?.data?.data?.total) {
+    if (count + 1 === get_ptb_dashboard_res?.data?.data?.total) {
       useSwiper?.current?.swipeLeft();
       setEmpty(true);
     } else {
@@ -322,10 +321,11 @@ const PtbDashboard = props => {
       setIslikedLogo('');
     }, 200);
   };
+
   const handleOnSwipedRight = () => {
     setCount(count + 1);
     setCardIndex(cardIndex + 1);
-    if (count === get_ptb_dashboard_res?.data?.data?.total) {
+    if (count + 1 === get_ptb_dashboard_res?.data?.data?.total) {
       useSwiper?.current?.swipeRight();
       setEmpty(true);
     } else {

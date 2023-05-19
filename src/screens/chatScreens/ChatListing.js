@@ -33,9 +33,8 @@ const ChatListing = () => {
   const dispatch = useDispatch();
   const LoadingRef = useRef(null);
   const [BankData, setData] = useState('');
-  const {account_status_success, account_status_res} = useSelector(
-    state => state.AccountStatus,
-  );
+  const {account_status_success, account_status_res, account_status_fail} =
+    useSelector(state => state.AccountStatus);
   const {
     get_match_list_success,
     get_match_list_fail,
@@ -43,7 +42,7 @@ const ChatListing = () => {
     get_match_list_loading,
     get_match_list_res,
   } = useSelector(state => state.Payment);
-
+  const [disable, setDisable] = useState(false);
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
@@ -80,26 +79,33 @@ const ChatListing = () => {
         let payload = {
           keyword: '',
         };
+        setDisable(true);
         dispatch(showAppLoader());
         dispatch(getMatchList(payload));
       } else {
+        setDisable(true);
         dispatch(getAccountStatus());
       }
     }, [dispatch]),
   );
   useEffect(() => {
     if (account_status_success) {
-      console.log('account_status_res', JSON.stringify(account_status_res));
+      setDisable(false);
     }
-  }, [account_status_success, account_status_res]);
+    if (account_status_fail) {
+      setDisable(false);
+    }
+  }, [account_status_success, account_status_res, account_status_fail]);
 
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
       if (get_match_list_success) {
+        setDisable(false);
         dispatch(hideAppLoader());
         setData(get_match_list_res?.data?.data);
       }
       if (get_match_list_fail) {
+        setDisable(false);
         dispatch(hideAppLoader());
         dispatch(showAppToast(true, get_match_list_error_msg));
       }
@@ -290,6 +296,7 @@ const ChatListing = () => {
           )}
         </>
       )}
+      {disable && <View style={styles.disableing} />}
     </Container>
   );
 };

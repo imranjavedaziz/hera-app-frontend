@@ -20,7 +20,6 @@ import {Routes} from '../../../../constants/Constants';
 import {hideAppLoader, showAppLoader} from '../../../../redux/actions/loader';
 import Styles from './Styles';
 import {Button} from '../../../../components';
-import styles from './Styles';
 import _ from 'lodash';
 const StateList = props => {
   const {selectedStateList} = props.route.params;
@@ -213,9 +212,9 @@ const StateList = props => {
         />
         <View style={Styles.flexRow}>
           {_.isEmpty(state) && !get_state_loading ? (
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>{Strings.dashboard.noResult}</Text>
-              <Text style={styles.content}>
+            <View style={Styles.emptyContainer}>
+              <Text style={Styles.emptyText}>{Strings.dashboard.noResult}</Text>
+              <Text style={Styles.content}>
                 {Strings.dashboard.emptyDashboard}
               </Text>
             </View>
