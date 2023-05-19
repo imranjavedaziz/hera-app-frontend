@@ -374,6 +374,9 @@ const Subscription = () => {
       const roleName = Strings?.STATIC_ROLE.find(
         r => r.id === selectCheckBox?.role_id_looking_for,
       ).name;
+      const roleName2 = Strings?.STATIC_ROLE.find(
+        r => r.id === subscription_plan_res?.data?.preference?.role_id_looking_for,
+      ).name;
       Alert.alert(
         Strings.Subscription.UpgradePlan.replace(
           '{SELECTED_ROLE}',
@@ -381,7 +384,7 @@ const Subscription = () => {
         ),
         Strings.Subscription.UpgradePlanPara.replace(
           '{SELECTED_ROLE}',
-          selectCheckBox == null ? '{SELECTED_ROLE}' : roleName,
+          selectCheckBox == null ? '{SELECTED_ROLE}' : roleName2,
         ),
         [
           {
@@ -662,7 +665,7 @@ const Subscription = () => {
                     selectCheckBox == null
                       ? '{SELECTED_ROLE}'
                       : Strings?.STATIC_ROLE.find(
-                          r => r.id === selectCheckBox?.role_id_looking_for,
+                          r => r.id === subscription_plan_res?.data?.preference?.role_id_looking_for,
                         ).name,
                   )}
             </Text>
