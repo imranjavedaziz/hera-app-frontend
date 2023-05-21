@@ -48,7 +48,7 @@ const SuccessModal = props => {
                 )}
           </Text>
           <Pressable
-            style={[styles.changeModalBtn,{backgroundColor: Colors.COLOR_A3C6C4,marginTop: 20}]}
+            style={[styles.changeModalBtn,{backgroundColor: Colors.COLOR_A3C6C4,marginVertical: 20}]}
             onPress={() => {
               setSuccessModal(!successModal);
             }}>
