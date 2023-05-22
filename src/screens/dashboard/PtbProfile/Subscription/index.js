@@ -324,6 +324,7 @@ const Subscription = () => {
           type,
         );
       } else {
+        dispatch(hideAppLoader());
         navigation.navigate(
           androidCards.length > 0
             ? Routes.ConfirmSubscription
