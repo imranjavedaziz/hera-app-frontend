@@ -33,8 +33,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ExtraBottomView from '../../../components/ExtraBottomView';
 import _ from 'lodash';
 import {getAccountStatus} from '../../../redux/actions/AccountStatus';
-import getKycStatusFunction from '../../../utils/getkycStatusFunc';
-
 const ManageBank = ({route}) => {
   const redirectTo = route?.params?.redirectTo || '';
   const navigation = useNavigation();
@@ -113,7 +111,6 @@ const ManageBank = ({route}) => {
         dispatch(hideAppLoader());
         dispatch(showAppToast(true, account_status_error_msg));
       }
-      dispatch(hideAppLoader());
     }
     loadingRef.current = account_status_loading;
   }, [account_status_success, account_status_loading, account_status_res]);
