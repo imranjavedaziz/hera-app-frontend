@@ -592,7 +592,7 @@ const Subscription = () => {
                   Platform.OS === 'ios'
                     ? Strings.Subscription.IOSStoreName
                     : Strings.Subscription.AndroidStoreName
-                }${Strings.Subscription.RenewText} ${
+                }${Strings.Subscription.RenewText}${
                   Strings.Subscription.TimePeriodText
                 }${Strings.Subscription.PaymentCharge}${
                   Platform.OS === 'ios'
