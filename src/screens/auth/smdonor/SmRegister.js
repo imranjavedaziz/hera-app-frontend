@@ -12,6 +12,7 @@ import {
   Alert,
   Keyboard,
   TouchableWithoutFeedback,
+  BackHandler,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
@@ -161,6 +162,31 @@ const SmRegister = () => {
     dispatch(ptbRegister(reqData));
     dispatch(saveLocalImg(userImage));
   };
+  const handleBackButtonClick = () => {
+    Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+      {
+        text: ValidationMessages.CANCEL,
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: ValidationMessages.YES,
+        onPress: () => {
+          BackHandler.exitApp();
+        },
+      },
+    ]);
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}

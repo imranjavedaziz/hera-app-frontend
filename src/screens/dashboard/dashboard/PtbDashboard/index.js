@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   Animated,
   Text,
+  Alert,
+  BackHandler,
 } from 'react-native';
 import React, {
   useRef,
@@ -18,7 +20,7 @@ import styles from './style';
 import Images from '../../../../constants/Images';
 import Container from '../../../../components/Container';
 import TitleComp from '../../../../components/dashboard/TitleComp';
-import Strings from '../../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -32,7 +34,6 @@ import {
   showMessageAppToast,
 } from '../../../../redux/actions/loader';
 import {Routes} from '../../../../constants/Constants';
-import {deviceHandler} from '../../../../utils/commonFunction';
 import {MaterialIndicator} from 'react-native-indicators';
 import Colors from '../../../../constants/Colors';
 import SensoryCharacteristics from '../../../../components/SensoryCharacteristics';
@@ -83,15 +84,37 @@ const PtbDashboard = props => {
 
   const [msgRead, setMsgRead] = useState(false);
   useEffect(() => {
-    if (props?.navigation?.route?.name === 'PtbDashboard') {
-      deviceHandler(navigation, 'exit');
-    }
     if (_.isEmpty(chats)) {
       setMsgRead(false);
     } else {
       setMsgRead(chats.some(x => x?.read === 0));
     }
   }, [chats]);
+  const handleBackButtonClick = () => {
+    Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+      {
+        text: ValidationMessages.CANCEL,
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: ValidationMessages.YES,
+        onPress: () => {
+          BackHandler.exitApp();
+        },
+      },
+    ]);
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       fetchData();

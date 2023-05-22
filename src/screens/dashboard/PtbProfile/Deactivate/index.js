@@ -1,5 +1,12 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  BackHandler,
+} from 'react-native';
 import Header from '../../../../components/Header';
 import {Images, Strings} from '../../../../constants';
 import {useNavigation} from '@react-navigation/native';
@@ -36,7 +43,19 @@ const DeactivateAccount = () => {
     get_reason_list_loading,
     get_reason_list_res,
   } = useSelector(state => state.DeactivateAccount);
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const headerComp = () => (
     <View>
       <TouchableOpacity onPress={() => navigation.goBack()}>

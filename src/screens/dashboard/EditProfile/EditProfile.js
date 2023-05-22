@@ -9,6 +9,7 @@ import {
   Image,
   ImageBackground,
   Alert,
+  BackHandler,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
@@ -61,6 +62,15 @@ const EditProfile = props => {
   const [showModal, setShowModal] = useState(false);
   const [datePicked, onDateChange] = useState();
   const [clipdrop, setClickDrop] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    clearErrors,
+    setValue,
+    formState: {errors, isDirty},
+  } = useForm({
+    resolver: yupResolver(editProfileSchema),
+  });
   useFocusEffect(
     useCallback(() => {
       dispatch(showEditAppLoader());
@@ -69,6 +79,23 @@ const EditProfile = props => {
       dispatch(getEditProfile());
     }, [dispatch]),
   );
+  const handleBackButtonClick = () => {
+    if (isDirty === true) {
+      platform();
+    } else {
+      navCondition();
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, [isDirty]);
   const {
     get_state_res,
     get_profile_setter_res,
@@ -96,15 +123,7 @@ const EditProfile = props => {
     send_verification_error_msg,
     send_verification_res,
   } = useSelector(state => state.VerificationMail);
-  const {
-    handleSubmit,
-    control,
-    clearErrors,
-    setValue,
-    formState: {errors, isDirty},
-  } = useForm({
-    resolver: yupResolver(editProfileSchema),
-  });
+ 
   useEffect(() => {
     if (loadingRef.current && !send_verification_loading) {
       dispatch(showAppLoader());
@@ -211,7 +230,7 @@ const EditProfile = props => {
           onPress: () => {
             navCondition();
           },
-          style:'destructive',
+          style: 'destructive',
         },
         {
           text: Strings.profile.ModalOption2,

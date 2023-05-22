@@ -1,5 +1,5 @@
-import {View} from 'react-native';
-import React from 'react';
+import {BackHandler, View} from 'react-native';
+import React, {useEffect} from 'react';
 import styles from './styles';
 import Pdf from 'react-native-pdf';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -8,11 +8,25 @@ import {IconHeader} from '../../components/Header';
 import {Colors, Images} from '../../constants';
 import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize} from '../../utils/responsive';
+
 const PdfView = () => {
   const {
     params: {url},
   } = useRoute();
   const navigation = useNavigation();
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}

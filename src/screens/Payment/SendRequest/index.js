@@ -7,6 +7,7 @@ import {
   Keyboard,
   Alert,
   Platform,
+  BackHandler,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -74,6 +75,19 @@ const SendRequest = ({route}) => {
   } = useForm({
     resolver: yupResolver(sendRequestSchema),
   });
+  const handleBackButtonClick = () => {
+    onGoBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, [isDirty]);
   useEffect(() => {
     if (LoadingRef.current && !send_payment_request_loading) {
       if (send_payment_request_success) {

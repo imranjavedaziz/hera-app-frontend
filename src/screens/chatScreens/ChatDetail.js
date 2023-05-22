@@ -6,6 +6,7 @@ import {
   Image,
   Platform,
   Alert,
+  BackHandler,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -26,7 +27,6 @@ import moment from 'moment';
 import {ReportUser} from '../../redux/actions/ReportUser';
 import NetInfo from '@react-native-community/netinfo';
 import {getMessageID} from '../../redux/actions/MessageId';
-import {deviceHandler} from '../../utils/commonFunction';
 import {BottomSheetComp, ModalMiddle} from '../../components';
 import DocumentPicker from 'react-native-document-picker';
 import ActionSheet from 'react-native-actionsheet';
@@ -90,9 +90,19 @@ const ChatDetail = props => {
         : false,
     );
   }, [routeData]);
+  const handleBackButtonClick = () => {
+    arrowFunction();
+    return true;
+  };
   useEffect(() => {
-    deviceHandler(navigation, 'deviceGoBack');
-  }, [navigation]);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const {report_user_success, report_user_loading, report_user_error} =
     useSelector(state => state.ReportUser);
   const dispatch = useDispatch();

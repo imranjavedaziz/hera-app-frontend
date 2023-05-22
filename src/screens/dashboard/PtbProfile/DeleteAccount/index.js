@@ -1,4 +1,11 @@
-import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  BackHandler,
+} from 'react-native';
 import React, {useState, useEffect, useRef} from 'react';
 import Header from '../../../../components/Header';
 import {Images, Strings} from '../../../../constants';
@@ -18,7 +25,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {deleteAccountPassword} from '../../../../constants/schemas';
 import {signoutUser} from '../../../../redux/actions/Auth';
-import {empty} from '../../../../redux/actions/Chat'
+import {empty} from '../../../../redux/actions/Chat';
 
 const DeleteAccount = () => {
   const navigation = useNavigation();
@@ -37,6 +44,19 @@ const DeleteAccount = () => {
     delete_account__error_msg,
     delete_account_res,
   } = useSelector(state => state?.DeleteAccount);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
   const headerComp = () => (

@@ -1,5 +1,12 @@
-import React, {useEffect, useRef} from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  BackHandler,
+} from 'react-native';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
 import styles from './style';
@@ -16,11 +23,13 @@ import {
   showAppToast,
 } from '../../redux/actions/loader';
 import {Routes} from '../../constants/Constants';
+import {getAccountStatus} from '../../redux/actions/AccountStatus';
 const Chat_Request = props => {
   console.log(props?.route?.params?.user, ':::::user');
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
+  const [disable, setDisable] = useState(false);
   const {
     profile_match_response_success,
     profile_match_response_loading,
@@ -28,6 +37,32 @@ const Chat_Request = props => {
     profile_match_response_res,
     profile_match_data_status,
   } = useSelector(state => state.Profile_Match);
+  const {account_status_success, account_status_res, account_status_fail} =
+    useSelector(state => state.AccountStatus);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
+  useEffect(() => {
+    if (account_status_success) {
+      setDisable(false);
+    }
+    if (account_status_fail) {
+      setDisable(false);
+    }
+  }, [account_status_success, account_status_res, account_status_fail]);
+  useEffect(() => {
+    dispatch(getAccountStatus());
+  }, []);
 
   useEffect(() => {
     if (loadingMatchRef.current && !profile_match_response_loading) {
@@ -35,15 +70,18 @@ const Chat_Request = props => {
       if (profile_match_response_success) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, profile_match_response_res));
-        if (profile_match_data_status.status === 2) {
+        setDisable(false);
+        if (parseInt(profile_match_data_status.status) === 2) {
           navigation.navigate(Routes.ChatDetail, {
             item: props?.route?.params?.item,
             isComingFrom: true,
+            account_status_res: account_status_res || '',
           });
         } else {
           navigation.navigate(Routes.Chat_Listing);
         }
       } else {
+        setDisable(false);
         dispatch(hideAppLoader());
       }
     }
@@ -60,6 +98,7 @@ const Chat_Request = props => {
       id: parseInt(props?.route?.params?.user?.id),
       status: 2,
     };
+    setDisable(true);
     dispatch(profileMatchResponse(payload));
   };
   const onPressDislike = () => {
@@ -75,6 +114,7 @@ const Chat_Request = props => {
       id: parseInt(props?.route?.params?.item?.match_request?.id),
       seeAll: true,
       coming: true,
+      account_status_res: account_status_res || '',
     });
   };
   const headerComp = () => (
@@ -105,6 +145,7 @@ const Chat_Request = props => {
               onPress={() => {
                 onPressLike();
               }}
+              disabled={disable}
               accessible={true}
               style={styles.btn(Colors.GREEN)}
               accessibilityRole={'button'}>

@@ -1,4 +1,4 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, BackHandler} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
@@ -40,7 +40,19 @@ const MatchScreen = () => {
     dispatch(showEditAppLoader());
     dispatch(getMatchList(payload));
   }, [dispatch]);
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
       if (get_match_list_success) {

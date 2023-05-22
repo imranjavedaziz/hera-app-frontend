@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
@@ -87,6 +88,19 @@ const ConfirmPayment = ({route}) => {
       dispatch(showAppToast(false, error));
     }
   }, [getCardListResponse]);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (loadingRef.current && !payment_transfer_loading) {
       dispatch(showAppLoader());

@@ -7,6 +7,7 @@ import {
   Image,
   Alert,
   Platform,
+  BackHandler,
 } from 'react-native';
 import {ModalMiddle} from '../../../../components';
 import Header, {IconHeader} from '../../../../components/Header';
@@ -68,6 +69,24 @@ const HeraPay = () => {
   const [Notifications, setNotifications] = useState(0);
   const {get_payment_request_list_success, get_payment_request_list_res} =
     useSelector(state => state.Payment);
+  const handleBackButtonClick = () => {
+    if (log_in_data?.role_id === 2) {
+      navigation.navigate(Routes.PtbProfile);
+    } else {
+      navigation.navigate(Routes.SmSetting);
+    }
+
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       if (!_.isEmpty(stripe_customer_id)) {

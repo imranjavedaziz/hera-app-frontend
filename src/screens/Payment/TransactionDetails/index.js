@@ -1,6 +1,13 @@
 // TransactionDetails
-import {View, Text, Image, TouchableOpacity, Clipboard} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Clipboard,
+  BackHandler,
+} from 'react-native';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import {Images, Strings, Colors} from '../../../constants';
@@ -12,9 +19,23 @@ import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
 import {formatDigit, getRequestTime} from '../../../utils/commonFunction';
+
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
   const redirectTo = route?.params?.redirectTo || '';
+  const handleBackButtonClick = () => {
+    OnDone();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const OnDone = () => {
     if (route?.params?.role === 2) {
       if (redirectTo !== '' && redirectTo === Routes.ChatDetail) {

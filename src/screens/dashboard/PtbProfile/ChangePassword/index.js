@@ -6,6 +6,7 @@ import {
   ScrollView,
   Keyboard,
   TouchableWithoutFeedback,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -33,6 +34,24 @@ import {logIn} from '../../../../redux/actions/Auth';
 
 const HeaderComp = ({type}) => {
   const navigation = useNavigation();
+  const handleBackButtonClick = () => {
+    if (type === 2) {
+      const popAction = StackActions.pop(Value.CONSTANT_VALUE_3);
+      navigation.dispatch(popAction);
+    } else {
+      navigation.goBack();
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   if (type === 2) {
     return (
       <CircleBtn

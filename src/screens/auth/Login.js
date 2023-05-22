@@ -9,6 +9,7 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
+  BackHandler,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
@@ -25,7 +26,6 @@ import {hideAppLoader, showAppLoader} from '../../redux/actions/loader';
 import {loginSchema} from '../../constants/schemas';
 import {deviceRegister, logIn} from '../../redux/actions/Auth';
 import getRoute from '../../utils/getRoute';
-import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {NotificationContext} from '../../context/NotificationContextManager';
@@ -53,9 +53,19 @@ const Login = props => {
   const {log_in_success, log_in_loading, log_in_error_msg, log_in_data} =
     useSelector(state => state.Auth);
   const inputRef = useRef(null);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
   useEffect(() => {
-    deviceHandler(props.navigation, 'exit');
-  }, [props.navigation]);
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
 
   useEffect(() => {
     if (loadingRef.current && !log_in_loading) {

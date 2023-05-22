@@ -6,6 +6,7 @@ import {
   Alert,
   Platform,
   ScrollView,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Header, {CircleBtn} from '../../components/Header';
@@ -59,7 +60,24 @@ export default function Support() {
   } = useSelector(state => state.Support);
 
   const loadingRef = useRef(false);
+  const handleBackButtonClick = () => {
+    if (isDirty === true) {
+      VAL_CHECK();
+    } else {
+      navigation.goBack();
+    }
 
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, [isDirty]);
   // USER TYPE
   useEffect(() => {
     if (loadingRef.current && !get_user_type_loading) {

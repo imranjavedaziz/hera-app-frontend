@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  BackHandler,
 } from 'react-native';
 import React, {useRef, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -41,7 +42,19 @@ const PaymentSent = ({route}) => {
 
   const dispatch = useDispatch();
   const [keyboardOpen, setKeyboardOpen] = useState(false);
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (route?.params?.amount) {
       console.log('route?.params?.amount');

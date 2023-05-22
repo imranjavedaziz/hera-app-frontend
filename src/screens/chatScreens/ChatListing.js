@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback, useRef} from 'react';
-import {View, Text, RefreshControl} from 'react-native';
+import {View, Text, RefreshControl, BackHandler} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
@@ -12,7 +12,6 @@ import {Routes} from '../../constants/Constants/';
 import ChatEmpty from '../../components/Chat/ChatEmpty';
 import {chat} from '../../constants/Constants';
 import database from '@react-native-firebase/database';
-import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
 import {
@@ -51,12 +50,22 @@ const ChatListing = () => {
   const [loader, setLoader] = useState(true);
   const {log_in_data} = useSelector(state => state.Auth);
   useEffect(() => {
-    deviceHandler(navigation, 'deviceGoBack');
-  }, []);
-  useEffect(() => {
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  // expected output: true
+
+  const handleBackButtonClick = () => {
+    NavigateFunc();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(getSubscriptionStatus());

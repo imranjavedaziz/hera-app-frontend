@@ -4,8 +4,8 @@ import {
   TouchableOpacity,
   Platform,
   ScrollView,
-  SafeAreaView,
   Alert,
+  BackHandler,
 } from 'react-native';
 import React, {
   useEffect,
@@ -59,7 +59,6 @@ import {
   GET_CARD_LIST,
 } from '../../../../redux/actions/stripe.action';
 import {getPaymentRequestList} from '../../../../redux/actions/Payment';
-
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -105,6 +104,19 @@ const SmDonorSettings = () => {
       dispatch(getPaymentRequestList());
     }, [dispatch]),
   );
+  const handleBackButtonClick = () => {
+    navigation.navigate(Routes.SmDashboard);
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (get_payment_request_list_success) {
       if (!_.isEmpty(get_payment_request_list_res?.data)) {

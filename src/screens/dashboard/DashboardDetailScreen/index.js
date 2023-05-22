@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Animated,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {
@@ -116,6 +117,32 @@ const DashboardDetailScreen = ({route}) => {
       images.push({uri: url[i]?.file_url});
     }
   };
+  const handleBackButtonClick = () => {
+    if (route?.params?.coming === true) {
+      if (smDetailRes?.profile_match_request?.status === 2) {
+        navigation.navigate(Routes.ChatDetail, {
+          item: smDetailRes?.profile_match_chat,
+          account_status_res: route?.params?.account_status_res
+            ? route?.params?.account_status_res
+            : '',
+        });
+      } else {
+        navigation.goBack();
+      }
+    } else {
+      navigation.goBack();
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (loadingMatchRef.current && !profile_match_loading) {
       dispatch(showAppLoader());
@@ -178,7 +205,7 @@ const DashboardDetailScreen = ({route}) => {
     <View style={[styles.heartIcon, {flex: 1, marginRight: 30}]}>
       <IconHeader
         leftIcon={Images.circleIconBack}
-        onPress={navigation.goBack}
+        onPress={() => handleBackButtonClick()}
         style={styles.headerIcon}
       />
       {smDetailRes?.next_step && (

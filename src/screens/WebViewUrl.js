@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {TouchableOpacity, View, Image, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {TouchableOpacity, View, Image, Text, BackHandler} from 'react-native';
 import {WebView} from 'react-native-webview';
 import {Alignment, Colors, Images, Strings} from '../constants';
 import {Value} from '../constants/FixedValues';
@@ -21,8 +21,23 @@ const styles = {
     zIndex: Value.CONSTANT_VALUE_999999,
   },
 };
+
 const WebViewUrl = props => {
   const navigation = useNavigation();
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const INJECTED_JAVASCRIPT = `(function() {
       const meta = document.createElement('meta'); meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'); meta.setAttribute('name', 'viewport'); document.getElementsByTagName('head')[0].appendChild(meta);
     })();`;

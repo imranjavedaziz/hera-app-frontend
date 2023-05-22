@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Image,
   FlatList,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
@@ -50,11 +51,26 @@ const AllMedia = props => {
   }, [dispatch, userId]);
   const flatListRef = useRef(null);
   const scrollToIndex = index => {
-    if (index >= 0 && index < Data.length) {
+    if (index >= 0 && index < Data?.length) {
       // Check if the index is within range
       flatListRef.current.scrollToIndex({index, animated: true});
     }
   };
+  const handleBackButtonClick = () => {
+    navigation.navigate(Routes.ChatDetail, {
+      item: props?.route?.params?.item,
+    });
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (loadingRef.current && !document_get_loading) {
       dispatch(showAppLoader());
