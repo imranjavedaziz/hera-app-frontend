@@ -542,7 +542,7 @@ export const sendRequestSchema = yup.object().shape({
     .typeError(ValidationMessages.AMOUNT)
     .required(ValidationMessages.AMOUNT)
     .positive(ValidationMessages.AMOUNT_POSITIVE)
-    .max(999999.9, ValidationMessages.AMOUNT_MAX),
+    .max(10000, ValidationMessages.AMOUNT_MAX),
   doc_url: yup
     .string()
     .nullable(),
