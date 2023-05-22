@@ -64,24 +64,14 @@ const SubscriptionCard = ({route}) => {
   const {paymentIntentRes} = useSelector(store => store.paymentIntent);
   const {stripe_customer_id} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
-  const [check, setCheck] = useState(true);
+  const [info, setInfo] = useState('');
   useEffect(() => {
     if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.SUCCESS) {
       const info = paymentIntentRes?.info;
       dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
-
-      const payload = {
-        device_type: Platform.OS,
-        product_id: params.selectCheckBox.android_product,
-        payment_method_id: info?.id,
-        purchase_token: 'null',
-      };
-      setCallApi(true);
-      dispatch(showAppLoader());
-      console.log('createSubscription', payload);
-      dispatch(createSubscription(payload));
+      setInfo(info?.id);
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.FAIL) {
       dispatch(hideAppLoader());
       let error = paymentIntentRes?.error ?? 'Something went wrong!';
@@ -94,18 +84,17 @@ const SubscriptionCard = ({route}) => {
     if (
       create_subscription_success &&
       isCallApi &&
-      subscription_status_success &&
-      attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
+      subscription_status_success
     ) {
       dispatch(getSubscriptionStatus());
       if (subscription_status_success) {
         setCallApi(false);
+        navigation.navigate(Routes.PtbProfile, params);
+      }
+      if(!create_subscription_loading){
         dispatch(hideAppLoader());
-        if(attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS){
-          dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
-          dispatch({type: PAYMENT_INTENT.CLEAN});
-          navigation.navigate(Routes.PtbProfile, params);
-        }
+        dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+        dispatch({type: PAYMENT_INTENT.CLEAN});
       }
     }
   }, [
@@ -114,22 +103,27 @@ const SubscriptionCard = ({route}) => {
     create_subscription_res,
     subscription_status_success,
     isCallApi,
-    attachPaymentIntentRes
   ]);
   useEffect(() => {
     if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS) {
-      dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
-      dispatch({type: PAYMENT_INTENT.CLEAN});
+      const payload = {
+        device_type: Platform.OS,
+        product_id: params.selectCheckBox.android_product,
+        payment_method_id: info,
+        purchase_token: 'null',
+      };
+      setCallApi(true);
+      dispatch(showAppLoader());
+      console.log('createSubscription', payload);
+      dispatch(createSubscription(payload));
     } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
       let error = attachPaymentIntentRes?.error ?? 'Something went wrong!';
+      dispatch(hideAppLoader());
       dispatch(showAppToast(true, error));
       dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
       dispatch({type: PAYMENT_INTENT.CLEAN});
     }
   }, [attachPaymentIntentRes]);
-  useEffect(() => {
-    console.log('check-', check);
-  }, [check]);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}

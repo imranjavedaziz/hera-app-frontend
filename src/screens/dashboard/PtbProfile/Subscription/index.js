@@ -338,6 +338,7 @@ const Subscription = () => {
           type,
         );
       } else {
+        dispatch(hideAppLoader());
         navigation.navigate(
           androidCards.length > 0
             ? Routes.ConfirmSubscription
@@ -607,7 +608,7 @@ const Subscription = () => {
                   Platform.OS === 'ios'
                     ? Strings.Subscription.IOSStoreName
                     : Strings.Subscription.AndroidStoreName
-                }${Strings.Subscription.RenewText} ${
+                }${Strings.Subscription.RenewText}${
                   Strings.Subscription.TimePeriodText
                 }${Strings.Subscription.PaymentCharge}${
                   Platform.OS === 'ios'
