@@ -205,7 +205,7 @@ const Subscription = () => {
   const showChangeSuccessToast = useCallback(() => {
     if (Platform.OS === 'ios') {
       Alert.alert(
-        Strings.Subscription.SuccessChanged,
+        subscription_plan_res?.data?.subscription===null?Strings.Subscription.FirstTime:Strings.Subscription.SuccessChanged,
         isPlanChanged
           ? Strings.Subscription.SuccessChangedPara.replace(
               '{SELECTED_ROLE}',
@@ -434,6 +434,7 @@ const Subscription = () => {
     }
   }, [selectCheckBox, subscription_plan_res]);
   const handlePurchaseSubcription = useCallback(() => {
+    // subscriptionStatus?.data?.subscription_cancel
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
     } else {
@@ -460,7 +461,12 @@ const Subscription = () => {
       ) {
         setPlanChanged(false);
         setPlanUpgrade(true);
-        showUpgradePlanToast();
+        if(subscriptionStatus?.data?.subscription_cancel != 1){
+          showUpgradePlanToast();
+        }
+        else{
+          subscribePlan(selectCheckBox, 'credit');
+        }
       } else {
         subscribePlan(selectCheckBox, 'credit');
       }
@@ -660,12 +666,19 @@ const Subscription = () => {
                       'YYYY-MM-DD',
                     ).format('LL'),
                   )
-                : Strings.Subscription.UpgradePlanParaAndroid.replace(
+                : (subscriptionStatus?.data?.subscription_cancel!=1?Strings.Subscription.UpgradePlanParaAndroid:Strings.Subscription.UpgradeCanceledPlanParaAndroid).replace(
                     '{SELECTED_ROLE}',
                     selectCheckBox == null
                       ? '{SELECTED_ROLE}'
                       : Strings?.STATIC_ROLE.find(
                           r => r.id === subscription_plan_res?.data?.preference?.role_id_looking_for,
+                        ).name,
+                  ).replace(
+                    '{SELECTED_ROLE2}',
+                    selectCheckBox == null
+                      ? '{SELECTED_ROLE2}'
+                      : Strings?.STATIC_ROLE.find(
+                          r => r.id === selectCheckBox.role_id_looking_for,
                         ).name,
                   )}
             </Text>
@@ -676,11 +689,7 @@ const Subscription = () => {
                 setChangeModal(!changeModal);
               }}>
               <Text style={[styles.changeModalBtnTxt, {color: Colors.RED}]}>
-                {capitalizeStr(
-                  !isPlanChanged
-                    ? Strings.Subscription.YesProceed
-                    : Strings.Subscription.YesCancel,
-                )}
+                {capitalizeStr(Strings.Subscription.YesProceed)}
               </Text>
             </Pressable>
             <View style={styles.seperator} />

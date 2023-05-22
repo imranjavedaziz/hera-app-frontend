@@ -500,7 +500,7 @@ export default {
       'Your subscription has expired. Please renew your subscription now to continue your conversation.',
     ChangePlan: 'Change of Plan?',
     ChangePlanPara: `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.`,
-    ChangePlanParaAndroid: `You already have an ongoing plan that will end on {DATE_END}. If you choose to cancel this plan, no refund will be initiated. Also, if you choose to select the other plan, it will be activated only after your ongoing plan has ended.`,
+    ChangePlanParaAndroid: `You already have an ongoing plan that will end on {DATE_END}. If you choose to select the other plan, your current plan will be canceled & no refund will be initiated.`,
     YesProceed: 'YES, PROCEED',
     YesCancel: 'YES, CANCEL',
     UpgradePlan: 'Change search to {SELECTED_ROLE}?',
@@ -511,8 +511,11 @@ export default {
     then click Manage.
     Next to the HERA subscription,
     Click Cancel Subscription.`,
-    UpgradePlanParaAndroid: `Based on your current subscription, you can only search for {SELECTED_ROLE}. To search for another user type, you will have to first cancel your current subscription & then select a new subscription.`,
+    UpgradePlanParaAndroid: `Based on your current subscription, you can only search for {SELECTED_ROLE}. 
+    If you choose to search for {SELECTED_ROLE2}, your current subscription will be canceled & your new plan will be activated after you make the payment.`,
+    UpgradeCanceledPlanParaAndroid: `Based on your current preference, you can only look for {SELECTED_ROLE}. If you choose to search for {SELECTED_ROLE2}, your selected preference will be changed as well.`,
     GotIt: 'OKAY, GOT IT!',
+    FirstTime: 'You are now subscribed!',
     SuccessChanged: 'Subscription Updated!',
     SuccessChangedPara: `You are now subscribed to look for {SELECTED_ROLE}.`,
     SuccessUpgradePara:
@@ -526,7 +529,7 @@ export default {
     CancelSubParaAndroid: `If you cancel the subscription, you will not be able to send a like, match or chat with any profile.`,
     NotProcessed: 'Subscription could not be processed.',
     SubRemoved: 'Subscription Removed!',
-    SubRemovedPara: 'Your subscription is now cancelled. No amount will be further diducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
+    SubRemovedPara: 'Your subscription is now cancelled. No amount will be further deducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
   },
   Chat: {
     Chat: 'CHAT',

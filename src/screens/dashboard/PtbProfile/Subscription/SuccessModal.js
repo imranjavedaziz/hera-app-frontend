@@ -28,7 +28,7 @@ const SuccessModal = props => {
         />
         <View style={styles.changeModalBox}>
           <Text style={styles.changeModalTitle} numberOfLines={2}>
-            {Strings.Subscription.SuccessChanged}
+            {subscription===null?Strings.Subscription.FirstTime:Strings.Subscription.SuccessChanged}
           </Text>
           <Text style={styles.changeModalPara}>
             {isPlanChanged

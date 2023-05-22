@@ -70,9 +70,7 @@ const SubscriptionCard = ({route}) => {
       dispatch(showAppLoader());
     } else if (paymentIntentRes?.status === PAYMENT_INTENT.SUCCESS) {
       const info = paymentIntentRes?.info;
-      if (check) {
-        dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
-      }
+      dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
 
       const payload = {
         device_type: Platform.OS,
@@ -96,15 +94,18 @@ const SubscriptionCard = ({route}) => {
     if (
       create_subscription_success &&
       isCallApi &&
-      subscription_status_success
+      subscription_status_success &&
+      attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS
     ) {
       dispatch(getSubscriptionStatus());
       if (subscription_status_success) {
         setCallApi(false);
         dispatch(hideAppLoader());
-        dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
-        dispatch({type: PAYMENT_INTENT.CLEAN});
-        navigation.navigate(Routes.PtbProfile, params);
+        if(attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS){
+          dispatch({type: ATTACH_PAYMENT_INTENT.CLEAN});
+          dispatch({type: PAYMENT_INTENT.CLEAN});
+          navigation.navigate(Routes.PtbProfile, params);
+        }
       }
     }
   }, [
@@ -113,6 +114,7 @@ const SubscriptionCard = ({route}) => {
     create_subscription_res,
     subscription_status_success,
     isCallApi,
+    attachPaymentIntentRes
   ]);
   useEffect(() => {
     if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.SUCCESS) {
