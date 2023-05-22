@@ -82,7 +82,7 @@ export const CancelSubscription = ({
             style={[
               styles.changeModalBtn,
               showSingleButton
-                ? {backgroundColor: Colors.COLOR_A3C6C4, marginTop: 20}
+                ? {backgroundColor: Colors.COLOR_A3C6C4, marginVertical: 20}
                 : null,
             ]}
             onPress={() => {
