@@ -129,7 +129,7 @@ export const ValidationMessages = {
   AMOUNT: 'Pleease enter amount',
   AMOUNT_VALID: 'Pleease enter a valid amount',
   AMOUNT_POSITIVE: 'Pleease enter a positive amount',
-  AMOUNT_MAX: 'Amount is beyond the max limit i.e. $999,999.9',
+  AMOUNT_MAX: 'Amount is beyond the max limit i.e. $10,000.00',
   CONFIRM_PAYMENT: 'Confirm Payment?',
   YES_CONFIRM: 'Yes, Confirm',
   CONFIRM_PAYMENT_DIS: 'Once you proceed with the payment, we will deduct $',
