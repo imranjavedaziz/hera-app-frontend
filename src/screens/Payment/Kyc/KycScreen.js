@@ -6,6 +6,7 @@ import {
   Platform,
   Keyboard,
   Alert,
+  BackHandler,
 } from 'react-native';
 import React, {useRef, useEffect, useCallback} from 'react';
 import {
@@ -70,6 +71,23 @@ const KycScreen = ({route}) => {
   const {kycResponse} = useSelector(store => store?.kyc);
   let scrollRef = React.createRef();
   const [date, setDate] = React.useState(new Date());
+  const handleBackButtonClick = () => {
+    if (Platform.OS === 'ios') {
+      backAction();
+    } else {
+      setShowModal(true);
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const headerComp = () => (
     <IconHeader
       rightIcon={Images.iconcross}

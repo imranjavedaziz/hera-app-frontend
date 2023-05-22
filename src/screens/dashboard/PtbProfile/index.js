@@ -5,7 +5,8 @@ import {
   Platform,
   ScrollView,
   Alert,
-  RefreshControl
+  RefreshControl,
+  BackHandler,
 } from 'react-native';
 import React, {
   useState,
@@ -101,17 +102,30 @@ const PtbProfile = ({route}) => {
   const {get_payment_request_list_success, get_payment_request_list_res} =
     useSelector(state => state.Payment);
   const {Device_ID} = useContext(NotificationContext);
-  const callAllApis = ()=>{
+  const callAllApis = () => {
     dispatch(getSubscriptionStatus());
     dispatch(getEditProfile());
     dispatch(getUserGallery());
     dispatch(getPaymentRequestList());
-  }
+  };
   useFocusEffect(
     useCallback(() => {
       callAllApis();
     }, [dispatch]),
   );
+  const handleBackButtonClick = () => {
+    navigation.navigate(Routes.PtbDashboard);
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (route.params?.isPlanChanged || route.params?.isPlanUpgrade) {
       setSuccessModal(true);
@@ -332,10 +346,13 @@ const PtbProfile = ({route}) => {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           refreshControl={
-            <RefreshControl refreshing={isRefreshing} onRefresh={()=>{
-              setRefreshing(true);
-              callAllApis();
-            }} />
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={() => {
+                setRefreshing(true);
+                callAllApis();
+              }}
+            />
           }>
           <View style={styles.andMainContainer}>
             <View style={styles.imgView}>

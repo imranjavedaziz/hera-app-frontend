@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
   Animated,
+  BackHandler,
 } from 'react-native';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {
@@ -103,25 +104,37 @@ const PTB_profile = props => {
     }, [dispatch, userid]),
   );
   const navigation = useNavigation();
-  console.log(stateRes, 'stateRes');
+  const handleBackButtonClick = () => {
+    if (props?.route?.params?.coming === true) {
+      if (stateRes?.profile_match_request?.status === 2) {
+        navigation.navigate(Routes.ChatDetail, {
+          item: stateRes?.profile_match_chat,
+          account_status_res: props?.route?.params?.account_status_res
+            ? props?.route?.params?.account_status_res
+            : '',
+        });
+      } else {
+        navigation.goBack();
+      }
+    } else {
+      navigation.goBack();
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={() => {
-        if (props?.route?.params?.coming === true) {
-          if (stateRes?.profile_match_request?.status === 2) {
-            navigation.navigate(Routes.ChatDetail, {
-              item: stateRes?.profile_match_chat,
-              account_status_res: props?.route?.params?.account_status_res
-                ? props?.route?.params?.account_status_res
-                : '',
-            });
-          } else {
-            navigation.goBack();
-          }
-        } else {
-          navigation.goBack();
-        }
+        handleBackButtonClick();
       }}
       style={styles.androidHeaderIcons}
     />

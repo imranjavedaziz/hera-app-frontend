@@ -10,6 +10,7 @@ import {
   Pressable,
   TouchableOpacity,
   Alert,
+  BackHandler,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import Container from '../../../../components/Container';
@@ -153,6 +154,19 @@ const Subscription = () => {
       );
     }
   }, [subscriptionStatus]);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
@@ -375,7 +389,8 @@ const Subscription = () => {
         r => r.id === selectCheckBox?.role_id_looking_for,
       ).name;
       const roleName2 = Strings?.STATIC_ROLE.find(
-        r => r.id === subscription_plan_res?.data?.preference?.role_id_looking_for,
+        r =>
+          r.id === subscription_plan_res?.data?.preference?.role_id_looking_for,
       ).name;
       Alert.alert(
         Strings.Subscription.UpgradePlan.replace(
@@ -671,7 +686,10 @@ const Subscription = () => {
                     selectCheckBox == null
                       ? '{SELECTED_ROLE}'
                       : Strings?.STATIC_ROLE.find(
-                          r => r.id === subscription_plan_res?.data?.preference?.role_id_looking_for,
+                          r =>
+                            r.id ===
+                            subscription_plan_res?.data?.preference
+                              ?.role_id_looking_for,
                         ).name,
                   ).replace(
                     '{SELECTED_ROLE2}',

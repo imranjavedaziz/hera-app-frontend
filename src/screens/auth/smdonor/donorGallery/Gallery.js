@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   Platform,
+  BackHandler,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../../components/Container';
@@ -84,7 +85,19 @@ const Gallery = () => {
     loadScreen && dispatch(showAppLoader());
     dispatch(getUserGallery());
   }, [dispatch]);
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {

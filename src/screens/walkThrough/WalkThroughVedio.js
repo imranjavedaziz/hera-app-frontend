@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, BackHandler} from 'react-native';
 import {Alignment, Images, Strings} from '../../constants';
 import Video from 'react-native-video';
 import styles from './style';
@@ -17,6 +17,19 @@ const WalkThroughVedio = props => {
   const videoRef = useRef();
   const [counter, setCounter] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (isFullScreen === true) {
       Orientation.unlockAllOrientations();

@@ -1,5 +1,5 @@
-import {View, FlatList, ActivityIndicator} from 'react-native';
-import React, {useState} from 'react';
+import {View, FlatList, ActivityIndicator, BackHandler} from 'react-native';
+import React, {useState ,useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
@@ -18,6 +18,7 @@ import {
 } from '../../../redux/actions/Payment';
 import {hideEditLoader} from '../../../redux/actions/loader';
 
+
 const Transaction = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -31,6 +32,19 @@ const Transaction = () => {
   } = useSelector(state => state.Payment);
   React.useEffect(() => {
     dispatch(getTransactionHistory());
+  }, []);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
   }, []);
   React.useEffect(() => {
     console.log('payment_history_res', JSON.stringify(payment_history_res));

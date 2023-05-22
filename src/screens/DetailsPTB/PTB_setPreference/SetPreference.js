@@ -9,6 +9,7 @@ import {
   Keyboard,
   ImageBackground,
   TouchableWithoutFeedback,
+  BackHandler,
 } from 'react-native';
 import React, {
   useCallback,
@@ -34,7 +35,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {setPreferenceSchema} from '../../../constants/schemas';
 import Range from '../../../components/RangeSlider';
-import Strings from '../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {
   Static,
@@ -59,7 +60,6 @@ import {
 } from '../../../redux/actions/SetPreference';
 import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {getStates} from '../../../redux/actions/Register';
-import openWebView from '../../../utils/openWebView';
 import {useFocusEffect} from '@react-navigation/native';
 import _ from 'lodash';
 import {empty} from '../../../redux/actions/Chat';
@@ -67,10 +67,7 @@ import {NotificationContext} from '../../../context/NotificationContextManager';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
-import {Rotate} from 'hammerjs';
-import {navigate} from '../../../utils/RootNavigation';
 import {updateTrail} from '../../../redux/actions/Subsctiption';
-import debounce from '../../../utils/debounce';
 import {dynamicSize} from '../../../utils/responsive';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
@@ -137,6 +134,48 @@ const SetPreference = ({route, navigation}) => {
   const loadingRef = useRef(false);
   const stateLoadingRef = useRef(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: {errors, isValid, dirtyFields},
+  } = useForm({
+    resolver: yupResolver(setPreferenceSchema),
+  });
+
+  const handleBackButtonClick = () => {
+    if (EditPreferences === true) {
+      if (_.isEmpty(dirtyFields)) {
+        navigation.navigate(Routes.PtbProfile);
+      } else {
+        Platform.OS === 'ios' ? backAction() : setShowModal(true);
+      }
+    } else {
+      Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+        {
+          text: ValidationMessages.CANCEL,
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: ValidationMessages.YES,
+          onPress: () => {
+            BackHandler.exitApp();
+          },
+        },
+      ]);
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, [dirtyFields]);
   useFocusEffect(
     useCallback(() => {
       if (EditPreferences === true) {
@@ -181,15 +220,7 @@ const SetPreference = ({route, navigation}) => {
       dispatch(SetPreferenceRes());
     }
   }, [isCachePref, get_preference_success]);
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: {errors, isValid, dirtyFields},
-  } = useForm({
-    resolver: yupResolver(setPreferenceSchema),
-  });
-
+ 
   useEffect(() => {
     if (!isValid) {
       const e = errors;
@@ -555,7 +586,8 @@ const SetPreference = ({route, navigation}) => {
                           style={styles.flexRow}
                           key={whom.id}
                           disabled={
-                            (!subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status>0) &&
+                            !subscriptionStatus?.data?.is_trial &&
+                            subscriptionStatus?.data?.status > 0 &&
                             EditPreferences
                           }
                           activeOpacity={1}
@@ -571,8 +603,9 @@ const SetPreference = ({route, navigation}) => {
                           <Text
                             style={
                               value === whom.id ||
-                              (subscriptionStatus?.data?.is_trial ||
-                              !EditPreferences || subscriptionStatus?.data?.status===0)
+                              subscriptionStatus?.data?.is_trial ||
+                              !EditPreferences ||
+                              subscriptionStatus?.data?.status === 0
                                 ? styles.lookingsm
                                 : styles.lookingsmDisabled
                             }>

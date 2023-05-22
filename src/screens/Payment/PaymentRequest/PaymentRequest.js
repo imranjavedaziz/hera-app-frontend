@@ -1,4 +1,4 @@
-import {View, Text, FlatList, Alert, Platform} from 'react-native';
+import {View, Text, FlatList, Alert, Platform, BackHandler} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
@@ -16,7 +16,6 @@ import {
   showAppLoader,
   hideAppLoader,
   showAppToast,
-  showEditAppLoader,
 } from '../../../redux/actions/loader';
 import _ from 'lodash';
 import PaymentRequestModal from '../../../components/PaymentRequestModal/PaymentRequestModal';
@@ -52,6 +51,19 @@ const PaymentRequest = () => {
     dispatch(showAppLoader());
     dispatch(getPaymentRequestList());
   }, [dispatch]);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (LoadingRef.current && !get_payment_request_list_loading) {
       if (get_payment_request_list_success) {

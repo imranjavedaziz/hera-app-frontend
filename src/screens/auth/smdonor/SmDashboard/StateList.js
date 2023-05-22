@@ -5,6 +5,7 @@ import {
   FlatList,
   Alert,
   Image,
+  BackHandler,
 } from 'react-native';
 import React, {useEffect, useRef, useState, useCallback} from 'react';
 import Header, {CircleBtn} from '../../../../components/Header';
@@ -37,7 +38,19 @@ const StateList = props => {
     get_state_error_msg,
     get_state_res,
   } = useSelector(st => st?.Register);
-
+  const handleBackButtonClick = () => {
+    BackControl();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   //GET STATE
   useFocusEffect(
     useCallback(() => {

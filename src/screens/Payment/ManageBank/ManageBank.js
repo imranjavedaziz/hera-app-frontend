@@ -1,4 +1,4 @@
-import {View, Text, Keyboard} from 'react-native';
+import {View, Text, Keyboard, BackHandler} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {Button, FloatingLabelInput, Header} from '../../../components';
 import styles from './styles';
@@ -60,6 +60,19 @@ const ManageBank = ({route}) => {
     account_status_fail,
     account_status_res,
   } = useSelector(state => state.AccountStatus);
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
       const token = bankResponse.info.id;

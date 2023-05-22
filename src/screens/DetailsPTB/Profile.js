@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
+  BackHandler,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -46,10 +47,8 @@ import Button from '../../components/Button';
 import styles from './StylesProfile';
 import ActionSheet from 'react-native-actionsheet';
 import Alignment from '../../constants/Alignment';
-import openWebView from '../../utils/openWebView';
 import {askCameraPermission} from '../../utils/permissionManager';
 import {ptbRegister} from '../../redux/actions/Register';
-import {deviceHandler} from '../../utils/commonFunction';
 import {BottomSheetComp, ModalMiddle} from '../../components';
 import {
   deviceRegister,
@@ -59,7 +58,6 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NotificationContext} from '../../context/NotificationContextManager';
 import debounce from '../../utils/debounce';
-import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {empty} from '../../redux/actions/Chat';
 
 const Profile = props => {
@@ -96,10 +94,31 @@ const Profile = props => {
     register_user_loading,
     register_user_error_msg,
   } = useSelector(state => state.Auth);
+  const handleBackButtonClick = () => {
+    Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+      {
+        text: ValidationMessages.CANCEL,
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: ValidationMessages.YES,
+        onPress: () => {
+          navigation.navigate(Routes.Landing);
+        },
+      },
+    ]);
+    return true;
+  };
   useEffect(() => {
-    deviceHandler(props.navigation, Routes.Landing);
-  }, [props.navigation]);
-
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (loadingRef.current && !register_user_loading) {
       dispatch(showAppLoader());
@@ -185,7 +204,7 @@ const Profile = props => {
         text: Strings.profile.ModalOption1,
         onPress: () => {
           dispatch(empty());
-          debounce(logoutScreen(), 1000)
+          debounce(logoutScreen(), 1000);
         },
       },
       {
@@ -627,7 +646,7 @@ const Profile = props => {
                 String_4={Strings.profile.ModalOption2}
                 onPressNav={() => {
                   setShowModal(false);
-                  debounce(logoutScreen(), 1000)
+                  debounce(logoutScreen(), 1000);
                   navigation.navigate(Routes.Landing);
                 }}
                 onPressOff={() => {

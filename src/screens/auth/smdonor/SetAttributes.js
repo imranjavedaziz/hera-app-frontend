@@ -14,6 +14,7 @@ import {
   ScrollView,
   Alert,
   ImageBackground,
+  BackHandler,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -21,7 +22,7 @@ import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
-import Strings from '../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smSetAttributesSchema} from '../../../constants/schemas';
 import Dropdown from '../../../components/inputs/Dropdown';
 import {Value} from '../../../constants/FixedValues';
@@ -46,7 +47,6 @@ import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {Alignment} from '../../../constants';
 import {dynamicSize, statusHide} from '../../../utils/responsive';
-import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {empty} from '../../../redux/actions/Chat';
 
@@ -112,11 +112,9 @@ const SetAttributes = ({route}) => {
     set_attribute_success,
     set_attribute_loading,
     set_attribute_error_msg,
-
     save_attribute_success,
     save_attribute_loading,
     save_attribute_error_msg,
-
     get_attribute_res,
     get_attribute_success,
     get_attribute_loading,
@@ -132,7 +130,39 @@ const SetAttributes = ({route}) => {
       });
     }, [navigation, reset]),
   );
-
+  const handleBackButtonClick = () => {
+    if (EditAttributes === true) {
+      if (isDirty === true) {
+        ternaryEXT();
+      } else {
+        navigation.navigate(Routes.SmSetting);
+      }
+    } else {
+      Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+        {
+          text: ValidationMessages.CANCEL,
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: ValidationMessages.YES,
+          onPress: () => {
+            BackHandler.exitApp();
+          },
+        },
+      ]);
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, [isDirty]);
   //GET User Attributes
   useEffect(() => {
     if (UserLoadingRef.current && !get_attribute_loading) {

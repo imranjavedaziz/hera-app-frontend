@@ -6,6 +6,7 @@ import {
   Image,
   Platform,
   Alert,
+  BackHandler,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Images from '../../../../constants/Images';
@@ -44,7 +45,6 @@ const MyVideo = () => {
   const navigation = useNavigation();
   const videoRef = useRef();
   const [counter, setCounter] = useState(0);
-
   const {
     gallery_success,
     gallery_loading,
@@ -56,7 +56,19 @@ const MyVideo = () => {
     isLoader && dispatch(showAppLoader());
     dispatch(getUserGallery());
   }, [dispatch]);
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   function handelDel(index) {
     let pushArr = remove;
     let isExist = pushArr.findIndex(val => val === index);

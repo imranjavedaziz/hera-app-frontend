@@ -1,5 +1,5 @@
-import {View, Text, Platform, Alert} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, Platform, Alert, BackHandler} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import Header, {IconHeader} from '../../../../components/Header';
 import styles from './style';
 import {Images, Strings} from '../../../../constants';
@@ -20,7 +20,19 @@ const Settings = () => {
       leftPress={() => navigation.goBack()}
     />
   );
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const backAction = () => {
     Alert.alert(
       ValidationMessages.DELETE_ACCOUNT,

@@ -10,6 +10,8 @@ import {
   Keyboard,
   ScrollView,
   StatusBar,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,7 +20,7 @@ import Button from '../../../components/Button';
 import Images from '../../../constants/Images';
 import Header, {CircleBtn} from '../../../components/Header';
 import globalStyle from '../../../styles/global';
-import Strings from '../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
 import {smBasicSchema} from '../../../constants/schemas';
 import FloatingLabelInput from '../../../components/FloatingLabelInput';
 import {Routes, ABOUT_URL} from '../../../constants/Constants';
@@ -94,6 +96,31 @@ const SmBasicDetails = () => {
   useEffect(() => {
     dispatch(getStates());
     dispatch(getProfileSetterDetail());
+  }, []);
+  const handleBackButtonClick = () => {
+    Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+      {
+        text: ValidationMessages.CANCEL,
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: ValidationMessages.YES,
+        onPress: () => {
+          BackHandler.exitApp();
+        },
+      },
+    ]);
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
   }, []);
   //GET STATE
   useEffect(() => {

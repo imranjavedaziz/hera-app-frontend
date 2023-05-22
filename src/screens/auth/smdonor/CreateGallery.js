@@ -8,12 +8,13 @@ import {
   ActivityIndicator,
   Alert,
   Platform,
+  BackHandler,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Container from '../../../components/Container';
 import Images from '../../../constants/Images';
 import globalStyle from '../../../styles/global';
-import Strings from '../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../constants/Strings';
 import openCamera from '../../../utils/openCamera';
 import {Routes} from '../../../constants/Constants';
 import videoPicker from '../../../utils/videoPicker';
@@ -81,6 +82,31 @@ const CreateGallery = () => {
     dispatch(getUserGallery());
     console.log(_setImages, _setCounter);
   }, [dispatch]);
+  const handleBackButtonClick = () => {
+    Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+      {
+        text: ValidationMessages.CANCEL,
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: ValidationMessages.YES,
+        onPress: () => {
+          BackHandler.exitApp();
+        },
+      },
+    ]);
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {

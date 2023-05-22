@@ -7,6 +7,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Animated,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import React, {
   useState,
@@ -20,7 +22,7 @@ import Images from '../../../../constants/Images';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Header, {IconHeader} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
-import Strings from '../../../../constants/Strings';
+import Strings, {ValidationMessages} from '../../../../constants/Strings';
 import Searchbar from '../../../../components/Searchbar';
 import {Routes} from '../../../../constants/Constants';
 import {Prencentage, Value} from '../../../../constants/FixedValues';
@@ -34,7 +36,6 @@ import {
   showMessageAppToast,
 } from '../../../../redux/actions/loader';
 import Styles from '../smSettings/Styles';
-import {deviceHandler} from '../../../../utils/commonFunction';
 import FastImage from 'react-native-fast-image';
 import {NotificationContext} from '../../../../context/NotificationContextManager';
 import PushNotification from 'react-native-push-notification';
@@ -111,16 +112,37 @@ const SmDashboard = ({route}) => {
     }
   }, [search, isFocused, searchBarAnim]);
   useEffect(() => {
-    if (route?.name === 'SmDashboard') {
-      deviceHandler(navigation, 'exit');
-    }
     if (_.isEmpty(chats)) {
       setMsgRead(false);
     } else {
       setMsgRead(chats.some(x => x?.read === 0));
     }
   }, [navigation, route?.name, chats]);
-
+  const handleBackButtonClick = () => {
+    Alert.alert(ValidationMessages.HOLD_ON, ValidationMessages.ALERT, [
+      {
+        text: ValidationMessages.CANCEL,
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: ValidationMessages.YES,
+        onPress: () => {
+          BackHandler.exitApp();
+        },
+      },
+    ]);
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useFocusEffect(
     useCallback(() => {
       fetchData();

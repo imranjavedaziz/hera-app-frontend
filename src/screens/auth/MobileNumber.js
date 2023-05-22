@@ -1,6 +1,6 @@
 // MobileNumber
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -38,7 +38,19 @@ const MobileNumber = ({route}) => {
     mobile_number_loading,
     register_user_success_data,
   } = useSelector(state => state.Auth);
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   // send otp res
   useEffect(() => {
     if (loadingRef.current && !mobile_number_loading) {
