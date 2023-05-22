@@ -127,6 +127,10 @@ const PaymentSent = ({route}) => {
   const onSubmit = () => {
     if (valueDot.endsWith('.')) {
       dispatch(showAppToast(true, 'Please enter valid amount'));
+    } else if (parseInt(amount.replace(',', ''), 10) >= 10000) {
+      dispatch(
+        showAppToast(true, 'Amount is beyond the max limit i.e. $10,000'),
+      );
     } else {
       const updatedTxt = amount?.replace(/,/g, '');
       let Amount;
@@ -188,7 +192,7 @@ const PaymentSent = ({route}) => {
               keyboardType="numeric"
               value={amount}
               onChangeText={handleAmountChange}
-              maxLength={7}
+              maxLength={6}
               editable={!route?.params?.amount ? true : false}
             />
           </View>
