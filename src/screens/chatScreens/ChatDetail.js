@@ -136,9 +136,9 @@ const ChatDetail = props => {
     if (loadingNextRef.current && !next_step_loading) {
       dispatch(showAppLoader());
       if (next_step_success) {
+        setNextStep(true);
         dispatch(hideAppLoader());
         dispatch(showAppToast(false, 'Profile confirmed!'));
-        setNextStep(true);
       }
       if (next_step_fail) {
         dispatch(hideAppLoader());
