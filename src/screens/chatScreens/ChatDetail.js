@@ -579,16 +579,6 @@ const ChatDetail = props => {
   };
 
   const customSystemMessage = (item, index) => {
-    // console.log('item.currentMessage',JSON.stringify(item));
-    if (item?.currentMessage.type === 'image/jpeg') {
-      console.log(
-        item.currentMessage._id,
-        'item.currentMessage',
-        JSON.stringify(item.currentMessage.media?.file_url),
-      );
-    } else {
-      console.log('item.currentMessage', JSON.stringify(item.currentMessage));
-    }
     return (
       <View style={{flex: 1, marginBottom: 4}}>
         <View>
