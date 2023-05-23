@@ -34,7 +34,7 @@ const Searchbar = props => {
           placeholder={
             log_in_data.role_id !== 2
               ? Strings.search_Bar.search
-              : 'Search by user ID'
+              : 'Search by User ID'
           }
           placeholderTextColor={Colors.BLACK}
           keyboardType={'web-search'}
