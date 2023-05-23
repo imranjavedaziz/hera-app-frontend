@@ -3,7 +3,6 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
   Image,
   FlatList,
   BackHandler,
@@ -22,11 +21,12 @@ import {
   showAppLoader,
   showAppToast,
 } from '../../redux/actions/loader';
-import ImageLoading from '../../components/ImageLoading';
 import FastImage from 'react-native-fast-image';
 import {Routes, monthNames} from '../../constants/Constants';
 import ImageView from 'react-native-image-viewing';
 import _ from 'lodash';
+import {Value} from '../../constants/FixedValues';
+import AllMediaImg from './AllMediaImg';
 
 const AllMedia = props => {
   const userId = props?.route?.params?.item?.recieverId;
@@ -50,12 +50,6 @@ const AllMedia = props => {
     dispatch(DocumentGet(userId));
   }, [dispatch, userId]);
   const flatListRef = useRef(null);
-  const scrollToIndex = index => {
-    if (index >= 0 && index < document_get_res?.data?.data?.length) {
-      // Check if the index is within range
-      flatListRef.current.scrollToIndex({index, animated: true});
-    }
-  };
   const handleBackButtonClick = () => {
     navigation.navigate(Routes.ChatDetail, {
       item: props?.route?.params?.item,
@@ -87,21 +81,17 @@ const AllMedia = props => {
             const monthYear = `${
               monthNames[createdAt.getMonth()]
             } ${createdAt.getFullYear()}`;
-
             if (!result[monthYear]) {
-              result[monthYear] = {title: monthYear, data: []};
+              result[monthYear] = [];
             }
 
-            result[monthYear].data.push(item);
+            result[monthYear].push(item);
             return result;
           },
           {},
         );
 
-        const updatedData = Object.values(groupedData);
-
-        setData(updatedData);
-        console.log(groupedData, 'groupedDatagroupedData');
+        setData(groupedData);
       }
       if (document_get_fail) {
         dispatch(hideAppLoader());
@@ -117,6 +107,7 @@ const AllMedia = props => {
     dispatch,
     document_get_error_msg,
   ]);
+
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -133,16 +124,13 @@ const AllMedia = props => {
       url: img.url,
     });
   };
-  const ListFooterComponent = () => {
-    return <View style={styles.Bottom} />;
-  };
   const onPressDoc = (img, index) => {
     if (
       img.url.endsWith('.jpg') ||
       img.url.endsWith('.jpeg') ||
       img.url.endsWith('.png')
     ) {
-      // ImageClick(index);
+      ImageClick(index);
       console.log(index);
     } else {
       onPDF(img);
@@ -150,6 +138,7 @@ const AllMedia = props => {
   };
   const updateGallery = () => {
     const images = document_get_res?.data?.data
+      .reverse()
       ?.filter(img => img.url.match(/\.(jpg|jpeg|png)$/i))
       .map(img => ({uri: img.url}));
     setViewImages(images);
@@ -159,23 +148,31 @@ const AllMedia = props => {
     setIsVisible(true);
   };
   const renderItem = ({item, index}) => {
+    const numColumns = 3;
+    const isFirstOrThird =
+      (index + 1) % numColumns === 1 || (index + 1) % numColumns === 0;
     return (
-      <View style={styles.paddingView}>
-        <TouchableOpacity key={index} onPress={() => onPressDoc(item, index)}>
+      <View
+        style={[
+          styles.paddingView,
+          !isFirstOrThird && {paddingHorizontal: Value.CONSTANT_VALUE_1},
+        ]}>
+        <TouchableOpacity
+          key={index}
+          style={{justifyContent: Alignment.CENTER}}
+          onPress={() => onPressDoc(item, index)}>
           {item.url.endsWith('.jpg') ||
           item.url.endsWith('.jpeg') ||
           item.url.endsWith('.png') ? (
-            <ImageLoading
-              isFastImg={true}
+            <AllMediaImg
               key={index}
               style={[styles.galleryImgView, styles.imageStyling]}
               source={{
                 uri: item.url,
                 priority: FastImage.priority.normal,
                 cache: FastImage.cacheControl.immutable,
-              }}>
-              {item.loading && <ActivityIndicator />}
-            </ImageLoading>
+              }}
+            />
           ) : (
             <View style={[styles.galleryImgView, styles.imageStyling]}>
               <Image source={Images.PDF} />
@@ -194,21 +191,20 @@ const AllMedia = props => {
             {Strings.allMedia.allMedia}
           </Text>
           {!_.isEmpty(Data) &&
-            Data.map(img => {
+            Object.keys(Data).map(key => {
               return (
                 <>
-                  <Text style={styles.month}>{img?.title}</Text>
+                  <Text style={styles.month}>{key}</Text>
                   <FlatList
+                    scrollEnabled={false}
                     ref={flatListRef}
-                    data={img?.data}
+                    data={Data[key]}
                     style={styles.galleryImgContainer}
                     numColumns={3}
-                    inverted={true}
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
                     renderItem={renderItem}
                     stickyHeaderIndices={[0]}
-                    ListFooterComponent={ListFooterComponent}
                   />
                 </>
               );
