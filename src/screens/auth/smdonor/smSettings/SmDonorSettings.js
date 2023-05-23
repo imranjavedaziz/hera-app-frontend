@@ -59,6 +59,7 @@ import {
   GET_CARD_LIST,
 } from '../../../../redux/actions/stripe.action';
 import {getPaymentRequestList} from '../../../../redux/actions/Payment';
+import {ACCOUNT_STATUS_CLEAN} from '../../../../redux/Type';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -179,21 +180,26 @@ const SmDonorSettings = () => {
       GetLoadingRef.current = get_user_detail_loading;
     }, [get_user_detail_success, get_user_detail_loading, get_user_detail_res]),
   );
+  const clearFunction = async () => {
+    await dispatch(empty());
+    await dispatch(RemoveStripIds());
+    await dispatch(signoutUser());
+    await dispatch(hideAppLoader());
+    await dispatch({type: GET_CARD_LIST.CLEAN});
+    await dispatch({type: GET_BANK_LIST.CLEAN});
+    await dispatch(hideAppLoader());
+    await dispatch({type: ACCOUNT_STATUS_CLEAN});
+    navigation.navigate(Routes.Landing);
+    setTimeout(() => {
+      setDisable(false);
+    }, 3000);
+  };
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
-        dispatch(empty());
-        dispatch(RemoveStripIds());
-        dispatch(signoutUser());
-        dispatch(hideAppLoader());
-        dispatch({type: GET_CARD_LIST.CLEAN});
-        dispatch({type: GET_BANK_LIST.CLEAN});
-        navigation.navigate(Routes.Landing);
-        setTimeout(() => {
-          setDisable(false);
-        }, 3000);
+        clearFunction();
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());

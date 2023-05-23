@@ -272,7 +272,7 @@ export function getBankListReducer(state = getBankListResponse, action) {
     case GET_BANK_LIST.END:
       return {
         ...state,
-        getCardListResponse: {loading: false, status: GET_BANK_LIST.END},
+        getBankListResponse: {loading: false, status: GET_BANK_LIST.END},
       };
     case GET_BANK_LIST.CLEAN:
       return {

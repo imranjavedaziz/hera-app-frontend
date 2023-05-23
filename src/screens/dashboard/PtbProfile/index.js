@@ -65,6 +65,7 @@ import {
 import {GetPreferenceRes} from '../../../redux/actions/SetPreference';
 import {getPaymentRequestList} from '../../../redux/actions/Payment';
 import SuccessModal from './Subscription/SuccessModal';
+import {ACCOUNT_STATUS_CLEAN} from '../../../redux/Type';
 
 const PtbProfile = ({route}) => {
   const navigation = useNavigation();
@@ -247,22 +248,25 @@ const PtbProfile = ({route}) => {
     setOpen(false);
     setFile(image);
   };
-
+  const clearFunction = async () => {
+    await dispatch(empty());
+    await dispatch(RemoveStripIds());
+    await dispatch(signoutUser());
+    await dispatch({type: GET_CARD_LIST.CLEAN});
+    await dispatch({type: GET_BANK_LIST.CLEAN});
+    await dispatch(hideAppLoader());
+    await dispatch({type: ACCOUNT_STATUS_CLEAN});
+    navigation.navigate(Routes.Landing);
+    setTimeout(() => {
+      setDisable(false);
+    }, 3000);
+  };
   //logout
   useEffect(() => {
     if (LogoutLoadingRef.current && !log_out_loading) {
       dispatch(showAppLoader());
       if (log_out_success) {
-        dispatch(empty());
-        dispatch(RemoveStripIds());
-        dispatch(signoutUser());
-        dispatch({type: GET_CARD_LIST.CLEAN});
-        dispatch({type: GET_BANK_LIST.CLEAN});
-        dispatch(hideAppLoader());
-        navigation.navigate(Routes.Landing);
-        setTimeout(() => {
-          setDisable(false);
-        }, 3000);
+        clearFunction();
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
