@@ -35,6 +35,8 @@ import openCamera from '../../utils/openCamera';
 import ImageView from 'react-native-image-viewing';
 import {DocumentUpload} from '../../redux/actions/DocumentUpload';
 import {NextStep} from '../../redux/actions/NextStep';
+import {dynamicSize, px} from '../../utils/responsive';
+import {MaterialIndicator} from 'react-native-indicators';
 let fireDB;
 let onChildAdd;
 let images = [];
@@ -52,6 +54,7 @@ const ChatDetail = props => {
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
+  const [imageLoading, setImageLoading] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   let actionSheet = useRef();
   const [isOpen, setOpen] = useState(false);
@@ -590,7 +593,20 @@ const ChatDetail = props => {
                   <TouchableOpacity
                     onPress={() => {
                       onPressDoc(item);
+                    }}
+                    style={{
+                      justifyContent: 'center',
                     }}>
+                    {imageLoading && (
+                      <>
+                        <MaterialIndicator
+                          color={Colors.WHITE}
+                          size={dynamicSize(30)}
+                          style={styles.loaderImg}
+                        />
+                        <View style={styles.loaderView} />
+                      </>
+                    )}
                     <Image
                       resizeMode={Alignment.COVER}
                       style={
@@ -599,6 +615,8 @@ const ChatDetail = props => {
                           ? styles.msgImg
                           : styles.msgImgRx
                       }
+                      onLoadStart={() => setImageLoading(true)}
+                      onLoadEnd={() => setImageLoading(false)}
                       source={{uri: item?.currentMessage.media?.file_url}}
                     />
                   </TouchableOpacity>

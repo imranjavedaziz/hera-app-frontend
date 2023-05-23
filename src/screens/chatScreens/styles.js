@@ -325,4 +325,18 @@ export default {
     height: '100%',
     position: Alignment.ABSOLUTE,
   },
+  loaderImg: {
+    position: Alignment.ABSOLUTE,
+    zIndex: Value.CONSTANT_VALUE_2,
+    justifyContent: Alignment.CENTER,
+    alignSelf: Alignment.CENTER,
+  },
+  loaderView: {
+    position: Alignment.ABSOLUTE,
+    zIndex: Value.CONSTANT_VALUE_1,
+    backgroundColor: Colors.TIME_COLOR,
+    opacity: 0.5,
+    width: px(Value.CONSTANT_VALUE_203),
+    height: px(Value.CONSTANT_VALUE_160),
+  },
 };
