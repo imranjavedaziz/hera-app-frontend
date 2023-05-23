@@ -72,6 +72,16 @@ const ChatImageComp = React.memo(props => {
     </TouchableOpacity>
   );
 });
+const removeDuplicates = (arr)=> {
+  let unique = arr.reduce(function (acc, curr) {
+    const arrIndex = acc.findIndex(item=>item.uri===curr.uri)
+      if (arrIndex===-1){
+          acc.push(curr);
+      }
+      return acc;
+  }, []);
+  return unique;
+}
 const ChatDetail = props => {
   const routeData = props?.route?.params?.item;
   const [nextStep, setNextStep] = useState(false);
@@ -128,7 +138,7 @@ const ChatDetail = props => {
         return false;
       });
       allImages = allSharedImages.reverse().map(i => ({uri: i.media.file_url}));
-      setAllImages(allImages);
+      setAllImages(removeDuplicates(allImages));
     }
   }, [db, loading]);
   useEffect(() => {
@@ -602,7 +612,7 @@ const ChatDetail = props => {
       setCurrentImageIndex(imageIndex);
     } else {
       setAllImages(old=>{
-        const newArr = [...new Set([...old,{uri: imageUri}])];
+        const newArr = removeDuplicates([...old,{uri: imageUri}]);
         const newImageIndex = newArr.findIndex(image => image.uri === imageUri);
         if(newImageIndex>-1){
           setCurrentImageIndex(newImageIndex);
