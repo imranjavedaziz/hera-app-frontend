@@ -39,22 +39,26 @@ export default class FirebaseDB {
     this.uploadHidtory = {};
   }
 
-  addUploadHistory(item){
+  addUploadHistory(item) {
     this.uploadHidtory[item._id] = item;
   }
 
-  updateUploadHistory(url){
+  updateUploadHistory(url) {
     const uploadHidtoryArr = Object.values(this.uploadHidtory).reverse();
-    const uploadHidtoryId = uploadHidtoryArr.find(h=>h.media.network_uri===null)._id;
+    const uploadHidtoryId = uploadHidtoryArr.find(
+      h => h.media.network_uri === null,
+    )._id;
     this.uploadHidtory[uploadHidtoryId].media.network_uri = url;
   }
 
-  prependMessage(msg,cb=null) {
-    if(msg.type==='image/jpeg'){
+  prependMessage(msg, cb = null) {
+    if (msg.type === 'image/jpeg') {
       const imgUrl = msg.media.file_url;
       const uploadHidtoryArr = Object.values(this.uploadHidtory);
-      const uploadHidtoryIndex = uploadHidtoryArr.findIndex(h=>h.media.network_uri===imgUrl);
-      if(uploadHidtoryIndex>-1){
+      const uploadHidtoryIndex = uploadHidtoryArr.findIndex(
+        h => h.media.network_uri === imgUrl,
+      );
+      if (uploadHidtoryIndex > -1) {
         return null;
       }
     }
@@ -62,10 +66,7 @@ export default class FirebaseDB {
     if (index === -1) {
       this.messages = [msg, ...this.messages];
     }
-    if(cb!==null){
-      this.totalSize +=1;
-      cb(false);
-    }
+    cb !== null && cb(false);
   }
 
   appendMessage(msg) {
@@ -190,7 +191,7 @@ export default class FirebaseDB {
         }
         snapValues.map(async (childSnapshot, index) => {
           if (parseInt(keys[index]) < parseInt(this.firstKey)) {
-            const {time, text, from,type,media,namePdf} = childSnapshot;
+            const {time, text, from, type, media, namePdf} = childSnapshot;
             const createdAt = new Date(time);
             let messageItem = {
               _id: keys[index],
@@ -199,7 +200,7 @@ export default class FirebaseDB {
               from,
               type,
               media,
-              namePdf
+              namePdf,
             };
 
             this.appendMessage(messageItem);

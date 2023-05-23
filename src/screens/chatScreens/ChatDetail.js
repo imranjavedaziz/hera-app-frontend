@@ -72,16 +72,16 @@ const ChatImageComp = React.memo(props => {
     </TouchableOpacity>
   );
 });
-const removeDuplicates = (arr)=> {
+const removeDuplicates = arr => {
   let unique = arr.reduce(function (acc, curr) {
-    const arrIndex = acc.findIndex(item=>item.uri===curr.uri)
-      if (arrIndex===-1){
-          acc.push(curr);
-      }
-      return acc;
+    const arrIndex = acc.findIndex(item => item.uri === curr.uri);
+    if (arrIndex === -1) {
+      acc.push(curr);
+    }
+    return acc;
   }, []);
   return unique;
-}
+};
 const ChatDetail = props => {
   const routeData = props?.route?.params?.item;
   const [nextStep, setNextStep] = useState(false);
@@ -96,7 +96,7 @@ const ChatDetail = props => {
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
-  const [images,setAllImages] = useState([]);
+  const [images, setAllImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   let actionSheet = useRef();
   const [isOpen, setOpen] = useState(false);
@@ -180,7 +180,7 @@ const ChatDetail = props => {
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
   }, [dispatch, props?.route?.params?.item?.recieverId]);
   useEffect(() => {
-    if(file!==null){
+    if (file !== null) {
       const reqData = new FormData();
       reqData.append('file', {
         name: 'name',
@@ -191,25 +191,25 @@ const ChatDetail = props => {
       dispatch(DocumentUpload(reqData));
       setLoading(true);
       const imgData = {
-        "_id": moment.now().toString(),
-        "createdAt": (new Date()).toISOString(),
-        "from": props?.route?.params?.item?.senderId,
-        "media": {
-          "file_name": file.filename,
-          "file_size": `${file.size/1025} KB`,
-          "file_url": 'file:///'+file.path,
-          "mime": file.mime,
-          "network_uri": null,
+        _id: moment.now().toString(),
+        createdAt: new Date().toISOString(),
+        from: props?.route?.params?.item?.senderId,
+        media: {
+          file_name: file.filename,
+          file_size: `${file.size / 1025} KB`,
+          file_url: 'file:///' + file.path,
+          mime: file.mime,
+          network_uri: null,
         },
-        "namePdf": "",
-        "text": null,
-        "type": file.mime
-      }
-      db.prependMessage(imgData,()=>{
+        namePdf: '',
+        text: null,
+        type: file.mime,
+      };
+      db.prependMessage(imgData, () => {
         db.addUploadHistory(imgData);
-        setTimeout(()=>{
-          setLoading(false)
-        },500)
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       });
     }
   }, [file, dispatch]);
@@ -232,7 +232,8 @@ const ChatDetail = props => {
     if (loadingUploadRef.current && !document_upload_loading) {
       if (document_upload_success) {
         setTextData('');
-        db.updateUploadHistory(document_upload_res.file_url)
+        document_upload_res.mime === 'image/jpeg' &&
+          db.updateUploadHistory(document_upload_res.file_url);
         db.sendMessage(
           null,
           document_upload_res,
@@ -635,10 +636,10 @@ const ChatDetail = props => {
     if (imageIndex >= 0) {
       setCurrentImageIndex(imageIndex);
     } else {
-      setAllImages(old=>{
-        const newArr = removeDuplicates([...old,{uri: imageUri}]);
+      setAllImages(old => {
+        const newArr = removeDuplicates([...old, {uri: imageUri}]);
         const newImageIndex = newArr.findIndex(image => image.uri === imageUri);
-        if(newImageIndex>-1){
+        if (newImageIndex > -1) {
           setCurrentImageIndex(newImageIndex);
         }
         return newArr;
