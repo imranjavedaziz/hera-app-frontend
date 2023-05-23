@@ -40,7 +40,38 @@ import {dynamicSize, px} from '../../utils/responsive';
 import {MaterialIndicator} from 'react-native-indicators';
 let fireDB;
 let onChildAdd;
-let images = [];
+// let images = [];
+const ChatImageComp = React.memo(props => {
+  const {onPressDoc, item, from, senderId} = props;
+  const [imageLoading, setImageLoading] = useState(false);
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        onPressDoc(item);
+      }}
+      style={{
+        justifyContent: 'center',
+      }}>
+      {imageLoading && (
+        <>
+          <MaterialIndicator
+            color={Colors.WHITE}
+            size={dynamicSize(30)}
+            style={styles.loaderImg}
+          />
+          <View style={styles.loaderView} />
+        </>
+      )}
+      <Image
+        resizeMode={Alignment.COVER}
+        style={from === parseInt(senderId) ? styles.msgImg : styles.msgImgRx}
+        onLoadStart={() => setImageLoading(true)}
+        onLoadEnd={() => setImageLoading(false)}
+        source={{uri: item?.currentMessage.media?.file_url}}
+      />
+    </TouchableOpacity>
+  );
+});
 const ChatDetail = props => {
   const routeData = props?.route?.params?.item;
   const [nextStep, setNextStep] = useState(false);
@@ -55,7 +86,7 @@ const ChatDetail = props => {
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
-  const [imageLoading, setImageLoading] = useState(false);
+  const [images,setAllImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   let actionSheet = useRef();
   const [isOpen, setOpen] = useState(false);
@@ -89,14 +120,15 @@ const ChatDetail = props => {
   const loadingUploadRef = useRef(null);
   useEffect(() => {
     if (!loading) {
-      images = [];
+      let allImages = [];
       const allSharedImages = db.messages.filter(m => {
         if (m.type) {
           return m.type === 'image/jpeg';
         }
         return false;
       });
-      images = allSharedImages.reverse().map(i => ({uri: i.media.file_url}));
+      allImages = allSharedImages.reverse().map(i => ({uri: i.media.file_url}));
+      setAllImages(allImages);
     }
   }, [db, loading]);
   useEffect(() => {
@@ -569,8 +601,14 @@ const ChatDetail = props => {
     if (imageIndex >= 0) {
       setCurrentImageIndex(imageIndex);
     } else {
-      setCurrentImageIndex(images.length - 1);
-      images.push({uri: imageUri});
+      setAllImages(old=>{
+        const newArr = [...new Set([...old,{uri: imageUri}])];
+        const newImageIndex = newArr.findIndex(image => image.uri === imageUri);
+        if(newImageIndex>-1){
+          setCurrentImageIndex(newImageIndex);
+        }
+        return newArr;
+      });
     }
     ImageClick(item);
   };
@@ -603,36 +641,12 @@ const ChatDetail = props => {
                     : styles.chatContainer
                 }>
                 {item?.currentMessage.type === 'image/jpeg' && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      onPressDoc(item);
-                    }}
-                    style={{
-                      justifyContent: 'center',
-                    }}>
-                    {imageLoading && (
-                      <>
-                        <MaterialIndicator
-                          color={Colors.WHITE}
-                          size={dynamicSize(30)}
-                          style={styles.loaderImg}
-                        />
-                        <View style={styles.loaderView} />
-                      </>
-                    )}
-                    <Image
-                      resizeMode={Alignment.COVER}
-                      style={
-                        item.currentMessage.from ===
-                        parseInt(props?.route?.params?.item?.senderId)
-                          ? styles.msgImg
-                          : styles.msgImgRx
-                      }
-                      onLoadStart={() => setImageLoading(true)}
-                      onLoadEnd={() => setImageLoading(false)}
-                      source={{uri: item?.currentMessage.media?.file_url}}
-                    />
-                  </TouchableOpacity>
+                  <ChatImageComp
+                    onPressDoc={onPressDoc}
+                    item={item}
+                    from={item.currentMessage.from}
+                    senderId={props?.route?.params?.item?.senderId}
+                  />
                 )}
                 {item?.currentMessage.type === 'application/pdf' && (
                   <View>
@@ -1264,7 +1278,6 @@ const ChatDetail = props => {
         visible={visible}
         onRequestClose={() => {
           setIsVisible(false);
-          images = [{uri: images[currentImageIndex].uri}];
         }}
         isPinchZoomEnabled={true}
         swipeToCloseEnabled={false}
