@@ -404,7 +404,7 @@ export default {
     Race: 'Race is',
   },
   search_Bar: {
-    search: 'Search',
+    search: 'Search by Username',
     write_message: 'Write a message',
     Inactive: 'User is Inactive',
     smSearch: 'Search by name',
@@ -433,7 +433,7 @@ export default {
     Log_Out: 'Log Out?',
     LogoutContent: 'Do you wish to log out of the application?',
     Yes_Logout: 'Yes, Log Out',
-    See_Help_Video: 'See Help Video',
+    See_Help_Video: 'Watch The HERA Video',
     Hera_Pay: 'HERA Pay',
   },
   subscribe: {
@@ -640,6 +640,7 @@ export default {
     noBank: 'Bank not added by\n',
     Request: 'Request',
     Decline: 'Decline',
+    Request_for_Payment: 'Request for Payment',
   },
   SendAndRequest: {
     GetPaymentRequest: 'Get Payment Requests from your Matches',

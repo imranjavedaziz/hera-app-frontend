@@ -51,7 +51,7 @@ const AllMedia = props => {
   }, [dispatch, userId]);
   const flatListRef = useRef(null);
   const scrollToIndex = index => {
-    if (index >= 0 && index < Data?.length) {
+    if (index >= 0 && index < document_get_res?.data?.data?.length) {
       // Check if the index is within range
       flatListRef.current.scrollToIndex({index, animated: true});
     }
@@ -158,9 +158,7 @@ const AllMedia = props => {
     setImgPreviewIndex(index);
     setIsVisible(true);
   };
-  console.log(ViewImages,'ViewImages');
   const renderItem = ({item, index}) => {
-    console.log(item, index, 'itemitemitem');
     return (
       <View style={styles.paddingView}>
         <TouchableOpacity key={index} onPress={() => onPressDoc(item, index)}>
@@ -190,9 +188,7 @@ const AllMedia = props => {
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
+      <ScrollView style={styles.flex} showsVerticalScrollIndicator={false}>
         <View style={styles.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.allMedia.allMedia}

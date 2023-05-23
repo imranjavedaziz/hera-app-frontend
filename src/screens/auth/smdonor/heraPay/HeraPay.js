@@ -251,7 +251,8 @@ const HeraPay = () => {
     } else {
       if (
         account_status_res.bank_account &&
-        account_status_res?.kyc_status === 'verified'
+        account_status_res?.kyc_status === 'verified' &&
+        account_status_res?.status === 1
       ) {
         navigation.navigate(Routes.MatchScreen);
       } else if (_.isEmpty(Data) || Data === null) {
@@ -263,8 +264,10 @@ const HeraPay = () => {
       ) {
         dispatch(showAppToast(true, Strings.Hera_Pay.BANK_INCOMPLETE));
       } else if (
-        account_status_res?.kyc_status === 'pending' ||
-        account_status_res?.kyc_status === 'unverified'
+        (account_status_res?.kyc_status === 'pending' &&
+          account_status_res?.status === 0) ||
+        (account_status_res?.kyc_status === 'unverified' &&
+          account_status_res?.status === 0)
       ) {
         dispatch(showAppToast(true, Strings.Hera_Pay.BANK_UNVERIFIED));
       } else {
