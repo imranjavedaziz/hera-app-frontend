@@ -212,8 +212,10 @@ const PTB_profile = props => {
         ),
       );
     } else if (
-      props?.route?.params?.account_status_res?.kyc_status === 'pending' ||
-      props?.route?.params?.account_status_res?.kyc_status === 'rejected'
+      (props?.route?.params?.account_status_res?.status === 0 &&
+        props?.route?.params?.account_status_res?.kyc_status === 'pending') ||
+      (props?.route?.params?.account_status_res?.status === 0 &&
+        props?.route?.params?.account_status_res?.kyc_status === 'rejected')
     ) {
       dispatch(
         showAppToast(

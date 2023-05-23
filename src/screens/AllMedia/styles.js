@@ -23,11 +23,11 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     flexWrap: 'wrap',
     flexDirection: Alignment.ROW,
+    backgroundColor: 'green',
   },
   paddingView: {
     paddingHorizontal: Value.CONSTANT_VALUE_1,
     paddingVertical: Value.CONSTANT_VALUE_2,
-
   },
   galleryImgView: {
     width: width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2,

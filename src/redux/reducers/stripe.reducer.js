@@ -227,7 +227,16 @@ export function getCardListReducer(state = getCardListResponse, action) {
         getCardListResponse: {loading: false, status: GET_CARD_LIST.END},
       };
     case GET_CARD_LIST.CLEAN:
-      return getCardListResponse;
+      return {
+        getCardListResponse: {
+          info: null,
+          success: false,
+          error: null,
+          failed: false,
+          loading: false,
+          status: GET_CARD_LIST.END,
+        },
+      };
     default:
       return state;
   }
@@ -266,7 +275,16 @@ export function getBankListReducer(state = getBankListResponse, action) {
         getCardListResponse: {loading: false, status: GET_BANK_LIST.END},
       };
     case GET_BANK_LIST.CLEAN:
-      return getBankListResponse;
+      return {
+        getBankListResponse: {
+          info: null,
+          success: false,
+          error: null,
+          failed: false,
+          loading: false,
+          status: GET_BANK_LIST.END,
+        },
+      };
     default:
       return state;
   }

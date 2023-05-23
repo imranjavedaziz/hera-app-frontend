@@ -1,7 +1,12 @@
 import Colors from '../../../constants/Colors';
 import {Value} from '../../../constants/FixedValues';
 import Alignment from '../../../constants/Alignment';
-import {dynamicSize, normalizeFont, px} from '../../../utils/responsive';
+import {
+  dynamicSize,
+  normalizeFont,
+  scaleHeight,
+  scaleWidth,
+} from '../../../utils/responsive';
 import {Fonts} from '../../../constants/Constants';
 
 export default {
@@ -21,8 +26,8 @@ export default {
     marginTop: dynamicSize(65),
   },
   bgImage: {
-    height: px(370),
-    width: dynamicSize(240),
+    height: scaleHeight(370),
+    width: scaleWidth(240),
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
     marginRight: Value.CONSTANT_VALUE_40,

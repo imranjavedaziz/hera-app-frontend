@@ -4,6 +4,7 @@ import {
   height,
   normalizeFont,
   px,
+  scaleHeight,
   scaleWidth,
   statusHide,
 } from '../../../../utils/responsive';
@@ -50,8 +51,8 @@ export default {
     bottom: Value.CONSTANT_VALUE_40,
   },
   ImageSize: {
-    height: px(450),
-    width: px(310),
+    height: scaleHeight(450),
+    width: scaleWidth(310),
   },
   emptyCardContainer: {
     marginTop: Value.CONSTANT_VALUE_263,
@@ -100,5 +101,10 @@ export default {
     backgroundColor: Colors.WHITE,
     zIndex: Value.CONSTANT_VALUE_999999,
   },
-  disableing:{ backgroundColor: Colors.CLEAR, width: '100%', height: "100%", position: Alignment.ABSOLUTE }
+  disableing: {
+    backgroundColor: Colors.CLEAR,
+    width: '100%',
+    height: '100%',
+    position: Alignment.ABSOLUTE,
+  },
 };

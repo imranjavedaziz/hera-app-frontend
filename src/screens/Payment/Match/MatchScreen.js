@@ -155,7 +155,9 @@ const MatchScreen = () => {
         <View style={styles.container}>
           <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
           <Text style={styles.sendPayment}>
-            {Strings.Match_Screen.Send_Payment}
+            {log_in_data?.role_id === 2
+              ? Strings.Match_Screen.Send_Payment
+              : Strings.Match_Screen.Request_for_Payment}
           </Text>
           <View style={styles.searchContainer}>
             <Searchbar
