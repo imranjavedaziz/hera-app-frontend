@@ -2,6 +2,7 @@ import {
   ACCOUNT_STATUS,
   ACCOUNT_STATUS_FAIL,
   ACCOUNT_STATUS_SUCCESS,
+  ACCOUNT_STATUS_CLEAN,
 } from '../Type';
 
 const initState = {
@@ -14,16 +15,17 @@ const initState = {
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case ACCOUNT_STATUS: {
+    case ACCOUNT_STATUS_CLEAN:
+    case ACCOUNT_STATUS:
       return {
         ...state,
         account_status_success: false,
         account_status_loading: true,
         account_status_error_msg: '',
-        account_status_res: state.account_status_res,
+        account_status_res: '',
         account_status_fail: false,
       };
-    }
+
     case ACCOUNT_STATUS_FAIL: {
       return {
         ...state,
@@ -44,6 +46,7 @@ export default (state = initState, action) => {
         account_status_fail: false,
       };
     }
+
     default:
       return state;
   }

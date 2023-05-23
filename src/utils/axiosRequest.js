@@ -1,6 +1,6 @@
 // request
 import axios from 'axios';
-import {api_url} from '../constants/Constants';
+import {api_url, Routes} from '../constants/Constants';
 import {store} from '../redux/store';
 import {
   hideAppLoader,
@@ -16,10 +16,11 @@ import ApiPath from '../constants/ApiPath';
 import NetInfo from '@react-native-community/netinfo';
 import {ValidationMessages} from '../constants/Strings';
 import {navigationRef} from '../navigations/Main';
-import {Routes} from '../constants/Constants';
 import {StackActions} from '@react-navigation/native';
 import {updateSubscriptionStatus} from '../redux/actions/Subsctiption';
 import jwt_decode from 'jwt-decode';
+import {GET_BANK_LIST, GET_CARD_LIST} from '../redux/actions/stripe.action';
+import {ACCOUNT_STATUS_CLEAN} from '../redux/Type';
 const axiosRequest = axios.create({
   baseURL: api_url,
 });
@@ -136,6 +137,9 @@ axiosRequest.interceptors.response.use(
     ) {
       store.dispatch(showAppToast(true, error.response.data.message));
       store.dispatch(signoutUser());
+      store.dispatch({type: GET_CARD_LIST.CLEAN});
+      store.dispatch({type: GET_BANK_LIST.CLEAN});
+      store.dispatch({type: ACCOUNT_STATUS_CLEAN});
       navigationRef.current?.reset({
         index: 0,
         routes: [{name: Routes.Landing}],

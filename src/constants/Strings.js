@@ -404,7 +404,7 @@ export default {
     Race: 'Race is',
   },
   search_Bar: {
-    search: 'Search by Username',
+    search: 'Search by name',
     write_message: 'Write a message',
     Inactive: 'User is Inactive',
     smSearch: 'Search by name',
