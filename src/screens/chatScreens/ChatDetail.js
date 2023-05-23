@@ -180,15 +180,38 @@ const ChatDetail = props => {
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
   }, [dispatch, props?.route?.params?.item?.recieverId]);
   useEffect(() => {
-    const reqData = new FormData();
-    file !== null &&
+    if(file!==null){
+      const reqData = new FormData();
       reqData.append('file', {
         name: 'name',
         type: file.mime,
         uri: file.path,
       });
-    reqData.append('to_user_id', props?.route?.params?.item?.recieverId);
-    file !== null && dispatch(DocumentUpload(reqData));
+      reqData.append('to_user_id', props?.route?.params?.item?.recieverId);
+      dispatch(DocumentUpload(reqData));
+      setLoading(true);
+      const imgData = {
+        "_id": moment.now().toString(),
+        "createdAt": (new Date()).toISOString(),
+        "from": props?.route?.params?.item?.senderId,
+        "media": {
+          "file_name": file.filename,
+          "file_size": `${file.size/1025} KB`,
+          "file_url": 'file:///'+file.path,
+          "mime": file.mime,
+          "network_uri": null,
+        },
+        "namePdf": "",
+        "text": null,
+        "type": file.mime
+      }
+      db.prependMessage(imgData,()=>{
+        db.addUploadHistory(imgData);
+        setTimeout(()=>{
+          setLoading(false)
+        },500)
+      });
+    }
   }, [file, dispatch]);
   useEffect(() => {
     if (loadingNextRef.current && !next_step_loading) {
@@ -209,6 +232,7 @@ const ChatDetail = props => {
     if (loadingUploadRef.current && !document_upload_loading) {
       if (document_upload_success) {
         setTextData('');
+        db.updateUploadHistory(document_upload_res.file_url)
         db.sendMessage(
           null,
           document_upload_res,

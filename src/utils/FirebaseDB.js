@@ -21,6 +21,7 @@ export default class FirebaseDB {
   onChildAdd;
   user = {};
   sender = {};
+  uploadHidtory = {};
 
   constructor(user, sender) {
     this.chatId = createChatId(user.user_id, sender.user_id);
@@ -35,12 +36,35 @@ export default class FirebaseDB {
     this.onChildAdd = null;
     const ref = database().ref(`${chat}` + ApiPath.message + this.chatId);
     this.reference = ref;
+    this.uploadHidtory = {};
   }
 
-  prependMessage(msg) {
+  addUploadHistory(item){
+    this.uploadHidtory[item._id] = item;
+  }
+
+  updateUploadHistory(url){
+    const uploadHidtoryArr = Object.values(this.uploadHidtory).reverse();
+    const uploadHidtoryId = uploadHidtoryArr.find(h=>h.media.network_uri===null)._id;
+    this.uploadHidtory[uploadHidtoryId].media.network_uri = url;
+  }
+
+  prependMessage(msg,cb=null) {
+    if(msg.type==='image/jpeg'){
+      const imgUrl = msg.media.file_url;
+      const uploadHidtoryArr = Object.values(this.uploadHidtory);
+      const uploadHidtoryIndex = uploadHidtoryArr.findIndex(h=>h.media.network_uri===imgUrl);
+      if(uploadHidtoryIndex>-1){
+        return null;
+      }
+    }
     const index = this.messages.findIndex(m => m._id === msg._id);
     if (index === -1) {
       this.messages = [msg, ...this.messages];
+    }
+    if(cb!==null){
+      this.totalSize +=1;
+      cb(false);
     }
   }
 
