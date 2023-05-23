@@ -352,6 +352,15 @@ const PTB_profile = props => {
                     style={styles.loginBtn}
                     onPress={() => onClickRequest()}
                   />
+                  <ButtonPay
+                    label={Strings.chats.shareUser}
+                    style={styles.loginBtn}
+                    onPress={() => navigation.navigate(Routes.AllMedia, {
+                      item: {
+                        recieverId: props?.route?.params?.id
+                      },
+                    })}
+                  />
                 </View>
               </>
             )}

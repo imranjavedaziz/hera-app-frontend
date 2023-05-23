@@ -166,13 +166,16 @@ export default class FirebaseDB {
         }
         snapValues.map(async (childSnapshot, index) => {
           if (parseInt(keys[index]) < parseInt(this.firstKey)) {
-            const {time, text, from} = childSnapshot;
+            const {time, text, from,type,media,namePdf} = childSnapshot;
             const createdAt = new Date(time);
             let messageItem = {
               _id: keys[index],
               text,
               createdAt: createdAt,
               from,
+              type,
+              media,
+              namePdf
             };
 
             this.appendMessage(messageItem);

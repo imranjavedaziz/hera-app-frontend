@@ -7,6 +7,7 @@ import {
   Platform,
   Alert,
   BackHandler,
+  StatusBar,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -86,6 +87,18 @@ const ChatDetail = props => {
   } = useSelector(state => state.NextStep);
   const giftedref = useRef(null);
   const loadingUploadRef = useRef(null);
+  useEffect(() => {
+    if (!loading) {
+      images = [];
+      const allSharedImages = db.messages.filter(m => {
+        if (m.type) {
+          return m.type === 'image/jpeg';
+        }
+        return false;
+      });
+      images = allSharedImages.reverse().map(i => ({uri: i.media.file_url}));
+    }
+  }, [db, loading]);
   useEffect(() => {
     setNextStep(
       routeData.hasOwnProperty('next_step')
@@ -556,7 +569,7 @@ const ChatDetail = props => {
     if (imageIndex >= 0) {
       setCurrentImageIndex(imageIndex);
     } else {
-      setCurrentImageIndex(images.length);
+      setCurrentImageIndex(images.length - 1);
       images.push({uri: imageUri});
     }
     ImageClick(item);
@@ -566,6 +579,16 @@ const ChatDetail = props => {
   };
 
   const customSystemMessage = (item, index) => {
+    // console.log('item.currentMessage',JSON.stringify(item));
+    if (item?.currentMessage.type === 'image/jpeg') {
+      console.log(
+        item.currentMessage._id,
+        'item.currentMessage',
+        JSON.stringify(item.currentMessage.media?.file_url),
+      );
+    } else {
+      console.log('item.currentMessage', JSON.stringify(item.currentMessage));
+    }
     return (
       <View style={{flex: 1, marginBottom: 4}}>
         <View>
@@ -1260,6 +1283,14 @@ const ChatDetail = props => {
           justifyContent: Alignment.CENTER,
         }}
         imageSwipeThreshold={100000}
+        FooterComponent={() => (
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={Colors.BLACK_KEY}
+            animated={true}
+            hidden={false}
+          />
+        )}
       />
     </View>
   );
