@@ -7,6 +7,7 @@ import {
   Platform,
   Alert,
   BackHandler,
+  StatusBar,
 } from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
 import FirebaseDB from '../../utils/FirebaseDB';
@@ -39,7 +40,48 @@ import {dynamicSize, px} from '../../utils/responsive';
 import {MaterialIndicator} from 'react-native-indicators';
 let fireDB;
 let onChildAdd;
-let images = [];
+// let images = [];
+const ChatImageComp = React.memo(props => {
+  const {onPressDoc, item, from, senderId} = props;
+  const [imageLoading, setImageLoading] = useState(false);
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        onPressDoc(item);
+      }}
+      style={{
+        justifyContent: 'center',
+      }}>
+      {imageLoading && (
+        <>
+          <MaterialIndicator
+            color={Colors.WHITE}
+            size={dynamicSize(30)}
+            style={styles.loaderImg}
+          />
+          <View style={styles.loaderView} />
+        </>
+      )}
+      <Image
+        resizeMode={Alignment.COVER}
+        style={from === parseInt(senderId) ? styles.msgImg : styles.msgImgRx}
+        onLoadStart={() => setImageLoading(true)}
+        onLoadEnd={() => setImageLoading(false)}
+        source={{uri: item?.currentMessage.media?.file_url}}
+      />
+    </TouchableOpacity>
+  );
+});
+const removeDuplicates = arr => {
+  let unique = arr.reduce(function (acc, curr) {
+    const arrIndex = acc.findIndex(item => item.uri === curr.uri);
+    if (arrIndex === -1) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+  return unique;
+};
 const ChatDetail = props => {
   const routeData = props?.route?.params?.item;
   const [nextStep, setNextStep] = useState(false);
@@ -54,7 +96,7 @@ const ChatDetail = props => {
   const subscriptionStatus = useSelector(
     state => state.Subscription.subscription_status_res,
   );
-  const [imageLoading, setImageLoading] = useState(false);
+  const [images, setAllImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   let actionSheet = useRef();
   const [isOpen, setOpen] = useState(false);
@@ -86,6 +128,19 @@ const ChatDetail = props => {
   } = useSelector(state => state.NextStep);
   const giftedref = useRef(null);
   const loadingUploadRef = useRef(null);
+  useEffect(() => {
+    if (!loading) {
+      let allImages = [];
+      const allSharedImages = db.messages.filter(m => {
+        if (m.type) {
+          return m.type === 'image/jpeg';
+        }
+        return false;
+      });
+      allImages = allSharedImages.reverse().map(i => ({uri: i.media.file_url}));
+      setAllImages(removeDuplicates(allImages));
+    }
+  }, [db, loading]);
   useEffect(() => {
     setNextStep(
       routeData.hasOwnProperty('next_step')
@@ -125,15 +180,38 @@ const ChatDetail = props => {
     dispatch(getMessageID(parseInt(props?.route?.params?.item?.recieverId)));
   }, [dispatch, props?.route?.params?.item?.recieverId]);
   useEffect(() => {
-    const reqData = new FormData();
-    file !== null &&
+    if (file !== null) {
+      const reqData = new FormData();
       reqData.append('file', {
         name: 'name',
         type: file.mime,
         uri: file.path,
       });
-    reqData.append('to_user_id', props?.route?.params?.item?.recieverId);
-    file !== null && dispatch(DocumentUpload(reqData));
+      reqData.append('to_user_id', props?.route?.params?.item?.recieverId);
+      dispatch(DocumentUpload(reqData));
+      setLoading(true);
+      const imgData = {
+        _id: moment.now().toString(),
+        createdAt: new Date().toISOString(),
+        from: props?.route?.params?.item?.senderId,
+        media: {
+          file_name: file.filename,
+          file_size: `${file.size / 1025} KB`,
+          file_url: 'file:///' + file.path,
+          mime: file.mime,
+          network_uri: null,
+        },
+        namePdf: '',
+        text: null,
+        type: file.mime,
+      };
+      db.prependMessage(imgData, () => {
+        db.addUploadHistory(imgData);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
+      });
+    }
   }, [file, dispatch]);
   useEffect(() => {
     if (loadingNextRef.current && !next_step_loading) {
@@ -154,6 +232,8 @@ const ChatDetail = props => {
     if (loadingUploadRef.current && !document_upload_loading) {
       if (document_upload_success) {
         setTextData('');
+        document_upload_res.mime === 'image/jpeg' &&
+          db.updateUploadHistory(document_upload_res.file_url);
         db.sendMessage(
           null,
           document_upload_res,
@@ -556,8 +636,14 @@ const ChatDetail = props => {
     if (imageIndex >= 0) {
       setCurrentImageIndex(imageIndex);
     } else {
-      setCurrentImageIndex(images.length);
-      images.push({uri: imageUri});
+      setAllImages(old => {
+        const newArr = removeDuplicates([...old, {uri: imageUri}]);
+        const newImageIndex = newArr.findIndex(image => image.uri === imageUri);
+        if (newImageIndex > -1) {
+          setCurrentImageIndex(newImageIndex);
+        }
+        return newArr;
+      });
     }
     ImageClick(item);
   };
@@ -590,36 +676,12 @@ const ChatDetail = props => {
                     : styles.chatContainer
                 }>
                 {item?.currentMessage.type === 'image/jpeg' && (
-                  <TouchableOpacity
-                    onPress={() => {
-                      onPressDoc(item);
-                    }}
-                    style={{
-                      justifyContent: 'center',
-                    }}>
-                    {imageLoading && (
-                      <>
-                        <MaterialIndicator
-                          color={Colors.WHITE}
-                          size={dynamicSize(30)}
-                          style={styles.loaderImg}
-                        />
-                        <View style={styles.loaderView} />
-                      </>
-                    )}
-                    <Image
-                      resizeMode={Alignment.COVER}
-                      style={
-                        item.currentMessage.from ===
-                        parseInt(props?.route?.params?.item?.senderId)
-                          ? styles.msgImg
-                          : styles.msgImgRx
-                      }
-                      onLoadStart={() => setImageLoading(true)}
-                      onLoadEnd={() => setImageLoading(false)}
-                      source={{uri: item?.currentMessage.media?.file_url}}
-                    />
-                  </TouchableOpacity>
+                  <ChatImageComp
+                    onPressDoc={onPressDoc}
+                    item={item}
+                    from={item.currentMessage.from}
+                    senderId={props?.route?.params?.item?.senderId}
+                  />
                 )}
                 {item?.currentMessage.type === 'application/pdf' && (
                   <View>
@@ -1251,7 +1313,6 @@ const ChatDetail = props => {
         visible={visible}
         onRequestClose={() => {
           setIsVisible(false);
-          images = [{uri: images[currentImageIndex].uri}];
         }}
         isPinchZoomEnabled={true}
         swipeToCloseEnabled={false}
@@ -1260,6 +1321,14 @@ const ChatDetail = props => {
           justifyContent: Alignment.CENTER,
         }}
         imageSwipeThreshold={100000}
+        FooterComponent={() => (
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={Colors.BLACK_KEY}
+            animated={true}
+            hidden={false}
+          />
+        )}
       />
     </View>
   );

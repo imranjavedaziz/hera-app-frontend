@@ -514,6 +514,15 @@ const DashboardDetailScreen = ({route}) => {
                       style={styles.loginBtn}
                       onPress={() => onClickSend()}
                     />
+                    <ButtonPay
+                      label={Strings.chats.shareUser}
+                      style={styles.loginBtn}
+                      onPress={() => navigation.navigate(Routes.AllMedia, {
+                        item: {
+                          recieverId: smDetailRes?.id
+                        },
+                      })}
+                    />
                   </View>
                 </>
               )}
