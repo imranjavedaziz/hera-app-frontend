@@ -196,14 +196,21 @@ export default {
   },
   loginBtn: {
     height: 80,
-    width: dynamicSize(Value.CONSTANT_VALUE_259),
+
+    width: dynamicSize(305),
     marginBottom: Value.CONSTANT_VALUE_20,
   },
-  centerView: {alignItems: Alignment.CENTER},
+  centerView: {alignItems: Alignment.CENTER, marginBottom: 45},
   headerContainer: {flex: 1, marginRight: px(Value.CONSTANT_VALUE_30)},
   confirmedTxt: {
     color: Colors.COLOR_5ABCEC,
     fontSize: px(Value.CONSTANT_VALUE_12),
     fontFamily: Fonts.OpenSansRegular,
+  },
+  btnView: {
+    alignItems: Alignment.CENTER,
+    bottom: 20,
+    position: 'absolute',
+    alignSelf: 'center',
   },
 };

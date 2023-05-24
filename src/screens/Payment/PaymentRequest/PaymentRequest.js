@@ -1,4 +1,12 @@
-import {View, Text, FlatList, Alert, Platform, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Alert,
+  Platform,
+  BackHandler,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
@@ -8,6 +16,7 @@ import {IconHeader} from '../../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import PaymentRequestComp from './PaymentRequestComp';
 import {
+  getPaymentRequesPages,
   getPaymentRequestList,
   updateRequestStatus,
 } from '../../../redux/actions/Payment';
@@ -44,6 +53,7 @@ const PaymentRequest = () => {
     update_request_status_success,
     update_request_status_loading,
     update_request_status_error_msg,
+    get_payment_request_page_loading,
     update_request_status_res,
     update_request_status_fail,
   } = useSelector(state => state.Payment);
@@ -156,7 +166,6 @@ const PaymentRequest = () => {
   };
   const onRefresh = () => {
     //set isRefreshing to true
-
     setIsRefreshing(true);
     dispatch(getPaymentRequestList());
   };
@@ -248,6 +257,7 @@ const PaymentRequest = () => {
   const OnPressDecline = item => {
     Platform.OS === 'ios' ? backAction(item) : setShowModal(true);
   };
+
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -273,9 +283,20 @@ const PaymentRequest = () => {
                     marginBottom: 40,
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}
-                />
+                  }}>
+                  {get_payment_request_page_loading && (
+                    <ActivityIndicator style={{marginTop: 40}} />
+                  )}
+                </View>
               )}
+              onEndReached={() => {
+                if (
+                  get_payment_request_list_res.current_page <
+                  get_payment_request_list_res.last_page
+                ) {
+                  dispatch(getPaymentRequesPages());
+                }
+              }}
             />
           </View>
         )}

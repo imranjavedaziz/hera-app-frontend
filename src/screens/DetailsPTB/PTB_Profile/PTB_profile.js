@@ -336,33 +336,15 @@ const PTB_profile = props => {
               </TouchableOpacity>
             )}
             {stateRes?.profile_match_request?.status === 2 && (
-              <>
-                <View style={styles.dateTextView}>
-                  <Image source={Images.HEARTH_ICON} />
-                  <Text style={styles.dateText}>
-                    {Strings.PTB_Profile.YouMatched}{' '}
-                    {moment(stateRes?.profile_match_request?.updated_at).format(
-                      'MMM DD, YYYY',
-                    )}
-                  </Text>
-                </View>
-                <View style={styles.centerView}>
-                  <ButtonPay
-                    label={Strings.dashboard.ReqPayment}
-                    style={styles.loginBtn}
-                    onPress={() => onClickRequest()}
-                  />
-                  <ButtonPay
-                    label={Strings.chats.shareUser}
-                    style={styles.loginBtn}
-                    onPress={() => navigation.navigate(Routes.AllMedia, {
-                      item: {
-                        recieverId: props?.route?.params?.id
-                      },
-                    })}
-                  />
-                </View>
-              </>
+              <View style={styles.dateTextView}>
+                <Image source={Images.HEARTH_ICON} />
+                <Text style={styles.dateText}>
+                  {Strings.PTB_Profile.YouMatched}{' '}
+                  {moment(stateRes?.profile_match_request?.updated_at).format(
+                    'MMM DD, YYYY',
+                  )}
+                </Text>
+              </View>
             )}
             {props?.route?.params?.seeAll && (
               <Pressable
@@ -379,6 +361,15 @@ const PTB_profile = props => {
           </View>
         ) : null}
       </ScrollView>
+      {stateRes?.profile_match_request?.status === 2 && (
+        <View style={styles.btnView}>
+          <ButtonPay
+            label={Strings.dashboard.ReqPayment}
+            style={styles.loginBtn}
+            onPress={() => onClickRequest()}
+          />
+        </View>
+      )}
     </View>
   );
 };
