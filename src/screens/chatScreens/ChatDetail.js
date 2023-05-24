@@ -773,6 +773,7 @@ const ChatDetail = props => {
         filteredItem: props?.route?.params?.filteredItem?.connected_acc_status
           ? props?.route?.params?.filteredItem?.connected_acc_status
           : '',
+        Items: props?.route?.params?.item,
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
@@ -781,6 +782,7 @@ const ChatDetail = props => {
         account_status_res: props?.route?.params?.account_status_res
           ? props?.route?.params?.account_status_res
           : '',
+        Items: props?.route?.params?.item,
       });
     }
     setOpen(false);

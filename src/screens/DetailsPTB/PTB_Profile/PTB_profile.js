@@ -355,11 +355,11 @@ const PTB_profile = props => {
                   <ButtonPay
                     label={Strings.chats.shareUser}
                     style={styles.loginBtn}
-                    onPress={() => navigation.navigate(Routes.AllMedia, {
-                      item: {
-                        recieverId: props?.route?.params?.id
-                      },
-                    })}
+                    onPress={() =>
+                      navigation.navigate(Routes.AllMedia, {
+                        item: props?.route?.params?.Items,
+                      })
+                    }
                   />
                 </View>
               </>

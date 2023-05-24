@@ -517,11 +517,11 @@ const DashboardDetailScreen = ({route}) => {
                     <ButtonPay
                       label={Strings.chats.shareUser}
                       style={styles.loginBtn}
-                      onPress={() => navigation.navigate(Routes.AllMedia, {
-                        item: {
-                          recieverId: smDetailRes?.id
-                        },
-                      })}
+                      onPress={() =>
+                        navigation.navigate(Routes.AllMedia, {
+                          item: route?.params?.Items,
+                        })
+                      }
                     />
                   </View>
                 </>

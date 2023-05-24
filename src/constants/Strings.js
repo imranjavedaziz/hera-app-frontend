@@ -348,8 +348,8 @@ export default {
     secondPara2: 'Maybe try again later or change your settings.',
     noResult: 'No Results Found!',
     emptyDashboard: 'Try using a different name or keyword',
-    SendPayment: 'SEND PAYMENT',
-    ReqPayment: 'REQUEST FOR PAYMENT',
+    SendPayment: 'MAKE A NEW PAYMENT',
+    ReqPayment: 'REQUEST FOR A PAYMENT',
   },
   sm_dashboard: {
     Title: LIKE_CONST,
