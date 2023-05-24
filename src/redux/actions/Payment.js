@@ -5,6 +5,8 @@ import {
   TRANSACTION_HISTORY,
   PAYMENT_TRANSFER,
   TRANSACTION_HISTORY_PAGE,
+  GET_MATCH_LIST_PAGE,
+  GET_PAYMENT_REQUEST_PAGES,
 } from '../Type';
 
 export const getMatchList = payload => {
@@ -36,3 +38,12 @@ export const paymentTransfer = data => {
 export const getTransactionHistoryPages = () => ({
   type: TRANSACTION_HISTORY_PAGE,
 });
+export const getMatchListPages = () => ({
+  type: GET_MATCH_LIST_PAGE,
+});
+export const getPaymentRequesPages = () => {
+  console.log('hihihhihihihihihihi');
+  return {
+    type: GET_PAYMENT_REQUEST_PAGES,
+  };
+};
