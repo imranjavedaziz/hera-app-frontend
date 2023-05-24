@@ -66,8 +66,11 @@ import {
   watchUpdateRequestStatus,
   watchPaymentHistory,
   watchPaymentHistoryPage,
+  watchGetMatchListPage,
+  watchGetPaymentRequestPage,
 } from './Payment';
 import {watchSendPaymentRequest} from './PaymentRequest';
+
 export default function* rootSaga() {
   yield all([
     fork(watchLogIn),
@@ -127,5 +130,7 @@ export default function* rootSaga() {
     fork(watchBankUpdate),
     fork(watchCancelSubscription),
     fork(watchPaymentHistoryPage),
+    fork(watchGetMatchListPage),
+    fork(watchGetPaymentRequestPage),
   ]);
 }

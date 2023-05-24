@@ -17,3 +17,10 @@ export const GetPaymentHistoryApi = (page = 1) => {
 export const paymentTransferApi = data => {
   return axiosRequest.post(ApiPath.payment_transfer, data);
 };
+
+export const GetMatchListPageApi = (page = 1) => {
+  return axiosRequest.get(`${ApiPath.match_list}?page=${page}`);
+};
+export const GetPaymentRequestPageApi = (page = 1) => {
+  return axiosRequest.get(`${ApiPath.payment_request_list}?page=${page}`);
+};

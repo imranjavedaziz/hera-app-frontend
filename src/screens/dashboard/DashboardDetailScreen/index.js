@@ -42,6 +42,7 @@ import moment from 'moment';
 import {Alignment} from '../../../constants';
 import {getMessageID} from '../../../redux/actions/MessageId';
 import ButtonPay from '../../../components/BtnPay';
+import {Button} from '../../../components';
 const images = [];
 const DashboardDetailScreen = ({route}) => {
   const navigation = useNavigation();
@@ -351,154 +352,154 @@ const DashboardDetailScreen = ({route}) => {
       <View style={styles.flex}>
         <Header end={false}>{headerComp()}</Header>
         {get_sm_donor_loading === false ? (
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.mainContainer}>
-              <DetailComp
-                Place={smDetailRes?.location?.name}
-                Code={smDetailRes?.username}
-                DonerType={smDetailRes?.role}
-                image={{uri: smDetailRes?.profile_pic}}
-              />
-              <View style={styles.bioContainer}>
-                {smDetailRes?.age && (
-                  <BioComponent
-                    Name={Strings.donorPofile.Age}
-                    Detail={`${smDetailRes?.age} yrs`}
-                  />
-                )}
-                {smDetailRes?.doner_attribute?.height && (
-                  <BioComponent
-                    Name={Strings.donorPofile.Height}
-                    Detail={`${parseInt(
-                      smDetailRes?.doner_attribute?.height / 12,
-                    )} ft ${smDetailRes?.doner_attribute?.height % 12} in`}
-                  />
-                )}
-                {smDetailRes?.doner_attribute?.weight && (
-                  <BioComponent
-                    Name={Strings.donorPofile.Weight}
-                    Detail={`${smDetailRes?.doner_attribute?.weight} pounds`}
-                  />
-                )}
-                {smDetailRes?.doner_attribute?.education && (
-                  <BioComponent
-                    Name={Strings.donorPofile.Education}
-                    Detail={smDetailRes?.doner_attribute?.education}
-                  />
-                )}
-                {smDetailRes?.user_profile?.occupation && (
-                  <BioComponent
-                    Name={Strings.donorPofile.Occupation}
-                    Detail={smDetailRes?.user_profile?.occupation}
-                  />
-                )}
-              </View>
-              <View style={global.dynamicMarginBottom(8)}>
-                <ImageBackground
-                  imageStyle={styles.backgroundImage}
-                  source={Images.iconComma}>
-                  <Text style={styles.Description}>
-                    {smDetailRes?.user_profile?.bio}
-                  </Text>
-                </ImageBackground>
-              </View>
-              <View style={{width: width - Value.CONSTANT_VALUE_60}}>
-                {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
-                  .length < 20 ? (
-                  <View style={styles.nativeMainContainer}>
-                    {smDetailRes?.doner_attribute?.race && (
-                      <View style={styles.nativePlace}>
-                        <Text style={global?.tagText}>
+          <>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.mainContainer}>
+                <DetailComp
+                  Place={smDetailRes?.location?.name}
+                  Code={smDetailRes?.username}
+                  DonerType={smDetailRes?.role}
+                  image={{uri: smDetailRes?.profile_pic}}
+                />
+                <View style={styles.bioContainer}>
+                  {smDetailRes?.age && (
+                    <BioComponent
+                      Name={Strings.donorPofile.Age}
+                      Detail={`${smDetailRes?.age} yrs`}
+                    />
+                  )}
+                  {smDetailRes?.doner_attribute?.height && (
+                    <BioComponent
+                      Name={Strings.donorPofile.Height}
+                      Detail={`${parseInt(
+                        smDetailRes?.doner_attribute?.height / 12,
+                      )} ft ${smDetailRes?.doner_attribute?.height % 12} in`}
+                    />
+                  )}
+                  {smDetailRes?.doner_attribute?.weight && (
+                    <BioComponent
+                      Name={Strings.donorPofile.Weight}
+                      Detail={`${smDetailRes?.doner_attribute?.weight} pounds`}
+                    />
+                  )}
+                  {smDetailRes?.doner_attribute?.education && (
+                    <BioComponent
+                      Name={Strings.donorPofile.Education}
+                      Detail={smDetailRes?.doner_attribute?.education}
+                    />
+                  )}
+                  {smDetailRes?.user_profile?.occupation && (
+                    <BioComponent
+                      Name={Strings.donorPofile.Occupation}
+                      Detail={smDetailRes?.user_profile?.occupation}
+                    />
+                  )}
+                </View>
+                <View style={global.dynamicMarginBottom(8)}>
+                  <ImageBackground
+                    imageStyle={styles.backgroundImage}
+                    source={Images.iconComma}>
+                    <Text style={styles.Description}>
+                      {smDetailRes?.user_profile?.bio}
+                    </Text>
+                  </ImageBackground>
+                </View>
+                <View style={{width: width - Value.CONSTANT_VALUE_60}}>
+                  {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`
+                    .length < 20 ? (
+                    <View style={styles.nativeMainContainer}>
+                      {smDetailRes?.doner_attribute?.race && (
+                        <View style={styles.nativePlace}>
+                          <Text style={global?.tagText}>
+                            {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
+                          </Text>
+                        </View>
+                      )}
+                      {smDetailRes?.doner_attribute?.father_ethnicity && (
+                        <View style={styles.fatherPlace}>
+                          <Text style={global?.tagText}>
+                            {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  ) : (
+                    <View style={styles.nativeLong}>
+                      {smDetailRes?.doner_attribute?.race && (
+                        <Text
+                          style={[
+                            global?.tagText,
+                            {
+                              backgroundColor: Colors.RGBA_229_172_177,
+                              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                            },
+                          ]}>
                           {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
                         </Text>
-                      </View>
-                    )}
-                    {smDetailRes?.doner_attribute?.father_ethnicity && (
-                      <View style={styles.fatherPlace}>
-                        <Text style={global?.tagText}>
+                      )}
+                      {smDetailRes?.doner_attribute?.father_ethnicity && (
+                        <Text
+                          style={[
+                            global?.tagText,
+                            {
+                              backgroundColor: Colors.RGBA_229_172_177,
+                              marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
+                            },
+                          ]}>
                           {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`}
                         </Text>
-                      </View>
-                    )}
-                  </View>
-                ) : (
-                  <View style={styles.nativeLong}>
-                    {smDetailRes?.doner_attribute?.race && (
-                      <Text
-                        style={[
-                          global?.tagText,
-                          {
-                            backgroundColor: Colors.RGBA_229_172_177,
-                            marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-                          },
-                        ]}>
-                        {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
-                      </Text>
-                    )}
-                    {smDetailRes?.doner_attribute?.father_ethnicity && (
-                      <Text
-                        style={[
-                          global?.tagText,
-                          {
-                            backgroundColor: Colors.RGBA_229_172_177,
-                            marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
-                          },
-                        ]}>
-                        {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`}
-                      </Text>
-                    )}
+                      )}
+                    </View>
+                  )}
+                  {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`
+                    .length < 20 ? (
+                    <View style={styles.nativeMainContainer}>
+                      {smDetailRes?.doner_attribute?.mother_ethnicity && (
+                        <View style={styles.motherPlace}>
+                          <Text style={global?.tagText}>
+                            {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
+                          </Text>
+                        </View>
+                      )}
+                      {smDetailRes?.doner_attribute?.hair_colour && (
+                        <View style={styles.hairColor}>
+                          <Text style={global?.tagText}>
+                            {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  ) : (
+                    VIEW_PASS
+                  )}
+                </View>
+                {smDetailRes?.doner_photo_gallery?.length > 0 && (
+                  <View style={styles.imageMainContainer}>
+                    <FlatList
+                      data={smDetailRes?.doner_photo_gallery}
+                      renderItem={renderItemData}
+                      numColumns={3}
+                      showsVerticalScrollIndicator={false}
+                      keyExtractor={(item, index) => index.toString()}
+                    />
                   </View>
                 )}
-                {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`
-                  .length < 20 ? (
-                  <View style={styles.nativeMainContainer}>
-                    {smDetailRes?.doner_attribute?.mother_ethnicity && (
-                      <View style={styles.motherPlace}>
-                        <Text style={global?.tagText}>
-                          {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
-                        </Text>
-                      </View>
-                    )}
-                    {smDetailRes?.doner_attribute?.hair_colour && (
-                      <View style={styles.hairColor}>
-                        <Text style={global?.tagText}>
-                          {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`}
-                        </Text>
-                      </View>
-                    )}
+                {smDetailRes?.doner_video_gallery != null && (
+                  <View>
+                    <Text style={styles.middleText}>
+                      {Strings.donorPofile.shortClip}
+                    </Text>
+                    <Video
+                      controls={true}
+                      source={{
+                        uri: smDetailRes?.doner_video_gallery?.file_url,
+                      }}
+                      style={styles.videoContainer}
+                      paused={true}
+                    />
                   </View>
-                ) : (
-                  VIEW_PASS
                 )}
-              </View>
-              {smDetailRes?.doner_photo_gallery?.length > 0 && (
-                <View style={styles.imageMainContainer}>
-                  <FlatList
-                    data={smDetailRes?.doner_photo_gallery}
-                    renderItem={renderItemData}
-                    numColumns={3}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                </View>
-              )}
-              {smDetailRes?.doner_video_gallery != null && (
-                <View>
-                  <Text style={styles.middleText}>
-                    {Strings.donorPofile.shortClip}
-                  </Text>
-                  <Video
-                    controls={true}
-                    source={{
-                      uri: smDetailRes?.doner_video_gallery?.file_url,
-                    }}
-                    style={styles.videoContainer}
-                    paused={true}
-                  />
-                </View>
-              )}
-              {smDetailRes?.profile_match_request?.status === 2 && (
-                <>
+                {smDetailRes?.profile_match_request?.status === 2 && (
                   <View style={styles.dateTextView}>
                     <Image source={Images.HEARTH_ICON} />
                     <Text style={styles.dateText}>
@@ -508,64 +509,57 @@ const DashboardDetailScreen = ({route}) => {
                       ).format('MMM DD,YYYY')}
                     </Text>
                   </View>
-                  <View style={styles.centerView}>
-                    <ButtonPay
-                      label={Strings.dashboard.SendPayment}
-                      style={styles.loginBtn}
-                      onPress={() => onClickSend()}
-                    />
-                    <ButtonPay
-                      label={Strings.chats.shareUser}
-                      style={styles.loginBtn}
-                      onPress={() => navigation.navigate(Routes.AllMedia, {
-                        item: {
-                          recieverId: smDetailRes?.id
-                        },
-                      })}
-                    />
-                  </View>
-                </>
-              )}
-              {smDetailRes?.profile_match_request?.status !== 2 && (
-                <>
-                  <View style={styles.heartIconContainer}>
-                    <TouchableOpacity
-                      onPress={onPressLike}
-                      style={styles.btn(Colors.GREEN)}
-                      accessibilityRole={'button'}
-                      accessible={true}>
-                      <View style={styles.heartIcon}>
-                        <Image source={Images.HEARTH_ICON} />
-                        <Text
-                          style={styles.textbtn1}
-                          accessible={false}
-                          numberOfLines={Value.CONSTANT_VALUE_1}>
-                          {Strings.donorPofile.like_this_profile}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.crossIconContainer}>
-                    <TouchableOpacity
-                      onPress={onPressDislike}
-                      style={styles.btn(Colors.RED)}
-                      accessibilityRole={'button'}
-                      accessible={true}>
-                      <View style={styles.crossIcon}>
-                        <Image source={Images.RED_CROSS_ICON} />
-                        <Text
-                          style={styles.textbtn2}
-                          accessible={false}
-                          numberOfLines={Value.CONSTANT_VALUE_1}>
-                          {Strings.donorPofile.Not_interested}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              )}
-            </View>
-          </ScrollView>
+                )}
+                {smDetailRes?.profile_match_request?.status !== 2 && (
+                  <>
+                    <View style={styles.heartIconContainer}>
+                      <TouchableOpacity
+                        onPress={onPressLike}
+                        style={styles.btn(Colors.GREEN)}
+                        accessibilityRole={'button'}
+                        accessible={true}>
+                        <View style={styles.heartIcon}>
+                          <Image source={Images.HEARTH_ICON} />
+                          <Text
+                            style={styles.textbtn1}
+                            accessible={false}
+                            numberOfLines={Value.CONSTANT_VALUE_1}>
+                            {Strings.donorPofile.like_this_profile}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.crossIconContainer}>
+                      <TouchableOpacity
+                        onPress={onPressDislike}
+                        style={styles.btn(Colors.RED)}
+                        accessibilityRole={'button'}
+                        accessible={true}>
+                        <View style={styles.crossIcon}>
+                          <Image source={Images.RED_CROSS_ICON} />
+                          <Text
+                            style={styles.textbtn2}
+                            accessible={false}
+                            numberOfLines={Value.CONSTANT_VALUE_1}>
+                            {Strings.donorPofile.Not_interested}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                )}
+              </View>
+            </ScrollView>
+            {smDetailRes?.profile_match_request?.status === 2 && (
+              <View style={styles.btnView}>
+                <ButtonPay
+                  style={styles.loginBtn}
+                  label={Strings.dashboard.SendPayment}
+                  onPress={() => onClickSend()}
+                />
+              </View>
+            )}
+          </>
         ) : (
           <View style={styles.loaderContainer}>
             <MaterialIndicator

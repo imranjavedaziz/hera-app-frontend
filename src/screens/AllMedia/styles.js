@@ -23,15 +23,13 @@ export default {
     flex: Value.CONSTANT_VALUE_1,
     flexWrap: 'wrap',
     flexDirection: Alignment.ROW,
-    backgroundColor: 'green',
   },
   paddingView: {
-    paddingHorizontal: Value.CONSTANT_VALUE_1,
-    paddingVertical: Value.CONSTANT_VALUE_2,
+    paddingVertical: Value.CONSTANT_VALUE_1,
   },
   galleryImgView: {
-    width: width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2,
-    height: width / Value.CONSTANT_VALUE_3 - Value.CONSTANT_VALUE_2,
+    width: width / Value.CONSTANT_VALUE_3,
+    height: width / Value.CONSTANT_VALUE_3,
     backgroundColor: Colors.WHITE,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
@@ -48,5 +46,19 @@ export default {
     marginBottom: Value.CONSTANT_VALUE_40,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
+  },
+  loaderImg: {
+    position: Alignment.ABSOLUTE,
+    zIndex: Value.CONSTANT_VALUE_2,
+    justifyContent: Alignment.CENTER,
+    alignSelf: Alignment.CENTER,
+  },
+  loaderView: {
+    position: Alignment.ABSOLUTE,
+    zIndex: Value.CONSTANT_VALUE_1,
+    backgroundColor: Colors.BLACK_0,
+    opacity: 0.5,
+    width: width / Value.CONSTANT_VALUE_3,
+    height: width / Value.CONSTANT_VALUE_3,
   },
 };

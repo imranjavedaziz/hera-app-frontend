@@ -8,7 +8,7 @@ import {IconHeader} from '../../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import Searchbar from '../../../components/MatchSearch';
 import MatchComp from './MatchComp';
-import {getMatchList} from '../../../redux/actions/Payment';
+import {getMatchList, getMatchListPages} from '../../../redux/actions/Payment';
 import {
   hideEditLoader,
   showAppToast,
@@ -174,14 +174,14 @@ const MatchScreen = () => {
               showsVerticalScrollIndicator={false}
               onRefresh={onRefresh}
               refreshing={isRefreshing}
-              ListFooterComponent={() => (
-                <View
-                  style={{
-                    marginBottom: 40,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}></View>
-              )}
+              onEndReached={() => {
+                if (
+                  get_match_list_res.data.current_page <
+                  get_match_list_res.data.last_page
+                ) {
+                  dispatch(getMatchListPages());
+                }
+              }}
             />
           )}
           {_.isEmpty(allUser) && !get_match_list_loading && (

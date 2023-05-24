@@ -52,6 +52,7 @@ const HeraPay = () => {
   const {log_in_data, stripe_customer_id, connected_acc_token} = useSelector(
     state => state.Auth,
   );
+  const {notification_count} = useSelector(state => state.loader);
   const {getBankListResponse} = useSelector(store => store.getBankList);
   const {getCardListResponse} = useSelector(store => store.getCardList);
   const {
@@ -320,6 +321,7 @@ const HeraPay = () => {
                   ? `${Notifications} Pending Request`
                   : Notifications > 0 &&
                     log_in_data?.role_id !== 2 &&
+                    notification_count !== Notifications &&
                     'Notifications'
               }
               line

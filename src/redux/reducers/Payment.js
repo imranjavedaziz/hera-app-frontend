@@ -17,6 +17,12 @@ import {
   TRANSACTION_HISTORY_PAGE,
   TRANSACTION_HISTORY_PAGE_FAIL,
   TRANSACTION_HISTORY_PAGE_SUCCESS,
+  GET_MATCH_LIST_PAGE,
+  GET_MATCH_LIST_PAGE_FAIL,
+  GET_MATCH_LIST_PAGE_SUCCESS,
+  GET_PAYMENT_REQUEST_PAGES,
+  GET_PAYMENT_REQUEST_PAGES_FAIL,
+  GET_PAYMENT_REQUEST_PAGES_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -57,6 +63,18 @@ const initState = {
   payment_history_page_error_msg: '',
   payment_history_page_res: {data: []},
   payment_history_page_fail: false,
+  //get payment history pages
+  get_match_list_page_success: false,
+  get_match_list_page_loading: false,
+  get_match_list_page_error_msg: '',
+  get_match_list_page_res: {data: []},
+  get_match_list_page_fail: false,
+  //get payment history pages
+  get_payment_request_page_success: false,
+  get_payment_request_page_loading: false,
+  get_payment_request_page_error_msg: '',
+  get_payment_request_page_res: {data: []},
+  get_payment_request_page_fail: false,
 };
 
 export default (state = initState, action) => {
@@ -227,6 +245,62 @@ export default (state = initState, action) => {
         payment_history_page_loading: false,
         payment_history_page_error_msg: action.data.msg,
         payment_history_page_fail: true,
+      };
+    //Match list  pages
+    case GET_MATCH_LIST_PAGE:
+      return {
+        ...state,
+        get_match_list_page_success: false,
+        get_match_list_page_loading: true,
+        get_match_list_page_error_msg: '',
+        get_match_list_page_res: {data: []},
+        get_match_list_page_fail: false,
+      };
+    case GET_MATCH_LIST_PAGE_SUCCESS:
+      return {
+        ...state,
+        get_match_list_page_success: true,
+        get_match_list_page_loading: false,
+        get_match_list_page_res: action.data,
+        get_match_list_res: {
+          ...action.data,
+          data: [...state.get_match_list_res.data.data, ...action.data.data],
+        },
+      };
+    case GET_MATCH_LIST_PAGE_FAIL:
+      return {
+        ...state,
+        get_match_list_page_loading: false,
+        get_match_list_page_error_msg: action.data.msg,
+        get_match_list_page_fail: true,
+      };
+    //request list  pages
+    case GET_PAYMENT_REQUEST_PAGES:
+      return {
+        ...state,
+        get_payment_request_page_success: false,
+        get_payment_request_page_loading: true,
+        get_payment_request_page_error_msg: '',
+        get_payment_request_page_res: {data: []},
+        get_payment_request_page_fail: false,
+      };
+    case GET_PAYMENT_REQUEST_PAGES_SUCCESS:
+      return {
+        ...state,
+        get_payment_request_page_success: true,
+        get_payment_request_page_loading: false,
+        get_payment_request_page_res: action.data,
+        get_payment_request_list_res: {
+          ...action.data,
+          data: [...state.get_payment_request_list_res.data, ...action.data],
+        },
+      };
+    case GET_PAYMENT_REQUEST_PAGES_FAIL:
+      return {
+        ...state,
+        get_payment_request_page_loading: false,
+        get_payment_request_page_error_msg: action.data.msg,
+        get_payment_request_page_fail: true,
       };
     default:
       return state;

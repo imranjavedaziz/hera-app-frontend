@@ -1238,6 +1238,15 @@ const ChatDetail = props => {
                 {Strings.sm_create_gallery.shareADoc}
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setOpen(false);
+              }}
+              style={styleSheet.pickerBtn}>
+              <Text style={[styleSheet.redColor]}>
+                {Strings.Subscription.Cancel}
+              </Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <View style={styleSheet.imgPickerContainer}>

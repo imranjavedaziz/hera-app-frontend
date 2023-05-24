@@ -1,4 +1,12 @@
-import {View, Text, FlatList, Alert, Platform, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Alert,
+  Platform,
+  BackHandler,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
@@ -8,6 +16,7 @@ import {IconHeader} from '../../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import PaymentRequestComp from './PaymentRequestComp';
 import {
+  getPaymentRequesPages,
   getPaymentRequestList,
   updateRequestStatus,
 } from '../../../redux/actions/Payment';
@@ -21,6 +30,7 @@ import _ from 'lodash';
 import PaymentRequestModal from '../../../components/PaymentRequestModal/PaymentRequestModal';
 import {formatDigit, getRequestTime} from '../../../utils/commonFunction';
 import {Routes} from '../../../constants/Constants';
+import {NotificationsCount} from '../../../redux/actions/NotificationsCount';
 let images = [];
 const PaymentRequest = () => {
   const navigation = useNavigation();
@@ -43,6 +53,7 @@ const PaymentRequest = () => {
     update_request_status_success,
     update_request_status_loading,
     update_request_status_error_msg,
+    get_payment_request_page_loading,
     update_request_status_res,
     update_request_status_fail,
   } = useSelector(state => state.Payment);
@@ -69,6 +80,11 @@ const PaymentRequest = () => {
       if (get_payment_request_list_success) {
         setIsRefreshing(false);
         dispatch(hideAppLoader());
+        if (log_in_data.role_id !== 2) {
+          dispatch(
+            NotificationsCount(get_payment_request_list_res?.data?.length),
+          );
+        }
         setData(get_payment_request_list_res?.data);
         const filteredData = get_payment_request_list_res?.data.filter(
           item => item.status === 0,
@@ -150,12 +166,11 @@ const PaymentRequest = () => {
   };
   const onRefresh = () => {
     //set isRefreshing to true
-
     setIsRefreshing(true);
     dispatch(getPaymentRequestList());
   };
 
-  const renderItemData = ({item,index}) => {
+  const renderItemData = ({item, index}) => {
     const url = item?.doc_url;
     // Extract the file extension from the URL
     const fileExtension = url?.split('.').pop() || '';
@@ -242,6 +257,7 @@ const PaymentRequest = () => {
   const OnPressDecline = item => {
     Platform.OS === 'ios' ? backAction(item) : setShowModal(true);
   };
+
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -257,7 +273,7 @@ const PaymentRequest = () => {
             </Text>
             <FlatList
               data={log_in_data.role_id === 2 ? PtbData : Data}
-              renderItem={(item,index) => renderItemData(item,index)}
+              renderItem={(item, index) => renderItemData(item, index)}
               refreshing={isRefreshing}
               onRefresh={onRefresh}
               showsVerticalScrollIndicator={false}
@@ -267,9 +283,20 @@ const PaymentRequest = () => {
                     marginBottom: 40,
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}
-                />
+                  }}>
+                  {get_payment_request_page_loading && (
+                    <ActivityIndicator style={{marginTop: 40}} />
+                  )}
+                </View>
               )}
+              onEndReached={() => {
+                if (
+                  get_payment_request_list_res.current_page <
+                  get_payment_request_list_res.last_page
+                ) {
+                  dispatch(getPaymentRequesPages());
+                }
+              }}
             />
           </View>
         )}

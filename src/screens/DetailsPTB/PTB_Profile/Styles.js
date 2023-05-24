@@ -228,8 +228,14 @@ export default {
   },
   loginBtn: {
     height: 80,
-    width: dynamicSize(Value.CONSTANT_VALUE_259),
+    width: dynamicSize(305),
     marginBottom: Value.CONSTANT_VALUE_20,
   },
   centerView: {alignItems: Alignment.CENTER},
+  btnView: {
+    alignItems: Alignment.CENTER,
+    bottom: 20,
+    position: 'absolute',
+    alignSelf: 'center',
+  },
 };
