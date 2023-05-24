@@ -62,10 +62,12 @@ export default {
   box: {
     borderWidth: Value.CONSTANT_VALUE_2,
     borderColor: Colors.COLOR_A3C6C4,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   selectedBox: {
     backgroundColor: `${Colors.COLOR_163198196}28`,
-    borderRadius: 0,
+    // borderRadius: 0,
     // opacity: 0.11,
   },
   innerContainer: {
@@ -102,8 +104,8 @@ export default {
     alignItems: Alignment.CENTER,
   },
   roleContainer: {
-    paddingHorizontal: Value.CONSTANT_VALUE_20,
-    paddingTop: Value.CONSTANT_VALUE_20,
+    // paddingHorizontal: Value.CONSTANT_VALUE_20,
+    // paddingTop: Value.CONSTANT_VALUE_20,
     flex: Value.CONSTANT_VALUE_1,
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,

@@ -1,44 +1,109 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
 import styles from './style';
-import { showAppToast } from '../../../../redux/actions/loader';
 
-const Commitment = ({MainText, Months, Icon, Style, onPress,isSelected=false,isUpcoming=false,upcomingStarts=''}) => {
-  const dispatch = useDispatch();
+const Commitment = ({
+  Style,
+  onPress,
+  interval,
+  price,
+  planId,
+  upcomingPlanId,
+  role,
+  upcomingRole,
+  isSelected = false,
+  isUpcoming = false,
+  upcomingStarts = '',
+  index = 0,
+}) => {
   const handleOnPress = ()=>{
-    if(isSelected || isUpcoming){
-      // dispatch(showAppToast(true,isSelected?"This plan is already active!":"This is your upcoming Plan."))
-    }
-    else{
+    if(!(isSelected || isUpcoming)){
       onPress();
     }
   }
   return (
     <>
+    {(!isSelected && !isUpcoming) && index=== 1 && (
+      <View style={[styles.verticalBar,
+        isSelected && styles.blueBackground,{width: 0.5}]}/>
+    )}
+    {index === 1 && isUpcoming && planId===upcomingPlanId && (
+      <View
+        style={[
+          styles.verticalBar,
+          isSelected && styles.blueBackground,
+          isUpcoming && styles.redBackground,
+        ]}
+      />
+    )}
+    {isSelected && (!isUpcoming && planId!==upcomingPlanId && role!==upcomingRole) && index=== 1 && (
+      <View style={[styles.verticalBar,
+        isSelected && styles.blueBackground,]}/>
+    )}
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={handleOnPress}
-        style={[styles.mainContainer, Style]}>
+        style={[
+          styles.mainContainer,
+          Style,
+          index === 0 ? styles.leftItem : styles.rightItem,
+          isSelected && styles.blueBorder,
+          isUpcoming && styles.redBorder,
+        ]}>
         <View style={styles.innerView}>
-          <Text style={[styles.mainText,isSelected?{opacity: 0.4,}:null]}>{MainText}</Text>
-          {/* <Text style={styles.innerText}>{Months}</Text> */}
+          {isUpcoming && (
+            <Text style={[styles.mainText, isSelected ? {opacity: 0.4} : null]}>
+              {`$${price}/`}
+              <Text style={{fontSize: 12}}>{interval}</Text>
+            </Text>
+          )}
+          {!isUpcoming && (
+            <Text style={[styles.mainText, isSelected ? {opacity: 0.4} : null]}>
+              {`$${price.toFixed(2)}\n/`}
+              <Text style={{fontSize: 12}}>{interval}</Text>
+            </Text>
+          )}
+          {isUpcoming && (
+            <View style={styles.upComingBtn}>
+              <Text style={styles.upComingTxt}>
+                {`Selected Plan Starts from ${moment(upcomingStarts).format(
+                  'LL',
+                )}`}
+              </Text>
+            </View>
+          )}
         </View>
-        {(!isSelected && !isUpcoming) && <View style={styles.iconContainer}>
-          <Image style={styles.Icon} source={Icon} />
-        </View>}
-        {isSelected && <View style={styles.subscribeBtn}>
-          <Text style={styles.subscribeTxt}>
-            Current Plan
-          </Text>
-        </View>}
-        {isUpcoming && <View style={styles.upComingBtn}>
-          <Text style={styles.upComingTxt}>
-            {`Selected Plan Starts from ${moment(upcomingStarts).format('LL')}`}
-          </Text>
-        </View>}
       </TouchableOpacity>
+      {isSelected && (
+        <View
+          style={[
+            styles.absolutePlan,
+            index === 0 ? styles.leftCurrent : styles.rightCurrent,
+          ]}>
+          <View style={styles.subscribeBtn}>
+            <Text style={styles.subscribeTxt}>Current Plan</Text>
+          </View>
+        </View>
+      )}
+      {index === 0 && isUpcoming && planId===upcomingPlanId && (
+        <View
+          style={[
+            styles.verticalBar,
+            isSelected && styles.blueBackground,
+            isUpcoming && styles.redBackground,
+          ]}
+        />
+      )}
+      {isSelected && (!isUpcoming && planId!==upcomingPlanId && role!==upcomingRole) && index=== 0 && (
+        <View style={[styles.verticalBar,
+          isSelected && styles.blueBackground,]}/>
+      )}
+
+      {(!isSelected && !isUpcoming) && index=== 0 && (
+        <View style={[styles.verticalBar,
+          isSelected && styles.blueBackground,{width: 0.5}]}/>
+      )}
     </>
   );
 };
