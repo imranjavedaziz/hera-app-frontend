@@ -334,7 +334,7 @@ export default {
   loaderView: {
     position: Alignment.ABSOLUTE,
     zIndex: Value.CONSTANT_VALUE_1,
-    backgroundColor: Colors.TIME_COLOR,
+    backgroundColor: Colors.BLACK_0,
     opacity: 0.5,
     width: px(Value.CONSTANT_VALUE_203),
     height: px(Value.CONSTANT_VALUE_160),
