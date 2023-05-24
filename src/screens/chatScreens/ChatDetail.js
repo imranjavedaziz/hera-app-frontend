@@ -773,7 +773,6 @@ const ChatDetail = props => {
         filteredItem: props?.route?.params?.filteredItem?.connected_acc_status
           ? props?.route?.params?.filteredItem?.connected_acc_status
           : '',
-        Items: props?.route?.params?.item,
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
@@ -782,7 +781,6 @@ const ChatDetail = props => {
         account_status_res: props?.route?.params?.account_status_res
           ? props?.route?.params?.account_status_res
           : '',
-        Items: props?.route?.params?.item,
       });
     }
     setOpen(false);
@@ -1238,6 +1236,15 @@ const ChatDetail = props => {
               style={styleSheet.pickerBtn}>
               <Text style={styleSheet.pickerBtnLabel}>
                 {Strings.sm_create_gallery.shareADoc}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setOpen(false);
+              }}
+              style={styleSheet.pickerBtn}>
+              <Text style={[styleSheet.redColor]}>
+                {Strings.Subscription.Cancel}
               </Text>
             </TouchableOpacity>
           </View>
