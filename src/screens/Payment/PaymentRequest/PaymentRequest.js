@@ -21,6 +21,7 @@ import _ from 'lodash';
 import PaymentRequestModal from '../../../components/PaymentRequestModal/PaymentRequestModal';
 import {formatDigit, getRequestTime} from '../../../utils/commonFunction';
 import {Routes} from '../../../constants/Constants';
+import {NotificationsCount} from '../../../redux/actions/NotificationsCount';
 let images = [];
 const PaymentRequest = () => {
   const navigation = useNavigation();
@@ -69,6 +70,11 @@ const PaymentRequest = () => {
       if (get_payment_request_list_success) {
         setIsRefreshing(false);
         dispatch(hideAppLoader());
+        if (log_in_data.role_id !== 2) {
+          dispatch(
+            NotificationsCount(get_payment_request_list_res?.data?.length),
+          );
+        }
         setData(get_payment_request_list_res?.data);
         const filteredData = get_payment_request_list_res?.data.filter(
           item => item.status === 0,
@@ -155,7 +161,7 @@ const PaymentRequest = () => {
     dispatch(getPaymentRequestList());
   };
 
-  const renderItemData = ({item,index}) => {
+  const renderItemData = ({item, index}) => {
     const url = item?.doc_url;
     // Extract the file extension from the URL
     const fileExtension = url?.split('.').pop() || '';
@@ -257,7 +263,7 @@ const PaymentRequest = () => {
             </Text>
             <FlatList
               data={log_in_data.role_id === 2 ? PtbData : Data}
-              renderItem={(item,index) => renderItemData(item,index)}
+              renderItem={(item, index) => renderItemData(item, index)}
               refreshing={isRefreshing}
               onRefresh={onRefresh}
               showsVerticalScrollIndicator={false}

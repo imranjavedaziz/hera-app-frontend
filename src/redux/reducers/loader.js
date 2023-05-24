@@ -1,3 +1,4 @@
+import {NOTIFICATION_COUNT} from '../Type';
 import {
   SHOW_LOADER,
   HIDE_LOADER,
@@ -21,6 +22,7 @@ const initState = {
   showMessageToast: false,
   isMessageErrToast: '',
   toastMessageText: '',
+  notification_count: 0,
 };
 
 export default (state = initState, {type = '', payload = null} = {}) => {
@@ -78,6 +80,11 @@ export default (state = initState, {type = '', payload = null} = {}) => {
         toastMessageText: initState.toastMessageText,
         push: initState.push,
         navigation: initState.navigation,
+      };
+    case NOTIFICATION_COUNT:
+      return {
+        ...state,
+        notification_count: payload,
       };
     default:
       return state;

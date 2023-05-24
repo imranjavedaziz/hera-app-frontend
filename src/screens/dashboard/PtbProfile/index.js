@@ -66,6 +66,7 @@ import {GetPreferenceRes} from '../../../redux/actions/SetPreference';
 import {getPaymentRequestList} from '../../../redux/actions/Payment';
 import SuccessModal from './Subscription/SuccessModal';
 import {ACCOUNT_STATUS_CLEAN} from '../../../redux/Type';
+import {NotificationsCount} from '../../../redux/actions/NotificationsCount';
 
 const PtbProfile = ({route}) => {
   const navigation = useNavigation();
@@ -256,6 +257,7 @@ const PtbProfile = ({route}) => {
     await dispatch({type: GET_BANK_LIST.CLEAN});
     await dispatch(hideAppLoader());
     await dispatch({type: ACCOUNT_STATUS_CLEAN});
+    await dispatch(NotificationsCount(0));
     navigation.navigate(Routes.Landing);
     setTimeout(() => {
       setDisable(false);

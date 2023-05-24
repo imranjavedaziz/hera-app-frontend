@@ -21,6 +21,7 @@ import {updateSubscriptionStatus} from '../redux/actions/Subsctiption';
 import jwt_decode from 'jwt-decode';
 import {GET_BANK_LIST, GET_CARD_LIST} from '../redux/actions/stripe.action';
 import {ACCOUNT_STATUS_CLEAN} from '../redux/Type';
+import {NotificationsCount} from '../redux/actions/NotificationsCount';
 const axiosRequest = axios.create({
   baseURL: api_url,
 });
@@ -140,6 +141,7 @@ axiosRequest.interceptors.response.use(
       store.dispatch({type: GET_CARD_LIST.CLEAN});
       store.dispatch({type: GET_BANK_LIST.CLEAN});
       store.dispatch({type: ACCOUNT_STATUS_CLEAN});
+      store.dispatch(NotificationsCount(0));
       navigationRef.current?.reset({
         index: 0,
         routes: [{name: Routes.Landing}],

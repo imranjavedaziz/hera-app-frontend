@@ -60,6 +60,7 @@ import {
 } from '../../../../redux/actions/stripe.action';
 import {getPaymentRequestList} from '../../../../redux/actions/Payment';
 import {ACCOUNT_STATUS_CLEAN} from '../../../../redux/Type';
+import {NotificationsCount} from '../../../../redux/actions/NotificationsCount';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -98,6 +99,7 @@ const SmDonorSettings = () => {
   const {gallery_data, gallery_success, gallery_loading} = useSelector(
     state => state.CreateGallery,
   );
+  const {notification_count} = useSelector(state => state.loader);
   useFocusEffect(
     useCallback(() => {
       dispatch(getEditProfile());
@@ -189,6 +191,7 @@ const SmDonorSettings = () => {
     await dispatch({type: GET_BANK_LIST.CLEAN});
     await dispatch(hideAppLoader());
     await dispatch({type: ACCOUNT_STATUS_CLEAN});
+    await dispatch(NotificationsCount(0));
     navigation.navigate(Routes.Landing);
     setTimeout(() => {
       setDisable(false);
@@ -348,8 +351,16 @@ const SmDonorSettings = () => {
               leftIcon={Images.DOLLAR_LOGO}
               title={Strings.smSetting.Hera_Pay}
               onPress={() => navigation.navigate(Routes.HeraPay)}
-              RedDot={Notifications > 0 ? true : false}
-              Pending={Notifications > 0 && 'Notifications'}
+              RedDot={
+                Notifications > 0 && notification_count !== Notifications
+                  ? true
+                  : false
+              }
+              Pending={
+                Notifications > 0 &&
+                notification_count !== Notifications &&
+                'Notifications'
+              }
             />
             <PtbAccount
               leftIcon={Images.galleryimage}
