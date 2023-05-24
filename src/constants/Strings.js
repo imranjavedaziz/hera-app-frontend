@@ -530,6 +530,9 @@ export default {
     NotProcessed: 'Subscription could not be processed.',
     SubRemoved: 'Subscription Removed!',
     SubRemovedPara: 'Your subscription is now cancelled. No amount will be further deducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
+    checkMarkL1: 'Get access to 5 {ROLE} profiles on your dashboard',
+    checkMarkL2: 'You can Match/Unmatch with new {ROLE}s',
+    checkMarkL3: 'Access to chat feature',
   },
   Chat: {
     Chat: 'CHAT',
