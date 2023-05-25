@@ -466,22 +466,22 @@ export default {
     Subtitle: 'Search in any state',
     iconText: 'Clear',
   },
-
   Subscription: {
     SubHeader: 'See 5 profiles per day',
     MidHeader: '(Use-it-or-lose it)',
     SubscribeButton: 'SUBSCRIBE & PAY',
     BySubs:
       'HERA subscriptions period begin once your purchase has been confirmed with your',
-    AndroidStoreName: 'Play Store Account',
+    AndroidStoreName: ' Debit/Credit Card',
+    SAVEDCARD: 'saved Credit/Debit Card',
     IOSStoreName: 'iTunes Account',
-    RenewText: '. Your subscription will renew automatically.',
+    RenewText: `. Your subscription will renew automatically using the same Debit/Credit Card unless you cancel your subscription from the HERA app's subscription settings at least 24-hours prior to the end of the current subscription cycle.`,
     TimePeriodText:
-      ' Time period for HERA subscription is 1 month and allow you to access 5 cards on the dashboard & chat feature. ',
+      ' Time period for HERA subscription is 1 month/3 month depending upon the plan you have opted for. This subscription will allow you to access 5 cards on the dashboard & unlimited chat feature. ',
     PaymentCharge: 'Payments will be charged to your ',
     CONFIRMTEXT: 'at confirmation of purchase.',
     YOUR: 'Your',
-    LastmainText: ` will be charged for the upcoming period unless you disable auto-renew or cancel subscription in your account settings at least 24-hours prior to the end of the current period. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. By subscribing you agree to HERA's`,
+    LastmainText: ` Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. By subscribing you agree to HERA's`,
     TermsServices: 'Terms & Conditions',
     PrivacyPolicy: 'Privacy Policy.',
     And: ' and ',

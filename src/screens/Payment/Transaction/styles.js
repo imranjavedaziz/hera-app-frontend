@@ -97,5 +97,5 @@ export default {
     resizeMode: 'contain',
     marginRight: 4.5,
   },
-  wrapRow: {flex: 0, flexDirection: 'row', alignItems: 'center'},
+  wrapRow: {flex: 0, flexDirection: 'row', alignItems: 'center', marginLeft: 5},
 };

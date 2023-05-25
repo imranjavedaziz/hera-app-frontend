@@ -171,7 +171,11 @@ const TransactionDetails = ({route}) => {
                 numberOfLines={2}
                 style={[
                   styles.transDetail,
-                  {width: '65%', fontFamily: Fonts.OpenSansBold},
+                  {
+                    width: '65%',
+                    fontFamily: Fonts.OpenSansBold,
+                    marginLeft: 5,
+                  },
                 ]}
                 onPress={() => handleCopyPaymentIntent()}>
                 {route?.params?.payment_intent}
@@ -190,12 +194,12 @@ const TransactionDetails = ({route}) => {
                 </Text>
                 <Image
                   source={Images.ICON_MASTER}
-                  style={{height: 20, resizeMode: 'contain'}}
+                  style={{height: 20, resizeMode: 'contain',}}
                 />
                 <Text
                   style={[
                     styles.transDetail,
-                    {fontFamily: Fonts.OpenSansBold, fontSize: 16},
+                    {fontFamily: Fonts.OpenSansBold, fontSize: 14},
                   ]}>{` ●●●● ${route?.params.last4}`}</Text>
               </View>
             )}
@@ -211,7 +215,7 @@ const TransactionDetails = ({route}) => {
                 <Text
                   style={[
                     styles.transDetail,
-                    {fontFamily: Fonts.OpenSansBold, fontSize: 16},
+                    {fontFamily: Fonts.OpenSansBold, fontSize: 14},
                   ]}>{` ●●●● ${route?.params.bank_last4} (${route?.params.bank_name})`}</Text>
               </View>
             )}
@@ -222,7 +226,7 @@ const TransactionDetails = ({route}) => {
               <Text
                 style={[
                   styles.transDetail,
-                  {fontFamily: Fonts.OpenSansBold, fontSize: 16},
+                  {fontFamily: Fonts.OpenSansBold, fontSize: 14, marginLeft: 5},
                 ]}>
                 {`${getRequestTime(route?.params.created_at)} ${moment(
                   route?.params.created_at,

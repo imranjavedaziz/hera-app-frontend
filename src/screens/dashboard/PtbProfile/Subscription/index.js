@@ -667,14 +667,10 @@ const Subscription = () => {
                 }${Strings.Subscription.PaymentCharge}${
                   Platform.OS === 'ios'
                     ? Strings.Subscription.IOSStoreName
-                    : Strings.Subscription.AndroidStoreName
-                } ${Strings.Subscription.CONFIRMTEXT} ${
-                  Strings.Subscription.YOUR
-                } ${
-                  Platform.OS === 'ios'
-                    ? Strings.Subscription.IOSStoreName
-                    : Strings.Subscription.AndroidStoreName
-                }${Strings.Subscription.LastmainText} `}
+                    : Strings.Subscription.SAVEDCARD
+                } ${Strings.Subscription.CONFIRMTEXT}${
+                  Strings.Subscription.LastmainText
+                } `}
                 <Text
                   style={styles.terms}
                   onPress={() =>

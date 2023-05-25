@@ -18,6 +18,5 @@ export default {
     position: Alignment.ABSOLUTE,
     bottom: 0,
     paddingHorizontal: 4,
-    paddingVertical: dynamicSize(15),
   },
 };

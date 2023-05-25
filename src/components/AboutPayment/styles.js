@@ -6,6 +6,7 @@ import {Fonts} from '../../constants/Constants';
 export default {
   mainContainer: {
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_45),
+    paddingVertical: px(Value.CONSTANT_VALUE_15),
   },
   title: {
     color: Colors.COLOR_535858,
@@ -37,7 +38,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
   },
   innerContainer: {
-    marginTop: dynamicSize(Value.CONSTANT_VALUE_16,),
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_16),
   },
   rowContainer: {
     flexDirection: Alignment.ROW,
