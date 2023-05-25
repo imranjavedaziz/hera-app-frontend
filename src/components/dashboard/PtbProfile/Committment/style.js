@@ -7,15 +7,26 @@ export default {
   mainContainer: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
-    borderRadius: Value.CONSTANT_VALUE_9,
-    // width: dynamicSize(Value.CONSTANT_VALUE_320),
-    // height: dynamicSize(Value.CONSTANT_VALUE_104),
-    // paddingHorizontal: Value.CONSTANT_VALUE_20,
-    padding: Value.CONSTANT_VALUE_20,
+    paddingLeft: Value.CONSTANT_VALUE_20,
+    paddingRight: Value.CONSTANT_VALUE_8,
+    paddingVertical: 16,
     backgroundColor: Colors.SEARCH_BOX,
-    // marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
-    alignItems: Alignment.CENTER,
+    alignItems: Alignment.FLEX_START,
     flex: 1,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: Colors.COLOR_228226216,
+    height: '100%',
+  },
+  leftItem: {
+    borderLeftWidth: 1,
+    borderTopLeftRadius: Value.CONSTANT_VALUE_9,
+    borderBottomLeftRadius: Value.CONSTANT_VALUE_9,
+  },
+  rightItem: {
+    borderRightWidth: 1,
+    borderTopRightRadius: Value.CONSTANT_VALUE_9,
+    borderBottomRightRadius: Value.CONSTANT_VALUE_9,
   },
   mainText: {
     fontSize: Value.CONSTANT_VALUE_18,
@@ -40,8 +51,32 @@ export default {
     flex: 0,
     resizeMode: 'contain',
   },
+  absolutePlan: {
+    position: Alignment.ABSOLUTE,
+    top: -10,
+    width: '50%',
+    alignItems: Alignment.CENTER,
+    justifyContent: Alignment.CENTER,
+  },
+  leftCurrent: {
+    left: 0,
+  },
+  rightCurrent: {
+    right: 0,
+  },
+  blueBorder: {
+    borderColor: Colors.BLUE,
+  },
+  blueBackground: {
+    backgroundColor: Colors.BLUE,
+  },
+  redBorder: {
+    borderColor: Colors.RED,
+  },
+  redBackground: {
+    backgroundColor: Colors.RED,
+  },
   subscribeBtn: {
-    marginLeft: Value.CONSTANT_VALUE_10,
     paddingHorizontal: Value.CONSTANT_VALUE_5,
     backgroundColor: Colors.COLOR_5ABCEC,
     borderRadius: Value.CONSTANT_VALUE_3,
@@ -56,25 +91,24 @@ export default {
     fontSize: Value.CONSTANT_VALUE_12,
   },
   upComingBtn: {
-    marginLeft: Value.CONSTANT_VALUE_10,
-    paddingHorizontal: Value.CONSTANT_VALUE_15,
-    paddingVertical: Value.CONSTANT_VALUE_5,
-    borderRadius: Value.CONSTANT_VALUE_3,
+    marginTop: Value.CONSTANT_VALUE_2,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    flex: Value.CONSTANT_VALUE_0,
-    borderColor: Colors.COLOR_RED,
-    borderWidth: 1,
-    maxWidth: 150,
     flex: 1,
   },
   upComingTxt: {
     color: Colors.COLOR_RED,
     fontSize: Value.CONSTANT_VALUE_12,
     flex: 1,
-    textAlign: Alignment.CENTER
+    textAlign: Alignment.LEFT,
+    fontFamily: Fonts.OpenSansRegular,
   },
   innerView: {
     flex: 0,
-  }
+  },
+  verticalBar: {
+    width: 1,
+    height: '100%',
+    backgroundColor: Colors.COLOR_228226216,
+  },
 };

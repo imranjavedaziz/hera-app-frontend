@@ -52,6 +52,44 @@ import {
   GET_CARD_LIST,
 } from '../../../../redux/actions/stripe.action';
 
+const checkMarks = [
+  Strings.Subscription.checkMarkL1,
+  Strings.Subscription.checkMarkL2,
+  Strings.Subscription.checkMarkL3,
+];
+const CheckMarks = React.memo(({role}) => (
+  <>
+    {checkMarks.map(check => (
+      <View
+        style={{
+          marginVertical: 5,
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+        }}>
+        <Image
+          source={Images.path}
+          style={{
+            tintColor: Colors.BLUE,
+            width: 17.7,
+            resizeMode: 'contain',
+            marginTop: 3,
+          }}
+        />
+        <Text
+          style={{
+            flex: 1,
+            fontFamily: Fonts.OpenSansRegular,
+            fontSize: 14,
+            color: Colors.COLOR_535858,
+            marginLeft: 10.3,
+          }}>
+          {check.replace('{ROLE}', role)}
+        </Text>
+      </View>
+    ))}
+  </>
+));
 export const CancelSubscription = ({
   changeModal,
   setChangeModal,
@@ -531,16 +569,50 @@ const Subscription = () => {
               {rolePlans.length ? (
                 rolePlans.map(plan => (
                   <View key={plan.title} style={[styles.box, styles.roleBox]}>
-                    <FlatList
-                      scrollEnabled={false}
-                      keyExtractor={(item, index) => item + index}
-                      data={plan.data}
-                      key={plan.title}
-                      renderItem={({item, index}) => (
+                    <View style={styles.roleContainer}>
+                      <Text style={styles.roleTxt}>{plan.title}</Text>
+                      {subscription_plan_res?.data?.preference
+                        ?.role_id_looking_for ===
+                        plan.data[0].role_id_looking_for &&
+                        (subscriptionStatus?.data?.is_trial ||
+                          subscription_plan_res?.data?.subscription ===
+                            null) && (
+                          <View style={styles.subscribeBtn}>
+                            <Text style={styles.subscribeTxt}>
+                              Selected Preference
+                            </Text>
+                          </View>
+                        )}
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginVertical: 20,
+                      }}>
+                      {plan.data.map((item, index) => (
                         <Commitment
-                          key={index}
-                          MainText={`$${item?.price} / ${item?.interval}`}
+                          key={item?.id}
+                          index={index}
+                          MainText={`$${item?.price}\n/${item?.interval}`}
+                          price={item?.price}
+                          interval={item?.interval}
                           Months={item.description}
+                          upcomingPlanId={
+                            subscription_plan_res?.data
+                              ?.upcomingSubscription !== null &&
+                            subscription_plan_res?.data?.upcomingSubscription
+                              .subscription_plan.id
+                          }
+                          planId={item?.id}
+                          role={item?.role_id_looking_for}
+                          upcomingRole={
+                            subscription_plan_res?.data
+                              ?.upcomingSubscription !== null &&
+                            subscription_plan_res?.data?.upcomingSubscription
+                              .subscription_plan.role_id_looking_for
+                          }
                           Icon={
                             selectCheckBox?.id === item?.id
                               ? Images.iconRadiosel
@@ -567,28 +639,9 @@ const Subscription = () => {
                               ?.current_period_start || ''
                           }
                         />
-                      )}
-                      ListHeaderComponent={() => (
-                        <View style={styles.roleContainer}>
-                          <Text style={styles.roleTxt}>{plan.title}</Text>
-                          {subscription_plan_res?.data?.preference
-                            ?.role_id_looking_for ===
-                            plan.data[0].role_id_looking_for &&
-                            (subscriptionStatus?.data?.is_trial ||
-                              subscription_plan_res?.data?.subscription ===
-                                null) && (
-                              <View style={styles.subscribeBtn}>
-                                <Text style={styles.subscribeTxt}>
-                                  Selected Preference
-                                </Text>
-                              </View>
-                            )}
-                        </View>
-                      )}
-                      ItemSeparatorComponent={() => (
-                        <View style={styles.seperator} />
-                      )}
-                    />
+                      ))}
+                    </View>
+                    <CheckMarks role={plan.title} />
                   </View>
                 ))
               ) : (
