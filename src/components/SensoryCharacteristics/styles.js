@@ -90,7 +90,11 @@ export default {
     fontFamily: Fonts.OpenSansBold,
     letterSpacing: 1.8,
   },
-  scrollContainer: {flex: 1, alignItems: Alignment.CENTER},
+  scrollContainer: {
+    flex: 1,
+    alignItems: Alignment.CENTER,
+    paddingVertical: px(Value.CONSTANT_VALUE_15),
+  },
   logo: {
     width: scaleWidth(Value.CONSTANT_VALUE_120),
     height: scaleHeight(Value.CONSTANT_VALUE_95),

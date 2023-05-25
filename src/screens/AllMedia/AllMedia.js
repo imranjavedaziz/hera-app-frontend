@@ -205,6 +205,14 @@ const AllMedia = props => {
                     showsVerticalScrollIndicator={false}
                     renderItem={renderItem}
                     stickyHeaderIndices={[0]}
+                    ListFooterComponent={() => (
+                      <View
+                        style={{
+                          marginBottom: 40,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}/>
+                    )}
                   />
                 </>
               );

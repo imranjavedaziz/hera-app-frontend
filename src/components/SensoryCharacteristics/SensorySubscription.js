@@ -4,12 +4,15 @@ import Strings from '../../constants/Strings';
 import styles from './styles';
 import Images from '../../constants/Images';
 import {Value} from '../../constants/FixedValues';
+import {px} from '../../utils/responsive';
 
 const SensorySubscription = props => {
   const {onPress} = props;
   return (
     <>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{paddingVertical: px(Value.CONSTANT_VALUE_15)}}>
         <Image source={Images.LOGO} style={styles.logo} />
         <Text style={[styles?.title, {paddingBottom: Value.CONSTANT_VALUE_0}]}>
           {Strings.Sensory.WHY_SUBSCRIBE}

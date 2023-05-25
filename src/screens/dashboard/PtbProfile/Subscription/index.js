@@ -219,7 +219,9 @@ const Subscription = () => {
   const showChangeSuccessToast = useCallback(() => {
     if (Platform.OS === 'ios') {
       Alert.alert(
-        subscription_plan_res?.data?.subscription===null?Strings.Subscription.FirstTime:Strings.Subscription.SuccessChanged,
+        subscription_plan_res?.data?.subscription === null
+          ? Strings.Subscription.FirstTime
+          : Strings.Subscription.SuccessChanged,
         isPlanChanged
           ? Strings.Subscription.SuccessChangedPara.replace(
               '{SELECTED_ROLE}',
@@ -477,10 +479,9 @@ const Subscription = () => {
       ) {
         setPlanChanged(false);
         setPlanUpgrade(true);
-        if(subscriptionStatus?.data?.subscription_cancel != 1){
+        if (subscriptionStatus?.data?.subscription_cancel != 1) {
           showUpgradePlanToast();
-        }
-        else{
+        } else {
           subscribePlan(selectCheckBox, 'credit');
         }
       } else {
@@ -613,14 +614,10 @@ const Subscription = () => {
                 }${Strings.Subscription.PaymentCharge}${
                   Platform.OS === 'ios'
                     ? Strings.Subscription.IOSStoreName
-                    : Strings.Subscription.AndroidStoreName
-                } ${Strings.Subscription.CONFIRMTEXT} ${
-                  Strings.Subscription.YOUR
-                } ${
-                  Platform.OS === 'ios'
-                    ? Strings.Subscription.IOSStoreName
-                    : Strings.Subscription.AndroidStoreName
-                }${Strings.Subscription.LastmainText} `}
+                    : Strings.Subscription.SAVEDCARD
+                } ${Strings.Subscription.CONFIRMTEXT}${
+                  Strings.Subscription.LastmainText
+                } `}
                 <Text
                   style={styles.terms}
                   onPress={() =>
@@ -682,24 +679,29 @@ const Subscription = () => {
                       'YYYY-MM-DD',
                     ).format('LL'),
                   )
-                : (subscriptionStatus?.data?.subscription_cancel!=1?Strings.Subscription.UpgradePlanParaAndroid:Strings.Subscription.UpgradeCanceledPlanParaAndroid).replace(
-                    '{SELECTED_ROLE}',
-                    selectCheckBox == null
-                      ? '{SELECTED_ROLE}'
-                      : Strings?.STATIC_ROLE.find(
-                          r =>
-                            r.id ===
-                            subscription_plan_res?.data?.preference
-                              ?.role_id_looking_for,
-                        ).name,
-                  ).replace(
-                    '{SELECTED_ROLE2}',
-                    selectCheckBox == null
-                      ? '{SELECTED_ROLE2}'
-                      : Strings?.STATIC_ROLE.find(
-                          r => r.id === selectCheckBox.role_id_looking_for,
-                        ).name,
-                  )}
+                : (subscriptionStatus?.data?.subscription_cancel != 1
+                    ? Strings.Subscription.UpgradePlanParaAndroid
+                    : Strings.Subscription.UpgradeCanceledPlanParaAndroid
+                  )
+                    .replace(
+                      '{SELECTED_ROLE}',
+                      selectCheckBox == null
+                        ? '{SELECTED_ROLE}'
+                        : Strings?.STATIC_ROLE.find(
+                            r =>
+                              r.id ===
+                              subscription_plan_res?.data?.preference
+                                ?.role_id_looking_for,
+                          ).name,
+                    )
+                    .replace(
+                      '{SELECTED_ROLE2}',
+                      selectCheckBox == null
+                        ? '{SELECTED_ROLE2}'
+                        : Strings?.STATIC_ROLE.find(
+                            r => r.id === selectCheckBox.role_id_looking_for,
+                          ).name,
+                    )}
             </Text>
             <Pressable
               style={styles.changeModalBtn}
