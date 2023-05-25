@@ -102,6 +102,7 @@ export default {
   },
   btnView: {
     alignItems: Alignment.CENTER,
+    marginBottom: 45,
   },
   roleContainer: {
     // paddingHorizontal: Value.CONSTANT_VALUE_20,

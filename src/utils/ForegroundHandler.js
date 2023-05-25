@@ -29,6 +29,26 @@ const ForegroundHandler = () => {
           remoteMessage?.data.notify_type === 'chat'
         ) {
           return null;
+        } else if (
+          remoteMessage?.data.notify_type === 'payment_request' ||
+          remoteMessage?.data.notify_type === 'payment_declined'
+        ) {
+          toastRef?.current?.show(remoteMessage?.notification.body, {
+            type: 'custom',
+            placement: 'top',
+            duration: 2000,
+            offset: 30,
+            animationType: 'slide-in',
+          });
+          dispatch(
+            showMessageAppToast(
+              true,
+              remoteMessage?.notification.body,
+              true,
+              remoteMessage?.data,
+              RootNavigation,
+            ),
+          );
         } else {
           toastRef?.current?.show(remoteMessage?.notification.title, {
             type: 'custom',

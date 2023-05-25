@@ -21,7 +21,7 @@ import {hideMessageAppToast} from '../../redux/actions/loader';
 const styles = {
   container: {
     position: Alignment.ABSOLUTE,
-    top: Value.CONSTANT_VALUE_0,
+    top: -10,
     width: Prencentage.PRECENTAGE_100,
   },
   safe: {
@@ -106,8 +106,13 @@ const MessageToast = ({message}) => {
     if (toastState?.pushRes?.notify_type === 'subscribe') {
       toastState?.navigation.navigate(Routes.PtbProfile);
     }
-    if (toastState?.pushRes?.notify_type === 'payment_request') {
-      toastState?.navigation.navigate(Routes.PaymentRequest);
+    if (
+      toastState?.pushRes?.notify_type === 'payment_request' ||
+      toastState?.pushRes?.notify_type === 'payment_declined'
+    ) {
+      toastState?.navigation.navigate(Routes.PaymentRequest, {
+        item: toastState?.pushRes,
+      });
     }
     if (toastState?.pushRes?.notify_type === 'payment_transfer') {
       toastState?.navigation.navigate(Routes.Transaction);

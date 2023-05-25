@@ -430,25 +430,22 @@ const CreateGallery = () => {
             rmvImgCount={rmvImgCount}
             remove={remove}
           />
-          {((!isDel && rmvImgCount === 0) ||
-            (!isDel && rmvVideoCount <= 0)) && (
-            <TouchableOpacity
-              style={styles.dashboardBtn}
-              activeOpacity={Value.CONSTANT_VALUE_FRAC80}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{name: Routes.SmDashboard}],
-                });
-              }}>
-              <Text
-                accessible={false}
-                style={styles.buttonText}
-                numberOfLines={Value.CONSTANT_VALUE_1}>
-                {Strings.sm_create_gallery.Btn}
-              </Text>
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            style={styles.dashboardBtn}
+            activeOpacity={Value.CONSTANT_VALUE_FRAC80}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{name: Routes.SmDashboard}],
+              });
+            }}>
+            <Text
+              accessible={false}
+              style={styles.buttonText}
+              numberOfLines={Value.CONSTANT_VALUE_1}>
+              {Strings.sm_create_gallery.Btn}
+            </Text>
+          </TouchableOpacity>
         </View>
       </Container>
       {((isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0)) && (
@@ -524,7 +521,6 @@ const CreateGallery = () => {
           setShowModal(false);
         }}
       />
-
       <ImageView
         images={images}
         imageIndex={imgPreviewindex}

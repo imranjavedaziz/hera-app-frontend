@@ -648,13 +648,6 @@ const Subscription = () => {
                 <ActivityIndicator />
               )}
             </View>
-            <View style={styles.btnView}>
-              <Button
-                label={Strings.Subscription.SubscribeButton}
-                style={styles.payButton}
-                onPress={handlePurchaseSubcription}
-              />
-            </View>
             <View style={styles.textView}>
               <Text style={styles.mainText}>
                 <Text style={{color: 'red'}}>*</Text>
@@ -693,6 +686,13 @@ const Subscription = () => {
                   {Strings.Subscription.PrivacyPolicy}
                 </Text>
               </Text>
+            </View>
+            <View style={styles.btnView}>
+              <Button
+                label={Strings.Subscription.SubscribeButton}
+                style={styles.payButton}
+                onPress={handlePurchaseSubcription}
+              />
             </View>
           </View>
         </ScrollView>

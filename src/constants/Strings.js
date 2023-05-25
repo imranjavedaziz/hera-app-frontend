@@ -211,9 +211,9 @@ export default {
     phone_no: 'Phone Number',
   },
   chats: {
-    confirmProfile: 'Confirm to go ahead with this Profile',
+    confirmProfile: 'Interested in this Profile',
     sendPayment: 'Send Payment',
-    seeProfile: 'See Profile',
+    seeProfile: 'View Profile',
     shareUser: 'Shared Media',
     reportUser: 'Report this User',
     reqPayment: 'Request for Payment',
