@@ -38,6 +38,7 @@ import {DocumentUpload} from '../../redux/actions/DocumentUpload';
 import {NextStep} from '../../redux/actions/NextStep';
 import {dynamicSize, px} from '../../utils/responsive';
 import {MaterialIndicator} from 'react-native-indicators';
+import FastImage from 'react-native-fast-image';
 let fireDB;
 let onChildAdd;
 // let images = [];
@@ -62,12 +63,17 @@ const ChatImageComp = React.memo(props => {
           <View style={styles.loaderView} />
         </>
       )}
-      <Image
+      <FastImage
         resizeMode={Alignment.COVER}
         style={from === parseInt(senderId) ? styles.msgImg : styles.msgImgRx}
         onLoadStart={() => setImageLoading(true)}
         onLoadEnd={() => setImageLoading(false)}
-        source={{uri: item?.currentMessage.media?.file_url}}
+        onError={() => setImageLoading(false)}
+        source={{
+          uri: item?.currentMessage.media?.file_url,
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.immutable,
+        }}
       />
     </TouchableOpacity>
   );
@@ -188,6 +194,7 @@ const ChatDetail = props => {
         uri: file.path,
       });
       reqData.append('to_user_id', props?.route?.params?.item?.recieverId);
+      console.log(reqData, 'reqData');
       dispatch(DocumentUpload(reqData));
       setLoading(true);
       const imgData = {
@@ -398,17 +405,29 @@ const ChatDetail = props => {
         type: [DocumentPicker.types.pdf],
       });
       setDocumentFile(result[0]);
-      // Create a new FormData object
-      const formData = new FormData();
-      // Append the selected PDF document to the FormData object
-      formData.append('file', {
-        uri: result[0].uri,
-        type: result[0].type,
-        name: result[0].name,
-      });
-      formData.append('to_user_id', props?.route?.params?.item?.recieverId);
-      // Dispatch the DocumentUpload action with the FormData object
-      dispatch(DocumentUpload(formData));
+      const bytes = result[0]?.size;
+      const megabytes = bytes / (1024 * 1024);
+      console.log(megabytes.toFixed(3), 'resultDocuments');
+      if (megabytes.toFixed(3) > 5) {
+        dispatch(
+          showAppToast(
+            true,
+            'The PDF you have uploaded is too large. The maximum file size allowed is 5MB. Please re-upload a smaller file.',
+          ),
+        );
+      } else {
+        // Create a new FormData object
+        const formData = new FormData();
+        // Append the selected PDF document to the FormData object
+        formData.append('file', {
+          uri: result[0].uri,
+          type: result[0].type,
+          name: result[0].name,
+        });
+        formData.append('to_user_id', props?.route?.params?.item?.recieverId);
+        // Dispatch the DocumentUpload action with the FormData object
+        dispatch(DocumentUpload(formData));
+      }
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker
@@ -673,6 +692,8 @@ const ChatDetail = props => {
                 style={
                   item?.currentMessage.type === 'image/jpeg'
                     ? styles.imagechatContainerImg
+                    : item?.currentMessage.type === 'application/pdf'
+                    ? styles.pdfContainerView
                     : styles.chatContainer
                 }>
                 {item?.currentMessage.type === 'image/jpeg' && (
@@ -715,9 +736,13 @@ const ChatDetail = props => {
               parseInt(props?.route?.params?.item?.senderId)
                 ? item?.currentMessage.type === 'image/jpeg'
                   ? styles.timeImgSender
+                  : item?.currentMessage.type === 'application/pdf'
+                  ? styles.timeSenderPDF
                   : styles.timeSender
                 : item?.currentMessage.type === 'image/jpeg'
                 ? styles.timeImgRx
+                : item?.currentMessage.type === 'application/pdf'
+                ? styles.timeRXPDF
                 : styles.timeRx
             }>
             <Text
@@ -948,7 +973,7 @@ const ChatDetail = props => {
             (parseInt(props?.route?.params?.item?.currentRole) !== 1 &&
               props?.route?.params?.item?.status_id === 1 && (
                 <TouchableOpacity onPress={() => navReport()}>
-                  <Image source={Images.iconDarkMore} />
+                  <Image source={Images.iconDarkMore} style={{left: 20}} />
                 </TouchableOpacity>
               ))}
           <View />

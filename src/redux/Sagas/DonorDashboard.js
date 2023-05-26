@@ -6,10 +6,10 @@ import {
   DONOR_DASHBOARD_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-import {ValidationMessages} from '../../constants/Strings'
+import {ValidationMessages} from '../../constants/Strings';
 function* getDonorDashboard(payload) {
   try {
-    const result = yield DonorDashboardApi(payload.data);
+    const result = yield DonorDashboardApi(payload);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: DONOR_DASHBOARD_SUCCESS, data: result.data});
     } else {
@@ -19,7 +19,10 @@ function* getDonorDashboard(payload) {
       });
     }
   } catch (err) {
-    yield put({type: DONOR_DASHBOARD_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
+    yield put({
+      type: DONOR_DASHBOARD_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchGetDonorDashboard() {

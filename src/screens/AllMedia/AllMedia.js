@@ -6,16 +6,20 @@ import {
   Image,
   FlatList,
   BackHandler,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
 import Header, {IconHeader} from '../../components/Header';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Images from '../../constants/Images';
 import {Alignment, Strings} from '../../constants';
 import globalStyle from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
-import {DocumentGet} from '../../redux/actions/DocumentUpload';
+import {
+  DocumentGet,
+  DocumentGetPages,
+} from '../../redux/actions/DocumentUpload';
 import {
   hideAppLoader,
   showAppLoader,
@@ -27,6 +31,7 @@ import ImageView from 'react-native-image-viewing';
 import _ from 'lodash';
 import {Value} from '../../constants/FixedValues';
 import AllMediaImg from './AllMediaImg';
+import {useCallback} from 'react';
 
 const AllMedia = props => {
   const userId = props?.route?.params?.item?.recieverId;
@@ -37,6 +42,7 @@ const AllMedia = props => {
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [visible, setIsVisible] = useState(false);
   const [ViewImages, setViewImages] = useState([]);
+  const [pages, setPage] = useState(1);
   const {
     document_get_success,
     document_get_res,
@@ -47,7 +53,12 @@ const AllMedia = props => {
 
   useEffect(() => {
     dispatch(showAppLoader());
-    dispatch(DocumentGet(userId));
+    const payload = {
+      data: userId,
+      page: pages,
+      limit: 15,
+    };
+    dispatch(DocumentGet(payload));
   }, [dispatch, userId]);
   const flatListRef = useRef(null);
   const handleBackButtonClick = () => {
@@ -65,16 +76,13 @@ const AllMedia = props => {
       );
     };
   }, []);
-  useEffect(() => {
-    if (loadingRef.current && !document_get_loading) {
+  useFocusEffect(
+    useCallback(() => {
       dispatch(showAppLoader());
       if (document_get_success) {
         dispatch(hideAppLoader());
         updateGallery();
-        console.log(
-          document_get_res?.data?.data,
-          'document_get_res?.data?.data',
-        );
+        console.log(document_get_res?.data, 'document_get_res?.data?.data');
         const groupedData = document_get_res?.data?.data.reduce(
           (result, item) => {
             const createdAt = new Date(item.created_at);
@@ -90,24 +98,23 @@ const AllMedia = props => {
           },
           {},
         );
-
         setData(groupedData);
       }
       if (document_get_fail) {
         dispatch(hideAppLoader());
         dispatch(showAppToast(true, document_get_error_msg));
       }
-    }
-    loadingRef.current = document_get_loading;
-  }, [
-    document_get_success,
-    document_get_loading,
-    document_get_fail,
-    document_get_res,
-    dispatch,
-    document_get_error_msg,
-  ]);
 
+      loadingRef.current = document_get_loading;
+    }, [
+      document_get_success,
+      document_get_loading,
+      document_get_fail,
+      document_get_res,
+      dispatch,
+      document_get_error_msg,
+    ]),
+  );
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -130,7 +137,7 @@ const AllMedia = props => {
       img.url.endsWith('.jpeg') ||
       img.url.endsWith('.png')
     ) {
-      ImageClick(index);
+      ImageClick(img);
       console.log(index);
     } else {
       onPDF(img);
@@ -138,13 +145,19 @@ const AllMedia = props => {
   };
   const updateGallery = () => {
     const images = document_get_res?.data?.data
-      .reverse()
       ?.filter(img => img.url.match(/\.(jpg|jpeg|png)$/i))
       .map(img => ({uri: img.url}));
     setViewImages(images);
   };
-  const ImageClick = index => {
-    setImgPreviewIndex(index);
+  console.log(ViewImages, '');
+  const ImageClick = img => {
+    const indexFinal = ViewImages.findIndex(i => i.uri === img.url);
+    console.log(
+      ViewImages.findIndex(i => i.url === img.url),
+      'idexhuu',
+    );
+    console.log(img.url, 'img.url');
+    setImgPreviewIndex(indexFinal);
     setIsVisible(true);
   };
   const renderItem = ({item, index}) => {
@@ -182,10 +195,11 @@ const AllMedia = props => {
       </View>
     );
   };
+
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
-      <ScrollView style={styles.flex} showsVerticalScrollIndicator={false}>
+      <View style={styles.flex} showsVerticalScrollIndicator={false}>
         <View style={styles.mainContainer}>
           <Text style={globalStyle.screenTitle}>
             {Strings.allMedia.allMedia}
@@ -194,31 +208,33 @@ const AllMedia = props => {
             Object.keys(Data).map(key => {
               return (
                 <>
-                  <Text style={styles.month}>{key}</Text>
                   <FlatList
-                    scrollEnabled={false}
                     ref={flatListRef}
                     data={Data[key]}
-                    style={styles.galleryImgContainer}
                     numColumns={3}
+                    contentContainerStyle={{flexGrow: 1}}
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
                     renderItem={renderItem}
-                    stickyHeaderIndices={[0]}
                     ListFooterComponent={() => (
                       <View
                         style={{
                           marginBottom: 40,
                           alignItems: 'center',
                           justifyContent: 'center',
-                        }}/>
+                        }}
+                      />
                     )}
+                    ListHeaderComponent={() => (
+                      <Text style={styles.month}>{key}</Text>
+                    )}
+                    horizontal={false}
                   />
                 </>
               );
             })}
         </View>
-      </ScrollView>
+      </View>
       <ImageView
         images={ViewImages}
         imageIndex={imgPreviewindex}

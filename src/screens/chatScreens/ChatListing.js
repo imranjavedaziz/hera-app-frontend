@@ -203,9 +203,9 @@ const ChatListing = () => {
   }
   const onNavigateDetail = item => {
     if (log_in_data?.role_id === 2) {
-      const filteredItem = BankData.find(
-        bankdata => bankdata?.id === item?.recieverId,
-      );
+      const filteredItem =
+        BankData &&
+        BankData.find(bankdata => bankdata?.id === item?.recieverId);
       navigation.navigate(Routes.ChatDetail, {
         item,
         isComingFrom: false,

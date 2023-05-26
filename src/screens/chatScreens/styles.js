@@ -41,9 +41,14 @@ export default {
     paddingHorizontal: 24,
     maxWidth: 302,
   },
+  pdfContainerView: {
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    maxWidth: 302,
+  },
   imagechatContainerImg: {
-    paddingHorizontal: 0,
-    maxWidth: 200,
+    marginRight: 20,
+    maxWidth: px(204),
   },
   senderID: {
     alignSelf: Alignment.FLEXEND,
@@ -58,7 +63,6 @@ export default {
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.BACKGROUND,
     alignItems: Alignment.CENTER,
-    marginRight: 20,
     justifyContent: Alignment.CENTER,
   },
   receiverID: {
@@ -286,7 +290,7 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     justifyContent: Alignment.CENTER,
-    top: px(Value.CONSTANT_VALUE_10),
+    alignContent: 'center',
     flex: Value.CONSTANT_VALUE_1,
   },
   msgImg: {
@@ -303,6 +307,16 @@ export default {
     alignSelf: Alignment.FLEXEND,
     marginTop: px(Value.CONSTANT_VALUE_4),
     marginRight: px(Value.CONSTANT_VALUE_20),
+  },
+  timeSenderPDF: {
+    alignSelf: Alignment.FLEXEND,
+    marginTop: px(Value.CONSTANT_VALUE_2),
+    marginRight: px(Value.CONSTANT_VALUE_20),
+  },
+  timeRXPDF: {
+    alignSelf: Alignment.FLEX_START,
+    marginTop: px(Value.CONSTANT_VALUE_2),
+    marginLeft: px(Value.CONSTANT_VALUE_10),
   },
   timeImgSender: {
     alignSelf: Alignment.FLEXEND,

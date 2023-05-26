@@ -198,7 +198,10 @@ const SmDashboard = ({route}) => {
               chatPush: true,
             });
           }
-          if (notification.data.notify_type === 'payment_request') {
+          if (
+            notification.data.notify_type === 'payment_request' ||
+            notification.data.notify_type === 'payment_declined'
+          ) {
             navigation.navigate(Routes.PaymentRequest);
           }
           if (notification.data.notify_type === 'payment_transfer') {
@@ -211,6 +214,26 @@ const SmDashboard = ({route}) => {
             notification.data.notify_type === 'chat'
           ) {
             return null;
+          } else if (
+            notification.data.notify_typ === 'payment_request' ||
+            notification.data.notify_type === 'payment_declined'
+          ) {
+            toast?.current?.show(notification.body, {
+              type: 'custom',
+              placement: 'top',
+              duration: 2000,
+              offset: 30,
+              animationType: 'slide-in',
+            });
+            dispatch(
+              showMessageAppToast(
+                true,
+                notification.body,
+                true,
+                notification.data,
+                navigation,
+              ),
+            );
           } else {
             toast.show(notification.title, {
               type: 'custom',
@@ -265,6 +288,15 @@ const SmDashboard = ({route}) => {
               user: JSON.parse(notification.data?.match_request),
             });
           }
+        }
+        if (
+          notification.data.notify_type === 'payment_request' ||
+          notification.data.notify_type === 'payment_declined'
+        ) {
+          navigation.navigate(Routes.PaymentRequest);
+        }
+        if (notification.data.notify_type === 'payment_transfer') {
+          navigation.navigate(Routes.Transaction);
         }
         if (notification.data.notify_type === 'chat') {
           navigation.navigate(Routes.ChatDetail, {
