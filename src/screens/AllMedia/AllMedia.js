@@ -5,6 +5,7 @@ import {
   Image,
   FlatList,
   BackHandler,
+  SectionList,
   ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
@@ -15,7 +16,7 @@ import Images from '../../constants/Images';
 import {Alignment, Colors, Strings} from '../../constants';
 import globalStyle from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
-import {DocumentGet} from '../../redux/actions/DocumentUpload';
+import {DocumentGet, CleanDocument} from '../../redux/actions/DocumentUpload';
 import {
   hideAppLoader,
   showAppLoader,
@@ -72,64 +73,66 @@ const AllMedia = props => {
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
+      setPage(1);
+      setExtraData([]);
+      dispatch(CleanDocument());
       BackHandler.removeEventListener(
         'hardwareBackPress',
         handleBackButtonClick,
       );
     };
   }, []);
-  useFocusEffect(
-    useCallback(() => {
-      updateGallery();
+  useEffect(() => {
+    if (ExtraData.length > 0) {
       const groupedData = ExtraData.reduce((result, item) => {
         const createdAt = new Date(item.created_at);
         const monthYear = `${
           monthNames[createdAt.getMonth()]
         } ${createdAt.getFullYear()}`;
-        if (!result[monthYear]) {
-          result[monthYear] = [];
-        }
-        result[monthYear].push(item);
-        return result;
-      }, {});
-      setData(groupedData);
-    }, [ExtraData]),
-  );
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(showAppLoader());
-      if (document_get_success) {
-        console.log(document_get_res?.data, 'ocument_get_res?.data');
-        const current_page = document_get_res?.data?.current_page;
-        const data = document_get_res?.data.data;
-        const last_page = document_get_res?.data?.last_page;
-        if (current_page > 1) {
-          if (document_get_res?.data.data.length > 0) {
-            setLoadMore(false);
-            setExtraData([...ExtraData, ...data]);
-          }
+        const index = result.findIndex(r => r.title === monthYear);
+        if (index === -1) {
+          result.push({data: [{list: [{...item}]}], title: monthYear});
         } else {
-          setExtraData(data);
+          result[index].data[0].list.push(item);
         }
-
-        setLastPage(last_page);
-        dispatch(hideAppLoader());
+        return result;
+      }, []);
+      setData(groupedData);
+    }
+  }, [ExtraData]);
+  useEffect(() => {
+    dispatch(showAppLoader());
+    if (document_get_success) {
+      const current_page = document_get_res?.data?.current_page;
+      const data = document_get_res?.data.data;
+      const last_page = document_get_res?.data?.last_page;
+      if (current_page > 1) {
+        if (document_get_res?.data.data.length > 0) {
+          setLoadMore(false);
+          setExtraData([...ExtraData, ...data]);
+        }
+      } else {
+        setExtraData(data);
       }
-      if (document_get_fail) {
-        dispatch(hideAppLoader());
-        dispatch(showAppToast(true, document_get_error_msg));
-      }
+      updateGallery();
+      setPage(current_page);
+      setLastPage(last_page);
+      dispatch(hideAppLoader());
+    }
+    if (document_get_fail) {
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true, document_get_error_msg));
+    }
 
-      loadingRef.current = document_get_loading;
-    }, [
-      document_get_success,
-      document_get_loading,
-      document_get_fail,
-      document_get_res,
-      dispatch,
-      document_get_error_msg,
-    ]),
-  );
+    loadingRef.current = document_get_loading;
+  }, [
+    document_get_success,
+    document_get_loading,
+    document_get_fail,
+    document_get_res,
+    dispatch,
+    document_get_error_msg,
+  ]);
 
   const headerComp = () => (
     <IconHeader
@@ -227,8 +230,25 @@ const AllMedia = props => {
       return <View style={styles.loaderContainer} />;
     }
   };
-
-
+  const keyExtractor = (item, index) => item.id.toString();
+  const renderSectionData = ({item, section}) => {
+    return (
+      <FlatList
+        ref={flatListRef}
+        data={item.list}
+        numColumns={3}
+        contentContainerStyle={{flexGrow: 1}}
+        keyExtractor={keyExtractor}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        horizontal={false}
+        scrollEnabled={false}
+        ListHeaderComponent={() => (
+          <Text style={styles.month}>{section.title}</Text>
+        )}
+      />
+    );
+  };
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -237,31 +257,16 @@ const AllMedia = props => {
           <Text style={globalStyle.screenTitle}>
             {Strings.allMedia.allMedia}
           </Text>
-          {!_.isEmpty(Data) &&
-            Object.keys(Data).map(key => {
-              return (
-                <>
-                  <FlatList
-                    ref={flatListRef}
-                    data={Data[key]}
-                    numColumns={3}
-                    contentContainerStyle={{flexGrow: 1}}
-                    keyExtractor={(item, index) => index.toString()}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={renderItem}
-                    
-                    ListFooterComponent={renderFooterCell}
-                    ListHeaderComponent={() => (
-                      <Text style={styles.month}>{key}</Text>
-                    )}
-                    horizontal={false}
-                    onEndReached={() => {
-                      onEndReached();
-                    }}
-                  />
-                </>
-              );
-            })}
+          <SectionList
+            sections={Data}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={() => {
+              onEndReached();
+            }}
+            renderItem={renderSectionData}
+            ListFooterComponent={renderFooterCell}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
       </View>
       <ImageView
