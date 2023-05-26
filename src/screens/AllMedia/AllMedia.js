@@ -1,25 +1,20 @@
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
   Image,
   FlatList,
   BackHandler,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
 import Header, {IconHeader} from '../../components/Header';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Images from '../../constants/Images';
-import {Alignment, Strings} from '../../constants';
+import {Alignment, Colors, Strings} from '../../constants';
 import globalStyle from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  DocumentGet,
-  DocumentGetPages,
-} from '../../redux/actions/DocumentUpload';
+import {DocumentGet} from '../../redux/actions/DocumentUpload';
 import {
   hideAppLoader,
   showAppLoader,
@@ -31,7 +26,8 @@ import ImageView from 'react-native-image-viewing';
 import _ from 'lodash';
 import {Value} from '../../constants/FixedValues';
 import AllMediaImg from './AllMediaImg';
-import {useCallback} from 'react';
+import {MaterialIndicator} from 'react-native-indicators';
+import {dynamicSize} from '../../utils/responsive';
 
 const AllMedia = props => {
   const userId = props?.route?.params?.item?.recieverId;
@@ -42,7 +38,10 @@ const AllMedia = props => {
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [visible, setIsVisible] = useState(false);
   const [ViewImages, setViewImages] = useState([]);
-  const [pages, setPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [ExtraData, setExtraData] = useState([]);
+  const [loadMore, setLoadMore] = useState(false);
   const {
     document_get_success,
     document_get_res,
@@ -52,14 +51,13 @@ const AllMedia = props => {
   } = useSelector(state => state.DocumentUpload);
 
   useEffect(() => {
-    dispatch(showAppLoader());
     const payload = {
       data: userId,
-      page: pages,
+      page: page,
       limit: 15,
     };
     dispatch(DocumentGet(payload));
-  }, [dispatch, userId]);
+  }, [dispatch, userId, page]);
   const flatListRef = useRef(null);
   const handleBackButtonClick = () => {
     navigation.navigate(Routes.ChatDetail, {
@@ -76,45 +74,53 @@ const AllMedia = props => {
       );
     };
   }, []);
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(showAppLoader());
-      if (document_get_success) {
-        dispatch(hideAppLoader());
-        updateGallery();
-        console.log(document_get_res?.data, 'document_get_res?.data?.data');
-        const groupedData = document_get_res?.data?.data.reduce(
-          (result, item) => {
-            const createdAt = new Date(item.created_at);
-            const monthYear = `${
-              monthNames[createdAt.getMonth()]
-            } ${createdAt.getFullYear()}`;
-            if (!result[monthYear]) {
-              result[monthYear] = [];
-            }
-
-            result[monthYear].push(item);
-            return result;
-          },
-          {},
-        );
-        setData(groupedData);
+  useEffect(() => {
+    dispatch(showAppLoader());
+    if (document_get_success) {
+      const current_page = document_get_res?.data?.current_page;
+      const data = document_get_res?.data.data;
+      const last_page = document_get_res?.data?.last_page;
+      if (current_page > 1) {
+        if (document_get_res?.data.data.length > 0) {
+          setLoadMore(false);
+          setExtraData([...ExtraData, ...data]);
+        }
+      } else {
+        setExtraData(data);
       }
-      if (document_get_fail) {
-        dispatch(hideAppLoader());
-        dispatch(showAppToast(true, document_get_error_msg));
-      }
+      updateGallery();
+      setPage(current_page);
+      setLastPage(last_page);
+      const groupedData = ExtraData.reduce((result, item) => {
+        const createdAt = new Date(item.created_at);
+        const monthYear = `${
+          monthNames[createdAt.getMonth()]
+        } ${createdAt.getFullYear()}`;
+        if (!result[monthYear]) {
+          result[monthYear] = [];
+        }
+        result[monthYear].push(item);
+        return result;
+      }, {});
+      setData(groupedData);
+      dispatch(hideAppLoader());
+    }
+    if (document_get_fail) {
+      dispatch(hideAppLoader());
+      dispatch(showAppToast(true, document_get_error_msg));
+    }
 
-      loadingRef.current = document_get_loading;
-    }, [
-      document_get_success,
-      document_get_loading,
-      document_get_fail,
-      document_get_res,
-      dispatch,
-      document_get_error_msg,
-    ]),
-  );
+    loadingRef.current = document_get_loading;
+  }, [
+    document_get_success,
+    document_get_loading,
+    document_get_fail,
+    document_get_res,
+    dispatch,
+    // ExtraData,
+    document_get_error_msg,
+  ]);
+
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -144,19 +150,15 @@ const AllMedia = props => {
     }
   };
   const updateGallery = () => {
-    const images = document_get_res?.data?.data
-      ?.filter(img => img.url.match(/\.(jpg|jpeg|png)$/i))
-      .map(img => ({uri: img.url}));
+    const images = ExtraData.filter(img =>
+      img.url.match(/\.(jpg|jpeg|png)$/i),
+    ).map(img => ({uri: img.url}));
     setViewImages(images);
   };
   console.log(ViewImages, '');
   const ImageClick = img => {
     const indexFinal = ViewImages.findIndex(i => i.uri === img.url);
-    console.log(
-      ViewImages.findIndex(i => i.url === img.url),
-      'idexhuu',
-    );
-    console.log(img.url, 'img.url');
+
     setImgPreviewIndex(indexFinal);
     setIsVisible(true);
   };
@@ -195,7 +197,29 @@ const AllMedia = props => {
       </View>
     );
   };
-
+  const onEndReached = () => {
+    console.log(lastPage, 'lastPage');
+    console.log(page, 'page');
+    if (lastPage > page) {
+      setLoadMore(true);
+      setPage(2);
+    } else {
+      setLoadMore(false);
+    }
+  };
+  const renderFooterCell = () => {
+    if (loadMore && ExtraData.length > 0) {
+      return (
+        <View style={styles.loaderContainer}>
+          <MaterialIndicator
+            color={Colors.COLOR_A3C6C4}
+            size={dynamicSize(25)}
+          />
+        </View>
+      );
+    }
+    return null;
+  };
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -216,19 +240,14 @@ const AllMedia = props => {
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
                     renderItem={renderItem}
-                    ListFooterComponent={() => (
-                      <View
-                        style={{
-                          marginBottom: 40,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      />
-                    )}
+                    ListFooterComponent={renderFooterCell}
                     ListHeaderComponent={() => (
                       <Text style={styles.month}>{key}</Text>
                     )}
                     horizontal={false}
+                    onEndReached={() => {
+                      onEndReached();
+                    }}
                   />
                 </>
               );
