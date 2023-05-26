@@ -5,6 +5,7 @@ import {
   Image,
   FlatList,
   BackHandler,
+  SectionList,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
@@ -14,7 +15,7 @@ import Images from '../../constants/Images';
 import {Alignment, Colors, Strings} from '../../constants';
 import globalStyle from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
-import {DocumentGet} from '../../redux/actions/DocumentUpload';
+import {DocumentGet, CleanDocument} from '../../redux/actions/DocumentUpload';
 import {
   hideAppLoader,
   showAppLoader,
@@ -68,12 +69,33 @@ const AllMedia = props => {
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
+      setPage(1);
+      setExtraData([]);
+      dispatch(CleanDocument());
       BackHandler.removeEventListener(
         'hardwareBackPress',
         handleBackButtonClick,
       );
     };
   }, []);
+  useEffect(() => {
+    if (ExtraData.length > 0) {
+      const groupedData = ExtraData.reduce((result, item) => {
+        const createdAt = new Date(item.created_at);
+        const monthYear = `${
+          monthNames[createdAt.getMonth()]
+        } ${createdAt.getFullYear()}`;
+        const index = result.findIndex(r => r.title === monthYear);
+        if (index === -1) {
+          result.push({data: [{list: [{...item}]}], title: monthYear});
+        } else {
+          result[index].data[0].list.push(item);
+        }
+        return result;
+      }, []);
+      setData(groupedData);
+    }
+  }, [ExtraData]);
   useEffect(() => {
     dispatch(showAppLoader());
     if (document_get_success) {
@@ -91,18 +113,6 @@ const AllMedia = props => {
       updateGallery();
       setPage(current_page);
       setLastPage(last_page);
-      const groupedData = ExtraData.reduce((result, item) => {
-        const createdAt = new Date(item.created_at);
-        const monthYear = `${
-          monthNames[createdAt.getMonth()]
-        } ${createdAt.getFullYear()}`;
-        if (!result[monthYear]) {
-          result[monthYear] = [];
-        }
-        result[monthYear].push(item);
-        return result;
-      }, {});
-      setData(groupedData);
       dispatch(hideAppLoader());
     }
     if (document_get_fail) {
@@ -202,7 +212,7 @@ const AllMedia = props => {
     console.log(page, 'page');
     if (lastPage > page) {
       setLoadMore(true);
-      setPage(2);
+      setPage(page + 1);
     } else {
       setLoadMore(false);
     }
@@ -220,6 +230,26 @@ const AllMedia = props => {
     }
     return null;
   };
+  const keyExtractor = (item, index) => item.id.toString();
+  const renderSectionData = ({item, section}) => {
+    console.log('section Line 243', JSON.stringify(section));
+    return (
+      <FlatList
+        ref={flatListRef}
+        data={item.list}
+        numColumns={3}
+        contentContainerStyle={{flexGrow: 1}}
+        keyExtractor={keyExtractor}
+        showsVerticalScrollIndicator={false}
+        renderItem={renderItem}
+        horizontal={false}
+        scrollEnabled={false}
+        ListHeaderComponent={() => (
+          <Text style={styles.month}>{section.title}</Text>
+        )}
+      />
+    );
+  };
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -228,7 +258,16 @@ const AllMedia = props => {
           <Text style={globalStyle.screenTitle}>
             {Strings.allMedia.allMedia}
           </Text>
-          {!_.isEmpty(Data) &&
+          <SectionList
+            sections={Data}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={() => {
+              onEndReached();
+            }}
+            renderItem={renderSectionData}
+            ListFooterComponent={renderFooterCell}
+          />
+          {/* {!_.isEmpty(Data) &&
             Object.keys(Data).map(key => {
               return (
                 <>
@@ -251,7 +290,7 @@ const AllMedia = props => {
                   />
                 </>
               );
-            })}
+            })} */}
         </View>
       </View>
       <ImageView

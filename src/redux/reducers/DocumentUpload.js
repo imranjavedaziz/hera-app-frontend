@@ -6,6 +6,7 @@ import {
   DOCUMENT_GET,
   DOCUMENT_GET_FAIL,
   DOCUMENT_GET_SUCCESS,
+  DOCUMENT_GET_ClEAN,
 } from '../Type';
 
 const initState = {
@@ -57,6 +58,7 @@ export default (state = initState, action) => {
         document_upload_loading: false,
       };
     }
+    case DOCUMENT_GET_ClEAN:
     case DOCUMENT_GET:
       return {
         ...state,
