@@ -280,23 +280,25 @@ export function getRequestTime(createdAt) {
 const ZERO = 0;
 
 export const calculateStripeAmount = amount => {
+  console.log(parseFloat(amount));
   const {stripe_processing_fees, stripe_additional_fees} =
     store.getState().Auth;
   if (amount > ZERO) {
     const taxAmount =
-      (amount * stripe_processing_fees) / 100 + stripe_additional_fees;
-    return taxAmount.toFixed(2);
+      (parseFloat(amount) + stripe_additional_fees) /
+      (1 - stripe_processing_fees / 100);
+    return parseFloat(taxAmount - amount);
   }
   return ZERO;
 };
-
 export const calculateTotalStripeAmount = amount => {
   const {stripe_processing_fees, stripe_additional_fees} =
     store.getState().Auth;
   if (amount > ZERO) {
     const taxAmount =
-      (amount * stripe_processing_fees) / 100 + stripe_additional_fees;
-    return (taxAmount + parseFloat(amount)).toFixed(2);
+      (parseFloat(amount) + stripe_additional_fees) /
+      (1 - stripe_processing_fees / 100);
+    return taxAmount.toFixed(2);
   }
   return ZERO;
 };

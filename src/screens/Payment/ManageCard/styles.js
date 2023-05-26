@@ -49,4 +49,10 @@ export default {
     color: Colors.COLOR_535858,
     marginTop: Value.CONSTANT_VALUE_26,
   },
+  cvvDes: {
+    fontFamily: Fonts.OpenSansItalic,
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_0,
+    marginTop: Value.CONSTANT_VALUE_10,
+  },
 };

@@ -9,6 +9,7 @@ import {
   Animated,
   BackHandler,
   Alert,
+  Platform,
 } from 'react-native';
 import React, {
   useState,
@@ -214,27 +215,47 @@ const SmDashboard = ({route}) => {
             notification.data.notify_type === 'chat'
           ) {
             return null;
-          } else if (
-            notification.data.notify_typ === 'payment_request' ||
+          }
+          if (
+            notification.data.notify_type === 'payment_request' ||
             notification.data.notify_type === 'payment_declined' ||
             notification.data.notify_type === 'payment_transfer'
           ) {
-            toast?.current?.show(notification.body, {
-              type: 'custom',
-              placement: 'top',
-              duration: 2000,
-              offset: 30,
-              animationType: 'slide-in',
-            });
-            dispatch(
-              showMessageAppToast(
-                true,
-                notification.body,
-                true,
-                notification.data,
-                navigation,
-              ),
-            );
+            if (Platform.OS === 'ios') {
+              toast.show(notification.body, {
+                type: 'custom',
+                placement: 'top',
+                duration: 2000,
+                offset: 30,
+                animationType: 'slide-in',
+              });
+              dispatch(
+                showMessageAppToast(
+                  true,
+                  notification.body,
+                  true,
+                  notification.data,
+                  navigation,
+                ),
+              );
+            } else {
+              toast.show(notification.message, {
+                type: 'custom',
+                placement: 'top',
+                duration: 2000,
+                offset: 30,
+                animationType: 'slide-in',
+              });
+              dispatch(
+                showMessageAppToast(
+                  true,
+                  notification.message,
+                  true,
+                  notification.data,
+                  navigation,
+                ),
+              );
+            }
           } else {
             toast.show(notification.title, {
               type: 'custom',

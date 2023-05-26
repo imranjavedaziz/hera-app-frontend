@@ -533,11 +533,11 @@ export default {
     CancelSubParaAndroid: `If you cancel the subscription, you will not be able to send a like, match or chat with any profile.`,
     NotProcessed: 'Subscription could not be processed.',
     SubRemoved: 'Subscription Removed!',
-    SubRemovedPara: 'Your subscription is now cancelled. No amount will be further deducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
+    SubRemovedPara:
+      'Your subscription is now cancelled. No amount will be further deducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
     checkMarkL1: 'Get access to 5 {ROLE} profiles on your dashboard',
     checkMarkL2: 'You can Match/Unmatch with new {ROLE}s',
     checkMarkL3: 'Access to chat feature',
-
   },
   Chat: {
     Chat: 'CHAT',
@@ -714,7 +714,74 @@ export default {
     Deactivate_Account: 'DEACTIVATE ACCOUNT',
     Enter_delete: 'Enter password to delete',
     Select_Reason: 'Select a Reason',
+
+    ///SUBSCRIPTION ACCOUNT SETTING
+    //
   },
+
+  SM_Deactivate_Account: [
+    {
+      id: 1,
+      name: 'Temporarily deactivating your account will immediately hide your profile and prevent you from accessing our services',
+    },
+    {id: 2, name: 'You can reactivate your account at any time by logging in.'},
+  ],
+  SM_DELETE_Account: [
+    {
+      id: 1,
+      name: 'If you delete your account, you will lose all of your data. You can create a new account using the same mobile number and email address, but you will not be able to restore your old data.',
+    },
+  ],
+  Deactivate_Account_Case_IOS: [
+    {
+      id: 1,
+      name: 'Temporarily deactivating your account will hide your profile from other users and prevent you from accessing our services.',
+    },
+    {id: 2, name: 'Your account will be deactivated immediately.'},
+    {
+      id: 3,
+      name: 'You have to cancel your subscription from your iOS device settings (Settings > Account Settings > Subscription > Cancel Subscription) before the end of your current billing cycle to avoid being charged for renewal.',
+    },
+    {
+      id: 4,
+      name: 'You can reactivate your account at any time by logging in but your subscription will not be renewed.',
+    },
+  ],
+  Deactivate_Account_Case_Android: [
+    {
+      id: 1,
+      name: 'Temporarily deactivating your account will hide your profile from other users and prevent you from accessing our services.',
+    },
+    {id: 2, name: 'Your account will be deactivated immediately.'},
+    {
+      id: 3,
+      name: 'Your subscription will be canceled at the end of your current billing cycle.',
+    },
+    {
+      id: 4,
+      name: 'You can reactivate your account at any time by logging in but your subscription will not be renewed.',
+    },
+  ],
+  Delete_Account_Case_Android: [
+    {
+      id: 1,
+      name: 'If you delete your account, you will lose all of your data. You can create a new account using the same mobile number and email address, but you will not be able to restore your old data.',
+    },
+    {
+      id: 2,
+      name: 'Your subscription will be canceled immediately.',
+    },
+  ],
+  Delete_Account_Case_IOS: [
+    {
+      id: 1,
+      name: 'If you delete your account, you will lose all of your data. You can create a new account using the same mobile number and email address, but you will not be able to restore your old data.',
+    },
+    {
+      id: 2,
+      name: 'You have to cancel your subscription from your iOS device settings (Settings > Account Settings > Subscription > Cancel Subscription) to avoid being charged for renewal.',
+    },
+  ],
   ChangePassword: {
     CHANGE_PASSWORD: 'CHANGE PASSWORD',
     SET_A: 'Set a new password',
@@ -770,6 +837,8 @@ export default {
     cardHolderName: 'Card Holder’s Name',
     SAVE_CARD: 'SAVE THIS CARD',
     saveForFuture: 'Save this card on profile for future payments.',
+    CVV_DES:
+      'The CVV is a 3-digit number on the back of your credit/debit card.',
   },
   //ManageBank
   ManageBank: {
