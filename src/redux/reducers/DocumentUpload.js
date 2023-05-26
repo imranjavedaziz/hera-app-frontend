@@ -65,7 +65,7 @@ export default (state = initState, action) => {
         document_get_success: false,
         document_get_loading: true,
         document_get_error_msg: '',
-        document_get_res: {},
+        document_get_res: '',
         document_get_fail: false,
       };
     case DOCUMENT_GET_SUCCESS:
@@ -83,7 +83,7 @@ export default (state = initState, action) => {
         document_get_success: false,
         document_get_loading: false,
         document_get_error_msg: action.data.msg,
-        document_get_res: {},
+        document_get_res:'',
         document_get_fail: true,
       };
     default:

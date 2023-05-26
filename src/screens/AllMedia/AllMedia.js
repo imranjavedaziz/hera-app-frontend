@@ -6,11 +6,12 @@ import {
   FlatList,
   BackHandler,
   SectionList,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
 import Header, {IconHeader} from '../../components/Header';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Images from '../../constants/Images';
 import {Alignment, Colors, Strings} from '../../constants';
 import globalStyle from '../../styles/global';
@@ -29,6 +30,7 @@ import {Value} from '../../constants/FixedValues';
 import AllMediaImg from './AllMediaImg';
 import {MaterialIndicator} from 'react-native-indicators';
 import {dynamicSize} from '../../utils/responsive';
+import {useCallback} from 'react';
 
 const AllMedia = props => {
   const userId = props?.route?.params?.item?.recieverId;
@@ -51,14 +53,16 @@ const AllMedia = props => {
     document_get_loading,
   } = useSelector(state => state.DocumentUpload);
 
-  useEffect(() => {
-    const payload = {
-      data: userId,
-      page: page,
-      limit: 15,
-    };
-    dispatch(DocumentGet(payload));
-  }, [dispatch, userId, page]);
+  useFocusEffect(
+    useCallback(() => {
+      const payload = {
+        data: userId,
+        page: page,
+        limit: 15,
+      };
+      dispatch(DocumentGet(payload));
+    }, [dispatch, userId, page]),
+  );
   const flatListRef = useRef(null);
   const handleBackButtonClick = () => {
     navigation.navigate(Routes.ChatDetail, {
@@ -167,7 +171,6 @@ const AllMedia = props => {
   console.log(ViewImages, '');
   const ImageClick = img => {
     const indexFinal = ViewImages.findIndex(i => i.uri === img.url);
-
     setImgPreviewIndex(indexFinal);
     setIsVisible(true);
   };
@@ -220,14 +223,12 @@ const AllMedia = props => {
     if (loadMore && ExtraData.length > 0) {
       return (
         <View style={styles.loaderContainer}>
-          <MaterialIndicator
-            color={Colors.COLOR_A3C6C4}
-            size={dynamicSize(25)}
-          />
+          <ActivityIndicator style={{marginTop: Value.CONSTANT_VALUE_40}} />
         </View>
       );
+    } else {
+      return <View style={styles.loaderContainer} />;
     }
-    return null;
   };
   const keyExtractor = (item, index) => item.id.toString();
   const renderSectionData = ({item, section}) => {
