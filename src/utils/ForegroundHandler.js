@@ -31,7 +31,8 @@ const ForegroundHandler = () => {
           return null;
         } else if (
           remoteMessage?.data.notify_type === 'payment_request' ||
-          remoteMessage?.data.notify_type === 'payment_declined'
+          remoteMessage?.data.notify_type === 'payment_declined' ||
+          remoteMessage?.data.notify_type === 'payment_transfer'
         ) {
           toastRef?.current?.show(remoteMessage?.notification.body, {
             type: 'custom',

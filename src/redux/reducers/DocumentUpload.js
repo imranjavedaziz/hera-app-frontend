@@ -15,7 +15,7 @@ const initState = {
   document_upload_error_msg: '',
   document_upload_loading: false,
   document_get_success: false,
-  document_get_res: '',
+  document_get_res: {},
   document_get_fail: false,
   document_get_error_msg: '',
   document_get_loading: false,

@@ -202,7 +202,8 @@ const PtbDashboard = props => {
             return null;
           } else if (
             notification.data.notify_typ === 'payment_request' ||
-            notification.data.notify_type === 'payment_declined'
+            notification.data.notify_type === 'payment_declined' ||
+            notification.data.notify_type === 'payment_transfer'
           ) {
             toast?.current?.show(notification.body, {
               type: 'custom',

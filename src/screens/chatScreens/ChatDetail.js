@@ -204,7 +204,7 @@ const ChatDetail = props => {
         media: {
           file_name: file.filename,
           file_size: `${file.size / 1025} KB`,
-          file_url: 'file:///' + file.path,
+          file_url: file.path,
           mime: file.mime,
           network_uri: null,
         },
