@@ -127,7 +127,6 @@ const AllMedia = props => {
     document_get_fail,
     document_get_res,
     dispatch,
-    // ExtraData,
     document_get_error_msg,
   ]);
 
@@ -232,7 +231,6 @@ const AllMedia = props => {
   };
   const keyExtractor = (item, index) => item.id.toString();
   const renderSectionData = ({item, section}) => {
-    console.log('section Line 243', JSON.stringify(section));
     return (
       <FlatList
         ref={flatListRef}
@@ -266,31 +264,8 @@ const AllMedia = props => {
             }}
             renderItem={renderSectionData}
             ListFooterComponent={renderFooterCell}
+            showsVerticalScrollIndicator={false}
           />
-          {/* {!_.isEmpty(Data) &&
-            Object.keys(Data).map(key => {
-              return (
-                <>
-                  <FlatList
-                    ref={flatListRef}
-                    data={Data[key]}
-                    numColumns={3}
-                    contentContainerStyle={{flexGrow: 1}}
-                    keyExtractor={(item, index) => index.toString()}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={renderItem}
-                    ListFooterComponent={renderFooterCell}
-                    ListHeaderComponent={() => (
-                      <Text style={styles.month}>{key}</Text>
-                    )}
-                    horizontal={false}
-                    onEndReached={() => {
-                      onEndReached();
-                    }}
-                  />
-                </>
-              );
-            })} */}
         </View>
       </View>
       <ImageView
