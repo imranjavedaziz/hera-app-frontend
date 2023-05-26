@@ -1,16 +1,17 @@
 // Loader
 import React from 'react';
-import {View, Dimensions, Platform} from 'react-native';
+import {View, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import Colors from '../constants/Colors';
 import {Value} from '../constants/FixedValues';
 import Alignment from '../constants/Alignment';
 import {MaterialIndicator} from 'react-native-indicators';
-import {dynamicSize, statusHide} from '../utils/responsive';
+import {dynamicSize} from '../utils/responsive';
 const {height} = Dimensions.get('window');
 const styles = {
   container: {
     position: Alignment.ABSOLUTE,
+    top: height / Value.CONSTANT_VALUE_2,
     alignSelf: Alignment.CENTER,
     width: Value.CONSTANT_VALUE_50,
     height: Value.CONSTANT_VALUE_50,
@@ -31,13 +32,7 @@ const FormLoader = () => {
           justifyContent: 'center',
           height: '200%',
         }}>
-        <View
-          style={[
-            styles.container,
-            Platform.OS === 'ios'
-              ? {top: height / Value.CONSTANT_VALUE_2 - statusHide(105)}
-              : {top: height / Value.CONSTANT_VALUE_2},
-          ]}>
+        <View style={[styles.container]}>
           <MaterialIndicator
             color={Colors.COLOR_A3C6C4}
             size={dynamicSize(25)}

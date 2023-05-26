@@ -5,8 +5,6 @@ import {
   HIDE_TOAST,
   HIDE_EDIT_LOADER,
   SHOW_EDIT_LOADER,
-  HIDE_MESSAGE_TOAST,
-  SHOW_MESSAGE_TOAST,
 } from '../constants';
 
 export const showAppLoader = (text = '') => ({
@@ -18,9 +16,9 @@ export const hideAppLoader = () => ({
   type: HIDE_LOADER,
 });
 
-export const showAppToast = (isErrToast, text = '') => ({
+export const showAppToast = (isErrToast, text = '', push, pushRes = '') => ({
   type: SHOW_TOAST,
-  payload: {isErrToast, text},
+  payload: {isErrToast, text, push, pushRes},
 });
 
 export const hideAppToast = () => ({
@@ -33,18 +31,4 @@ export const showEditAppLoader = (text = '') => ({
 
 export const hideEditLoader = () => ({
   type: HIDE_EDIT_LOADER,
-});
-export const showMessageAppToast = (
-  isMessageErrToast,
-  toastMessageText = '',
-  push,
-  pushRes = '',
-  navigation,
-) => ({
-  type: SHOW_MESSAGE_TOAST,
-  payload: {isMessageErrToast, toastMessageText, push, pushRes, navigation},
-});
-
-export const hideMessageAppToast = () => ({
-  type: HIDE_MESSAGE_TOAST,
 });

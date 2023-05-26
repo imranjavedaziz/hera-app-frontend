@@ -128,5 +128,5 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.COLOR_535858,
     marginTop: Value.CONSTANT_VALUE_26,
-  }
+  },
 };

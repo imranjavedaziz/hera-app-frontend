@@ -21,22 +21,6 @@ import NavigationOnLanding from './NavigationOnLanding';
 import ReportUser from './ReportUser';
 import MessageId from './MessageId';
 import profileImg from './profileImg';
-import DocumentUpload from './DocumentUpload';
-import NextStep from './NextStep';
-import AccountStatus from './AccountStatus';
-import Payment from './Payment';
-import PaymentRequest from './PaymentRequest';
-import {
-  addBankTokenReducer,
-  createPaymentIntentReducer,
-  getCardListReducer,
-  getBankListReducer,
-  deleteBankReducer,
-  deleteCardReducer,
-  attachPaymentIntentReducer,
-  addBankReducer,
-} from './stripe.reducer';
-import kycUpdateReducer, {bankUpdateReducer} from './kyc.reducer';
 
 const allReducers = combineReducers({
   Auth,
@@ -61,24 +45,6 @@ const allReducers = combineReducers({
   ReportUser,
   MessageId,
   profileImg,
-  DocumentUpload,
-  NextStep,
-  //Stripe
-  addBankTokenReducer: addBankTokenReducer,
-
-  paymentIntent: createPaymentIntentReducer,
-  attachPaymentIntent: attachPaymentIntentReducer,
-  getCardList: getCardListReducer,
-  addBank: addBankReducer,
-  getBankList: getBankListReducer,
-  deleteBank: deleteBankReducer,
-  deleteCard: deleteCardReducer,
-  kyc: kycUpdateReducer,
-  bankUpdateReducer,
-  //Account Status
-  AccountStatus,
-  Payment,
-  PaymentRequest,
 });
 
 export default allReducers;

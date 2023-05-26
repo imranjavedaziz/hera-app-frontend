@@ -41,6 +41,7 @@ export default {
     marginBottom: px(14),
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,
+    color: Colors.BLACK_KEY,
     marginLeft: px(1),
   },
   red: {color: Colors.RED},

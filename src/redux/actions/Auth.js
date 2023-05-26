@@ -2,15 +2,11 @@ import {
   SET_USER,
   SIGNOUT_USER,
   UPDATE_TOKEN,
-  UPDATE_REFRESH_TOKEN,
   UPDATE_REG_STEP,
   SET_BASIC_DETAILS,
   SET_ATTRIBUTES,
   USE_LOCAL_IMAGE,
   USE_NAME,
-  BANK_TOKEN,
-  CLEAR_BANK_TOKEN,
-  STRIPE_REMOVE_IDS,
 } from '../constants';
 import {
   AUTH_LOG_IN,
@@ -59,10 +55,6 @@ export const updateToken = token => ({
   payload: token,
 });
 
-export const updateRefreshToken = token => ({
-  type: UPDATE_REFRESH_TOKEN,
-  payload: token,
-});
 export const updateRegStep = () => ({
   type: UPDATE_REG_STEP,
 });
@@ -117,13 +109,3 @@ export const updateName = img => {
     data: img,
   };
 };
-export const bankToken = token => ({
-  type: BANK_TOKEN,
-  payload: token,
-});
-export const clearBankToken = token => ({
-  type: CLEAR_BANK_TOKEN,
-});
-export const RemoveStripIds = () => ({
-  type: STRIPE_REMOVE_IDS,
-});

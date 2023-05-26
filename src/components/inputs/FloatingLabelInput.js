@@ -67,7 +67,7 @@ const FloatingLabelInput = props => {
               styles.input,
               isFocused ? styles.focusBorder : styles.blurBorder,
               lineColor && {borderColor: Colors.LIGHT_BLACK47},
-              error ? {borderColor: Colors.RED} : null,
+              error ? {borderColor: 'red'} : null,
               inputStyle,
             ]}
             maxLength={maxLength}

@@ -1,7 +1,7 @@
 import {Alignment, Colors} from '../../constants';
 import {Fonts} from '../../constants/Constants';
 import {Value} from '../../constants/FixedValues';
-import {dynamicSize, px} from '../../utils/responsive';
+import {px} from '../../utils/responsive';
 
 export default {
   fixedheaderStyle: {marginRight: px(Value.CONSTANT_VALUE_20)},
@@ -25,6 +25,7 @@ export default {
     color: Colors.BLACK,
     marginTop: px(Value.CONSTANT_VALUE_8),
   },
+
   chatText: {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.BLACK,
@@ -41,22 +42,10 @@ export default {
     paddingHorizontal: 24,
     maxWidth: 302,
   },
-  imagechatContainerImg: {
-    paddingHorizontal: 0,
-    maxWidth: 200,
-  },
   senderID: {
     alignSelf: Alignment.FLEXEND,
     flexDirection: Alignment.ROW,
     backgroundColor: Colors.WHITE,
-    alignItems: Alignment.CENTER,
-    marginRight: 20,
-    justifyContent: Alignment.CENTER,
-  },
-  senderImgID: {
-    alignSelf: Alignment.FLEXEND,
-    flexDirection: Alignment.ROW,
-    backgroundColor: Colors.BACKGROUND,
     alignItems: Alignment.CENTER,
     marginRight: 20,
     justifyContent: Alignment.CENTER,
@@ -69,35 +58,7 @@ export default {
     marginLeft: 10,
     backgroundColor: Colors.GREEN,
   },
-  receiverImgID: {
-    alignSelf: Alignment.FLEX_START,
-    flexDirection: Alignment.ROW,
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
-    marginLeft: 10,
-    backgroundColor: Colors.BACKGROUND,
-  },
-  receiverPdf: {
-    alignSelf: Alignment.FLEX_START,
-    flexDirection: Alignment.ROW,
-    justifyContent: Alignment.CENTER,
-    alignItems: Alignment.CENTER,
-    marginLeft: 10,
-    backgroundColor: Colors.WHITE,
-  },
   mainContainerDetail: {
-    backgroundColor: 'white',
-    borderTopColor: '#E8E8E8',
-    borderRadius: 24,
-    marginHorizontal: 15,
-    paddingRight: 40,
-    paddingLeft: 10,
-    width: '80%',
-    height: dynamicSize(Value.CONSTANT_VALUE_48),
-    justifyContent: Alignment.CENTER,
-    textAlign: Alignment.CENTER,
-  },
-  mainContainerDetailAdmin: {
     backgroundColor: 'white',
     borderTopColor: '#E8E8E8',
     borderRadius: 24,
@@ -266,57 +227,5 @@ export default {
     position: Alignment.ABSOLUTE,
     right: -30,
     top: -15,
-  },
-  pdfText: {
-    fontFamily: Fonts.OpenSansBold,
-    fontSize: Value.CONSTANT_VALUE_14,
-    color: Colors.BLACK,
-  },
-  pdfSize: {
-    fontFamily: Fonts.OpenSansRegular,
-    fontSize: Value.CONSTANT_VALUE_14,
-    color: Colors.BLACK,
-  },
-  pdfImg: {
-    width: px(Value.CONSTANT_VALUE_31),
-    height: px(Value.CONSTANT_VALUE_35),
-    marginRight: px(Value.CONSTANT_VALUE_8),
-  },
-  pdfMainView: {
-    flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
-    justifyContent: Alignment.CENTER,
-    top: px(Value.CONSTANT_VALUE_10),
-    flex: Value.CONSTANT_VALUE_1,
-  },
-  msgImg: {
-    width: px(Value.CONSTANT_VALUE_203),
-    height: px(Value.CONSTANT_VALUE_160),
-    backgroundColor: Colors.WHITE,
-  },
-  msgImgRx: {
-    width: px(Value.CONSTANT_VALUE_203),
-    height: px(Value.CONSTANT_VALUE_160),
-    backgroundColor: Colors.GREEN,
-  },
-  timeSender: {
-    alignSelf: Alignment.FLEXEND,
-    marginTop: px(Value.CONSTANT_VALUE_4),
-    marginRight: px(Value.CONSTANT_VALUE_20),
-  },
-  timeImgSender: {
-    alignSelf: Alignment.FLEXEND,
-    bottom: px(Value.CONSTANT_VALUE_12),
-    marginRight: px(Value.CONSTANT_VALUE_20),
-  },
-  timeRx: {
-    alignSelf: Alignment.FLEX_START,
-    marginTop: px(Value.CONSTANT_VALUE_4),
-    marginLeft: px(Value.CONSTANT_VALUE_10),
-  },
-  timeImgRx: {
-    alignSelf: Alignment.FLEX_START,
-    bottom: px(Value.CONSTANT_VALUE_12),
-    marginLeft: px(Value.CONSTANT_VALUE_10),
   },
 };

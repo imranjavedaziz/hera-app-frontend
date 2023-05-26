@@ -11,6 +11,14 @@ export default {
   androidHeaderIcons: {
     marginLeft: Value.CONSTANT_VALUE_30,
   },
+  containerLoader: {
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loader: {
+    position: 'absolute',
+  },
   mainContainer: {
     flex: Value.CONSTANT_VALUE_1,
     marginTop: statusHide(height / 2),

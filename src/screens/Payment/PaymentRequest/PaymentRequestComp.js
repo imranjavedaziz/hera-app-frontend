@@ -1,8 +1,10 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Colors, Images, Strings} from '../../../constants';
 import styles from './styles';
 import {useSelector} from 'react-redux';
+import {MaterialIndicator} from 'react-native-indicators';
+import {dynamicSize} from '../../../utils/responsive';
 
 const PaymentRequestComp = props => {
   const {
@@ -20,6 +22,7 @@ const PaymentRequestComp = props => {
     PaymentStatus,
   } = props;
   const {log_in_data} = useSelector(state => state.Auth);
+  const [imageLoading, setImageLoading] = useState(true);
   function getPaymentStatusImage(paymentType) {
     if (paymentType !== undefined) {
       const PaymentTypeToImageMap = {
@@ -82,11 +85,21 @@ const PaymentRequestComp = props => {
                 source={Images.PDF}
               />
             ) : (
-              <Image
-                style={styles.img}
-                resizeMode={'cover'}
-                source={{uri: DocImg}}
-              />
+              <>
+                {imageLoading && (
+                  <MaterialIndicator
+                    color={Colors.COLOR_A3C6C4}
+                    size={dynamicSize(20)}
+                    style={styles.loader}
+                  />
+                )}
+                <Image
+                  style={styles.img}
+                  resizeMode={'cover'}
+                  source={{uri: DocImg}}
+                  onLoadEnd={() => setImageLoading(false)}
+                />
+              </>
             )}
           </TouchableOpacity>
         )}

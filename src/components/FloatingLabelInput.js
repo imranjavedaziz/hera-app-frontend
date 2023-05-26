@@ -51,6 +51,7 @@ const styles = {
     fontSize: 16,
     lineHeight: 21,
     letterSpacing: 0,
+    color: '#000000',
     top: 8,
   },
   firstNameCopy: {
@@ -58,6 +59,7 @@ const styles = {
     fontSize: 16,
     lineHeight: 21,
     letterSpacing: 0,
+    color: Colors.BLACK_0,
     top: 32,
   },
   InputTextField: {
@@ -96,16 +98,10 @@ const FloatingLabelInput = props => {
     hideErrorText = false,
     show,
     inputRef,
-    onFocusHandle,
     ...textInputProps
   } = props;
-  const handleFocus = () => {
-    setFocused(true);
-    onFocusHandle && onFocusHandle();
-  };
-  const handleBlur = () => {
-    setFocused(false);
-  };
+  const handleFocus = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
   return (
     <View
       style={[
@@ -147,19 +143,11 @@ const FloatingLabelInput = props => {
                   ? styles.firstName
                   : styles.firstNameCopy,
                 edited === false && styles.fade,
-                {color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_KEY},
               ]}
               accessible={true}
               accessibilityLabel={label}>
               {label}
-              {required && (
-                <Text
-                  style={{
-                    color: Colors.RED,
-                  }}>
-                  *
-                </Text>
-              )}
+              {required && <Text style={{color: Colors.RED}}>*</Text>}
             </Text>
           </>
         )}
@@ -170,7 +158,6 @@ const FloatingLabelInput = props => {
                 styles.InputTextField,
                 isFocused ? styles.focusBorder : styles.blurBorder,
                 error ? {borderBottomColor: Colors.RED} : null,
-                {color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_KEY},
               ]}
               onFocus={handleFocus}
               onBlur={handleBlur}

@@ -2,7 +2,6 @@ import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 import {Value} from '../../../constants/FixedValues';
 import {
-  dynamicSize,
   height,
   normalizeFont,
   px,
@@ -34,11 +33,6 @@ export default {
     letterSpacing: 0,
     color: 'rgb(255,69,68)',
     height: 22,
-  },
-  cancelBg: {
-    width: dynamicSize(Value.CONSTANT_VALUE_73),
-    height: dynamicSize(Value.CONSTANT_VALUE_32),
-    justifyContent: Alignment.CENTER,
   },
   headerText: {
     fontFamily: Fonts.OpenSansBold,

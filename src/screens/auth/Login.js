@@ -29,9 +29,10 @@ import {deviceHandler} from '../../utils/commonFunction';
 import {ConstantsCode, Routes} from '../../constants/Constants';
 import {Alignment} from '../../constants';
 import {NotificationContext} from '../../context/NotificationContextManager';
+import normalizeInput from '../../utils/normalizeInput';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {InputLabel} from '../../components';
-import {empty} from '../../redux/actions/Chat';
+
 const type = 2;
 const Login = props => {
   const navigation = useNavigation();
@@ -39,10 +40,12 @@ const Login = props => {
   const loadingRef = useRef(false);
   const [show, setShow] = useState(false);
   const [payloadData, setPayloadData] = useState('');
+  const [phone, setPhone] = useState('');
   const {fcmToken, Device_ID} = useContext(NotificationContext);
   const {
     handleSubmit,
     control,
+    setValue,
     formState: {errors},
     clearErrors,
   } = useForm({
@@ -69,7 +72,6 @@ const Login = props => {
         dispatch(getSubscriptionStatus());
         dispatch(deviceRegister(_deviceInfo));
         dispatch(hideAppLoader());
-        dispatch(empty());
         navigation.reset({
           index: 0,
           routes: [
@@ -90,7 +92,6 @@ const Login = props => {
     }
     loadingRef.current = log_in_loading;
   }, [log_in_success, log_in_loading]);
-
   const headerComp = () => (
     <CircleBtn
       icon={Images.iconcross}
@@ -109,17 +110,27 @@ const Login = props => {
     setPayloadData(payload);
     dispatch(logIn(payload));
   };
+
+  const handelChange = async value => {
+    await setPhone(prevstate => normalizeInput(value, prevstate));
+    let a = '';
+    for (let i = 0; i < value.length; i++) {
+      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
+        a = a + value[i];
+      }
+    }
+    setValue('phone', a);
+  };
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled">
-        <KeyboardAwareScrollView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          keyboardShouldPersistTaps="handled"
+      <KeyboardAwareScrollView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardShouldPersistTaps="handled"
+        style={styles.flex}>
+        <ScrollView
           showsVerticalScrollIndicator={false}
-          style={styles.flex}>
+          keyboardShouldPersistTaps="handled">
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.mainContainer}>
               <Image source={Images.LOGO} style={styles.logo} />
@@ -129,17 +140,16 @@ const Login = props => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <InputLabel
-                      value={value}
+                      value={phone}
                       number={true}
                       inputRef={inputRef}
                       label={Strings.inqueryForm.MobileNumber}
                       onChangeText={v => {
-                        onChange(v);
+                        handelChange(v);
                         clearErrors('phone');
                       }}
-                      support={true}
                       required={true}
-                      maxLength={10}
+                      maxLength={14}
                       keyboardType="numeric"
                       error={errors && errors.phone?.message}
                       NumVal={value}
@@ -178,10 +188,7 @@ const Login = props => {
                 )}
                 name="password"
               />
-              <View
-                style={{
-                  alignItems: Alignment.CENTER,
-                }}>
+              <View style={{alignItems: Alignment.CENTER}}>
                 <Button
                   label={Strings.login.LOG_IN}
                   style={styles.loginBtn}
@@ -202,8 +209,8 @@ const Login = props => {
               </View>
             </View>
           </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

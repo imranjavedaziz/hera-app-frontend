@@ -20,6 +20,7 @@ export default {
   },
   screenSubTitle: {
     fontSize: Value.CONSTANT_VALUE_23,
+    lineHeight: Value.CONSTANT_VALUE_32,
     textAlign: 'center',
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansBold,
@@ -46,6 +47,7 @@ export default {
   },
   basicSheetContainer: {
     paddingHorizontal: scaleWidth(20),
+    height: scaleHeight(274),
   },
   formBtn: {
     paddingVertical: dynamicSize(Value.CONSTANT_VALUE_22),
@@ -129,8 +131,6 @@ export default {
   },
   bottomSheet: {
     borderRadius: Value.CONSTANT_VALUE_0,
-    borderTopLeftRadius: Value.CONSTANT_VALUE_0,
-    borderTopRightRadius: Value.CONSTANT_VALUE_0,
   },
   outerContentStyle: {
     borderRadius: Value.CONSTANT_VALUE_0,
@@ -200,20 +200,10 @@ export default {
     alignItems: Alignment.FLEXEND,
     marginRight: Value.CONSTANT_VALUE_30,
   },
-  cancelBg: {
-    width: dynamicSize(Value.CONSTANT_VALUE_73),
-    height: dynamicSize(Value.CONSTANT_VALUE_32),
-    justifyContent: Alignment.CENTER,
-  },
   clearView: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
   },
-  infoIcon: {
-    width: dynamicSize(Value.CONSTANT_VALUE_35),
-    height: dynamicSize(Value.CONSTANT_VALUE_35),
-  },
-
   clearText: {
     fontFamily: Fonts.OpenSansBold,
     textDecorationLine: Alignment.UNDERLINE,
@@ -221,11 +211,5 @@ export default {
     letterSpacing: 0,
     color: 'rgb(255,69,68)',
     height: 22,
-  },
-  disableing: {
-    backgroundColor: Colors.CLEAR,
-    width: '100%',
-    height: '100%',
-    position: Alignment.ABSOLUTE,
   },
 };

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>HERA</string>
+	<string>MBC</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,13 +38,15 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Play music while using the app</string>
 	<key>NSCameraUsageDescription</key>
-	<string>HERA app requires access to your device&apos;s camera to capture images for uploading to the profile</string>
+	<string>Using for profile picture</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location will be used to find nearby services.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>HERA app requires access to your microphone to record video and upload to your profile</string>
+	<string>App needs Microphone Access Permission for testing</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>HERA app requires access to your device&apos;s photo and media to upload images for adding to your profile</string>
+	<string>Allow Hera to access photos, media and file on your device.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>HERA app requires access to your device&apos;s photo and media to upload images for adding to your profile</string>
+	<string>Allow Hera to access photos, media and file on your device.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>UIAppFonts</string>

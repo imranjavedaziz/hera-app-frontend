@@ -7,12 +7,8 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {
-  useNavigation,
-  useRoute,
-  useFocusEffect,
-} from '@react-navigation/native';
+import React, {useState, useEffect, useRef} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Images from '../../../constants/Images';
 import Header, {IconHeader} from '../../../components/Header';
 import Strings from '../../../constants/Strings';
@@ -24,19 +20,14 @@ import {
   getPtbProfileDetail,
   sendLikePtb,
 } from '../../../redux/actions/PtbProfileDetail';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import {Routes} from '../../../constants/Constants';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {width} from '../../../utils/responsive';
 import {profileMatchResponse} from '../../../redux/actions/Profile_Match';
-import {getMessageID} from '../../../redux/actions/MessageId';
-import ButtonPay from '../../../components/BtnPay';
+
 const PTB_profile = props => {
   const [stateRes, setStateRes] = useState();
   const dispatch = useDispatch();
@@ -52,14 +43,6 @@ const PTB_profile = props => {
     send_like_ptb_loading,
     send_like_ptb_res,
   } = useSelector(state => state.PtbProfileDetail);
-  // expected output: true
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(getMessageID(''));
-    });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation, dispatch]);
   useEffect(() => {
     if (loadingRef.current && !get_ptb_profile_detail_loading) {
       dispatch(showAppLoader());
@@ -79,9 +62,8 @@ const PTB_profile = props => {
   ]);
   useEffect(() => {
     if (LoadinfRef.current && !send_like_ptb_loading) {
-      dispatch(showAppLoader());
-      if (send_like_ptb_success) {
-        dispatch(hideAppLoader());
+      if (send_like_ptb_loading) {
+        dispatch(showAppLoader());
       } else {
         dispatch(hideAppLoader());
       }
@@ -96,31 +78,20 @@ const PTB_profile = props => {
   const {
     params: {userid},
   } = useRoute();
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(showAppLoader());
-      dispatch(getPtbProfileDetail(userid));
-    }, [dispatch, userid]),
-  );
+  useEffect(() => {
+    dispatch(showAppLoader());
+    dispatch(getPtbProfileDetail(userid));
+  }, [dispatch, userid]);
   const navigation = useNavigation();
-  console.log(stateRes, 'stateRes');
+  console.log(props?.route?.params, 'props?.route?.params?.coming');
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={() => {
         if (props?.route?.params?.coming === true) {
-          if (stateRes?.profile_match_request?.status === 2) {
-            navigation.navigate(Routes.ChatDetail, {
-              item: stateRes?.profile_match_chat,
-              account_status_res: props?.route?.params?.account_status_res
-                ? props?.route?.params?.account_status_res
-                : '',
-            });
-          } else {
-            navigation.goBack();
-          }
-        } else {
           navigation.goBack();
+        } else {
+          navigation.navigate(Routes.SmDashboard);
         }
       }}
       style={styles.androidHeaderIcons}
@@ -131,7 +102,7 @@ const PTB_profile = props => {
     useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 800,
+        duration: 1000,
         useNativeDriver: true,
       }).start();
     }, [fadeAnim]);
@@ -153,7 +124,7 @@ const PTB_profile = props => {
       setIsVisibleLogo(false);
       setIslikedLogo('');
       navigation.navigate(Routes.SmDashboard);
-    }, 1000);
+    }, 3000);
   };
 
   const onPressLike = () => {
@@ -171,44 +142,6 @@ const PTB_profile = props => {
     dispatch(profileMatchResponse(payload));
     setIsVisibleLogo(true);
     setIslikedLogo('disliked');
-  };
-  const onClickRequest = () => {
-    if (
-      props?.route?.params?.account_status_res?.status ||
-      (props?.route?.params?.account_status_res?.bank_account &&
-        props?.route?.params?.account_status_res?.kyc_status === 'verified')
-    ) {
-      navigation.navigate(Routes.SendRequest, stateRes);
-    } else if (
-      props?.route?.params?.account_status_res?.bank_account === null ||
-      props?.route?.params?.account_status_res?.bank_account === ''
-    ) {
-      dispatch(
-        showAppToast(
-          true,
-          'Please add your bank details to request for a payment.',
-        ),
-      );
-    } else if (
-      props?.route?.params?.account_status_res?.kyc_status === 'incomplete'
-    ) {
-      dispatch(
-        showAppToast(
-          true,
-          'You can request for a payment, once your bank KYC has been submitted.',
-        ),
-      );
-    } else if (
-      props?.route?.params?.account_status_res?.kyc_status === 'pending' ||
-      props?.route?.params?.account_status_res?.kyc_status === 'rejected'
-    ) {
-      dispatch(
-        showAppToast(
-          true,
-          'You can request for a payment, once your bank KYC has been verified.',
-        ),
-      );
-    }
   };
   return (
     <View style={[styles.flex]}>
@@ -321,24 +254,15 @@ const PTB_profile = props => {
               </TouchableOpacity>
             )}
             {stateRes?.profile_match_request?.status === 2 && (
-              <>
-                <View style={styles.dateTextView}>
-                  <Image source={Images.HEARTH_ICON} />
-                  <Text style={styles.dateText}>
-                    {Strings.PTB_Profile.YouMatched}{' '}
-                    {moment(stateRes?.profile_match_request?.updated_at).format(
-                      'MMM DD, YYYY',
-                    )}
-                  </Text>
-                </View>
-                <View style={styles.centerView}>
-                  <ButtonPay
-                    label={Strings.dashboard.ReqPayment}
-                    style={styles.loginBtn}
-                    onPress={() => onClickRequest()}
-                  />
-                </View>
-              </>
+              <View style={styles.dateTextView}>
+                <Image source={Images.HEARTH_ICON} />
+                <Text style={styles.dateText}>
+                  {Strings.PTB_Profile.YouMatched}{' '}
+                  {moment(stateRes?.profile_match_request?.updated_at).format(
+                    'MMM DD,YYYY',
+                  )}
+                </Text>
+              </View>
             )}
             {props?.route?.params?.seeAll && (
               <Pressable

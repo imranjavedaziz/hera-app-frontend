@@ -1,10 +1,10 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {View, Text, RefreshControl} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
 import styles from './styles';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import chatHistory from '../../hooks/chatHistory';
 import {FlatList} from 'react-native-gesture-handler';
@@ -15,15 +15,8 @@ import database from '@react-native-firebase/database';
 import {deviceHandler} from '../../utils/commonFunction';
 import moment from 'moment';
 import {statusHide} from '../../utils/responsive';
-import {
-  hideAppLoader,
-  showAppLoader,
-  showAppToast,
-} from '../../redux/actions/loader';
+import {showAppToast} from '../../redux/actions/loader';
 import {getMessageID} from '../../redux/actions/MessageId';
-import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
-import {getMatchList} from '../../redux/actions/Payment';
-import {getAccountStatus} from '../../redux/actions/AccountStatus';
 
 const ChatListing = () => {
   const navigation = useNavigation();
@@ -31,19 +24,6 @@ const ChatListing = () => {
   const [refreshing, setRefreshing] = useState(false);
   const chatData = chatHistory();
   const dispatch = useDispatch();
-  const LoadingRef = useRef(null);
-  const [BankData, setData] = useState('');
-  const {account_status_success, account_status_res} = useSelector(
-    state => state.AccountStatus,
-  );
-  const {
-    get_match_list_success,
-    get_match_list_fail,
-    get_match_list_error_msg,
-    get_match_list_loading,
-    get_match_list_res,
-  } = useSelector(state => state.Payment);
-
   const fetchData = useCallback(() => {
     chatData.update();
     setLoader(false);
@@ -55,18 +35,9 @@ const ChatListing = () => {
     deviceHandler(navigation, 'deviceGoBack');
   }, []);
   useEffect(() => {
+    dispatch(getMessageID(''));
     return navigation.addListener('focus', fetchData);
   }, [navigation]);
-  // expected output: true
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(getSubscriptionStatus());
-      dispatch(getMessageID(''));
-    });
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation, dispatch]);
   const NavigateFunc = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.PtbDashboard);
@@ -74,44 +45,6 @@ const ChatListing = () => {
       navigation.navigate(Routes.SmDashboard);
     }
   };
-  useFocusEffect(
-    useCallback(() => {
-      if (log_in_data?.role_id === 2) {
-        let payload = {
-          keyword: '',
-        };
-        dispatch(showAppLoader());
-        dispatch(getMatchList(payload));
-      } else {
-        dispatch(getAccountStatus());
-      }
-    }, [dispatch]),
-  );
-  useEffect(() => {
-    if (account_status_success) {
-      console.log('account_status_res', JSON.stringify(account_status_res));
-    }
-  }, [account_status_success, account_status_res]);
-
-  useEffect(() => {
-    if (LoadingRef.current && !get_match_list_loading) {
-      if (get_match_list_success) {
-        dispatch(hideAppLoader());
-        setData(get_match_list_res?.data?.data);
-      }
-      if (get_match_list_fail) {
-        dispatch(hideAppLoader());
-        dispatch(showAppToast(true, get_match_list_error_msg));
-      }
-    }
-    LoadingRef.current = get_match_list_loading;
-  }, [
-    get_match_list_success,
-    get_match_list_loading,
-    get_match_list_error_msg,
-    get_match_list_res,
-    get_match_list_fail,
-  ]);
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -154,7 +87,7 @@ const ChatListing = () => {
         day = 'Just Now';
         break;
       case formattedDate === todayDate:
-        day = moment(unixTimeStamp).format('h:mm a');
+        day = 'Today';
         break;
       case formattedDate === yesterday:
         day = 'Yesterday';
@@ -172,7 +105,8 @@ const ChatListing = () => {
     return year + '-' + month + '-' + day;
   }
   function navigateToScreen(item) {
-    if (item?.status_id !== 1 || item?.recieverSubscription === 0) {
+    console.log(item,'item')
+    if (item?.status_id !== 1||item?.recieverSubscription===0) {
       dispatch(showAppToast(true, Strings.Chat.INACTIVE_ACCOUNT));
     } else if (item?.match_request?.status === 1) {
       navigation.navigate(Routes.Chat_Request, {
@@ -180,30 +114,10 @@ const ChatListing = () => {
         item: item,
       });
     } else {
-      navigation.navigate(Routes.ChatDetail, {
-        item: item,
-        account_status_res: account_status_res || '',
-      });
+      navigation.navigate(Routes.ChatDetail, {item: item});
     }
   }
-  const onNavigateDetail = item => {
-    if (log_in_data?.role_id === 2) {
-      const filteredItem = BankData.find(
-        bankdata => bankdata?.id === item?.recieverId,
-      );
-      navigation.navigate(Routes.ChatDetail, {
-        item,
-        isComingFrom: false,
-        filteredItem: filteredItem ? filteredItem : '',
-      });
-    } else {
-      navigation.navigate(Routes.ChatDetail, {
-        item,
-        isComingFrom: false,
-        account_status_res: account_status_res || '',
-      });
-    }
-  };
+
   const renderChatList = ({item}) => {
     return (
       <>
@@ -219,9 +133,12 @@ const ChatListing = () => {
                 ? `#${item?.recieverUserName}`
                 : item?.recieverName
             }
-            onPress={() => {
-              onNavigateDetail(item);
-            }}
+            onPress={() =>
+              navigation.navigate(Routes.ChatDetail, {
+                item,
+                isComingFrom: false,
+              })
+            }
             message={item?.message}
             read={item?.read}
             time={item?.time !== undefined && getChatDate(item?.time)}

@@ -6,8 +6,9 @@ import {
   Platform,
   Keyboard,
   Alert,
+  BackHandler,
 } from 'react-native';
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useCallback} from 'react';
 import {
   Button,
   FloatingLabelInput,
@@ -16,7 +17,7 @@ import {
 } from '../../../components';
 import styles from './styles';
 import {Alignment, Images, Strings} from '../../../constants';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {IconHeader} from '../../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -45,6 +46,8 @@ import {
 } from '../../../redux/actions/loader';
 import {KYC_UPDATE} from '../../../redux/Type';
 import ExtraBottomView from '../../../components/ExtraBottomView';
+import {getStates} from '../../../redux/actions/Register';
+import Dropdown from '../../../components/inputs/Dropdown';
 const KycScreen = ({route}) => {
   const redirectTo = route?.params?.redirectTo || '';
   const navigation = useNavigation();
@@ -68,6 +71,23 @@ const KycScreen = ({route}) => {
   const {kycResponse} = useSelector(store => store?.kyc);
   let scrollRef = React.createRef();
   const [date, setDate] = React.useState(new Date());
+  const handleBackButtonClick = () => {
+    if (Platform.OS === 'ios') {
+      backAction();
+    } else {
+      setShowModal(true);
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   const headerComp = () => (
     <IconHeader
       rightIcon={Images.iconcross}
@@ -76,6 +96,38 @@ const KycScreen = ({route}) => {
       }}
       style={styles.androidHeaderIcons}
     />
+  );
+  useEffect(() => {
+    dispatch(getStates());
+  }, [dispatch]);
+  const {
+    get_state_success,
+    get_state_loading,
+    get_state_error_msg,
+    get_state_res,
+  } = useSelector(st => st?.Register);
+  const loadingRef = useRef(false);
+  //GET STATE
+  useFocusEffect(
+    useCallback(() => {
+      if (loadingRef.current && !get_state_loading) {
+        dispatch(showAppLoader());
+        if (get_state_success) {
+          dispatch(hideAppLoader());
+          console.log(get_state_res, 'get_state_res');
+        }
+        if (get_state_error_msg) {
+          dispatch(hideAppLoader());
+        }
+      }
+      loadingRef.current = get_state_loading;
+    }, [
+      get_state_success,
+      get_state_loading,
+      get_state_error_msg,
+      get_state_res,
+      dispatch,
+    ]),
   );
   useEffect(() => {
     let response = kycResponse;
@@ -205,9 +257,9 @@ const KycScreen = ({route}) => {
       isValid = false;
     }
     if (inputs.state) {
-      handleOnchange(inputs?.state.trim(), Input_Type.state);
+      handleOnchange(inputs?.state?.code, Input_Type.state);
     }
-    if (!inputs.state?.trim()) {
+    if (!inputs.state?.code) {
       handleError(ValidationMessages.STATE_REQUIRED, Input_Type.state);
       isValid = false;
     }
@@ -258,7 +310,7 @@ const KycScreen = ({route}) => {
           last_name: inputs.lastName,
           first_name: inputs.firstName,
           country: 'US',
-          state: inputs.state,
+          state: inputs.state?.code,
           city: inputs.city,
           bank_token_id: bank_token,
           dob_year: year,
@@ -279,7 +331,6 @@ const KycScreen = ({route}) => {
       }
     }
   };
-
   return (
     <View style={styles.flex}>
       <Header end={false}>{headerComp()}</Header>
@@ -372,19 +423,19 @@ const KycScreen = ({route}) => {
               }}
               error={errors.country}
             />
-            <FloatingLabelInput
+            <Dropdown
               label={Strings.ManageBank.STATE}
-              value={inputs.state}
-              onChangeText={text => handleOnchange(text, Input_Type.state)}
+              data={get_state_res}
+              onSelect={selectedItem => {
+                handleOnchange(selectedItem, Input_Type.state);
+              }}
               required={true}
-              returnKeyType="next"
-              onFocusHandle={() => handleError(null, Input_Type.state)}
-              maxLength={validationBank.LastNameLimit}
+              value={inputs.state}
               inputRef={stateRef}
+              error={errors && errors.state}
               onSubmitEditing={() => {
                 cityRef.current.focus();
               }}
-              error={errors.state}
             />
             <FloatingLabelInput
               label={Strings.ManageBank.CITY}

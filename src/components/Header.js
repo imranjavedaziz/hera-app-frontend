@@ -72,12 +72,11 @@ const styles = {
     backgroundColor: Colors.COLOR_RED,
     borderRadius: Value.CONSTANT_VALUE_6,
     position: Alignment.ABSOLUTE,
-    right: -2,
+    right: Value.CONSTANT_VALUE_0,
     zIndex: 9999,
     borderStyle: Alignment.SOLID,
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.WHITE,
-    top: -2,
     marginRight: Value.CONSTANT_VALUE_30,
   },
   blankContainerptb: {
@@ -86,12 +85,11 @@ const styles = {
     backgroundColor: Colors.COLOR_RED,
     borderRadius: Value.CONSTANT_VALUE_6,
     position: Alignment.ABSOLUTE,
-    right: -2,
+    right: Value.CONSTANT_VALUE_0,
     zIndex: 9999,
     borderStyle: Alignment.SOLID,
     borderWidth: Value.CONSTANT_VALUE_1,
     borderColor: Colors.WHITE,
-    top: -2,
   },
 };
 export const CircleBtn = ({icon, onPress, Fixedstyle, ...otherProps}) => (
@@ -120,8 +118,6 @@ export const IconHeader = props => {
     txtPress,
     chat,
     chatptb,
-    iIcon,
-    leftIicon,
     ...otherProps
   } = props;
   const STYLE_ONE =
@@ -147,11 +143,7 @@ export const IconHeader = props => {
               <Image source={leftIcon} style={styles.innerProfileimg} />
             </View>
           ) : (
-            <Image
-              accessible={false}
-              source={leftIcon}
-              style={[styles.img, leftIicon]}
-            />
+            <Image accessible={false} source={leftIcon} style={styles.img} />
           )}
         </TouchableOpacity>
       )}
@@ -180,11 +172,7 @@ export const IconHeader = props => {
           accessibilityRole="button">
           {chat === true && <View style={styles.blankContainer} />}
           {chatptb === true && <View style={styles.blankContainerptb} />}
-          <Image
-            accessible={false}
-            source={rightIcon}
-            style={[styles.img, iIcon]}
-          />
+          <Image accessible={false} source={rightIcon} style={styles.img} />
         </TouchableOpacity>
       </View>
     </>

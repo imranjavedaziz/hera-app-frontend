@@ -143,7 +143,7 @@ export default {
     alignItems: Alignment.CENTER,
   },
   flatlist: {
-    paddingBottom: Value.CONSTANT_VALUE_600,
+    paddingBottom: Value.CONSTANT_VALUE_300,
   },
   extraTxt: {
     // marginLeft: 12,
@@ -173,11 +173,5 @@ export default {
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
     fontFamily: Fonts.OpenSansRegular,
-  },
-  disableing: {
-    backgroundColor: Colors.CLEAR,
-    width: '100%',
-    height: '100%',
-    position: Alignment.ABSOLUTE,
   },
 };

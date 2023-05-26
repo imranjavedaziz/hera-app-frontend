@@ -36,25 +36,6 @@ export default {
     justifyContent: Alignment.FLEXEND,
     alignItems: Alignment.CENTER,
   },
-  reddot: {
-    width: px(Value.CONSTANT_VALUE_12),
-    height: px(Value.CONSTANT_VALUE_12),
-    borderStyle: Alignment.SOLID,
-    borderRadius: px(Value.CONSTANT_VALUE_12),
-    backgroundColor: Colors.RED,
-    borderWidth: px(Value.CONSTANT_VALUE_1),
-    borderColor: '#ffffff',
-  },
-  pending: {
-    fontFamily: Fonts.OpenSansRegular,
-    fontSize: Value.CONSTANT_VALUE_13,
-    color: Colors.RED,
-    marginLeft: dynamicSize(Value.CONSTANT_VALUE_7),
-  },
-  innerView: {
-    flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
-  },
   toggle: {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansRegular,

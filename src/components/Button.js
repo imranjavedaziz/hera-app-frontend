@@ -34,7 +34,6 @@ const Button = props => {
     label = '',
     color = Colors.COLOR_A3C6C4,
     style = {},
-    disabled,
     ...otherProps
   } = props;
   return (
@@ -44,7 +43,6 @@ const Button = props => {
       {...otherProps}
       accessibilityRole="button"
       accessible={true}
-      disabled={disabled}
       accessibilityLabel={label}>
       <Text
         style={styles.text}

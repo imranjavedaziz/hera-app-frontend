@@ -29,21 +29,9 @@ export default function MultiTextInput({
     <React.Fragment>
       <View style={containerStyle}>
         <View style={styles.row}>
-          <Text
-            style={[
-              styles.label,
-              {color: lineColor ? Colors.LABEL_BLACK : Colors.BLACK_KEY},
-            ]}>
+          <Text style={styles.label}>
             {title}
-            {required && (
-              <Text
-                style={[
-                  styles.red,
-                  {color: lineColor ? Colors.LIGHT_BLACK47 : Colors.RED},
-                ]}>
-                *
-              </Text>
-            )}
+            {required && <Text style={[styles.red]}>*</Text>}
           </Text>
         </View>
         <View
@@ -58,7 +46,7 @@ export default function MultiTextInput({
           <TextInput
             style={[
               styles.input,
-              isFocused && {paddingVertical: 20},
+              isFocused && {paddingVertical: 0},
               isFocused ? styles.focusBorder : styles.blurBorder,
               error ? styles.red : null,
               inputStyle,
