@@ -24,7 +24,7 @@
 		1813C81729140D9000241C27 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1813C80D29140D9000241C27 /* OpenSans-Italic.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-MBC-MBCTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-MBC-MBCTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		D60EDA71291B86C3008ECCD5 /* MBC/GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D60EDA70291B86C3008ECCD5 /* MBC/GoogleService-Info.plist */; };
+		D60EDA71291B86C3008ECCD5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D60EDA70291B86C3008ECCD5 /* GoogleService-Info.plist */; };
 		D610C26328D0693F00C269B0 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D610C26228D0693F00C269B0 /* BootSplash.storyboard */; };
 		ECE5D86A291E35D6000641BA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE5D869291E35D6000641BA /* StoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -94,7 +94,7 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-MBC.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MBC.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MBC/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-MBC-MBCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBC-MBCTests.release.xcconfig"; path = "Target Support Files/Pods-MBC-MBCTests/Pods-MBC-MBCTests.release.xcconfig"; sourceTree = "<group>"; };
-		D60EDA70291B86C3008ECCD5 /* MBC/GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MBC/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D60EDA70291B86C3008ECCD5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MBC/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D610C26228D0693F00C269B0 /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = MBC/BootSplash.storyboard; sourceTree = "<group>"; };
 		ECE5D869291E35D6000641BA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		ECF1BF7A291E4B9500DFC703 /* MBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MBC.entitlements; path = MBC/MBC.entitlements; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				ECF1BF7A291E4B9500DFC703 /* MBC.entitlements */,
-				D60EDA70291B86C3008ECCD5 /* MBC/GoogleService-Info.plist */,
+				D60EDA70291B86C3008ECCD5 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				D610C26228D0693F00C269B0 /* BootSplash.storyboard */,
@@ -291,7 +291,6 @@
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
 				8CAE135EB692EBBB51E96313 /* [CP-User] [RNFB] Core Configuration */,
-				07FADF9C309606CE7499AA28 /* [CP-User] [RNFB] Crashlytics Configuration */,
 			);
 			buildRules = (
 			);
@@ -363,7 +362,7 @@
 				D610C26328D0693F00C269B0 /* BootSplash.storyboard in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				D60EDA71291B86C3008ECCD5 /* MBC/GoogleService-Info.plist in Resources */,
+				D60EDA71291B86C3008ECCD5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,20 +401,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MBC/Pods-MBC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		07FADF9C309606CE7499AA28 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "[CP-User] [RNFB] Crashlytics Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
 		};
 		8CAE135EB692EBBB51E96313 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -635,12 +620,11 @@
 				CODE_SIGN_ENTITLEMENTS = MBC/MBC.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 56S2A4N4D3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MBC/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -669,12 +653,11 @@
 				CODE_SIGN_ENTITLEMENTS = MBC/MBC.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 56S2A4N4D3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MBC/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

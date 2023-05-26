@@ -7,10 +7,6 @@ import {
   SET_ATTRIBUTES,
   USE_LOCAL_IMAGE,
   USE_NAME,
-  UPDATE_REFRESH_TOKEN,
-  BANK_TOKEN,
-  CLEAR_BANK_TOKEN,
-  STRIPE_REMOVE_IDS,
 } from '../constants';
 
 import {
@@ -89,7 +85,6 @@ const initState = {
   log_in_success: false,
   log_in_loading: false,
   token: '',
-  refresh_token: '',
   user_id: '',
   log_in_error_msg: '',
   log_in_data: '',
@@ -118,15 +113,6 @@ const initState = {
   device_info_error_msg: '',
   device_info_loading: false,
   device_info_success: false,
-  isTokenUpdate: false,
-  isRefreshUpdate: false,
-  stripe_customer_id: '',
-  stripe_key: '',
-  stripe_secret: '',
-  bank_token: '',
-  connected_acc_token: '',
-  stripe_processing_fees: '',
-  stripe_additional_fees: '',
 };
 
 export default (state = initState, action) => {
@@ -156,31 +142,15 @@ export default (state = initState, action) => {
       };
     }
     case AUTH_LOG_IN_SUCCESS: {
-      const {
-        access_token,
-        refresh_token,
-        stripe_customer_id,
-        stripe_key,
-        stripe_secret,
-        stripe_processing_fees,
-        stripe_additional_fees,
-        connected_acc_token,
-      } = action.data.data.data;
+      const {access_token} = action.data.data.data;
       return {
         ...state,
         user: action?.data?.data?.data,
         log_in_success: true,
         log_in_loading: false,
         token: access_token,
-        refresh_token: refresh_token,
         log_in_data: action?.data?.data?.data,
         log_in_error_msg: '',
-        stripe_customer_id: stripe_customer_id,
-        stripe_key: stripe_key,
-        stripe_secret: stripe_secret,
-        stripe_processing_fees: stripe_processing_fees,
-        stripe_additional_fees: stripe_additional_fees,
-        connected_acc_token: connected_acc_token,
         login: true,
         register_user_success: false,
       };
@@ -248,18 +218,11 @@ export default (state = initState, action) => {
     case UPDATE_TOKEN:
       return {
         ...state,
-        token: action.payload,
+        token: action,
         user: {
           ...state.user,
           access_token: action.payload,
         },
-        isTokenUpdate: true,
-      };
-    case UPDATE_REFRESH_TOKEN:
-      return {
-        ...state,
-        refresh_token: action.payload,
-        isRefreshUpdate: true,
       };
     case UPDATE_REG_STEP:
       return {
@@ -286,8 +249,6 @@ export default (state = initState, action) => {
         gallery: initState.gallery,
         register_user_success: false,
         registration_step: 1,
-        token: '',
-        refresh_token: '',
       };
     case AUTH_MOBILE_NUMBER: {
       return {
@@ -304,7 +265,6 @@ export default (state = initState, action) => {
         mobile_number_loading: false,
         mobile_number_error_msg: '',
         register_user_success_data: null,
-        token: '',
       };
     }
     case AUTH_MOBILE_NUMBER_FAIL: {
@@ -373,28 +333,6 @@ export default (state = initState, action) => {
         user: initState.user,
         gallery: initState.gallery,
         register_user_success: false,
-        token: '',
-        stripe_customer_id: '',
-        stripe_key: '',
-        stripe_secret: '',
-        stripe_processing_fees: '',
-        stripe_additional_fees: '',
-        refresh_token: '',
-        connected_acc_token: '',
-        registration_step: 1,
-      };
-    }
-    case STRIPE_REMOVE_IDS: {
-      return {
-        ...state,
-        token: '',
-        stripe_customer_id: '',
-        stripe_key: '',
-        stripe_secret: '',
-        stripe_processing_fees: '',
-        stripe_additional_fees: '',
-        refresh_token: '',
-        connected_acc_token: '',
       };
     }
     /**
@@ -421,16 +359,7 @@ export default (state = initState, action) => {
       };
     }
     case AUTH_REGISTER_SUCCESS: {
-      const {
-        access_token,
-        refresh_token,
-        stripe_customer_id,
-        stripe_secret,
-        connected_acc_token,
-        stripe_processing_fees,
-        stripe_additional_fees,
-        stripe_key,
-      } = action.data.data.data;
+      const {access_token} = action.data.data.data;
       return {
         ...state,
         register_user_success: true,
@@ -443,13 +372,6 @@ export default (state = initState, action) => {
           profile_pic: state.user.profile_pic,
         },
         token: access_token,
-        refresh_token: refresh_token,
-        stripe_customer_id: stripe_customer_id,
-        stripe_key: stripe_key,
-        stripe_secret: stripe_secret,
-        stripe_processing_fees: stripe_processing_fees,
-        stripe_additional_fees: stripe_additional_fees,
-        connected_acc_token: connected_acc_token,
         login: true,
       };
     }
@@ -486,16 +408,7 @@ export default (state = initState, action) => {
         update_message: action.data?.data?.message,
       };
     }
-    case BANK_TOKEN:
-      return {
-        ...state,
-        bank_token: action.payload,
-      };
-    case CLEAR_BANK_TOKEN:
-      return {
-        ...state,
-        bank_token: initState.bank_token,
-      };
+
     default:
       return state;
   }

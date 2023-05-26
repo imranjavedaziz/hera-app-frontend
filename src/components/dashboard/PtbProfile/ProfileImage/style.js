@@ -3,7 +3,6 @@ import {Fonts} from '../../../../constants/Constants';
 import Alignment from '../../../../constants/Alignment';
 import {Value} from '../../../../constants/FixedValues';
 import Colors from '../../../../constants/Colors';
-import {Platform} from 'react-native';
 
 export default {
   smmainContainer: {
@@ -28,8 +27,8 @@ export default {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 1,
-    elevation: 1,
+    shadowOpacity: Value.CONSTANT_VALUE_1,
+    elevation: Value.CONSTANT_VALUE_1,
     shadowRadius: Value.CONSTANT_VALUE_34,
     borderRadius: dynamicSize(100),
     width: Value.CONSTANT_VALUE_95,
@@ -42,7 +41,6 @@ export default {
     borderRadius: dynamicSize(90),
     borderColor: Colors.WHITE,
     borderWidth: 1,
-    backgroundColor: Platform.OS === 'ios' ? '#E2E1D8' : '#f2f2f2',
   },
   Image: {
     height: Value.CONSTANT_VALUE_86,

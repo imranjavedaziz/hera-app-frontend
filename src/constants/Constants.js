@@ -11,22 +11,17 @@ const environment = {
   },
   qa: {
     bucket: '',
-    api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1/',
+    api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1',
     chat: 'qa',
   },
   stage: {
     bucket: '',
-    api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1/',
+    api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1',
     chat: 'stage',
-  },
-  prod: {
-    bucket: '',
-    api_url: 'https://api.makingbabyconnection.com/api/v1/',
-    chat: 'prod',
   },
 };
 
-export const {bucket, api_url, chat} = environment.qa;
+export const {bucket, api_url, chat} = environment.dev;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -47,68 +42,7 @@ export const validationType = {
   SPECIAL: 'SPECIAL',
   CAPSLOCK: 'CAPSLOCK',
 };
-export const validationBank = {
-  accountNumberLimit: 19,
-  MIN_ACCOUNT_NUM: 12,
-  routingLimit: 9,
-  CardNumberLimit: 19,
-  CardNumberMinLimit: 12,
-  Cvv: 5,
-  minCvv: 2,
-  ExpiryDate: 5,
-  PhoneNumber: 10,
-  emailTextLimit: 60,
-  userNameEmailMinLimit: 3,
-  userNameMaxLimit: 30,
-  LastNameLimit: 30,
-  FirstNameLimit: 30,
-  passwordLimit: 30,
-  UserNameMaxLimit: 30,
-  fullNameLimit: 60,
-  longTextLimit: 400,
-  linkTextLimit: 60,
-  INVALID: 'Invalid!',
-  REQUIRED: 'Required!',
-  DOB_MIN_YEAR: 100,
-  DOB_MAX_YEAR: 18,
-  BIO_MAX_CHAR: 500,
-  CAMPAIGN_CAPTION_MAX_CHAR: 250,
-  CAMPAIGN_CAPTION_MIN_CHAR: 1,
-  CAMPAIGN_TITLE: 50,
-  CAMPAIGN_TITLE_MIN_CHAR: 2,
-  ZIP_CODE_MIN: 3,
-  ZIP_CODE_MAX: 5,
-  MAX_FILE_SIZE: 10 * 1024 * 1024,
-  DATE_ERROR: 'Please set an end Date.',
-  ENTER_AMOUNT_ERROR: 'Please enter a valid amount',
-  NOT_ENOUGH_FUNDS: 'Not enough funds!',
-  AMOUNT_MAX_DIGIT: 10, //GOAL AMOUNT
-  AMOUNT_DIGIT: 8,
-  MIN_GOAL_AMOUNT: 500,
-  SSN: 4,
-  TAX_ID: 10,
-};
-export const Input_Type = {
-  accountholder: 'accountholder',
-  accountnumber: 'accountnumber',
-  routingnumber: 'routingnumber',
-  cardNumber: 'cardNumber',
-  expiryDate: 'expiryDate',
-  cvv: 'cvv',
-  fullName: 'fullName',
-  firstName: 'firstName',
-  tax_ID: 'tax_ID',
-  ssn: 'ssn',
-  zipCode: 'zipCode',
-  address: 'address',
-  city: 'city',
-  state: 'state',
-  country: 'country',
-  phoneNumber: 'phoneNumber',
-  dob: 'dob',
-  lastName: 'lastName',
-  selectField: 'selectField',
-};
+
 export const HttpStatus = {
   UNAUTHORISED: 401,
   SUCCESS_REQUEST: 200,
@@ -218,23 +152,21 @@ export const pwdErrMsg = [
   {type: validationType.CAPSLOCK, msg: ValidationMessages.CAPSLOCK},
 ];
 //validate password
-const pwdLength = value => {
+const pwdLength = (value)=>{
   return value.length >= 8;
-};
-const pwdAlphaNum = value => {
-  return (
-    Regx.ALPHA_LOWER.test(value) &&
-    Regx.NUM.test(value) &&
-    Regx.ALPHA_START.test(value)
-  );
-};
-const pwdSpecialChar = value => {
-  return Regx.SPECIAL_CHAR.test(value);
-};
-const pwdCapAlpha = value => {
+}
+const pwdAlphaNum = (value)=>{
+  return Regx.ALPHA_LOWER.test(value) &&
+  Regx.NUM.test(value) &&
+  Regx.ALPHA_START.test(value);
+}
+const pwdSpecialChar = value=>{
+  return Regx.SPECIAL_CHAR.test(value)
+}
+const pwdCapAlpha = value=>{
   return Regx.ALPHA_CAP.test(value);
-};
-export const validatePassword = (value = '', type, isPressed = true) => {
+}
+export const validatePassword = (value='', type, isPressed = true) => {
   const pwdLen = pwdLength(value);
   const alphaNum = pwdAlphaNum(value);
   const specialChar = pwdSpecialChar(value);
@@ -242,25 +174,33 @@ export const validatePassword = (value = '', type, isPressed = true) => {
   if (value) {
     switch (type) {
       case validationType.LEN:
-        if (isPressed) {
-          return pwdLen;
+        if(isPressed){
+          return pwdLen
         }
-        return pwdLen ? pwdLen : null;
+        return pwdLen
+        ? pwdLen
+        : null;
       case validationType.ALPHA_NUM:
-        if (isPressed) {
-          return alphaNum;
+        if(isPressed){
+          return alphaNum
         }
-        return alphaNum ? alphaNum : null;
+        return alphaNum
+        ? alphaNum
+        : null;
       case validationType.SPECIAL:
-        if (isPressed) {
-          return specialChar;
+        if(isPressed){
+          return specialChar
         }
-        return specialChar ? specialChar : null;
+        return specialChar
+        ? specialChar
+        : null;
       case validationType.CAPSLOCK:
-        if (isPressed) {
-          return capAlpha;
+        if(isPressed){
+          return capAlpha
         }
-        return capAlpha ? capAlpha : null;
+        return capAlpha
+        ? capAlpha
+        : null;
       default:
         break;
     }
@@ -302,25 +242,6 @@ export const Routes = {
   DeleteAccount: 'DeleteAccount',
   ProfileLikedSm: 'ProfileLikedSm',
   DeactivateAccount: 'DeactivateAccount',
-  WalkThrough: 'WalkThrough',
-  UrlWebViewScreen: 'UrlWebViewScreen',
-  WalkThroughVedio: 'WalkThroughVedio',
-  HeraPay: 'HeraPay',
-  WebViewUrl: 'WebViewUrl',
-  AllMedia: 'AllMedia',
-  PdfView: 'PdfView',
-  PaymentRequest: 'PaymentRequest',
-  MatchScreen: 'MatchScreen',
-  Transaction: 'Transaction',
-  ManageCard: 'ManageCard',
-  ManageBank: 'ManageBank',
-  KycScreen: 'KycScreen',
-  SendRequest: 'SendRequest',
-  TransactionDetails: 'TransactionDetails',
-  PaymentSent: 'PaymentSent',
-  ConfirmPayment: 'ConfirmPayment',
-  ConfirmSubscription: 'ConfirmSubscription',
-  SubscriptionCard: 'SubscriptionCard',
 };
 export const Static = {
   countries: [
@@ -808,11 +729,11 @@ export const Static = {
     },
     {
       id: 2,
-      name: '29 - 35',
+      name: '28 - 35',
     },
     {
       id: 3,
-      name: '36 - 40',
+      name: '35 - 40',
     },
   ],
   ethnicity: [
@@ -901,39 +822,31 @@ export const Static = {
   ],
 };
 
+const CreditRichMonthly = 'com.CreditRich.Monthly';
+const CreditRichYearly = 'com.CreditRich.Yearly';
 const HeraDevMonthly = 'com.HeraDev.Monthly';
 const HeraDevYearly = 'com.HeraDev.Yearly';
 const HeraDevWeekly = 'com.HeraDev.Weekly';
-const SurrogateMonthly = 'com.HeraDev.SurrogateMonthly';
-const SurrogateQuarterly = 'com.HeraDev.SurrogateQuarterly';
-const EggDonorMonthly = 'com.HeraDev.EggDonorMonthly';
-const SpermDonorMonthly = 'com.HeraDev.SpermDonorMonthly';
-const surrogate_monthly = 'com.hera_dev.surrogate_monthly';
-const egg_donor_monthly = 'com.hera_dev.egg_donor_monthly';
-const sperm_donor_monthly = 'com.hera_dev.sperm_donor_monthly';
-const EggDonorQuarterly = 'com.HeraDev.EggDonorQuarterly';
-const SpermDonorQuarterly = 'com.HeraDev.SpermDonorQuarterly';
-
 export const creditProductsIds = Platform.select({
-  ios: [HeraDevMonthly, HeraDevYearly, HeraDevWeekly],
-  android: [HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
+  ios: [
+    CreditRichMonthly,
+    CreditRichYearly,
+    HeraDevMonthly,
+    HeraDevYearly,
+    HeraDevWeekly,
+  ],
+  android: [CreditRichMonthly, HeraDevYearly, HeraDevMonthly, HeraDevWeekly],
 });
 
 export const productsIds = Platform.select({
   ios: [
-    SurrogateMonthly,
-    EggDonorMonthly,
-    SpermDonorMonthly,
-    SurrogateQuarterly,
-    EggDonorQuarterly,
-    SpermDonorQuarterly,
+    CreditRichMonthly,
+    CreditRichYearly,
+    HeraDevYearly,
+    HeraDevMonthly,
+    HeraDevWeekly,
   ],
-  android: [
-    // HeraDevYearly, HeraDevWeekly
-    surrogate_monthly,
-    egg_donor_monthly,
-    sperm_donor_monthly,
-  ],
+  android: [CreditRichMonthly, CreditRichYearly, HeraDevYearly, HeraDevWeekly],
 });
 
 export const SUBSCRIPTION_PLAN = [

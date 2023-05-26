@@ -8,7 +8,7 @@ export default {
   mainContainer: {
     justifyContent: Alignment.CENTER,
     alignItems: Alignment.CENTER,
-    marginTop: px(Value.CONSTANT_VALUE_50),
+    marginTop: px(Value.CONSTANT_VALUE_100),
   },
   header: {marginTop: px(10),marginRight:px(20)},
   heartIconContainer: {
@@ -25,10 +25,8 @@ export default {
   textbtn1: {
     fontSize: Value.CONSTANT_VALUE_14,
     fontFamily: Fonts.OpenSansBold,
-    letterSpacing: Value.CONSTANT_VALUE_FRAC3_62,
+    letterSpacing: 3.62,
     color: Colors.BLACK,
-    marginLeft: 12,
-    alignItems: Alignment.CENTER,
   },
   btn: color => ({
     borderRadius: px(Value.CONSTANT_VALUE_40),

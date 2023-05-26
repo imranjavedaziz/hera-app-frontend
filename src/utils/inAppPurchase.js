@@ -1,15 +1,13 @@
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
 import {
   initConnection,
   endConnection,
+  getSubscriptions,
   requestPurchase,
   requestSubscription,
-  clearTransactionIOS,
-  flushFailedPurchasesCachedAsPendingAndroid,
-  flushExpiredPurchasesCachedAndroid,
-  getSubscriptions
+  getProducts,
 } from "react-native-iap";
-import { productsIds } from "../constants/Constants";
+import { creditProductsIds , productsIds } from "../constants/Constants";
 
 class InAPPPurchase {
   static serviceInstance = null;
@@ -24,19 +22,6 @@ class InAPPPurchase {
       initConnection()
         .then((connection) => {
           console.log("IAP connection result", connection);
-          if (Platform.OS === 'ios') {
-            clearTransactionIOS();
-            getSubscriptions({skus:productsIds})
-            .then(data=>{
-              console.log('getSubscriptions',JSON.stringify(data));
-            })
-            .catch(e=>{
-              console.log('getSubscriptions err',JSON.stringify(e));
-            })
-          } else {
-            flushFailedPurchasesCachedAsPendingAndroid();
-            flushExpiredPurchasesCachedAndroid();
-          }
         })
         .catch((err) => {
           console.warn(`IAP ERROR ${err.code}`, err.message);
@@ -45,6 +30,28 @@ class InAPPPurchase {
   };
   endIAPConnection = () => {
     endConnection();
+  };
+  getIAPProducts = async () => {
+    try {
+      const products = await getSubscriptions({ skus: productsIds });
+      console.log("IAP FILE LINE NO 37 PREMIUM PRODUCTS ", products);
+      return products;
+    } catch (err) {
+      Alert.alert("IAP err", err);
+      console.log("IAP Err", err);
+      console.warn(err?.code);
+      console.warn(err?.message);
+    }
+  };
+  getCreditProducts = async () => {
+    try {
+      const products = await getProducts({ skus: creditProductsIds });
+      return products;
+    } catch (err) {
+      Alert.alert("IAP err", err);
+      console.log("IAP Err", err);
+      console.warn(err?.message); // standardized err.code and err.message available
+    }
   };
   requestPurchase = async (sku) => {
     try {

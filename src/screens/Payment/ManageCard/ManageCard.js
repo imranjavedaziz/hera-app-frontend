@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  BackHandler,
 } from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import {
@@ -79,6 +80,26 @@ const ManageCard = ({route}) => {
     ? amountParam?.replace(/,/g, '')
     : amountParam;
   const roundOff = Amount;
+  const handleGoBack = () => {
+    if (fieldChanged) {
+      Platform.OS === 'ios' ? backActionCall() : setBackShow(true);
+    } else {
+      navigation.goBack();
+    }
+  };
+  const handleBackButtonClick = () => {
+    handleGoBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (paymentIntentRes?.status === PAYMENT_INTENT.START) {
       dispatch(showAppLoader());
@@ -176,13 +197,7 @@ const ManageCard = ({route}) => {
       dispatch({type: PAYMENT_INTENT.CLEAN});
     }
   }, [attachPaymentIntentRes]);
-  const handleGoBack = () => {
-    if (fieldChanged) {
-      Platform.OS === 'ios' ? backActionCall() : setBackShow(true);
-    } else {
-      navigation.goBack();
-    }
-  };
+ 
   const backActionCall = () => {
     Alert.alert(
       ValidationMessages.CARD_NOT_SAVED,

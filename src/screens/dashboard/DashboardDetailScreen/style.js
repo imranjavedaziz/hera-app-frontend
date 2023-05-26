@@ -92,7 +92,7 @@ export default {
   Description: {
     marginTop: dynamicSize(Value.CONSTANT_VALUE_53),
     fontSize: normalizeFont(Value.CONSTANT_VALUE_20),
-    fontFamily: Fonts.OpenSansRegular,
+    fontFamily: Fonts.OpenSansLight,
     color: Colors.BLACK,
   },
   backgroundImage: {
@@ -183,27 +183,15 @@ export default {
     backgroundColor: '#E2E1D8',
   },
   dateText: {
-    fontFamily: Fonts.OpenSansItalic,
+    fontFamily: Fonts.OpenSansLightItalic,
     fontSize: Value.CONSTANT_VALUE_15,
     color: Colors.BLACK,
     marginLeft: Value.CONSTANT_VALUE_7,
   },
-  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51, marginBottom: 50},
+  dateTextView: {flexDirection: Alignment.ROW, marginTop: 51,marginBottom:50},
   videoContainer: {
     height: Value.CONSTANT_VALUE_200,
     backgroundColor: Colors.BLACK,
     marginTop: Value.CONSTANT_VALUE_15,
-  },
-  loginBtn: {
-    height: 80,
-    width: dynamicSize(Value.CONSTANT_VALUE_259),
-    marginBottom: Value.CONSTANT_VALUE_20,
-  },
-  centerView: {alignItems: Alignment.CENTER},
-  headerContainer: {flex: 1, marginRight: px(Value.CONSTANT_VALUE_30)},
-  confirmedTxt: {
-    color: Colors.COLOR_5ABCEC,
-    fontSize: px(Value.CONSTANT_VALUE_12),
-    fontFamily: Fonts.OpenSansRegular,
   },
 };

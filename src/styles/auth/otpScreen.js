@@ -7,8 +7,8 @@ export default {
     flexDirection: Alignment.ROW,
     alignItems: Alignment.CENTER,
     justifyContent: 'center',
-    marginTop: 42,
-    marginBottom: 210,
+    marginTop: 72,
+    marginBottom: 190,
   },
   troubleRowKey: {
     flexDirection: Alignment.ROW,

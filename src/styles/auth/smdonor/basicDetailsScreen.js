@@ -90,10 +90,4 @@ export default {
     marginRight: Value.CONSTANT_VALUE_20,
   },
   paddingTop: {paddingTop: Value.CONSTANT_VALUE_57},
-  disableing: {
-    backgroundColor: Colors.CLEAR,
-    width: '100%',
-    height: '100%',
-    position: Alignment.ABSOLUTE,
-  },
 };

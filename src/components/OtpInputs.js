@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.INPUT_BORDER,
   },
   invalidInput: {
-    borderColor: Colors.RED,
+    borderColor: 'red',
   },
   input3or6: {
     borderTopRightRadius: Value.CONSTANT_VALUE_5,

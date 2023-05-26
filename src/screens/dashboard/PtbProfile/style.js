@@ -75,10 +75,4 @@ export default {
     paddingHorizontal: Value.CONSTANT_VALUE_10,
     backgroundColor: Colors.BACKGROUND,
   },
-  disableing: {
-    backgroundColor: Colors.CLEAR,
-    width: '100%',
-    height: '100%',
-    position: Alignment.ABSOLUTE,
-  },
 };

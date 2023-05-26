@@ -24,11 +24,7 @@ import {Value} from '../../../constants/FixedValues';
 import Video from 'react-native-video';
 import {SmDonerDetail} from '../../../redux/actions/SmDonerDetail';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  showAppLoader,
-  hideAppLoader,
-  showAppToast,
-} from '../../../redux/actions/loader';
+import {showAppLoader, hideAppLoader} from '../../../redux/actions/loader';
 import RNSDWebImage from 'react-native-sdwebimage';
 import global from '../../../styles/global';
 import Colors from '../../../constants/Colors';
@@ -39,10 +35,9 @@ import {dynamicSize, width} from '../../../utils/responsive';
 import ImageView from 'react-native-image-viewing';
 import moment from 'moment';
 import {Alignment} from '../../../constants';
-import {getMessageID} from '../../../redux/actions/MessageId';
-import ButtonPay from '../../../components/BtnPay';
+
 const images = [];
-const DashboardDetailScreen = ({route}) => {
+const DashboardDetailScreen = () => {
   const navigation = useNavigation();
   const [smDetailRes, setSmDetailRes] = useState([]);
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
@@ -76,14 +71,6 @@ const DashboardDetailScreen = ({route}) => {
       });
     }, []),
   );
-  // expected output: true
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(getMessageID(''));
-    });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation, dispatch]);
   useFocusEffect(
     useCallback(() => {
       if (loadingRef.current && !get_sm_donor_loading) {
@@ -124,16 +111,16 @@ const DashboardDetailScreen = ({route}) => {
         setTimeout(() => {
           setIsVisibleLogo(false);
           setIslikedLogo('');
-          navigation.navigate(Routes.PtbDashboard);
-        }, 2000);
-        if (islikedLogo === 'liked') {
-          dispatch(showAppToast(false, profile_match_error_msg));
-        }
+          if (smDetailRes?.profile_match_request?.status === 2) {
+            navigation.navigate(Routes.ProfileLikedSm, {item: smDetailRes});
+          } else {
+            navigation.navigate(Routes.PtbDashboard);
+          }
+        }, 5000);
+      } else {
+        dispatch(hideAppLoader());
       }
-    } else {
-      dispatch(hideAppLoader());
     }
-
     loadingMatchRef.current = profile_match_loading;
   }, [
     profile_match_success,
@@ -142,6 +129,14 @@ const DashboardDetailScreen = ({route}) => {
     dispatch,
     navigation,
   ]);
+
+  const headerComp = () => (
+    <IconHeader
+      leftIcon={Images.circleIconBack}
+      onPress={navigation.goBack}
+      style={styles.headerIcon}
+    />
+  );
 
   const FadeInView = props => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -174,24 +169,6 @@ const DashboardDetailScreen = ({route}) => {
   const IMG_CONDI =
     islikedLogo === 'liked' ? Images.iconbigheart : Images.iconbigcross;
 
-  const headerComp = () => (
-    <View style={[styles.heartIcon, {flex: 1, marginRight: 30}]}>
-      <IconHeader
-        leftIcon={Images.circleIconBack}
-        onPress={navigation.goBack}
-        style={styles.headerIcon}
-      />
-      {smDetailRes?.next_step && (
-        <Text style={styles.confirmedTxt}>
-          <Image
-            source={Images.whiteTick}
-            style={{tintColor: Colors.COLOR_5ABCEC}}
-          />{' '}
-          Profile Confirmed
-        </Text>
-      )}
-    </View>
-  );
   const onPressLike = () => {
     const payload = {
       to_user_id: smDetailRes?.id,
@@ -214,18 +191,6 @@ const DashboardDetailScreen = ({route}) => {
     setImgPreviewIndex(index);
     setIsVisible(true);
   };
-  const onClickSend = () => {
-    if (route?.params?.filteredItem) {
-      navigation.navigate(Routes.PaymentSent, {
-        ...smDetailRes,
-        redirectTo: Routes.DashboardDetailScreen,
-        userid: userId,
-      });
-    } else {
-      dispatch(showAppToast(true, `Bank not added by ${smDetailRes?.role}!`));
-    }
-  };
-
   const renderItemData = item => {
     return (
       <>
@@ -471,24 +436,15 @@ const DashboardDetailScreen = ({route}) => {
                 </View>
               )}
               {smDetailRes?.profile_match_request?.status === 2 && (
-                <>
-                  <View style={styles.dateTextView}>
-                    <Image source={Images.HEARTH_ICON} />
-                    <Text style={styles.dateText}>
-                      {Strings.PTB_Profile.YouMatched}{' '}
-                      {moment(
-                        smDetailRes?.profile_match_request?.updated_at,
-                      ).format('MMM DD,YYYY')}
-                    </Text>
-                  </View>
-                  <View style={styles.centerView}>
-                    <ButtonPay
-                      label={Strings.dashboard.SendPayment}
-                      style={styles.loginBtn}
-                      onPress={() => onClickSend()}
-                    />
-                  </View>
-                </>
+                <View style={styles.dateTextView}>
+                  <Image source={Images.HEARTH_ICON} />
+                  <Text style={styles.dateText}>
+                    {Strings.PTB_Profile.YouMatched}{' '}
+                    {moment(
+                      smDetailRes?.profile_match_request?.updated_at,
+                    ).format('MMM DD,YYYY')}
+                  </Text>
+                </View>
               )}
               {smDetailRes?.profile_match_request?.status !== 2 && (
                 <>

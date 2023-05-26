@@ -35,7 +35,6 @@ import RNSDWebImage from 'react-native-sdwebimage';
 import {Value} from '../../../constants/FixedValues';
 import {statusHide} from '../../../utils/responsive';
 import ImageLoading from '../../../components/ImageLoading';
-import _ from 'lodash';
 
 const CreateGallery = () => {
   const userService = User();
@@ -69,7 +68,7 @@ const CreateGallery = () => {
   const [selVideo, setSelVideo] = useState(false);
   const [counter, _setCounter] = useState(0);
   const profileImg = useSelector(state => state.profileImg?.imgStore);
-  const [openActionsheets, setOpenActionsheet] = useState(false);
+
   const {
     gallery_success,
     gallery_loading,
@@ -191,17 +190,11 @@ const CreateGallery = () => {
     );
     return true;
   };
-  console.log('LINE NUMBER 193', images);
   const updateGallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&
       gallery_data?.doner_photo_gallery.map((item, i) => {
-        // return item;
-        if (!images.includes(item)) {
-          return item;
-        } else {
-          return null;
-        }
+        return item;
       });
     setGallery(oldImg => {
       return oldImg.map((img, i) => {
@@ -212,15 +205,7 @@ const CreateGallery = () => {
       });
     });
     for (let i = 0; i < url?.length; ++i) {
-      if (_.isEmpty(gallery_data?.doner_photo_gallery)) {
-        return null;
-      } else {
-        _setImages(
-          [...url].map(e => {
-            return {uri: e.file_url};
-          }),
-        );
-      }
+      images.push({uri: url[i]?.file_url});
     }
     if (url?.length === undefined) {
       setGIndex(0);
@@ -268,20 +253,16 @@ const CreateGallery = () => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
         !isVideo ? openCamera(0, cb) : selectVideo(0);
-        setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
         !isVideo ? openCamera(1, cb) : selectVideo(1);
-        setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:
         console.log('Cancel');
-        setOpenActionsheet(false);
         break;
     }
   };
   const openActionSheet = () => {
-    setOpenActionsheet(true);
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
@@ -293,15 +274,11 @@ const CreateGallery = () => {
   };
   const iosPhotoSheet = () => {
     setIsVideo(false);
-    if (openActionsheets === false) {
-      openActionSheet();
-    }
+    openActionSheet();
   };
   const iosVideoSheet = () => {
     setIsVideo(true);
-    if (openActionsheets === false) {
-      openActionSheet();
-    }
+    openActionSheet();
   };
   const bottomSheetVideo = () => {
     Platform.OS === 'ios' ? iosVideoSheet() : openBottomVideoSheet();
@@ -325,8 +302,23 @@ const CreateGallery = () => {
             style={[globalStyle.screenSubTitle, styles.subTitle]}
             accessible={true}
             accessibilityLabel={`${Strings.sm_create_gallery.Subtitle1} ${Strings.sm_create_gallery.Subtitle2} ${Strings.sm_create_gallery.Subtitle3}`}>
-            <Text style={globalStyle.screenSubTitle} accessible={false}>
+            <Text
+              style={globalStyle.screenSubTitle}
+              numberOfLines={2}
+              accessible={false}>
               {Strings.sm_create_gallery.Subtitle1}
+            </Text>
+            <Text
+              style={globalStyle.screenSubTitle}
+              accessible={false}
+              numberOfLines={1}>
+              {Strings.sm_create_gallery.Subtitle2}
+            </Text>
+            <Text
+              style={globalStyle.screenSubTitle}
+              accessible={false}
+              numberOfLines={1}>
+              {Strings.sm_create_gallery.Subtitle3}
             </Text>
             <Text style={styles.p1}>{Strings.sm_create_gallery.maxUpload}</Text>
           </View>
@@ -337,7 +329,6 @@ const CreateGallery = () => {
                 key={index}
                 onPress={() => ImageClick(index)}>
                 <ImageLoading
-                  createGallery={true}
                   isFastImg={true}
                   style={[styles.galleryImgView, styles.imageStyling]}
                   source={{
@@ -348,12 +339,6 @@ const CreateGallery = () => {
                   key={index}>
                   {img.uri && (
                     <TouchableOpacity
-                      style={{
-                        height: 50,
-                        width: 50,
-                        bottom: 25,
-                        left: 20,
-                      }}
                       onPress={() => {
                         handelDel(img.id);
                       }}>
@@ -361,7 +346,7 @@ const CreateGallery = () => {
                         source={
                           remove.includes(img.id)
                             ? Images.iconRadiosel
-                            : Images.RingWhite
+                            : Images.iconRadiounsel
                         }
                         style={styles.selectIcon}
                       />
@@ -404,16 +389,34 @@ const CreateGallery = () => {
             rmvImgCount={rmvImgCount}
             remove={remove}
           />
-          {((!isDel && rmvImgCount === 0) ||
-            (!isDel && rmvVideoCount <= 0)) && (
+          {(isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0) ? (
+            <View style={styles.delContainer}>
+              {rmvVideoCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvVideoCount} Video Selected
+                </Text>
+              )}
+              {rmvImgCount > 0 && (
+                <Text style={styles.selectedText}>
+                  {rmvImgCount}{' '}
+                  {rmvImgCount === 1 ? 'Item Selected' : 'Items Selected'}
+                </Text>
+              )}
+              <TouchableOpacity
+                onPress={() => {
+                  Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
+                }}
+                style={styles.deleteBtnContainer}>
+                <Image source={Images.trashRed} />
+                <Text style={styles.rmvText}>Remove From Gallery</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
             <TouchableOpacity
               style={styles.dashboardBtn}
               activeOpacity={Value.CONSTANT_VALUE_FRAC80}
               onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{name: Routes.SmDashboard}],
-                });
+                navigation.navigate(Routes.SmDashboard);
               }}>
               <Text
                 accessible={false}
@@ -425,29 +428,6 @@ const CreateGallery = () => {
           )}
         </View>
       </Container>
-      {((isDel && rmvImgCount !== 0) || (isDel && rmvVideoCount > 0)) && (
-        <View style={styles.delContainer}>
-          {rmvVideoCount > 0 && (
-            <Text style={styles.selectedText}>
-              {rmvVideoCount} Video Selected
-            </Text>
-          )}
-          {rmvImgCount > 0 && (
-            <Text style={styles.selectedText}>
-              {rmvImgCount}{' '}
-              {rmvImgCount === 1 ? 'Item Selected' : 'Items Selected'}
-            </Text>
-          )}
-          <TouchableOpacity
-            onPress={() => {
-              Platform.OS === 'ios' ? deleteAction() : setShowModal(true);
-            }}
-            style={styles.deleteBtnContainer}>
-            <Image source={Images.trashRed} />
-            <Text style={styles.rmvText}>Remove From Gallery</Text>
-          </TouchableOpacity>
-        </View>
-      )}
       <ActionSheet
         ref={actionSheet}
         destructiveButtonIndex={2}
@@ -462,7 +442,6 @@ const CreateGallery = () => {
           <TouchableOpacity
             onPress={() => {
               !isVideo ? openCamera(0, cb) : selectVideo(0);
-              setOpen(false);
             }}
             style={[styleSheet.pickerBtn, styleSheet.pickerBtnBorder]}>
             <Text style={styleSheet.pickerBtnLabel}>
@@ -473,7 +452,6 @@ const CreateGallery = () => {
             style={styleSheet.pickerBtn}
             onPress={() => {
               !isVideo ? openCamera(1, cb) : selectVideo(1);
-              setOpen(false);
             }}>
             <Text style={styleSheet.pickerBtnLabel}>
               {Strings.sm_create_gallery.bottomSheetGallery}
@@ -509,4 +487,4 @@ const CreateGallery = () => {
   );
 };
 
-export default React.memo(CreateGallery);
+export default CreateGallery;

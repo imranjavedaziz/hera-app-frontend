@@ -16,20 +16,23 @@ import {ConstantsCode, Routes} from '../../constants/Constants';
 import {InputLabel} from '../../components';
 import {Value} from '../../constants/FixedValues';
 import {Alignment, Colors} from '../../constants';
+import normalizeInput from '../../utils/normalizeInput';
 import {statusHide} from '../../utils/responsive';
-import {empty} from '../../redux/actions/Chat';
 
 const MobileNumber = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingRef = useRef(false);
   const [isRouteData, setIsRouteData] = useState();
+  const [phone, setPhone] = useState('');
   const {type} = route.params;
 
   const {
     handleSubmit,
     control,
     formState: {errors},
+    reset,
+    setValue,
   } = useForm({
     resolver: yupResolver(mobileSchema),
   });
@@ -43,7 +46,6 @@ const MobileNumber = ({route}) => {
   useEffect(() => {
     if (loadingRef.current && !mobile_number_loading) {
       if (mobile_number_success) {
-        dispatch(empty());
         navigation.navigate(Routes.OTP, {
           isRouteData,
           type,
@@ -76,7 +78,18 @@ const MobileNumber = ({route}) => {
       accessibilityLabel="Cross Button, Go back"
     />
   );
+  const handelChange = async value => {
+    reset({phone: ''});
 
+    await setPhone(prevstate => normalizeInput(value, prevstate));
+    let a = '';
+    for (let i = 0; i < value.length; i++) {
+      if (value[i] !== ' ' && value[i] !== ')' && value[i] !== '(') {
+        a = a + value[i];
+      }
+    }
+    setValue('phone', a);
+  };
   return (
     <View
       style={{
@@ -111,14 +124,14 @@ const MobileNumber = ({route}) => {
               control={control}
               render={({field: {onChange, value}}) => (
                 <InputLabel
-                  value={value}
+                  value={phone}
                   number={true}
                   label={Strings.mobile.MobileNumber}
                   error={errors && errors.phone?.message}
                   onChangeText={v => {
-                    onChange(v);
+                    handelChange(v);
                   }}
-                  maxLength={10}
+                  maxLength={14}
                   keyboardType="number-pad"
                 />
               )}

@@ -12,9 +12,7 @@ import {
   GET_PREFERENCE_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-import {ValidationMessages} from '../../constants/Strings';
-import {showAppToast} from '../actions/loader';
-
+import {ValidationMessages} from '../../constants/Strings'
 function* SetPreferenceRes() {
   try {
     const result = yield setPreferenceApi();
@@ -27,10 +25,7 @@ function* SetPreferenceRes() {
       });
     }
   } catch (err) {
-    yield put({
-      type: SET_PREFERENCE_FAIL,
-      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
-    });
+    yield put({type: SET_PREFERENCE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchsetPreference() {
@@ -49,10 +44,7 @@ function* SavePreference(payload) {
       });
     }
   } catch (err) {
-    yield put({
-      type: SAVE_PREFERENCE_FAIL,
-      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
-    });
+    yield put({type: SAVE_PREFERENCE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchSavePreferenceRes() {
@@ -65,18 +57,13 @@ function* GetPreferenceRes() {
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: GET_PREFERENCE_SUCCESS, data: result});
     } else {
-      yield put(showAppToast(true, result.data.message));
       yield put({
         type: GET_PREFERENCE_FAIL,
         data: {msg: result.data.message},
       });
     }
   } catch (err) {
-    yield put(showAppToast(true, err.message));
-    yield put({
-      type: GET_PREFERENCE_FAIL,
-      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
-    });
+    yield put({type: GET_PREFERENCE_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
   }
 }
 export function* watchgetPreference() {

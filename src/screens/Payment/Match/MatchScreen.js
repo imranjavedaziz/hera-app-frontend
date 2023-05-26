@@ -1,4 +1,4 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, BackHandler} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
@@ -8,7 +8,7 @@ import {IconHeader} from '../../../components/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import Searchbar from '../../../components/MatchSearch';
 import MatchComp from './MatchComp';
-import {getMatchList} from '../../../redux/actions/Payment';
+import {getMatchList, getMatchListPages} from '../../../redux/actions/Payment';
 import {
   hideEditLoader,
   showAppToast,
@@ -40,7 +40,19 @@ const MatchScreen = () => {
     dispatch(showEditAppLoader());
     dispatch(getMatchList(payload));
   }, [dispatch]);
-
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+    };
+  }, []);
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
       if (get_match_list_success) {
@@ -143,7 +155,9 @@ const MatchScreen = () => {
         <View style={styles.container}>
           <Text style={styles.heraPay}>{Strings.Hera_Pay.HERA_PAY}</Text>
           <Text style={styles.sendPayment}>
-            {Strings.Match_Screen.Send_Payment}
+            {log_in_data?.role_id === 2
+              ? Strings.Match_Screen.Send_Payment
+              : Strings.Match_Screen.Request_for_Payment}
           </Text>
           <View style={styles.searchContainer}>
             <Searchbar
@@ -160,14 +174,14 @@ const MatchScreen = () => {
               showsVerticalScrollIndicator={false}
               onRefresh={onRefresh}
               refreshing={isRefreshing}
-              ListFooterComponent={() => (
-                <View
-                  style={{
-                    marginBottom: 40,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}></View>
-              )}
+              onEndReached={() => {
+                if (
+                  get_match_list_res.data.current_page <
+                  get_match_list_res.data.last_page
+                ) {
+                  dispatch(getMatchListPages());
+                }
+              }}
             />
           )}
           {_.isEmpty(allUser) && !get_match_list_loading && (

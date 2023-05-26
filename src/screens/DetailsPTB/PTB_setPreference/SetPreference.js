@@ -7,7 +7,6 @@ import {
   Platform,
   Alert,
   Keyboard,
-  ImageBackground,
   TouchableWithoutFeedback,
 } from 'react-native';
 import React, {
@@ -24,7 +23,7 @@ import {
   showAppLoader,
   showAppToast,
   showEditAppLoader,
-  hideEditLoader,
+  hideEditLoader
 } from '../../../redux/actions/loader';
 import Colors from '../../../constants/Colors';
 import Header, {IconHeader} from '../../../components/Header';
@@ -46,16 +45,12 @@ import {
 import {Value} from '../../../constants/FixedValues';
 import styles from './Styles';
 import Alignment from '../../../constants/Alignment';
-import {
-  RemoveStripIds,
-  logOut,
-  signoutUser,
-  updateRegStep,
-} from '../../../redux/actions/Auth';
+import {logOut, signoutUser, updateRegStep} from '../../../redux/actions/Auth';
 import ActionSheet from 'react-native-actionsheet';
 import {
   SetPreferenceRes,
   SavePreference,
+  GetPreferenceRes,
 } from '../../../redux/actions/SetPreference';
 import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {getStates} from '../../../redux/actions/Register';
@@ -67,11 +62,6 @@ import {NotificationContext} from '../../../context/NotificationContextManager';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
-import {Rotate} from 'hammerjs';
-import {navigate} from '../../../utils/RootNavigation';
-import {updateTrail} from '../../../redux/actions/Subsctiption';
-import debounce from '../../../utils/debounce';
-import {dynamicSize} from '../../../utils/responsive';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -94,12 +84,7 @@ const SetPreference = ({route, navigation}) => {
   const EditPreferences = route.params?.EditPreferences;
   const [preferencesData, setPreferencesData] = useState([]);
   const ageRange = Static.ageRange;
-  const [stateRess, setStateRes] = useState([]);
-  const [disable, setDisable] = useState(false);
-  const [isCacheState, setCacheState] = useState(false);
-  const [isCachePref, setCachePref] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [isFilled, setFilled] = useState(false);
+  const [stateRess, setStateRes] = useState();
   const dispatch = useDispatch();
   const SubmitLoadingRef = useRef(false);
   const [threeOption, setThreeOption] = useState([]);
@@ -131,9 +116,6 @@ const SetPreference = ({route, navigation}) => {
     get_state_loading,
     get_state_error_msg,
   } = useSelector(state => state.Register);
-  const subscriptionStatus = useSelector(
-    state => state.Subscription?.subscription_status_res,
-  );
   const loadingRef = useRef(false);
   const stateLoadingRef = useRef(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -141,46 +123,12 @@ const SetPreference = ({route, navigation}) => {
     useCallback(() => {
       if (EditPreferences === true) {
         dispatch(showEditAppLoader());
+        dispatch(GetPreferenceRes());
       }
-      if (get_preference_success || get_preference_error_msg) {
-        dispatch(hideEditLoader());
-      }
-    }, [dispatch, get_preference_success, get_preference_error_msg]),
+      dispatch(getStates());
+      dispatch(SetPreferenceRes());
+    }, [dispatch]),
   );
-  useEffect(() => {
-    if (
-      get_state_success &&
-      Array.isArray(get_state_res) &&
-      get_state_res.length > 0
-    ) {
-      setStateRes(get_state_res);
-      setCacheState(true);
-    } else if (!get_state_loading) {
-      dispatch(getStates());
-    }
-  }, [get_state_res, get_state_success, get_state_loading]);
-  useEffect(() => {
-    if (
-      set_preference_success &&
-      set_preference_res.hasOwnProperty('education')
-    ) {
-      setPreferencesData(set_preference_res);
-      setCachePref(true);
-    } else if (!set_preference_loading || !loading) {
-      dispatch(SetPreferenceRes());
-      setLoading(true);
-    }
-  }, [set_preference_res, set_preference_success, set_preference_loading]);
-  useEffect(() => {
-    if (get_preference_success && isCacheState) {
-      dispatch(getStates());
-    }
-  }, [isCacheState, get_preference_success]);
-  useEffect(() => {
-    if (get_preference_success && isCachePref) {
-      dispatch(SetPreferenceRes());
-    }
-  }, [isCachePref, get_preference_success]);
   const {
     handleSubmit,
     control,
@@ -200,17 +148,18 @@ const SetPreference = ({route, navigation}) => {
 
   //GET STATE
   useEffect(() => {
-    if (stateLoadingRef.current && !get_state_loading && !isCacheState) {
+    if (stateLoadingRef.current && !get_state_loading) {
       dispatch(showAppLoader());
       if (get_state_success) {
         dispatch(hideAppLoader());
+        setStateRes(get_state_res);
       }
       if (get_state_error_msg) {
         dispatch(hideAppLoader());
       }
     }
     stateLoadingRef.current = get_state_loading;
-  }, [get_state_loading, get_state_success, isCacheState]);
+  }, [get_state_loading, get_state_success]);
   //GET PREFERENCE
   useFocusEffect(
     useCallback(() => {
@@ -218,6 +167,7 @@ const SetPreference = ({route, navigation}) => {
         dispatch(showEditAppLoader());
         if (get_preference_success) {
           dispatch(hideEditLoader());
+          EditPreferences === true && handelChange();
         }
         if (get_preference_error_msg) {
           dispatch(hideEditLoader());
@@ -226,64 +176,30 @@ const SetPreference = ({route, navigation}) => {
       SetloadingRef.current = get_preference_loading;
     }, [get_preference_success, get_preference_loading, get_preference_res]),
   );
-  useEffect(() => {
-    if (
-      get_state_res.length > 0 &&
-      set_preference_res.hasOwnProperty('education') &&
-      get_preference_success &&
-      EditPreferences &&
-      !isFilled
-    ) {
-      handelChange();
-      setFilled(true);
-    }
-  }, [
-    EditPreferences,
-    isFilled,
-    get_state_res,
-    get_preference_res,
-    set_preference_res,
-    get_preference_success,
-    set_preference_success,
-    get_state_success,
-  ]);
   //SETTER FIELDS
-  const handelChange = useCallback(async () => {
-    try {
-      let location = null;
-      let race = null;
-      const HeightArr = get_preference_res?.height?.split('-');
-      const education = set_preference_res?.education?.find(obj => {
-        return obj.id === parseInt(get_preference_res?.education);
-      });
-      const raceJson =
-        get_preference_res?.race !== undefined &&
-        JSON.parse(get_preference_res?.race);
-      setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
-      setValue(FormKey.education, education);
-      setValue(FormKey.age_range, get_preference_res?.age);
-      setHeight(HeightArr);
-      setValue(FormKey.hair, get_preference_res?.hair_colour);
-      setValue(FormKey.eye, get_preference_res?.eye_colour);
-      if (Array.isArray(get_state_res) && get_state_res.length > 0) {
-        location = get_state_res?.find(obj => {
-          return obj.id === parseInt(get_preference_res?.state);
-        });
-      }
-      if (
-        Array.isArray(set_preference_res?.race) &&
-        set_preference_res?.race.length > 0
-      ) {
-        race = set_preference_res?.race?.find(obj => {
-          return obj.id === parseInt(raceJson);
-        });
-      }
-      setValue(FormKey.location, location);
-      setValue(FormKey.race, race);
-    } catch (e) {
-      console.log(e);
-    }
-  }, [get_state_res, get_preference_res, set_preference_res]);
+  const handelChange = async value => {
+    const HeightArr = get_preference_res?.height?.split('-');
+    const education = set_preference_res?.education?.find(obj => {
+      return obj.id === parseInt(get_preference_res?.education);
+    });
+    const raceJson =
+      get_preference_res?.race !== undefined &&
+      JSON.parse(get_preference_res?.race);
+    const location = get_state_res?.find(obj => {
+      return obj.id === parseInt(get_preference_res?.state);
+    });
+    const race = set_preference_res?.race?.find(obj => {
+      return obj.id === parseInt(raceJson);
+    });
+    setValue(FormKey.looking, get_preference_res?.role_id_looking_for);
+    setValue(FormKey.location, location);
+    setValue(FormKey.education, education);
+    setValue(FormKey.age_range, get_preference_res?.age);
+    setHeight(HeightArr);
+    setValue(FormKey.race, race);
+    setValue(FormKey.hair, get_preference_res?.hair_colour);
+    setValue(FormKey.eye, get_preference_res?.eye_colour);
+  };
 
   //logout
   useEffect(() => {
@@ -291,18 +207,12 @@ const SetPreference = ({route, navigation}) => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
-        dispatch(RemoveStripIds());
         dispatch(hideAppLoader());
         dispatch(signoutUser());
         navigation.navigate(Routes.Landing);
-        setTimeout(() => {
-          setDisable(false);
-        }, 3000);
       } else {
-        dispatch(empty());
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
-        setDisable(false);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
@@ -310,31 +220,30 @@ const SetPreference = ({route, navigation}) => {
   //GET PREFERENCE
   useFocusEffect(
     useCallback(() => {
-      if (loadingRef.current && !set_preference_loading && !isCachePref) {
+      if (loadingRef.current && !set_preference_loading) {
         dispatch(showAppLoader());
         if (set_preference_success) {
           dispatch(hideAppLoader());
+          EditPreferences === true && handelChange();
+          setPreferencesData(set_preference_res);
         }
         if (set_preference_error_msg) {
           dispatch(hideAppLoader());
         }
       }
       loadingRef.current = set_preference_loading;
-    }, [set_preference_success, set_preference_loading, isCachePref]),
+    }, [set_preference_success, set_preference_loading]),
   );
+
   // SAVE PREFERENCE
   useEffect(() => {
     if (SubmitLoadingRef.current && !save_preference_loading) {
       dispatch(showAppLoader());
       if (save_preference_success) {
-        dispatch(showAppToast(false, Strings.preference.SUCCESS_MSG));
         dispatch(hideAppLoader());
         EditPreferences === true
           ? navigation.navigate(Routes.PtbProfile)
-          : navigation.reset({
-              index: 0,
-              routes: [{name: Routes.PtbDashboard}],
-            });
+          : navigation.navigate(Routes.PtbDashboard);
       }
       if (save_preference_error_msg) {
         dispatch(hideAppLoader());
@@ -360,25 +269,16 @@ const SetPreference = ({route, navigation}) => {
     dispatch(SavePreference(value));
     EditPreferences !== true && dispatch(updateRegStep());
   };
-  useEffect(() => {
-    if (!EditPreferences && !subscriptionStatus?.data?.is_trial) {
-      dispatch(updateTrail({data: {data: {is_trial: true, status: 2}}}));
-    }
-  }, [EditPreferences, subscriptionStatus]);
+
   const logOutScreen = () => {
     dispatch(showAppLoader());
-
-    dispatch(logOut(Device_ID));
-    dispatch(empty());
+    const data = {
+      device_id: Device_ID,
+    };
+    dispatch(logOut(data));
   };
   const navigateSupport = () => {
     navigation.navigate(Routes.Support);
-  };
-  const navigateAbout = () => {
-    navigation.navigate(Routes.WebViewUrl, {
-      url: ABOUT_URL,
-      about: true,
-    });
   };
   const handleThreeOption = async option => {
     switch (option) {
@@ -386,10 +286,9 @@ const SetPreference = ({route, navigation}) => {
         navigateSupport();
         break;
       case Strings.preference.About:
-        navigateAbout();
+        openWebView(ABOUT_URL);
         break;
       case Strings.preference.Logout:
-        setDisable(true);
         logOutScreen();
         break;
       case Strings.Subscription.Cancel:
@@ -417,7 +316,6 @@ const SetPreference = ({route, navigation}) => {
           onPress: () => {
             navigation.navigate(Routes.PtbProfile);
           },
-          style: 'destructive',
         },
         {
           text: Strings.profile.ModalOption2,
@@ -437,31 +335,22 @@ const SetPreference = ({route, navigation}) => {
   const headerComp = () => (
     <>
       {EditPreferences === true ? (
-        <View style={styles.headerView}>
+        <View style={globalStyle.cancelbtn}>
           <TouchableOpacity
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={() => {
+              nav();
+            }}
             style={globalStyle.clearView}>
-            <Image source={Images.ICON_INFO} style={globalStyle.infoIcon} />
+            <Text style={globalStyle.clearText}>
+              {Strings.Subscription.Cancel}
+            </Text>
           </TouchableOpacity>
-          <ImageBackground
-            source={Images.CANCEL_BG}
-            style={globalStyle.cancelBg}>
-            <TouchableOpacity
-              onPress={() => {
-                nav();
-              }}
-              style={globalStyle.clearView}>
-              <Text style={globalStyle.clearText}>
-                {Strings.Subscription.Cancel}
-              </Text>
-            </TouchableOpacity>
-          </ImageBackground>
         </View>
       ) : (
         <>
           <IconHeader
             style={{paddingHorizontal: 20}}
-            leftIcon={Images.ICON_INFO}
+            leftIcon={Images.I_BUTTON}
             leftPress={() => setModalVisible(!modalVisible)}
             rightIcon={Images.iconSettings}
             rightPress={() =>
@@ -486,7 +375,7 @@ const SetPreference = ({route, navigation}) => {
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
   return (
-    <View style={styles.flex}>
+    <View style={isOpen === true ? globalStyle.modalColor : styles.flex}>
       <Header end={EditPreferences === true ? true : false}>
         {headerComp()}
       </Header>
@@ -500,7 +389,11 @@ const SetPreference = ({route, navigation}) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled">
-            <View style={[styles.containerView]}>
+            <View
+              style={[
+                styles.containerView,
+                isOpen === true && globalStyle.modalColor,
+              ]}>
               {EditPreferences === true ? (
                 <Text style={globalStyle.screenTitle}>
                   {Strings.preference.editPreference}
@@ -517,32 +410,8 @@ const SetPreference = ({route, navigation}) => {
                   {Strings.preference.SearchPrioritize}
                 </Text>
               </View>
-              {!subscriptionStatus?.data?.is_trial &&
-                subscriptionStatus?.data?.status > 0 &&
-                EditPreferences && (
-                  <TouchableOpacity
-                    style={styles.changePlan}
-                    onPress={() => navigation.navigate(Routes.Subscription)}>
-                    <Text style={styles.changePlanTxt} numberOfLines={2}>
-                      Change Plan to find other User Type
-                    </Text>
-                    <Image
-                      source={Images.arrowDown}
-                      style={{
-                        transform: [{rotate: '270deg'}],
-                        marginLeft: 5,
-                      }}
-                    />
-                  </TouchableOpacity>
-                )}
               <View style={styles.lookingFor}>
-                <Text
-                  style={[
-                    styles.lookingForText,
-                    {
-                      color: Colors.BLACK_KEY,
-                    },
-                  ]}>
+                <Text style={styles.lookingForText}>
                   {Strings.preference.lookingFor}
                   <Text style={styles.chipsRequiredText}>*</Text>
                 </Text>
@@ -554,10 +423,6 @@ const SetPreference = ({route, navigation}) => {
                         <TouchableOpacity
                           style={styles.flexRow}
                           key={whom.id}
-                          disabled={
-                            (!subscriptionStatus?.data?.is_trial && subscriptionStatus?.data?.status>0) &&
-                            EditPreferences
-                          }
                           activeOpacity={1}
                           onPress={() => onChange(whom.id)}>
                           <Image
@@ -568,26 +433,7 @@ const SetPreference = ({route, navigation}) => {
                                 : Images.iconRadiounsel
                             }
                           />
-                          <Text
-                            style={
-                              value === whom.id ||
-                              (subscriptionStatus?.data?.is_trial ||
-                              !EditPreferences || subscriptionStatus?.data?.status===0)
-                                ? styles.lookingsm
-                                : styles.lookingsmDisabled
-                            }>
-                            {whom.name}
-                          </Text>
-                          {value === whom.id &&
-                            !subscriptionStatus?.data?.is_trial &&
-                            subscriptionStatus?.data?.status > 0 &&
-                            EditPreferences && (
-                              <View style={styles.subscribeBtn}>
-                                <Text style={styles.subscribeTxt}>
-                                  Subscribed
-                                </Text>
-                              </View>
-                            )}
+                          <Text style={styles.lookingsm}>{whom.name}</Text>
                         </TouchableOpacity>
                       ))}
                       <Text style={styles.errLooking}>
@@ -610,6 +456,7 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
+                      lineColor={isOpen}
                       error={errors && errors.location?.message}
                     />
                   )}
@@ -627,8 +474,8 @@ const SetPreference = ({route, navigation}) => {
                         console.log(selectedItem, index);
                         onChange(selectedItem);
                       }}
-                      educationStyle={true}
                       required={true}
+                      lineColor={isOpen}
                       error={errors && errors.education?.message}
                     />
                   )}
@@ -641,7 +488,7 @@ const SetPreference = ({route, navigation}) => {
                 <Controller
                   control={control}
                   render={({field: {onChange, value = ''}}) => (
-                    <View style={styles.ageContainerView}>
+                    <View style={styles.ageContainer}>
                       <ScrollView
                         horizontal
                         showsHorizontalScrollIndicator={false}>
@@ -737,6 +584,7 @@ const SetPreference = ({route, navigation}) => {
                         onChange(selectedItem);
                       }}
                       required={true}
+                      lineColor ={isOpen}
                       error={errors && errors.race?.message}
                     />
                   )}
@@ -747,11 +595,7 @@ const SetPreference = ({route, navigation}) => {
                     {Strings.preference.HairColor}
                   </Text>
                   <Text
-                    style={{
-                      color: Colors.RED,
-                      fontSize: 18,
-                      marginTop: dynamicSize(34),
-                    }}>
+                    style={{color: Colors.RED, fontSize: 18, marginTop: 30}}>
                     *
                   </Text>
                 </View>
@@ -807,7 +651,7 @@ const SetPreference = ({route, navigation}) => {
                           </TouchableOpacity>
                         ))}
                       <Text style={styles.errMessage}>
-                        {errors && errors.hair?.message}
+                        {EditPreferences && errors && errors.hair?.message}
                       </Text>
                     </View>
                   )}
@@ -818,11 +662,7 @@ const SetPreference = ({route, navigation}) => {
                     {Strings.preference.EyeColor}
                   </Text>
                   <Text
-                    style={{
-                      color: Colors.RED,
-                      fontSize: 18,
-                      marginTop: dynamicSize(34),
-                    }}>
+                    style={{color: Colors.RED, fontSize: 18, marginTop: 30}}>
                     *
                   </Text>
                 </View>
@@ -877,7 +717,7 @@ const SetPreference = ({route, navigation}) => {
                         </TouchableOpacity>
                       ))}
                     <Text style={styles.errMessage}>
-                      {errors && errors.eye?.message}
+                      {EditPreferences && errors && errors.eye?.message}
                     </Text>
                   </View>
                 )}
@@ -889,7 +729,6 @@ const SetPreference = ({route, navigation}) => {
                 onPress={handleSubmit(onSubmit)}
               />
             </View>
-            {disable && <View style={styles.disableing} />}
             {modalVisible && (
               <CustomModal>
                 <SensoryMatch onPress={() => setModalVisible(!modalVisible)} />
@@ -898,41 +737,31 @@ const SetPreference = ({route, navigation}) => {
           </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>
-      {isOpen && (
-        <View style={{flex: 1}}>
-          <BottomSheetComp
-            wrapperStyle={globalStyle.wrapperStyle}
-            lineStyle={globalStyle.lineStyle}
-            isOpen={isOpen}
-            isComing={true}
-            setOpen={setOpen}>
-            <View style={globalStyle.basicSheetContainer}>
-              <TouchableOpacity style={globalStyle.formBtn}>
-                <Text style={globalStyle.formText}>
-                  {Strings.preference.InquiryForm}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyle.heraBtn}
-                onPress={() => navigateAbout()}>
-                <Text style={globalStyle.heraText}>
-                  {Strings.preference.About}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyle.logoutBtn}
-                onPress={() => {
-                  setDisable(true);
-                  logOutScreen();
-                }}>
-                <Text style={globalStyle.logoutText}>
-                  {Strings.preference.Logout}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </BottomSheetComp>
+      <BottomSheetComp
+        wrapperStyle={globalStyle.wrapperStyle}
+        lineStyle={globalStyle.lineStyle}
+        isOpen={isOpen}
+        setOpen={setOpen}>
+        <View style={globalStyle.basicSheetContainer}>
+          <TouchableOpacity style={globalStyle.formBtn}>
+            <Text style={globalStyle.formText}>
+              {Strings.preference.InquiryForm}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={globalStyle.heraBtn}
+            onPress={() => openWebView(ABOUT_URL)}>
+            <Text style={globalStyle.heraText}>{Strings.preference.About}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={globalStyle.logoutBtn}
+            onPress={() => logOutScreen()}>
+            <Text style={globalStyle.logoutText}>
+              {Strings.preference.Logout}
+            </Text>
+          </TouchableOpacity>
         </View>
-      )}
+      </BottomSheetComp>
       <ModalMiddle
         showModal={showModal}
         onRequestClose={() => {

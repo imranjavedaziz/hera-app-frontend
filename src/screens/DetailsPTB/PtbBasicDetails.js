@@ -1,13 +1,6 @@
 // PtbBasicDetails
 import React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -22,9 +15,6 @@ import FloatingLabelInput from '../../components/FloatingLabelInput';
 import {genders, Static, Routes} from '../../constants/Constants';
 import Dropdown from '../../components/inputs/Dropdown';
 import styles from '../../styles/auth/smdonor/basicDetailsScreen';
-import {MultiTextInput} from '../../components';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Colors} from '../../constants';
 
 const PtbBasicDetails = ({route}) => {
   const navigation = useNavigation();
@@ -53,157 +43,130 @@ const PtbBasicDetails = ({route}) => {
         showHeader={true}
         headerEnd={true}
         headerComp={headerComp}>
-        <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
-          keyboardOpeningTime={0}
-          scrollEnabled={true}
-          extraHeight={180}
-          showsVerticalScrollIndicator={false}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={globalStyle.mainContainer}>
-              <Text style={globalStyle.screenTitle}>
-                {Strings.sm_basic.Title}
-              </Text>
-              <Text style={[globalStyle.screenSubTitle, {marginBottom: 40}]}>
-                {Strings.sm_basic.Subtitle}
-              </Text>
-              <Text
-                style={styles.label}
-                accessible={true}
-                accessibilityLabel={'Gender'}>
-                Gender
-                <Text style={[{color: Colors.RED}]}>*</Text>
-              </Text>
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <View style={styles.radioContainer}>
-                    {genders.map(gender => (
-                      <TouchableOpacity
-                        style={styles.radioBtn}
-                        key={gender.id}
-                        onPress={() => onChange(gender.id)}>
-                        <Image
-                          style={styles.radioImg}
-                          source={
-                            value === gender.id
-                              ? Images.iconRadiosel
-                              : Images.iconRadiounsel
-                          }
-                        />
-                        <Text style={styles.radioLabel}>{gender.name}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                )}
-                name="gender"
+        <View style={globalStyle.mainContainer}>
+          <Text style={globalStyle.screenTitle}>{Strings.sm_basic.Title}</Text>
+          <Text style={[globalStyle.screenSubTitle]}>
+            {Strings.sm_basic.Subtitle}
+          </Text>
+          <Text
+            style={styles.label}
+            accessible={true}
+            accessibilityLabel={'Gender'}>
+            Gender
+            <Text style={[{color: 'red'}]}>*</Text>
+          </Text>
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <View style={styles.radioContainer}>
+                {genders.map(gender => (
+                  <TouchableOpacity
+                    style={styles.radioBtn}
+                    key={gender.id}
+                    onPress={() => onChange(gender.id)}>
+                    <Image
+                      style={styles.radioImg}
+                      source={
+                        value === gender.id
+                          ? Images.iconRadiosel
+                          : Images.iconRadiounsel
+                      }
+                    />
+                    <Text style={styles.radioLabel}>{gender.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+            name="gender"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <Dropdown
+                label={Strings.sm_basic.Country}
+                data={Static.countries}
+                onSelect={selectedItem => {
+                  onChange(selectedItem);
+                }}
+                required={true}
+                error={errors && errors.country?.message}
               />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <Dropdown
-                    label={Strings.sm_basic.Country}
-                    data={Static.countries}
-                    onSelect={selectedItem => {
-                      onChange(selectedItem);
-                    }}
-                    required={true}
-                    error={errors && errors.country?.message}
-                  />
-                )}
-                name="country"
+            )}
+            name="country"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.sm_basic.State}
+                value={value}
+                onChangeText={v => onChange(v)}
+                error={errors && errors.state?.message}
+                required={true}
               />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <FloatingLabelInput
-                    label={Strings.sm_basic.State}
-                    value={value}
-                    onChangeText={v => onChange(v)}
-                    error={errors && errors.state?.message}
-                    required={true}
-                  />
-                )}
-                name="state"
+            )}
+            name="state"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.sm_basic.Zip}
+                value={value}
+                onChangeText={v => onChange(v)}
+                error={errors && errors.zip?.message}
+                required={true}
               />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <FloatingLabelInput
-                    label={Strings.sm_basic.Zip}
-                    value={value}
-                    onChangeText={v => onChange(v)}
-                    error={errors && errors.zip?.message}
-                    required={true}
-                  />
-                )}
-                name="zip"
+            )}
+            name="zip"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.sm_basic.SexualOrientation}
+                data={Static.sexualOrient}
+                onSelect={selectedItem => {
+                  onChange(selectedItem);
+                }}
+                required={true}
+                error={errors && errors.sexual?.message}
               />
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Dropdown
-                    label={Strings.sm_basic.SexualOrientation}
-                    data={Static.sexualOrient}
-                    onSelect={selectedItem => {
-                      onChange(selectedItem);
-                    }}
-                    required={true}
-                    error={errors && errors.sexual?.message}
-                  />
-                )}
-                name="sexual"
+            )}
+            name="sexual"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange}}) => (
+              <Dropdown
+                label={Strings.sm_basic.RelationshipStatus}
+                data={Static.relationship_status}
+                onSelect={selectedItem => {
+                  onChange(selectedItem);
+                }}
+                required={true}
+                error={errors && errors.sexual?.message}
               />
-              <Controller
-                control={control}
-                render={({field: {onChange}}) => (
-                  <Dropdown
-                    label={Strings.sm_basic.RelationshipStatus}
-                    data={Static.relationship_status}
-                    onSelect={selectedItem => {
-                      onChange(selectedItem);
-                    }}
-                    required={true}
-                    error={errors && errors.sexual?.message}
-                  />
-                )}
-                name="relationship"
+            )}
+            name="relationship"
+          />
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <FloatingLabelInput
+                label={Strings.sm_basic.Occupation}
+                value={value}
+                onChangeText={v => onChange(v)}
+                error={errors && errors.occupation?.message}
               />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <FloatingLabelInput
-                    label={Strings.sm_basic.Occupation}
-                    value={value}
-                    onChangeText={v => onChange(v)}
-                    error={errors && errors.occupation?.message}
-                  />
-                )}
-                name="occupation"
-              />
-              <Controller
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <MultiTextInput
-                    title={Strings.sm_basic.Bio}
-                    required={true}
-                    value={value}
-                    maxLength={250}
-                    onChangeText={v => {
-                      onChange(v);
-                    }}
-                    error={errors && errors.bio?.message}
-                  />
-                )}
-                name="bio"
-              />
-              <Button
-                label={Strings.sm_basic.Btn}
-                onPress={handleSubmit(onSubmit)}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
+            )}
+            name="occupation"
+          />
+          <Button
+            label={Strings.sm_basic.Btn}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </View>
       </Container>
     </>
   );

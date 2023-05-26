@@ -39,8 +39,8 @@ export default {
   },
   statusIcon: {
     tintColor: Colors.WHITE,
-    width: dynamicSize(Value.CONSTANT_VALUE_27),
-    height: dynamicSize(Value.CONSTANT_VALUE_27),
+    width: Value.CONSTANT_VALUE_27,
+    height: Value.CONSTANT_VALUE_27,
     borderRadius: Value.CONSTANT_VALUE_15,
     resizeMode: 'contain',
   },
@@ -58,7 +58,6 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.COLOR_535858,
     flex: Value.CONSTANT_VALUE_0,
-    marginRight: Value.CONSTANT_VALUE_10,
   },
   bottomRow: {
     flex: Value.CONSTANT_VALUE_1,

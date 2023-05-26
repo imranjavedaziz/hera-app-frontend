@@ -1,5 +1,5 @@
 import {Value} from '../../../constants/FixedValues';
-import {dynamicSize, scaleWidth, statusHide} from '../../../utils/responsive';
+import {dynamicSize, statusHide} from '../../../utils/responsive';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
 

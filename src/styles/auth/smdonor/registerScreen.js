@@ -21,15 +21,6 @@ export default {
     alignItems: Alignment.CENTER,
     backgroundColor: 'rgba(0,0,0,0.3)',
   },
-  passwordCheck: {
-    flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
-  },
-  ValidPwd: {
-    marginLeft: Value.CONSTANT_VALUE_5,
-    maxWidth: Value.CONSTANT_VALUE_13,
-    resizeMode: Alignment.CONTAIN,
-  },
   modalView: {
     height: Value.CONSTANT_VALUE_230,
     width: Value.CONSTANT_VALUE_283,
@@ -142,7 +133,6 @@ export default {
   pickerBtn: {
     paddingVertical: Value.CONSTANT_VALUE_20,
   },
-  pickerBtnCam: {paddingBottom: Value.CONSTANT_VALUE_20},
   pickerBtnBorder: {
     borderBottomWidth: Value.CONSTANT_VALUE_1,
     borderBottomColor: Colors.BORDER_LINE,
@@ -151,11 +141,6 @@ export default {
     fontSize: Value.CONSTANT_VALUE_16,
     fontFamily: Fonts.OpenSansBold,
     color: Colors.BLACK,
-  },
-  redColor: {
-    fontSize: Value.CONSTANT_VALUE_16,
-    fontFamily: Fonts.OpenSansBold,
-    color: Colors.RED,
   },
   ImageText: {
     fontSize: Value.CONSTANT_VALUE_16,
@@ -213,11 +198,5 @@ export default {
     color: Colors.BLACK,
     lineHeight: Value.CONSTANT_VALUE_18,
     textDecorationLine: Alignment.UNDERLINE,
-  },
-  disableing: {
-    backgroundColor: Colors.CLEAR,
-    width: '100%',
-    height: '100%',
-    position: Alignment.ABSOLUTE,
   },
 };

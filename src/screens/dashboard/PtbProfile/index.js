@@ -13,23 +13,21 @@ import React, {
   useCallback,
   useContext,
 } from 'react';
-import Header, {IconHeader} from '../../../components/Header';
+import Header, { IconHeader } from '../../../components/Header';
 import Images from '../../../constants/Images';
 import styles from './style';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import ProfileImage from '../../../components/dashboard/PtbProfile/ProfileImage';
-import Strings, {ValidationMessages} from '../../../constants/Strings';
+import Strings, { ValidationMessages } from '../../../constants/Strings';
 import Subscribe, {
   Subscribed,
 } from '../../../components/dashboard/PtbProfile/subscribe';
 import PtbAccount, {
   ToggleNotification,
 } from '../../../components/dashboard/PtbProfile/PtbAccount';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  RemoveStripIds,
   logOut,
-  signoutUser,
   updateName,
   updateProfileImg,
 } from '../../../redux/actions/Auth';
@@ -40,37 +38,26 @@ import {
   PRIVACY_URL,
 } from '../../../constants/Constants';
 import openCamera from '../../../utils/openCamera';
-import {askCameraPermission} from '../../../utils/permissionManager';
+import { askCameraPermission } from '../../../utils/permissionManager';
 import ActionSheet from 'react-native-actionsheet';
-import {BottomSheetComp, ModalMiddle} from '../../../components';
-import {getEditProfile} from '../../../redux/actions/Edit_profile';
+import { BottomSheetComp, ModalMiddle } from '../../../components';
+import { getEditProfile } from '../../../redux/actions/Edit_profile';
 import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
-import {getUserGallery} from '../../../redux/actions/CreateGallery';
-import {empty} from '../../../redux/actions/Chat';
-import {NotificationContext} from '../../../context/NotificationContextManager';
+import { getUserGallery } from '../../../redux/actions/CreateGallery';
+import openWebView from '../../../utils/openWebView';
+import { empty } from '../../../redux/actions/Chat';
+import { NotificationContext } from '../../../context/NotificationContextManager';
 import moment from 'moment';
-import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
-import _ from 'lodash';
-import {getMessageID} from '../../../redux/actions/MessageId';
-import {
-  GET_BANK_LIST,
-  GET_CARD_LIST,
-} from '../../../redux/actions/stripe.action';
-import {GetPreferenceRes} from '../../../redux/actions/SetPreference';
-import {getPaymentRequestList} from '../../../redux/actions/Payment';
-import SuccessModal from './Subscription/SuccessModal';
 
-const PtbProfile = ({route}) => {
+const PtbProfile = () => {
   const navigation = useNavigation();
-  const [successModal, setSuccessModal] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [threeOption, setThreeOption] = useState([]);
-  const [disable, setDisable] = useState(false);
   let actionSheet = useRef();
   const dispatch = useDispatch();
   const [name, setName] = useState('');
@@ -82,7 +69,6 @@ const PtbProfile = ({route}) => {
   const last_name = useSelector(state => state?.Auth?.user?.last_name);
   const middle_name = useSelector(state => state?.Auth?.user?.middle_name);
   const profileImg = useSelector(state => state.Auth?.user?.profile_pic);
-  const [openActionsheets, setOpenActionsheet] = useState(false);
   const subscriptionStatus = useSelector(
     state => state.Subscription?.subscription_status_res,
   );
@@ -92,54 +78,20 @@ const PtbProfile = ({route}) => {
     get_user_detail_loading,
     get_user_detail_error,
   } = useSelector(state => state.Edit_profile);
-  const {gallery_success, gallery_loading, gallery_data} = useSelector(
+  const { gallery_success, gallery_loading, gallery_data } = useSelector(
     state => state.CreateGallery,
   );
-  const [Notifications, setNotifications] = useState(0);
-  const {get_payment_request_list_success, get_payment_request_list_res} =
-    useSelector(state => state.Payment);
-  const {Device_ID} = useContext(NotificationContext);
+  const { Device_ID } = useContext(NotificationContext);
   useFocusEffect(
     useCallback(() => {
       dispatch(getEditProfile());
-      dispatch(getSubscriptionStatus());
       dispatch(getUserGallery());
-      dispatch(getPaymentRequestList());
     }, [dispatch]),
   );
-  useEffect(() => {
-    if (route.params?.isPlanChanged || route.params?.isPlanUpgrade) {
-      setSuccessModal(true);
-    }
-  }, [route.params]);
   const LogoutLoadingRef = useRef(false);
-  const {log_out_success, log_out_loading, log_out_error_msg} = useSelector(
+  const { log_out_success, log_out_loading, log_out_error_msg } = useSelector(
     state => state.Auth,
   );
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(getMessageID(''));
-    });
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation, dispatch]);
-  useEffect(() => {
-    if (get_payment_request_list_success) {
-      if (!_.isEmpty(get_payment_request_list_res?.data)) {
-        const filteredData = get_payment_request_list_res?.data.filter(
-          item => item.status === 0,
-        );
-        setNotifications(filteredData?.length);
-      } else {
-        setNotifications(0);
-      }
-    }
-  }, [
-    get_payment_request_list_success,
-    get_payment_request_list_res,
-    dispatch,
-  ]);
   useFocusEffect(
     useCallback(() => {
       if (loadingGalleryRef.current && !gallery_loading) {
@@ -187,20 +139,16 @@ const PtbProfile = ({route}) => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
         openCamera(0, cb);
-        setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
         openCamera(1, cb);
-        setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:
         console.log('Cancel');
-        setOpenActionsheet(false);
         break;
     }
   };
   const openActionSheet = () => {
-    setOpenActionsheet(true);
     setThreeOption([
       Strings.sm_create_gallery.bottomSheetCamera,
       Strings.sm_create_gallery.bottomSheetGallery,
@@ -212,10 +160,8 @@ const PtbProfile = ({route}) => {
   };
 
   const openIosSheet = () => {
-    if (openActionsheets === false) {
-      openActionSheet();
-      askCameraPermission();
-    }
+    openActionSheet();
+    askCameraPermission();
   };
   const openAndroidSheet = () => {
     setOpen(true);
@@ -233,26 +179,18 @@ const PtbProfile = ({route}) => {
       dispatch(showAppLoader());
       if (log_out_success) {
         dispatch(empty());
-        dispatch(RemoveStripIds());
-        dispatch(signoutUser());
-        dispatch({type: GET_CARD_LIST.CLEAN});
-        dispatch({type: GET_BANK_LIST.CLEAN});
         dispatch(hideAppLoader());
         navigation.navigate(Routes.Landing);
-        setTimeout(() => {
-          setDisable(false);
-        }, 3000);
       } else {
         dispatch(showAppToast(true, log_out_error_msg));
         dispatch(hideAppLoader());
-        setDisable(false);
       }
     }
     LogoutLoadingRef.current = log_out_loading;
   }, [log_out_success, log_out_loading]);
 
   useEffect(() => {
-    return navigation.addListener('focus', () => {});
+    return navigation.addListener('focus', () => { });
   }, [navigation]);
   useEffect(() => {
     const reqData = new FormData();
@@ -262,15 +200,14 @@ const PtbProfile = ({route}) => {
         type: file.mime,
         uri: file.path,
       });
-    file !== null && dispatch(updateProfileImg(reqData));
+    dispatch(updateProfileImg(reqData));
   }, [file, dispatch]);
   const logoutScreen = () => {
+    const data = {
+      device_id: Device_ID,
+    };
     dispatch(empty());
-    if (_.isEmpty(Device_ID) || Device_ID === undefined) {
-      dispatch(showAppToast(true, 'Please try to logout again.'));
-    } else {
-      dispatch(logOut(Device_ID));
-    }
+    dispatch(logOut(data));
   };
   const videoAvaible = () => {
     if (
@@ -282,29 +219,15 @@ const PtbProfile = ({route}) => {
       setVideoAviable(false);
     }
   };
-  const logoutFunc = () => {
-    if (disable === false) {
-      if (Platform.OS === 'android') {
-        setShowModal(false);
-        dispatch(empty());
-        logoutScreen();
-      } else {
-        dispatch(empty());
-        logoutScreen();
-      }
-    } else {
-      console.log('trigger twice');
-    }
-  };
+
   const iosAlert = () => {
     Alert.alert(ValidationMessages.LOG_OUT, ValidationMessages.LOGOUT_TEXT, [
       {
         text: Strings.smSetting.Yes_Logout,
         onPress: () => {
-          setDisable(true);
-          logoutFunc();
+          dispatch(empty());
+          logoutScreen();
         },
-        style: 'destructive',
       },
       {
         text: Strings.profile.ModalOption2,
@@ -313,9 +236,7 @@ const PtbProfile = ({route}) => {
     ]);
     return true;
   };
-  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format(
-    'MMM DD, YYYY',
-  );
+  const formatedDate = moment(subscriptionStatus?.data?.trial_end).format('MMM DD,YYYY')
   const trialVar = subscriptionStatus?.data?.is_trial;
   return (
     <>
@@ -331,17 +252,15 @@ const PtbProfile = ({route}) => {
                 onPressImg={() => {
                   Platform.OS === 'ios' ? openIosSheet() : openAndroidSheet();
                 }}
-                Name={`${
-                  name?.first_name === undefined ? first_name : name?.first_name
-                }${
-                  middle_name === null || middle_name === undefined
+                Name={`${name?.first_name === undefined ? first_name : name?.first_name
+                  } ${middle_name === null || middle_name === undefined
                     ? ''
-                    : ` ${middle_name}`
-                }`}
+                    : middle_name
+                  }`}
                 LastName={
                   name?.last_name === undefined ? last_name : name?.last_name
                 }
-                roleId={'Intended Parent'}
+                roleId={'Parent To Be'}
                 source={{
                   uri: profileImg,
                 }}
@@ -349,45 +268,20 @@ const PtbProfile = ({route}) => {
             </View>
             <View>
               {typeof subscriptionStatus === 'object' &&
-              typeof subscriptionStatus.data === 'object' &&
-              Boolean(subscriptionStatus.data?.status) &&
-              !subscriptionStatus.data?.is_trial ? (
-                <Subscribed />
-              ) : (
-                <Subscribe
-                  Icon={
-                    trialVar && subscriptionStatus.data?.status
-                      ? Images.starGreen
-                      : Images.STAR
-                  }
-                  MainText={
-                    trialVar && subscriptionStatus.data?.status
-                      ? Strings?.subscribe.Free
-                      : Strings.subscribe.Subscribe_Now
-                  }
-                  InnerText={
-                    trialVar && subscriptionStatus.data?.status
-                      ? `${formatedDate}${Strings.subscribe.Subscribe_Trial}`
-                      : Strings.subscribe.Plans
-                  }
-                  is_trial={trialVar && subscriptionStatus.data?.status}
-                />
-              )}
+                typeof subscriptionStatus.data === 'object' &&
+                Boolean(subscriptionStatus.data?.status) &&
+                !subscriptionStatus.data?.is_trial ? <Subscribed /> : (
+                  <Subscribe
+                    Icon={Images.STAR}
+                    MainText={Strings.subscribe.Subscribe_Now}
+                    InnerText={Strings.subscribe.Plans}
+                  />
+                )}
               <PtbAccount
                 leftIcon={Images.preferences}
                 title={Strings.smSetting.EditPreferences}
-                onPress={() => {
-                  dispatch(GetPreferenceRes());
-                  navigation.navigate('SetPreference', {EditPreferences: true});
-                }}
-              />
-              <PtbAccount
-                leftIcon={Images.DOLLAR_LOGO}
-                title={Strings.smSetting.Hera_Pay}
-                onPress={() => navigation.navigate(Routes.HeraPay)}
-                RedDot={Notifications > 0 ? true : false}
-                Pending={
-                  Notifications > 0 && `${Notifications} Pending Request`
+                onPress={() =>
+                  navigation.navigate('SetPreference', { EditPreferences: true })
                 }
               />
               <PtbAccount
@@ -414,39 +308,19 @@ const PtbProfile = ({route}) => {
                 onPress={() => navigation.navigate('Support')}
               />
               <PtbAccount
-                leftIcon={Images.PLAY_BUTTON_VIDEO}
-                title={Strings.smSetting.See_Help_Video}
-                onPress={() => navigation.navigate(Routes.WalkThroughVedio)}
-              />
-              <PtbAccount
                 leftIcon={Images.information}
                 title={Strings.smSetting.AboutUs}
-                onPress={() =>
-                  navigation.navigate(Routes.WebViewUrl, {
-                    url: ABOUT_URL,
-                    about: true,
-                  })
-                }
+                onPress={() => openWebView(ABOUT_URL)}
               />
               <PtbAccount
                 leftIcon={Images.file}
                 title={Strings.Subscription.TermsServices}
-                onPress={() =>
-                  navigation.navigate(Routes.WebViewUrl, {
-                    url: TERMS_OF_USE_URL,
-                    terms: true,
-                  })
-                }
+                onPress={() => openWebView(TERMS_OF_USE_URL)}
               />
               <PtbAccount
                 leftIcon={Images.sheild}
                 title={Strings.smSetting.Privacy}
-                onPress={() =>
-                  navigation.navigate(Routes.WebViewUrl, {
-                    url: PRIVACY_URL,
-                    policy: true,
-                  })
-                }
+                onPress={() => openWebView(PRIVACY_URL)}
               />
             </View>
             <View style={styles.buttoncontainer}>
@@ -476,7 +350,6 @@ const PtbProfile = ({route}) => {
               <TouchableOpacity
                 onPress={() => {
                   openCamera(0, cb);
-                  setOpen(false);
                 }}
                 style={[styles.pickerBtn, styles.pickerBtnBorder]}>
                 <Text style={styles.pickerBtnLabel}>
@@ -486,7 +359,6 @@ const PtbProfile = ({route}) => {
               <TouchableOpacity
                 onPress={() => {
                   openCamera(1, cb);
-                  setOpen(false);
                 }}
                 style={styles.pickerBtn}>
                 <Text style={styles.pickerBtnLabel}>
@@ -495,7 +367,6 @@ const PtbProfile = ({route}) => {
               </TouchableOpacity>
             </View>
           </BottomSheetComp>
-          {disable && <View style={styles.disableing} />}
         </ScrollView>
       </View>
       <ModalMiddle
@@ -508,23 +379,13 @@ const PtbProfile = ({route}) => {
         String_3={Strings.smSetting.Yes_Logout}
         String_4={Strings.sm_create_gallery.StayHera}
         onPressNav={() => {
-          setDisable(true);
-          logoutFunc();
+          setShowModal(false);
+          logoutScreen();
         }}
         onPressOff={() => {
           setShowModal(false);
         }}
       />
-      {Platform.OS === 'android' && successModal && (
-        <SuccessModal
-          successModal={successModal}
-          setSuccessModal={setSuccessModal}
-          selectCheckBox={route.params?.selectCheckBox}
-          isPlanChanged={route.params?.isPlanChanged}
-          isPlanUpgrade={route.params?.isPlanUpgrade}
-          subscription={route.params?.subscription}
-        />
-      )}
     </>
   );
 };

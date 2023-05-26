@@ -2,23 +2,14 @@ import {store} from '../redux/store';
 
 const stripeApiCall = async (apiInfo, data) => {
   const stripe_secret = store.getState().Auth.stripe_secret;
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const stripeBaseUrl = 'https://api.stripe.com';
     let myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${stripe_secret}`);
 
     let url = `${stripeBaseUrl}${apiInfo.name}`;
-    if (apiInfo.type === 'get') {
-      for (let property in data) {
-        if (data[property] != null) {
-          url += `${url.includes('?') ? '&' : '?'}${property}=${
-            data[property]
-          }`;
-        }
-      }
-    } else {
-      myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-    }
+
+    myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
 
     let requestOptions = {
       method: apiInfo.type.toUpperCase(),
@@ -76,7 +67,7 @@ export const createCardSource = data => {
       type: 'post',
       contType: 'application/x-www-form-urlencoded',
     },
-    {external_account: data?.token, default_for_currency: true},
+
     data?.cardData,
   );
 };

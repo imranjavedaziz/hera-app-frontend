@@ -6,47 +6,50 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {Text, TextInput} from 'react-native';
+import React, { useEffect } from 'react';
+import {SafeAreaView, StatusBar, Text,TextInput} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './redux/store';
 import Main from './navigations/Main';
 import Loader from './components/Loader';
-import FormLoader from './components/FormLoader';
+import FormLoader from './components/FormLoader'
 import Toast from './components/Toast';
 import NotificationContextManager from './context/NotificationContextManager';
 import {Colors} from './constants';
-import {MessageToast} from './components';
-import {ToastProvider} from 'react-native-toast-notifications';
+import NetInfo from '@react-native-community/netinfo';
+import {ValidationMessages} from '../src/constants/Strings';
+import {
+  showAppToast,
+} from '../src/redux/actions/loader';
 const App = () => {
   Text.defaultProps = Text.defaultProps || {};
   TextInput.defaultProps = TextInput.defaultProps || {};
   TextInput.defaultProps.maxFontSizeMultiplier = 1.2;
   Text.defaultProps.maxFontSizeMultiplier = 1.2;
+  useEffect(async()=>{
+    if ((await NetInfo.isConnected.fetch()) !== true) {
+      dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
+    } 
+  })
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-          <NotificationContextManager>
-            <ToastProvider
-              placement="top"
-              duration={2000}
-              animationType="slide-in"
-              animationDuration={250}
-              textStyle={{fontSize: 10}}
-              offset={50} // offset for both top and bottom toasts
-              offsetTop={-10}
-              offsetBottom={40}
-              swipeEnabled={true}
-              renderType={{
-                custom: toast => <MessageToast />,
-              }}>
-              <Main />
-              <Loader />
-              <FormLoader />
-              <Toast />
-            </ToastProvider>
-          </NotificationContextManager>
+        <NotificationContextManager>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor={Colors.BACKGROUND}
+            animated={true}
+            hidden={false}
+          />
+     
+          <SafeAreaView style={{backgroundColor: Colors.BACKGROUND}} />
+         
+          <Main />
+          <Loader />
+          <FormLoader/>
+          <Toast />
+        </NotificationContextManager>
       </PersistGate>
     </Provider>
   );
