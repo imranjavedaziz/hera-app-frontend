@@ -34,6 +34,5 @@ export default {
     marginTop: Value.CONSTANT_VALUE_45,
     marginBottom: Value.CONSTANT_VALUE_45,
     width: px(Value.CONSTANT_VALUE_236),
-   
   },
 };
