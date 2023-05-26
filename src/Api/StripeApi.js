@@ -40,12 +40,13 @@ const stripeApiCall = async (apiInfo, data) => {
       });
   });
 };
+const contType = 'application/x-www-form-urlencoded';
 export const addBankToken = data => {
   return stripeApiCall(
     {
       name: '/v1/tokens',
       type: 'post',
-      contType: 'application/x-www-form-urlencoded',
+      contType: contType,
     },
     data,
   );
@@ -57,7 +58,7 @@ export const createCardSource = data => {
     {
       name: `/v1/accounts/${data?.customerId}/external_accounts`,
       type: 'post',
-      contType: 'application/x-www-form-urlencoded',
+      contType: contType,
     },
 
     data?.cardData,
@@ -107,7 +108,7 @@ export const createPaymentIntent = data => {
     {
       name: '/v1/payment_methods',
       type: 'post',
-      contType: 'application/x-www-form-urlencoded',
+      contType: contType,
     },
     {
       type: 'card',
@@ -120,7 +121,7 @@ export const attachPaymentMethod = ({customerId, id}) => {
     {
       name: `/v1/payment_methods/${id}/attach`,
       type: 'post',
-      contType: 'application/x-www-form-urlencoded',
+      contType: contType,
     },
     {customer: customerId},
   );
