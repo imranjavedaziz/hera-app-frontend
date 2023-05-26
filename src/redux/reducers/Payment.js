@@ -35,7 +35,7 @@ const initState = {
   get_payment_request_list_success: false,
   get_payment_request_list_loading: false,
   get_payment_request_list_error_msg: '',
-  get_payment_request_list_res: {},
+  get_payment_request_list_res: {data: []},
   get_payment_request_list_fail: false,
 
   //Update Status Request
@@ -77,6 +77,17 @@ const initState = {
   get_payment_request_page_fail: false,
 };
 
+const removeDuplicates = arr => {
+  let unique = arr.reduce(function (acc, curr) {
+    const arrIndex = acc.findIndex(item => item.id === curr.id);
+    if (arrIndex === -1) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+  return unique;
+};
+
 export default (state = initState, action) => {
   switch (action.type) {
     /**
@@ -116,7 +127,7 @@ export default (state = initState, action) => {
         get_payment_request_list_success: false,
         get_payment_request_list_loading: true,
         get_payment_request_list_error_msg: '',
-        get_payment_request_list_res: {},
+        get_payment_request_list_res: {data: []},
         get_payment_request_list_fail: false,
       };
     case GET_PAYMENT_REQUEST_SUCCESS:
@@ -134,7 +145,6 @@ export default (state = initState, action) => {
         get_payment_request_list_success: false,
         get_payment_request_list_loading: false,
         get_payment_request_list_error_msg: action.data.msg,
-        get_payment_request_list_res: '',
         get_payment_request_list_fail: true,
       };
     //Update Request Status
@@ -292,7 +302,10 @@ export default (state = initState, action) => {
         get_payment_request_page_res: action.data,
         get_payment_request_list_res: {
           ...action.data,
-          data: [...state.get_payment_request_list_res.data, ...action.data],
+          data: removeDuplicates([
+            ...state.get_payment_request_list_res.data,
+            ...action.data.data,
+          ]),
         },
       };
     case GET_PAYMENT_REQUEST_PAGES_FAIL:

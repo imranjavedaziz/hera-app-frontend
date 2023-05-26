@@ -34,7 +34,7 @@ import {
   GET_PAYMENT_REQUEST_PAGES_FAIL,
   GET_PAYMENT_REQUEST_PAGES_SUCCESS,
 } from '../Type';
-import {takeLatest, put} from 'redux-saga/effects';
+import {takeLatest, put, takeEvery} from 'redux-saga/effects';
 import {ValidationMessages} from '../../constants/Strings';
 import {store} from '../store';
 import {hideEditLoader, showEditAppLoader} from '../actions/loader';
@@ -219,7 +219,7 @@ function* getPaymentRequestPage() {
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({
         type: GET_PAYMENT_REQUEST_PAGES_SUCCESS,
-        data: result.data?.data?.data,
+        data: result.data?.data,
       });
     } else {
       yield put({
@@ -235,5 +235,5 @@ function* getPaymentRequestPage() {
   }
 }
 export function* watchGetPaymentRequestPage() {
-  yield takeLatest(GET_PAYMENT_REQUEST_PAGES, getPaymentRequestPage);
+  yield takeEvery(GET_PAYMENT_REQUEST_PAGES, getPaymentRequestPage);
 }

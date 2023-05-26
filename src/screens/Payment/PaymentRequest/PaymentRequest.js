@@ -75,22 +75,24 @@ const PaymentRequest = () => {
       );
     };
   }, []);
+  useEffect(()=>{
+    if(get_payment_request_list_success){
+      setIsRefreshing(false);
+      dispatch(hideAppLoader());
+      if (log_in_data.role_id !== 2) {
+        dispatch(
+          NotificationsCount(get_payment_request_list_res?.data?.length),
+        );
+      }
+      setData(get_payment_request_list_res?.data);
+      const filteredData = get_payment_request_list_res?.data.filter(
+        item => item.status === 0,
+      );
+      setPtbData(filteredData);
+    }
+  },[get_payment_request_list_res,get_payment_request_list_success])
   useEffect(() => {
     if (LoadingRef.current && !get_payment_request_list_loading) {
-      if (get_payment_request_list_success) {
-        setIsRefreshing(false);
-        dispatch(hideAppLoader());
-        if (log_in_data.role_id !== 2) {
-          dispatch(
-            NotificationsCount(get_payment_request_list_res?.data?.length),
-          );
-        }
-        setData(get_payment_request_list_res?.data);
-        const filteredData = get_payment_request_list_res?.data.filter(
-          item => item.status === 0,
-        );
-        setPtbData(filteredData);
-      }
       if (get_payment_request_list_fail) {
         dispatch(hideAppLoader());
         setIsRefreshing(false);
@@ -273,6 +275,7 @@ const PaymentRequest = () => {
             </Text>
             <FlatList
               data={log_in_data.role_id === 2 ? PtbData : Data}
+              keyExtractor={item => item.id.toString()}
               renderItem={(item, index) => renderItemData(item, index)}
               refreshing={isRefreshing}
               onRefresh={onRefresh}
@@ -289,14 +292,17 @@ const PaymentRequest = () => {
                   )}
                 </View>
               )}
+              onEndReachedThreshold={0.5}
               onEndReached={() => {
                 if (
                   get_payment_request_list_res.current_page <
                   get_payment_request_list_res.last_page
+                  // && !get_payment_request_list_loading && !get_payment_request_page_loading
                 ) {
                   dispatch(getPaymentRequesPages());
                 }
               }}
+              
             />
           </View>
         )}
