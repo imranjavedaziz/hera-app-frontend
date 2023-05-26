@@ -75,8 +75,8 @@ const PaymentRequest = () => {
       );
     };
   }, []);
-  useEffect(()=>{
-    if(get_payment_request_list_success){
+  useEffect(() => {
+    if (get_payment_request_list_success) {
       setIsRefreshing(false);
       dispatch(hideAppLoader());
       if (log_in_data.role_id !== 2) {
@@ -90,7 +90,7 @@ const PaymentRequest = () => {
       );
       setPtbData(filteredData);
     }
-  },[get_payment_request_list_res,get_payment_request_list_success])
+  }, [get_payment_request_list_res, get_payment_request_list_success]);
   useEffect(() => {
     if (LoadingRef.current && !get_payment_request_list_loading) {
       if (get_payment_request_list_fail) {
@@ -302,7 +302,6 @@ const PaymentRequest = () => {
                   dispatch(getPaymentRequesPages());
                 }
               }}
-              
             />
           </View>
         )}

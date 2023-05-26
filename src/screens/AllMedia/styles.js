@@ -61,4 +61,9 @@ export default {
     width: width / Value.CONSTANT_VALUE_3,
     height: width / Value.CONSTANT_VALUE_3,
   },
+  loaderContainer: {
+    marginBottom: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 };
