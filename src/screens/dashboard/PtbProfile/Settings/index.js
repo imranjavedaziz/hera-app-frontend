@@ -8,11 +8,14 @@ import AccountSetting from '../../../../components/dashboard/PtbProfile/AccountS
 import {ValidationMessages} from '../../../../constants/Strings';
 import {Routes} from '../../../../constants/Constants';
 import {ModalMiddle} from '../../../../components';
+import {useSelector} from 'react-redux';
 
 const Settings = () => {
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
   const [deactivate, setDeactivate] = useState(false);
+  const {log_in_data} = useSelector(state => state.Auth);
+
   const headerComp = () => (
     <IconHeader
       leftIcon={Images.circleIconBack}
@@ -103,9 +106,16 @@ const Settings = () => {
             <AccountSetting
               Icon={Images.blockUser}
               Heading={Strings.Settings.DEACTIVATE_ACCOUNT}
-              Content={Strings.Settings.Deactivate_Content}
               line
               red
+              map
+              DATA={
+                log_in_data?.role_id === 2
+                  ? Platform.OS !== 'ios'
+                    ? Strings.Deactivate_Account_Case_IOS
+                    : Strings.Deactivate_Account_Case_Android
+                  : Strings.SM_Deactivate_Account
+              }
               onPress={() => {
                 Platform.OS === 'ios'
                   ? backDeactivateAction()
@@ -117,7 +127,14 @@ const Settings = () => {
             <AccountSetting
               Icon={Images.blockUser}
               Heading={Strings.Settings.Delete_Account}
-              Content={Strings.Settings.Delete_Content}
+              map
+              DATA={
+                log_in_data?.role_id === 2
+                  ? Platform.OS === 'ios'
+                    ? Strings.Delete_Account_Case_IOS
+                    : Strings.Delete_Account_Case_Android
+                  : Strings.SM_DELETE_Account
+              }
               onPress={() => {
                 Platform.OS === 'ios' ? backAction() : setShowModal(true);
               }}

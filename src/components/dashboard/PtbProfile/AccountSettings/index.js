@@ -11,6 +11,8 @@ const AccountSetting = ({
   red = false,
   line,
   onPress,
+  map,
+  DATA,
 }) => {
   return (
     <>
@@ -29,7 +31,16 @@ const AccountSetting = ({
               {Heading}
             </Text>
           </View>
-          <Text style={red ? styles.innerText : styles.simple}>{Content}</Text>
+          {map &&
+            DATA.map(item => {
+              console.log(item, 'item');
+              return (
+                <View key={item.id} style={styles.ContextRow}>
+                  <View style={styles.dot} />
+                  <Text style={styles.desTexts}>{item.name}</Text>
+                </View>
+              );
+            })}
         </View>
       </TouchableOpacity>
     </>

@@ -110,9 +110,7 @@ const MessageToast = ({message}) => {
       toastState?.pushRes?.notify_type === 'payment_request' ||
       toastState?.pushRes?.notify_type === 'payment_declined'
     ) {
-      toastState?.navigation.navigate(Routes.PaymentRequest, {
-        item: toastState?.pushRes,
-      });
+      toastState?.navigation.navigate(Routes.PaymentRequest);
     }
     if (toastState?.pushRes?.notify_type === 'payment_transfer') {
       toastState?.navigation.navigate(Routes.Transaction);

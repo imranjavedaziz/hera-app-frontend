@@ -197,7 +197,7 @@ const ManageCard = ({route}) => {
       dispatch({type: PAYMENT_INTENT.CLEAN});
     }
   }, [attachPaymentIntentRes]);
- 
+
   const backActionCall = () => {
     Alert.alert(
       ValidationMessages.CARD_NOT_SAVED,
@@ -419,6 +419,7 @@ const ManageCard = ({route}) => {
               cardNameRef.current.focus();
             }}
           />
+          <Text style={styles.cvvDes}>{Strings.ManageCard.CVV_DES}</Text>
           <FloatingLabelInput
             label={Strings.ManageCard.cardHolderName}
             value={inputs.fullName}
