@@ -19,51 +19,10 @@ const PaymentRequestComp = props => {
     OnPressDecline,
     OnPressPay,
     //sm
-    PaymentStatus,
   } = props;
   const {log_in_data} = useSelector(state => state.Auth);
   const [imageLoading, setImageLoading] = useState(true);
-  function getPaymentStatusImage(paymentType) {
-    if (paymentType !== undefined) {
-      const PaymentTypeToImageMap = {
-        2: Images.SuccessPayment,
-        3: Images.RejectPayment,
-        0: Images.PendingPayment,
-        1: Images.PendingPayment,
-        4: Images.RejectPayment,
-        5: Images.RejectPayment,
-        6: Images.RejectPayment,
-      };
-      return PaymentTypeToImageMap[paymentType] || Images.PendingPayment;
-    }
-  }
-  function getPaymentStatusText(paymentType) {
-    if (paymentType !== undefined) {
-      const PaymentTypeToTextMap = {
-        2: Strings.SendAndRequest.Payment_Received,
-        3: Strings.SendAndRequest.Request_Declined,
-        0: Strings.SendAndRequest.Not_Received_Yet,
-        1: Strings.SendAndRequest.Not_Received_Yet,
-        4: Strings.SendAndRequest.Request_Declined,
-        5: Strings.SendAndRequest.Request_Declined,
-        6: Strings.SendAndRequest.Request_Declined,
-      };
-      return (
-        PaymentTypeToTextMap[paymentType] ||
-        Strings.SendAndRequest.Not_Received_Yet
-      );
-    }
-  }
 
-  function getColor(paymentType) {
-    if (paymentType === 1 || paymentType === 0) {
-      return Colors.RED;
-    } else if (paymentType === 2) {
-      return Colors.COLOR_5ABCEC;
-    } else {
-      return Colors.RED;
-    }
-  }
   return (
     <View style={styles.comContainer}>
       <View style={styles.innerViewComp}>
@@ -119,11 +78,11 @@ const PaymentRequestComp = props => {
         <View style={styles.StatusView}>
           <Image
             style={styles.ImageStatusView}
-            source={getPaymentStatusImage(PaymentStatus)}
+            source={Images.SuccessPayment}
           />
           <Text
-            style={[{color: getColor(PaymentStatus)}, styles.TextStatusView]}>
-            {getPaymentStatusText(PaymentStatus)}
+            style={[{color: Colors.RED}, styles.TextStatusView]}>
+            {Strings.SendAndRequest.Payment_Received}
           </Text>
         </View>
       )}

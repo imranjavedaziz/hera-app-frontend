@@ -1,16 +1,8 @@
-import {store} from '../redux/store';
-
 const stripeApiCall = async (apiInfo, data) => {
-  const stripe_secret = store.getState().Auth.stripe_secret;
   return new Promise((resolve, reject) => {
     const stripeBaseUrl = 'https://api.stripe.com';
     let myHeaders = new Headers();
-    myHeaders.append('Authorization', `Bearer ${stripe_secret}`);
-
     let url = `${stripeBaseUrl}${apiInfo.name}`;
-
-    myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
-
     let requestOptions = {
       method: apiInfo.type.toUpperCase(),
       headers: myHeaders,
