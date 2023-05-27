@@ -534,7 +534,8 @@ export default {
     NotProcessed: 'Subscription could not be processed.',
     SubRemoved: 'Subscription Removed!',
 
-    SubRemovedPara: 'Your subscription is now cancelled. No amount will be further deducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
+    SubRemovedPara:
+      'Your subscription is now cancelled. No amount will be further deducted from your account. However, you will be able to access the features of the subscription until the current billing cycle ends.',
     checkMarkL1: 'Access to 5 {ROLE} profiles on your dashboard',
     checkMarkL2: 'Match/unmatch with new {ROLE}s',
 
@@ -659,6 +660,7 @@ export default {
     Request_Declined: 'Request Declined',
     RequestFor: ' requested for',
     RequestSend: 'Request sent to ',
+    Request_Already_Paid: 'Already Paid',
   },
   Payment_Comp: {
     See_Payment_Request: 'See Payment Request',

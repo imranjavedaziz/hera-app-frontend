@@ -41,6 +41,7 @@ const PaymentRequest = () => {
   const [PtbData, setPtbData] = useState([]);
   const [UserName, setUserName] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [selected, setSelected] = useState({});
   const [visible, setIsVisible] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -63,7 +64,7 @@ const PaymentRequest = () => {
     dispatch(getPaymentRequestList());
   }, [dispatch]);
   const handleBackButtonClick = () => {
-    navigation.goBack();
+    navigation.navigate(Routes.HeraPay);
     return true;
   };
   useEffect(() => {
@@ -147,7 +148,7 @@ const PaymentRequest = () => {
     <IconHeader
       leftIcon={Images.circleIconBack}
       onPress={() => {
-        navigation.goBack();
+        navigation.navigate(Routes.HeraPay);
       }}
       style={styles.androidHeaderIcons}
     />
@@ -179,13 +180,13 @@ const PaymentRequest = () => {
     // Conditionally set the 'pdf' prop
     const pdf = fileExtension.toLowerCase() === 'pdf';
     const formattedAmount = formatDigit(item?.amount);
-
     return (
       <PaymentRequestComp
         pdf={pdf}
         index={index}
         DocImg={item?.doc_url}
         PaymentStatus={item?.payout_status}
+        status={item.status}
         profileImage={
           log_in_data.role_id === 2
             ? item?.donar?.profile_pic
@@ -228,7 +229,7 @@ const PaymentRequest = () => {
               payment_request_id: item?.id,
               status: 2,
             };
-            dispatch(showAppLoader());
+
             dispatch(updateRequestStatus(payload));
           },
         },
@@ -239,7 +240,7 @@ const PaymentRequest = () => {
               payment_request_id: item?.id,
               status: 3,
             };
-            dispatch(showAppLoader());
+
             dispatch(updateRequestStatus(payload));
           },
         },
@@ -256,8 +257,12 @@ const PaymentRequest = () => {
     );
     return true;
   };
+  const androidModal = item => {
+    setSelected(item);
+    setShowModal(true);
+  };
   const OnPressDecline = item => {
-    Platform.OS === 'ios' ? backAction(item) : setShowModal(true);
+    Platform.OS === 'ios' ? backAction(item) : androidModal(item);
   };
 
   return (
@@ -334,9 +339,19 @@ const PaymentRequest = () => {
         String_3={'Invalid Request'}
         String_4={'I have already Paid'}
         onPressInvalid={() => {
+          const payload = {
+            payment_request_id: selected?.id,
+            status: 2,
+          };
+          dispatch(updateRequestStatus(payload));
           setShowModal(false);
         }}
         onPressPaid={() => {
+          const payload = {
+            payment_request_id: selected?.id,
+            status: 3,
+          };
+          dispatch(updateRequestStatus(payload));
           setShowModal(false);
         }}
         onPressCancel={() => {

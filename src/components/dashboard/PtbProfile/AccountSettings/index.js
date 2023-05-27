@@ -16,7 +16,10 @@ const AccountSetting = ({
 }) => {
   return (
     <>
-      <TouchableOpacity style={styles.mainContainer} onPress={onPress}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.mainContainer}
+        onPress={onPress}>
         <View
           style={[
             styles.innerContainer,
