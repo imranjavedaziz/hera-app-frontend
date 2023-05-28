@@ -653,8 +653,8 @@ export default {
     Request_for_Payment: 'Request for Payment',
   },
   SendAndRequest: {
-    GetPaymentRequest: 'Get Payment Requests from your Matches',
-    SendPaymentRequest: 'Payment Request Sent',
+    GetPaymentRequest: 'Payment Requests from your Matches',
+    SendPaymentRequest: 'Payment Requests Sent',
     Payment_Received: 'Payment Received',
     Not_Received_Yet: 'Not Received Yet',
     Request_Declined: 'Request Declined',

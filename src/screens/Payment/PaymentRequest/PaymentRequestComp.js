@@ -126,7 +126,7 @@ const PaymentRequestComp = props => {
             {pdf ? (
               <Image
                 style={styles.imgpdf}
-                resizeMode={'center'}
+                resizeMode={'cover'}
                 source={Images.PDF}
               />
             ) : (

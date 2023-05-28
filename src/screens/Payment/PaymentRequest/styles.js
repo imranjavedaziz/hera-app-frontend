@@ -115,6 +115,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_14,
     lineHeight: Value.CONSTANT_VALUE_20,
     color: Colors.BLACK,
+    maxWidth: 180,
   },
   priceRequest: {
     fontFamily: Fonts.OpenSansBold,
@@ -136,22 +137,23 @@ export default {
     position: Alignment.ABSOLUTE,
     right: -8,
 
-    top: -8,
+    top: -12,
     zIndex: Value.CONSTANT_VALUE_1,
   },
-  imgpdf: {width: 29, height: 33},
+  imgpdf: {width: 25, height: 25},
   img: {
     height: '99%',
     width: '100%',
   },
   ImageView: {
-    height: px(Value.CONSTANT_VALUE_60),
-    width: px(Value.CONSTANT_VALUE_60),
+    height: px(Value.CONSTANT_VALUE_45),
+    width: px(Value.CONSTANT_VALUE_45),
     borderWidth: Value.CONSTANT_VALUE_2,
     backgroundColor: Colors.BACKGROUND,
     borderColor: Colors.COLOR_5ABCEC,
     alignItems: Alignment.CENTER,
     justifyContent: 'center',
+    marginBottom: Value.CONSTANT_VALUE_26,
   },
   AcceptRejectBtn: {
     alignItems: Alignment.CENTER,
@@ -163,7 +165,6 @@ export default {
     alignItems: Alignment.CENTER,
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.FLEXEND,
-    marginTop: Value.CONSTANT_VALUE_26,
   },
   ImageStatusView: {marginRight: 7.5},
   TextStatusView: {
