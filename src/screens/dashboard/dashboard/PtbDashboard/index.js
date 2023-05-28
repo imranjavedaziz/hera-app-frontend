@@ -24,7 +24,11 @@ import TitleComp from '../../../../components/dashboard/TitleComp';
 import Strings, {ValidationMessages} from '../../../../constants/Strings';
 import ImageComp from '../../../../components/dashboard/ImageComp';
 import {IconHeader} from '../../../../components/Header';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {
+  StackActions,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import {getRoleType} from '../../../../utils/other';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPtbDashboard} from '../../../../redux/actions/PtbDashboard';
@@ -166,10 +170,12 @@ const PtbDashboard = props => {
             notification.data.notify_type === 'payment_request' ||
             notification.data.notify_type === 'payment_declined'
           ) {
-            navigation.navigate(Routes.PaymentRequest);
+            const popAction = StackActions.replace(Routes.PaymentRequest);
+            navigation.dispatch(popAction);
           }
           if (notification.data.notify_type === 'payment_transfer') {
-            navigation.navigate(Routes.Transaction);
+            const popAction = StackActions.replace(Routes.Transaction);
+            navigation.dispatch(popAction);
           }
           if (notification.data.notify_type === 'profile') {
             const {status} = JSON.parse(notification.data?.match_request);
@@ -289,10 +295,12 @@ const PtbDashboard = props => {
           notification.data.notify_type === 'payment_request' ||
           notification.data.notify_type === 'payment_declined'
         ) {
-          navigation.navigate(Routes.PaymentRequest);
+          const popAction = StackActions.replace(Routes.PaymentRequest);
+          navigation.dispatch(popAction);
         }
         if (notification.data.notify_type === 'payment_transfer') {
-          navigation.navigate(Routes.Transaction);
+          const popAction = StackActions.replace(Routes.Transaction);
+          navigation.dispatch(popAction);
         }
         if (notification.data.notify_type === 'profile') {
           const {status} = JSON.parse(notification.data?.match_request);

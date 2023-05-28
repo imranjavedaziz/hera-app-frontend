@@ -16,10 +16,7 @@ const AccountSetting = ({
 }) => {
   return (
     <>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={styles.mainContainer}
-        onPress={onPress}>
+      <View style={styles.mainContainer}>
         <View
           style={[
             styles.innerContainer,
@@ -28,12 +25,12 @@ const AccountSetting = ({
               borderColor: Colors.INPUT_BORDER,
             },
           ]}>
-          <View style={styles.innerView}>
+          <TouchableOpacity onPress={onPress} style={styles.innerView}>
             <Image style={styles.Icon} source={Icon} />
             <Text style={red ? styles.Deactivate : styles.heading}>
               {Heading}
             </Text>
-          </View>
+          </TouchableOpacity>
           {map &&
             DATA.map(item => {
               console.log(item, 'item');
@@ -45,7 +42,7 @@ const AccountSetting = ({
               );
             })}
         </View>
-      </TouchableOpacity>
+      </View>
     </>
   );
 };

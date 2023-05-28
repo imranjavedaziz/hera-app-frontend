@@ -3,8 +3,8 @@ import React from 'react';
 import Strings from '../../constants/Strings';
 import styles from './styles';
 import {SENSORY_ARR} from '../../constants/Constants';
-import { Value } from '../../constants/FixedValues';
-import { px } from '../../utils/responsive';
+import {Value} from '../../constants/FixedValues';
+import {px} from '../../utils/responsive';
 
 const SensoryCharacteristics = props => {
   const {onPress} = props;
@@ -16,7 +16,7 @@ const SensoryCharacteristics = props => {
         <Text style={styles?.title}>{Strings.Sensory.ABOUT}</Text>
         {SENSORY_ARR.map((item, index) => {
           return (
-            <View style={[styles.container, {top: index === 1 && 10}]}>
+            <View style={[styles.container, {top: index === 1 ? 10 : 0}]}>
               <Image source={item.img} resizeMode="contain" />
               <Text style={styles.text}>{item.caption}</Text>
             </View>

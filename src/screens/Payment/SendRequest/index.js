@@ -196,7 +196,7 @@ const SendRequest = ({route}) => {
     const reqData = new FormData();
     file !== null &&
       reqData.append('file', {
-        name: file.name,
+        name: 'name',
         type: file.type,
         uri: file.uri,
       });
@@ -344,7 +344,9 @@ const SendRequest = ({route}) => {
                           ? {uri: file.path}
                           : Images.PDF
                       }
-                      resizeMode={file.type !== 'image/jpeg' && 'center'}
+                      resizeMode={
+                        file.type !== 'image/jpeg' ? 'center' : 'cover'
+                      }
                       style={[Styles.Imgs]}
                     />
                     <TouchableOpacity

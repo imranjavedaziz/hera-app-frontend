@@ -20,7 +20,11 @@ import React, {
 } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Images from '../../../../constants/Images';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {
+  StackActions,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import Header, {IconHeader} from '../../../../components/Header';
 import globalStyle from '../../../../styles/global';
 import Strings, {ValidationMessages} from '../../../../constants/Strings';
@@ -203,10 +207,12 @@ const SmDashboard = ({route}) => {
             notification.data.notify_type === 'payment_request' ||
             notification.data.notify_type === 'payment_declined'
           ) {
-            navigation.navigate(Routes.PaymentRequest);
+            const popAction = StackActions.replace(Routes.PaymentRequest);
+            navigation.dispatch(popAction);
           }
           if (notification.data.notify_type === 'payment_transfer') {
-            navigation.navigate(Routes.Transaction);
+            const popAction = StackActions.replace(Routes.Transaction);
+            navigation.dispatch(popAction);
           }
         }
         if (notification.userInteraction === false) {
@@ -315,10 +321,12 @@ const SmDashboard = ({route}) => {
           notification.data.notify_type === 'payment_request' ||
           notification.data.notify_type === 'payment_declined'
         ) {
-          navigation.navigate(Routes.PaymentRequest);
+          const popAction = StackActions.replace(Routes.PaymentRequest);
+          navigation.dispatch(popAction);
         }
         if (notification.data.notify_type === 'payment_transfer') {
-          navigation.navigate(Routes.Transaction);
+          const popAction = StackActions.replace(Routes.Transaction);
+          navigation.dispatch(popAction);
         }
         if (notification.data.notify_type === 'chat') {
           navigation.navigate(Routes.ChatDetail, {

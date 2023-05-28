@@ -1,8 +1,14 @@
 import {Value} from '../../../constants/FixedValues';
-import {dynamicSize, height, statusHide} from '../../../utils/responsive';
+import {
+  dynamicSize,
+  height,
+  px,
+  statusHide,
+  width,
+} from '../../../utils/responsive';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
-
+console.log(width - 158, ' console.log(width-158)');
 export default {
   flex: {
     flex: 1,
@@ -89,11 +95,11 @@ export default {
   innerViewComp: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,
+    width: width - 99,
   },
   profileViewComp: {
     justifyContent: Alignment.FLEX_START,
     flexDirection: Alignment.ROW,
-    width: 226,
   },
   profileImg: {
     height: Value.CONSTANT_VALUE_40,
@@ -139,8 +145,8 @@ export default {
     width: '100%',
   },
   ImageView: {
-    height: Value.CONSTANT_VALUE_62,
-    width: Value.CONSTANT_VALUE_62,
+    height: px(Value.CONSTANT_VALUE_60),
+    width: px(Value.CONSTANT_VALUE_60),
     borderWidth: Value.CONSTANT_VALUE_2,
     backgroundColor: Colors.BACKGROUND,
     borderColor: Colors.COLOR_5ABCEC,

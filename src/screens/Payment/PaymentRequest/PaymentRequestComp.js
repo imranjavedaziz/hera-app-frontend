@@ -113,7 +113,9 @@ const PaymentRequestComp = props => {
         <View style={styles.profileViewComp}>
           <Image style={styles.profileImg} source={{uri: profileImage}} />
           <View style={styles.marginFromImg}>
-            <Text style={styles.userRequestName}>{mainText}</Text>
+            <Text style={styles.userRequestName} numberOfLines={2}>
+              {mainText}
+            </Text>
             <Text style={styles.priceRequest}>{amount}</Text>
             <Text style={styles.timeRequest}>{time}</Text>
           </View>
