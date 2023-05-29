@@ -98,6 +98,7 @@ const AllMedia = props => {
         return result;
       }, []);
       setData(groupedData);
+      updateGallery();
     }
   }, [ExtraData]);
   useEffect(() => {
@@ -114,7 +115,7 @@ const AllMedia = props => {
       } else {
         setExtraData(data);
       }
-      updateGallery();
+     
       setPage(current_page);
       setLastPage(last_page);
       dispatch(hideAppLoader());

@@ -220,7 +220,7 @@ const SetPreference = ({route, navigation}) => {
       dispatch(SetPreferenceRes());
     }
   }, [isCachePref, get_preference_success]);
- 
+
   useEffect(() => {
     if (!isValid) {
       const e = errors;
@@ -775,7 +775,7 @@ const SetPreference = ({route, navigation}) => {
                   )}
                   name={FormKey.race}
                 />
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row', marginTop: 15}}>
                   <Text style={styles.chipText}>
                     {Strings.preference.HairColor}
                   </Text>

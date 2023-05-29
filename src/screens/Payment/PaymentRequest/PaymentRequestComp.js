@@ -20,6 +20,7 @@ const PaymentRequestComp = props => {
     OnPressPay,
     //sm
     PaymentStatus,
+    status,
   } = props;
   const {log_in_data} = useSelector(state => state.Auth);
   const [imageLoading, setImageLoading] = useState(true);
@@ -29,7 +30,7 @@ const PaymentRequestComp = props => {
         2: Images.SuccessPayment,
         3: Images.RejectPayment,
         0: Images.PendingPayment,
-        1: Images.PendingPayment,
+        1: Images.TIME,
         4: Images.RejectPayment,
         5: Images.RejectPayment,
         6: Images.RejectPayment,
@@ -56,21 +57,65 @@ const PaymentRequestComp = props => {
   }
 
   function getColor(paymentType) {
-    if (paymentType === 1 || paymentType === 0) {
+    if (paymentType === 0) {
       return Colors.RED;
     } else if (paymentType === 2) {
       return Colors.COLOR_5ABCEC;
+    } else if (paymentType === 1) {
+      return Colors.COLOR_747474;
     } else {
       return Colors.RED;
     }
   }
+
+  function getStatusImage(paymentType) {
+    if (paymentType !== undefined) {
+      const PaymentTypeToImageMap = {
+        1: Images.SuccessPayment,
+        2: Images.RejectPayment,
+        0: Images.TIME,
+        3: Images.SuccessPayment,
+      };
+      return PaymentTypeToImageMap[paymentType] || Images.TIME;
+    }
+  }
+
+  function getStatusText(paymentType) {
+    if (paymentType !== undefined) {
+      const PaymentTypeToTextMap = {
+        1: Strings.SendAndRequest.Payment_Received,
+        2: Strings.SendAndRequest.Request_Declined,
+        0: Strings.SendAndRequest.Not_Received_Yet,
+        3: Strings.SendAndRequest.Request_Already_Paid,
+      };
+      return (
+        PaymentTypeToTextMap[paymentType] ||
+        Strings.SendAndRequest.Not_Received_Yet
+      );
+    }
+  }
+
+  function getStatusColor(paymentType) {
+    if (paymentType === 2) {
+      return Colors.RED;
+    } else if (paymentType === 1 || paymentType === 3) {
+      return Colors.COLOR_5ABCEC;
+    } else if (paymentType === 0) {
+      return Colors.COLOR_747474;
+    } else {
+      return Colors.RED;
+    }
+  }
+  const paymentStatus = status === 1 || PaymentStatus === 2;
   return (
     <View style={styles.comContainer}>
       <View style={styles.innerViewComp}>
         <View style={styles.profileViewComp}>
           <Image style={styles.profileImg} source={{uri: profileImage}} />
           <View style={styles.marginFromImg}>
-            <Text style={styles.userRequestName}>{mainText}</Text>
+            <Text style={styles.userRequestName} numberOfLines={2}>
+              {mainText}
+            </Text>
             <Text style={styles.priceRequest}>{amount}</Text>
             <Text style={styles.timeRequest}>{time}</Text>
           </View>
@@ -81,7 +126,7 @@ const PaymentRequestComp = props => {
             {pdf ? (
               <Image
                 style={styles.imgpdf}
-                resizeMode={'center'}
+                resizeMode={'cover'}
                 source={Images.PDF}
               />
             ) : (
@@ -119,11 +164,24 @@ const PaymentRequestComp = props => {
         <View style={styles.StatusView}>
           <Image
             style={styles.ImageStatusView}
-            source={getPaymentStatusImage(PaymentStatus)}
+            source={
+              paymentStatus
+                ? getPaymentStatusImage(PaymentStatus)
+                : getStatusImage(status)
+            }
           />
           <Text
-            style={[{color: getColor(PaymentStatus)}, styles.TextStatusView]}>
-            {getPaymentStatusText(PaymentStatus)}
+            style={[
+              {
+                color: paymentStatus
+                  ? getColor(PaymentStatus)
+                  : getStatusColor(status),
+              },
+              styles.TextStatusView,
+            ]}>
+            {paymentStatus
+              ? getPaymentStatusText(PaymentStatus)
+              : getStatusText(status)}
           </Text>
         </View>
       )}

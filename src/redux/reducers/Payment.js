@@ -29,7 +29,7 @@ const initState = {
   get_match_list_success: false,
   get_match_list_loading: false,
   get_match_list_error_msg: '',
-  get_match_list_res: {},
+  get_match_list_res: {data: []},
   get_match_list_fail: false,
   //get payment request list store
   get_payment_request_list_success: false,
@@ -274,7 +274,10 @@ export default (state = initState, action) => {
         get_match_list_page_res: action.data,
         get_match_list_res: {
           ...action.data,
-          data: [...state.get_match_list_res.data.data, ...action.data.data],
+          data: removeDuplicates([
+            ...state.get_match_list_res.data,
+            ...action.data.data,
+          ]),
         },
       };
     case GET_MATCH_LIST_PAGE_FAIL:

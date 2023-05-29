@@ -122,7 +122,10 @@ const DashboardDetailScreen = ({route}) => {
     if (route?.params?.coming === true) {
       if (smDetailRes?.profile_match_request?.status === 2) {
         navigation.navigate(Routes.ChatDetail, {
-          item: smDetailRes?.profile_match_chat,
+          item: {
+            ...smDetailRes?.profile_match_chat,
+            next_step: smDetailRes?.next_step,
+          },
           account_status_res: route?.params?.account_status_res
             ? route?.params?.account_status_res
             : '',

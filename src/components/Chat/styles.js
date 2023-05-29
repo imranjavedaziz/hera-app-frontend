@@ -41,6 +41,7 @@ export default {
     fontWeight: Alignment.BOLD,
     lineHeight: 21,
     letterSpacing: 0,
+    marginBottom: 2,
   },
   msg: {
     fontFamily: Fonts.OpenSansRegular,
@@ -102,7 +103,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: px(Value.CONSTANT_VALUE_18),
     textAlign: Alignment.CENTER,
-    color: '#747474',
+    color: Colors.BLACK,
     width: 282,
   },
   chatImage: {width: 160, height: 160, marginBottom: 27},

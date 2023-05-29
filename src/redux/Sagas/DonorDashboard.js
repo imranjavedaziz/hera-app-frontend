@@ -9,7 +9,7 @@ import {takeLatest, put} from 'redux-saga/effects';
 import {ValidationMessages} from '../../constants/Strings';
 function* getDonorDashboard(payload) {
   try {
-    const result = yield DonorDashboardApi(payload);
+    const result = yield DonorDashboardApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: DONOR_DASHBOARD_SUCCESS, data: result.data});
     } else {

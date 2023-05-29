@@ -1,4 +1,10 @@
-import {View, Text, FlatList, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  BackHandler,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
@@ -30,6 +36,7 @@ const MatchScreen = () => {
     get_match_list_loading,
     get_match_list_error_msg,
     get_match_list_res,
+    get_match_list_page_loading,
     get_match_list_fail,
   } = useSelector(state => state.Payment);
   const dispatch = useDispatch();
@@ -174,6 +181,19 @@ const MatchScreen = () => {
               showsVerticalScrollIndicator={false}
               onRefresh={onRefresh}
               refreshing={isRefreshing}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    marginBottom: 40,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  {get_match_list_page_loading && (
+                    <ActivityIndicator style={{marginTop: 40}} />
+                  )}
+                </View>
+              )}
+              onEndReachedThreshold={0.5}
               onEndReached={() => {
                 if (
                   get_match_list_res.data.current_page <
