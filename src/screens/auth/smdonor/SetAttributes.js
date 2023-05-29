@@ -46,7 +46,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import ActionSheet from 'react-native-actionsheet';
 import {BottomSheetComp, ModalMiddle} from '../../../components';
 import {Alignment} from '../../../constants';
-import {dynamicSize, statusHide} from '../../../utils/responsive';
+import {dynamicSize, px, statusHide} from '../../../utils/responsive';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {empty} from '../../../redux/actions/Chat';
 
@@ -391,7 +391,7 @@ const SetAttributes = ({route}) => {
     dispatch(logOut(Device_ID));
   };
   const StyleIOS = {
-    marginTop: 30,
+    marginTop: px(20),
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
   return (

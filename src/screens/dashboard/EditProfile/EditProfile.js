@@ -47,6 +47,7 @@ import {
 import {sendVerificationMail} from '../../../redux/actions/VerificationMail';
 import moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {px} from '../../../utils/responsive';
 
 const EditProfile = props => {
   const navigation = useNavigation();
@@ -123,7 +124,7 @@ const EditProfile = props => {
     send_verification_error_msg,
     send_verification_res,
   } = useSelector(state => state.VerificationMail);
- 
+
   useEffect(() => {
     if (loadingRef.current && !send_verification_loading) {
       dispatch(showAppLoader());
@@ -331,9 +332,17 @@ const EditProfile = props => {
     dispatch(sendVerificationMail());
   };
   const StyleIOS = {
-    marginTop: 30,
+    marginTop: px(20),
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
+  const StyleIOSFIELDS = {
+    marginTop: px(25),
+  };
+  const StyleFields = Platform.OS === 'ios' && StyleIOSFIELDS;
+  const StyleIOSZip = {
+    marginTop: px(40),
+  };
+  const StyleIOSZipCode = Platform.OS === 'ios' && StyleIOSZip;
   return (
     <View style={styles.flex}>
       <Header end={true}>{headerComp()}</Header>
@@ -374,6 +383,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    containerStyle={StyleFields}
                     label={Strings.profile.MiddleName}
                     value={value}
                     maxLength={30}
@@ -389,6 +399,7 @@ const EditProfile = props => {
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
                     clipdrop={clipdrop}
+                    containerStyle={StyleFields}
                     label={Strings.profile.LastName}
                     value={value}
                     maxLength={30}
@@ -548,12 +559,12 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
-                    containerStyle={Style}
                     label={Strings.sm_basic.Zip}
                     value={value}
                     onChangeText={v => onChange(v)}
                     error={errors && errors.zipcode?.message}
                     required={true}
+                    containerStyle={StyleIOSZipCode}
                     keyboardType="number-pad"
                     maxLength={5}
                   />
@@ -564,6 +575,7 @@ const EditProfile = props => {
                 control={control}
                 render={({field: {onChange, value}}) => (
                   <FloatingLabelInput
+                    containerStyle={StyleFields}
                     label={Strings.sm_basic.Occupation}
                     value={value}
                     onChangeText={v => onChange(v)}
@@ -608,7 +620,7 @@ const EditProfile = props => {
                 onConfirm={selectedDate => {
                   clearErrors(FormKey.date_of_birth);
                   setShow(false);
-                  setValue(FormKey.date_of_birth, getDate(selectedDate));
+                  setValue('dob', getDate(selectedDate));
                   setDate(getDate(selectedDate));
                   onDateChange(selectedDate);
                 }}

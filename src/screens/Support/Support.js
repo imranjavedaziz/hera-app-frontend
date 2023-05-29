@@ -34,6 +34,7 @@ import {InputLabel, ModalMiddle, MultiTextInput} from '../../components';
 import {Alignment} from '../../constants';
 import {Value} from '../../constants/FixedValues';
 import moment from 'moment-timezone';
+import {px} from '../../utils/responsive';
 
 export default function Support() {
   const [userTypeData, setUserTypeData] = useState();
@@ -167,6 +168,14 @@ export default function Support() {
     dispatch(showAppLoader());
     dispatch(SupportForm(payload));
   };
+  const StyleIOS = {
+    marginTop: px(20),
+  };
+  const Style = Platform.OS === 'ios' && StyleIOS;
+  const StyleIOSField = {
+    marginTop: px(25),
+  };
+  const StyleField = Platform.OS === 'ios' && StyleIOSField;
   return (
     <>
       <View style={Styles.flex}>
@@ -207,6 +216,7 @@ export default function Support() {
                     <Dropdown
                       label={Strings.inqueryForm.USER_TYPE}
                       data={userTypeData?.data}
+                      containerStyle={Style}
                       onSelect={selectedItem => {
                         onChange(selectedItem);
                       }}
@@ -223,6 +233,7 @@ export default function Support() {
                     <FloatingLabelInput
                       label={Strings.profile.EmailAddress}
                       value={value}
+                      containerStyle={StyleField}
                       onChangeText={v => onChange(v)}
                       required={true}
                       error={errors && errors.email?.message}

@@ -47,10 +47,13 @@ const ManageBank = ({route}) => {
   const {addBanks} = useSelector(store => store.addBank);
   const {connected_acc_token} = useSelector(state => state.Auth);
   const {bankResponse} = useSelector(store => store.addBankTokenReducer);
+  const {bank_update_success, bank_update_loading, bank_update_fail} =
+    useSelector(state => state.kyc);
   const {deleteBankResponse} = useSelector(store => store.deleteBank);
   const [disable, setDisable] = React.useState(false);
   const Item = route?.params?.Item;
   const loadingRef = useRef();
+  const loadingStatusRef = useRef();
   const {
     account_status_success,
     account_status_loading,
@@ -85,13 +88,28 @@ const ManageBank = ({route}) => {
       dispatch({type: ADD_BANK_TOKEN.END});
     }
   }, [bankResponse]);
+
+  useEffect(() => {
+    if (loadingStatusRef.current && !bank_update_loading) {
+      dispatch(showAppLoader());
+      if (bank_update_success) {
+        dispatch(getAccountStatus());
+      }
+      if (bank_update_fail) {
+        setDisable(false);
+        dispatch(hideAppLoader());
+      }
+    }
+    loadingStatusRef.current = bank_update_loading;
+  }, [bank_update_success, bank_update_loading, bank_update_fail]);
   useEffect(() => {
     if (loadingRef.current && !account_status_loading) {
       dispatch(showAppLoader());
       if (account_status_success) {
         if (
-          account_status_res?.kyc_status === 'incomplete' ||
-          account_status_res?.kyc_status === 'unverified'
+          account_status_res?.bank_account !== null &&
+          (account_status_res?.kyc_status === 'incomplete' ||
+            account_status_res?.kyc_status === 'unverified')
         ) {
           replace(Routes.KycScreen);
           setDisable(false);
@@ -136,7 +154,6 @@ const ManageBank = ({route}) => {
     if (addBanks?.status === ADD_BANK.START) {
       dispatch(showAppLoader());
     } else if (addBanks?.status === ADD_BANK.SUCCESS) {
-      dispatch(getAccountStatus());
       const token = addBanks.info.id;
       const payload = {
         bank_acc_token: token,

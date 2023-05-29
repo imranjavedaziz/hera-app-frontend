@@ -130,6 +130,13 @@ export default {
     marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
     fontFamily: Fonts.OpenSansRegular,
   },
+  chipTexts: {
+    fontSize: Value.CONSTANT_VALUE_14,
+    color: Colors.BLACK_0,
+    // marginTop: dynamicSize(Value.CONSTANT_VALUE_35),
+    marginBottom: dynamicSize(Value.CONSTANT_VALUE_10),
+    fontFamily: Fonts.OpenSansRegular,
+  },
   chipsRequiredText: {
     color: Colors.RED,
     fontSize: Value.CONSTANT_VALUE_18,
@@ -200,6 +207,8 @@ export default {
     height: Value.CONSTANT_VALUE_80,
     marginTop: 26,
     marginBottom: 78,
+    width: 245,
+    alignSelf: 'center',
   },
   header: {justifyContent: Alignment.FLEXEND},
   headerText: {

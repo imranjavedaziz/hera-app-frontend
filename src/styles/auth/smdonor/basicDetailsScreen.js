@@ -29,7 +29,7 @@ export default {
   bottom: {bottom: 26},
   inputRow: {
     flexDirection: Alignment.ROW,
-    marginTop: Value.CONSTANT_VALUE_40,
+    marginTop: Value.CONSTANT_VALUE_58,
     justifyContent: 'flex-start',
   },
   radioLabel: {
