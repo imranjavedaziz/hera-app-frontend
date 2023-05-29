@@ -117,7 +117,7 @@ export default (state = initState, action) => {
         get_match_list_success: false,
         get_match_list_loading: false,
         get_match_list_error_msg: action.data.msg,
-        get_match_list_res: '',
+        get_match_list_res: {data: []},
         get_match_list_fail: true,
       };
     //GET PAYMENT REQUEST LSIT
@@ -274,10 +274,13 @@ export default (state = initState, action) => {
         get_match_list_page_res: action.data,
         get_match_list_res: {
           ...action.data,
-          data: removeDuplicates([
-            ...state.get_match_list_res.data,
+          data: {
             ...action.data.data,
-          ]),
+            data: removeDuplicates([
+              ...state.get_match_list_res.data.data,
+              ...action.data.data.data,
+            ]),
+          },
         },
       };
     case GET_MATCH_LIST_PAGE_FAIL:

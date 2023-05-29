@@ -913,4 +913,12 @@ export default {
   UploadProof: 'Upload front & back of your legal ID',
   FILE_MAX_SIZE: 'Max size: 10 MB',
   INVALID_FORMAT: 'Invalid Format',
+  UpgradeApp: {
+    title: 'Time to Update!',
+    version: 'What’s new in v',
+    para: `We have added some new features & worked on some bug fixes to make your
+    experience as better as possible. Please update the app to latest
+    version to continue using HERA.`,
+    btn: 'Update Now',
+  }
 };

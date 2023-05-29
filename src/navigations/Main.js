@@ -63,6 +63,7 @@ import PaymentSent from '../screens/Payment/PaymentSent/PaymentSent';
 import ConfirmPayment from '../screens/Payment/ConfirmPayment/ConfirmPayment';
 import ConfirmSubscription from '../screens/Payment/ConfirmSubscription';
 import SubscriptionCard from '../screens/Payment/SubscriptionCard';
+import UpgradeApp from '../screens/UpgradeApp';
 
 export const navigationRef = React.createRef();
 const Stack = createStackNavigator();
@@ -74,7 +75,11 @@ const screens = [
   Routes.Profile,
   Routes.SmRegister,
 ];
-
+const safeAreaRoutes = [
+  Routes.Landing,
+  Routes.WalkThrough,
+  Routes.UpgradeApp,
+]
 const Main = () => {
   const dispatch = useDispatch();
   const [firstLaunch, setFirstLaunch] = React.useState(null);
@@ -186,8 +191,9 @@ const Main = () => {
             state: e => {
               const navState = e.data.state;
               if (
-                navState.routes[navState.index].name === Routes.Landing ||
-                navState.routes[navState.index].name === Routes.WalkThrough
+                safeAreaRoutes.includes(navState.routes[navState.index].name)
+                // navState.routes[navState.index].name === Routes.Landing ||
+                // navState.routes[navState.index].name === Routes.WalkThrough
               ) {
                 setShowSafeArea(false);
               } else {
@@ -289,6 +295,10 @@ const Main = () => {
           <Stack.Screen
             name={Routes.SubscriptionCard}
             component={SubscriptionCard}
+          />
+          <Stack.Screen
+            name={Routes.UpgradeApp}
+            component={UpgradeApp}
           />
         </Stack.Navigator>
       </NavigationContainer>
