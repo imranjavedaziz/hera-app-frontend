@@ -127,9 +127,9 @@ const PaymentSent = ({route}) => {
   const onSubmit = () => {
     if (valueDot.endsWith('.')) {
       dispatch(showAppToast(true, 'Please enter valid amount'));
-    } else if (parseInt(amount.replace(',', ''), 10) >= 10000) {
+    } else if (parseInt(amount.replace(',', ''), 10) > 100000) {
       dispatch(
-        showAppToast(true, 'Amount is beyond the max limit i.e. $10,000'),
+        showAppToast(true, 'Amount is beyond the max limit i.e. $100,000'),
       );
     } else {
       const updatedTxt = amount?.replace(/,/g, '');
@@ -192,13 +192,13 @@ const PaymentSent = ({route}) => {
               keyboardType="numeric"
               value={amount}
               onChangeText={handleAmountChange}
-              maxLength={6}
+              maxLength={7}
               editable={!route?.params?.amount ? true : false}
             />
           </View>
           <View style={styles.rowStyle}>
             <Text style={styles.star}>*</Text>
-            <Text style={styles.addProcess}>
+            <Text style={styles.addProcess} numberOfLines={2}>
               {Strings.PaymentSent.AdditionalCharges}
             </Text>
           </View>

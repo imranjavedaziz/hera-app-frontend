@@ -4,8 +4,10 @@ import {Fonts} from '../../../../constants/Constants';
 import Colors from '../../../../constants/Colors';
 import {
   dynamicSize,
+  scaleHeight,
   scaleWidth,
   statusHide,
+  width,
 } from '../../../../utils/responsive';
 
 export default {
@@ -15,12 +17,12 @@ export default {
     marginTop: statusHide(Value.CONSTANT_VALUE_105),
   },
   logo: {
-    width: Value.CONSTANT_VALUE_200,
-    height: Value.CONSTANT_VALUE_120,
+    width: scaleWidth(Value.CONSTANT_VALUE_200),
+    height: scaleHeight(Value.CONSTANT_VALUE_120),
     resizeMode: Alignment.CONTAIN,
     flex: Value.CONSTANT_VALUE_0,
     marginBottom: Value.CONSTANT_VALUE_25,
-    marginLeft: dynamicSize(38),
+    marginLeft: width / 2 - scaleWidth(150),
   },
 
   headerText: {

@@ -43,7 +43,7 @@ import {RemoveStripIds, logOut, signoutUser} from '../../../redux/actions/Auth';
 import {BottomSheetComp, MultiTextInput} from '../../../components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Alignment, Colors} from '../../../constants';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, px} from '../../../utils/responsive';
 import openWebView from '../../../utils/openWebView';
 import {NotificationContext} from '../../../context/NotificationContextManager';
 import {empty} from '../../../redux/actions/Chat';
@@ -264,7 +264,7 @@ const SmBasicDetails = () => {
     }, 300);
   };
   const StyleIOS = {
-    marginTop: 30,
+    marginTop: px(20),
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
   return (
@@ -383,7 +383,9 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={value ? {marginTop: 34} : Style}
+                        containerStyle={
+                          value ? {marginTop: 34} : {marginTop: px(25)}
+                        }
                         label={Strings.sm_basic.Zip}
                         value={value}
                         onChangeText={v => onChange(v)}
@@ -399,7 +401,7 @@ const SmBasicDetails = () => {
                     control={control}
                     render={({field: {onChange, value}}) => (
                       <FloatingLabelInput
-                        containerStyle={Style}
+                        containerStyle={{marginTop: px(25)}}
                         label={Strings.sm_basic.Occupation}
                         value={value}
                         onChangeText={v => onChange(v)}

@@ -2,7 +2,7 @@ import {Value} from '../../constants/FixedValues';
 import {Fonts} from '../../constants/Constants';
 import Colors from '../../constants/Colors';
 import Alignment from '../../constants/Alignment';
-import {dynamicSize, statusHide} from '../../utils/responsive';
+import {dynamicSize, statusHide, width} from '../../utils/responsive';
 
 export default {
   imgContainer: {
@@ -43,7 +43,6 @@ export default {
   },
   passwordCheck: {
     flexDirection: Alignment.ROW,
-    alignItems: Alignment.CENTER,
   },
   tmc1: {
     fontSize: Value.CONSTANT_VALUE_13,
