@@ -67,6 +67,7 @@ import {getPaymentRequestList} from '../../../redux/actions/Payment';
 import SuccessModal from './Subscription/SuccessModal';
 import {ACCOUNT_STATUS_CLEAN} from '../../../redux/Type';
 import {NotificationsCount} from '../../../redux/actions/NotificationsCount';
+import deviceInfoModule from 'react-native-device-info';
 
 const PtbProfile = ({route}) => {
   const navigation = useNavigation();
@@ -344,6 +345,7 @@ const PtbProfile = ({route}) => {
     'MMM DD, YYYY',
   );
   const trialVar = subscriptionStatus?.data?.is_trial;
+  const Version = deviceInfoModule.getVersion();
   return (
     <>
       <View style={styles.flex}>
@@ -495,6 +497,7 @@ const PtbProfile = ({route}) => {
               </TouchableOpacity>
               <Text style={styles.AppVersion}>
                 {Strings.smSetting.AppVersion}
+                {Version}
               </Text>
             </View>
           </View>
