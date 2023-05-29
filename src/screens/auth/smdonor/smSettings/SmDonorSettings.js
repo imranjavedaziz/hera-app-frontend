@@ -61,6 +61,7 @@ import {
 import {getPaymentRequestList} from '../../../../redux/actions/Payment';
 import {ACCOUNT_STATUS_CLEAN} from '../../../../redux/Type';
 import {NotificationsCount} from '../../../../redux/actions/NotificationsCount';
+import deviceInfoModule from 'react-native-device-info';
 const SmDonorSettings = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -307,6 +308,7 @@ const SmDonorSettings = () => {
     ]);
     return true;
   };
+  const Version = deviceInfoModule.getVersion();
 
   return (
     <>
@@ -438,6 +440,7 @@ const SmDonorSettings = () => {
               </TouchableOpacity>
               <Text style={Styles.AppVersion}>
                 {Strings.smSetting.AppVersion}
+                {Version}
               </Text>
             </View>
           </View>

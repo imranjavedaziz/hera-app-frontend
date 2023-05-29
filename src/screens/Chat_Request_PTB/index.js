@@ -25,7 +25,6 @@ import {
 import {Routes} from '../../constants/Constants';
 import {getAccountStatus} from '../../redux/actions/AccountStatus';
 const Chat_Request = props => {
-  console.log(props?.route?.params?.user, ':::::user');
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
@@ -94,16 +93,26 @@ const Chat_Request = props => {
   ]);
 
   const onPressLike = () => {
+    const data = props?.route?.params?.user;
     const payload = {
-      id: parseInt(props?.route?.params?.user?.id),
+      id: parseInt(
+        props?.route?.params?.chatPush
+          ? JSON.parse(data)?.id
+          : props?.route?.params?.user?.id,
+      ),
       status: 2,
     };
     setDisable(true);
     dispatch(profileMatchResponse(payload));
   };
   const onPressDislike = () => {
+    const data = props?.route?.params?.user;
     const payload = {
-      id: parseInt(props?.route?.params?.user?.id),
+      id: parseInt(
+        props?.route?.params?.chatPush
+          ? JSON.parse(data)?.id
+          : props?.route?.params?.user?.id,
+      ),
       status: 4,
     };
     dispatch(profileMatchResponse(payload));

@@ -431,7 +431,7 @@ export default {
     AboutUs: 'About Us',
     Privacy: 'Privacy Policy',
     Btn: 'LOG OUT',
-    AppVersion: 'App Version 0.5',
+    AppVersion: 'App Version ',
     RemoveVideo: 'REMOVE VIDEO',
     Remove_Video: 'Remove Video?',
     Log_Out: 'Log Out?',
