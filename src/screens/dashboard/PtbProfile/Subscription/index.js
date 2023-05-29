@@ -559,7 +559,7 @@ const Subscription = () => {
                 </View>
               )}
             <TitleComp
-              containerStyle={{marginBottom: 0}}
+              containerStyle={{marginBottom: 35,height: '100%'}}
               Title={Strings.subscribe.Subscribe_Now}
               Subtitle={Strings.Subscription.SubHeader}
               // Midtitle={Strings.Subscription.MidHeader}
