@@ -1,5 +1,6 @@
 // request
 import axios from 'axios';
+import {Platform} from 'react-native';
 import {api_url, Routes} from '../constants/Constants';
 import {store} from '../redux/store';
 import {
@@ -22,6 +23,8 @@ import jwt_decode from 'jwt-decode';
 import {GET_BANK_LIST, GET_CARD_LIST} from '../redux/actions/stripe.action';
 import {ACCOUNT_STATUS_CLEAN} from '../redux/Type';
 import {NotificationsCount} from '../redux/actions/NotificationsCount';
+import DeviceInfo from 'react-native-device-info';
+
 const axiosRequest = axios.create({
   baseURL: api_url,
 });
@@ -31,6 +34,7 @@ let refreshSubscribers = [];
 axiosRequest.interceptors.request.use(
   request => {
     const token = store.getState().Auth.token;
+    const Version = DeviceInfo.getVersion();
     console.log(token, 'token:::::::::');
     if (token) {
       request.headers = {
@@ -38,6 +42,9 @@ axiosRequest.interceptors.request.use(
         Authorization: `Bearer ${token}`,
       };
     }
+    request.headers.Platform = Platform.OS;
+    request.headers.Version = Version;
+    console.log('request.headers',request.headers);
     return request;
   },
   error => {
@@ -73,6 +80,10 @@ axiosRequest.interceptors.response.use(
       }
       store.dispatch(updateSubscriptionStatus(0));
       return Promise.reject(error);
+    }
+    else if(error.response.status === 308){
+      console.log('error.response',JSON.stringify(error.response.data));
+      navigationRef.current?.navigate(Routes.UpgradeApp,error.response.data);
     } else if (
       error.response.status === 401 &&
       decodedToken.exp < currentTime

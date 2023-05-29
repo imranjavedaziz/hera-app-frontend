@@ -5,7 +5,7 @@ import {
   BackHandler,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef,useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Header} from '../../../components';
 import styles from './styles';
@@ -26,10 +26,10 @@ import {Routes} from '../../../constants/Constants';
 const MatchScreen = () => {
   const navigation = useNavigation();
   const {log_in_data} = useSelector(state => state.Auth);
-  const [search, setSearch] = React.useState('');
-  const [allUser, setallUser] = React.useState([]);
-  const [Data, setData] = React.useState([]);
-  const [isRefreshing, setIsRefreshing] = React.useState(false);
+  const [search, setSearch] = useState('');
+  const [allUser, setallUser] = useState([]);
+  const [Data, setData] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const LoadingRef = useRef(null);
   const {
     get_match_list_success,
@@ -46,7 +46,7 @@ const MatchScreen = () => {
     };
     dispatch(showEditAppLoader());
     dispatch(getMatchList(payload));
-  }, [dispatch]);
+  }, []);
   const handleBackButtonClick = () => {
     navigation.goBack();
     return true;
@@ -60,14 +60,16 @@ const MatchScreen = () => {
       );
     };
   }, []);
+  useEffect(()=>{
+    if (get_match_list_success) {
+      setIsRefreshing(false);
+      dispatch(hideEditLoader());
+      setData(get_match_list_res?.data?.data);
+      setallUser(get_match_list_res?.data?.data);
+    }
+  },[get_match_list_success,get_match_list_res])
   useEffect(() => {
     if (LoadingRef.current && !get_match_list_loading) {
-      if (get_match_list_success) {
-        setIsRefreshing(false);
-        dispatch(hideEditLoader());
-        setData(get_match_list_res?.data?.data);
-        setallUser(get_match_list_res?.data?.data);
-      }
       if (get_match_list_fail) {
         setIsRefreshing(false);
         dispatch(hideEditLoader());
@@ -91,7 +93,7 @@ const MatchScreen = () => {
       style={styles.androidHeaderIcons}
     />
   );
-  const onSearch = value => {
+  const onSearch = useCallback(value => {
     if (value === '') {
       setSearch('');
       setallUser(Data);
@@ -122,7 +124,7 @@ const MatchScreen = () => {
         ),
       );
     }
-  };
+  },[Data,log_in_data]);
 
   const renderItemData = ({item}) => {
     return (
@@ -142,18 +144,18 @@ const MatchScreen = () => {
       />
     );
   };
-  const onClear = () => {
+  const onClear = useCallback(() => {
     setallUser(Data);
     setSearch('');
-  };
-  const onRefresh = () => {
+  },[Data]);
+  const onRefresh = useCallback(() => {
     //set isRefreshing to true
     setIsRefreshing(true);
     let payload = {
       keyword: search ? search : '',
     };
     dispatch(getMatchList(payload));
-  };
+  },[search]);
 
   return (
     <View style={styles.flex}>
@@ -193,11 +195,12 @@ const MatchScreen = () => {
                   )}
                 </View>
               )}
-              onEndReachedThreshold={0.5}
+              // onEndReachedThreshold={0.5}
               onEndReached={() => {
                 if (
                   get_match_list_res.data.current_page <
                   get_match_list_res.data.last_page
+                  && !get_match_list_page_loading
                 ) {
                   dispatch(getMatchListPages());
                 }
