@@ -87,7 +87,7 @@ export default {
     fontStyle: Alignment.ITALIC,
     color: Colors.BLACK_KEY,
   },
-  rowStyle: {flexDirection: Alignment.ROW},
+  rowStyle: {flexDirection: Alignment.ROW, paddingHorizontal: 30},
   star: {color: Colors.RED, fontSize: Value.CONSTANT_VALUE_13},
   btnContainer: {
     width: px(Value.CONSTANT_VALUE_306),

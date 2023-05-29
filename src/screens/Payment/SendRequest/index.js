@@ -234,7 +234,9 @@ const SendRequest = ({route}) => {
           ref={scrollRef}>
           <View style={Styles.androidMainContainer}>
             <Text style={Styles.title}>{Strings.SendRequest.title}</Text>
-            <Text style={Styles.subtitle}>{Strings.SendRequest.subtitle}</Text>
+            <Text style={Styles.subtitle} numberOfLines={2}>
+              {Strings.SendRequest.subtitle}
+            </Text>
             <View style={Styles.profileContainer}>
               <View style={Styles.profileBox}>
                 <Image
@@ -294,7 +296,7 @@ const SendRequest = ({route}) => {
                         onChange(v.trim().split(',').join(''));
                       }}
                       required={true}
-                      maxLength={9}
+                      maxLength={7}
                       error={errors && errors.amount?.message}
                       inputMode={'numeric'}
                       keyboardType={'numeric'}

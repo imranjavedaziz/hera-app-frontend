@@ -411,7 +411,7 @@ export default {
     search: 'Search by Name',
     write_message: 'Write a message',
     Inactive: 'User is Inactive',
-    smSearch: 'Search by name',
+    smSearch: 'Search by Name',
   },
   smSetting: {
     profile: 'Profile',
@@ -686,9 +686,11 @@ export default {
   },
   PaymentSent: {
     SendTo: 'Send Payment to',
-    AdditionalCharges: 'An additional processing fee will be applied.',
+    AdditionalCharges:
+      'You can send an amount of $1 to $100,000.\nAn additional processing fee will be applied.',
     dollar: '$',
     PROCEED: 'PROCEED',
+    RxCharges: 'You can request an amount of $1 to $100,000.',
   },
   //Static
   Meryl_Anderson: 'Meryl Anderson',
@@ -911,4 +913,12 @@ export default {
   UploadProof: 'Upload front & back of your legal ID',
   FILE_MAX_SIZE: 'Max size: 10 MB',
   INVALID_FORMAT: 'Invalid Format',
+  UpgradeApp: {
+    title: 'Time to Update!',
+    version: 'What’s new in v',
+    para: `We have added some new features & worked on some bug fixes to make your
+    experience as better as possible. Please update the app to latest
+    version to continue using HERA.`,
+    btn: 'Update Now',
+  }
 };

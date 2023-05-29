@@ -69,7 +69,7 @@ const Dropdown = ({
   const STYLE_TWO = {
     position: Alignment.ABSOLUTE,
     right: Value.CONSTANT_VALUE_0,
-    bottom: Value.CONSTANT_VALUE_10,
+    bottom: Value.CONSTANT_VALUE_15,
     zIndex: Value.CONSTANT_VALUE_2,
   };
   const IOSfloated = {

@@ -87,7 +87,7 @@ export default {
     fontFamily: Fonts.OpenSansRegular,
     fontSize: normalizeFont(Value.CONSTANT_VALUE_14),
     textAlign: Alignment.LEFT,
-    marginTop: px(Value.CONSTANT_VALUE_30),
+    marginTop: px(Value.CONSTANT_VALUE_35),
     marginBottom: px(Value.CONSTANT_VALUE_15),
   },
   radioContainer: {

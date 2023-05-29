@@ -559,7 +559,7 @@ const Subscription = () => {
                 </View>
               )}
             <TitleComp
-              containerStyle={{marginBottom: 0}}
+              containerStyle={{marginBottom: 20, height: 'auto'}}
               Title={Strings.subscribe.Subscribe_Now}
               Subtitle={Strings.Subscription.SubHeader}
               // Midtitle={Strings.Subscription.MidHeader}
@@ -648,52 +648,56 @@ const Subscription = () => {
                 <ActivityIndicator />
               )}
             </View>
-            <View style={styles.textView}>
-              <Text style={styles.mainText}>
-                <Text style={{color: 'red'}}>*</Text>
-                {`${Strings.Subscription.BySubs} ${
-                  Platform.OS === 'ios'
-                    ? Strings.Subscription.IOSStoreName
-                    : Strings.Subscription.AndroidStoreName
-                }${Strings.Subscription.RenewText}${
-                  Strings.Subscription.TimePeriodText
-                }${Strings.Subscription.PaymentCharge}${
-                  Platform.OS === 'ios'
-                    ? Strings.Subscription.IOSStoreName
-                    : Strings.Subscription.SAVEDCARD
-                } ${Strings.Subscription.CONFIRMTEXT}${
-                  Strings.Subscription.LastmainText
-                } `}
-                <Text
-                  style={styles.terms}
-                  onPress={() =>
-                    navigation.navigate(Routes.WebViewUrl, {
-                      url: TERMS_OF_USE_URL,
-                      terms: true,
-                    })
-                  }>
-                  {Strings.Subscription.TermsServices}
-                </Text>
-                {Strings.Subscription.And}
-                <Text
-                  style={styles.terms}
-                  onPress={() =>
-                    navigation.navigate(Routes.WebViewUrl, {
-                      url: PRIVACY_URL,
-                      policy: true,
-                    })
-                  }>
-                  {Strings.Subscription.PrivacyPolicy}
-                </Text>
-              </Text>
-            </View>
-            <View style={styles.btnView}>
-              <Button
-                label={Strings.Subscription.SubscribeButton}
-                style={styles.payButton}
-                onPress={handlePurchaseSubcription}
-              />
-            </View>
+            {!subscription_plan_loading && (
+              <>
+                <View style={styles.textView}>
+                  <Text style={styles.mainText}>
+                    <Text style={{color: 'red'}}>*</Text>
+                    {`${Strings.Subscription.BySubs} ${
+                      Platform.OS === 'ios'
+                        ? Strings.Subscription.IOSStoreName
+                        : Strings.Subscription.AndroidStoreName
+                    }${Strings.Subscription.RenewText}${
+                      Strings.Subscription.TimePeriodText
+                    }${Strings.Subscription.PaymentCharge}${
+                      Platform.OS === 'ios'
+                        ? Strings.Subscription.IOSStoreName
+                        : Strings.Subscription.SAVEDCARD
+                    } ${Strings.Subscription.CONFIRMTEXT}${
+                      Strings.Subscription.LastmainText
+                    } `}
+                    <Text
+                      style={styles.terms}
+                      onPress={() =>
+                        navigation.navigate(Routes.WebViewUrl, {
+                          url: TERMS_OF_USE_URL,
+                          terms: true,
+                        })
+                      }>
+                      {Strings.Subscription.TermsServices}
+                    </Text>
+                    {Strings.Subscription.And}
+                    <Text
+                      style={styles.terms}
+                      onPress={() =>
+                        navigation.navigate(Routes.WebViewUrl, {
+                          url: PRIVACY_URL,
+                          policy: true,
+                        })
+                      }>
+                      {Strings.Subscription.PrivacyPolicy}
+                    </Text>
+                  </Text>
+                </View>
+                <View style={styles.btnView}>
+                  <Button
+                    label={Strings.Subscription.SubscribeButton}
+                    style={styles.payButton}
+                    onPress={handlePurchaseSubcription}
+                  />
+                </View>
+              </>
+            )}
           </View>
         </ScrollView>
       </Container>

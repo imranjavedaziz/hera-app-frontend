@@ -36,7 +36,7 @@ import {
   attachPaymentIntentReducer,
   addBankReducer,
 } from './stripe.reducer';
-import kycUpdateReducer, {bankUpdateReducer} from './kyc.reducer';
+import kycUpdateReducer from './kyc.reducer';
 
 const allReducers = combineReducers({
   Auth,
@@ -74,7 +74,6 @@ const allReducers = combineReducers({
   deleteBank: deleteBankReducer,
   deleteCard: deleteCardReducer,
   kyc: kycUpdateReducer,
-  bankUpdateReducer,
   //Account Status
   AccountStatus,
   Payment,

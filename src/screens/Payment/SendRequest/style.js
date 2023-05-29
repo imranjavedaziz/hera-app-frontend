@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
 import {
   statusHide,
   dynamicSize,
   scaleWidth,
   scaleHeight,
   px,
+  width,
 } from '../../../utils/responsive';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
@@ -35,6 +35,7 @@ export default {
     fontSize: Value.CONSTANT_VALUE_23,
     textAlign: Alignment.CENTER,
     color: Colors.BLACK,
+    width: width - dynamicSize(60),
     marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
   },
   header: {

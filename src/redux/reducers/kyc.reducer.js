@@ -13,17 +13,12 @@ const initialState = {
     loading: false,
     status: KYC_UPDATE.END,
   },
-};
-
-const initialStatusState = {
   kycStatusResponse: {
     success: false,
     failed: false,
     loading: false,
     status: KYC_STATUS.END,
   },
-};
-const initialStateBank = {
   bank_update_res: '',
   bank_update_success: false,
   bank_update_loading: false,
@@ -31,7 +26,7 @@ const initialStateBank = {
   bank_update_fail: false,
 };
 
-export default function kycUpdateReducer(action, state = initialState) {
+export default (state = initialState, action) => {
   switch (action?.type) {
     case KYC_UPDATE.START:
       return {
@@ -70,13 +65,6 @@ export default function kycUpdateReducer(action, state = initialState) {
           status: KYC_UPDATE.END,
         },
       };
-    default:
-      return state;
-  }
-}
-
-export function kycStatusReducer(action, state = initialStatusState) {
-  switch (action?.type) {
     case KYC_STATUS.START:
       return {
         ...state,
@@ -114,13 +102,6 @@ export function kycStatusReducer(action, state = initialStatusState) {
           status: KYC_STATUS.END,
         },
       };
-    default:
-      return state;
-  }
-}
-
-export function bankUpdateReducer(action, state = initialStateBank) {
-  switch (action?.type) {
     case BANK_UPDATE:
       return {
         ...state,
@@ -153,4 +134,4 @@ export function bankUpdateReducer(action, state = initialStateBank) {
     default:
       return state;
   }
-}
+};

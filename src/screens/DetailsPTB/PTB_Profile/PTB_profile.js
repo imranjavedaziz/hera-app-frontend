@@ -149,7 +149,20 @@ const PTB_profile = props => {
       }).start();
     }, [fadeAnim]);
     return (
-      <Animated.View style={{...props.style, opacity: fadeAnim}}>
+      <Animated.View
+        style={{
+          ...props.style,
+          opacity: fadeAnim,
+          flex: 1,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: width,
+          zIndex: 99999,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         {props.children}
       </Animated.View>
     );
@@ -225,6 +238,7 @@ const PTB_profile = props => {
       );
     }
   };
+
   return (
     <View style={[styles.flex]}>
       <Header end={false}>{headerComp()}</Header>
@@ -241,12 +255,12 @@ const PTB_profile = props => {
                 </Text>
               </View>
               <View style={{width: width - 160}}>
-                <Text style={styles.profileName}>{`${stateRes?.first_name} ${
+                <Text style={styles.profileName}>{`${stateRes?.first_name}${
                   stateRes?.middle_name === null ||
                   stateRes?.middle_name === '' ||
                   stateRes?.middle_name === undefined
                     ? ''
-                    : stateRes?.middle_name
+                    : ` ${stateRes?.middle_name}`
                 } ${stateRes?.last_name}`}</Text>
               </View>
               <View style={styles.profileImg}>

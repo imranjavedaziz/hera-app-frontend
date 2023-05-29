@@ -68,7 +68,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomModal from '../../../components/CustomModal/CustomModal';
 import SensoryMatch from '../../../components/SensoryCharacteristics/SensoryMatch';
 import {updateTrail} from '../../../redux/actions/Subsctiption';
-import {dynamicSize} from '../../../utils/responsive';
+import {dynamicSize, px} from '../../../utils/responsive';
+import ButtonPay from '../../../components/BtnPay';
 const onValueSelect = (data, value = '') => {
   const dataArr = data ? data.split(',') : [];
   const v = value;
@@ -513,9 +514,14 @@ const SetPreference = ({route, navigation}) => {
     </>
   );
   const StyleIOS = {
-    marginTop: 30,
+    marginTop: px(20),
   };
   const Style = Platform.OS === 'ios' && StyleIOS;
+  const StyleIOSRace = {
+    marginTop: px(15),
+  };
+  const StyleRace = Platform.OS === 'ios' && StyleIOSRace;
+
   return (
     <View style={styles.flex}>
       <Header end={EditPreferences === true ? true : false}>
@@ -634,7 +640,7 @@ const SetPreference = ({route, navigation}) => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Dropdown
-                      dropDownStyle={{marginTop: Value.CONSTANT_VALUE_0}}
+                      containerStyle={{marginTop: px(Value.CONSTANT_VALUE_6)}}
                       defaultValue={value}
                       label={Strings.preference.Location}
                       data={stateRess}
@@ -652,7 +658,7 @@ const SetPreference = ({route, navigation}) => {
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Dropdown
-                      containerStyleDrop={Style}
+                      containerStyle={Style}
                       defaultValue={value}
                       label={Strings.preference.Education}
                       data={preferencesData?.education}
@@ -763,7 +769,7 @@ const SetPreference = ({route, navigation}) => {
                   render={({field: {onChange, value}}) => (
                     <Dropdown
                       defaultValue={value}
-                      dropDownStyle={{marginTop: 30}}
+                      containerStyle={StyleRace}
                       label={Strings.preference.Race}
                       data={preferencesData?.race}
                       onSelect={(selectedItem, index) => {
@@ -775,7 +781,7 @@ const SetPreference = ({route, navigation}) => {
                   )}
                   name={FormKey.race}
                 />
-                <View style={{flexDirection: 'row', marginTop: 15}}>
+                <View style={{flexDirection: 'row', marginTop: 3}}>
                   <Text style={styles.chipText}>
                     {Strings.preference.HairColor}
                   </Text>
@@ -846,15 +852,15 @@ const SetPreference = ({route, navigation}) => {
                   )}
                   name={FormKey.hair}
                 />
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.chipText}>
+                <View
+                  style={{flexDirection: 'row', marginTop: dynamicSize(32)}}>
+                  <Text style={styles.chipTexts}>
                     {Strings.preference.EyeColor}
                   </Text>
                   <Text
                     style={{
                       color: Colors.RED,
                       fontSize: 18,
-                      marginTop: dynamicSize(34),
                     }}>
                     *
                   </Text>
@@ -916,7 +922,7 @@ const SetPreference = ({route, navigation}) => {
                 )}
                 name={FormKey.eye}
               />
-              <Button
+              <ButtonPay
                 label={Strings.preference.SAVE_PREFERENCES}
                 style={styles.Btn2}
                 onPress={handleSubmit(onSubmit)}
