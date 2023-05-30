@@ -68,15 +68,14 @@ const attachPaymentIntentRes = {
   status: ATTACH_PAYMENT_INTENT.END,
 };
 
-const addBankState = {
-  tokenResponse: {
-    success: false,
-    failed: false,
-    loading: false,
-    status: ADD_BANK_TOKEN.END,
-  },
+const bankResponse = {
+  success: false,
+  failed: false,
+  loading: false,
+  status: ADD_BANK_TOKEN.END,
+  info: null,
 };
-export function addBankTokenReducer(state = addBankState, action) {
+export function addBankTokenReducer(state = bankResponse, action) {
   switch (action?.type) {
     case ADD_BANK_TOKEN.START:
       return {
@@ -107,7 +106,16 @@ export function addBankTokenReducer(state = addBankState, action) {
         bankResponse: {loading: false, status: ADD_BANK_TOKEN.END},
       };
     case ADD_BANK_TOKEN.CLEAN:
-      return addBankState;
+      return {
+        ...state,
+        bankResponse: {
+          success: false,
+          failed: false,
+          loading: false,
+          status: ADD_BANK_TOKEN.END,
+          info: null,
+        },
+      };
     default:
       return state;
   }
@@ -325,7 +333,15 @@ export function addBankReducer(state = addBanks, action) {
         addBanks: {loading: false, status: ADD_BANK.END},
       };
     case ADD_BANK.CLEAN:
-      return addBanks;
+      return {
+        addBanks: {
+          success: false,
+          failed: false,
+          loading: false,
+          status: ADD_BANK.END,
+          cardSource: null,
+        },
+      };
     default:
       return state;
   }

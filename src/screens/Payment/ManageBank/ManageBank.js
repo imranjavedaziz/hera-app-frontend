@@ -1,5 +1,5 @@
 import {View, Text, Keyboard, BackHandler} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {Button, FloatingLabelInput, Header} from '../../../components';
 import styles from './styles';
 import {Alignment, Images, Strings} from '../../../constants';
@@ -21,6 +21,7 @@ import {
   addBank,
   deleteBank,
   bank_update,
+  bank_update_Clean,
 } from '../../../redux/actions/stripe.action';
 import {
   hideAppLoader,
@@ -32,9 +33,12 @@ import {bankToken} from '../../../redux/actions/Auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ExtraBottomView from '../../../components/ExtraBottomView';
 import _ from 'lodash';
-import {getAccountStatus} from '../../../redux/actions/AccountStatus';
+import {
+  getAccountStatus,
+  cleanAccountStatus,
+} from '../../../redux/actions/AccountStatus';
+
 const ManageBank = ({route}) => {
-  const redirectTo = route?.params?.redirectTo || '';
   const navigation = useNavigation();
   const accountholderRef = useRef();
   const accountnumberRef = useRef();
@@ -67,6 +71,8 @@ const ManageBank = ({route}) => {
   };
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    dispatch(cleanAccountStatus());
+    dispatch(bank_update_Clean());
     return () => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
@@ -78,7 +84,6 @@ const ManageBank = ({route}) => {
     if (bankResponse?.status === ADD_BANK_TOKEN.SUCCESS) {
       const token = bankResponse.info.id;
       dispatch(addBank(connected_acc_token, BankInfo, token));
-      dispatch({type: ADD_BANK_TOKEN.END});
     } else if (bankResponse?.status === ADD_BANK_TOKEN.FAIL) {
       dispatch(hideAppLoader());
       setDisable(false);
@@ -104,26 +109,6 @@ const ManageBank = ({route}) => {
   }, [bank_update_success, bank_update_loading, bank_update_fail]);
   useEffect(() => {
     if (loadingRef.current && !account_status_loading) {
-      dispatch(showAppLoader());
-      if (account_status_success) {
-        if (
-          account_status_res?.bank_account !== null &&
-          (account_status_res?.kyc_status === 'incomplete' ||
-            account_status_res?.kyc_status === 'unverified')
-        ) {
-          replace(Routes.KycScreen);
-          setDisable(false);
-          dispatch(hideAppLoader());
-          if (!Item && Item === undefined && _.isEmpty(Item)) {
-            dispatch({type: ADD_BANK.CLEAN});
-          }
-        } else {
-          navigation.navigate(Routes.HeraPay);
-          setDisable(false);
-          dispatch(hideAppLoader());
-          dispatch({type: ADD_BANK.CLEAN});
-        }
-      }
       if (account_status_fail) {
         setDisable(false);
         dispatch(hideAppLoader());
@@ -137,8 +122,7 @@ const ManageBank = ({route}) => {
     if (deleteBankResponse?.status === DELETE_BANK.START) {
       dispatch(showAppLoader());
     } else if (deleteBankResponse?.status === DELETE_BANK.SUCCESS) {
-      dispatch({type: ADD_BANK.CLEAN});
-      dispatch({type: DELETE_BANK.CLEAN});
+      // dispatch({type: DELETE_BANK.CLEAN});
     } else if (deleteBankResponse?.status === DELETE_BANK.FAIL) {
       setDisable(false);
       let error = deleteBankResponse?.info ?? 'Something went wrong';
@@ -150,6 +134,42 @@ const ManageBank = ({route}) => {
     }
   }, [deleteBankResponse]);
 
+  useEffect(() => {
+    if (
+      bankResponse?.status === ADD_BANK_TOKEN.SUCCESS &&
+      addBanks?.status === ADD_BANK.SUCCESS &&
+      bank_update_success &&
+      account_status_success
+    ) {
+      if (
+        account_status_res?.bank_account !== null &&
+        (account_status_res?.kyc_status === 'incomplete' ||
+          account_status_res?.kyc_status === 'unverified')
+      ) {
+        cleanRecord();
+        dispatch({type: ADD_BANK.CLEAN});
+        dispatch({type: DELETE_BANK.CLEAN});
+        dispatch({type: ADD_BANK_TOKEN.END});
+        dispatch(hideAppLoader());
+        replace(Routes.KycScreen);
+        setDisable(false);
+      } else {
+        cleanRecord();
+        dispatch({type: ADD_BANK.CLEAN});
+        dispatch({type: DELETE_BANK.CLEAN});
+        dispatch({type: ADD_BANK_TOKEN.END});
+        dispatch(hideAppLoader());
+        navigation.navigate(Routes.HeraPay);
+        setDisable(false);
+      }
+    }
+  }, [
+    bankResponse,
+    addBanks,
+    bank_update_success,
+    account_status_res,
+    account_status_success,
+  ]);
   useEffect(() => {
     if (addBanks?.status === ADD_BANK.START) {
       dispatch(showAppLoader());
@@ -168,7 +188,6 @@ const ManageBank = ({route}) => {
       dispatch(hideAppLoader());
       let error = addBanks?.info ?? 'Something went wrong!';
       dispatch(showAppToast(true, error));
-      cleanRecord();
     }
   }, [addBanks]);
   const cleanRecord = (clearToken = true) => {
@@ -252,7 +271,7 @@ const ManageBank = ({route}) => {
     }
     return isValid;
   };
-  const validate = async () => {
+  const validate = useCallback(() => {
     Keyboard.dismiss();
     if (validateData()) {
       setDisable(true);
@@ -268,9 +287,23 @@ const ManageBank = ({route}) => {
       };
       dispatch(showAppLoader());
       setBankInfo(bankInfo);
-      dispatch(addBankToken(bankInfo));
+      if (account_status_fail) {
+        dispatch(getAccountStatus());
+      } else if (addBanks?.status === ADD_BANK.FAIL) {
+        const token = bankResponse.info.id;
+        dispatch(addBank(connected_acc_token, BankInfo, token));
+      } else if (bank_update_fail) {
+        const token = addBanks.info.id;
+        const payload = {
+          bank_acc_token: token,
+        };
+        dispatch(bankToken(token));
+        dispatch(bank_update(payload));
+      } else {
+        dispatch(addBankToken(bankInfo));
+      }
     }
-  };
+  }, [inputs, bank_update_fail, addBanks, account_status_fail]);
 
   return (
     <View style={styles.flex}>
@@ -332,7 +365,7 @@ const ManageBank = ({route}) => {
             error={errors.routingnumber}
             required={true}
             returnKeyType="go"
-            innerRef={routingnumberRef}
+            inputRef={routingnumberRef}
             onSubmitEditing={() => {
               Keyboard.dismiss();
             }}

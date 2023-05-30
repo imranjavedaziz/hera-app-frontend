@@ -143,7 +143,7 @@ const ChatDetail = props => {
         }
         return false;
       });
-      allImages = allSharedImages.reverse().map(i => ({uri: i.media.file_url}));
+      allImages = allSharedImages.map(i => ({uri: i.media.file_url}));
       setAllImages(removeDuplicates(allImages));
     }
   }, [db, loading]);
@@ -501,7 +501,7 @@ const ChatDetail = props => {
       }
     } else {
       if (
-        props?.route?.params?.account_status_res?.status ||
+        props?.route?.params?.account_status_res?.status === 1 ||
         (props?.route?.params?.account_status_res?.bank_account &&
           props?.route?.params?.account_status_res?.kyc_status === 'verified')
       ) {

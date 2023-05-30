@@ -7,6 +7,9 @@ import {
   DOCUMENT_GET_FAIL,
   DOCUMENT_GET_SUCCESS,
   DOCUMENT_GET_ClEAN,
+  REQUEST_DOCUMENT_UPLOAD_FAIL,
+  REQUEST_DOCUMENT_UPLOAD_PAYMENT,
+  REQUEST_DOCUMENT_UPLOAD_SUCCESS,
 } from '../Type';
 
 const initState = {
@@ -20,6 +23,11 @@ const initState = {
   document_get_fail: false,
   document_get_error_msg: '',
   document_get_loading: false,
+  request_document_upload_success: false,
+  request_document_upload_res: '',
+  request_document_upload_fail: false,
+  request_document_upload_error_msg: '',
+  request_document_upload_loading: false,
 };
 
 export default (state = initState, action) => {
@@ -83,9 +91,43 @@ export default (state = initState, action) => {
         document_get_success: false,
         document_get_loading: false,
         document_get_error_msg: action.data.msg,
-        document_get_res:'',
+        document_get_res: '',
         document_get_fail: true,
       };
+    /**
+     * DOCUMENT_UPLOAD
+     */
+
+    case REQUEST_DOCUMENT_UPLOAD_PAYMENT: {
+      return {
+        ...state,
+        request_document_upload_success: false,
+        request_document_upload_res: '',
+        request_document_upload_fail: false,
+        request_document_upload_error_msg: '',
+        request_document_upload_loading: true,
+      };
+    }
+    case REQUEST_DOCUMENT_UPLOAD_FAIL: {
+      return {
+        ...state,
+        request_document_upload_success: false,
+        request_document_upload_res: '',
+        request_document_upload_fail: true,
+        request_document_upload_error_msg: action.data.msg,
+        request_document_upload_loading: false,
+      };
+    }
+    case REQUEST_DOCUMENT_UPLOAD_SUCCESS: {
+      return {
+        ...state,
+        request_document_upload_success: true,
+        request_document_upload_res: action?.data?.data?.data,
+        request_document_upload_fail: false,
+        request_document_upload_error_msg: '',
+        request_document_upload_loading: false,
+      };
+    }
     default:
       return state;
   }
