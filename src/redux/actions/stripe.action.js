@@ -1,4 +1,4 @@
-import {KYC_STATUS, KYC_UPDATE, BANK_UPDATE} from '../Type';
+import {KYC_STATUS, KYC_UPDATE, BANK_UPDATE, BANK_UPDATE_CLEAN} from '../Type';
 
 export const GET_CARD_LIST = {
   API: 'GET_CARD_LIST_API',
@@ -120,7 +120,12 @@ export const bank_update = data => {
     data,
   };
 };
-
+export const bank_update_Clean = data => {
+  return {
+    type: BANK_UPDATE_CLEAN,
+    data,
+  };
+};
 export const kyc_status_update = data => {
   return {
     type: KYC_STATUS.API,

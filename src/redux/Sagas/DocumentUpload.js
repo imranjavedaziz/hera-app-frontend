@@ -1,15 +1,21 @@
 import {
-  DOCUMENT_UPLOAD_PAYMENT,
   DOCUMENT_UPLOAD,
   DOCUMENT_UPLOAD_FAIL,
   DOCUMENT_UPLOAD_SUCCESS,
   DOCUMENT_GET,
   DOCUMENT_GET_FAIL,
   DOCUMENT_GET_SUCCESS,
+  REQUEST_DOCUMENT_UPLOAD_FAIL,
+  REQUEST_DOCUMENT_UPLOAD_PAYMENT,
+  REQUEST_DOCUMENT_UPLOAD_SUCCESS,
 } from '../Type';
 
 import {takeLatest, put} from 'redux-saga/effects';
-import {DocumentGetApi, DocumentUploadApi} from '../../Api';
+import {
+  DocumentGetApi,
+  DocumentUploadApi,
+  RequestDocumentUploadApi,
+} from '../../Api';
 import {HttpStatus} from '../../constants/Constants';
 import {ValidationMessages} from '../../constants/Strings';
 
@@ -37,25 +43,25 @@ export function* watchDocumentUpload() {
 }
 function* DocumentUploadPayment(payload) {
   try {
-    const result = yield DocumentUploadApi(payload.data,true);
+    const result = yield RequestDocumentUploadApi(payload.data, true);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       console.log(result, 'aaresultDoc');
-      yield put({type: DOCUMENT_UPLOAD_SUCCESS, data: result});
+      yield put({type: REQUEST_DOCUMENT_UPLOAD_SUCCESS, data: result});
     } else {
       yield put({
-        type: DOCUMENT_UPLOAD_FAIL,
+        type: REQUEST_DOCUMENT_UPLOAD_FAIL,
         data: {msg: result.data.message},
       });
     }
   } catch (err) {
     yield put({
-      type: DOCUMENT_UPLOAD_FAIL,
+      type: REQUEST_DOCUMENT_UPLOAD_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
     });
   }
 }
 export function* watchDocumentUploadPayment() {
-  yield takeLatest(DOCUMENT_UPLOAD_PAYMENT, DocumentUploadPayment);
+  yield takeLatest(REQUEST_DOCUMENT_UPLOAD_PAYMENT, DocumentUploadPayment);
 }
 function* DocumentGet(payload) {
   try {

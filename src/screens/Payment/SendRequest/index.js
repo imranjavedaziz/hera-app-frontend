@@ -23,7 +23,7 @@ import CustomImagePicker, {
 } from '../../../components/Document/CustomImagePicker';
 import {hideAppLoader, showAppToast} from '../../../redux/actions/loader';
 import {Input_Type} from '../../../constants/Constants';
-import {DocumentUploadPayment} from '../../../redux/actions/DocumentUpload';
+import {RequestDocumentUploadPayment} from '../../../redux/actions/DocumentUpload';
 import {SendPaymentRequest} from '../../../redux/actions/PaymentRequest';
 import {digitBeforeDecimal} from '../../../utils/commonFunction';
 import {Value} from '../../../constants/FixedValues';
@@ -44,10 +44,10 @@ const SendRequest = ({route}) => {
   const dispatch = useDispatch();
   const {log_in_data} = useSelector(state => state.Auth);
   const {
-    document_upload_success,
-    document_upload_res,
-    document_upload_loading,
-    document_upload_fail,
+    request_document_upload_success,
+    request_document_upload_res,
+    request_document_upload_loading,
+    request_document_upload_fail,
   } = useSelector(state => state.DocumentUpload);
   const [imageLoading, setImageLoading] = useState(true);
   const loadingRef = useRef(null);
@@ -109,23 +109,23 @@ const SendRequest = ({route}) => {
     dispatch,
   ]);
   useEffect(() => {
-    if (loadingRef.current && !document_upload_loading) {
-      if (document_upload_success) {
-        setValue('doc_url', document_upload_res.file_url);
+    if (loadingRef.current && !request_document_upload_loading) {
+      if (request_document_upload_success) {
+        setValue('doc_url', request_document_upload_res.file_url);
         dispatch(hideAppLoader());
         setImageLoading(false);
       }
-      if (document_upload_fail) {
+      if (request_document_upload_fail) {
         dispatch(hideAppLoader());
         setImageLoading(false);
       }
     }
-    loadingRef.current = document_upload_loading;
+    loadingRef.current = request_document_upload_loading;
   }, [
-    document_upload_success,
-    document_upload_fail,
-    document_upload_loading,
-    document_upload_res,
+    request_document_upload_success,
+    request_document_upload_fail,
+    request_document_upload_loading,
+    request_document_upload_res,
     dispatch,
   ]);
   const backAction = () => {
@@ -202,7 +202,7 @@ const SendRequest = ({route}) => {
       });
     if (file !== null) {
       setImageLoading(true);
-      dispatch(DocumentUploadPayment(reqData));
+      dispatch(RequestDocumentUploadPayment(reqData));
     }
   }, [file]);
   useEffect(() => {
@@ -377,7 +377,7 @@ const SendRequest = ({route}) => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
                 <TouchableOpacity
                   onPress={handleSubmit(onSubmit)}
-                  disabled={document_upload_loading}
+                  disabled={request_document_upload_loading}
                   style={Styles.btnContainer}>
                   <Text style={Styles.btnText}>
                     {Strings.SendRequest.sendRequest}
