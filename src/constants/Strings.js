@@ -914,11 +914,10 @@ export default {
   FILE_MAX_SIZE: 'Max size: 10 MB',
   INVALID_FORMAT: 'Invalid Format',
   UpgradeApp: {
-    title: 'Time to Update!',
+    title: 'A new & better version is here!',
     version: 'What’s new in v',
-    para: `We have added some new features & worked on some bug fixes to make your
-    experience as better as possible. Please update the app to latest
-    version to continue using HERA.`,
-    btn: 'Update Now',
+    para: `We have updated to version v{VERSION} and it promises a better experience for our users. The current version of the application is no longer supported.`,
+    para2: `Go to {STORE} now to update the application and explore what’s new.`,
+    btn: 'YES, UPDATE NOW',
   }
 };
