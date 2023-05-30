@@ -12,3 +12,9 @@ export const DocumentGetApi = (payload, page = 1, limit = 15) => {
     `${ApiPath.chatMedia}?to_user_id=${payload.data}&page=${payload.page}&limit=${payload.limit}`,
   );
 };
+export const RequestDocumentUploadApi = (data, isPayment = false) => {
+  return axiosRequest.post(
+    isPayment ? ApiPath.documentPaymentUpload : ApiPath.documentUpload,
+    data,
+  );
+};

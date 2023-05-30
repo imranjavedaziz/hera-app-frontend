@@ -639,8 +639,7 @@ export default {
     BANK_NOT_ADDED: 'Please add your bank details to request for a payment.',
     BANK_INCOMPLETE:
       'You can request for a payment, once your bank KYC has been submitted.',
-    BANK_UNVERIFIED:
-      'You can request for a payment, once your bank KYC has been verified.',
+    BANK_UNVERIFIED: `You can request for a payment once your bank's know-your-customer (KYC) has been verified.`,
   },
   Match_Screen: {
     Send_Payment: 'Send Payment',

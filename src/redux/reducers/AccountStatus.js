@@ -16,6 +16,14 @@ const initState = {
 export default (state = initState, action) => {
   switch (action.type) {
     case ACCOUNT_STATUS_CLEAN:
+      return {
+        ...state,
+        account_status_success: false,
+        account_status_loading: false,
+        account_status_error_msg: '',
+        account_status_res: '',
+        account_status_fail: false,
+      };
     case ACCOUNT_STATUS:
       return {
         ...state,

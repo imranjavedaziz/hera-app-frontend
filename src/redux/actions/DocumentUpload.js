@@ -3,6 +3,7 @@ import {
   DOCUMENT_UPLOAD,
   DOCUMENT_GET,
   DOCUMENT_GET_ClEAN,
+  REQUEST_DOCUMENT_UPLOAD_PAYMENT,
 } from '../Type';
 
 export const DocumentUpload = payload => {
@@ -24,3 +25,7 @@ export const DocumentGet = payload => {
   };
 };
 export const CleanDocument = () => ({type: DOCUMENT_GET_ClEAN});
+export const RequestDocumentUploadPayment = payload => ({
+  type: REQUEST_DOCUMENT_UPLOAD_PAYMENT,
+  data: payload,
+});

@@ -64,6 +64,7 @@ const HeraPay = () => {
   } = useSelector(state => state.AccountStatus);
   const {deleteCardResponse} = useSelector(store => store.deleteCard);
   const [Data, setData] = useState([]);
+  const [disabled, setDisable] = useState(false);
   const [KycStatus, setKycStatus] = useState(null);
   const [KycUpdated, setKycUpdated] = useState(false);
   const [Item, setItem] = useState(null);
@@ -95,6 +96,7 @@ const HeraPay = () => {
           dispatch(getCardList(stripe_customer_id, 10));
         } else {
           dispatch(getBankList(connected_acc_token, 3));
+          setDisable(true);
           dispatch(getAccountStatus());
         }
       }
@@ -103,6 +105,7 @@ const HeraPay = () => {
   );
   useEffect(() => {
     if (get_payment_request_list_success) {
+      dispatch(hideAppLoader());
       if (!_.isEmpty(get_payment_request_list_res?.data)) {
         if (log_in_data.role_id !== 2) {
           setNotifications(get_payment_request_list_res?.data?.length);
@@ -128,15 +131,17 @@ const HeraPay = () => {
       if (loadingRef.current && !account_status_loading) {
         dispatch(showAppLoader());
         if (account_status_success) {
-          if (account_status_res?.kyc_status == 'verified') {
+          if (account_status_res?.kyc_status === 'verified') {
             setKycUpdated(false);
           } else {
             setKycUpdated(true);
           }
           setKycStatus(account_status_res?.kyc_status);
           dispatch(hideAppLoader());
+          setDisable(false);
         }
         if (account_status_fail) {
+          setDisable(false);
           dispatch(hideAppLoader());
           dispatch(showAppToast(true, account_status_error_msg));
         }
@@ -268,6 +273,8 @@ const HeraPay = () => {
         (account_status_res?.kyc_status === 'pending' &&
           account_status_res?.status === 0) ||
         (account_status_res?.kyc_status === 'unverified' &&
+          account_status_res?.status === 0) ||
+        (account_status_res?.kyc_status === 'verified' &&
           account_status_res?.status === 0)
       ) {
         dispatch(showAppToast(true, Strings.Hera_Pay.BANK_UNVERIFIED));
@@ -290,6 +297,7 @@ const HeraPay = () => {
               : Strings.Hera_Pay.Request_for_Payment}
           </Text>
           <TouchableOpacity
+            disabled={disabled}
             onPress={() => {
               onClickMatch();
             }}
@@ -417,8 +425,8 @@ const HeraPay = () => {
                     </Text>
                     {KycUpdated === true &&
                       KycStatus !== null &&
-                      (getKycStatusFunction(account_status_res?.kyc_status) !==
-                      Strings.Hera_Pay.KYC_PENDING ? (
+                      (account_status_res?.kyc_status === 'incomplete' ||
+                        account_status_res?.kyc_status === 'unverified') && (
                         <TouchableOpacity
                           style={{
                             flexDirection: Alignment.ROW,
@@ -435,11 +443,15 @@ const HeraPay = () => {
                             source={Images.rightLogo}
                           />
                         </TouchableOpacity>
-                      ) : (
-                        <Text style={styles.kycprocess}>
-                          {getKycStatusFunction(account_status_res?.kyc_status)}
-                        </Text>
-                      ))}
+                      )}
+                    {((account_status_res?.kyc_status === 'pending' &&
+                      account_status_res?.status === 0) ||
+                      (account_status_res?.kyc_status === 'verified' &&
+                        account_status_res?.status === 0)) && (
+                      <Text style={styles.kycprocess}>
+                        {Strings.Hera_Pay.KYC_PENDING}
+                      </Text>
+                    )}
                   </View>
                   <TouchableOpacity
                     onPress={() => {

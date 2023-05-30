@@ -4,6 +4,7 @@ import {
   BANK_UPDATE,
   BANK_UPDATE_FAIL,
   BANK_UPDATE_SUCCESS,
+  BANK_UPDATE_CLEAN,
 } from '../Type';
 
 const initialState = {
@@ -101,6 +102,15 @@ export default (state = initialState, action) => {
           loading: false,
           status: KYC_STATUS.END,
         },
+      };
+    case BANK_UPDATE_CLEAN:
+      return {
+        ...state,
+        bank_update_res: '',
+        bank_update_success: false,
+        bank_update_loading: false,
+        bank_update_error_msg: '',
+        bank_update_fail: false,
       };
     case BANK_UPDATE:
       return {
