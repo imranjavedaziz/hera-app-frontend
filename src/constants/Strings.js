@@ -914,7 +914,7 @@ export default {
   FILE_MAX_SIZE: 'Max size: 10 MB',
   INVALID_FORMAT: 'Invalid Format',
   UpgradeApp: {
-    title: 'A new & better version is here!',
+    title: 'A new & better version\nis here!',
     version: 'What’s new in v',
     para: `We have updated to version v{VERSION} and it promises a better experience for our users. The current version of the application is no longer supported.`,
     para2: `Go to {STORE} now to update the application and explore what’s new.`,
