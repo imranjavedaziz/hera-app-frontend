@@ -793,6 +793,7 @@ const ChatDetail = props => {
   const navigateDetailScreen = () => {
     if (log_in_data?.role_id === 2) {
       navigation.navigate(Routes.DashboardDetailScreen, {
+        restParams: props?.route?.params,
         userId: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
         filteredItem: props?.route?.params?.filteredItem?.connected_acc_status
@@ -801,6 +802,7 @@ const ChatDetail = props => {
       });
     } else {
       navigation.navigate(Routes.ProfileDetails, {
+        restParams: props?.route?.params,
         userid: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
         account_status_res: props?.route?.params?.account_status_res
