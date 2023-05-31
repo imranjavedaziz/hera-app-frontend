@@ -129,6 +129,7 @@ const DashboardDetailScreen = ({route}) => {
           account_status_res: route?.params?.account_status_res
             ? route?.params?.account_status_res
             : '',
+          ...route?.params.restParams,
         });
       } else {
         navigation.goBack();

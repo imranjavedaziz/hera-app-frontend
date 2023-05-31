@@ -112,6 +112,7 @@ const PTB_profile = props => {
           account_status_res: props?.route?.params?.account_status_res
             ? props?.route?.params?.account_status_res
             : '',
+          ...props?.route?.params.restParams,
         });
       } else {
         navigation.goBack();
