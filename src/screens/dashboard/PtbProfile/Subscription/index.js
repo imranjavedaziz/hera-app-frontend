@@ -444,7 +444,11 @@ const Subscription = () => {
         ),
         [
           {
-            text: capitalizeStr(Strings.Subscription.YesCancel),
+            text: capitalizeStr(
+              subscriptionStatus?.data?.subscription_cancel!=1
+                ? Strings.Subscription.YesCancel
+                : Strings.Subscription.YesProceed,
+            ),
             onPress: () => {
               subscribePlan(selectCheckBox, 'credit');
             },
