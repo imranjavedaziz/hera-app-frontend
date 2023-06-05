@@ -438,9 +438,28 @@ const Subscription = () => {
           '{SELECTED_ROLE}',
           selectCheckBox == null ? '{SELECTED_ROLE}' : roleName,
         ),
-        Strings.Subscription.UpgradePlanPara.replace(
+        subscriptionStatus?.data?.subscription_cancel!=1?Strings.Subscription.UpgradePlanPara.replace(
           '{SELECTED_ROLE}',
           selectCheckBox == null ? '{SELECTED_ROLE}' : roleName2,
+        ):
+        Strings.Subscription.UpgradeCanceledPlanParaAndroid.replace(
+          '{SELECTED_ROLE}',
+          selectCheckBox == null
+            ? '{SELECTED_ROLE}'
+            : Strings?.STATIC_ROLE.find(
+                r =>
+                  r.id ===
+                  subscription_plan_res?.data?.preference
+                    ?.role_id_looking_for,
+              ).name,
+        )
+        .replace(
+          '{SELECTED_ROLE2}',
+          selectCheckBox == null
+            ? '{SELECTED_ROLE2}'
+            : Strings?.STATIC_ROLE.find(
+                r => r.id === selectCheckBox.role_id_looking_for,
+              ).name,
         ),
         [
           {
