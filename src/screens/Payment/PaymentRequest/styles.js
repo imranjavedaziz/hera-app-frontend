@@ -8,7 +8,6 @@ import {
 } from '../../../utils/responsive';
 import {Alignment, Colors} from '../../../constants';
 import {Fonts} from '../../../constants/Constants';
-console.log(width - 158, ' console.log(width-158)');
 export default {
   flex: {
     flex: 1,

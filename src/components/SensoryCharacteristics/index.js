@@ -12,12 +12,16 @@ const SensoryCharacteristics = props => {
     <>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{paddingVertical: px(Value.CONSTANT_VALUE_15)}}>
+        style={{paddingVertical: px(Value.CONSTANT_VALUE_30)}}>
         <Text style={styles?.title}>{Strings.Sensory.ABOUT}</Text>
         {SENSORY_ARR.map((item, index) => {
           return (
-            <View style={[styles.container, {top: index === 1 ? 10 : 0}]}>
-              <Image source={item.img} resizeMode="contain" />
+            <View style={[styles.container]}>
+              <Image
+                source={item.img}
+                style={{width: px(Value.CONSTANT_VALUE_112)}}
+                resizeMode="contain"
+              />
               <Text style={styles.text}>{item.caption}</Text>
             </View>
           );

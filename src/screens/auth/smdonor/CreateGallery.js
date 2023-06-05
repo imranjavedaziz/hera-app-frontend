@@ -217,7 +217,6 @@ const CreateGallery = () => {
     );
     return true;
   };
-  console.log('LINE NUMBER 193', images);
   const updateGallery = () => {
     const url =
       gallery_data?.doner_photo_gallery?.length > 0 &&

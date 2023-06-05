@@ -311,11 +311,13 @@ export default {
   timeSenderPDF: {
     alignSelf: Alignment.FLEXEND,
     marginTop: px(Value.CONSTANT_VALUE_2),
+    marginBottom: px(Value.CONSTANT_VALUE_12),
     marginRight: px(Value.CONSTANT_VALUE_20),
   },
   timeRXPDF: {
     alignSelf: Alignment.FLEX_START,
     marginTop: px(Value.CONSTANT_VALUE_2),
+    marginBottom: px(Value.CONSTANT_VALUE_12),
     marginLeft: px(Value.CONSTANT_VALUE_10),
   },
   timeImgSender: {

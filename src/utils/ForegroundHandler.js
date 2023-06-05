@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging from '@react-native-firebase/messaging';
@@ -16,7 +16,6 @@ const ForegroundHandler = () => {
   const toastRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
-    // console.log(toast?.show, 'toast');
     const unsubscribe = messaging().onMessage(remoteMessage => {
       console.log('Notification Method Unsubscribe', remoteMessage);
       const {notification, messageId} = remoteMessage;

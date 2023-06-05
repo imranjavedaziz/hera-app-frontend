@@ -154,7 +154,6 @@ export default function Support() {
     return true;
   };
   const timezone = moment.tz.guess(true);
-  console.log(timezone);
   const onSubmit = data => {
     const payload = {
       name: data.name,

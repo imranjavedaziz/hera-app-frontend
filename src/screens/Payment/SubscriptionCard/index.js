@@ -60,7 +60,6 @@ const SubscriptionCard = ({route}) => {
   const {subscription_status_success} = useSelector(
     state => state.Subscription,
   );
-  console.log(params, 'koko');
   const {paymentIntentRes} = useSelector(store => store.paymentIntent);
   const {stripe_customer_id} = useSelector(state => state.Auth);
   const dispatch = useDispatch();
@@ -80,7 +79,6 @@ const SubscriptionCard = ({route}) => {
   }, [paymentIntentRes]);
 
   useEffect(() => {
-    console.log('CHECKING CREATE SUB LINE NO 74');
     if (
       create_subscription_success &&
       isCallApi &&
@@ -114,7 +112,6 @@ const SubscriptionCard = ({route}) => {
       };
       setCallApi(true);
       dispatch(showAppLoader());
-      console.log('createSubscription', payload);
       dispatch(createSubscription(payload));
     } else if (attachPaymentIntentRes?.status === ATTACH_PAYMENT_INTENT.FAIL) {
       let error = attachPaymentIntentRes?.error ?? 'Something went wrong!';

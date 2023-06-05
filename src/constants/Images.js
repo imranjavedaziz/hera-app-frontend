@@ -122,7 +122,7 @@ export default {
   PLUS: require('../assets/icons/plus/plus.png'),
   imageCross: require('../assets/icons/imageCross/imageCross.png'),
   rightLogo: require('../assets/icons/rightLogo/rightLogo.png'),
-
+  rejectCross: require('../assets/icons/rejectCross/rejectCross.png'),
   //Card
 
   defaultCardbig: require('../assets/icons/defaultCardbig/defaultCardbig.png'),

@@ -280,7 +280,6 @@ export function getRequestTime(createdAt) {
 const ZERO = 0;
 
 export const calculateStripeAmount = amount => {
-  console.log(parseFloat(amount));
   const {stripe_processing_fees, stripe_additional_fees} =
     store.getState().Auth;
   if (amount > ZERO) {

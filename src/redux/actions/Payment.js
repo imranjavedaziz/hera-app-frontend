@@ -42,7 +42,6 @@ export const getMatchListPages = () => ({
   type: GET_MATCH_LIST_PAGE,
 });
 export const getPaymentRequesPages = () => {
-  console.log('hihihhihihihihihihi');
   return {
     type: GET_PAYMENT_REQUEST_PAGES,
   };

@@ -101,7 +101,6 @@ const DeactivateAccount = () => {
       status_id: 2,
       reason_id: reason,
     };
-    console.log('LINE NO 144 PAYLOAD', payload);
     dispatch(deactivateAccount(payload));
   };
   const loaderFunc = () => {

@@ -197,7 +197,6 @@ export function attachPaymentIntentReducer(
         },
       };
     case ATTACH_PAYMENT_INTENT.CLEAN:
-      console.log('consolesss');
       return attachPaymentIntentRes;
     default:
       return state;

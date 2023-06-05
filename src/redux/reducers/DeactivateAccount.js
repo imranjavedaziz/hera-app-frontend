@@ -60,13 +60,6 @@ export default (state = initState, action) => {
       };
     }
     case REASONS_LIST_SUCCESS: {
-      console.log('LINE NUMBER 66 REDUCER', {
-        ...state,
-        get_reason_list_success: true,
-        get_reason_list_loading: false,
-        get_reason_list_error_msg: '',
-        get_reason_list_res: action?.data?.data,
-      });
       return {
         ...state,
         get_reason_list_success: true,

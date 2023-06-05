@@ -12,7 +12,6 @@ import {chatFeedback, pushNotification} from '../../Api/Chat';
 import {ValidationMessages} from '../../constants/Strings'
 //GetFeedback
 function* getFeedback(data) {
-  console.log(data, 'data');
   try {
     const result = yield chatFeedback(data.payload);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
@@ -32,7 +31,6 @@ export function* watchGetFeedback() {
 }
 //sendNotification
 function* sendNotification(data) {
-  console.log(data, 'data');
   try {
     const result = yield pushNotification(data.payload);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {

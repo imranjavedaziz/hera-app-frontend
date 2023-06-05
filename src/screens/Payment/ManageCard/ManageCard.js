@@ -113,10 +113,8 @@ const ManageCard = ({route}) => {
         payment_request_id: null,
       };
       if (!check && params) {
-        console.log('without save card for future', info);
         dispatch(paymentTransfer(payload));
       } else if (check && params) {
-        console.log('check save card for future', info);
         dispatch(paymentTransfer(payload));
         dispatch(attachPaymentIntent(stripe_customer_id, info?.id));
       } else {

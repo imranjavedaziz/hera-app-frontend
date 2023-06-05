@@ -114,7 +114,6 @@ const KycScreen = ({route}) => {
         dispatch(showAppLoader());
         if (get_state_success) {
           dispatch(hideAppLoader());
-          console.log(get_state_res, 'get_state_res');
         }
         if (get_state_error_msg) {
           dispatch(hideAppLoader());
@@ -536,10 +535,6 @@ const KycScreen = ({route}) => {
         isVisible={show}
         mode={'date'}
         onConfirm={selectedDate => {
-          console.log(
-            moment(selectedDate).format('MMM DD, YYYY'),
-            'selectedDateselectedDate',
-          );
           setShow(false);
           setDate(selectedDate);
           setInputs(prevState => ({

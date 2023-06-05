@@ -24,7 +24,6 @@ import {ValidationMessages} from '../../constants/Strings';
 function* CreateSubscription(payload) {
   try {
     const result = yield createSubscriptionApi(payload.data);
-    console.log('LINE NO 14 SAGA CREATE SUBSCRIPTION', result.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: CREATE_SUBSCRIPTION_SUCCESS, data: result});
     } else {
@@ -34,7 +33,6 @@ function* CreateSubscription(payload) {
       });
     }
   } catch (err) {
-    console.log('err', err);
     yield put({
       type: CREATE_SUBSCRIPTION_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
@@ -48,7 +46,6 @@ export function* watchCreateSubscription() {
 function* SubscriptionPlan(payload) {
   try {
     const result = yield subscriptionPlanApi(payload.data);
-    console.log('LINE NO 37 SAGA SUBSCRIPTION PLAN');
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SUBSCRIPTION_PLAN_SUCCESS, data: result});
     } else {
@@ -58,7 +55,6 @@ function* SubscriptionPlan(payload) {
       });
     }
   } catch (err) {
-    console.log('err', err);
     yield put({
       type: SUBSCRIPTION_PLAN_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
@@ -72,7 +68,6 @@ export function* watchSubscriptionPlan() {
 function* SubscriptionStatus(payload) {
   try {
     const result = yield subscriptionStatusApi(payload.data);
-    console.log('LINE NO 58 SAGA SUBSCRIPTION STATUS', result);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: SUBSCRIPTION_STATUS_SUCCESS, data: result});
     } else {
@@ -82,7 +77,6 @@ function* SubscriptionStatus(payload) {
       });
     }
   } catch (err) {
-    console.log('err', err);
     yield put({
       type: SUBSCRIPTION_STATUS_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
@@ -96,7 +90,6 @@ export function* watchSubscriptionStatus() {
 function* CancelSubscription() {
   try {
     const result = yield cancelStripeSubscriptionApi();
-    console.log('LINE NO 85 SAGA CANCEL SUBSCRIPTION', result.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: CANCEL_SUBSCRIPTION_SUCCESS, data: result});
       yield put({type: SUBSCRIPTION_STATUS, data: null});
@@ -107,7 +100,6 @@ function* CancelSubscription() {
       });
     }
   } catch (err) {
-    console.log('err', err);
     yield put({
       type: CANCEL_SUBSCRIPTION_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},

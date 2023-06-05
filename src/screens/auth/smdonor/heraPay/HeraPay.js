@@ -114,7 +114,6 @@ const HeraPay = () => {
             item => item.status === 0,
           );
           setNotifications(filteredData?.length);
-          console.log(filteredData?.length, 'huihi');
         }
       } else {
         setNotifications(0);

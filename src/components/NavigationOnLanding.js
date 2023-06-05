@@ -7,7 +7,6 @@ import {Routes} from '../constants/Constants';
 const NavigationOnLanding = () => {
   const navigation = useNavigation();
   const navigateON = useSelector(state => state.NavigationOnLanding);
-  console.log(navigateON, 'navigateON');
   if (navigateON) {
     return navigation.navigate(Routes.Landing);
   }

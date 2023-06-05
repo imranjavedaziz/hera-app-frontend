@@ -305,7 +305,6 @@ const EditProfile = props => {
     setValue('relationship_status_id', relationship_status_id);
   };
   const onSubmit = data => {
-    console.log(data?.phone, 'data?.phone');
     dispatch(showAppLoader());
     const payload = {
       bio: data?.bio,

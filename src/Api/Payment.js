@@ -11,7 +11,6 @@ export const UpdateRequestStatus = data => {
   return axiosRequest.post(ApiPath.payment_request_status, data);
 };
 export const GetPaymentHistoryApi = (page = 1) => {
-  console.log(`${ApiPath.transactionHistory}?page=${page}`);
   return axiosRequest.get(`${ApiPath.transactionHistory}?page=${page}`);
 };
 export const paymentTransferApi = data => {

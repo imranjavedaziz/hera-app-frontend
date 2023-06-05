@@ -12,11 +12,10 @@ export default {
   },
   text: {
     padding: Value.CONSTANT_VALUE_5,
-    fontSize: Value.CONSTANT_VALUE_16,
+    fontSize: Value.CONSTANT_VALUE_15,
     fontFamily: Fonts.OpenSansRegular,
     color: Colors.COLOR_535858,
-    width: px(156),
-    paddingLeft: scaleWidth(20),
+    width: px(170),
     marginLeft: scaleWidth(20),
   },
   title: {
@@ -24,7 +23,6 @@ export default {
     fontSize: Value.CONSTANT_VALUE_23,
     fontFamily: Fonts.OpenSansBold,
     textAlign: Alignment.CENTER,
-    paddingTop: px(20),
     paddingBottom: px(30),
   },
   h2: {
@@ -80,8 +78,8 @@ export default {
     height: scaleHeight(80),
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
-    marginBottom: scaleHeight(50),
-    marginTop: scaleHeight(30),
+    marginBottom: scaleHeight(60),
+    marginTop: scaleHeight(25),
   },
   btnText: {
     textAlign: Alignment.CENTER,

@@ -75,11 +75,7 @@ const screens = [
   Routes.Profile,
   Routes.SmRegister,
 ];
-const safeAreaRoutes = [
-  Routes.Landing,
-  Routes.WalkThrough,
-  Routes.UpgradeApp,
-]
+const safeAreaRoutes = [Routes.Landing, Routes.WalkThrough, Routes.UpgradeApp];
 const Main = () => {
   const dispatch = useDispatch();
   const [firstLaunch, setFirstLaunch] = React.useState(null);
@@ -296,10 +292,7 @@ const Main = () => {
             name={Routes.SubscriptionCard}
             component={SubscriptionCard}
           />
-          <Stack.Screen
-            name={Routes.UpgradeApp}
-            component={UpgradeApp}
-          />
+          <Stack.Screen name={Routes.UpgradeApp} component={UpgradeApp} />
         </Stack.Navigator>
       </NavigationContainer>
     )

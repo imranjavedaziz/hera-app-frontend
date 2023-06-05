@@ -559,14 +559,14 @@ export default {
     PARENT_TO_BE_SEND_REQUEST: 'Intended Parent sent you a request',
     INACTIVE_ACCOUNT: 'This account is inactive',
     NICE_WATCH_FOUND: 'Nice, Your match found!',
-    PLEASE_ENTER_MESSAGE: 'Please enter your message',
+    PLEASE_ENTER_MESSAGE: 'Please enter your message.',
     PLEASE_SEND_MESSAGE_INITIATE:
       'Please send a message to initiate the conversation.',
     MATCH_SEND_SUCCESSFULLY: 'Match request sent successfully.',
   },
   Sensory: {
     AS_PER_SEARCH:
-      'As per the search criteria you have set, a series of surrogate mother, sperm donor or egg donor will be shown',
+      'As per the search criteria you have set, a series of surrogate mother, sperm donor or egg donor will be shown.',
     SELECT_HEART_TO:
       'Select heart to send a like to the profile & if they like you back, it will be a match! You will be able to chat only with your matches.',
     SELECT_CROSS:

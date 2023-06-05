@@ -406,8 +406,16 @@ const ChatDetail = props => {
       });
       setDocumentFile(result[0]);
       const bytes = result[0]?.size;
+      if (!bytes) {
+        dispatch(
+          showAppToast(
+            true,
+            'File size information is not available. Please re-upload the file.',
+          ),
+        );
+        return;
+      }
       const megabytes = bytes / (1024 * 1024);
-      console.log(megabytes.toFixed(3), 'resultDocuments');
       if (megabytes.toFixed(3) > 5) {
         dispatch(
           showAppToast(

@@ -50,7 +50,6 @@ const PtbBasicDetails = ({route}) => {
     resolver: yupResolver(smBasicSchema),
   });
   const onSubmit = data => {
-    console.log(data);
     navigation.navigate(Routes.SetPreference, {...data, ...route.params});
   };
   const headerComp = () => (
