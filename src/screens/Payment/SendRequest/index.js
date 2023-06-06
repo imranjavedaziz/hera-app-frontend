@@ -260,7 +260,6 @@ const SendRequest = ({route}) => {
                 control={control}
                 render={({field: {onChange, value}}) => {
                   const handleAmountChange = text => {
-                    console.log('handleAmountChange', text);
                     let txt =
                       text?.length > 0 && typeof text === 'string'
                         ? text.replace(/\s/g, '')

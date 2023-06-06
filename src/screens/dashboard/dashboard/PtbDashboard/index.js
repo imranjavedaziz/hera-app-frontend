@@ -366,13 +366,14 @@ const PtbDashboard = props => {
         setTimeout(() => {
           setDisable(false);
         }, 1100);
-        dispatch(showAppToast(false, profile_match_error_msg));
         if (islikedLogo === 'liked') {
+          dispatch(showAppToast(false, profile_match_error_msg));
           setIsVisibleLogo(true);
           handleOnSwipedRight();
         }
         if (islikedLogo === 'disliked') {
           setIsVisibleLogo(true);
+          dispatch(showAppToast(false, profile_match_error_msg, true));
           handleOnSwipedLeft();
         }
       } else {

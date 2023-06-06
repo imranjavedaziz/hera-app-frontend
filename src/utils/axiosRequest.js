@@ -44,7 +44,7 @@ axiosRequest.interceptors.request.use(
     }
     request.headers.Platform = Platform.OS;
     request.headers.Version = Version;
-    console.log('request.headers',request.headers);
+    console.log('request.headers', request.headers);
     return request;
   },
   error => {
@@ -80,10 +80,9 @@ axiosRequest.interceptors.response.use(
       }
       store.dispatch(updateSubscriptionStatus(0));
       return Promise.reject(error);
-    }
-    else if(error.response.status === 308){
-      console.log('error.response',JSON.stringify(error.response.data));
-      navigationRef.current?.navigate(Routes.UpgradeApp,error.response.data);
+    } else if (error.response.status === 308) {
+      console.log('error.response', JSON.stringify(error.response.data));
+      navigationRef.current?.navigate(Routes.UpgradeApp, error.response.data);
     } else if (
       error.response.status === 401 &&
       decodedToken.exp < currentTime

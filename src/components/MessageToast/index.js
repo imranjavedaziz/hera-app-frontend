@@ -59,7 +59,6 @@ const MessageToast = ({message}) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const toastState = useSelector(state => state.loader);
-  console.log(toastState, 'toastState');
   const backgroundColor =
     toastState?.pushRes?.notify_type === 'subscribe'
       ? Colors.COLOR_RED

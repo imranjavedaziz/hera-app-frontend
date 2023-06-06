@@ -13,7 +13,6 @@ function* kycUpdate(action) {
   const {data} = action;
   try {
     const result = yield kycUpdateApi(data);
-    console.log('requestVerification--saga', result);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({
         type: KYC_UPDATE.SUCCESS,
@@ -26,7 +25,6 @@ function* kycUpdate(action) {
       });
     }
   } catch (err) {
-    console.log(err,'errs');
     yield put({
       type: KYC_UPDATE.FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},

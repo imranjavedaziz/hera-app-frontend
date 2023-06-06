@@ -6,7 +6,6 @@ import {Fonts} from '../../constants/Constants';
 export default {
   mainContainer: {
     paddingHorizontal: dynamicSize(Value.CONSTANT_VALUE_45),
-    paddingVertical: px(Value.CONSTANT_VALUE_15),
   },
   title: {
     color: Colors.COLOR_535858,
@@ -54,7 +53,7 @@ export default {
     justifyContent: 'center',
     alignSelf: 'center',
     marginBottom: scaleHeight(25),
-    marginTop: scaleHeight(54),
+    marginTop: scaleHeight(34),
   },
   btnText: {
     textAlign: 'center',

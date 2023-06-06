@@ -23,7 +23,6 @@ function* DocumentUpload(payload) {
   try {
     const result = yield DocumentUploadApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      console.log(result, 'aaresultDoc');
       yield put({type: DOCUMENT_UPLOAD_SUCCESS, data: result});
     } else {
       yield put({
@@ -45,7 +44,6 @@ function* DocumentUploadPayment(payload) {
   try {
     const result = yield RequestDocumentUploadApi(payload.data, true);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      console.log(result, 'aaresultDoc');
       yield put({type: REQUEST_DOCUMENT_UPLOAD_SUCCESS, data: result});
     } else {
       yield put({

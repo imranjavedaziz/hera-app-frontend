@@ -8,7 +8,6 @@ function* NextStep(payload) {
   try {
     const result = yield NextStepApi(payload.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
-      console.log(result, 'NEXT_STEP_RESPONSE');
       yield put({type: NEXT_STEP_SUCCESS, data: result});
     } else {
       yield put({

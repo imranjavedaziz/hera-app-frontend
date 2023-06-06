@@ -32,7 +32,6 @@ const Chat_listing_Comp = props => {
   const smMatchMsg = smMatch === 'Intended Parent sent you a request';
   const styleMatchOneMsg = styleMatchOne === `Hey, It's a Match!`;
   const styleAdmin = message !== '' && message === 'No Messages Yet!';
-  console.log(styleAdmin, 'styleMatchOnestyleMatchOne');
   return (
     <>
       {currentRole !== 1 && roleId === 2 && (

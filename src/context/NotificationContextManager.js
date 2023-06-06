@@ -21,7 +21,6 @@ const NotificationContextManager = props => {
     if (enabled) {
       getFcmToken();
       getDeviceId();
-      console.log('Authorization status:', authStatus);
     }
   };
 

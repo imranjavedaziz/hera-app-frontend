@@ -47,7 +47,6 @@ const Transaction = () => {
     };
   }, []);
   React.useEffect(() => {
-    console.log('payment_history_res', JSON.stringify(payment_history_res));
     if (payment_history_success) {
       setHistory(payment_history_res.data);
       dispatch(hideEditLoader());

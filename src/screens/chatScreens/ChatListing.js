@@ -162,7 +162,7 @@ const ChatListing = () => {
     yesterdayDate.setDate(new Date().getDate() - 1);
     let yesterday = dateFormate(yesterdayDate);
     let day;
-    let defaultDate = moment(date).format('MMM Do');
+    let defaultDate = moment(date).format('MMMM D'); // Modified the format here
 
     switch (true) {
       case timeAgoArray[1] === 'few':
@@ -180,9 +180,10 @@ const ChatListing = () => {
     }
     return day;
   }
+
   function dateFormate(date) {
     let year = date.getFullYear();
-    let month = date.getMonth();
+    let month = date.getMonth() + 1; // Added +1 to get the correct month index
     let day = date.getDate();
     return year + '-' + month + '-' + day;
   }

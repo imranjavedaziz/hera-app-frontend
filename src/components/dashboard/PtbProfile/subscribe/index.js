@@ -26,7 +26,6 @@ const cancelURL = Platform.select({
   default: '',
 });
 const Subscribe = ({MainText, InnerText, Icon, is_trial}) => {
-  console.log('LINE NUMBER 24', is_trial);
   const navigation = useNavigation();
   return (
     <View style={styles.container(is_trial)}>

@@ -197,7 +197,6 @@ const PaymentSent = ({route}) => {
             />
           </View>
           <View style={styles.rowStyle}>
-            <Text style={styles.star}>*</Text>
             <Text style={styles.addProcess} numberOfLines={2}>
               {Strings.PaymentSent.AdditionalCharges}
             </Text>

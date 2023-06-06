@@ -26,7 +26,7 @@ const environment = {
   },
 };
 
-export const {bucket, api_url, chat} = environment.qa;
+export const {bucket, api_url, chat} = environment.stage;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -127,7 +127,7 @@ export const Fonts = {
   OpenSansItalic: 'OpenSans-Italic',
   OpenSansLight: 'OpenSans-Light',
   OpenSansLightItalic: 'OpenSans-LightItalic',
-  OpenSansRegular: Platform.OS==='ios'?'OpenSans':'OpenSans-Regular',
+  OpenSansRegular: Platform.OS === 'ios' ? 'OpenSans' : 'OpenSans-Regular',
   OpenSansSemibold: 'OpenSans-Semibold',
   OpenSansSemiboldItalic: 'OpenSans-SemiboldItalic',
 };

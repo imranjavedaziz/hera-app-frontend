@@ -123,7 +123,6 @@ const ConfirmPayment = ({route}) => {
           payout_status: 1,
         };
         navigation.navigate(Routes.TransactionDetails, payload);
-        console.log(payment_transfer_res, 'payment_transfer_res');
       }
       if (payment_transfer_fail) {
         dispatch(hideAppLoader());

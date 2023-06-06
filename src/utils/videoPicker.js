@@ -11,10 +11,8 @@ const videoPicker = index => {
     allowsEditing: true,
   };
   return new Promise((resolve, reject) => {
-    console.log('LINE 14 CRASH');
     myAction(options)
       .then(video => {
-        console.log('LINE 17 video');
         if (video?.duration > 59000) {
           alert(Strings.sm_create_gallery.videoDuration);
         } else {

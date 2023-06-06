@@ -22,7 +22,6 @@ const Scroller = ({
   mainStyle,
   showsVerticalScrollIndicator,
 }) => {
-  console.log(mainStyle);
   if (enabled) {
     return (
       <ScrollView

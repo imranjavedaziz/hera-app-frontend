@@ -58,7 +58,11 @@ const Toast = () => {
   const backgroundColor = toastState.isErrToast
     ? Colors.COLOR_RED
     : Colors.GREEN;
-  const icon = toastState.isErrToast ? Images.warning : Images.path;
+  const icon = toastState.isErrToast
+    ? Images.warning
+    : toastState?.isCancelToast
+    ? Images.rejectCross
+    : Images.path;
   const hideToast = async () => {
     await dispatch(hideAppToast());
   };

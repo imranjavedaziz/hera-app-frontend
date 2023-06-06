@@ -15,6 +15,7 @@ const initState = {
   text: '',
   showToast: false,
   isErrToast: true,
+  isCancelToast: false,
   toastText: '',
   push: false,
   pushRes: '',
@@ -44,6 +45,7 @@ export default (state = initState, {type = '', payload = null} = {}) => {
         showToast: true,
         isErrToast: payload.isErrToast,
         toastText: payload.text,
+        isCancelToast: payload.isCancelToast,
       };
     case HIDE_TOAST:
       return {

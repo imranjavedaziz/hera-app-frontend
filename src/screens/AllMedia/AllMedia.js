@@ -8,12 +8,12 @@ import {
   SectionList,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import styles from './styles';
 import Header, {IconHeader} from '../../components/Header';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Images from '../../constants/Images';
-import {Alignment, Colors, Strings} from '../../constants';
+import {Alignment, Strings} from '../../constants';
 import globalStyle from '../../styles/global';
 import {useDispatch, useSelector} from 'react-redux';
 import {DocumentGet, CleanDocument} from '../../redux/actions/DocumentUpload';
@@ -25,12 +25,8 @@ import {
 import FastImage from 'react-native-fast-image';
 import {Routes, monthNames} from '../../constants/Constants';
 import ImageView from 'react-native-image-viewing';
-import _ from 'lodash';
 import {Value} from '../../constants/FixedValues';
 import AllMediaImg from './AllMediaImg';
-import {MaterialIndicator} from 'react-native-indicators';
-import {dynamicSize} from '../../utils/responsive';
-import {useCallback} from 'react';
 
 const AllMedia = props => {
   const userId = props?.route?.params?.item?.recieverId;
@@ -115,7 +111,7 @@ const AllMedia = props => {
       } else {
         setExtraData(data);
       }
-     
+
       setPage(current_page);
       setLastPage(last_page);
       dispatch(hideAppLoader());
@@ -151,14 +147,13 @@ const AllMedia = props => {
       url: img.url,
     });
   };
-  const onPressDoc = (img, index) => {
+  const onPressDoc = img => {
     if (
       img.url.endsWith('.jpg') ||
       img.url.endsWith('.jpeg') ||
       img.url.endsWith('.png')
     ) {
       ImageClick(img);
-      console.log(index);
     } else {
       onPDF(img);
     }
@@ -169,7 +164,6 @@ const AllMedia = props => {
     ).map(img => ({uri: img.url}));
     setViewImages(images);
   };
-  console.log(ViewImages, '');
   const ImageClick = img => {
     const indexFinal = ViewImages.findIndex(i => i.uri === img.url);
     setImgPreviewIndex(indexFinal);
@@ -211,8 +205,6 @@ const AllMedia = props => {
     );
   };
   const onEndReached = () => {
-    console.log(lastPage, 'lastPage');
-    console.log(page, 'page');
     if (lastPage > page) {
       setLoadMore(true);
       setPage(page + 1);

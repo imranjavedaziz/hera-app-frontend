@@ -31,7 +31,6 @@ function* DeactivateAccount(payload) {
       });
     }
   } catch (err) {
-    console.log('err', err);
     yield put({
       type: DEACTIVATE_ACCOUNT_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
@@ -54,7 +53,6 @@ function* GetDeactivateReason(payload) {
       });
     }
   } catch (err) {
-    console.log('err', err);
     yield put({
       type: REASONS_LIST_FAIL,
       data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},

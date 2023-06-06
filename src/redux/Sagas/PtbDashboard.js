@@ -6,11 +6,10 @@ import {
   PTB_DASHBOARD_SUCCESS,
 } from '../Type';
 import {takeLatest, put} from 'redux-saga/effects';
-import {ValidationMessages} from '../../constants/Strings'
+import {ValidationMessages} from '../../constants/Strings';
 function* getPtbDashboard() {
   try {
     const result = yield PtbDashboardApi();
-    console.log("LINE NUMBER 13 SAGA",result?.status,result?.data);
     if (result?.status === HttpStatus.SUCCESS_REQUEST) {
       yield put({type: PTB_DASHBOARD_SUCCESS, data: result});
     } else {
@@ -20,7 +19,10 @@ function* getPtbDashboard() {
       });
     }
   } catch (err) {
-    yield put({type: PTB_DASHBOARD_FAIL, data: {msg: ValidationMessages.NO_INTERNET_CONNECTION}});
+    yield put({
+      type: PTB_DASHBOARD_FAIL,
+      data: {msg: ValidationMessages.NO_INTERNET_CONNECTION},
+    });
   }
 }
 export function* watchGetPtbDashboard() {

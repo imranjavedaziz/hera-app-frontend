@@ -457,7 +457,6 @@ export default (state = initState, action) => {
      * UPDATE PROFILE IMG
      */
     case UPDATE_PROFILE_IMG: {
-      console.log('REDUCER UPDATE PROFILE IMAGE -->', action.data);
       return {
         ...state,
         update_user_profile_img_success: false,
