@@ -161,6 +161,9 @@ const DashboardDetailScreen = ({route}) => {
         if (islikedLogo === 'liked') {
           dispatch(showAppToast(false, profile_match_error_msg));
         }
+        if (islikedLogo === 'disliked') {
+          dispatch(showAppToast(false, profile_match_error_msg, true));
+        }
       }
     } else {
       dispatch(hideAppLoader());

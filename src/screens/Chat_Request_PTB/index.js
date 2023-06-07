@@ -29,6 +29,7 @@ const Chat_Request = props => {
   const dispatch = useDispatch();
   const loadingMatchRef = useRef(false);
   const [disable, setDisable] = useState(false);
+  const [responseLogo, setResponse] = useState(false);
   const {
     profile_match_response_success,
     profile_match_response_loading,
@@ -68,7 +69,11 @@ const Chat_Request = props => {
       dispatch(showAppLoader());
       if (profile_match_response_success) {
         dispatch(hideAppLoader());
-        dispatch(showAppToast(false, profile_match_response_res));
+        if (responseLogo === true) {
+          dispatch(showAppToast(false, profile_match_response_res));
+        } else {
+          dispatch(showAppToast(false, profile_match_response_res, true));
+        }
         setDisable(false);
         if (parseInt(profile_match_data_status.status) === 2) {
           navigation.navigate(Routes.ChatDetail, {
@@ -93,6 +98,7 @@ const Chat_Request = props => {
   ]);
 
   const onPressLike = () => {
+    setResponse(true);
     const data = props?.route?.params?.user;
     const payload = {
       id: parseInt(
@@ -106,6 +112,7 @@ const Chat_Request = props => {
     dispatch(profileMatchResponse(payload));
   };
   const onPressDislike = () => {
+    setResponse(false);
     const data = props?.route?.params?.user;
     const payload = {
       id: parseInt(
