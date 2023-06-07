@@ -34,7 +34,7 @@ export default {
     paddingBottom: px(5),
     flex: 1,
     width: '100%',
-    paddingHorizontal: px(50),
+    paddingHorizontal: px(40),
   },
   hasTwo: {
     color: Colors.COLOR_535858,
@@ -60,7 +60,7 @@ export default {
     color: Colors.COLOR_535858,
     fontFamily: Fonts.OpenSansRegular,
     textAlign: Alignment.LEFT,
-    paddingHorizontal: px(50),
+    paddingHorizontal: px(40),
   },
   hasThree: {
     color: Colors.COLOR_535858,
@@ -79,7 +79,7 @@ export default {
     justifyContent: Alignment.CENTER,
     alignSelf: Alignment.CENTER,
     marginBottom: scaleHeight(60),
-    marginTop: scaleHeight(25),
+    marginTop: scaleHeight(42),
   },
   btnText: {
     textAlign: Alignment.CENTER,
@@ -100,5 +100,6 @@ export default {
     flex: Value.CONSTANT_VALUE_0,
     marginTop: Value.CONSTANT_VALUE_20,
     marginLeft: dynamicSize(101),
+    marginBottom: 40,
   },
 };
