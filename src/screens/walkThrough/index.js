@@ -1,4 +1,4 @@
-import {View, Text, Image, TouchableOpacity,StatusBar} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StatusBar} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Onboarding from 'react-native-onboarding-swiper';
@@ -55,9 +55,12 @@ const WalkThrough = () => {
                     {Strings.WALKTHROUGH.HEART_LIKE}
                   </Text>
                 </View>
-                <Text style={styles.textTwo}>
-                  {Strings.WALKTHROUGH.REJECT_NEXT}
-                </Text>
+                <View style={styles.textContainer}>
+                  <Image source={Images.SMALL_REJECT} resizeMode={'cover'} />
+                  <Text style={styles.textTwo}>
+                    {Strings.WALKTHROUGH.REJECT_NEXT}
+                  </Text>
+                </View>
                 <View style={styles.matchContainer}>
                   <Text style={styles.match}>
                     {Strings.WALKTHROUGH.FIND_MATCH}

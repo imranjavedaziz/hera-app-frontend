@@ -39,6 +39,7 @@ import {NextStep} from '../../redux/actions/NextStep';
 import {dynamicSize, px} from '../../utils/responsive';
 import {MaterialIndicator} from 'react-native-indicators';
 import FastImage from 'react-native-fast-image';
+import _ from 'lodash';
 let fireDB;
 let onChildAdd;
 // let images = [];
@@ -477,6 +478,7 @@ const ChatDetail = props => {
       case Strings.chats.shareUser:
         navigation.navigate(Routes.AllMedia, {
           item: props?.route?.params?.item,
+          ...props?.route?.params,
         });
         break;
       case Strings.chats.reportUser:
@@ -804,8 +806,8 @@ const ChatDetail = props => {
         restParams: props?.route?.params,
         userId: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
-        filteredItem: props?.route?.params?.filteredItem?.connected_acc_status
-          ? props?.route?.params?.filteredItem?.connected_acc_status
+        filteredItem: !_.isEmpty(props?.route?.params?.filteredItem)
+          ? props?.route?.params?.filteredItem
           : '',
       });
     } else {
@@ -813,7 +815,7 @@ const ChatDetail = props => {
         restParams: props?.route?.params,
         userid: parseInt(props?.route?.params?.item?.recieverId),
         coming: true,
-        account_status_res: props?.route?.params?.account_status_res
+        account_status_res: !_.isEmpty(props?.route?.params?.account_status_res)
           ? props?.route?.params?.account_status_res
           : '',
       });
@@ -1330,6 +1332,7 @@ const ChatDetail = props => {
               onPress={() => {
                 navigation.navigate(Routes.AllMedia, {
                   item: props?.route?.params?.item,
+                  ...props?.route?.params,
                 });
                 setOpen(false);
               }}

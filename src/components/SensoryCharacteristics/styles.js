@@ -25,6 +25,16 @@ export default {
     textAlign: Alignment.CENTER,
     paddingBottom: px(30),
   },
+  paragraph1: {
+    color: Colors.COLOR_535858,
+    fontSize: Value.CONSTANT_VALUE_15,
+    fontFamily: Fonts.OpenSansRegular,
+    textAlign: Alignment.LEFT,
+    paddingBottom: px(5),
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: px(40),
+  },
   h2: {
     color: Colors.COLOR_535858,
     fontSize: Value.CONSTANT_VALUE_15,

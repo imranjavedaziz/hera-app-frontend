@@ -126,8 +126,8 @@ const DashboardDetailScreen = ({route}) => {
             ...smDetailRes?.profile_match_chat,
             next_step: smDetailRes?.next_step,
           },
-          account_status_res: route?.params?.account_status_res
-            ? route?.params?.account_status_res
+          filteredItem: route?.params?.filteredItem
+            ? route?.params?.filteredItem
             : '',
           ...route?.params.restParams,
         });
