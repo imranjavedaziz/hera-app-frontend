@@ -63,6 +63,7 @@ const AllMedia = props => {
   const handleBackButtonClick = () => {
     navigation.navigate(Routes.ChatDetail, {
       item: props?.route?.params?.item,
+      ...props?.route?.params,
     });
     return true;
   };
@@ -137,6 +138,7 @@ const AllMedia = props => {
       onPress={() => {
         navigation.navigate(Routes.ChatDetail, {
           item: props?.route?.params?.item,
+          ...props?.route?.params,
         });
       }}
       style={styles.androidHeaderIcons}

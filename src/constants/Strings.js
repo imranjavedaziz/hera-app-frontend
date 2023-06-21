@@ -221,7 +221,7 @@ export default {
   preference: {
     setPreference: 'Set Preference',
     filter: 'Filter your search criteria',
-    SearchPrioritize: 'Prioritize your search',
+    SearchPrioritize: 'Prioritize Your Search',
     surrogateMother: 'Surrogate Mother',
     EggDonor: 'Egg Donor',
     SpermDonor: 'Sperm Donor',
@@ -575,15 +575,15 @@ export default {
     OKAY_GOT_IT: 'OKAY, GOT IT!',
     WHY_SUBSCRIBE: 'Why Subscribe?',
     HERA_HASTWO:
-      'Subscribe to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile.\n Please note: Subscribed users have a daily limit of 5 profile views. Subscribed users will be able to chat with their matches.',
-    FIND_THE_PERFECT: 'Find the Perfect Match',
-    heading1: 'Search criteria in your free trial',
+      'Subscribe to be able to see a full profile of the Surrogate/Donor or send a like to your preferred profile.\n \n Please note: Subscribed users have a daily limit of 5 profile views. Subscribed users will be able to chat with their matches.',
+    FIND_THE_PERFECT: 'Find The Perfect Match',
+    heading1: 'Search criteria during free trial',
     heading2: 'Search criteria during subscription',
     PARA1:
-      'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
+      'You can use the search filters to find matches based on your preferences. These filters include location, race, education, age, and physical attributes.',
     PARA2:
-      'During your free trial, you can select & search any 1 profile. For Example: Either a Surrogate Mother or a Sperm Donor or an Egg Donor.',
-    PARA3: `After you have subscribed, your search criteria will remain 1 account type at a time based on your subscription plan. In order to switch, you would have to change your ongoing subscription plan.`,
+      'During your free trial, you can search one profile of your choice. This could be a surrogate mother, a sperm donor, or an egg donor.',
+    PARA3: `Once you subscribe, you can only search for one account type at a time. This is based on your subscription plan. If you want to search for a different account type, you will need to change your subscription.`,
     FIND_YOUR_MATCH:
       'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
   },
@@ -798,7 +798,7 @@ export default {
   //Edit Profile
   EDITPROFILE: {
     EDIT_PROFILE: 'EDIT PROFILE',
-    Profile_Title: 'Change your profile details',
+    Profile_Title: 'Change Your Profile Details',
     DiscardEdit: 'Discard Edits',
     DiscardEditDisc: 'If you cancel now, your edits will not\n be saved.',
   },
@@ -808,20 +808,19 @@ export default {
     NEXT: 'NEXT',
     DONE: 'DONE',
     SELECT: 'Select',
-    HEART_LIKE: 'heart to like or',
-    REJECT_NEXT: 'reject and go to next profile.',
-    FIND_MATCH: 'Find a Match!',
+    HEART_LIKE: ' to like or',
+    REJECT_NEXT: ' and go to next profile.',
+    FIND_MATCH: 'Find A Match!',
     MATCH_CONTENT:
-      'Go through the details of the profile, and if they seem good, just send a like and wait for them to match with you!',
-    LOOKING_SM: 'Looking for a Surrogate Mother/Sperm Donor/Egg Donor?',
-    YOUR_PREFERENCE: 'Set your Preference',
+      'Review the profile carefully. If you like what you see, send a like and wait to see if they like you back.',
+    LOOKING_SM: 'Looking for a Surrogate Mother, Sperm Donor or Egg Donor?',
+    YOUR_PREFERENCE: 'Set Your Preference',
     PREFERENCE_CONTENT:
-      'Set your preferred criteria to search for a Surrogate Mother or Sperm Donor or Egg Donor. Chances are that you will match!',
+      'Set your preferred criteria to search for a Surrogate Mother, Sperm Donor or Egg Donor. Chances are that you will match!',
     SUBSCRIPTION:
-      'With a subscription, Intended Parents can send a like to match and connect on chat!',
-    CONNECT: 'Connect with your Match',
-    CONNECT_CONTENT:
-      'If the profiles that you liked, like you back, they become a match. You can chat only with a match.',
+      'With a subscription, Intended Parents can send a like to match and connect through chat!',
+    CONNECT: 'Connect With Your Match',
+    CONNECT_CONTENT: `If you like someone's profile and they like yours, you will be matched and you can start chatting.`,
   },
   //Report User
   ReportUser: {
@@ -918,5 +917,5 @@ export default {
     para: `We have updated to version v{VERSION} and it promises a better experience for our users. The current version of the application is no longer supported.`,
     para2: `Go to {STORE} now to update the application and explore what’s new.`,
     btn: 'YES, UPDATE NOW',
-  }
+  },
 };

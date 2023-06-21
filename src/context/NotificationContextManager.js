@@ -3,8 +3,9 @@ import messaging from '@react-native-firebase/messaging';
 import NotificationService from '../utils/notificationService';
 import ForegroundHandler from '../utils/ForegroundHandler';
 import uuid from 'react-native-uuid';
+import {Platform} from 'react-native';
 export const NotificationContext = React.createContext();
-
+import {PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 const NotificationContextManager = props => {
   const [fcmToken, setFcmToken] = useState('');
   const [Device_ID, setDevice_ID] = useState('');
@@ -14,27 +15,43 @@ const NotificationContextManager = props => {
   }, []);
 
   const requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-    if (enabled) {
-      getFcmToken();
-      getDeviceId();
+    if (Platform.OS === 'ios') {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      if (enabled) {
+        getFcmToken();
+        getDeviceId();
+      }
+    } else {
+      // Permission not granted, request it using PermissionsAndroid
+      const permissionStatus = await request(
+        PERMISSIONS.ANDROID.POST_NOTIFICATIONS,
+        // PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+      );
+      console.log(permissionStatus, 'permissionStatus');
+      if (permissionStatus === RESULTS.GRANTED) {
+        // Permission granted, perform necessary actions
+        getFcmToken();
+        getDeviceId();
+      } else {
+        console.log('Permission denied');
+      }
     }
   };
-
   const getFcmToken = async () => {
     console.log(
       'myMethod: ',
-      'isDeviceRegisteredForRemoteMessages', messaging().isDeviceRegisteredForRemoteMessages,
-    )
+      'isDeviceRegisteredForRemoteMessages',
+      messaging().isDeviceRegisteredForRemoteMessages,
+    );
     if (
       Platform.OS === 'ios' &&
       !messaging().isDeviceRegisteredForRemoteMessages
     ) {
-      console.log('myMethod: ', 'registerDeviceForRemoteMessages')
-      await messaging().registerDeviceForRemoteMessages()
+      console.log('myMethod: ', 'registerDeviceForRemoteMessages');
+      await messaging().registerDeviceForRemoteMessages();
     }
     const fcmToken = await messaging().getToken();
     setFcmToken(fcmToken);

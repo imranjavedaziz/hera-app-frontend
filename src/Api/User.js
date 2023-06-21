@@ -1,16 +1,16 @@
 // User
-import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 import {
   showAppLoader,
   hideAppLoader,
-  showAppToast
+  showAppToast,
 } from '../redux/actions/loader';
-import { getUserGallery } from '../redux/actions/CreateGallery';
-import { Routes } from '../constants/Constants';
-import { Strings } from '../constants';
+import {getUserGallery} from '../redux/actions/CreateGallery';
+import {Routes} from '../constants/Constants';
+import {Strings} from '../constants';
 const User = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -46,30 +46,30 @@ const User = () => {
         dispatch(hideAppLoader());
       });
   };
-  const changePassword = (data,login)=>{
+  const changePassword = (data, login) => {
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.change_password, data)
       .then(() => {
         login();
-        dispatch(showAppToast(false,Strings.ChangePassword.PASSWORD_UPDATED));
+        dispatch(showAppToast(false, Strings.ChangePassword.PASSWORD_UPDATED));
       })
       .finally(() => {
         dispatch(hideAppLoader());
       });
-  }
-  const resetPassword = (data)=>{
+  };
+  const resetPassword = data => {
     dispatch(showAppLoader());
     axiosRequest
       .post(ApiPath.resetPassword, data)
       .then(() => {
-        dispatch(showAppToast(false,Strings.ChangePassword.PASSWORD_UPDATED));
+        dispatch(showAppToast(false, Strings.ChangePassword.PASSWORD_UPDATED));
         navigation.navigate(Routes.Login);
       })
       .finally(() => {
         dispatch(hideAppLoader());
       });
-  }
+  };
 
   return {
     createGallery,
