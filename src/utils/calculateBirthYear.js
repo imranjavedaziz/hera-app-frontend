@@ -7,4 +7,4 @@ export const calculateBirthYear = dateString => {
     age--;
   }
   return age;
-  };
+};
