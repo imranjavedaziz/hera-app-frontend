@@ -580,9 +580,9 @@ export default {
     heading1: 'Search criteria during free trial',
     heading2: 'Search criteria during subscription',
     PARA1:
-      'You can use the search filters to find matches based on your preferences. These filters include location, race, education, age, and physical attributes.',
+      'You can use the search filters to find matches based on your preferences. These filters include location, race, education, age and physical attributes.',
     PARA2:
-      'During your free trial, you can search one profile of your choice. This could be a surrogate mother, a sperm donor, or an egg donor.',
+      'During your free trial, you can search one profile of your choice. This could be a surrogate mother, a sperm donor or an egg donor.',
     PARA3: `Once you subscribe, you can only search for one account type at a time. This is based on your subscription plan. If you want to search for a different account type, you will need to change your subscription.`,
     FIND_YOUR_MATCH:
       'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
@@ -808,7 +808,7 @@ export default {
     NEXT: 'NEXT',
     DONE: 'DONE',
     SELECT: 'Select',
-    HEART_LIKE: ' to like or',
+    HEART_LIKE: 'to like or',
     REJECT_NEXT: ' and go to next profile.',
     FIND_MATCH: 'Find A Match!',
     MATCH_CONTENT:

@@ -19,6 +19,7 @@ import {TransactionStatus} from '../Transaction/TransactionComp';
 
 import moment from 'moment';
 import {formatDigit, getRequestTime} from '../../../utils/commonFunction';
+import {useToast} from 'react-native-toast-notifications';
 
 const TransactionDetails = ({route}) => {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ const TransactionDetails = ({route}) => {
     OnDone();
     return true;
   };
+  const toast = useToast();
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
@@ -70,6 +72,16 @@ const TransactionDetails = ({route}) => {
     const paymentIntent = route?.params?.payment_intent;
     if (paymentIntent) {
       Clipboard.setString(paymentIntent);
+      toast.show('Copied!', {
+        type: 'success',
+        placement: 'bottom',
+        duration: 3000,
+        animationDuration: 250,
+        offset: 30,
+        textStyle: {fontSize: 15, color: Colors.BLACK},
+        animationType: 'zoom-in',
+        successColor: Colors.GREEN,
+      });
     }
   };
   return (
@@ -194,7 +206,7 @@ const TransactionDetails = ({route}) => {
                 </Text>
                 <Image
                   source={Images.ICON_MASTER}
-                  style={{height: 20, resizeMode: 'contain',}}
+                  style={{height: 20, resizeMode: 'contain'}}
                 />
                 <Text
                   style={[
