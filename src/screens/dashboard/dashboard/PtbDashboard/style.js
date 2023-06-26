@@ -17,6 +17,25 @@ export default {
     flex: dynamicSize(Value.CONSTANT_VALUE_1),
     marginTop: statusHide(105),
   },
+  buttoncontainer: {
+    marginTop: dynamicSize(Value.CONSTANT_VALUE_35),
+    alignItems: Alignment.CENTER,
+    paddingBottom: Value.CONSTANT_VALUE_89,
+  },
+  button: {
+    justifyContent: Alignment.CENTER,
+    width: dynamicSize(Value.CONSTANT_VALUE_144),
+    height: dynamicSize(Value.CONSTANT_VALUE_59),
+    borderRadius: Value.CONSTANT_VALUE_40,
+    backgroundColor: Colors.GREEN,
+    alignItems: Alignment.CENTER,
+  },
+  buttonText: {
+    fontSize: Value.CONSTANT_VALUE_13,
+    fontFamily: Fonts.OpenSansBold,
+    letterSpacing: 1.67,
+    textAlign: Alignment.CENTER,
+  },
   innerContainer: {
     flexDirection: Alignment.ROW,
     justifyContent: Alignment.SPACE_BETWEEN,

@@ -597,6 +597,15 @@ const PtbDashboard = props => {
                 <Text style={styles.sryText}>{Strings.dashboard.Sorry}</Text>
                 <Text style={styles.innerText}>{Strings.dashboard.Para1}</Text>
                 <Text style={styles.innerText2}>{Strings.dashboard.Para2}</Text>
+                <View style={styles.buttoncontainer}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                      navigation.navigate('PtbProfile');
+                    }}>
+                    <Text style={styles.buttonText}>VIEW PROFILE</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
             {statusRes === 1 && empty === false && dashboardShow()}
@@ -609,6 +618,15 @@ const PtbDashboard = props => {
                 <Text style={styles.innerText2}>
                   {Strings.dashboard.secondPara2}
                 </Text>
+                <View style={styles.buttoncontainer}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                      navigation.navigate('PtbProfile');
+                    }}>
+                    <Text style={styles.buttonText}>VIEW PROFILE</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
           </>
