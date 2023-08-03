@@ -9,7 +9,7 @@ production = ENV["PRODUCTION"] == "1"
 
 target 'MBC' do
   config = use_native_modules!
-
+  use_modular_headers!
 
   # Flags change depending on the env values.
   flags = get_default_flags()
@@ -36,6 +36,7 @@ target 'MBC' do
   pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
   pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+  pod 'FirebaseSessions', :modular_headers => true
   $RNFirebaseAsStaticFramework = true
   target 'MBCTests' do
     inherit! :complete
