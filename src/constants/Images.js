@@ -57,8 +57,8 @@ export default {
   sheild: require('../assets/icons/sheild/sheild.png'),
   notification: require('../assets/icons/notification/notification.png'),
   // IMAGES
-  LANDING_BG: require('../assets/Images/landing-bg/landing-bg.png'),
-  LOGO: require('../assets/Images/logo/logo.png'),
+  LANDING_BG: require('../assets/images/landing-bg/landing-bg.png'),
+  LOGO: require('../assets/images/logo/logo.png'),
   DASHBOARD_BG: require('../assets/Images/dashboard/group6.png'),
   DASHBOARD_IMG: require('../assets/Images/dashboard/bitmap.png'),
   Demo1: require('../assets/Images/Demo1.png'),
