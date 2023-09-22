@@ -4,6 +4,11 @@ import Images from './Images';
 import {Platform} from 'react-native';
 
 const environment = {
+  local: {
+    bucket: '',
+    api_url: 'https://4a04-118-179-181-49.ngrok-free.app/api/v1/',
+    chat: 'local',
+  },
   dev: {
     bucket: '',
     api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',

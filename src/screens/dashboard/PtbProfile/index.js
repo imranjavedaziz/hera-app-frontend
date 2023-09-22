@@ -131,7 +131,8 @@ const PtbProfile = ({route}) => {
   }, []);
   useEffect(() => {
     if (route.params?.isPlanChanged || route.params?.isPlanUpgrade) {
-      setSuccessModal(true);
+      //console.log('route params:   ', {route});
+      //setSuccessModal(false);
     }
   }, [route.params]);
   const LogoutLoadingRef = useRef(false);

@@ -1,10 +1,17 @@
-import {View, Text, Platform, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import {Colors, Images, Strings} from '../../../constants';
 import styles from '../ConfirmPayment/styles';
 import {useNavigation} from '@react-navigation/native';
-import {Routes} from '../../../constants/Constants';
+import {Routes, api_url} from '../../../constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {GET_CARD_LIST, getCardList} from '../../../redux/actions/stripe.action';
 import {
@@ -21,6 +28,7 @@ import {
   createSubscription,
   getSubscriptionStatus,
 } from '../../../redux/actions/Subsctiption';
+import {createSubscriptionPaymentPageApi} from '../../../Api/Subscription';
 // selectCheckBox
 const ConfirmSubscription = ({route}) => {
   const navigation = useNavigation();
@@ -107,7 +115,23 @@ const ConfirmSubscription = ({route}) => {
       };
       setCallApi(true);
       dispatch(showAppLoader());
-      dispatch(createSubscription(payload));
+      //dispatch(createSubscription(payload));
+      console.log('subscription : ', {params});
+      createSubscriptionPaymentPageApi(payload).then(resp => {
+        console.log('payment setup res: ', {resp});
+        const paymentUrl =
+          api_url.replace('/api/v1/', '') + resp.data.paymentUrl;
+        console.log({paymentUrl});
+
+        Linking.openURL(paymentUrl).then(res => {
+          console.log('res:', res);
+        });
+      });
+
+      // navigation.navigate(Routes.WebViewUrl, {
+      //   url: paymentUrl,
+      //   title: 'Make Payment',
+      // });
     } else {
       dispatch(showAppToast(true, 'Please select a card to proceed.'));
     }
