@@ -105,37 +105,24 @@ const ConfirmSubscription = ({route}) => {
     },
     [params],
   );
+
   const onPay = useCallback(() => {
-    if (Selected || SelectedCard) {
-      const payload = {
-        device_type: Platform.OS,
-        product_id: params.selectCheckBox.android_product,
-        payment_method_id: Selected,
-        purchase_token: 'null',
-      };
-      setCallApi(true);
-      dispatch(showAppLoader());
-      //dispatch(createSubscription(payload));
-      console.log('subscription : ', {params});
-      createSubscriptionPaymentPageApi(payload).then(resp => {
-        console.log('payment setup res: ', {resp});
-        const paymentUrl =
-          api_url.replace('/api/v1/', '') + resp.data.paymentUrl;
-        console.log({paymentUrl});
-
-        Linking.openURL(paymentUrl).then(res => {
-          console.log('res:', res);
-        });
+    const payload = {
+      device_type: Platform.OS,
+      product_id: params.selectCheckBox.android_product,
+    };
+    setCallApi(true);
+    dispatch(showAppLoader());
+    createSubscriptionPaymentPageApi(payload).then(resp => {
+      const paymentUrl = api_url.replace('/api/v1/', '') + resp.data.paymentUrl;
+      setCallApi(false);
+      dispatch(hideAppLoader());
+      Linking.openURL(paymentUrl).then(res => {
+        navigation.navigate(Routes.PtbProfile, params);
       });
+    });
+  }, [params, params.selectCheckBox]);
 
-      // navigation.navigate(Routes.WebViewUrl, {
-      //   url: paymentUrl,
-      //   title: 'Make Payment',
-      // });
-    } else {
-      dispatch(showAppToast(true, 'Please select a card to proceed.'));
-    }
-  }, [Selected, SelectedCard, params.selectCheckBox]);
   return (
     <View style={styles.flex}>
       <Header end={false}>
@@ -160,7 +147,8 @@ const ConfirmSubscription = ({route}) => {
           <Text style={styles.ammount}>{`$${params.selectCheckBox.price.toFixed(
             2,
           )}`}</Text>
-          {_.isEmpty(getCardListResponse?.info?.data) ? (
+
+          {/* {_.isEmpty(getCardListResponse?.info?.data) ? (
             <View style={styles.emptyCardView}>
               <Text style={styles.emptyText}>
                 {Strings.confirmPassword.NoCard}
@@ -209,20 +197,19 @@ const ConfirmSubscription = ({route}) => {
                 {Strings.confirmPassword.BottomPara}
               </Text>
             </View>
-          )}
+          )} */}
         </View>
       </KeyboardAwareScrollView>
-      {!_.isEmpty(getCardListResponse?.info?.data) && (
-        <View style={styles.bottonFloat}>
-          <TouchableOpacity
-            onPress={() => onPay()}
-            style={styles.btnContainerPay}>
-            <Text style={styles.btnText}>
-              PAY ${params.selectCheckBox.price.toFixed(2)}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
+
+      <View style={styles.bottonFloat}>
+        <TouchableOpacity
+          onPress={() => onPay()}
+          style={styles.btnContainerPay}>
+          <Text style={styles.btnText}>
+            PAY ${params.selectCheckBox.price.toFixed(2)}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
