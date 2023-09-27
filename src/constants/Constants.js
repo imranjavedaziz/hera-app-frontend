@@ -174,7 +174,7 @@ export const FormKey = {
   gender_id: 'gender_id',
 };
 export const ConstantsCode = {
-  Country_CODE: '+880',
+  Country_CODE: '+1',
 };
 
 export const smRoles = [
