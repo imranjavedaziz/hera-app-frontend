@@ -107,6 +107,7 @@ const ConfirmSubscription = ({route}) => {
   );
 
   const onPay = useCallback(() => {
+    console.log('onPay');
     const payload = {
       device_type: Platform.OS,
       product_id: params.selectCheckBox.android_product,
@@ -114,10 +115,12 @@ const ConfirmSubscription = ({route}) => {
     setCallApi(true);
     dispatch(showAppLoader());
     createSubscriptionPaymentPageApi(payload).then(resp => {
+      console.log('subscription page created: ', resp);
       const paymentUrl = api_url.replace('/api/v1/', '') + resp.data.paymentUrl;
       setCallApi(false);
       dispatch(hideAppLoader());
       Linking.openURL(paymentUrl).then(res => {
+        console.log('subscription page opened: ', res);
         navigation.navigate(Routes.PtbProfile, params);
       });
     });
