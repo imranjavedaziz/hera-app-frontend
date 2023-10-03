@@ -6,7 +6,7 @@ import {Platform} from 'react-native';
 const environment = {
   local: {
     bucket: '',
-    api_url: 'https://a6b8-118-179-181-49.ngrok-free.app/api/v1/',
+    api_url: 'https://dade-118-179-181-49.ngrok-free.app/api/v1/',
     chat: 'local',
   },
   dev: {
@@ -31,7 +31,7 @@ const environment = {
   },
 };
 
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, api_url, chat} = environment.local;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -174,7 +174,7 @@ export const FormKey = {
   gender_id: 'gender_id',
 };
 export const ConstantsCode = {
-  Country_CODE: '+1',
+  Country_CODE: '+880',
 };
 
 export const smRoles = [

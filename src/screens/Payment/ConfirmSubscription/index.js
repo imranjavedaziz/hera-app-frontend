@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Linking,
+  Alert,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
@@ -108,23 +109,39 @@ const ConfirmSubscription = ({route}) => {
 
   const onPay = useCallback(() => {
     console.log('onPay');
+    testToast('onPay clicked');
     const payload = {
       device_type: Platform.OS,
       product_id: params.selectCheckBox.android_product,
     };
     setCallApi(true);
+    testToast('set API call true');
     dispatch(showAppLoader());
+    testToast('show loader');
     createSubscriptionPaymentPageApi(payload).then(resp => {
+      testToast('subscription page created : ' + JSON.stringify(resp));
       console.log('subscription page created: ', resp);
       const paymentUrl = api_url.replace('/api/v1/', '') + resp.data.paymentUrl;
       setCallApi(false);
+      testToast('set API call false');
       dispatch(hideAppLoader());
+      testToast('hide loader');
       Linking.openURL(paymentUrl).then(res => {
         console.log('subscription page opened: ', res);
+        testToast('subscription page opened: ' + JSON.stringify(res));
         navigation.navigate(Routes.PtbProfile, params);
       });
     });
   }, [params, params.selectCheckBox]);
+
+  const testToast = message => {
+    Alert.alert('Test', message, [
+      {
+        text: 'Close',
+        onPress: () => null,
+      },
+    ]);
+  };
 
   return (
     <View style={styles.flex}>
