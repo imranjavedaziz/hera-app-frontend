@@ -369,28 +369,38 @@ const Subscription = () => {
     (item, type) => {
       if (item === null) {
         dispatch(showAppToast(true, 'Please choose a plan!'));
-      } else if (Platform.OS === 'ios') {
-        dispatch(showAppLoader());
-        requestSubscriptionIOS(
-          selectCheckBox?.ios_product,
-          selectCheckBox,
-          type,
-        );
       } else {
         dispatch(hideAppLoader());
-        navigation.navigate(
-          androidCards.length > 0
-            ? Routes.ConfirmSubscription
-            : Routes.SubscriptionCard,
-          {
-            selectCheckBox,
-            isPlanChanged:
-              isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
-            isPlanUpgrade,
-            subscription: subscription_plan_res?.data?.subscription,
-          },
-        );
+        navigation.navigate(Routes.ConfirmSubscription, {
+          selectCheckBox,
+          isPlanChanged: isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
+          isPlanUpgrade,
+          subscription: subscription_plan_res?.data?.subscription,
+        });
       }
+
+      // else if (Platform.OS === 'ios') {
+      //   dispatch(showAppLoader());
+      //   requestSubscriptionIOS(
+      //     selectCheckBox?.ios_product,
+      //     selectCheckBox,
+      //     type,
+      //   );
+      // } else {
+      //   dispatch(hideAppLoader());
+      //   navigation.navigate(
+      //     androidCards.length > 0
+      //       ? Routes.ConfirmSubscription
+      //       : Routes.SubscriptionCard,
+      //     {
+      //       selectCheckBox,
+      //       isPlanChanged:
+      //         isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
+      //       isPlanUpgrade,
+      //       subscription: subscription_plan_res?.data?.subscription,
+      //     },
+      //   );
+      // }
     },
     [selectCheckBox, isPlanChanged, isPlanUpgrade, subscription_plan_res],
   );
@@ -437,33 +447,33 @@ const Subscription = () => {
           '{SELECTED_ROLE}',
           selectCheckBox == null ? '{SELECTED_ROLE}' : roleName,
         ),
-        subscriptionStatus?.data?.subscription_cancel!=1?Strings.Subscription.UpgradePlanPara.replace(
-          '{SELECTED_ROLE}',
-          selectCheckBox == null ? '{SELECTED_ROLE}' : roleName2,
-        ):
-        Strings.Subscription.UpgradeCanceledPlanParaAndroid.replace(
-          '{SELECTED_ROLE}',
-          selectCheckBox == null
-            ? '{SELECTED_ROLE}'
-            : Strings?.STATIC_ROLE.find(
-                r =>
-                  r.id ===
-                  subscription_plan_res?.data?.preference
-                    ?.role_id_looking_for,
-              ).name,
-        )
-        .replace(
-          '{SELECTED_ROLE2}',
-          selectCheckBox == null
-            ? '{SELECTED_ROLE2}'
-            : Strings?.STATIC_ROLE.find(
-                r => r.id === selectCheckBox.role_id_looking_for,
-              ).name,
-        ),
+        subscriptionStatus?.data?.subscription_cancel != 1
+          ? Strings.Subscription.UpgradePlanPara.replace(
+              '{SELECTED_ROLE}',
+              selectCheckBox == null ? '{SELECTED_ROLE}' : roleName2,
+            )
+          : Strings.Subscription.UpgradeCanceledPlanParaAndroid.replace(
+              '{SELECTED_ROLE}',
+              selectCheckBox == null
+                ? '{SELECTED_ROLE}'
+                : Strings?.STATIC_ROLE.find(
+                    r =>
+                      r.id ===
+                      subscription_plan_res?.data?.preference
+                        ?.role_id_looking_for,
+                  ).name,
+            ).replace(
+              '{SELECTED_ROLE2}',
+              selectCheckBox == null
+                ? '{SELECTED_ROLE2}'
+                : Strings?.STATIC_ROLE.find(
+                    r => r.id === selectCheckBox.role_id_looking_for,
+                  ).name,
+            ),
         [
           {
             text: capitalizeStr(
-              subscriptionStatus?.data?.subscription_cancel!=1
+              subscriptionStatus?.data?.subscription_cancel != 1
                 ? Strings.Subscription.YesCancel
                 : Strings.Subscription.YesProceed,
             ),
@@ -516,15 +526,16 @@ const Subscription = () => {
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
     } else {
-      if (Platform.OS === 'android' && androidCards.length === 0) {
-        navigation.navigate(Routes.SubscriptionCard, {
-          redirectTo: Routes.Subscription,
-          selectCheckBox,
-          isPlanChanged: isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
-          isPlanUpgrade,
-          subscription: subscription_plan_res?.data?.subscription,
-        });
-      } else if (
+      // if (Platform.OS === 'android' && androidCards.length === 0) {
+      //   navigation.navigate(Routes.SubscriptionCard, {
+      //     redirectTo: Routes.Subscription,
+      //     selectCheckBox,
+      //     isPlanChanged: isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
+      //     isPlanUpgrade,
+      //     subscription: subscription_plan_res?.data?.subscription,
+      //   });
+      // } else
+      if (
         selectCheckBox !== null &&
         subscription_plan_res?.data?.preference?.role_id_looking_for !==
           selectCheckBox.role_id_looking_for
