@@ -46,10 +46,9 @@ const ConfirmSubscription = ({route}) => {
     console.log('getCardListResponse', JSON.stringify(getCardListResponse));
     if (getCardListResponse?.info?.data.length === 1) {
       const item = getCardListResponse?.info?.data[0];
-      setSelected(item?.id);
-      setSelectedCard(item);
     }
   }, [getCardListResponse]);
+
   useEffect(() => {
     if (
       create_subscription_success &&
