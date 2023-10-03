@@ -378,29 +378,6 @@ const Subscription = () => {
           subscription: subscription_plan_res?.data?.subscription,
         });
       }
-
-      // else if (Platform.OS === 'ios') {
-      //   dispatch(showAppLoader());
-      //   requestSubscriptionIOS(
-      //     selectCheckBox?.ios_product,
-      //     selectCheckBox,
-      //     type,
-      //   );
-      // } else {
-      //   dispatch(hideAppLoader());
-      //   navigation.navigate(
-      //     androidCards.length > 0
-      //       ? Routes.ConfirmSubscription
-      //       : Routes.SubscriptionCard,
-      //     {
-      //       selectCheckBox,
-      //       isPlanChanged:
-      //         isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
-      //       isPlanUpgrade,
-      //       subscription: subscription_plan_res?.data?.subscription,
-      //     },
-      //   );
-      // }
     },
     [selectCheckBox, isPlanChanged, isPlanUpgrade, subscription_plan_res],
   );
@@ -526,15 +503,6 @@ const Subscription = () => {
     if (subscription_plan_res?.data?.subscription === null) {
       subscribePlan(selectCheckBox, 'credit');
     } else {
-      // if (Platform.OS === 'android' && androidCards.length === 0) {
-      //   navigation.navigate(Routes.SubscriptionCard, {
-      //     redirectTo: Routes.Subscription,
-      //     selectCheckBox,
-      //     isPlanChanged: isPlanChanged || isPlanUpgrade ? isPlanChanged : true,
-      //     isPlanUpgrade,
-      //     subscription: subscription_plan_res?.data?.subscription,
-      //   });
-      // } else
       if (
         selectCheckBox !== null &&
         subscription_plan_res?.data?.preference?.role_id_looking_for !==
@@ -560,6 +528,7 @@ const Subscription = () => {
       }
     }
   }, [subscription_plan_res, androidCards, selectCheckBox]);
+
   return (
     <>
       <Container

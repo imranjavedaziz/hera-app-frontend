@@ -9,33 +9,25 @@ import {
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
-import {Colors, Images, Strings} from '../../../constants';
+import {Images, Strings} from '../../../constants';
 import styles from '../ConfirmPayment/styles';
 import {useNavigation} from '@react-navigation/native';
 import {Routes, api_url} from '../../../constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
-import {GET_CARD_LIST, getCardList} from '../../../redux/actions/stripe.action';
+import {GET_CARD_LIST} from '../../../redux/actions/stripe.action';
 import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
 import _ from 'lodash';
-import {monthGet} from '../../../utils/commonFunction';
-import ConfirmCardComp from './ConfirmCardComp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Value} from '../../../constants/FixedValues';
-import {
-  createSubscription,
-  getSubscriptionStatus,
-} from '../../../redux/actions/Subsctiption';
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
 import {createSubscriptionPaymentPageApi} from '../../../Api/Subscription';
 // selectCheckBox
 const ConfirmSubscription = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [Selected, setSelected] = useState('');
-  const [SelectedCard, setSelectedCard] = useState('');
   const [isCallApi, setCallApi] = useState(false);
   const {getCardListResponse} = useSelector(store => store.getCardList);
   const [params] = useState(route.params);
@@ -90,58 +82,23 @@ const ConfirmSubscription = ({route}) => {
       dispatch(showAppToast(false, error));
     }
   }, [getCardListResponse]);
-  const onADDCARD = useCallback(
-    another => {
-      if (another) {
-        navigation.navigate(Routes.SubscriptionCard, {
-          ...params,
-          anotherCard: another,
-        });
-      } else {
-        navigation.navigate(Routes.SubscriptionCard, {
-          ...params,
-          noCard: true,
-        });
-      }
-    },
-    [params],
-  );
 
   const onPay = useCallback(() => {
-    console.log('onPay');
-    testToast('onPay clicked');
     const payload = {
       device_type: Platform.OS,
       product_id: params.selectCheckBox.android_product,
     };
     setCallApi(true);
-    testToast('set API call true');
     dispatch(showAppLoader());
-    testToast('show loader');
     createSubscriptionPaymentPageApi(payload).then(resp => {
-      testToast('subscription page created : ' + JSON.stringify(resp));
-      console.log('subscription page created: ', resp);
       const paymentUrl = api_url.replace('/api/v1/', '') + resp.data.paymentUrl;
       setCallApi(false);
-      testToast('set API call false');
       dispatch(hideAppLoader());
-      testToast('hide loader');
       Linking.openURL(paymentUrl).then(res => {
-        console.log('subscription page opened: ', res);
-        testToast('subscription page opened: ' + JSON.stringify(res));
         navigation.navigate(Routes.PtbProfile, params);
       });
     });
   }, [params, params.selectCheckBox]);
-
-  const testToast = message => {
-    Alert.alert('Test', message, [
-      {
-        text: 'Close',
-        onPress: () => null,
-      },
-    ]);
-  };
 
   return (
     <View style={styles.flex}>
@@ -167,57 +124,6 @@ const ConfirmSubscription = ({route}) => {
           <Text style={styles.ammount}>{`$${params.selectCheckBox.price.toFixed(
             2,
           )}`}</Text>
-
-          {/* {_.isEmpty(getCardListResponse?.info?.data) ? (
-            <View style={styles.emptyCardView}>
-              <Text style={styles.emptyText}>
-                {Strings.confirmPassword.NoCard}
-              </Text>
-              <Text style={styles.secondEmptyText}>
-                {Strings.confirmPassword.AddCardProceed}
-              </Text>
-              <TouchableOpacity
-                onPress={() => onADDCARD()}
-                style={styles.btnContainer}>
-                <Text style={styles.btnText}>
-                  {Strings.confirmPassword.AddCardButton}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={{marginBottom: Value.CONSTANT_VALUE_200}}>
-              <Text style={styles.cardPayText}>
-                {Strings.confirmPassword.PayWithcard}
-              </Text>
-              {getCardListResponse?.info?.data.map((item, index) => {
-                return (
-                  <View key={item?.id}>
-                    <ConfirmCardComp
-                      index={item?.id}
-                      onPress={() => {
-                        setSelected(item?.id);
-                        setSelectedCard(item);
-                      }}
-                      Data={getCardListResponse?.info?.data}
-                      Icon={item?.card?.brand}
-                      number={`${Strings.Hera_Pay.CARD_DOT}${item?.card?.last4}`}
-                      Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(
-                        item?.card,
-                      )} ${item?.card?.exp_year}`}
-                      value={Selected}
-                    />
-                  </View>
-                );
-              })}
-              <Text style={styles.moreCard} onPress={() => onADDCARD(true)}>
-                {Strings.confirmPassword.ChangeCard}
-              </Text>
-              <Text style={styles.bottomPara}>
-                <Text style={{color: Colors.RED}}>*</Text>
-                {Strings.confirmPassword.BottomPara}
-              </Text>
-            </View>
-          )} */}
         </View>
       </KeyboardAwareScrollView>
 
