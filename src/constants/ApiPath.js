@@ -23,6 +23,7 @@ export default {
   states: 'states',
   registerDevice: 'register-device',
   parentsMatchedDoner: 'parents-matched-doner',
+  createSubscriptionPaymentPage: 'create-subscription-payment-page',
   createSubscription: 'create-subscription',
   cancelSubscription: 'cancel-subscription',
   subscriptionPlan: 'subscription-plan',

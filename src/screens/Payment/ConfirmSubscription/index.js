@@ -1,32 +1,25 @@
-import {View, Text, Platform, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Platform, TouchableOpacity, Linking} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
-import {Colors, Images, Strings} from '../../../constants';
+import {Images, Strings} from '../../../constants';
 import styles from '../ConfirmPayment/styles';
 import {useNavigation} from '@react-navigation/native';
-import {Routes} from '../../../constants/Constants';
+import {Routes, base_url} from '../../../constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
-import {GET_CARD_LIST, getCardList} from '../../../redux/actions/stripe.action';
+import {GET_CARD_LIST} from '../../../redux/actions/stripe.action';
 import {
   hideAppLoader,
   showAppLoader,
   showAppToast,
 } from '../../../redux/actions/loader';
 import _ from 'lodash';
-import {monthGet} from '../../../utils/commonFunction';
-import ConfirmCardComp from './ConfirmCardComp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Value} from '../../../constants/FixedValues';
-import {
-  createSubscription,
-  getSubscriptionStatus,
-} from '../../../redux/actions/Subsctiption';
+import {getSubscriptionStatus} from '../../../redux/actions/Subsctiption';
+import {createSubscriptionPaymentPageApi} from '../../../Api/Subscription';
 // selectCheckBox
 const ConfirmSubscription = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [Selected, setSelected] = useState('');
-  const [SelectedCard, setSelectedCard] = useState('');
   const [isCallApi, setCallApi] = useState(false);
   const {getCardListResponse} = useSelector(store => store.getCardList);
   const [params] = useState(route.params);
@@ -45,10 +38,9 @@ const ConfirmSubscription = ({route}) => {
     console.log('getCardListResponse', JSON.stringify(getCardListResponse));
     if (getCardListResponse?.info?.data.length === 1) {
       const item = getCardListResponse?.info?.data[0];
-      setSelected(item?.id);
-      setSelectedCard(item);
     }
   }, [getCardListResponse]);
+
   useEffect(() => {
     if (
       create_subscription_success &&
@@ -81,37 +73,24 @@ const ConfirmSubscription = ({route}) => {
       dispatch(showAppToast(false, error));
     }
   }, [getCardListResponse]);
-  const onADDCARD = useCallback(
-    another => {
-      if (another) {
-        navigation.navigate(Routes.SubscriptionCard, {
-          ...params,
-          anotherCard: another,
-        });
-      } else {
-        navigation.navigate(Routes.SubscriptionCard, {
-          ...params,
-          noCard: true,
-        });
-      }
-    },
-    [params],
-  );
+
   const onPay = useCallback(() => {
-    if (Selected || SelectedCard) {
-      const payload = {
-        device_type: Platform.OS,
-        product_id: params.selectCheckBox.android_product,
-        payment_method_id: Selected,
-        purchase_token: 'null',
-      };
-      setCallApi(true);
-      dispatch(showAppLoader());
-      dispatch(createSubscription(payload));
-    } else {
-      dispatch(showAppToast(true, 'Please select a card to proceed.'));
-    }
-  }, [Selected, SelectedCard, params.selectCheckBox]);
+    const payload = {
+      device_type: Platform.OS,
+      product_id: params.selectCheckBox.android_product,
+    };
+    setCallApi(true);
+    dispatch(showAppLoader());
+    createSubscriptionPaymentPageApi(payload).then(resp => {
+      const paymentUrl = base_url + resp.data.paymentUrl;
+      setCallApi(false);
+      dispatch(hideAppLoader());
+      Linking.openURL(paymentUrl).then(res => {
+        navigation.navigate(Routes.PtbProfile, params);
+      });
+    });
+  }, [params, params.selectCheckBox]);
+
   return (
     <View style={styles.flex}>
       <Header end={false}>
@@ -136,69 +115,18 @@ const ConfirmSubscription = ({route}) => {
           <Text style={styles.ammount}>{`$${params.selectCheckBox.price.toFixed(
             2,
           )}`}</Text>
-          {_.isEmpty(getCardListResponse?.info?.data) ? (
-            <View style={styles.emptyCardView}>
-              <Text style={styles.emptyText}>
-                {Strings.confirmPassword.NoCard}
-              </Text>
-              <Text style={styles.secondEmptyText}>
-                {Strings.confirmPassword.AddCardProceed}
-              </Text>
-              <TouchableOpacity
-                onPress={() => onADDCARD()}
-                style={styles.btnContainer}>
-                <Text style={styles.btnText}>
-                  {Strings.confirmPassword.AddCardButton}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={{marginBottom: Value.CONSTANT_VALUE_200}}>
-              <Text style={styles.cardPayText}>
-                {Strings.confirmPassword.PayWithcard}
-              </Text>
-              {getCardListResponse?.info?.data.map((item, index) => {
-                return (
-                  <View key={item?.id}>
-                    <ConfirmCardComp
-                      index={item?.id}
-                      onPress={() => {
-                        setSelected(item?.id);
-                        setSelectedCard(item);
-                      }}
-                      Data={getCardListResponse?.info?.data}
-                      Icon={item?.card?.brand}
-                      number={`${Strings.Hera_Pay.CARD_DOT}${item?.card?.last4}`}
-                      Time={`${Strings.Hera_Pay.CARD_TIME} ${monthGet(
-                        item?.card,
-                      )} ${item?.card?.exp_year}`}
-                      value={Selected}
-                    />
-                  </View>
-                );
-              })}
-              <Text style={styles.moreCard} onPress={() => onADDCARD(true)}>
-                {Strings.confirmPassword.ChangeCard}
-              </Text>
-              <Text style={styles.bottomPara}>
-                <Text style={{color: Colors.RED}}>*</Text>
-                {Strings.confirmPassword.BottomPara}
-              </Text>
-            </View>
-          )}
         </View>
       </KeyboardAwareScrollView>
-      {!_.isEmpty(getCardListResponse?.info?.data) && (
-        <View style={styles.bottonFloat}>
-          <TouchableOpacity
-            onPress={() => onPay()}
-            style={styles.btnContainerPay}>
-            <Text style={styles.btnText}>
-              PAY ${params.selectCheckBox.price.toFixed(2)}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
+
+      <View style={styles.bottonFloat}>
+        <TouchableOpacity
+          onPress={() => onPay()}
+          style={styles.btnContainerPay}>
+          <Text style={styles.btnText}>
+            PAY ${params.selectCheckBox.price.toFixed(2)}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

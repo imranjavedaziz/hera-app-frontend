@@ -1,6 +1,10 @@
 import axiosRequest from '../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 
+export const createSubscriptionPaymentPageApi = data => {
+  return axiosRequest.post(ApiPath.createSubscriptionPaymentPage, data);
+};
+
 export const createSubscriptionApi = data => {
   return axiosRequest.post(ApiPath.createSubscription, data);
 };

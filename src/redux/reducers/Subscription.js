@@ -30,7 +30,7 @@ const initState = {
   subscription_status_loading: false,
   subscription_status_error_msg: '',
   subscription_status_res: {
-    data: {is_trial: true, status: 1}
+    data: {is_trial: true, status: 1},
   },
   // CANCEL
   cancel_subscription_success: false,
@@ -134,9 +134,9 @@ export default (state = initState, action) => {
           data: {
             ...state.subscription_status_res.data,
             status: action?.data,
-          }
-        }
-      }
+          },
+        },
+      };
     }
     /**
      * CREATE_SUBSCRIPTION

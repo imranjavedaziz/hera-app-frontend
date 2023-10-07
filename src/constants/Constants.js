@@ -4,29 +4,39 @@ import Images from './Images';
 import {Platform} from 'react-native';
 
 const environment = {
+  local: {
+    bucket: '',
+    base_url: 'https://dade-118-179-181-49.ngrok-free.app',
+    api_url: 'https://dade-118-179-181-49.ngrok-free.app/api/v1/',
+    chat: 'local',
+  },
   dev: {
     bucket: '',
+    base_url: 'https://mbc-dev-backend-new.kiwi-internal.com',
     api_url: 'https://mbc-dev-backend-new.kiwi-internal.com/api/v1/',
     chat: 'dev',
   },
   qa: {
     bucket: '',
+    base_url: 'https://mbc-qa-backend-new.kiwi-internal.com',
     api_url: 'https://mbc-qa-backend-new.kiwi-internal.com/api/v1/',
     chat: 'qa',
   },
   stage: {
     bucket: '',
+    base_url: 'https://mbc-stage-backend-new.kiwi-internal.com',
     api_url: 'https://mbc-stage-backend-new.kiwi-internal.com/api/v1/',
     chat: 'stage',
   },
   prod: {
     bucket: '',
+    base_url: 'https://api.makingbabyconnection.com',
     api_url: 'https://api.makingbabyconnection.com/api/v1/',
     chat: 'prod',
   },
 };
 
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, base_url, api_url, chat} = environment.stage;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
