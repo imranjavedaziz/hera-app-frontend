@@ -6,8 +6,8 @@ import {Platform} from 'react-native';
 const environment = {
   local: {
     bucket: '',
-    base_url: 'https://dade-118-179-181-49.ngrok-free.app',
-    api_url: 'https://dade-118-179-181-49.ngrok-free.app/api/v1/',
+    base_url: 'https://aa7b-146-70-149-74.ngrok-free.app',
+    api_url: 'https://aa7b-146-70-149-74.ngrok-free.app/api/v1/',
     chat: 'local',
   },
   dev: {
@@ -36,7 +36,7 @@ const environment = {
   },
 };
 
-export const {bucket, base_url, api_url, chat} = environment.stage;
+export const {bucket, base_url, api_url, chat} = environment.prod;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
