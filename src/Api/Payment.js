@@ -17,6 +17,10 @@ export const paymentTransferApi = data => {
   return axiosRequest.post(ApiPath.payment_transfer, data);
 };
 
+export const donorPaymentApi = paymentRequestId => {
+  return axiosRequest.get(`${ApiPath.createDonorPaymentPage}/${paymentRequestId}`);
+};
+
 export const GetMatchListPageApi = (page = 1) => {
   return axiosRequest.get(`${ApiPath.match_list}?page=${page}`);
 };

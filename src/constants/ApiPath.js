@@ -70,5 +70,6 @@ export default {
   sendPaymentRequest: 'payment-request',
   transactionHistory: 'transaction-history',
   payment_transfer: 'payment-transfer',
+  createDonorPaymentPage: 'create-donor-payment-page',
   update_bank_account: 'update-bank-account',
 };

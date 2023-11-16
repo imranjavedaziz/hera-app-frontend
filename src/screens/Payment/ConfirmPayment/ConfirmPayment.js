@@ -6,13 +6,14 @@ import {
   Alert,
   Platform,
   BackHandler,
+  Linking,
 } from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Header, {IconHeader} from '../../../components/Header';
 import {Images, Strings} from '../../../constants';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
-import {Routes} from '../../../constants/Constants';
+import {Routes, base_url} from '../../../constants/Constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {GET_CARD_LIST, getCardList} from '../../../redux/actions/stripe.action';
 import {
@@ -28,11 +29,11 @@ import {
   monthGet,
 } from '../../../utils/commonFunction';
 import ConfirmCardComp from './ConfirmCardComp';
-import {paymentTransfer} from '../../../redux/actions/Payment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Value} from '../../../constants/FixedValues';
 import {ModalMiddle} from '../../../components';
 import {ValidationMessages} from '../../../constants/Strings';
+import { donorPaymentApi } from '../../../Api';
 
 const ConfirmPayment = ({route}) => {
   const navigation = useNavigation();
@@ -154,17 +155,16 @@ const ConfirmPayment = ({route}) => {
     }
   };
   const onPay = () => {
-    const payload = {
-      to_user_id: params?.item?.id,
-      amount: roundOff,
-      net_amount: calculateTotalStripeAmount(roundOff),
-      payment_method_id: Selected ? Selected : SelectedCard?.id,
-      payment_request_id: params?.requestId,
-      created_at: new Date().toString(),
-    };
     dispatch(showAppLoader());
-    dispatch(paymentTransfer(payload));
+    donorPaymentApi(params?.requestId).then(resp => {
+      const paymentUrl = base_url + resp.data.paymentUrl;
+      dispatch(hideAppLoader());
+      Linking.openURL(paymentUrl).then(res => {
+        //navigation.navigate(Routes.PtbProfile, params);
+      });
+    });
   };
+
   const backAction = () => {
     Alert.alert(
       ValidationMessages.CONFIRM_PAYMENT,
