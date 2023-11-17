@@ -68,6 +68,7 @@ import SuccessModal from './Subscription/SuccessModal';
 import {ACCOUNT_STATUS_CLEAN} from '../../../redux/Type';
 import {NotificationsCount} from '../../../redux/actions/NotificationsCount';
 import deviceInfoModule from 'react-native-device-info';
+import {Linking} from 'react-native';
 
 const PtbProfile = ({route}) => {
   const navigation = useNavigation();
@@ -120,6 +121,37 @@ const PtbProfile = ({route}) => {
     navigation.navigate(Routes.PtbDashboard);
     return true;
   };
+
+  useEffect(() => {
+    const handleDeepLink = event => {
+      //console.log('handleDeepLink: ', {event: event});
+      const deepLink = event.url;
+      handleDeepLinkAction(deepLink);
+    };
+
+    const handleDeepLinkAction = deepLink => {
+      // Implement logic to handle the deep link when the app is already running
+      console.log('Opened through URL scheme:', deepLink);
+      callAllApis();
+    };
+
+    const handleInitialURL = async () => {
+      //console.log('handleInitialURL: ');
+      const url = await Linking.getInitialURL();
+      //console.log('handleInitialURL: ', {url: url});
+      if (url) {
+        handleDeepLinkAction(url);
+      }
+    };
+
+    Linking.addEventListener('url', handleDeepLink);
+    handleInitialURL();
+
+    return () => {
+      Linking.removeEventListener('url', handleDeepLink);
+    };
+  }, []);
+
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     return () => {
