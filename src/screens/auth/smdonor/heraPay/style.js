@@ -133,4 +133,8 @@ export default {
     fontStyle: Alignment.ITALIC,
     color: '#ff4544',
   },
+  joyOfLifeAd: {
+    width: '100%',
+    resizeMode: 'contain',
+  },
 };

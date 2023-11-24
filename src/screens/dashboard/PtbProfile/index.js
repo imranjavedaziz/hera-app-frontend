@@ -7,6 +7,7 @@ import {
   Alert,
   RefreshControl,
   BackHandler,
+  Image,
 } from 'react-native';
 import React, {
   useState,
@@ -343,6 +344,12 @@ const PtbProfile = ({route}) => {
       setVideoAviable(false);
     }
   };
+  const onPressAd = () => {
+    Linking.openURL('https://joyoflife.com/').catch(err => {
+      console.error(err);
+    });
+  };
+
   const logoutFunc = () => {
     if (disable === false) {
       if (Platform.OS === 'android') {
@@ -520,6 +527,9 @@ const PtbProfile = ({route}) => {
                 }
               />
             </View>
+            <TouchableOpacity onPress={() => onPressAd()}>
+              <Image source={Images.joyOfLifeAd} style={styles.joyOfLifeAd} />
+            </TouchableOpacity>
             <View style={styles.buttoncontainer}>
               <TouchableOpacity
                 style={styles.button}

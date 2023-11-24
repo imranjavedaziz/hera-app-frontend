@@ -81,4 +81,8 @@ export default {
     height: '100%',
     position: Alignment.ABSOLUTE,
   },
+  joyOfLifeAd: {
+    width: '100%',
+    resizeMode: 'contain',
+  },
 };

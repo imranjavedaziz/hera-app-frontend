@@ -140,4 +140,6 @@ export default {
   BlueWarning: require('../assets/icons/blueWarning/warning.png'),
   webIcon: require('../assets/icons/webIcon/webIcon.png'),
   RingWhite: require('../assets/icons/RingWhite/RingWhite.png'),
+
+  joyOfLifeAd: require('../assets/Images/ad/joy-of-life-ad-banner.png'),
 };
