@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback, useRef} from 'react';
-import {View, Text, RefreshControl, BackHandler, TouchableOpacity, Linking} from 'react-native';
+import {View, Text, RefreshControl, BackHandler} from 'react-native';
 import {Chat_listing_Comp, Container} from '../../components';
 import {IconHeader} from '../../components/Header';
 import {Colors, Images, Strings} from '../../constants';
@@ -23,7 +23,7 @@ import {getMessageID} from '../../redux/actions/MessageId';
 import {getSubscriptionStatus} from '../../redux/actions/Subsctiption';
 import {getMatchList} from '../../redux/actions/Payment';
 import {getAccountStatus} from '../../redux/actions/AccountStatus';
-import { Image } from 'react-native';
+import {BannerAd} from '../../components/BannerAd/BannerAd';
 
 const ChatListing = () => {
   const navigation = useNavigation();
@@ -221,11 +221,7 @@ const ChatListing = () => {
       });
     }
   };
-  const onPressAd = () => {
-    Linking.openURL('https://joyoflife.com/').catch(err => {
-      console.error(err);
-    });
-  };
+
   const renderChatList = ({item}) => {
     return (
       <>
@@ -313,9 +309,7 @@ const ChatListing = () => {
         </>
       )}
       {disable && <View style={styles.disableing} />}
-      <TouchableOpacity onPress={() => onPressAd()}>
-        <Image source={Images.joyOfLifeAd} style={styles.joyOfLifeAd} />
-      </TouchableOpacity>
+      <BannerAd />
     </Container>
   );
 };

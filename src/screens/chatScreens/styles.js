@@ -355,8 +355,4 @@ export default {
     width: px(Value.CONSTANT_VALUE_203),
     height: px(Value.CONSTANT_VALUE_160),
   },
-  joyOfLifeAd: {
-    width: '100%',
-    resizeMode: 'contain',
-  },
 };

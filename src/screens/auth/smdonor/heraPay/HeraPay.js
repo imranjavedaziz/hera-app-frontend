@@ -8,7 +8,6 @@ import {
   Alert,
   Platform,
   BackHandler,
-  Linking,
 } from 'react-native';
 import {ModalMiddle} from '../../../../components';
 import Header, {IconHeader} from '../../../../components/Header';
@@ -43,6 +42,7 @@ import {monthGet} from '../../../../utils/commonFunction';
 import getKycStatusFunction from '../../../../utils/getkycStatusFunc';
 import {getPaymentRequestList} from '../../../../redux/actions/Payment';
 import {ValidationMessages} from '../../../../constants/Strings';
+import {BannerAd} from '../../../../components/BannerAd/BannerAd';
 
 const HeraPay = () => {
   const navigation = useNavigation();
@@ -282,12 +282,6 @@ const HeraPay = () => {
         dispatch(showAppToast(true, ValidationMessages.NO_INTERNET_CONNECTION));
       }
     }
-  };
-
-  const onPressAd = () => {
-    Linking.openURL('https://joyoflife.com/').catch(err => {
-      console.error(err);
-    });
   };
 
   return (
@@ -541,11 +535,7 @@ const HeraPay = () => {
             )}
         </View>
       </ScrollView>
-      <TouchableOpacity onPress={() => onPressAd()}>
-        <View>
-          <Image source={Images.joyOfLifeAd} style={styles.joyOfLifeAd} />
-        </View>
-      </TouchableOpacity>
+      <BannerAd />
       {modal && (
         <CustomModal>
           <AboutPayment

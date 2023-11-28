@@ -70,6 +70,7 @@ import {ACCOUNT_STATUS_CLEAN} from '../../../redux/Type';
 import {NotificationsCount} from '../../../redux/actions/NotificationsCount';
 import deviceInfoModule from 'react-native-device-info';
 import {Linking} from 'react-native';
+import {BannerAd} from '../../../components/BannerAd/BannerAd';
 
 const PtbProfile = ({route}) => {
   const navigation = useNavigation();
@@ -344,11 +345,6 @@ const PtbProfile = ({route}) => {
       setVideoAviable(false);
     }
   };
-  const onPressAd = () => {
-    Linking.openURL('https://joyoflife.com/').catch(err => {
-      console.error(err);
-    });
-  };
 
   const logoutFunc = () => {
     if (disable === false) {
@@ -527,9 +523,7 @@ const PtbProfile = ({route}) => {
                 }
               />
             </View>
-            <TouchableOpacity onPress={() => onPressAd()}>
-              <Image source={Images.joyOfLifeAd} style={styles.joyOfLifeAd} />
-            </TouchableOpacity>
+            <BannerAd spaceAbove />
             <View style={styles.buttoncontainer}>
               <TouchableOpacity
                 style={styles.button}
