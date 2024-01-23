@@ -138,8 +138,8 @@ android {
         applicationId "com.makingBabyConnetionDev"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 106
-        versionName "1.0.106"
+        versionCode 108
+        versionName "1.0.108"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
         missingDimensionStrategy 'store', 'play' 
         if (isNewArchitectureEnabled()) {
