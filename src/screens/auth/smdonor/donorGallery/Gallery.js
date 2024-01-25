@@ -277,11 +277,11 @@ const Gallery = () => {
   const handleThreeOption = option => {
     switch (option) {
       case Strings.sm_create_gallery.bottomSheetCamera:
-        !isVideo ? openCamera(0, cb) : selectVideo(0);
+        !isVideo ? openCamera(0, cb, true) : selectVideo(0);
         setOpenActionsheet(false);
         break;
       case Strings.sm_create_gallery.bottomSheetGallery:
-        !isVideo ? openCamera(1, cb) : selectVideo(1);
+        !isVideo ? openCamera(1, cb, true) : selectVideo(1);
         setOpenActionsheet(false);
         break;
       case Strings.Subscription.Cancel:

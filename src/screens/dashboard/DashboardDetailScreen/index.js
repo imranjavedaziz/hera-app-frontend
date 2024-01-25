@@ -42,11 +42,10 @@ import moment from 'moment';
 import {Alignment} from '../../../constants';
 import {getMessageID} from '../../../redux/actions/MessageId';
 import ButtonPay from '../../../components/BtnPay';
-import {Button} from '../../../components';
 const images = [];
 const DashboardDetailScreen = ({route}) => {
   const navigation = useNavigation();
-  const [smDetailRes, setSmDetailRes] = useState([]);
+  const [smDetailRes, setSmDetailRes] = useState({});
   const [imgPreviewindex, setImgPreviewIndex] = useState(0);
   const [visible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
@@ -92,6 +91,7 @@ const DashboardDetailScreen = ({route}) => {
         dispatch(showAppLoader());
         if (get_sm_donor_success) {
           dispatch(hideAppLoader());
+          console.log('get_sm_donor_res', get_sm_donor_res);
           setSmDetailRes(get_sm_donor_res);
           updateGallery();
         }
@@ -279,7 +279,7 @@ const DashboardDetailScreen = ({route}) => {
   };
   let VIEW_PASS = (
     <View style={styles.nativeLong}>
-      {smDetailRes?.doner_attribute?.mother_ethnicity && (
+      {/* {smDetailRes?.doner_attribute?.mother_ethnicity && (
         <Text
           style={[
             global?.tagText,
@@ -290,7 +290,7 @@ const DashboardDetailScreen = ({route}) => {
           ]}>
           {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
         </Text>
-      )}
+      )} */}
       {`${smDetailRes?.doner_attribute?.hair_colour} ${Strings.preference.HairColor}`
         .length < 20 ? (
         <View style={styles.nativeMainContainer}>
@@ -364,9 +364,10 @@ const DashboardDetailScreen = ({route}) => {
               <View style={styles.mainContainer}>
                 <DetailComp
                   Place={smDetailRes?.location?.name}
-                  Code={smDetailRes?.username}
+                  Code={smDetailRes?.first_name || smDetailRes?.username}
                   DonerType={smDetailRes?.role}
                   image={{uri: smDetailRes?.profile_pic}}
+                  state_id={smDetailRes?.location?.state_id}
                 />
                 <View style={styles.bioContainer}>
                   {smDetailRes?.age && (
@@ -389,12 +390,13 @@ const DashboardDetailScreen = ({route}) => {
                       Detail={`${smDetailRes?.doner_attribute?.weight} pounds`}
                     />
                   )}
-                  {smDetailRes?.doner_attribute?.education && (
-                    <BioComponent
-                      Name={Strings.donorPofile.Education}
-                      Detail={smDetailRes?.doner_attribute?.education}
-                    />
-                  )}
+                  {smDetailRes?.doner_attribute?.education_id !== 1 &&
+                    smDetailRes?.doner_attribute?.education && (
+                      <BioComponent
+                        Name={Strings.donorPofile.Education}
+                        Detail={smDetailRes?.doner_attribute?.education}
+                      />
+                    )}
                   {smDetailRes?.user_profile?.occupation && (
                     <BioComponent
                       Name={Strings.donorPofile.Occupation}
@@ -444,7 +446,7 @@ const DashboardDetailScreen = ({route}) => {
                           {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
                         </Text>
                       )}
-                      {smDetailRes?.doner_attribute?.father_ethnicity && (
+                      {/* {smDetailRes?.doner_attribute?.father_ethnicity && (
                         <Text
                           style={[
                             global?.tagText,
@@ -455,19 +457,19 @@ const DashboardDetailScreen = ({route}) => {
                           ]}>
                           {`${Strings.donorPofile.fatherPlace} ${smDetailRes?.doner_attribute?.father_ethnicity}`}
                         </Text>
-                      )}
+                      )} */}
                     </View>
                   )}
                   {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`
                     .length < 20 ? (
                     <View style={styles.nativeMainContainer}>
-                      {smDetailRes?.doner_attribute?.mother_ethnicity && (
+                      {/* {smDetailRes?.doner_attribute?.mother_ethnicity && (
                         <View style={styles.motherPlace}>
                           <Text style={global?.tagText}>
                             {`${Strings.donorPofile.motherPlace} ${smDetailRes?.doner_attribute?.mother_ethnicity}`}
                           </Text>
                         </View>
-                      )}
+                      )} */}
                       {smDetailRes?.doner_attribute?.hair_colour && (
                         <View style={styles.hairColor}>
                           <Text style={global?.tagText}>

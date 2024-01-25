@@ -78,16 +78,16 @@ const SetAttributes = ({route}) => {
       eye_colour_id: dirtyFields?.eye_colour_id
         ? data?.eye_colour_id
         : data?.eye_colour_id?.id,
-      father_ethnicity_id: dirtyFields?.father_ethnicity_id
-        ? data?.father_ethnicity_id
-        : data?.father_ethnicity_id?.id,
+      // father_ethnicity_id: dirtyFields?.father_ethnicity_id
+      //   ? data?.father_ethnicity_id
+      //   : data?.father_ethnicity_id?.id,
       hair_colour_id: dirtyFields?.hair_colour_id
         ? data?.hair_colour_id
         : data?.hair_colour_id?.id,
       height_id: dirtyFields?.height_id ? data?.height_id : data?.height_id?.id,
-      mother_ethnicity_id: dirtyFields?.mother_ethnicity_id
-        ? data?.mother_ethnicity_id
-        : data?.mother_ethnicity_id?.id,
+      // mother_ethnicity_id: dirtyFields?.mother_ethnicity_id
+      //   ? data?.mother_ethnicity_id
+      //   : data?.mother_ethnicity_id?.id,
       race_id: dirtyFields?.race_id ? data?.race_id : data?.race_id?.id,
       weight_id: dirtyFields?.weight_id ? data?.weight_id : data?.weight_id?.id,
     };
@@ -317,12 +317,12 @@ const SetAttributes = ({route}) => {
     const race_id = set_attribute_res?.race.find(obj => {
       return obj.id === parseInt(get_attribute_res?.race_id);
     });
-    const mother_ethnicity_id = set_attribute_res?.ethnicity.find(obj => {
-      return obj.id === parseInt(get_attribute_res?.mother_ethnicity_id);
-    });
-    const father_ethnicity_id = set_attribute_res?.ethnicity.find(obj => {
-      return obj.id === parseInt(get_attribute_res?.father_ethnicity_id);
-    });
+    // const mother_ethnicity_id = set_attribute_res?.ethnicity.find(obj => {
+    //   return obj.id === parseInt(get_attribute_res?.mother_ethnicity_id);
+    // });
+    // const father_ethnicity_id = set_attribute_res?.ethnicity.find(obj => {
+    //   return obj.id === parseInt(get_attribute_res?.father_ethnicity_id);
+    // });
     const hair_colour_id = set_attribute_res?.hair_colour.find(obj => {
       return obj.id === parseInt(get_attribute_res?.hair_colour_id);
     });
@@ -334,8 +334,8 @@ const SetAttributes = ({route}) => {
     setValue('eye_colour_id', eye_colour_id);
     setValue('height_id', height_id);
     setValue('race_id', race_id);
-    setValue('mother_ethnicity_id', mother_ethnicity_id);
-    setValue('father_ethnicity_id', father_ethnicity_id);
+    // setValue('mother_ethnicity_id', mother_ethnicity_id);
+    // setValue('father_ethnicity_id', father_ethnicity_id);
     setValue('hair_colour_id', hair_colour_id);
     setValue('education_id', education_id);
   };
@@ -429,7 +429,7 @@ const SetAttributes = ({route}) => {
               )}
               name="race_id"
             />
-            <Controller
+            {/* <Controller
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown
@@ -462,7 +462,7 @@ const SetAttributes = ({route}) => {
                 />
               )}
               name="mother_ethnicity_id"
-            />
+            /> */}
             <Controller
               control={control}
               render={({field: {onChange, value}}) => (

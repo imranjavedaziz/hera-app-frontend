@@ -35,6 +35,7 @@ const ImageComp = ({
   category,
   activeOpacity,
   onPress,
+  state_id = 1,
 }) => {
   const IMG_CONDI =
     has_happen === 'liked' ? Images.iconbigheart : Images.iconbigcross;
@@ -58,10 +59,12 @@ const ImageComp = ({
                 </FadeInView>
               ) : null}
               <View style={styles.textInnerContainer}>
-                <View style={styles.innerContainer}>
-                  <Image source={mapIcon} style={styles.mapIcon} />
-                  <Text style={styles.locationText}>{locationText}</Text>
-                </View>
+                {state_id !== 1 && (
+                  <View style={styles.innerContainer}>
+                    <Image source={mapIcon} style={styles.mapIcon} />
+                    <Text style={styles.locationText}>{locationText}</Text>
+                  </View>
+                )}
                 <Text style={styles.codeText}>#{code}</Text>
                 <Text style={styles.donerAge}>
                   {category}, {donerAge} yrs

@@ -3,13 +3,13 @@ export function getRoleType(id) {
     return 'Intended Parent';
   }
   if (id === 3) {
-    return 'Surrogate Mother';
+    return 'Storks (Surrogate)';
   }
   if (id === 4) {
-    return 'Egg Donor';
+    return 'Eggs (Egg donor)';
   }
   if (id === 5) {
-    return 'Sperm Donor';
+    return 'Fertilizers (Sperm donor)';
   } else {
     return '';
   }
