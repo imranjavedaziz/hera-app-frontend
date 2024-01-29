@@ -322,7 +322,7 @@ const PaymentRequest = () => {
               <Text style={styles.secondEmptyText}>
                 {log_in_data?.role_id === 2
                   ? 'You have not received any payment request from your matches.'
-                  : 'You have not sent any payment request to Intended Parents.'}
+                  : 'You have not sent any payment request to Future Parents (Intended Parents).'}
               </Text>
             </View>
           )}

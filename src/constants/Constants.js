@@ -26,7 +26,7 @@ const environment = {
   },
 };
 
-export const {bucket, api_url, chat} = environment.stage;
+export const {bucket, api_url, chat} = environment.qa;
 
 const WEB_BASE_URL = 'https://makingbabyconnection.com/';
 export const ABOUT_URL = `${WEB_BASE_URL}about`;
@@ -175,15 +175,15 @@ export const ConstantsCode = {
 export const smRoles = [
   {
     id: 3,
-    name: 'Surrogate Mother',
+    name: 'Storks (Surrogate)',
   },
   {
     id: 4,
-    name: 'Egg Donor',
+    name: 'Eggs (Egg donors)',
   },
   {
     id: 5,
-    name: 'Sperm Donor',
+    name: 'Fertilizers (Sperm donors)',
   },
 ];
 

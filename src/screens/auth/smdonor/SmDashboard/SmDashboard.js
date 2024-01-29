@@ -441,12 +441,14 @@ const SmDashboard = ({route}) => {
           </ImageLoading>
           <View style={styles.locationContainer}>
             <Text style={styles.profileName}>{item.first_name}</Text>
-            <View style={styles.profileFooter}>
-              <Image source={Images.mapgraypin} />
-              <Text numberOfLines={1} style={styles.locationText}>
-                {item.location?.name.toUpperCase()}
-              </Text>
-            </View>
+            {item.location?.state_id !== 1 && (
+              <View style={styles.profileFooter}>
+                <Image source={Images.mapgraypin} />
+                <Text numberOfLines={1} style={styles.locationText}>
+                  {item.location?.name.toUpperCase()}
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </TouchableOpacity>

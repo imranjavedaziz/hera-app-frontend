@@ -425,11 +425,13 @@ const PtbDashboard = props => {
     }, 150);
   };
   function renderCardData(item, index) {
+    console.log('item',item)
     return (
       <>
         <ImageComp
           locationText={item?.user?.state_name}
-          code={item?.user?.username}
+          state_id={item?.user?.state_id}
+          code={item?.user?.first_name}
           donerAge={item?.user?.age}
           mapIcon={Images.iconmapwhite}
           image={{uri: item?.user?.profile_pic}}

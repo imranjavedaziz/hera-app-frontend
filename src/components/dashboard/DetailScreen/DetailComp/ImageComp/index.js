@@ -4,14 +4,16 @@ import styles from './style';
 import Images from '../../../../../constants/Images';
 import FastImage from 'react-native-fast-image';
 
-const DetailComp = ({Place, Code, DonerType, image}) => {
+const DetailComp = ({Place, Code, DonerType, image, state_id = 1}) => {
   return (
     <View style={styles.mainContainer}>
       <View>
-        <View style={styles.row}>
-          <Image source={Images.iconmapblue} />
-          <Text style={styles.locationText}>{Place}</Text>
-        </View>
+        {state_id !== 1 && (
+          <View style={styles.row}>
+            <Image source={Images.iconmapblue} />
+            <Text style={styles.locationText}>{Place}</Text>
+          </View>
+        )}
         <Text style={styles.codeText}>#{Code}</Text>
         <Text style={styles.typeText}>{DonerType}</Text>
       </View>

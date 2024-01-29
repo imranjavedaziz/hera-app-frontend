@@ -576,7 +576,7 @@ const SmRegister = () => {
                     navigation.navigate(Routes.Profile, {isRouteData});
                   }}>
                   <Text style={styles.parentBtn}>
-                    Register as Intended Parent
+                    Register as Future Parent (Intended Parent)
                   </Text>
                 </Pressable>
               </View>

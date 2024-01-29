@@ -249,12 +249,14 @@ const PTB_profile = props => {
         {get_ptb_profile_detail_loading === false ? (
           <View style={styles.mainAndroidContainer}>
             <View>
-              <View style={styles.location}>
-                <Image source={Images.iconmapblue} />
-                <Text style={styles.locationText}>
-                  {stateRes?.location?.name}
-                </Text>
-              </View>
+              {stateRes?.location?.state_id !== 1 && (
+                <View style={styles.location}>
+                  <Image source={Images.iconmapblue} />
+                  <Text style={styles.locationText}>
+                    {stateRes?.location?.name}
+                  </Text>
+                </View>
+              )}
               <View style={{width: width - 160}}>
                 <Text style={styles.profileName}>{`${stateRes?.first_name}${
                   stateRes?.middle_name === null ||
