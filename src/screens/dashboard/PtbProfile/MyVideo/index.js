@@ -247,13 +247,15 @@ const MyVideo = () => {
               onEnd={() => {
                 setIsPlaying(false);
                 videoRef?.current?.seek(0);
-                videoRef?.current?.setNativeProps({
-                  paused: true,
-                });
+                videoRef?.current?.pause();
+                // videoRef?.current?.setNativeProps({
+                //   paused: true,
+                // });
               }}
               onPress={() => videoPlay()}
               videoStyle={styles.video}
               videoRef={videoRef}
+              ref={videoRef}
               isPlaying={isPlaying}
               video={video}
               handelDel={handelDel}

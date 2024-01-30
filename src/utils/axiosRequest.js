@@ -1,5 +1,5 @@
 // request
-import axios from 'axios';
+import axios, {Agent,httpsAgent} from 'axios';
 import {Platform} from 'react-native';
 import {api_url, Routes} from '../constants/Constants';
 import {store} from '../redux/store';
@@ -27,6 +27,10 @@ import DeviceInfo from 'react-native-device-info';
 
 const axiosRequest = axios.create({
   baseURL: api_url,
+  timeout: 9000,
+  // httpsAgent: new httpsAgent({
+  //   rejectUnauthorized: false,
+  // }),
 });
 
 let isRefreshing = false;
@@ -58,6 +62,7 @@ axiosRequest.interceptors.response.use(
     return response;
   },
   async function (error) {
+    console.log(JSON.stringify(error), 'error:::::::');
     const originalRequest = error.request;
     const token = store.getState().Auth.token;
     let decodedToken = '';

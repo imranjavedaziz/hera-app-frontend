@@ -14,7 +14,7 @@ const DetailComp = ({Place, Code, DonerType, image, state_id = 1}) => {
             <Text style={styles.locationText}>{Place}</Text>
           </View>
         )}
-        <Text style={styles.codeText}>#{Code}</Text>
+        <Text style={styles.codeText}>{Code}</Text>
         <Text style={styles.typeText}>{DonerType}</Text>
       </View>
       <FastImage style={styles.Image} source={image} />
