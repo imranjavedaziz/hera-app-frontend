@@ -13,6 +13,7 @@ import com.makingbabyconnetiondev.newarchitecture.MainApplicationReactNativeHost
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import org.wonday.orientation.OrientationActivityLifecycle;
+import com.facebook.react.modules.network.OkHttpClientProvider;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -57,6 +58,7 @@ public class MainApplication extends Application implements ReactApplication {
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
+    // OkHttpClientProvider.setOkHttpClientFactory(new IgnoreSSLFactory());
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

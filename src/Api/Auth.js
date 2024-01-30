@@ -8,7 +8,11 @@ export const deviceRegisterApi = data => {
   return axiosRequest.post(ApiPath.registerDevice, data);
 };
 export const mobileNumberApi = data => {
-  return axiosRequest.post(ApiPath.sendOtp, data);
+  return axiosRequest.post(ApiPath.sendOtp, data, {
+    headers: {
+      'content-type': 'application/json',
+    },
+  });
 };
 
 export const verifyOtpApi = data => {
