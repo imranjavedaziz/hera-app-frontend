@@ -972,7 +972,7 @@ const ChatDetail = props => {
                                   props?.route?.params?.item?.currentRole,
                                 ),
                               )
-                            : `#${props?.route?.params?.item?.recieverUserName}`}
+                            : `${props?.route?.params?.item?.recieverName.split(' ')[0]}`}
                         </Text>
                       </>
                     )}

@@ -42,6 +42,7 @@ import moment from 'moment';
 import {Alignment} from '../../../constants';
 import {getMessageID} from '../../../redux/actions/MessageId';
 import ButtonPay from '../../../components/BtnPay';
+
 const images = [];
 const DashboardDetailScreen = ({route}) => {
   const navigation = useNavigation();
@@ -420,7 +421,7 @@ const DashboardDetailScreen = ({route}) => {
                       {smDetailRes?.doner_attribute?.race && (
                         <View style={styles.nativePlace}>
                           <Text style={global?.tagText}>
-                            {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
+                            {smDetailRes?.doner_attribute?.race}
                           </Text>
                         </View>
                       )}
@@ -443,7 +444,7 @@ const DashboardDetailScreen = ({route}) => {
                               marginTop: dynamicSize(Value.CONSTANT_VALUE_8),
                             },
                           ]}>
-                          {`${Strings.donorPofile.Race} ${smDetailRes?.doner_attribute?.race}`}
+                          {smDetailRes?.doner_attribute?.race}
                         </Text>
                       )}
                       {/* {smDetailRes?.doner_attribute?.father_ethnicity && (
