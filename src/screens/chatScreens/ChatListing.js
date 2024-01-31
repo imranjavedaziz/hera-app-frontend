@@ -232,7 +232,7 @@ const ChatListing = () => {
             image={item?.recieverImage}
             name={
               log_in_data?.role_id === 2
-                ? `#${item?.recieverUserName}`
+                ? `${item?.recieverName.split(' ')[0]}`
                 : item?.recieverName
             }
             onPress={() => {
@@ -256,7 +256,7 @@ const ChatListing = () => {
               image={item?.recieverImage}
               name={
                 log_in_data?.role_id === 2
-                  ? `#${item?.recieverUserName}`
+                  ? `${item?.recieverName.split(' ')[0]}`
                   : item?.recieverName
               }
               onPress={() => navigateToScreen(item)}
