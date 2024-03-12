@@ -19,7 +19,7 @@ const SensoryMatch = props => {
         </Text>
         <Text style={styles?.paragraph1}>{Strings.Sensory.PARA1}</Text>
         <Text style={styles?.h2}>{Strings.Sensory.heading1}</Text>
-        <Text style={styles?.paragraph}>{Strings.Sensory.PARA2}</Text>
+        <Text style={styles?.paragraph1}>{Strings.Sensory.PARA2}</Text>
         <Text style={styles?.h2}>{Strings.Sensory.heading2}</Text>
         <Text style={styles?.paragraph}>{Strings.Sensory.PARA3}</Text>
         <TouchableOpacity style={styles.btnContainer} onPress={onPress}>

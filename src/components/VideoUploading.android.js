@@ -1,5 +1,5 @@
 // VIDEO UPLOADING COMPONENT
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, forwardRef} from 'react';
 import {
   Image,
   Text,
@@ -25,7 +25,7 @@ const absoluteStyle = {
   width: '100%',
   height: '100%',
 };
-const VideoUploading = props => {
+const VideoUploading = forwardRef(props => {
   const [loadingState, setLoadingState] = useState(false);
   const [videoLoader, setVideoLoader] = useState(true);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -75,13 +75,14 @@ const VideoUploading = props => {
                 onFullscreenPlayerWillDismiss={() => setIsFullScreen(false)}
                 // audioOnly
                 controls={props?.counter > 0 || boolTrue}
-                ref={props?.videoRef}
+                ref={props?.ref || props?.videoRef}
                 resizeMode={Alignment.CONTAIN}
                 onLoad={() => {
-                  props?.videoRef?.current?.seek(0);
-                  props?.videoRef?.current?.setNativeProps({
-                    paused: true,
-                  });
+                  (props?.ref || props?.videoRef)?.current?.seek(0);
+                  (props?.ref || props?.videoRef)?.current?.pause();
+                  // (props?.ref || props?.videoRef)?.current?.setNativeProps({
+                  //   paused: true,
+                  // });
                   setLoadingState(!loadingState);
                 }}
                 paused={!props?.isPlaying}
@@ -142,5 +143,5 @@ const VideoUploading = props => {
       </FastImage>
     </TouchableOpacity>
   );
-};
+});
 export default React.memo(VideoUploading);

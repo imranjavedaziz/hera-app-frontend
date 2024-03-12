@@ -18,7 +18,16 @@ import Toast from './components/Toast';
 import NotificationContextManager from './context/NotificationContextManager';
 import {MessageToast} from './components';
 import {ToastProvider} from 'react-native-toast-notifications';
+import RNScreenshotPrevent, {
+  addListener,
+} from 'react-native-screenshot-prevent';
+
 const App = () => {
+  RNScreenshotPrevent.enableSecureView();
+  RNScreenshotPrevent.enabled(true);
+
+  addListener(_resp => {});
+
   Text.defaultProps = Text.defaultProps || {};
   TextInput.defaultProps = TextInput.defaultProps || {};
   TextInput.defaultProps.maxFontSizeMultiplier = 1.2;

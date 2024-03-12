@@ -3,13 +3,13 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 permissions_path = '../node_modules/react-native-permissions/ios'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
-platform :ios, podfile_properties['ios.deploymentTarget'] || '13.0'
+platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 production = ENV["PRODUCTION"] == "1"
 
 target 'MBC' do
   config = use_native_modules!
-
+  use_modular_headers!
 
   # Flags change depending on the env values.
   flags = get_default_flags()
@@ -18,9 +18,10 @@ target 'MBC' do
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :production => production,
-    :hermes_enabled => flags[:hermes_enabled],
+    # :hermes_enabled => flags[:hermes_enabled],
+    :hermes_enabled => false,
     :fabric_enabled => flags[:fabric_enabled],
-    :flipper_configuration => FlipperConfiguration.enabled,
+    # :flipper_configuration => FlipperConfiguration.enabled,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
@@ -36,6 +37,7 @@ target 'MBC' do
   pod 'FirebaseCore', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
   pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+  pod 'FirebaseSessions', :modular_headers => true
   $RNFirebaseAsStaticFramework = true
   target 'MBCTests' do
     inherit! :complete
@@ -43,11 +45,12 @@ target 'MBC' do
   end
 
   post_install do |installer|
-    react_native_post_install(installer)
+    # react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
+        config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
       end
     end
   end

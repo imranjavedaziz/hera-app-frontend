@@ -238,13 +238,13 @@ export function getRoleData(roleId, role) {
       role = 'Intended Parent';
       break;
     case roleId === 3:
-      role = 'Surrogate Mother';
+      role = 'Storks (Surrogate)';
       break;
     case roleId === 4:
-      role = 'Egg Donor';
+      role = 'Eggs (Egg donor)';
       break;
     case roleId === 5:
-      role = 'Sperm Donor';
+      role = 'Fertilizers (Sperm donor)';
       break;
     default:
       role = 'Intended Parent';

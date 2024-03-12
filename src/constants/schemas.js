@@ -387,26 +387,26 @@ export const smSetAttributesSchema = yup.object().shape({
         return yup.mixed().required(ValidationMessages.SELECT_RACE);
     }
   }),
-  mother_ethnicity_id: yup.lazy(value => {
-    switch (typeof value) {
-      case 'object':
-        return yup.object().required(ValidationMessages.SELECT_MOT_ETHNICITY);
-      case 'string':
-        return yup.string().required(ValidationMessages.SELECT_MOT_ETHNICITY);
-      default:
-        return yup.mixed().required(ValidationMessages.SELECT_MOT_ETHNICITY);
-    }
-  }),
-  father_ethnicity_id: yup.lazy(value => {
-    switch (typeof value) {
-      case 'object':
-        return yup.object().required(ValidationMessages.SELECT_FAT_ETHNICITY);
-      case 'string':
-        return yup.string().required(ValidationMessages.SELECT_FAT_ETHNICITY);
-      default:
-        return yup.mixed().required(ValidationMessages.SELECT_FAT_ETHNICITY);
-    }
-  }),
+  // mother_ethnicity_id: yup.lazy(value => {
+  //   switch (typeof value) {
+  //     case 'object':
+  //       return yup.object().required(ValidationMessages.SELECT_MOT_ETHNICITY);
+  //     case 'string':
+  //       return yup.string().required(ValidationMessages.SELECT_MOT_ETHNICITY);
+  //     default:
+  //       return yup.mixed().required(ValidationMessages.SELECT_MOT_ETHNICITY);
+  //   }
+  // }),
+  // father_ethnicity_id: yup.lazy(value => {
+  //   switch (typeof value) {
+  //     case 'object':
+  //       return yup.object().required(ValidationMessages.SELECT_FAT_ETHNICITY);
+  //     case 'string':
+  //       return yup.string().required(ValidationMessages.SELECT_FAT_ETHNICITY);
+  //     default:
+  //       return yup.mixed().required(ValidationMessages.SELECT_FAT_ETHNICITY);
+  //   }
+  // }),
   weight_id: yup.lazy(value => {
     switch (typeof value) {
       case 'object':

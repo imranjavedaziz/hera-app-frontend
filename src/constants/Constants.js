@@ -185,15 +185,15 @@ export const ConstantsCode = {
 export const smRoles = [
   {
     id: 3,
-    name: 'Surrogate Mother',
+    name: 'Storks (Surrogate)',
   },
   {
     id: 4,
-    name: 'Egg Donor',
+    name: 'Eggs (Egg donors)',
   },
   {
     id: 5,
-    name: 'Sperm Donor',
+    name: 'Fertilizers (Sperm donors)',
   },
 ];
 

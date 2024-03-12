@@ -190,7 +190,7 @@ export default {
   },
   profile: {
     makeAccountFor: 'Make Account For',
-    parentToBe: 'Intended Parent',
+    parentToBe: 'Future Parent (Intended Parent)',
     uploadImage: '  Upload Display Picture',
     FirstName: 'First Name',
     MiddleName: 'Middle Name (Optional)',
@@ -233,8 +233,8 @@ export default {
     Location: 'Location',
     AgeRange: 'Age Range',
     Height: 'Height',
-    HairColor: 'Hair Color',
-    EyeColor: 'Eye Color',
+    HairColor: 'Hair',
+    EyeColor: 'Eye',
     InquiryForm: 'Inquiry Form',
     About: 'About HERA',
     Logout: 'Log Out',
@@ -299,7 +299,7 @@ export default {
     MotherEthnicity: 'Mother’s Ethnicity',
     FatheEthnicity: 'Father’s Ethnicity',
     Weight: 'Weight',
-    EyeColor: 'Eye Color',
+    EyeColor: 'Eye',
     Education: 'Education',
     Btn: 'Save',
     EditAttribute: 'SAVE ATTRIBUTES',
@@ -398,7 +398,7 @@ export default {
     fatherPlace: 'Father is',
     motherPlace: 'Mother is',
     // hairColor: 'Hair Color',
-    eyeColor: 'Eye Color',
+    eyeColor: 'Eye',
     shortClip: 'Donor has uploaded a short clip',
     place: 'Kentucky',
     code: '#SD5882',
@@ -581,8 +581,7 @@ export default {
     heading2: 'Search criteria during subscription',
     PARA1:
       'You can use the search filters to find matches based on your preferences. These filters include location, race, education, age and physical attributes.',
-    PARA2:
-      'During your free trial, you can search one profile of your choice. This could be a surrogate mother, a sperm donor or an egg donor.',
+    PARA2: `During your free trial, you can search one profile of your choice. This could be a surrogate mother, a sperm donor or an egg donor.`,
     PARA3: `Once you subscribe, you can only search for one account type at a time. This is based on your subscription plan. If you want to search for a different account type, you will need to change your subscription.`,
     FIND_YOUR_MATCH:
       'Find your match as per your choice of Location, Race, Education, Age or Physical attributes like Height, Hair and Eyes. These attributes will help you narrow down your search results and the best profiles will be shown to you.',
@@ -900,9 +899,9 @@ export default {
     {id: 3, name: 'Other'},
   ],
   STATIC_ROLE: [
-    {id: 3, name: 'Surrogate Mother'},
-    {id: 4, name: 'Egg Donor'},
-    {id: 5, name: 'Sperm Donor'},
+    {id: 3, name: 'Storks (Surrogate)'},
+    {id: 4, name: 'Eggs (Egg donors)'},
+    {id: 5, name: 'Fertilizers (Sperm donors)'},
   ],
   NO_INTERNET_CONNECTION: 'No Internet Connection',
   UNABLE_TO_SHOW_DATA:

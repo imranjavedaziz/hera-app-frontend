@@ -75,18 +75,20 @@ const WalkThroughVedio = props => {
             resizeMode={Alignment.CONTAIN}
             onLoad={() => {
               videoRef?.current?.seek(0);
-              videoRef?.current?.setNativeProps({
-                paused: true,
-              });
+              videoRef?.current?.pause();
+              // videoRef?.current?.setNativeProps({
+              //   paused: true,
+              // });
               setLoadingState(!loadingState);
             }}
             paused={!isPlaying}
             onEnd={() => {
               setIsPlaying(false);
               videoRef?.current?.seek(0);
-              videoRef?.current?.setNativeProps({
-                paused: true,
-              });
+              videoRef?.current?.pause();
+              // videoRef?.current?.setNativeProps({
+              //   paused: true,
+              // });
               setLoadingState(!loadingState);
             }}
             onLoadStart={() => {
